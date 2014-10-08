@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -81,6 +83,21 @@ public class Application {
 	 * @throws PeerGroupException 
 	 */
 	public static void main(String[] args) throws PeerGroupException, IOException {
+		/*try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} */
 		Application window = new Application();
 		window.frame.setVisible(true);
 	}

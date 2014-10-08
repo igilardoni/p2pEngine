@@ -9,5 +9,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="jtidy-8.0.jar"/>
+	<classpathentry kind="lib" path="novaworx-syntax-0.0.7.jar"/>
+	<classpathentry kind="lib" path="sam.jar"/>
+	<classpathentry kind="lib" path="SHEF.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,22 +7,35 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.Font;
+
 import javax.swing.JRadioButton;
+
 import java.awt.SystemColor;
+
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
+
+import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AnnonceEditor extends JDialog {
 
@@ -83,17 +96,17 @@ public class AnnonceEditor extends JDialog {
 		
 		JLabel lblDescription = new JLabel(Messages.getString("AnnonceEditor.lblDescription.text_1")); //$NON-NLS-1$
 		
-		JEditorPane editorPane = new JEditorPane();
-		editorPane.setText(Messages.getString("AnnonceEditor.editorPane.text")); //$NON-NLS-1$
+		JPanel editorPane = new HTMLEditorPane();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
-						.addComponent(separator_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
-						.addComponent(lblNewLabel)
-						.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(editorPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 427, Short.MAX_VALUE)
+						.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+						.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+						.addComponent(lblNewLabel, Alignment.LEADING)
+						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblTypeDeLannonce)
@@ -109,23 +122,22 @@ public class AnnonceEditor extends JDialog {
 									.addGap(18)
 									.addComponent(chckbxArgent)))
 							.addGap(67))
-						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
-						.addComponent(lblDiffusion)
-						.addGroup(gl_contentPanel.createSequentialGroup()
+						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+						.addComponent(lblDiffusion, Alignment.LEADING)
+						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblRsumDeDescription)
 							.addGap(18)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(textField_1)
 								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblTitre))
-						.addComponent(lblAnnonce)
-						.addGroup(gl_contentPanel.createSequentialGroup()
+						.addComponent(lblAnnonce, Alignment.LEADING)
+						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblDescription))
-						.addComponent(editorPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
+							.addComponent(lblDescription)))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -163,8 +175,7 @@ public class AnnonceEditor extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblDescription)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(editorPane, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(editorPane, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
