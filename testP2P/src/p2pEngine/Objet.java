@@ -12,7 +12,7 @@ import net.jxta.document.AdvertisementFactory;
  *
  */
 
-public abstract class Objet implements Advertisable{
+public abstract class Objet implements Advertisable, Comparable<Objet>{
 
 	private String nom;
 	
@@ -122,5 +122,19 @@ public abstract class Objet implements Advertisable{
 	public void setOtherName(String otherName) {
 		this.otherName = otherName;
 	}
-
+	
+	public int compareTo(Objet o) {
+		// TODO Auto-generated method stub
+		
+		         
+		    //Nous ne prenons pas en compte la casse (majuscules, minuscules...)
+		    int i = String.CASE_INSENSITIVE_ORDER.compare(getNom(), o.getNom());
+		    if(i != 0) {           
+		           return i;
+		    }      
+		 
+		    return String.CASE_INSENSITIVE_ORDER.compare(getOtherName(), o.getOtherName());
+		}
 }
+
+
