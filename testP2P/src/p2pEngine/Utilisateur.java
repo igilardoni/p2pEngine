@@ -24,6 +24,7 @@ public class Utilisateur implements Serializable{
 	private String nom;
 	private String tel;
 	private String mail;
+	private String password;
 	
 	
 	public Utilisateur(String nom, String tel, String mail) {
@@ -49,6 +50,14 @@ public class Utilisateur implements Serializable{
 	}
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getPassword() {
+		return this.password;
 	}
 	
 	/**

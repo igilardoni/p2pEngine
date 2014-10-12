@@ -6,7 +6,7 @@ public interface UsersManagementInterface {
 	 * Retourne un tableau contenant le nom des utilisateurs enregistrés
 	 * @return String[] contenant les noms d'utilisateurs
 	 */
-	public String[] getUsers();
+	public String[] getUsersNames();
 	
 	
 	
