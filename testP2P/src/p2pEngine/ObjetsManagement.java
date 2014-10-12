@@ -3,7 +3,7 @@ package p2pEngine;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ObjetsList implements ObjetsManagementInterface  {
+public class ObjetsManagement implements ObjetsManagementInterface  {
 
 	ArrayList <Objet> objets = new ArrayList<Objet>();
 	
