@@ -1,5 +1,6 @@
 package p2pEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,8 +11,10 @@ import java.util.HashMap;
  * @author Cussac Ismael
  *
  */
-public class UsersManagement implements UsersManagementInterface{
+public class UsersManagement implements UsersManagementInterface, Serializable{
 
+	private static final long serialVersionUID = 7833951230655691230L;
+	
 	private HashMap<String, Utilisateur> users = new HashMap<String, Utilisateur>();
 	
 	@Override
