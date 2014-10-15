@@ -1,10 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ObjetsManagement implements ObjetsManagementInterface  {
+public class ObjetsManagement implements ObjetsManagementInterface, Serializable  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8340926028918727791L;
 	ArrayList <Objet> objets = new ArrayList<Objet>();
 	
 	@Override

@@ -27,6 +27,7 @@ public class SearchOffre implements DiscoveryListener {
 		Objets objs = new Objets();
 		while(advs.hasMoreElements()) {
 			ObjetAdvertisement adv = (ObjetAdvertisement) advs.nextElement();
+			System.out.println(adv.getName());
 			objs.add(new Offre(adv));
 		}
 		app.updateSearchOffre(objs);

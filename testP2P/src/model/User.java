@@ -23,6 +23,7 @@ public class User implements Serializable{
 	private String tel;
 	private String mail;
 	private int password; // toujours stoqué sous forme de hash.
+	private ObjetsManagement objets = new ObjetsManagement();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -89,5 +90,9 @@ public class User implements Serializable{
 
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
+	}
+	
+	public ObjetsManagement getObjets() {
+		return objets;
 	}
 }

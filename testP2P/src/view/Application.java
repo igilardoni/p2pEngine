@@ -105,7 +105,7 @@ public class Application {
 			@Override
 			public void windowActivated(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+				updateUI();
 			}
 
 			@Override

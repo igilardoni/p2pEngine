@@ -2,6 +2,10 @@ package controller;
 
 import java.util.ArrayList;
 
+import model.Objet;
+import model.User;
+import view.Application;
+
 public class AnnonceEditor implements Validator{
 	
 	/**
@@ -23,7 +27,7 @@ public class AnnonceEditor implements Validator{
 	private String resume;
 	private String desc;
 	private String img;
-	
+	private User user;
 	
 	public boolean errorProposition, errorSouhait, errorTroc, errorVente, errorTitle, 
 					errorResume, errorDesc, errorImg;
@@ -40,6 +44,8 @@ public class AnnonceEditor implements Validator{
 		this.resume = resDesc;
 		this.desc = desc;
 		this.img = img;
+		
+		user = Application.getInstance().getUsers().getConnectedUser();
 		
 		errorProposition = errorSouhait = errorTroc = errorVente = errorTitle 
 		= errorResume = errorDesc = errorImg = false;
@@ -98,8 +104,11 @@ public class AnnonceEditor implements Validator{
 
 	@Override
 	public boolean process() {
-		// TODO Auto-generated method stub
-		return false;
+		if(user == null) return false;
+
+		user.getObjets().add(new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user));
+		return true;
+		
 	}
 	
 	public String toString() {

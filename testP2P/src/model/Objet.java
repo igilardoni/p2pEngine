@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
@@ -12,9 +13,16 @@ import net.jxta.document.AdvertisementFactory;
  *
  */
 
-public abstract class Objet implements Advertisable, Comparable<Objet>{
+public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 
-	private String nom;
+	private static final long serialVersionUID = -655234892052824494L;
+	
+	private String titre;
+	private String resume;
+	private String desc;
+	private String img;
+	private boolean proposition, souhait;
+	private boolean troc, vente;
 	
 	//voir ObjectAdvertisement
 	private String otherName;
@@ -28,50 +36,115 @@ public abstract class Objet implements Advertisable, Comparable<Objet>{
 	 * @param obj
 	 */
 	public Objet(ObjetAdvertisement obj) {
-		setNom(obj.getName());
-		setDescription(obj.getDescription());
-		setOtherName(obj.getOtherName());
-		// TODO setUser(new User(null, null, obj.getTel(), obj.getMail(), obj.getLoginAuteur(), null));
+	//	setNom(obj.getName());
+	//	setDescription(obj.getDescription());
+	//	setOtherName(obj.getOtherName());
+		//TODO setUser(new User(null, null, obj.getTel(), obj.getMail(), obj.getLoginAuteur(), null));
 	}
 	
-	public Objet(String nom, String description, String otherName, User user) {
-		setNom(nom);
-		setDescription(description);
-		setOtherName(otherName);
-		setUser(user);
+	public String getResume() {
+		return resume;
 	}
-	
-	public String getNom() {
-		return nom;
+
+	public void setResume(String resume) {
+		this.resume = resume;
 	}
-	
-	public void setNom(String nom) {
-		this.nom = nom;
+
+	public String getDesc() {
+		return desc;
 	}
-	
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public boolean isProposition() {
+		return proposition;
+	}
+
+	public void setProposition(boolean proposition) {
+		this.proposition = proposition;
+	}
+
+	public boolean isSouhait() {
+		return souhait;
+	}
+
+	public void setSouhait(boolean souhait) {
+		this.souhait = souhait;
+	}
+
+	public boolean isTroc() {
+		return troc;
+	}
+
+	public void setTroc(boolean troc) {
+		this.troc = troc;
+	}
+
+	public boolean isVente() {
+		return vente;
+	}
+
+	public void setVente(boolean vente) {
+		this.vente = vente;
+	}
+
+	public String getOtherName() {
+		return otherName;
+	}
+
+	public void setOtherName(String otherName) {
+		this.otherName = otherName;
+	}
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+
+	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 
+			String titre, String resume, String desc, String img, User user) {
+		this.proposition = proposition;
+		this.souhait = souhait;
+		this.troc = troc;
+		this.vente = vente;
+		this.titre = titre;
+		this.resume = resume;
+		this.desc = desc;
+		this.img = img;
+		this.user = user;
+	}
 	
-	/**
-	 * Le nom complet de la futur annonce sur le réseau
-	 * Typiquement sert a rejouter devant le titre ce que l'on veut
-	 * comme Offre:titre ou Demande:titre, ce qui sert pour la recherche
-	 * @return String fullName
-	 */
-	protected abstract String getFullName();
+	public String getTitre() {
+		return titre;
+	}
+	
+	
+
 	
 	@Override
 	public Advertisement getAdvertisement() {
@@ -79,8 +152,8 @@ public abstract class Objet implements Advertisable, Comparable<Objet>{
 		ObjetAdvertisement adv = (ObjetAdvertisement) AdvertisementFactory
 				.newAdvertisement(ObjetAdvertisement.getAdvertisementType());
 		
-		adv.setFullName(getFullName());
-		adv.setName(getNom());
+		// TODO adv.setFullName(getFullName());
+		// TODO adv.setName(getNom());
 		adv.setOtherName(otherName);
 		adv.setDescription(description);
 		adv.setLoginAuteur(user.getNom());
@@ -115,25 +188,9 @@ public abstract class Objet implements Advertisable, Comparable<Objet>{
 		
 	}
 
-	public String getOtherName() {
-		return otherName;
-	}
-
-	public void setOtherName(String otherName) {
-		this.otherName = otherName;
-	}
-	
 	public int compareTo(Objet o) {
-		// TODO Auto-generated method stub
-		
-		         
 		    //Nous ne prenons pas en compte la casse (majuscules, minuscules...)
-		    int i = String.CASE_INSENSITIVE_ORDER.compare(getNom(), o.getNom());
-		    if(i != 0) {           
-		           return i;
-		    }      
-		 
-		    return String.CASE_INSENSITIVE_ORDER.compare(getOtherName(), o.getOtherName());
+		   return String.CASE_INSENSITIVE_ORDER.compare(getTitre(), o.getTitre());
 		}
 }
 
