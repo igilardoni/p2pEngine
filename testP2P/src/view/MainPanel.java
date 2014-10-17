@@ -66,7 +66,7 @@ public class MainPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		tabbedPane.addTab(Messages.getString("search_button"), null, panel, null);
-		panel.setLayout(null);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(0, 0, 445, 26);
