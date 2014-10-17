@@ -103,14 +103,16 @@ public class MainPanel extends JPanel {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(0, 26, 445, 234);
 		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));		
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_3.add(scrollPane);
 		
 		APanel panel_7 = new APanel();
 		panel_7.setPreferredSize(new Dimension(0, 0));
-		scrollPane.setColumnHeaderView(panel_7);
+		scrollPane.setViewportView(panel_7);
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 		
 		AnnoncePanel annoncePanel_3 = new AnnoncePanel();
