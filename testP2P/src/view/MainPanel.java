@@ -24,8 +24,14 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import com.jgoodies.forms.factories.FormFactory;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class MainPanel extends JPanel {
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -60,6 +66,63 @@ public class MainPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		tabbedPane.addTab(Messages.getString("search_button"), null, panel, null);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(0, 0, 445, 26);
+		panel.add(panel_4);
+		
+		JPanel panel_5 = new JPanel();
+		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
+		
+		textField = new JTextField();
+		panel_5.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnRechercher = new JButton("Rechercher");
+		panel_5.add(btnRechercher);
+		
+		JRadioButton rdbtnTroc = new JRadioButton("Troc");
+		panel_5.add(rdbtnTroc);
+		
+		JRadioButton rdbtnVente = new JRadioButton("Vente");
+		panel_5.add(rdbtnVente);
+		panel_4.setLayout(gl_panel_4);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(0, 26, 445, 234);
+		panel.add(panel_3);
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));		
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		panel_3.add(scrollPane);
+		
+		APanel panel_7 = new APanel();
+		panel_7.setPreferredSize(new Dimension(0, 0));
+		scrollPane.setViewportView(panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
+		
+		AnnoncePanel annoncePanel_3 = new AnnoncePanel();
+		panel_7.add(annoncePanel_3);
+		
+		AnnoncePanel annoncePanel_4 = new AnnoncePanel();
+		panel_7.add(annoncePanel_4);
+		
+		AnnoncePanel annoncePanel_5 = new AnnoncePanel();
+		panel_7.add(annoncePanel_5);
 		setLayout(new CardLayout(0, 0));
 		add(tabbedPane, "name_111035141476854");
 
