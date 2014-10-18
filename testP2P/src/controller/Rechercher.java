@@ -18,10 +18,11 @@ public class Rechercher implements Validator{
 			troc = vente = errorRecherche = errorTroc = errorVente = false;
 		}
 
-		@Override
 		public boolean validate() {
-			// TODO Auto-generated method stub
-			return false;
+			checkRecherche();
+			checkEchange();		
+			
+			return errorRecherche || errorTroc || errorVente;
 		}
 		
 		private void checkRecherche(){
