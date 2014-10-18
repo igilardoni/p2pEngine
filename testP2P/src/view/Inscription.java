@@ -95,6 +95,7 @@ public class Inscription extends JPanel {
 					inscription.process();
 					JPanel parent = (JPanel) getParent();
 					JDialog dialog = (JDialog) parent.getRootPane().getParent();
+					new InscriptionSuccess().setVisible(true);
 					dialog.dispose();
 				}
 				else {

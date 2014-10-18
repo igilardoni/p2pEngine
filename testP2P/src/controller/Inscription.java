@@ -28,7 +28,7 @@ public class Inscription implements Validator{
 		this.prenom = prenom;
 		this.nom = nom;
 		
-		errorLogin = errorPassword = errorPassword2 = errorEmail = errorTel = false;
+		errorLogin = errorPassword = errorPassword2 = errorEmail = errorTel = errorDuplicateLogin = false;
 		
 	}
 	
@@ -45,7 +45,7 @@ public class Inscription implements Validator{
 		checkPrenom();
 		
 		
-		return !(errorLogin || errorPassword || errorPassword2 || errorEmail || errorTel || errorAdresse || errorNom || errorPrenom);
+		return !(errorLogin || errorDuplicateLogin || errorPassword || errorPassword2 || errorEmail || errorTel || errorAdresse || errorNom || errorPrenom);
 	}
 
 	

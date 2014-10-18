@@ -46,6 +46,7 @@ public class MonCompte extends JDialog {
 	 * Create the dialog.
 	 */
 	public MonCompte() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 595, 459);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

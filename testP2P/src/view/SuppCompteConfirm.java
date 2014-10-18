@@ -33,6 +33,7 @@ public class SuppCompteConfirm extends JDialog {
 	 * Create the dialog.
 	 */
 	public SuppCompteConfirm(JDialog parent_) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.parent = parent_;
 		setBounds(100, 100, 450, 249);
 		getContentPane().setLayout(new BorderLayout());

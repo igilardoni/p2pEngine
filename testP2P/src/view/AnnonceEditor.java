@@ -59,6 +59,7 @@ public class AnnonceEditor extends JDialog {
 	 * Create the dialog.
 	 */
 	public AnnonceEditor() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 659, 714);

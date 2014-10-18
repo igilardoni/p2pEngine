@@ -19,6 +19,7 @@ public class UserEditor extends JDialog {
 	 * Create the dialog.
 	 */
 	public UserEditor() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 489, 244);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
