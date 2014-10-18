@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Vector;
 
 /**
  * Represente un utilisateur
@@ -23,6 +24,7 @@ public class User implements Serializable{
 	private String tel;
 	private String mail;
 	private int password; // toujours stoqué sous forme de hash.
+	private Vector<Integer> notes; //toutes les notes donnée par les autres
 	private ObjetsManagement objets = new ObjetsManagement();
 	
 	
@@ -33,6 +35,7 @@ public class User implements Serializable{
 		this.login = login;
 		this.prenom = prenom;
 		this.adresse = adresse;
+		this.notes = new Vector<Integer>();
 		this.setPassword(password);
 	}
 	
@@ -80,6 +83,10 @@ public class User implements Serializable{
 		return this.password;
 	}
 	
+	public boolean isPasswordEqual(String password) {
+		return this.password == password.hashCode();
+	}
+	
 	public boolean checkPassword(String password) {
 		return this.password == password.hashCode();
 	}
@@ -94,5 +101,24 @@ public class User implements Serializable{
 	
 	public ObjetsManagement getObjets() {
 		return objets;
+	}
+	
+	public void addNote(int note) {
+		if(note < 0 || note > 5) throw new IllegalArgumentException("0 >= note <= 5");
+		this.notes.add(note);
+	}
+	
+	public int getMoyenneNotes() {
+		if(notes.size() == 0) return 0;
+		int add = 0;
+		for(Integer i: notes) {
+			add += i;
+			System.out.println(i);
+		}
+		return add/notes.size();
+	}
+	
+	public void flushNotes() {
+		this.notes.removeAllElements();
 	}
 }
