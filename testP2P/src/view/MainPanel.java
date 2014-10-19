@@ -42,7 +42,7 @@ public class MainPanel extends JPanel {
 		tabbedPane.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab(Messages.getString("mesAnnonces"), null, panel_2, null);
+		tabbedPane.addTab(Messages.getString("MainPanel.tabMesAnnonces.text"), null, panel_2, null);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -65,7 +65,7 @@ public class MainPanel extends JPanel {
 		panel_2.add(scrollPane_1);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab(Messages.getString("search_button"), null, panel, null);
+		tabbedPane.addTab(Messages.getString("MainPanel.tabRecherche.text"), null, panel, null);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JPanel panel_4 = new JPanel();
@@ -90,13 +90,13 @@ public class MainPanel extends JPanel {
 		panel_5.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnRechercher = new JButton("Rechercher");
+		JButton btnRechercher = new JButton(Messages.getString("MainPanel.btnRecherche.text"));
 		panel_5.add(btnRechercher);
 		
-		JRadioButton rdbtnTroc = new JRadioButton("Troc");
+		JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.jrbtnTroc.text"));
 		panel_5.add(rdbtnTroc);
 		
-		JRadioButton rdbtnVente = new JRadioButton("Vente");
+		JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.jrbtnVente.text"));
 		panel_5.add(rdbtnVente);
 		panel_4.setLayout(gl_panel_4);
 		
