@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-
 import model.Objet;
 import model.User;
 import view.Application;
@@ -61,8 +59,8 @@ public class AnnonceEditor implements Validator{
 		checkImg();
 		
 		
-		return errorProposition || errorSouhait || errorTroc || errorVente || errorTitle 
-				|| errorResume || errorDesc || errorImg;
+		return !(errorProposition || errorSouhait || errorTroc || errorVente || errorTitle 
+				|| errorResume || errorDesc || errorImg);
 		
 	}
 	

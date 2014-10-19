@@ -42,6 +42,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class AnnonceEditor extends JDialog {
 
@@ -54,6 +55,11 @@ public class AnnonceEditor extends JDialog {
 	private JCheckBox troc;
 	private JCheckBox argent;
 	private HTMLEditorPane description;
+	
+	private JLabel errorTermes ;
+	private JLabel errorTitre;
+	private JLabel errorResume ;
+	private JLabel errorDesc; 
 
 	/**
 	 * Create the dialog.
@@ -135,6 +141,22 @@ public class AnnonceEditor extends JDialog {
 				imageLabel.setToolTipText(dialog.getSelectedFile().toString());
 			}
 		});
+		
+		errorTermes = new JLabel(Messages.getString("errorTrocArgent")); //$NON-NLS-1$
+		errorTermes.setVisible(false);
+		errorTermes.setForeground(Color.RED);
+		
+		errorTitre = new JLabel(Messages.getString("errorTitre")); //$NON-NLS-1$
+		errorTitre.setForeground(Color.RED);
+		errorTitre.setVisible(false);
+		
+		errorResume = new JLabel(Messages.getString("errorResume")); //$NON-NLS-1$
+		errorResume.setForeground(Color.RED);
+		errorResume.setVisible(false);
+		
+		errorDesc = new JLabel(Messages.getString("errorDesc")); //$NON-NLS-1$
+		errorDesc.setVisible(false);
+		errorDesc.setForeground(Color.RED);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
@@ -158,31 +180,39 @@ public class AnnonceEditor extends JDialog {
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(troc)
 									.addGap(18)
-									.addComponent(argent)))
-							.addGap(67))
+									.addComponent(argent)
+									.addGap(18)
+									.addComponent(errorTermes)))
+							.addGap(33))
 						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
 						.addComponent(lblDiffusion)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblRsumDeDescription)
-							.addGap(18)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(resume)
-								.addComponent(titre, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblTitre))
 						.addComponent(lblAnnonce)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblDescription))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblImageAperu)
 							.addGap(162)
-							.addComponent(imageLabel)
-							.addPreferredGap(ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
-							.addComponent(btnNewButton)))
+							.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+							.addComponent(btnNewButton))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblRsumDeDescription)
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(resume)
+										.addComponent(titre, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)))
+								.addComponent(lblTitre))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(errorResume)
+								.addComponent(errorTitre)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblDescription)
+							.addGap(18)
+							.addComponent(errorDesc)))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -200,7 +230,8 @@ public class AnnonceEditor extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTermesDeLchange)
 						.addComponent(troc)
-						.addComponent(argent))
+						.addComponent(argent)
+						.addComponent(errorTermes))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblDiffusion)
 					.addGap(9)
@@ -208,25 +239,29 @@ public class AnnonceEditor extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTitre)
-						.addComponent(titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(errorTitre))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRsumDeDescription)
-						.addComponent(resume, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(resume, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(errorResume))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAnnonce)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblDescription)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDescription)
+						.addComponent(errorDesc))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(description, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblImageAperu)
 						.addComponent(btnNewButton)
-						.addComponent(imageLabel))
-					.addContainerGap(41, Short.MAX_VALUE))
+						.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(27, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -237,10 +272,17 @@ public class AnnonceEditor extends JDialog {
 				JButton okButton = new JButton(Messages.getString("valider")); //$NON-NLS-1$
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						initError();
 						controller.AnnonceEditor validator = new controller.AnnonceEditor(proposition.isSelected(), souhait.isSelected(), troc.isSelected(), argent.isSelected(), titre.getText(), 
 								resume.getText(), description.getText(), imageLabel.getToolTipText());
-						validator.validate();
-						System.out.println(validator);
+						if(validator.validate()) {
+							validator.process();
+							
+							dispose();
+						}
+						else {
+							showError(validator);
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -259,4 +301,19 @@ public class AnnonceEditor extends JDialog {
 			}
 		}
 	}
+	
+	private void initError() {
+		errorTermes.setVisible(false);
+		errorTitre.setVisible(false);
+		errorResume.setVisible(false);
+		errorDesc.setVisible(false);
+	}
+	
+	private void showError(controller.AnnonceEditor editor) {
+		if(editor.errorVente || editor.errorTroc) errorTermes.setVisible(true);
+		if(editor.errorTitle) errorTitre.setVisible(true);
+		if(editor.errorResume) errorResume.setVisible(true);
+		if(editor.errorDesc) errorDesc.setVisible(true);
+	}
+	
 }

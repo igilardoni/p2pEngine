@@ -29,6 +29,9 @@ public class Window extends JFrame {
 	private JPanel contentPane;
 	private JLabel compteLabel;
 	private JButton monCompte;
+	
+	private JButton ajouterAnnonce;
+	private JLabel connectezVous;
 
 	/**
 	 * Create the frame.
@@ -64,8 +67,8 @@ public class Window extends JFrame {
 		JPanel toolBar = new JPanel();
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton(Messages.getString("ajouterAnnonce")); //$NON-NLS-1$
-		btnNewButton.addActionListener(new ActionListener() {
+		ajouterAnnonce = new JButton(Messages.getString("ajouterAnnonce")); //$NON-NLS-1$
+		ajouterAnnonce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AnnonceEditor().setVisible(true);
 			}
@@ -88,12 +91,16 @@ public class Window extends JFrame {
 		});
 		
 		compteLabel = new JLabel(Messages.getString("Window.lblVousNtesPas.text")); //$NON-NLS-1$
+		
+		connectezVous = new JLabel(Messages.getString("Window.lblConnectezVousPour.text")); //$NON-NLS-1$
 		GroupLayout gl_toolBar = new GroupLayout(toolBar);
 		gl_toolBar.setHorizontalGroup(
 			gl_toolBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_toolBar.createSequentialGroup()
-					.addComponent(btnNewButton)
-					.addPreferredGap(ComponentPlacement.RELATED, 562, Short.MAX_VALUE)
+					.addComponent(ajouterAnnonce)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(connectezVous)
+					.addPreferredGap(ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
 					.addComponent(compteLabel)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(monCompte))
@@ -102,9 +109,10 @@ public class Window extends JFrame {
 			gl_toolBar.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_toolBar.createSequentialGroup()
 					.addGroup(gl_toolBar.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
+						.addComponent(ajouterAnnonce)
 						.addComponent(monCompte)
-						.addComponent(compteLabel))
+						.addComponent(compteLabel)
+						.addComponent(connectezVous))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		toolBar.setLayout(gl_toolBar);
@@ -112,7 +120,20 @@ public class Window extends JFrame {
 	
 	public void revalidate() {
 		show_account_buttons();
+		show_annonce_button();
 		super.revalidate();
+	}
+	
+	private void show_annonce_button() {
+		User user = Application.getInstance().getUsers().getConnectedUser();
+		if(user != null) {
+			ajouterAnnonce.setEnabled(true);
+			connectezVous.setVisible(false);
+		}
+		else {
+			ajouterAnnonce.setEnabled(false);
+			connectezVous.setVisible(true);
+		}
 	}
 	
 	private void show_account_buttons() {
