@@ -73,7 +73,7 @@ public class AnnonceEditor extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel = new JLabel(Messages.getString("AnnonceEditor.lblNewLabel.text")); //$NON-NLS-1$
+		JLabel lblNewLabel = new JLabel(Messages.getString("AnnonceEditor.lblConfiguration.text")); //$NON-NLS-1$
 		lblNewLabel.setForeground(SystemColor.textHighlight);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
@@ -81,10 +81,10 @@ public class AnnonceEditor extends JDialog {
 		
 		JLabel lblTypeDeLannonce = new JLabel(Messages.getString("AnnonceEditor.lblTypeDeLannonce.text")); //$NON-NLS-1$
 		
-		proposition = new JRadioButton(Messages.getString("AnnonceEditor.rdbtnNewRadioButton.text")); //$NON-NLS-1$
+		proposition = new JRadioButton(Messages.getString("AnnonceEditor.rbtnProposition.text")); //$NON-NLS-1$
 		proposition.setSelected(true);
 		
-		souhait = new JRadioButton(Messages.getString("AnnonceEditor.rdbtnSouhait.text")); //$NON-NLS-1$
+		souhait = new JRadioButton(Messages.getString("AnnonceEditor.rbtnSouhait.text")); //$NON-NLS-1$
 		
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(proposition);
@@ -92,10 +92,10 @@ public class AnnonceEditor extends JDialog {
 		
 		JLabel lblTermesDeLchange = new JLabel(Messages.getString("AnnonceEditor.lblTermesDeLchange.text")); //$NON-NLS-1$
 		
-		troc = new JCheckBox(Messages.getString("AnnonceEditor.chckbxTroc.text")); //$NON-NLS-1$
+		troc = new JCheckBox(Messages.getString("AnnonceEditor.cbTroc.text")); //$NON-NLS-1$
 		troc.setSelected(true);
 		
-		argent = new JCheckBox(Messages.getString("AnnonceEditor.chckbxArgent.text")); //$NON-NLS-1$
+		argent = new JCheckBox(Messages.getString("AnnonceEditor.cbArgent.text")); //$NON-NLS-1$
 		
 		JLabel lblDiffusion = new JLabel(Messages.getString("AnnonceEditor.lblDiffusion.text")); //$NON-NLS-1$
 		lblDiffusion.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -103,16 +103,16 @@ public class AnnonceEditor extends JDialog {
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text_1")); //$NON-NLS-1$
+		JLabel lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text")); //$NON-NLS-1$
 		
 		titre = new JTextField();
-		titre.setText(Messages.getString("AnnonceEditor.textField.text")); //$NON-NLS-1$
+		titre.setText(Messages.getString("AnnonceEditor.tfTitre.text")); //$NON-NLS-1$
 		titre.setColumns(10);
 		
 		JLabel lblRsumDeDescription = new JLabel(Messages.getString("AnnonceEditor.lblRsumDeDescription.text")); //$NON-NLS-1$
 		
 		resume = new JTextField();
-		resume.setText(Messages.getString("AnnonceEditor.textField_1.text")); //$NON-NLS-1$
+		resume.setText(Messages.getString("AnnonceEditor.tfResume.text")); //$NON-NLS-1$
 		resume.setColumns(10);
 		
 		JLabel lblAnnonce = new JLabel(Messages.getString("AnnonceEditor.lblAnnonce.text")); //$NON-NLS-1$
@@ -121,14 +121,14 @@ public class AnnonceEditor extends JDialog {
 		
 		JSeparator separator_2 = new JSeparator();
 		
-		JLabel lblDescription = new JLabel(Messages.getString("completeDesc")); //$NON-NLS-1$
+		JLabel lblDescription = new JLabel(Messages.getString("AnnonceEditor.lblCompleteDesc.text")); //$NON-NLS-1$
 		
 		description = new HTMLEditorPane();
 		
-		JLabel lblImageAperu = new JLabel(Messages.getString("AnnonceEditor.lblImageAperu.text_1"));
+		JLabel lblImageAperu = new JLabel(Messages.getString("AnnonceEditor.lblImageApercu.text"));
 		
-		JButton btnNewButton = new JButton(Messages.getString("AnnonceEditor.btnNewButton.text")); //$NON-NLS-1$
-		imageLabel = new JLabel(Messages.getString("AnnonceEditor.label.text")); //$NON-NLS-1$
+		JButton btnNewButton = new JButton(Messages.getString("AnnonceEditor.btnParcourir.text")); //$NON-NLS-1$
+		imageLabel = new JLabel(Messages.getString("AnnonceEditor.lblImage.text")); //$NON-NLS-1$
 		imageLabel.setMinimumSize(new Dimension(100, 100));
 		imageLabel.setMaximumSize(new Dimension(100, 100));
 		imageLabel.setIcon(null);
@@ -269,7 +269,7 @@ public class AnnonceEditor extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton(Messages.getString("valider")); //$NON-NLS-1$
+				JButton okButton = new JButton(Messages.getString("AnnonceEditor.btnValider.text")); //$NON-NLS-1$
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						initError();
@@ -290,7 +290,7 @@ public class AnnonceEditor extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton(Messages.getString("annuler")); //$NON-NLS-1$
+				JButton cancelButton = new JButton(Messages.getString("AnnonceEditor.btnAnnuler.text")); //$NON-NLS-1$
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

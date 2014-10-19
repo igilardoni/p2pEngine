@@ -57,11 +57,11 @@ public class AnnoncePanel extends JPanel {
 		infoAnnonce.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_1 = new JLabel(Messages.getString("AnnoncePanel.lblNewLabel_1.text"));
+		JLabel lblNewLabel_1 = new JLabel(Messages.getString("AnnoncePanel.lblDate.text"));
 		lblNewLabel_1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel_1.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel(Messages.getString("AnnoncePanel.lblNewLabel_2.text")); //$NON-NLS-1$
+		JLabel lblNewLabel_2 = new JLabel(Messages.getString("AnnoncePanel.lblHeure.text")); //$NON-NLS-1$
 		lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel_1.add(lblNewLabel_2);
 		
@@ -72,13 +72,13 @@ public class AnnoncePanel extends JPanel {
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel_3 = new JLabel(Messages.getString("troc")); //$NON-NLS-1$
+		JLabel lblNewLabel_3 = new JLabel(Messages.getString("AnnoncePanel.lblTroc.text")); //$NON-NLS-1$
 		lblNewLabel_3.setBackground(SystemColor.inactiveCaption);
 		lblNewLabel_3.setOpaque(true);
 		lblNewLabel_3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_3.add(lblNewLabel_3);
 		
-		JLabel label = new JLabel(Messages.getString("vente")); //$NON-NLS-1$
+		JLabel label = new JLabel(Messages.getString("AnnoncePanel.lblVente.text")); //$NON-NLS-1$
 		label.setOpaque(true);
 		label.setBackground(SystemColor.inactiveCaption);
 		label.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -87,7 +87,7 @@ public class AnnoncePanel extends JPanel {
 		JPanel panel_4 = new JPanel();
 		panel_2.add(panel_4, BorderLayout.SOUTH);
 		
-		JLabel lblNewLabel_4 = new JLabel(Messages.getString("proposition"));
+		JLabel lblNewLabel_4 = new JLabel(Messages.getString("AnnoncePanel.lblProposition.text"));
 		lblNewLabel_4.setBackground(SystemColor.inactiveCaption);
 		lblNewLabel_4.setOpaque(true);
 		panel_4.add(lblNewLabel_4);
@@ -104,7 +104,7 @@ public class AnnoncePanel extends JPanel {
 		imageAnnonce.setOpaque(false);
 		contentAnnonce.add(imageAnnonce, BorderLayout.WEST);
 		
-		JLabel lblNewLabel = new JLabel("");
+		JLabel lblNewLabel = new JLabel(Messages.getString("AnnoncePanel.lblImage.text"));
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\crashxxl\\workspaceJXTA\\gui\\patatelol.jpg"));
 		imageAnnonce.add(lblNewLabel);
 		
@@ -126,10 +126,10 @@ public class AnnoncePanel extends JPanel {
 		panel.setOpaque(false);
 		titreAnnonce.add(panel, BorderLayout.EAST);
 		
-		JButton editButton = new JButton(Messages.getString("editer"));
+		JButton editButton = new JButton(Messages.getString("AnnoncePanel.lblEditer.text"));
 		panel.add(editButton);
 		
-		JButton delButton = new JButton(Messages.getString("supprimer"));
+		JButton delButton = new JButton(Messages.getString("AnnoncePanel.lblSupprimer.text"));
 		panel.add(delButton);
 		
 		JPanel resumeAnnonce = new JPanel();
@@ -143,7 +143,7 @@ public class AnnoncePanel extends JPanel {
 		txtpnLoremIpsumDolor.setVerifyInputWhenFocusTarget(false);
 		txtpnLoremIpsumDolor.setRequestFocusEnabled(false);
 		txtpnLoremIpsumDolor.setOpaque(false);
-		txtpnLoremIpsumDolor.setText(Messages.getString("AnnoncePanel.txtpnLoremIpsumDolor.text"));
+		txtpnLoremIpsumDolor.setText(Messages.getString("AnnoncePanel.txtLoremIpsumDolor.text"));
 		resumeAnnonce.add(txtpnLoremIpsumDolor, BorderLayout.CENTER);
 		
 		JSeparator separator = new JSeparator();

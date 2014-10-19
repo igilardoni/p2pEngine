@@ -269,7 +269,7 @@ public class MonCompte extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Quitter");
+				JButton okButton = new JButton(Messages.getString("MonCompte.btnQuitter.text"));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
