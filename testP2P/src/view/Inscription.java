@@ -45,17 +45,17 @@ public class Inscription extends JPanel {
 	 */
 	public Inscription() {
 		
-		JLabel lblNouveauCompte = new JLabel("Nouveau compte");
+		JLabel lblNouveauCompte = new JLabel(Messages.getString("Inscription.lblNouveauCompte.text"));
 		lblNouveauCompte.setForeground(SystemColor.textHighlight);
 		lblNouveauCompte.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblLogin = new JLabel("Login");
+		JLabel lblLogin = new JLabel(Messages.getString("Inscription.lblNomCompte.text"));
 		
-		JLabel lblMotDePasse = new JLabel("Mot de passe");
+		JLabel lblMotDePasse = new JLabel(Messages.getString("Inscription.lblMotDePasse.text"));
 		
-		JLabel lblConfirmationDuMot = new JLabel("Confirmation");
+		JLabel lblConfirmationDuMot = new JLabel(Messages.getString("Inscription.lblConfirmation.text"));
 		
 		login = new JTextField();
 		login.setColumns(10);
@@ -64,27 +64,27 @@ public class Inscription extends JPanel {
 		
 		password2 = new JPasswordField();
 		
-		JLabel lblInformationPersonnelles = new JLabel("Information personnelles");
+		JLabel lblInformationPersonnelles = new JLabel(Messages.getString("Inscription.lblInfoPerso.text"));
 		lblInformationPersonnelles.setForeground(SystemColor.textHighlight);
 		lblInformationPersonnelles.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel lblAdresse = new JLabel("Adresse");
+		JLabel lblAdresse = new JLabel(Messages.getString("Inscription.lblAdresse.text"));
 		
 		adresse = new JTextField();
 		adresse.setColumns(10);
 		
-		JLabel lblEmail = new JLabel("E-mail");
+		JLabel lblEmail = new JLabel(Messages.getString("Inscription.lblEMail.text"));
 		
 		 email = new JFormattedTextField();
 		
-		JLabel lblNewLabel = new JLabel("Téléphone");
+		JLabel lblTelephone = new JLabel(Messages.getString("Inscription.lblTelephone.text"));
 		
 		tel = new JTextField();
 		tel.setColumns(10);
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton(Messages.getString("Inscription.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initErrorMsg();
@@ -105,21 +105,21 @@ public class Inscription extends JPanel {
 			}
 		});
 		
-		errorLogin = new JLabel("Doit faire plus de 3 caractères");
+		errorLogin = new JLabel(Messages.getString("Inscription.lblErrorNomCompte.text"));
 		errorLogin.setVisible(false);
 		errorLogin.setForeground(Color.RED);
 		
-		errorPass1 = new JLabel("Doit faire plus de 6 caractères");
+		errorPass1 = new JLabel(Messages.getString("Inscription.lblErrorMdP.text"));
 		errorPass1.setVisible(false);
 		errorPass1.setForeground(Color.RED);
 		
-		errorPass2 = new JLabel("Doit être identique");
+		errorPass2 = new JLabel(Messages.getString("Inscription.lblErrorMdP2.text"));
 		errorPass2.setVisible(false);
 		errorPass2.setForeground(Color.RED);
 		
-		JLabel lblNom = new JLabel("Nom");
+		JLabel lblNom = new JLabel(Messages.getString("Inscription.lblNom.text"));
 		
-		JLabel lblPrnom = new JLabel("Prénom");
+		JLabel lblPrnom = new JLabel(Messages.getString("Inscription.lblPrenom.text"));
 		
 		nom = new JTextField();
 		nom.setColumns(10);
@@ -127,23 +127,23 @@ public class Inscription extends JPanel {
 		prenom = new JTextField();
 		prenom.setColumns(10);
 		
-		errorAdresse = new JLabel("Doit être rempli");
+		errorAdresse = new JLabel(Messages.getString("Inscription.lblErrorAdresse.text"));
 		errorAdresse.setVisible(false);
 		errorAdresse.setForeground(Color.RED);
 		
-		errorEmail = new JLabel("Mauvais format");
+		errorEmail = new JLabel(Messages.getString("Inscription.lblErrorEMail.text"));
 		errorEmail.setVisible(false);
 		errorEmail.setForeground(Color.RED);
 		
-		errorTel = new JLabel("Mauvais format");
+		errorTel = new JLabel(Messages.getString("Inscription.lblErrorTelephone.text"));
 		errorTel.setVisible(false);
 		errorTel.setForeground(Color.RED);
 		
-		errorNom = new JLabel("Doit être rempli");
+		errorNom = new JLabel(Messages.getString("Inscription.lblErrorNom.text"));
 		errorNom.setVisible(false);
 		errorNom.setForeground(Color.RED);
 		
-		errorPrenom = new JLabel("Doit être rempli");
+		errorPrenom = new JLabel(Messages.getString("Inscription.lblErrorPrenom.text"));
 		errorPrenom.setVisible(false);
 		errorPrenom.setForeground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -183,7 +183,7 @@ public class Inscription extends JPanel {
 						.addComponent(lblNom)
 						.addComponent(lblEmail)
 						.addComponent(lblAdresse)
-						.addComponent(lblNewLabel))
+						.addComponent(lblTelephone))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnValider)
@@ -241,7 +241,7 @@ public class Inscription extends JPanel {
 						.addComponent(errorEmail))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
+						.addComponent(lblTelephone)
 						.addComponent(tel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(errorTel))
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -275,12 +275,12 @@ public class Inscription extends JPanel {
 	
 	private void showErrorMsg(controller.Inscription inscription) {
 		if(inscription.errorLogin) {
-			errorLogin.setText("Doit faire plus de 3 caractères");
+			errorLogin.setText(Messages.getString("Inscription.lblErrorNomCompte.text"));
 			errorLogin.setVisible(true);
 		}
 		
 		if(inscription.errorDuplicateLogin) {
-			errorLogin.setText("Ce login est déjà pris");
+			errorLogin.setText(Messages.getString("Inscription.txtpnErrorCompteExistant.text"));
 			errorLogin.setVisible(true);
 		}
 		
