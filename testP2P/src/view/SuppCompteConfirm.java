@@ -40,23 +40,23 @@ public class SuppCompteConfirm extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblSupprimerVotreCompte = new JLabel("Supprimer votre compte");
+		JLabel lblSupprimerVotreCompte = new JLabel(Messages.getString("SuppCompteConfirm.lblSupprimerCompte.text"));
 		lblSupprimerVotreCompte.setForeground(SystemColor.textHighlight);
 		lblSupprimerVotreCompte.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblEtesvousSurDe = new JLabel("Etes-vous sur de vouloir supprimer votre compte ?");
+		JLabel lblEtesvousSurDe = new JLabel(Messages.getString("SuppCompteConfirm.lblQuestion.text"));
 		
-		JLabel lblCetteOprationEst = new JLabel("Cette opération est irréversible");
+		JLabel lblCetteOprationEst = new JLabel(Messages.getString("SuppCompteConfirm.lblIrreversible.text"));
 		
-		JLabel lblEntrezVotreMot = new JLabel("Entrez votre mot de passe pour confirmer la suppression");
+		JLabel lblEntrezVotreMot = new JLabel(Messages.getString("SuppCompteConfirm.lblConfirmer.text"));
 		
-		JLabel lblMotDePasse = new JLabel("Mot de passe:");
+		JLabel lblMotDePasse = new JLabel(Messages.getString("SuppCompteConfirm.lblMotDePasse.text"));
 		
 		passwordField = new JPasswordField();
 		
-		JButton btnSupprimer = new JButton("Supprimer");
+		JButton btnSupprimer = new JButton(Messages.getString("SuppCompteConfirm.btnSupprimer.text"));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initError();
@@ -71,7 +71,7 @@ public class SuppCompteConfirm extends JDialog {
 			}
 		});
 		
-		errorPass = new JLabel("Le mot de passe est incorrect");
+		errorPass = new JLabel(Messages.getString("SuppCompteConfirm.lblErrorMdP.text"));
 		errorPass.setForeground(Color.RED);
 		errorPass.setVisible(false);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -133,7 +133,7 @@ public class SuppCompteConfirm extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton("Annuler");
+				JButton cancelButton = new JButton(Messages.getString("SuppCompteConfirm.btnAnnuler.text"));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
