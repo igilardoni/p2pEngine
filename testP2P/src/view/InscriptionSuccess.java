@@ -10,10 +10,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.SystemColor;
+
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -31,15 +34,15 @@ public class InscriptionSuccess extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblInscriptionRussie = new JLabel("Inscription réussie");
+		JLabel lblInscriptionRussie = new JLabel(Messages.getString("InscriptionSuccess.lblReussi.text"));
 		lblInscriptionRussie.setForeground(SystemColor.textHighlight);
 		lblInscriptionRussie.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblLinscriptionSestDroule = new JLabel("L'inscription s'est déroulée avec succès");
+		JLabel lblLinscriptionSestDroule = new JLabel(Messages.getString("InscriptionSuccess.lblSucces.text"));
 		
-		JLabel lblVousPouvezDs = new JLabel("Vous pouvez dès a présent vous connecter");
+		JLabel lblVousPouvezDs = new JLabel(Messages.getString("InscriptionSuccess.lblSeConnecter.text"));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
