@@ -29,7 +29,7 @@ public class Connexion extends JPanel {
 	 * Create the panel.
 	 */
 	public Connexion() {
-		JLabel lblListeDesComptes = new JLabel("Liste des comptes :");
+		JLabel lblListeDesComptes = new JLabel(Messages.getString("Connexion.lblListeComptes.text"));
 		
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
@@ -40,7 +40,7 @@ public class Connexion extends JPanel {
 		comboBox.setModel(new DefaultComboBoxModel(getUsersNamesList()));
 		comboBox.setMaximumRowCount(20);
 		
-		JButton btnCrerUnNouveau = new JButton("Créer un nouveau compte");
+		JButton btnCrerUnNouveau = new JButton(Messages.getString("Connexion.btnNouveauCompte.text"));
 		btnCrerUnNouveau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel parent = (JPanel) getParent();
@@ -50,16 +50,16 @@ public class Connexion extends JPanel {
 				dialog.pack();
 			}
 		});
-		JLabel lblLogin = new JLabel("Login");
+		JLabel lblLogin = new JLabel(Messages.getString("Connexion.lblNomCompte.text"));
 		
-		JLabel lblMotDePass = new JLabel("Mot de passe");
+		JLabel lblMotDePass = new JLabel(Messages.getString("Connexion.lblMotDePasse.text"));
 		
 		login = new JTextField();
 		login.setColumns(10);
 		
 		password = new JPasswordField();
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton(Messages.getString("Connexion.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.Connexion connexion = new controller.Connexion(login.getText(), new String(password.getPassword()));
@@ -74,7 +74,7 @@ public class Connexion extends JPanel {
 			}
 		});
 		
-		errorMsg = new JLabel("Mauvais login/pass");
+		errorMsg = new JLabel(Messages.getString("Connexion.lblMauvaisLog.text"));
 		errorMsg.setVisible(false);
 		errorMsg.setForeground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(this);
