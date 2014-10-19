@@ -118,7 +118,7 @@ public class AnnoncePanel extends JPanel {
 		textAnonce.add(titreAnnonce, BorderLayout.NORTH);
 		titreAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JLabel titreLabel = new JLabel("Titre de l'annonce");
+		JLabel titreLabel = new JLabel(Messages.getString("AnnoncePanel.lblTitreAnnonce.text"));
 		titreLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		titreAnnonce.add(titreLabel, BorderLayout.CENTER);
 		
@@ -143,7 +143,7 @@ public class AnnoncePanel extends JPanel {
 		txtpnLoremIpsumDolor.setVerifyInputWhenFocusTarget(false);
 		txtpnLoremIpsumDolor.setRequestFocusEnabled(false);
 		txtpnLoremIpsumDolor.setOpaque(false);
-		txtpnLoremIpsumDolor.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultrices elit non dui ornare mollis. Donec et placerat ex, sed efficitur justo. Etiam libero turpis, semper at ex at, aliquet vestibulum turpis. Morbi a mattis dui. Fusce congue tortor massa, non commodo purus gravida et. Duis consequat ac odio hendrerit scelerisque. Pellentesque auctor, ligula ut lobortis accumsan, lectus nibh auctor felis, quis venenatis sem dui vitae nisi. Aliquam erat volutpat. Donec eget eleifend augue. Sed libero sem, viverra a aliquet non, dapibus in enim.");
+		txtpnLoremIpsumDolor.setText(Messages.getString("AnnoncePanel.txtpnLoremIpsumDolor.text"));
 		resumeAnnonce.add(txtpnLoremIpsumDolor, BorderLayout.CENTER);
 		
 		JSeparator separator = new JSeparator();
