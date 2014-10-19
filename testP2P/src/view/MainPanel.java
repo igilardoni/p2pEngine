@@ -93,10 +93,10 @@ public class MainPanel extends JPanel {
 		JButton btnRechercher = new JButton(Messages.getString("MainPanel.btnRecherche.text"));
 		panel_5.add(btnRechercher);
 		
-		JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.jrbtnTroc.text"));
+		JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.rbtnTroc.text"));
 		panel_5.add(rdbtnTroc);
 		
-		JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.jrbtnVente.text"));
+		JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.rbtnVente.text"));
 		panel_5.add(rdbtnVente);
 		panel_4.setLayout(gl_panel_4);
 		

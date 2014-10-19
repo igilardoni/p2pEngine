@@ -21,7 +21,9 @@ import model.User;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
+
 import java.awt.Dimension;
 import java.awt.Color;
 
@@ -52,30 +54,28 @@ public class MonCompte extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblCrashxxl = new JLabel("Connecté en tant que " + user.getLogin());
+		JLabel lblCrashxxl = new JLabel(Messages.getString("MonCompte.lblQuiSuisJe.text") + user.getLogin());
 		lblCrashxxl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCrashxxl.setForeground(SystemColor.textHighlight);
 		
 		JSeparator separator = new JSeparator();
-		JLabel lblActions = new JLabel("Actions");
+		JLabel lblActions = new JLabel(Messages.getString("MonCompte.lblActions.text"));
 		lblActions.setForeground(SystemColor.textHighlight);
 		lblActions.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		JSeparator separator_1 = new JSeparator();
 		
-		JButton btnSupprimer = new JButton("Supprimer le compte");
+		JButton btnSupprimer = new JButton(Messages.getString("MonCompte.btnSupprimerCompte.text"));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new SuppCompteConfirm(getThis()).setVisible(true);
 			}
 		});
 		
-		JLabel lanote = new JLabel("thenote");
-		
 		JPanel panel = new JPanel();
 		
-		JLabel lblNote = new JLabel("Note:");
+		JLabel lblNote = new JLabel(Messages.getString("MonCompte.lblNote.text"));
 		
-		JButton btnDconnexion = new JButton("Déconnexion");
+		JButton btnDconnexion = new JButton(Messages.getString("MonCompte.btnDeconnexion.text"));
 		btnDconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Application.getInstance().getUsers().disconnectUser();
@@ -84,22 +84,22 @@ public class MonCompte extends JDialog {
 			}
 		});
 		
-		JLabel lblEmail = new JLabel("Email:");
+		JLabel lblEmail = new JLabel(Messages.getString("MonCompte.lblEMail.text"));
 		
 		email = new JTextField(user.getMail());
 		email.setColumns(10);
 		
-		JLabel lblTlphone = new JLabel("Téléphone:");
+		JLabel lblTlphone = new JLabel(Messages.getString("MonCompte.lblTelephone.text"));
 		
 		tel = new JTextField(user.getTel());
 		tel.setColumns(10);
 		
-		JLabel lblAdresse = new JLabel("Adresse:");
+		JLabel lblAdresse = new JLabel(Messages.getString("MonCompte.lblAdresse.text"));
 		
 		adresse = new JTextField(user.getAdresse());
 		adresse.setColumns(10);
 		
-		JButton btnValiderChangements = new JButton("Valider changements");
+		JButton btnValiderChangements = new JButton(Messages.getString("MonCompte.btnEnregChange.text"));
 		btnValiderChangements.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				initError();
@@ -112,9 +112,9 @@ public class MonCompte extends JDialog {
 			}
 		});
 		
-		JLabel lblNom = new JLabel("Nom:");
+		JLabel lblNom = new JLabel(Messages.getString("MonCompte.lblNom.text"));
 		
-		JLabel lblPrnom = new JLabel("Prénom:");
+		JLabel lblPrnom = new JLabel(Messages.getString("MonCompte.lblPrenom.text"));
 		
 		JLabel lblNewLabel = new JLabel(user.getNom());
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -122,21 +122,21 @@ public class MonCompte extends JDialog {
 		JLabel lblNewLabel_1 = new JLabel(user.getPrenom());
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		JLabel label = new JLabel(user.getMoyenneNotes() + "/5");
+		JLabel label = new JLabel(user.getMoyenneNotes() + Messages.getString("MonCompte.lblTotalNote.text"));
 		
-		errorEmail = new JLabel("Mauvais format");
+		errorEmail = new JLabel(Messages.getString("MonCompte.lblErrorEMail.text"));
 		errorEmail.setVisible(false);
 		errorEmail.setForeground(Color.RED);
 		
-		errorTel = new JLabel("Mauvais format");
+		errorTel = new JLabel(Messages.getString("MonCompte.lblErrorTelephone.text"));
 		errorTel.setVisible(false);
 		errorTel.setForeground(Color.RED);
 		
-		errorAdresse = new JLabel("Doit être rempli");
+		errorAdresse = new JLabel(Messages.getString("MonCompte.lblErrorAdresse.text"));
 		errorAdresse.setVisible(false);
 		errorAdresse.setForeground(Color.RED);
 		
-		succesForm = new JLabel("Changements effectués !");
+		succesForm = new JLabel(Messages.getString("MonCompte.lblModifEnreg.text"));
 		succesForm.setVisible(false);
 		succesForm.setForeground(new Color(0, 204, 0));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
