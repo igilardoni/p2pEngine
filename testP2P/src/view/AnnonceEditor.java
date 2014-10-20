@@ -142,19 +142,19 @@ public class AnnonceEditor extends JDialog {
 			}
 		});
 		
-		errorTermes = new JLabel(Messages.getString("errorTrocArgent")); //$NON-NLS-1$
+		errorTermes = new JLabel(Messages.getString("AnnonceEditor.lblErrorTermes.text")); //$NON-NLS-1$
 		errorTermes.setVisible(false);
 		errorTermes.setForeground(Color.RED);
 		
-		errorTitre = new JLabel(Messages.getString("errorTitre")); //$NON-NLS-1$
+		errorTitre = new JLabel(Messages.getString("AnnonceEditor.lblErrorTitre.text")); //$NON-NLS-1$
 		errorTitre.setForeground(Color.RED);
 		errorTitre.setVisible(false);
 		
-		errorResume = new JLabel(Messages.getString("errorResume")); //$NON-NLS-1$
+		errorResume = new JLabel(Messages.getString("AnnonceEditor.lblErrorResume.text")); //$NON-NLS-1$
 		errorResume.setForeground(Color.RED);
 		errorResume.setVisible(false);
 		
-		errorDesc = new JLabel(Messages.getString("errorDesc")); //$NON-NLS-1$
+		errorDesc = new JLabel(Messages.getString("AnnonceEditor.lblErrorDescription.text")); //$NON-NLS-1$
 		errorDesc.setVisible(false);
 		errorDesc.setForeground(Color.RED);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);

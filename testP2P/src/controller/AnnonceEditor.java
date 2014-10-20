@@ -75,21 +75,21 @@ public class AnnonceEditor implements Validator{
 	 * Le titre doit être d'au moins 3 caractères.
 	 */
 	private void checkTitle() {
-		if(!(title.length() >= 3)) errorTitle = true;
+		if(!(title.length() > 3)) errorTitle = true;
 	}
 	
 	/**
 	 * Le résumé doit faire au moins 10 caractères.
 	 */
 	private void checkResume() {
-		if(!(resume.length() >= 10)) errorResume = true;
+		if(!(resume.length() > 10)) errorResume = true;
 	}
 	
 	/**
 	 * La description doit faire au moins 10 caractères.
 	 */
 	private void checkDescription() {
-		if(!(desc.length() >= 10)) errorDesc = true;
+		if(!(desc.length() > 10)) errorDesc = true;
 	}
 	
 	/**
