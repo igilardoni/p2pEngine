@@ -106,13 +106,11 @@ public class AnnonceEditor extends JDialog {
 		JLabel lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text")); //$NON-NLS-1$
 		
 		titre = new JTextField();
-		titre.setText(Messages.getString("AnnonceEditor.tfTitre.text")); //$NON-NLS-1$
 		titre.setColumns(10);
 		
 		JLabel lblRsumDeDescription = new JLabel(Messages.getString("AnnonceEditor.lblRsumDeDescription.text")); //$NON-NLS-1$
 		
 		resume = new JTextField();
-		resume.setText(Messages.getString("AnnonceEditor.tfResume.text")); //$NON-NLS-1$
 		resume.setColumns(10);
 		
 		JLabel lblAnnonce = new JLabel(Messages.getString("AnnonceEditor.lblAnnonce.text")); //$NON-NLS-1$
