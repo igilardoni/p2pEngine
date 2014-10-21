@@ -103,8 +103,10 @@ public class AnnonceEditor implements Validator{
 	@Override
 	public boolean process() {
 		if(user == null) return false;
-
-		user.getObjets().add(new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user));
+		
+		Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
+		obj.setDate(System.currentTimeMillis());
+		user.getObjets().add(obj);
 		return true;
 		
 	}

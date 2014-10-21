@@ -24,18 +24,22 @@ public class Application {
 	
 	
 	public Application() {
-		
 		loadUsers();
-		window = new Window();
-		window.setVisible(true);
-		window.addWindowListener(this.getWindowListener());
 	}
 	
 	public static void main(String[] args) {
 		
-		Application.setInstance(new Application());
+		Application app = new Application();
+		Application.setInstance(app);
+		app.lauch();
 	}
 	
+	private void lauch() {
+		window = new Window();
+		window.setVisible(true);
+		window.addWindowListener(this.getWindowListener());
+	}
+
 	public static Application getInstance() {
 		return instance;
 	}
@@ -50,6 +54,7 @@ public class Application {
 	
 	public void updateUI() {
 		window.revalidate();
+		window.repaint();
 	}
 	
 	public void loadUsers() {

@@ -27,6 +27,7 @@ public class Window extends JFrame {
 	
 	private JButton ajouterAnnonce;
 	private JLabel connectezVous;
+	private MainPanel mainPanel_;
 
 	/**
 	 * Create the frame.
@@ -56,7 +57,7 @@ public class Window extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		MainPanel mainPanel_ = new MainPanel();
+		mainPanel_ = new MainPanel();
 		contentPane.add(mainPanel_, BorderLayout.CENTER);
 		
 		JPanel toolBar = new JPanel();
@@ -118,6 +119,8 @@ public class Window extends JFrame {
 	public void revalidate() {
 		show_account_buttons();
 		show_annonce_button();
+		mainPanel_.revalidate();
+		
 		super.revalidate();
 	}
 	

@@ -65,7 +65,7 @@ public interface ObjetsManagementInterface {
 	 * @param pos
 	 * @return null si pos < 0 ou pos > nombre d'objets
 	 */
-	public Object get(int pos);
+	public Objet get(int pos);
 	
 	/**
 	 * Trie les objet par ordre alphabetique
@@ -73,5 +73,11 @@ public interface ObjetsManagementInterface {
 	 * conseil : les objets doivent implémenter l'interface Comparable
 	 */
 	public void sortByName();
+	
+	/**
+	 * Retourne le nombre d'objets
+	 * @return int le nombre d'objet
+	 */
+	public int size();
 	
 }

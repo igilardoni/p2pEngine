@@ -86,7 +86,7 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 	}
 
 	@Override
-	public Object get(int pos) {
+	public Objet get(int pos) {
 		// TODO Auto-generated method stub
 		if (pos <0 || pos > objets.size())
 			return null;
@@ -97,6 +97,11 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 	public void sortByName() {
 		// TODO Auto-generated method stub
 		Collections.sort(objets);
+	}
+
+	@Override
+	public int size() {
+		return this.objets.size();
 	}
 
 }

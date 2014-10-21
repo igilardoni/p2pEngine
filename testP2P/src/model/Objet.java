@@ -2,6 +2,9 @@ package model;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
@@ -21,6 +24,7 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	private String resume;
 	private String desc;
 	private String img;
+	private long date;
 	private boolean proposition, souhait;
 	private boolean troc, vente;
 	
@@ -192,6 +196,28 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		    //Nous ne prenons pas en compte la casse (majuscules, minuscules...)
 		   return String.CASE_INSENSITIVE_ORDER.compare(getTitre(), o.getTitre());
 		}
+	
+	public long getDate() {
+		return this.date;
+	}
+	
+	public void setDate(long date) {
+		this.date = date;
+	}
+	
+	public String getFormatedDate(String style) {
+		SimpleDateFormat format = new SimpleDateFormat(style);
+		Date d = new Date(getDate());
+		return format.format(d);
+	}
+	
+	public String getSimpleDate() {
+		return getFormatedDate("dd/mm/yy");
+	}
+	
+	public String getSimpleTime() {
+		return getFormatedDate("HH:mm:ss");
+	}
 }
 
 

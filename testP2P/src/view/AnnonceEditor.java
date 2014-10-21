@@ -142,7 +142,7 @@ public class AnnonceEditor extends JDialog {
 			}
 		});
 		
-		errorTermes = new JLabel(Messages.getString("errorTrocArgent")); //$NON-NLS-1$
+		errorTermes = new JLabel(Messages.getString("errorTerme")); //$NON-NLS-1$
 		errorTermes.setVisible(false);
 		errorTermes.setForeground(Color.RED);
 		
