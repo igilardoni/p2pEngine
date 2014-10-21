@@ -121,6 +121,7 @@ public class AnnonceEditor extends JDialog {
 		lblAnnonce.setForeground(SystemColor.textHighlight);
 		lblAnnonce.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
+		
 		JSeparator separator_2 = new JSeparator();
 		
 		JLabel lblDescription = new JLabel(Messages.getString("AnnonceEditor.lblCompleteDesc.text")); //$NON-NLS-1$
@@ -144,7 +145,7 @@ public class AnnonceEditor extends JDialog {
 			}
 		});
 		
-		errorTermes = new JLabel(Messages.getString("errorTerme")); //$NON-NLS-1$
+		errorTermes = new JLabel(Messages.getString("AnnonceEditor.lblErrorTermes.text")); //$NON-NLS-1$
 		errorTermes.setVisible(false);
 		errorTermes.setForeground(Color.RED);
 		
@@ -265,6 +266,7 @@ public class AnnonceEditor extends JDialog {
 						.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(27, Short.MAX_VALUE))
 		);
+		
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -304,6 +306,7 @@ public class AnnonceEditor extends JDialog {
 			}
 		}
 	}
+	
 	
 	public AnnonceEditor(int i) {
 		this();

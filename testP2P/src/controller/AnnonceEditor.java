@@ -1,5 +1,11 @@
 package controller;
 
+import java.io.Reader;
+import java.io.StringReader;
+
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+
 import model.Objet;
 import model.User;
 import view.Application;
@@ -27,6 +33,8 @@ public class AnnonceEditor implements Validator{
 	private String img;
 	private User user;
 	private Objet obj = null; /* si l'on souhaite modifier un objet */
+	private HTMLDocument doc = new HTMLDocument();
+	private HTMLEditorKit kit = new HTMLEditorKit();
 	
 	public boolean errorProposition, errorSouhait, errorTroc, errorVente, errorTitle, 
 					errorResume, errorDesc, errorImg;
@@ -70,7 +78,7 @@ public class AnnonceEditor implements Validator{
 	 * Au moins une case doit être cochée.
 	 */
 	private void checkCheckBox() {
-		if(!(troc || vente)) errorTroc = errorVente = true;
+		if(!(troc || vente) || (troc && vente)) errorTroc = errorVente = true;
 	}
 	
 	/**
@@ -81,8 +89,40 @@ public class AnnonceEditor implements Validator{
 	}
 	
 	/**
+	 * Tris le document en remplaçant les balises <br> par des balises <p> puis utilise l'EditorKit pour séparer
+	 * les attributs des contenus textuels et les renvoies
+	 * @param html
+	 * @return doc
+	 */
+	public synchronized String getAsText(String html)
+    {
+        try
+        {
+            // clear our document's contents
+            doc.remove(0, doc.getLength());
+            if(html == null || html.equals("")) return html;
+ 
+            // change <br> tags to <p> since the kit doesn't convert by a new line
+            html = html.replaceAll("<[bB][rR][\\s]*[/]?>","<p>");
+ 
+            // use the editorKit for separate "attributes set" to "text-contents" by managing the document
+            Reader r = new StringReader(html);
+            kit.read(r, doc, 0);
+ 
+            // return only "text-contents" part from the document ignoring this way all "attributes set"
+            return doc.getText(0, doc.getLength()).trim();
+        }
+        
+        catch(Exception e) { 
+        	e.printStackTrace();
+        	return null;
+        }
+    }
+	
+	/**
 	 * Le résumé doit faire au moins 10 caractères.
 	 */
+	
 	private void checkResume() {
 		if(resume.length() < 10) errorResume = true;
 	}
@@ -91,7 +131,7 @@ public class AnnonceEditor implements Validator{
 	 * La description doit faire au moins 10 caractères.
 	 */
 	private void checkDescription() {
-		if(desc.length() < 10) errorDesc = true;
+		if(getAsText(desc).length() < 10) errorDesc = true;
 	}
 	
 	/**
