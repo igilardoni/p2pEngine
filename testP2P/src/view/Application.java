@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Locale;
 
 import model.UsersManagement;
 
@@ -21,14 +22,15 @@ public class Application {
 	private UsersManagement users;
 	private Window window;
 	private static final String USERS_DIR = "users.data";
+	private static final String LOCALE_DIR = "locale.data";
 	
 	
 	public Application() {
 		loadUsers();
+		loadLocale();
 	}
 	
 	public static void main(String[] args) {
-		
 		Application app = new Application();
 		Application.setInstance(app);
 		app.lauch();
@@ -157,5 +159,57 @@ public class Application {
 		};
 	}
 	
+	public static void saveLocale(Locale l) {
+		ObjectOutputStream stream = null;
+		try {
+			final FileOutputStream fichier = new FileOutputStream(Application.LOCALE_DIR);
+			stream = new ObjectOutputStream(fichier);
+			stream.writeObject(l);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(stream != null) {
+				try {
+					stream.flush();
+					stream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+	}
+	
+	public void loadLocale() {
+		ObjectInputStream stream = null;
+		try {
+			final FileInputStream fichier = new FileInputStream(Application.LOCALE_DIR);
+			stream = new ObjectInputStream(fichier);
+			Locale.setDefault((Locale) stream.readObject());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static void restartUI() {
+		Messages.updateLanguage();
+		Application.getInstance().window.dispose();
+		Application.getInstance().window = new Window();
+		Application.getInstance().window.setVisible(true);
+	}
 	
 }

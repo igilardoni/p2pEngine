@@ -19,8 +19,8 @@ public class Messages {
 	//
 	////////////////////////////////////////////////////////////////////////////
 	private static final String BUNDLE_NAME = "view.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = loadBundle();
-	private static ResourceBundle loadBundle() {
+	private static ResourceBundle RESOURCE_BUNDLE = loadBundle();
+	public static ResourceBundle loadBundle() {
 		return ResourceBundle.getBundle(BUNDLE_NAME);
 	}
 	////////////////////////////////////////////////////////////////////////////
@@ -35,5 +35,9 @@ public class Messages {
 		} catch (MissingResourceException e) {
 			return "!" + key + "!";
 		}
+	}
+	
+	public static void updateLanguage() {
+		RESOURCE_BUNDLE = loadBundle();
 	}
 }

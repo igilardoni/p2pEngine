@@ -18,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
 import model.User;
+import javax.swing.JMenuItem;
 
 public class Window extends JFrame {
 
@@ -28,6 +29,7 @@ public class Window extends JFrame {
 	private JButton ajouterAnnonce;
 	private JLabel connectezVous;
 	private MainPanel mainPanel_;
+	private JMenuItem mntmLangue;
 
 	/**
 	 * Create the frame.
@@ -49,6 +51,14 @@ public class Window extends JFrame {
 		
 		JMenu menuOption = new JMenu(Messages.getString("Window.menuOptions.text")); //$NON-NLS-1$
 		menuBar.add(menuOption);
+		
+		mntmLangue = new JMenuItem(Messages.getString("Window.mntmLangue.text")); //$NON-NLS-1$
+		mntmLangue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new langueSelector().setVisible(true);
+			}
+		});
+		menuOption.add(mntmLangue);
 		
 		JMenu menuAide = new JMenu(Messages.getString("Window.menuAide.text")); //$NON-NLS-1$
 		menuBar.add(menuAide);
