@@ -150,7 +150,6 @@ public class MainPanel extends JPanel {
 	
 	private void getUserObjet(APanel panel) {
 		User user = Application.getInstance().getUsers().getConnectedUser();
-		System.out.println("appelé : connecté = " + user);
 		panel.removeAll();
 		
 		if(user == null) panel.add(new JLabel("Veuillez vous connecter pour voir vos objets"));

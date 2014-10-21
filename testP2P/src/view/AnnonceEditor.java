@@ -106,13 +106,11 @@ public class AnnonceEditor extends JDialog {
 		JLabel lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text")); //$NON-NLS-1$
 		
 		titre = new JTextField();
-		titre.setText(Messages.getString("AnnonceEditor.tfTitre.text")); //$NON-NLS-1$
 		titre.setColumns(10);
 		
 		JLabel lblRsumDeDescription = new JLabel(Messages.getString("AnnonceEditor.lblRsumDeDescription.text")); //$NON-NLS-1$
 		
 		resume = new JTextField();
-		resume.setText(Messages.getString("AnnonceEditor.tfResume.text")); //$NON-NLS-1$
 		resume.setColumns(10);
 		
 		JLabel lblAnnonce = new JLabel(Messages.getString("AnnonceEditor.lblAnnonce.text")); //$NON-NLS-1$
@@ -146,15 +144,15 @@ public class AnnonceEditor extends JDialog {
 		errorTermes.setVisible(false);
 		errorTermes.setForeground(Color.RED);
 		
-		errorTitre = new JLabel(Messages.getString("errorTitre")); //$NON-NLS-1$
+		errorTitre = new JLabel(Messages.getString("AnnonceEditor.lblErrorTitre.text")); //$NON-NLS-1$
 		errorTitre.setForeground(Color.RED);
 		errorTitre.setVisible(false);
 		
-		errorResume = new JLabel(Messages.getString("errorResume")); //$NON-NLS-1$
+		errorResume = new JLabel(Messages.getString("AnnonceEditor.lblErrorResume.text")); //$NON-NLS-1$
 		errorResume.setForeground(Color.RED);
 		errorResume.setVisible(false);
 		
-		errorDesc = new JLabel(Messages.getString("errorDesc")); //$NON-NLS-1$
+		errorDesc = new JLabel(Messages.getString("AnnonceEditor.lblErrorDescription.text")); //$NON-NLS-1$
 		errorDesc.setVisible(false);
 		errorDesc.setForeground(Color.RED);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);

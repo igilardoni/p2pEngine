@@ -275,12 +275,10 @@ public class Inscription extends JPanel {
 	
 	private void showErrorMsg(controller.Inscription inscription) {
 		if(inscription.errorLogin) {
-			errorLogin.setText(Messages.getString("Inscription.lblErrorNomCompte.text"));
 			errorLogin.setVisible(true);
 		}
 		
 		if(inscription.errorDuplicateLogin) {
-			errorLogin.setText(Messages.getString("Inscription.txtpnErrorCompteExistant.text"));
 			errorLogin.setVisible(true);
 		}
 		
