@@ -9,6 +9,7 @@ public class AnnonceDelete implements Validator{
 	private int i;
 	private User user;
 	
+	
 	/**
 	 * Controller de l'affichage des annonces utilisateur
 	 * @param i le rang i de l'annonce chez l'utilisateur courrant.

@@ -35,6 +35,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 
+import model.Objet;
 import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
 
 import java.awt.event.ActionListener;
@@ -42,6 +43,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 
 public class AnnonceEditor extends JDialog {
@@ -60,6 +62,8 @@ public class AnnonceEditor extends JDialog {
 	private JLabel errorTitre;
 	private JLabel errorResume ;
 	private JLabel errorDesc; 
+	
+	private Objet obj = null;
 
 	/**
 	 * Create the dialog.
@@ -135,8 +139,8 @@ public class AnnonceEditor extends JDialog {
 				ImageDialog dialog = new ImageDialog();
 				dialog.showOpenDialog(null);
 				
-				imageLabel.setIcon(new ImageIcon(new ImageIcon(dialog.getSelectedFile().toString()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-				imageLabel.setToolTipText(dialog.getSelectedFile().toString());
+				setImage(dialog.getSelectedFile().toString());
+				
 			}
 		});
 		
@@ -274,6 +278,7 @@ public class AnnonceEditor extends JDialog {
 						controller.AnnonceEditor validator = new controller.AnnonceEditor(proposition.isSelected(), souhait.isSelected(), troc.isSelected(), argent.isSelected(), titre.getText(), 
 								resume.getText(), description.getText(), imageLabel.getToolTipText());
 						if(validator.validate()) {
+							if(obj != null) validator.setEditObjet(obj);
 							validator.process();
 							
 							dispose();
@@ -298,6 +303,25 @@ public class AnnonceEditor extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	public AnnonceEditor(int i) {
+		this();
+		this.obj = Application.getInstance().getUsers().getConnectedUser().getObjets().get(i);
+		proposition.setSelected(obj.isProposition());
+		souhait.setSelected(obj.isSouhait());
+		troc.setSelected(obj.isTroc());
+		argent.setSelected(obj.isVente());
+		titre.setText(obj.getTitre());
+		resume.setText(obj.getResume());
+		description.setText(obj.getDesc());
+		setImage(obj.getImg());
+	}
+	
+	private void setImage(String image) {
+		if(image == null) return;
+		imageLabel.setIcon(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+		imageLabel.setToolTipText(image);
 	}
 	
 	private void initError() {

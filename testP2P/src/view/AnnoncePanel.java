@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 
@@ -50,7 +51,10 @@ import model.Objet;
 
 public class AnnoncePanel extends JPanel {
 
-	private Objet obj;
+	private Objet obj = null;
+	private static final Color COLOR_ACTIVE=new Color(110, 153, 204);
+	private static final Color COLOR_INACTIVE=new Color(191, 205, 219);
+	
 	
 	
 	/**
@@ -86,22 +90,23 @@ public class AnnoncePanel extends JPanel {
 		panel_2.add(panel_3, BorderLayout.CENTER);
 		
 		JLabel isTroc = new JLabel(Messages.getString("AnnoncePanel.lblTroc.text")); //$NON-NLS-1$
-		isTroc.setBackground(SystemColor.inactiveCaption);
+		isTroc.setBackground(obj.isTroc()?COLOR_ACTIVE:COLOR_INACTIVE);
 		isTroc.setOpaque(true);
 		isTroc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_3.add(isTroc);
 		
 		JLabel isVente = new JLabel(Messages.getString("AnnoncePanel.lblVente.text")); //$NON-NLS-1$
 		isVente.setOpaque(true);
-		isVente.setBackground(SystemColor.inactiveCaption);
+		isVente.setBackground(obj.isVente()?COLOR_ACTIVE:COLOR_INACTIVE);
 		isVente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_3.add(isVente);
 		
 		JPanel panel_4 = new JPanel();
 		panel_2.add(panel_4, BorderLayout.SOUTH);
 		
-		JLabel propOuSouhait = new JLabel(Messages.getString("AnnoncePanel.lblProposition.text"));
-		propOuSouhait.setBackground(SystemColor.inactiveCaption);
+		String s = obj.isProposition() ? Messages.getString("AnnoncePanel.lblProposition.text"):"Souhait";
+		JLabel propOuSouhait = new JLabel(s);
+		propOuSouhait.setBackground(COLOR_ACTIVE);
 		propOuSouhait.setOpaque(true);
 		panel_4.add(propOuSouhait);
 		propOuSouhait.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -118,7 +123,7 @@ public class AnnoncePanel extends JPanel {
 		contentAnnonce.add(imageAnnonce, BorderLayout.WEST);
 		
 		JLabel lblNewLabel = new JLabel(Messages.getString("AnnoncePanel.lblImage.text"));
-		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(obj.getImg()));
+		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(new ImageIcon(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 		imageAnnonce.add(lblNewLabel);
 		
 		JPanel textAnonce = new JPanel();
@@ -140,6 +145,14 @@ public class AnnoncePanel extends JPanel {
 		titreAnnonce.add(panel, BorderLayout.EAST);
 		
 		JButton editButton = new JButton(Messages.getString("AnnoncePanel.lblEditer.text"));
+		editButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new AnnonceEditor(i).setVisible(true);
+			}
+			
+		});
 		panel.add(editButton);
 		
 		JButton delButton = new JButton(Messages.getString("AnnoncePanel.lblSupprimer.text"));

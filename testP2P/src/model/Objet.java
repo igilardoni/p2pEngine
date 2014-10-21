@@ -30,8 +30,6 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	
 	//voir ObjectAdvertisement
 	private String otherName;
-	
-	private String description;
 	private User user;
 	
 	
@@ -110,14 +108,6 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		this.otherName = otherName;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -159,7 +149,7 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		// TODO adv.setFullName(getFullName());
 		// TODO adv.setName(getNom());
 		adv.setOtherName(otherName);
-		adv.setDescription(description);
+		//TODO adv.setDescription(description);
 		adv.setLoginAuteur(user.getNom());
 		adv.setTel(user.getTel());
 		adv.setMail(user.getMail());

@@ -26,6 +26,7 @@ public class AnnonceEditor implements Validator{
 	private String desc;
 	private String img;
 	private User user;
+	private Objet obj = null; /* si l'on souhaite modifier un objet */
 	
 	public boolean errorProposition, errorSouhait, errorTroc, errorVente, errorTitle, 
 					errorResume, errorDesc, errorImg;
@@ -48,6 +49,7 @@ public class AnnonceEditor implements Validator{
 		errorProposition = errorSouhait = errorTroc = errorVente = errorTitle 
 		= errorResume = errorDesc = errorImg = false;
 	}
+
 	
 	@Override
 	public boolean validate() {
@@ -100,13 +102,31 @@ public class AnnonceEditor implements Validator{
 		if(img == null) return;
 	}
 
+	
+	public void setEditObjet(Objet obj) {
+		this.obj = obj;
+	}
+	
 	@Override
 	public boolean process() {
 		if(user == null) return false;
 		
-		Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
-		obj.setDate(System.currentTimeMillis());
-		user.getObjets().add(obj);
+		if(obj == null) {
+			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
+			obj.setDate(System.currentTimeMillis());
+			user.getObjets().add(obj);
+		}
+		else {
+			obj.setProposition(proposition);
+			obj.setSouhait(souhait);
+			obj.setTroc(troc);
+			obj.setVente(vente);
+			obj.setTitre(title);
+			obj.setResume(resume);
+			obj.setDesc(desc);
+			obj.setImg(img);
+		}
+		
 		return true;
 		
 	}
