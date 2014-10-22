@@ -208,8 +208,7 @@ public class Application {
 	public static void restartUI() {
 		Messages.updateLanguage();
 		Application.getInstance().window.dispose();
-		Application.getInstance().window = new Window();
-		Application.getInstance().window.setVisible(true);
+		Application.getInstance().lauch();
 	}
 	
 }

@@ -91,7 +91,9 @@ public class AnnonceEditor implements Validator{
 	 * La description doit faire au moins 10 caractères.
 	 */
 	private void checkDescription() {
-		if(desc.length() < 10) errorDesc = true;
+		String plaintText = desc.replaceAll("<[^>]*>", "").replaceAll("\n", "").replaceAll(" ", "");
+		System.out.println(plaintText);
+		if(plaintText.length() < 10) errorDesc = true;
 	}
 	
 	/**
