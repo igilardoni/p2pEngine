@@ -74,7 +74,7 @@ public class Window extends JFrame {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
 
-		ajouterAnnonce = new JButton(Messages.getString("ajouterAnnonce")); //$NON-NLS-1$
+		ajouterAnnonce = new JButton(Messages.getString("Window.btnAjouterAnnonce")); //$NON-NLS-1$
 		ajouterAnnonce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AnnonceEditor().setVisible(true);
