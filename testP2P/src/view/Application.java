@@ -20,6 +20,7 @@ import model.UsersManagement;
 public class Application {
 	private static Application instance;
 	private UsersManagement users;
+	private UsersManagement remote_users;
 	private Window window;
 	private static final String USERS_DIR = "users.data";
 	private static final String LOCALE_DIR = "locale.data";
