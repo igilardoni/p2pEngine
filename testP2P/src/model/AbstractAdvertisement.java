@@ -29,6 +29,13 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	protected abstract void setKeys();
 	
+	public String getValue(String key) {
+		if(this.keyval.containsKey(key)) {
+			return this.keyval.get(key);
+		}
+		else throw new IllegalArgumentException("Key " + key + " inconnue");
+	}
+	
 	public AbstractAdvertisement(Element root) {
 		this();
 		TextElement doc = (TextElement) root;
