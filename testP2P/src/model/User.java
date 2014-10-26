@@ -26,6 +26,7 @@ public class User implements Serializable{
 	private int password; // toujours stoqué sous forme de hash.
 	private Vector<Integer> notes; //toutes les notes donnée par les autres
 	private ObjetsManagement objets = new ObjetsManagement();
+	private ObjetsManagement panier = new ObjetsManagement();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -121,4 +122,9 @@ public class User implements Serializable{
 	public void flushNotes() {
 		this.notes.removeAllElements();
 	}
+	
+	public ObjetsManagement getPanier() {
+		return this.panier;
+	}
+	
 }

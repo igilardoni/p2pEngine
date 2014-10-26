@@ -55,7 +55,7 @@ public class Window extends JFrame {
 		mntmLangue = new JMenuItem(Messages.getString("Window.mntmLangue.text")); //$NON-NLS-1$
 		mntmLangue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new langueSelector().setVisible(true);
+				new LangueSelector().setVisible(true);
 			}
 		});
 		menuOption.add(mntmLangue);
@@ -74,7 +74,7 @@ public class Window extends JFrame {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
 
-		ajouterAnnonce = new JButton(Messages.getString("ajouterAnnonce")); //$NON-NLS-1$
+		ajouterAnnonce = new JButton(Messages.getString("Window.btnAjouterAnnonce")); //$NON-NLS-1$
 		ajouterAnnonce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AnnonceEditor().setVisible(true);

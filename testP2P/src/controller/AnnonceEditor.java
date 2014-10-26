@@ -1,10 +1,14 @@
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+
+import com.itextpdf.text.DocumentException;
 
 import model.Objet;
 import model.User;
@@ -131,7 +135,10 @@ public class AnnonceEditor implements Validator{
 	 * La description doit faire au moins 10 caractères.
 	 */
 	private void checkDescription() {
-		if(getAsText(desc).length() < 10) errorDesc = true;
+
+		String plaintText = desc.replaceAll("<[^>]*>", "").replaceAll("\n", "").replaceAll(" ", "");
+		System.out.println(plaintText);
+		if(plaintText.length() < 10) errorDesc = true;
 	}
 	
 	/**
@@ -167,8 +174,11 @@ public class AnnonceEditor implements Validator{
 			obj.setImg(img);
 		}
 		
-		return true;
+		/*	C'est ici pour d�activer le PDF */
+		try { new AfficherPdf(this);} 
+		catch (IOException e) { e.printStackTrace();}	
 		
+		return true;	
 	}
 	
 	public String toString() {
@@ -176,7 +186,7 @@ public class AnnonceEditor implements Validator{
 		res += "Proposition: " + proposition + " " + "Souhait: " + souhait + "\n";
 		res += "Troc: " + troc + " Argent: " + vente + "\n";
 		res += "Titre: " + title + "\n";
-		res += "Résumé: " + resume + "\n\n";
+		res += "R\u00E9sum\u00E9: " + resume + "\n\n";
 		res += "Description: \n" + desc + "\n";
 		res += "Image: " + img;
 		
@@ -184,5 +194,28 @@ public class AnnonceEditor implements Validator{
 		
 	}
 	
+	public String getTitle(){
+		return title;
+	}
+	
+	public String getTrocVente(){
+		if(troc)
+			return "Troc";
+		return "Vente";
+	}
+	
+	public String getPropSouhait(){
+		if(proposition)
+			return "Proposition";
+		return "Souhait";
+	}
+	
+	public String getResDescr(){
+		return resume;
+	}
+	
+	public String getDescrComp(){
+		return desc;
+	}
 	
 }

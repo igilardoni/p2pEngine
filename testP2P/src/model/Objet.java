@@ -32,18 +32,6 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	private String otherName;
 	private User user;
 	
-	
-	/**
-	 * Ce constructeur sert à recreer l'objet à partir d'un adv
-	 * @param obj
-	 */
-	public Objet(ObjetAdvertisement obj) {
-	//	setNom(obj.getName());
-	//	setDescription(obj.getDescription());
-	//	setOtherName(obj.getOtherName());
-		//TODO setUser(new User(null, null, obj.getTel(), obj.getMail(), obj.getLoginAuteur(), null));
-	}
-	
 	public String getResume() {
 		return resume;
 	}
@@ -132,7 +120,7 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		this.img = img;
 		this.user = user;
 	}
-	
+
 	public String getTitre() {
 		return titre;
 	}
@@ -142,19 +130,7 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	
 	@Override
 	public Advertisement getAdvertisement() {
-		
-		ObjetAdvertisement adv = (ObjetAdvertisement) AdvertisementFactory
-				.newAdvertisement(ObjetAdvertisement.getAdvertisementType());
-		
-		// TODO adv.setFullName(getFullName());
-		// TODO adv.setName(getNom());
-		adv.setOtherName(otherName);
-		//TODO adv.setDescription(description);
-		adv.setLoginAuteur(user.getNom());
-		adv.setTel(user.getTel());
-		adv.setMail(user.getMail());
-		
-		return adv;
+		return new ObjetAdvertisement(this);
 	}
 
 	@Override

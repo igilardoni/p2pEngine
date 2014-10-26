@@ -29,7 +29,7 @@ import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
-public class langueSelector extends JDialog {
+public class LangueSelector extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private HashMap map;
@@ -38,7 +38,7 @@ public class langueSelector extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			langueSelector dialog = new langueSelector();
+			LangueSelector dialog = new LangueSelector();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -49,18 +49,18 @@ public class langueSelector extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public langueSelector() {
+	public LangueSelector() {
 		setBounds(100, 100, 450, 168);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		JLabel lblSelectionDeLa = new JLabel("Selection de la langue");
+		JLabel lblSelectionDeLa = new JLabel(Messages.getString("LangueSelector.lblSelectionLangue.text"));
 		lblSelectionDeLa.setForeground(SystemColor.textHighlight);
 		lblSelectionDeLa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblLangueDuLogiciel = new JLabel("Langue du logiciel:");
+		JLabel lblLangueDuLogiciel = new JLabel(Messages.getString("LangueSelector.lblLangueLogiciel.text"));
 		
 		map = new HashMap<String, Locale>();
 		for(Locale l: Locale.getAvailableLocales()) {
@@ -73,7 +73,7 @@ public class langueSelector extends JDialog {
 		final JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(map.keySet().toArray()));
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton(Messages.getString("LangueSelector.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Locale.setDefault((Locale) map.get(comboBox.getSelectedItem()));
@@ -117,7 +117,7 @@ public class langueSelector extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton annuler = new JButton("Annuler");
+				JButton annuler = new JButton(Messages.getString("LangueSelector.btnAnnuler.text"));
 				annuler.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
