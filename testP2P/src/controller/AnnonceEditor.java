@@ -1,16 +1,11 @@
 package controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 
 import com.itextpdf.text.DocumentException;
 
 import model.Objet;
+import model.PDFGenerator;
 import model.User;
 import view.Application;
 
