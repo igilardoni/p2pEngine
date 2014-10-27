@@ -18,7 +18,7 @@ import net.jxta.document.Advertisement;
  *
  */
 
-public class User implements Serializable, Advertisable{
+public class User extends AbstractAdvertisable implements Serializable{
 
 	private static final long serialVersionUID = -4561839847993312221L;
 	private String login;
@@ -138,28 +138,6 @@ public class User implements Serializable, Advertisable{
 	@Override
 	public Advertisement getAdvertisement() {
 		return new UserAdvertisement(this);
-	}
-
-	@Override
-	public void publish(DiscoveryService discovery) {
-		Advertisement adv = getAdvertisement();
-		try {
-			discovery.publish(adv);
-			discovery.remotePublish(adv);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void flush(DiscoveryService discovery) {
-		try {
-			discovery.flushAdvertisement(getAdvertisement());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

@@ -42,7 +42,7 @@ public class RemoteRessource<T extends Advertisable> implements DiscoveryListene
 		while(waiting > 0 && result == null) {
 			long currentTime = System.currentTimeMillis();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

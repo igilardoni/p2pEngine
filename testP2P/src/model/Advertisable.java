@@ -28,4 +28,6 @@ public interface Advertisable {
 	 * @param discovery le discoveryService du groupe
 	 */
 	public void flush(DiscoveryService discovery);
+	
+	public void update(DiscoveryService discovery);
 }

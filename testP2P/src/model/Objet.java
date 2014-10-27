@@ -16,7 +16,7 @@ import net.jxta.document.AdvertisementFactory;
  *
  */
 
-public class Objet implements Advertisable, Comparable<Objet>, Serializable{
+public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Serializable{
 
 	private static final long serialVersionUID = -655234892052824494L;
 	
@@ -133,30 +133,6 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		return new ObjetAdvertisement(this);
 	}
 
-	@Override
-	public void publish(DiscoveryService discovery) {
-		Advertisement adv = getAdvertisement();
-		try {
-			discovery.publish(adv);
-			discovery.remotePublish(adv);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
-
-	@Override
-	public void flush(DiscoveryService discovery) {
-		try {
-			discovery.flushAdvertisement(getAdvertisement());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 
 	public int compareTo(Objet o) {
 		    //Nous ne prenons pas en compte la casse (majuscules, minuscules...)
@@ -183,6 +159,12 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	
 	public String getSimpleTime() {
 		return getFormatedDate("HH:mm:ss");
+	}
+
+	@Override
+	public void update(DiscoveryService discovery) {
+		flush(discovery);
+		publish(discovery);
 	}
 }
 

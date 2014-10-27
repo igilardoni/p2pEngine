@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.jxta.discovery.DiscoveryService;
+
 
 /**
  * Gère les utilisateurs
@@ -79,6 +81,12 @@ public class UsersManagement implements UsersManagementInterface, Serializable{
 	@Override
 	public User getConnectedUser() {
 		return this.connectedUser;
+	}
+	
+	public void publishUsers(DiscoveryService discovery) {
+		for(User u: users.values()) {
+			u.publish(discovery);
+		}
 	}
 
 }
