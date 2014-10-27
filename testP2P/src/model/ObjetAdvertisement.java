@@ -1,14 +1,19 @@
 package model;
 
 import net.jxta.document.AdvertisementFactory;
+import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.id.ID;
 
-public class ObjetAdvertisement extends AbstractAdvertisement{
+public class ObjetAdvertisement extends AbstractAdvertisement<Objet>{
 
+	public ObjetAdvertisement(Element root) {
+		super();
+	}
 	
 	public ObjetAdvertisement(Objet obj) {
 		super();
+		if(obj == null) return;
 		putValue("titre", obj.getTitre());
 		putValue("resume", obj.getResume());
 		putValue("desc", obj.getDesc());
@@ -46,30 +51,32 @@ public class ObjetAdvertisement extends AbstractAdvertisement{
 	}
 	
 	public static void register() {
+		ObjetAdvertisement adv = new ObjetAdvertisement((Objet)null);
 		AdvertisementFactory.registerAdvertisementInstance(ObjetAdvertisement.getAdvertisementType(),
-                										   new AdvertisementInstaciator(ObjetAdvertisement.class, getAdvertisementType()));
+                										   new AdvertisementInstaciator(adv.getClass(), ObjetAdvertisement.getAdvertisementType()));
 	}
 	
 	public static void main(String[] args) {
 		Objet obj = new Objet(true, false, true, false, "des patates", "des patates bien fraiches", "<h1>la description</h1>", null, null);
 		obj.setDate(System.currentTimeMillis());
 		ObjetAdvertisement adv = new ObjetAdvertisement(obj);
-		obj = adv.toObjet();
+		obj = adv.toClass();
 		System.out.println(obj.getDesc());
 	}
 
 	@Override
 	public String getAdvType() {
-		return getAdvertisementType();
+		return ObjetAdvertisement.getAdvertisementType();
 	}
-	
-	public Objet toObjet() {
+
+	@Override
+	public Objet toClass() {
 		Objet obj = new Objet(Boolean.parseBoolean(this.getValue("proposition")), 
-							  Boolean.parseBoolean(this.getValue("souhait")), 
-							  Boolean.parseBoolean(this.getValue("troc")), 
-							  Boolean.parseBoolean(this.getValue("vente")), 
-							  this.getValue("titre"), this.getValue("resume"), 
-							  this.getValue("desc"), this.getValue("img"), null);
+				  Boolean.parseBoolean(this.getValue("souhait")), 
+				  Boolean.parseBoolean(this.getValue("troc")), 
+				  Boolean.parseBoolean(this.getValue("vente")), 
+				  this.getValue("titre"), this.getValue("resume"), 
+				  this.getValue("desc"), this.getValue("img"), null);
 		return obj;
 	}
 

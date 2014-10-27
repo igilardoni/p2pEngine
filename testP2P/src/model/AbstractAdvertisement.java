@@ -14,7 +14,7 @@ import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.document.TextElement;
 
-public abstract class AbstractAdvertisement extends Advertisement{
+public abstract class AbstractAdvertisement<T extends Advertisable> extends Advertisement{
 
 	private HashMap<String, String> keyval = new HashMap<String, String>();
 	private ArrayList<String> indexes = new ArrayList<String>();
@@ -39,7 +39,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public AbstractAdvertisement(Element root) {
 		this();
 		TextElement doc = (TextElement) root;
-		if(!getAdvertisementType().equals(doc.getName())) {
+		if(!getAdvType().equals(doc.getName())) {
 			throw new IllegalArgumentException(
                     "Pour construire : " + getClass().getName() + " nécessite " + doc.getName());
 		}
@@ -89,7 +89,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	@Override
 	public String[] getIndexFields() {
-		return (String[]) indexes.toArray();
+		return (String[]) indexes.toArray(new String[1]);
 	}
 	
 	protected void addKey(String key, boolean isIndexed) {
@@ -105,4 +105,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		}
 		else throw new IllegalArgumentException("Key " + key + " inconnue");
 	}
+	
+	public abstract T toClass();
 }

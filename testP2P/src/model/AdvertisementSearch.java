@@ -6,18 +6,41 @@ import java.util.LinkedList;
 
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
 
 /**
- * Cette classe enregistre des advs trouvés (dans un buffer) jusqu'a ce qu'on demande de les récuperer.
+ * Cette classe enregistre des advs trouvï¿½s (dans un buffer) jusqu'a ce qu'on demande de les rï¿½cuperer.
  * @author Prudhomme Julien
  *
  * @param <T>
  */
-public class AdvertisementSearch<T extends Advertisement> implements DiscoveryListener{
+public abstract class AdvertisementSearch<T extends Advertisement> implements DiscoveryListener{
 
-	public ArrayList<T> advs = new ArrayList<T>();
+	protected ArrayList<T> advs = new ArrayList<T>();
+	private Peer peer;
+	
+	public AdvertisementSearch(Peer peer) {
+		this.peer = peer;
+	}
+	
+	/**
+	 * Recherche un adv sur le rÃ©seau
+	 * @param key l'attribue de l'adv	
+	 * @param value sa valeur
+	 * 
+	 * Exemple search("titre", "*patate*"); trouve les adv dont un attribut est titre et sa valeur contient patate
+	 * 
+	 */
+	public void search(String key, String value) {
+		peer.getDiscovery().getRemoteAdvertisements(null, DiscoveryService.ADV, key, value, 1, this);
+	}
+	
+	/**
+	 * Action Ã  faire une fois que la recherche est finie
+	 */
+	protected abstract void action();
 	
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
@@ -25,10 +48,11 @@ public class AdvertisementSearch<T extends Advertisement> implements DiscoveryLi
 		while(advs.hasMoreElements()) {
 			this.advs.add((T) advs.nextElement());
 		}
+		action();
 	}
 	
     /**
-     * Retourne tout les advs trouvé et vide le buffer
+     * Retourne tout les advs trouvï¿½ et vide le buffer
      * @return
      */
 	public ArrayList<T> getAdvs() {

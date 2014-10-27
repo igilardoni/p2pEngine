@@ -9,7 +9,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Locale;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import net.jxta.document.MimeMediaType;
+import net.jxta.exception.PeerGroupException;
+import model.AdvertisementInstaciator;
+import model.Peer;
+import model.RemoteRessource;
+import model.User;
 import model.UsersManagement;
 
 /**
@@ -24,11 +33,28 @@ public class Application {
 	private Window window;
 	private static final String USERS_DIR = "users.data";
 	private static final String LOCALE_DIR = "locale.data";
+	private Peer peer;
 	
 	
 	public Application() {
 		loadUsers();
 		loadLocale();
+		startNetwork();
+	}
+	
+	private void startNetwork() {
+		Logger.getLogger("net.jxta").setLevel(Level.OFF);
+		AdvertisementInstaciator.RegisterAllAdv();
+		int port = 9000 + new Random().nextInt(100);
+		peer = new Peer(port);
+		try {
+			peer.start();
+			peer.fetch_advertisements();
+		} catch (PeerGroupException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {

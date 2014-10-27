@@ -3,10 +3,14 @@ package model;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Vector;
+
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.Advertisement;
 
 /**
  * Represente un utilisateur
@@ -14,7 +18,7 @@ import java.util.Vector;
  *
  */
 
-public class User implements Serializable{
+public class User implements Serializable, Advertisable{
 
 	private static final long serialVersionUID = -4561839847993312221L;
 	private String login;
@@ -66,6 +70,10 @@ public class User implements Serializable{
 	public void setPassword(String password) {
 		if(password == null) return;
 		this.password = password.hashCode();
+	}
+	
+	public void setPassword(int password) {
+		this.password = password;
 	}
 	
 	public void setLogin(String login) {
@@ -125,6 +133,33 @@ public class User implements Serializable{
 	
 	public ObjetsManagement getPanier() {
 		return this.panier;
+	}
+
+	@Override
+	public Advertisement getAdvertisement() {
+		return new UserAdvertisement(this);
+	}
+
+	@Override
+	public void publish(DiscoveryService discovery) {
+		Advertisement adv = getAdvertisement();
+		try {
+			discovery.publish(adv);
+			discovery.remotePublish(adv);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void flush(DiscoveryService discovery) {
+		try {
+			discovery.flushAdvertisement(getAdvertisement());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

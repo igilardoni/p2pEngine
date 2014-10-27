@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -28,10 +29,10 @@ public class PDFGenerator extends AbstractPDFGenerator {
 		createPdf();
 	}
 	
-	protected void createPdf() throws DocumentException, IOException{
+	protected void createPdf(String fileName) throws DocumentException, IOException{
 	
 		Document document = new Document();
-		PdfWriter.getInstance(document, new FileOutputStream(objet.getTitre()+".pdf"));
+		PdfWriter.getInstance(document, new FileOutputStream(fileName+".pdf"));
 		document.open();
 		
 		addMetaData(document);
@@ -72,6 +73,13 @@ public class PDFGenerator extends AbstractPDFGenerator {
 		
 		HTMLWorker description = new HTMLWorker(document);	   
 		description.parse(new StringReader(objet.getResume()));    
+	}
+
+	@Override
+	protected void createPdf() throws FileNotFoundException, DocumentException,
+			IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
