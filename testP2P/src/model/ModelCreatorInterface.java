@@ -6,7 +6,7 @@ public interface ModelCreatorInterface {
 	/**
 	 * Génère un modèle
 	 */
-	public ObjetPDFModel getHTML();
+	public ObjetPdfModel createModel();
 	
 	
 	/**

@@ -11,7 +11,7 @@ import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
 /**
- * ReprÃ©sente un objet (offre ou demande)
+ * Représente un objet (offre ou demande)
  * @author Prudhomme Julien
  *
  */
@@ -128,13 +128,12 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	}
 
 
-	public ObjetPDFModel getHTML(){
-		return new ObjetPDFModel(this);
+	public ObjetPdfModel createModel(){
+		return new ObjetPdfModel(this);
 	}
 	
 	public void createPDF(){
-		//ObjetPDFModel model = getHTML();
-		ObjetPDFModel model = null;
+		ObjetPdfModel model = createModel();
 		try {
 			new PDFGenerator(model);
 		} catch (IOException e) {
@@ -173,7 +172,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	}
 	
 	public String getSimpleDate() {
-		return getFormatedDate("dd/mm/yy");
+		return getFormatedDate("dd/MM/yy");
 	}
 	
 	public String getSimpleTime() {
@@ -186,5 +185,4 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		publish(discovery);
 	}
 }
-
 

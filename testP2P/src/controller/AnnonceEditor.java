@@ -131,9 +131,8 @@ public class AnnonceEditor implements Validator{
 			obj.setResume(resume);
 			obj.setDesc(desc);
 			obj.setImg(img);
+			
 		}	
-		
-	//	obj.createPDF();
 		
 		return true;	
 	}
