@@ -30,7 +30,6 @@ public class ObjetPdfModel extends AbstractPdfModel {
 				
 	}
 	
-
 	private void addFicheObjet() {
 		objetTextMap.put("titre", objet.getTitre());
 		objetTextMap.put("resume", objet.getResume());

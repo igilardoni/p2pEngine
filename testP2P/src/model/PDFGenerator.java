@@ -27,6 +27,5 @@ public class PDFGenerator extends AbstractPdfGenerator {
 		addImage();
 		addCheckBox();
 		
-	}
-	
+	}	
 }

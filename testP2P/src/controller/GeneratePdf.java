@@ -24,5 +24,4 @@ public class GeneratePdf  implements Validator{
 		user.getObjets().get(i).createPDF();
 		return true;
 	}
-
 }

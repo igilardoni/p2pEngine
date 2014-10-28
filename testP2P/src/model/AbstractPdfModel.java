@@ -32,5 +32,4 @@ public abstract class AbstractPdfModel {
 		
 		return paragraphe;
 	}
-	
 }

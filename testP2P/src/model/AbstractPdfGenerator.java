@@ -27,12 +27,11 @@ public abstract class AbstractPdfGenerator {
 	protected HashMap<String,String> image;
 	protected HashMap<String,Boolean> bool;
 	
-	
 	protected void createPDF() throws DocumentException, IOException{
 		
 		
-		PdfReader pdfTemplate = new PdfReader(texte.get("modele")+".pdf");
-		FileOutputStream fileOutputStream = new FileOutputStream(texte.get("filename")+".pdf");
+		PdfReader pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");
+		FileOutputStream fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		stamper = new PdfStamper(pdfTemplate, fileOutputStream);
 		
@@ -84,5 +83,4 @@ public abstract class AbstractPdfGenerator {
 				stamp.setField(champ.getKey(), "Yes");
 		}
 	}
-
 }

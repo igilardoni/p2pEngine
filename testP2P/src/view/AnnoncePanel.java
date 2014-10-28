@@ -57,7 +57,6 @@ public class AnnoncePanel extends JPanel {
 	private static final Color COLOR_INACTIVE=new Color(191, 205, 219);
 	
 	
-	
 	/**
 	 * Create the panel.
 	 */

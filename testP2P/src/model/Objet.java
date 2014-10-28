@@ -143,7 +143,6 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		}
 	}
 	
-	
 
 	
 	@Override
