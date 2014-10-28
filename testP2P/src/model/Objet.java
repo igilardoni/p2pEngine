@@ -154,7 +154,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	}
 	
 	public String getSimpleDate() {
-		return getFormatedDate("dd/mm/yy");
+		return getFormatedDate("dd/MM/yy");
 	}
 	
 	public String getSimpleTime() {

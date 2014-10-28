@@ -88,5 +88,15 @@ public class UsersManagement implements UsersManagementInterface, Serializable{
 			u.publish(discovery);
 		}
 	}
+	
+	/**
+	 * Permet d'obtenir un user juste avec son login
+	 * Accessible uniquement dans le model !
+	 * @param login
+	 * @return
+	 */
+	protected User getUser(String login) {
+		return this.users.get(login);
+	}
 
 }

@@ -40,6 +40,14 @@ public class Application {
 		loadUsers();
 		loadLocale();
 		startNetwork();
+		
+		User user = new User("on", "s'en", "fou", "complet", "..", "leLogin", "osef");
+		user.publish(peer.getDiscovery());
+		RemoteRessource<User> ressource = new RemoteRessource<User>(peer.getDiscovery(), "login", 5000);
+		User user2 = ressource.getRemoteRessource("leLogin");
+		if(user2 != null) {
+			System.out.println("on a trouvé !");
+		}
 	}
 	
 	private void startNetwork() {
