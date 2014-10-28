@@ -31,6 +31,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 	private Vector<Integer> notes; //toutes les notes donnée par les autres
 	private ObjetsManagement objets = new ObjetsManagement();
 	private ObjetsManagement panier = new ObjetsManagement();
+	private UserMessages messages = new UserMessages();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -138,6 +139,10 @@ public class User extends AbstractAdvertisable implements Serializable{
 	@Override
 	public Advertisement getAdvertisement() {
 		return new UserAdvertisement(this);
+	}
+	
+	public UserMessages getMessages() {
+		return this.messages;
 	}
 	
 }
