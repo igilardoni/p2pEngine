@@ -1,13 +1,9 @@
 package model;
 
-import java.util.HashMap;
 import java.util.List;
 
 public abstract class AbstractPdfModel {
 
-	protected HashMap<String,String> objetTextMap = new HashMap<String,String>();
-	protected HashMap<String,Boolean> objetBoolMap = new HashMap<String,Boolean>();
-	protected HashMap<String,String> objetImageMap = new HashMap<String,String>();
 	
 	protected Objet objet;
 	

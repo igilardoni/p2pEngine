@@ -1,6 +1,7 @@
 package model;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -27,13 +29,21 @@ public abstract class AbstractPdfGenerator {
 	protected HashMap<String,String> image;
 	protected HashMap<String,Boolean> bool;
 	
-	protected void createPDF() throws DocumentException, IOException{
+	protected void createPDF(){
 		
 		
-		PdfReader pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");
-		FileOutputStream fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");
+		PdfReader pdfTemplate = null;
+		try {pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");} 
+		catch (IOException e) {e.printStackTrace();}
+		
+		FileOutputStream fileOutputStream = null;
+		try {fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");} 
+		catch (FileNotFoundException e) {e.printStackTrace();}
+		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		stamper = new PdfStamper(pdfTemplate, fileOutputStream);
+		try {stamper = new PdfStamper(pdfTemplate, fileOutputStream);} 
+		catch (DocumentException e) {e.printStackTrace();} 
+		catch (IOException e) {e.printStackTrace();}
 		
 		stamp = stamper.getAcroFields();
 
@@ -42,28 +52,38 @@ public abstract class AbstractPdfGenerator {
 		
 		stamper.setFormFlattening(true);
 		stamp.setGenerateAppearances(true);
-		stamper.close();
+		try {stamper.close();} 
+		catch (DocumentException e) {e.printStackTrace();} 
+		catch (IOException e) {e.printStackTrace();}
+		
 		pdfTemplate.close();
 		
-		fileOutputStream.close();
+		try {fileOutputStream.close();} 
+		catch (IOException e) {e.printStackTrace();}
 		
 		
 	}
 	
-	protected abstract void addContent() throws DocumentException, IOException;
+	protected abstract void addContent();
 	
 	
 	
-	protected void addTexte() throws IOException, DocumentException{
+	protected void addTexte(){
 		for(Map.Entry<String,String> champ : texte.entrySet()){
-			stamp.setField(champ.getKey(), champ.getValue());
+			try {stamp.setField(champ.getKey(), champ.getValue());} 
+			catch (IOException e) {e.printStackTrace();} 
+			catch (DocumentException e) {e.printStackTrace();}
 		}
 	}
 	
-	protected void addImage() throws MalformedURLException, IOException, DocumentException{
+	protected void addImage(){
 		for(Map.Entry<String,String> champ : image.entrySet()){
 			
-			Image img = Image.getInstance(String.format("%s", champ.getValue()));
+			Image img = null;
+			try {img = Image.getInstance(String.format("%s", champ.getValue()));} 
+			catch (BadElementException e) {e.printStackTrace();} 
+			catch (MalformedURLException e) {e.printStackTrace();} 
+			catch (IOException e) {e.printStackTrace();}
 
 			List<AcroFields.FieldPosition> positions = stamp.getFieldPositions(champ.getKey());
 			Rectangle rect = positions.get(0).position;
@@ -73,14 +93,17 @@ public abstract class AbstractPdfGenerator {
 			img.scaleAbsolute(rect.getWidth(), rect.getHeight());
 			img.setAbsolutePosition(rect.getLeft(), rect.getBottom());
 
-			stamper.getOverContent(page).addImage(img);
+			try {stamper.getOverContent(page).addImage(img);} 
+			catch (DocumentException e) {e.printStackTrace();}
 		}
 	}
 	
-	protected void addCheckBox() throws IOException, DocumentException{
+	protected void addCheckBox(){
 		for(Map.Entry<String,Boolean> champ : bool.entrySet()){
 			if(champ.getValue())
-				stamp.setField(champ.getKey(), "Yes");
+				try {stamp.setField(champ.getKey(), "Yes");} 
+				catch (IOException e) {e.printStackTrace();} 
+				catch (DocumentException e) {e.printStackTrace();}
 		}
 	}
 }

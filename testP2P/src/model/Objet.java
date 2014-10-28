@@ -134,13 +134,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	
 	public void createPDF(){
 		ObjetPdfModel model = createModel();
-		try {
-			new PDFGenerator(model);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
+		new PDFGenerator(model);
 	}
 	
 

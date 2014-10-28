@@ -1,31 +1,44 @@
 package model;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 
 
 
 public class PDFGenerator extends AbstractPdfGenerator {
+
 	
-	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-	
-	
-	public PDFGenerator(ObjetPdfModel model) throws IOException, DocumentException{
+	public PDFGenerator(ObjetPdfModel model){
 
 		this.model = model;
 		this.texte = model.getTexteMap();
 		this.image = model.getImageMap();
 		this.bool = model.getBoolMap();
-		createPDF();
+		
+		try {createPDF();} 
+		catch (DocumentException e) {e.printStackTrace();} 
+		catch (IOException e) {e.printStackTrace();}
 		
 	}
 	
-	protected void addContent() throws DocumentException, IOException {
+	protected void addContent(){
 		
-		addTexte();
-		addImage();
-		addCheckBox();
+		try { addTexte();}
+		catch (IOException e) {	e.printStackTrace();}
+		catch (DocumentException e) { e.printStackTrace();}
+		
+		
+		try {addImage();}
+		catch (MalformedURLException e) {e.printStackTrace();} 
+		catch (IOException e) {e.printStackTrace();} 
+		catch (DocumentException e) {e.printStackTrace();}
+		
+		try {addCheckBox();} 
+		catch (IOException e) {e.printStackTrace();} 
+		catch (DocumentException e) {e.printStackTrace();}
 		
 	}	
 }

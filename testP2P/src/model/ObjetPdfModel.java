@@ -9,6 +9,10 @@ import java.util.List;
 
 public class ObjetPdfModel extends AbstractPdfModel {
 
+	protected HashMap<String,String> objetTextMap = new HashMap<String,String>();
+	protected HashMap<String,Boolean> objetBoolMap = new HashMap<String,Boolean>();
+	protected HashMap<String,String> objetImageMap = new HashMap<String,String>();
+	
 	
 	private final String modele = "ficheObjet";
 
