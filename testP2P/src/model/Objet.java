@@ -2,13 +2,13 @@ package model;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.itextpdf.text.DocumentException;
+
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
-import net.jxta.document.AdvertisementFactory;
 
 /**
  * Représente un objet (offre ou demande)
@@ -108,6 +108,12 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		this.titre = titre;
 	}
 
+	public String getTitre() {
+		return titre;
+	}
+	
+	
+
 	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 
 			String titre, String resume, String desc, String img, User user) {
 		this.proposition = proposition;
@@ -121,8 +127,21 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		this.user = user;
 	}
 
-	public String getTitre() {
-		return titre;
+
+	public ObjetPDFModel getHTML(){
+		return new ObjetPDFModel(this);
+	}
+	
+	public void createPDF(){
+		//ObjetPDFModel model = getHTML();
+		ObjetPDFModel model = null;
+		try {
+			new PDFGenerator(model);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

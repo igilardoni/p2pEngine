@@ -2,8 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import com.itextpdf.text.DocumentException;
-
 import model.Objet;
 import model.PDFGenerator;
 import model.User;
@@ -99,7 +97,6 @@ public class AnnonceEditor implements Validator{
 	private void checkDescription() {
 
 		String plaintText = desc.replaceAll("<[^>]*>", "").replaceAll("\n", "").replaceAll(" ", "");
-		System.out.println(plaintText);
 		if(plaintText.length() < 10) errorDesc = true;
 	}
 	
@@ -135,6 +132,8 @@ public class AnnonceEditor implements Validator{
 			obj.setDesc(desc);
 			obj.setImg(img);
 		}	
+		
+	//	obj.createPDF();
 		
 		return true;	
 	}
