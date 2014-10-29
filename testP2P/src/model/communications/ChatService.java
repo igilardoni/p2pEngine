@@ -50,7 +50,7 @@ public class ChatService implements MessageService {
 		message.addMessageElement(new ByteArrayMessageElement("To", null, to.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Content", null, content.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Date", null, Long.toString(System.currentTimeMillis()).getBytes(), null));
-		message.addMessageElement(new ByteArrayMessageElement(chatter.toServiceTag, null, getServName().getBytes(), null));
+		message.addMessageElement(new ByteArrayMessageElement(Chatter.toServiceTag, null, getServName().getBytes(), null));
 		return chatter.sendToUser(to, message);
 	}
 
