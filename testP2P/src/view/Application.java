@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import net.jxta.document.MimeMediaType;
 import net.jxta.exception.PeerGroupException;
 import model.AdvertisementInstaciator;
+import model.Objet;
 import model.Peer;
 import model.RemoteRessource;
 import model.User;
@@ -46,6 +47,19 @@ public class Application {
 		
 		chatter = new Chatter(peer);
 		chatter.addService(new ChatService(users));
+		
+		User boukris = new User ("boukris","sarah","31 bd Sicard","0629181460","a.l@h.fr","sarahb","azerty");
+		boukris.publish(peer.getDiscovery());
+		Objet obj = new Objet (true,false,true,false,"patate","azertyuiop","hyhyhy",null,boukris);
+		obj.publish(peer.getDiscovery());
+		
+		RemoteRessource<Objet> rs = new RemoteRessource<Objet> (peer.getDiscovery(),"titre",5000);
+		Objet objs = rs.getRemoteRessource("patate");
+		if(objs != null) {
+			System.out.println("titre = ");
+			System.out.println(objs.getTitre());
+		}
+		
 	}
 	
 	private void startNetwork() {
