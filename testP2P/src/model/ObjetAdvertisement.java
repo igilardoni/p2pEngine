@@ -8,7 +8,7 @@ import net.jxta.id.ID;
 public class ObjetAdvertisement extends AbstractAdvertisement<Objet>{
 
 	public ObjetAdvertisement(Element root) {
-		super();
+		super(root);
 	}
 	
 	public ObjetAdvertisement(Objet obj) {
