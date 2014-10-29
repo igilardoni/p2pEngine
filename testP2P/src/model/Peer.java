@@ -69,7 +69,6 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
 	private PeerID peer_id;
 	private File conf;
 	private NetworkManager manager;
-	
 	/**
 	 * Creer le peer. Appeler la méthode start() pour démarer le réseau.
 	 * @param port Port d'écoute, attention aux pare-feu
@@ -268,5 +267,8 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
            }
         }.start();
      }
-	
+	 public PeerID getPeerId()
+	 {
+		 return peer_id;
+	 }
 }
