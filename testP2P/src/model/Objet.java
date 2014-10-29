@@ -2,21 +2,21 @@ package model;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.itextpdf.text.DocumentException;
+
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
-import net.jxta.document.AdvertisementFactory;
 
 /**
- * ReprÃ©sente un objet (offre ou demande)
+ * Représente un objet (offre ou demande)
  * @author Prudhomme Julien
  *
  */
 
-public class Objet implements Advertisable, Comparable<Objet>, Serializable{
+public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Serializable{
 
 	private static final long serialVersionUID = -655234892052824494L;
 	
@@ -108,6 +108,12 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		this.titre = titre;
 	}
 
+	public String getTitre() {
+		return titre;
+	}
+	
+	
+
 	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 
 			String titre, String resume, String desc, String img, User user) {
 		this.proposition = proposition;
@@ -121,10 +127,15 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		this.user = user;
 	}
 
-	public String getTitre() {
-		return titre;
+
+	public ObjetPdfModel createModel(){
+		return new ObjetPdfModel(this);
 	}
 	
+	public void createPDF(){
+		ObjetPdfModel model = createModel();
+		new PDFGenerator(model);
+	}
 	
 
 	
@@ -133,30 +144,6 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 		return new ObjetAdvertisement(this);
 	}
 
-	@Override
-	public void publish(DiscoveryService discovery) {
-		Advertisement adv = getAdvertisement();
-		try {
-			discovery.publish(adv);
-			discovery.remotePublish(adv);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
-
-	@Override
-	public void flush(DiscoveryService discovery) {
-		try {
-			discovery.flushAdvertisement(getAdvertisement());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 
 	public int compareTo(Objet o) {
 		    //Nous ne prenons pas en compte la casse (majuscules, minuscules...)
@@ -178,12 +165,17 @@ public class Objet implements Advertisable, Comparable<Objet>, Serializable{
 	}
 	
 	public String getSimpleDate() {
-		return getFormatedDate("dd/mm/yy");
+		return getFormatedDate("dd/MM/yy");
 	}
 	
 	public String getSimpleTime() {
 		return getFormatedDate("HH:mm:ss");
 	}
-}
 
+	@Override
+	public void update(DiscoveryService discovery) {
+		flush(discovery);
+		publish(discovery);
+	}
+}
 

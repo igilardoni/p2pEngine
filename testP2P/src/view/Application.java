@@ -20,6 +20,8 @@ import model.Peer;
 import model.RemoteRessource;
 import model.User;
 import model.UsersManagement;
+import model.communications.ChatService;
+import model.communications.Chatter;
 
 /**
  * Class "main" du programme
@@ -34,12 +36,16 @@ public class Application {
 	private static final String USERS_DIR = "users.data";
 	private static final String LOCALE_DIR = "locale.data";
 	private Peer peer;
+	private Chatter chatter;
 	
 	
 	public Application() {
 		loadUsers();
 		loadLocale();
 		startNetwork();
+		
+		chatter = new Chatter(peer);
+		chatter.addService(new ChatService(users));
 	}
 	
 	private void startNetwork() {

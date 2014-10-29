@@ -19,6 +19,7 @@ public class RemoteRessource<T extends Advertisable> implements DiscoveryListene
 	private String attribute;
 	private T result = null;
 	private long waitTime;
+	private String fromPeerID = null;
 	
 	/**
 	 * Obtenir un advertisement (une ressource) particulière sur le réseau : par exemple un utilisateur unique
@@ -42,7 +43,7 @@ public class RemoteRessource<T extends Advertisable> implements DiscoveryListene
 		while(waiting > 0 && result == null) {
 			long currentTime = System.currentTimeMillis();
 			try {
-				Thread.sleep(10);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -54,10 +55,15 @@ public class RemoteRessource<T extends Advertisable> implements DiscoveryListene
 		result = null;
 		return res;
 	}
+	
+	public String getLastRequestSource() {
+		return fromPeerID;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
+		this.fromPeerID = "urn:jxta:" + event.getSource().toString().substring(7);
 		AbstractAdvertisement<T> adv = (AbstractAdvertisement<T>) event.getResponse().getAdvertisements().nextElement();
 		result = adv.toClass();
 	}

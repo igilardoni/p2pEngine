@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.jxta.discovery.DiscoveryService;
+
 
 /**
  * Gère les utilisateurs
@@ -79,6 +81,22 @@ public class UsersManagement implements UsersManagementInterface, Serializable{
 	@Override
 	public User getConnectedUser() {
 		return this.connectedUser;
+	}
+	
+	public void publishUsers(DiscoveryService discovery) {
+		for(User u: users.values()) {
+			u.publish(discovery);
+		}
+	}
+	
+	/**
+	 * Permet d'obtenir un user juste avec son login
+	 * Ne devrais pas être appelé en dehors du model
+	 * @param login
+	 * @return
+	 */
+	public User getUser(String login) {
+		return this.users.get(login);
 	}
 
 }

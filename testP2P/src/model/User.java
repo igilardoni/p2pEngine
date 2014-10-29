@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Vector;
 
+import model.communications.UserMessages;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
@@ -18,7 +19,7 @@ import net.jxta.document.Advertisement;
  *
  */
 
-public class User implements Serializable, Advertisable{
+public class User extends AbstractAdvertisable implements Serializable{
 
 	private static final long serialVersionUID = -4561839847993312221L;
 	private String login;
@@ -31,6 +32,7 @@ public class User implements Serializable, Advertisable{
 	private Vector<Integer> notes; //toutes les notes donnée par les autres
 	private ObjetsManagement objets = new ObjetsManagement();
 	private ObjetsManagement panier = new ObjetsManagement();
+	private UserMessages messages = new UserMessages();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -139,27 +141,9 @@ public class User implements Serializable, Advertisable{
 	public Advertisement getAdvertisement() {
 		return new UserAdvertisement(this);
 	}
-
-	@Override
-	public void publish(DiscoveryService discovery) {
-		Advertisement adv = getAdvertisement();
-		try {
-			discovery.publish(adv);
-			discovery.remotePublish(adv);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void flush(DiscoveryService discovery) {
-		try {
-			discovery.flushAdvertisement(getAdvertisement());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	public UserMessages getMessages() {
+		return this.messages;
 	}
 	
 }
