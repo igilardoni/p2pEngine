@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Vector;
 
+import model.communications.UserMessages;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 

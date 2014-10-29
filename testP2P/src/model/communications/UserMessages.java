@@ -1,4 +1,4 @@
-package model;
+package model.communications;
 
 import java.util.ArrayList;
 import java.util.HashMap;

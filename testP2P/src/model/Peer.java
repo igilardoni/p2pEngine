@@ -207,6 +207,14 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
         
 	}
 	
+	public PipeService getPipeService() {
+		return this.pipe_service;
+	}
+	
+	public PeerGroupID getPeerGroupID() {
+		return subgroup.getPeerGroupID();
+	}
+	
 	
 	/**
 	 * Renvoi un adv pour faire reconnaitre un service de Pipe
@@ -214,7 +222,7 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
 	 * @param is_multicast multicast ou non
 	 * @return un PipeAdvertisement
 	 */
-	private static PipeAdvertisement get_PipeAdvertisement(PipeID id, boolean is_multicast) {
+	public static PipeAdvertisement get_PipeAdvertisement(PipeID id, boolean is_multicast) {
         PipeAdvertisement adv = (PipeAdvertisement )AdvertisementFactory.
             newAdvertisement(PipeAdvertisement.getAdvertisementType());
         adv.setPipeID(id);

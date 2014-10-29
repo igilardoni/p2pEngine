@@ -91,11 +91,11 @@ public class UsersManagement implements UsersManagementInterface, Serializable{
 	
 	/**
 	 * Permet d'obtenir un user juste avec son login
-	 * Accessible uniquement dans le model !
+	 * Ne devrais pas être appelé en dehors du model
 	 * @param login
 	 * @return
 	 */
-	protected User getUser(String login) {
+	public User getUser(String login) {
 		return this.users.get(login);
 	}
 

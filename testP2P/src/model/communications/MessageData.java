@@ -1,4 +1,4 @@
-package model;
+package model.communications;
 
 public class MessageData {
 	private String content;
