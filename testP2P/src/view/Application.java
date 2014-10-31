@@ -38,6 +38,7 @@ public class Application {
 	private static final String LOCALE_DIR = "locale.data";
 	private Peer peer;
 	private Chatter chatter;
+	private ChatService chatService;
 	
 	
 	public Application() {
@@ -46,20 +47,24 @@ public class Application {
 		startNetwork();
 		
 		chatter = new Chatter(peer);
-		chatter.addService(new ChatService(users));
+		chatService = new ChatService(users);
+		chatter.addService(chatService);
 		
-		User boukris = new User ("boukris","sarah","31 bd Sicard","0629181460","a.l@h.fr","sarahb","azerty");
-		boukris.publish(peer.getDiscovery());
-		Objet obj = new Objet (true,false,true,false,"patate","azertyuiop","hyhyhy",null,boukris);
-		obj.publish(peer.getDiscovery());
+		users.publishUsers(peer.getDiscovery());
+	
 		
-		RemoteRessource<Objet> rs = new RemoteRessource<Objet> (peer.getDiscovery(),"titre",5000);
-		Objet objs = rs.getRemoteRessource("patate");
-		if(objs != null) {
-			System.out.println("titre = ");
-			System.out.println(objs.getTitre());
-		}
-		
+	}
+	
+	public Peer getPeer() {
+		return peer;
+	}
+	
+	public ChatService getChatService() {
+		return chatService;
+	}
+	
+	public Chatter getChatter() {
+		return chatter;
 	}
 	
 	private void startNetwork() {

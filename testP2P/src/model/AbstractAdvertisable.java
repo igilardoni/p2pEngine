@@ -1,12 +1,14 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
-public abstract class AbstractAdvertisable implements Advertisable{
+public abstract class AbstractAdvertisable implements Advertisable, Serializable{
 
+	private static final long serialVersionUID = -7885382990544813281L;
 	private Advertisement lastAdv = null;
 	
 	@Override
@@ -27,6 +29,7 @@ public abstract class AbstractAdvertisable implements Advertisable{
 	@Override
 	public void flush(DiscoveryService discovery) {
 		try {
+			System.out.println("testlol");
 			discovery.flushAdvertisement(lastAdv);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
