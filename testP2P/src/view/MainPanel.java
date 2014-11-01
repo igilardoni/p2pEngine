@@ -34,6 +34,7 @@ import model.ObjetsManagement;
 import model.User;
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -107,12 +108,29 @@ public class MainPanel extends JPanel {
 		JButton btnRechercher = new JButton(Messages.getString("MainPanel.btnRecherche.text"));
 		panel_5.add(btnRechercher);
 		
-		JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.rbtnTroc.text"));
+		final JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.rbtnTroc.text"));
 		panel_5.add(rdbtnTroc);
 		
-		JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.rbtnVente.text"));
+		final JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.rbtnVente.text"));
 		panel_5.add(rdbtnVente);
 		panel_4.setLayout(gl_panel_4);
+		
+		btnRechercher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//System.out.println(textField.getText());
+				controller.Rechercher rechercher = new controller.Rechercher(textField.getText(), rdbtnTroc.isSelected(), rdbtnVente.isSelected());
+				if(!rechercher.validate()) {
+					rechercher.process();
+					//Application.getInstance().updateUI();
+					//JPanel parent = (JPanel) getParent();
+					//JDialog dialog = (JDialog) parent.getRootPane().getParent();
+					//dialog.dispose();
+				}
+				//else errorMsg.setVisible(true);*/
+		
+			}
+		
+			});
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(0, 26, 445, 234);

@@ -1,5 +1,16 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import view.Application;
+
+import net.jxta.discovery.DiscoveryService;
+import model.Objet;
+import model.RemoteRessource;
+import model.RemoteSearch;
+import model.User;
+
 public class Rechercher implements Validator{
 
 		private String recherche;
@@ -36,6 +47,20 @@ public class Rechercher implements Validator{
 		@Override
 		public boolean process() {
 			// TODO Auto-generated method stub
-			return false;
+			System.out.println(recherche);
+			
+			
+			DiscoveryService ds = Application.getInstance().getPeer().getDiscovery(); 
+			RemoteRessource<Objet> rs = new RemoteRessource<Objet>(ds, "titre", 5000);
+			Objet obj = rs.getRemoteRessource(recherche);
+			if (obj!=null)
+			{
+				//System.out.println(obj.size());
+				//for(User u : obj)
+					System.out.println("icic" + obj.getDesc());
+			}
+			else
+				System.out.println("ca marche pas ");
+			return true;
 		}
 }

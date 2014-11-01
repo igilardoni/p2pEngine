@@ -29,7 +29,7 @@ public class RemoteSearch<T extends Advertisable> implements DiscoveryListener {
 		final RemoteSearch<T> thisInstance = this;
 		discovery.getRemoteAdvertisements(null, DiscoveryService.ADV, attribute,value,10, thisInstance);
 		long waiting = waitTime;
-		
+		System.out.println("ok");
 		while(waiting > 0) {
 			long currentTime = System.currentTimeMillis();
 			try {

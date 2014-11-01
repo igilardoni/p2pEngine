@@ -11,7 +11,7 @@ import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
 /**
- * Représente un objet (offre ou demande)
+ * Reprï¿½sente un objet (offre ou demande)
  * @author Prudhomme Julien
  *
  */
@@ -110,8 +110,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 
 	public String getTitre() {
 		return titre;
-	}
-	
+	}	
 	
 
 	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 

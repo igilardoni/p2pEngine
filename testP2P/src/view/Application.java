@@ -49,7 +49,9 @@ public class Application {
 		chatter = new Chatter(peer);
 		chatService = new ChatService(users);
 		chatter.addService(chatService);
-		
+		User compt3 = new User ("marie","sdfg","sdfgh","1234567890","dfgh","compt3","azerty");
+		users.addUser(compt3);
+		Objet carotte = new Objet (true,false,true,false,"carotte","fvbn","vbnbhbdhf",null,compt3);
 		users.publishUsers(peer.getDiscovery());
 	
 		

@@ -114,7 +114,7 @@ public class Application {
 		initialize();
 		File userFile = new File("user.seralized");
 		if(!userFile.exists()) {
-			user = new Utilisateur("Nom", "XX.XX.XX.XX.XX", "nom@host.com");
+			user = new Utilisateur("Perez", "XX.XX.XX.XX.XX", "nom@host.com");
 		}
 		else user = Utilisateur.deserialiser("user.seralized");
 		Objets offres = new Objets();

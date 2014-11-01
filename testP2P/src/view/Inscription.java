@@ -61,7 +61,11 @@ public class Inscription extends JPanel {
 		login.setColumns(10);
 		
 		password = new JPasswordField();
-		
+		password.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					if (password.getPassword().equals("azertyuiop")){
+						JLabel lblForce = new JLabel(Messages.getString("Inscription.lblForce.text"));}
+				}});	
 		password2 = new JPasswordField();
 		
 		JLabel lblInformationPersonnelles = new JLabel(Messages.getString("Inscription.lblInfoPerso.text"));

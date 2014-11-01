@@ -32,7 +32,6 @@ public class Messages implements Validator {
 		User user = users.getConnectedUser();
 		
 		user.getMessages().addMessage(new MessageData(user.getLogin(), to, message, System.currentTimeMillis()), to);
-		
 		return ChatService.sendMessage(Application.getInstance().getChatter(), user.getLogin(), to, message);
 	}
 
