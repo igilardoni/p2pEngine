@@ -1,11 +1,18 @@
 package model;
 
+import java.io.Serializable;
+
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.id.ID;
 
-public class ObjetAdvertisement extends AbstractAdvertisement<Objet>{
+public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4192804726504222705L;
 
 	public ObjetAdvertisement(Element root) {
 		super(root);

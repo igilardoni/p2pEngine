@@ -19,6 +19,9 @@ import javax.swing.JLabel;
 
 import model.User;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class Window extends JFrame {
 
@@ -30,6 +33,8 @@ public class Window extends JFrame {
 	private JLabel connectezVous;
 	private MainPanel mainPanel_;
 	private JMenuItem mntmLangue;
+	private JToolBar toolBar_1;
+	private JButton btnMsg;
 
 	/**
 	 * Create the frame.
@@ -124,6 +129,20 @@ public class Window extends JFrame {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		toolBar.setLayout(gl_toolBar);
+		
+		toolBar_1 = new JToolBar();
+		toolBar_1.setFloatable(false);
+		contentPane.add(toolBar_1, BorderLayout.SOUTH);
+		
+		btnMsg = new JButton(Messages.getString("Window.btnFriends.text")); //$NON-NLS-1$
+		final MessagesPanel messagePanel = new MessagesPanel();
+		Application.getInstance().getChatService().addListener(messagePanel);
+		btnMsg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				messagePanel.setVisible(true);
+			}
+		});
+		toolBar_1.add(btnMsg);
 	}
 	
 	public void revalidate() {
@@ -139,10 +158,12 @@ public class Window extends JFrame {
 		if(user != null) {
 			ajouterAnnonce.setEnabled(true);
 			connectezVous.setVisible(false);
+			btnMsg.setEnabled(true);
 		}
 		else {
 			ajouterAnnonce.setEnabled(false);
 			connectezVous.setVisible(true);
+			btnMsg.setEnabled(false);
 		}
 	}
 	

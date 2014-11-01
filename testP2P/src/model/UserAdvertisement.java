@@ -1,11 +1,15 @@
 package model;
 
+import java.io.Serializable;
+
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.Element;
 import net.jxta.id.ID;
 
-public class UserAdvertisement extends AbstractAdvertisement<User>{
+public class UserAdvertisement extends AbstractAdvertisement<User> implements Serializable{
 	
+	private static final long serialVersionUID = -2830006496117978252L;
+
 	public UserAdvertisement(Element root) {
 		super(root);
 	}
@@ -18,7 +22,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User>{
 		this.putValue("prenom", user.getPrenom());
 		this.putValue("adresse", user.getAdresse());
 		this.putValue("tel", user.getTel());
-		this.putValue("password", Integer.toBinaryString(user.getPasswordHash()));
+		this.putValue("password", Integer.toString(user.getPasswordHash()));
 	}
 	
 	@Override
@@ -56,8 +60,8 @@ public class UserAdvertisement extends AbstractAdvertisement<User>{
 	@Override
 	public User toClass() {
 		User user = new User(this.getValue("nom"), this.getValue("prenom"), this.getValue("adresse"), 
-				this.getValue("tel"), this.getValue("mail"), this.getValue("login"), this.getValue("password"));
-		user.setPassword(Integer.parseInt(this.getValue("password"), 2));
+				this.getValue("tel"), this.getValue("mail"), this.getValue("login"), null);
+		user.setPassword(Integer.parseInt(this.getValue("password")));
 		return user;
 	}
 

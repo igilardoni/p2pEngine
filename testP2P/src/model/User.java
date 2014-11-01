@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import model.communications.UserMessages;
@@ -33,6 +34,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 	private ObjetsManagement objets = new ObjetsManagement();
 	private ObjetsManagement panier = new ObjetsManagement();
 	private UserMessages messages = new UserMessages();
+	private ArrayList<String> friends = new ArrayList<String>();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -144,6 +146,18 @@ public class User extends AbstractAdvertisable implements Serializable{
 	
 	public UserMessages getMessages() {
 		return this.messages;
+	}
+	
+	public void addFriend(String friend) {
+		friends.add(friend);
+	}
+	
+	public void deleteFriend(String friend) {
+		friends.remove(friend);
+	}
+	
+	public ArrayList<String> getFriends() {
+		return friends;
 	}
 	
 }

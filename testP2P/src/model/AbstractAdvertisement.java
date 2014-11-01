@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,8 +13,9 @@ import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.document.TextElement;
 
-public abstract class AbstractAdvertisement<T extends Advertisable> extends Advertisement{
+public abstract class AbstractAdvertisement<T extends Advertisable> extends Advertisement implements Serializable{
 
+	private static final long serialVersionUID = 6800858564387966533L;
 	private HashMap<String, String> keyval = new HashMap<String, String>();
 	private ArrayList<String> indexes = new ArrayList<String>();
 	
