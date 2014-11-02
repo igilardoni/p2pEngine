@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,12 +20,17 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
 import model.User;
+import model.communications.ChatServiceListener;
+import model.communications.MessageData;
+
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
+
 import java.awt.Component;
+
 import javax.swing.Box;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements ChatServiceListener{
 
 	private JPanel contentPane;
 	private JLabel compteLabel;
@@ -35,11 +42,13 @@ public class Window extends JFrame {
 	private JMenuItem mntmLangue;
 	private JToolBar toolBar_1;
 	private JButton btnMsg;
+	private int nonlu = 0;
 
 	/**
 	 * Create the frame.
 	 */
 	public Window() {
+		
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -135,20 +144,26 @@ public class Window extends JFrame {
 		contentPane.add(toolBar_1, BorderLayout.SOUTH);
 		
 		btnMsg = new JButton(Messages.getString("Window.btnFriends.text")); //$NON-NLS-1$
-		final MessagesPanel messagePanel = new MessagesPanel();
+		final MessagesPanel messagePanel = new MessagesPanel(this);
 		Application.getInstance().getChatService().addListener(messagePanel);
 		btnMsg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				messagePanel.setVisible(true);
+				btnMsg.setBackground(null);
 			}
 		});
 		toolBar_1.add(btnMsg);
+		
+		
+		Application.getInstance().getChatService().addListener(this);
+		
 	}
 	
 	public void revalidate() {
 		show_account_buttons();
 		show_annonce_button();
 		mainPanel_.revalidate();
+		toolBar_1.revalidate();
 		
 		super.revalidate();
 	}
@@ -176,6 +191,16 @@ public class Window extends JFrame {
 		else {
 			compteLabel.setText(Messages.getString("Window.txtPasConnecte.text"));
 			monCompte.setText(Messages.getString("Window.txtSeConnecter.text"));
+		}
+	}
+
+	@Override
+	public void messageEvent(MessageData msg) {
+		if(Application.getInstance().getUsers().getConnectedUser() == null) return;
+		if(msg.getTo().equals(Application.getInstance().getUsers().getConnectedUser().getLogin())) {
+			btnMsg.setText("Messagerie ("+Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberNewMsgs()+")");
+			btnMsg.setBackground(Color.green);
+			
 		}
 	}
 	

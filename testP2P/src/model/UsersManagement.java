@@ -86,7 +86,6 @@ public class UsersManagement implements UsersManagementInterface, Serializable{
 	public void publishUsers(DiscoveryService discovery) {
 		for(User u: users.values()) {
 			u.publish(discovery);
-			System.out.println(u.getLogin() + " a été publié");
 		}
 	}
 	

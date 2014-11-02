@@ -58,7 +58,6 @@ public class Chatter implements PipeMsgListener{
 		try {
 			byte[] toServiceBytes = msg.getMessageElement(toServiceTag).getBytes(true);
 			String toService = new String(toServiceBytes);
-			System.out.println("toService = " + toService);
 			if(services.containsKey(toService)) {
 				services.get(toService).putMessage(msg);
 			} else {

@@ -13,46 +13,53 @@ public class RemoteSearch<T extends Advertisable> implements DiscoveryListener {
 	
 	private DiscoveryService discovery;
 	private String attribute;
-	private ArrayList<T> result = new ArrayList<T>();
-	ArrayList<AbstractAdvertisement> result1 = new ArrayList<AbstractAdvertisement>();
-	private long waitTime;
+	private ArrayList<T> results;
+	private ArrayList<SearchListener> listeners = new ArrayList<SearchListener>();
 	
-	public RemoteSearch(DiscoveryService discovery, String attribute, long waitTime) {
+	/**
+	 * Faut peut etre changer, si on veut chercher sur plusieur attribut en meme temps .. enfin on verra
+	 * @param discovery
+	 * @param attribute
+	 */
+	public RemoteSearch(DiscoveryService discovery, String attribute) {
 		this.discovery = discovery;
 		this.attribute = attribute;
-		this.waitTime = waitTime;
+	}
+
+	public void search(String value) {
+		
+		results = new ArrayList<T>(); // on recreer / vide la liste
+		
+		//on ajoute les étoiles pour pas rechercher au mot près ..
+		discovery.getRemoteAdvertisements(null, DiscoveryService.ADV, attribute,"*" + value + "*",10, this);
 	}
 	
+	public void addListener(SearchListener l) {
+		listeners.add(l);
+	}
 	
-	public ArrayList <T> getRemoteSearch(final String value) {
-		
-		final RemoteSearch<T> thisInstance = this;
-		discovery.getRemoteAdvertisements(null, DiscoveryService.ADV, attribute,value,10, thisInstance);
-		long waiting = waitTime;
-		System.out.println("ok");
-		while(waiting > 0) {
-			long currentTime = System.currentTimeMillis();
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			waiting -= System.currentTimeMillis()-currentTime;
+	private void notifyListeners(T founded) {
+		for(SearchListener s: listeners) {
+			s.searchEvent(founded);
 		}
-		for (AbstractAdvertisement<T> i : result1)
-		{
-			result.add(i.toClass());
-		}
-		ArrayList <T> res = (ArrayList<T>) result;
-	    result = null;
-		return res;
+	}
+	
+	public ArrayList<T> getResults() {
+		return results;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
-		result1 =  (ArrayList<AbstractAdvertisement>) Collections.list((Enumeration<T>)event.getResponse().getAdvertisements());
+		AbstractAdvertisement<T> adv;
+		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
+		while(advs.hasMoreElements()) {
+			adv = (AbstractAdvertisement<T>) event.getResponse().getAdvertisements().nextElement();
+			T founded = adv.toClass();
+			results.add(founded);
+			notifyListeners(founded); //on notifie les éléments qui en ont besoin qu'on a trouver un objet.
+		}
+		
 	}
 
 }

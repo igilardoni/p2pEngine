@@ -54,13 +54,9 @@ public class ChatService implements MessageService {
 			notifyListeners(messageData);
 		}
 		
-		System.out.println("Recu de " + from + ": " + content);
-		
 	}
 	
 	public static boolean sendMessage(Chatter chatter, String from, String to, String content) {
-		if(from == null) System.out.println("from null");
-		if(to == null) System.out.println("to null");
 		Message message = new Message();
 		message.addMessageElement(new ByteArrayMessageElement("From", null, from.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("To", null, to.getBytes(), null));

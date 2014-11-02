@@ -31,7 +31,7 @@ import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MessagesPanel extends JFrame implements ChatServiceListener{
+public class MessagesPanel extends JDialog implements ChatServiceListener{
 	private JTextField textField;
 	private JTextPane texte;
 	private HTMLEditorKit kit;
@@ -43,10 +43,12 @@ public class MessagesPanel extends JFrame implements ChatServiceListener{
 	/**
 	 * Create the panel.
 	 */
-	public MessagesPanel() {
+	public MessagesPanel(JFrame w) {
+		super(w);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		setBounds(new Rectangle(0, 0, 600, 300));
+		setBounds(100, 100, 600, 300);
 		
+
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
