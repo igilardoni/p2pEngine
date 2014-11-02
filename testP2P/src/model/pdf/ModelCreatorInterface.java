@@ -1,4 +1,4 @@
-package model;
+package model.pdf;
 
 public interface ModelCreatorInterface {
 	

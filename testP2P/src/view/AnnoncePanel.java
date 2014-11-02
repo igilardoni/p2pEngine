@@ -47,7 +47,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import controller.AnnonceDelete;
-import controller.GeneratePdf;
+import controller.GeneratePdfObjet;
 import model.Objet;
 
 public class AnnoncePanel extends JPanel {
@@ -157,7 +157,7 @@ public class AnnoncePanel extends JPanel {
 		JButton btnNewButton = new JButton(Messages.getString("AnnoncePanel.btnPdf.text")); //$NON-NLS-1$
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GeneratePdf validator = new GeneratePdf(i);
+				GeneratePdfObjet validator = new GeneratePdfObjet(i);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();

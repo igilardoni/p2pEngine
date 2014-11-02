@@ -77,7 +77,7 @@ public class Inscription implements Validator{
 	}
 	
 	private void checkEmail() {
-		if(!email.matches("^[a-zA-Z_0-9]*@[a-zA-Z_0-9]*\\.[a-z]*$")) errorEmail = true;
+		if(!email.matches("^[a-zA-Z_0-9.]*@[a-zA-Z_0-9]*\\.[a-z]*$")) errorEmail = true;
 	}
 	
 	private void checkTel() {

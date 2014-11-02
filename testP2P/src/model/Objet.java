@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.itextpdf.text.DocumentException;
 
+import model.pdf.ObjetPdfModel;
+import model.pdf.ObjetPdfGenerator;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
@@ -133,7 +135,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	
 	public void createPDF(){
 		ObjetPdfModel model = createModel();
-		new PDFGenerator(model);
+		new ObjetPdfGenerator(model);
 	}
 	
 

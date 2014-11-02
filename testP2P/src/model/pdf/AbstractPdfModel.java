@@ -1,11 +1,13 @@
-package model;
+package model.pdf;
 
 import java.util.List;
+
+import model.Objet;
 
 public abstract class AbstractPdfModel {
 
 	
-	protected Objet objet;
+	
 	
 	protected String concat(String string1, String string2){
 		return string1+" "+string2;
@@ -28,4 +30,6 @@ public abstract class AbstractPdfModel {
 		
 		return paragraphe;
 	}
+	
+	
 }

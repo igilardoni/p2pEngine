@@ -1,4 +1,4 @@
-package model;
+package model.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 public abstract class AbstractPdfGenerator {	
 	
 	protected Document document;
-	protected ObjetPdfModel model;
+	
 	protected AcroFields stamp;
 	protected PdfStamper stamper;
 	protected HashMap<String,String> texte;
@@ -78,23 +78,24 @@ public abstract class AbstractPdfGenerator {
 	
 	protected void addImage(){
 		for(Map.Entry<String,String> champ : image.entrySet()){
+			if(champ.getValue() != null){
+				Image img = null;
+				try {img = Image.getInstance(String.format("%s", champ.getValue()));} 
+				catch (BadElementException e) {e.printStackTrace();} 
+				catch (MalformedURLException e) {e.printStackTrace();} 
+				catch (IOException e) {e.printStackTrace();}
+	
+				List<AcroFields.FieldPosition> positions = stamp.getFieldPositions(champ.getKey());
+				Rectangle rect = positions.get(0).position;
 			
-			Image img = null;
-			try {img = Image.getInstance(String.format("%s", champ.getValue()));} 
-			catch (BadElementException e) {e.printStackTrace();} 
-			catch (MalformedURLException e) {e.printStackTrace();} 
-			catch (IOException e) {e.printStackTrace();}
-
-			List<AcroFields.FieldPosition> positions = stamp.getFieldPositions(champ.getKey());
-			Rectangle rect = positions.get(0).position;
-		
-			int page = positions.get(0).page;
-
-			img.scaleAbsolute(rect.getWidth(), rect.getHeight());
-			img.setAbsolutePosition(rect.getLeft(), rect.getBottom());
-
-			try {stamper.getOverContent(page).addImage(img);} 
-			catch (DocumentException e) {e.printStackTrace();}
+				int page = positions.get(0).page;
+	
+				img.scaleAbsolute(rect.getWidth(), rect.getHeight());
+				img.setAbsolutePosition(rect.getLeft(), rect.getBottom());
+	
+				try {stamper.getOverContent(page).addImage(img);} 
+				catch (DocumentException e) {e.printStackTrace();}
+			}
 		}
 	}
 	

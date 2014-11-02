@@ -1,13 +1,11 @@
-package model;
+package model.pdf;
 
 
 
-public class PDFGenerator extends AbstractPdfGenerator {
-
+public class UserPdfGenerator extends AbstractPdfGenerator {
 	
-	public PDFGenerator(ObjetPdfModel model){
+	public UserPdfGenerator(UserPdfModel model){
 
-		this.model = model;
 		this.texte = model.getTexteMap();
 		this.image = model.getImageMap();
 		this.bool = model.getBoolMap();

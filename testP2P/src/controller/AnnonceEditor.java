@@ -3,8 +3,8 @@ package controller;
 import java.io.IOException;
 
 import model.Objet;
-import model.PDFGenerator;
 import model.User;
+import model.pdf.ObjetPdfGenerator;
 import view.Application;
 
 public class AnnonceEditor implements Validator{

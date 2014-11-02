@@ -1,11 +1,13 @@
-package model;
+package model.pdf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import model.Objet;
 
-//modele, filename, coordonnees, objet, date, resume, image, signature, vente, troc, proposition, souhait, titre
+
+//Champs: modele, filename, coordonnees, objet, date, resume, image, signature, vente, troc, proposition, souhait, titre
 
 public class ObjetPdfModel extends AbstractPdfModel {
 
@@ -15,6 +17,7 @@ public class ObjetPdfModel extends AbstractPdfModel {
 	
 	
 	private final String modele = "ficheObjet";
+	private Objet objet;
 
 	
 	public ObjetPdfModel(Objet objet) {

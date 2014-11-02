@@ -24,6 +24,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JTextField;
 
+import controller.GeneratePdfObjet;
+import controller.GeneratePdfUser;
+
 import java.awt.Dimension;
 import java.awt.Color;
 
@@ -139,14 +142,25 @@ public class MonCompte extends JDialog {
 		succesForm = new JLabel(Messages.getString("MonCompte.lblModifEnreg.text"));
 		succesForm.setVisible(false);
 		succesForm.setForeground(new Color(0, 204, 0));
+		
+		JButton btnPdf = new JButton(Messages.getString("MonCompte.btnPdf.text")); //$NON-NLS-1$
+		btnPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GeneratePdfUser validator = new GeneratePdfUser();
+				if(validator.validate()) {
+					validator.process();
+					Application.getInstance().updateUI();
+				}
+			}
+		});
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblCrashxxl)
-					.addPreferredGap(ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
 					.addComponent(lblNote)
 					.addGap(18)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
@@ -160,9 +174,11 @@ public class MonCompte extends JDialog {
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(btnSupprimer)
 							.addGap(18)
-							.addComponent(btnDconnexion)))
-					.addContainerGap(279, Short.MAX_VALUE))
-				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+							.addComponent(btnDconnexion)
+							.addGap(18)
+							.addComponent(btnPdf)))
+					.addContainerGap(206, Short.MAX_VALUE))
+				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
@@ -193,9 +209,9 @@ public class MonCompte extends JDialog {
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 											.addComponent(errorEmail)
 											.addComponent(errorTel))
-										.addContainerGap(200, Short.MAX_VALUE))
+										.addContainerGap(223, Short.MAX_VALUE))
 									.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(adresse, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+										.addComponent(adresse, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 											.addGroup(gl_contentPanel.createSequentialGroup()
 												.addGap(207)
@@ -215,8 +231,8 @@ public class MonCompte extends JDialog {
 							.addContainerGap()
 							.addComponent(label))
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-							.addComponent(lblCrashxxl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+							.addComponent(lblCrashxxl, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+							.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(lblNote, Alignment.TRAILING)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
@@ -256,7 +272,8 @@ public class MonCompte extends JDialog {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSupprimer)
-						.addComponent(btnDconnexion))
+						.addComponent(btnDconnexion)
+						.addComponent(btnPdf))
 					.addGap(47))
 		);
 		panel.setLayout(new BorderLayout(0, 0));

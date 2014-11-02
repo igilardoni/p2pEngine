@@ -3,25 +3,23 @@ package controller;
 import model.User;
 import view.Application;
 
-public class GeneratePdf  implements Validator{
-	
-	private int i;
+public class GeneratePdfUser implements Validator{
+
 	private User user;
 	
 	
-	public GeneratePdf(int i) {
-		this.i = i;
+	public GeneratePdfUser() {
+
 		this.user = Application.getInstance().getUsers().getConnectedUser();
 	}
-
-
 	public boolean validate() {
-		return user.getObjets().get(i) != null;
+		return user != null;
 	}
 
-
+	@Override
 	public boolean process() {
-		user.getObjets().get(i).createPDF();
+		user.createPDF();
 		return true;
 	}
+
 }

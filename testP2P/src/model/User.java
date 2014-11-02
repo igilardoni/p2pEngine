@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import model.communications.UserMessages;
+import model.pdf.ObjetPdfModel;
+import model.pdf.ObjetPdfGenerator;
+import model.pdf.UserPdfGenerator;
+import model.pdf.UserPdfModel;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
@@ -134,6 +138,16 @@ public class User extends AbstractAdvertisable implements Serializable{
 	public void flushNotes() {
 		this.notes.removeAllElements();
 	}
+	
+	public UserPdfModel createModel(){
+		return new UserPdfModel(this);
+	}
+	
+	public void createPDF(){
+		UserPdfModel model = createModel();
+		new UserPdfGenerator(model);
+	}
+	
 	
 	public ObjetsManagement getPanier() {
 		return this.panier;
