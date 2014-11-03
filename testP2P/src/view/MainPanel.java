@@ -147,13 +147,13 @@ public class MainPanel extends JPanel {
 		scrollPane.setViewportView(panel_7);
 		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 		
-		AnnoncePanel annoncePanel_3 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le résumé", "ladescription", null, null), 0);
+		AnnoncePanel annoncePanel_3 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
 		panel_7.add(annoncePanel_3);
 		
-		AnnoncePanel annoncePanel_4 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le résumé", "ladescription", null, null), 0);
+		AnnoncePanel annoncePanel_4 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
 		panel_7.add(annoncePanel_4);
 		
-		AnnoncePanel annoncePanel_5 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le résumé", "ladescription", null, null), 0);
+		AnnoncePanel annoncePanel_5 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
 		panel_7.add(annoncePanel_5);
 		setLayout(new CardLayout(0, 0));
 		add(tabbedPane, "name_111035141476854");
@@ -171,7 +171,7 @@ public class MainPanel extends JPanel {
 		panel.removeAll();
 		
 		if(user == null) panel.add(new JLabel("Veuillez vous connecter pour voir vos objets"));
-		else if(user.getObjets().size() == 0) panel.add(new JLabel("Aucune annonce n'a été ajoutée pour l'instant"));
+		else if(user.getObjets().size() == 0) panel.add(new JLabel("Aucune annonce n'a \u00E9t\u00E9 ajout\u00E9e pour l'instant"));
 		else {
 			ObjetsManagement objets = user.getObjets();
 			for(int i = 0; i < objets.size(); i++) {

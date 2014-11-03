@@ -42,6 +42,7 @@ public class Window extends JFrame implements ChatServiceListener{
 	private JMenuItem mntmLangue;
 	private JToolBar toolBar_1;
 	private JButton btnMsg;
+	private JButton panier;
 	private int nonlu = 0;
 
 	/**
@@ -115,6 +116,13 @@ public class Window extends JFrame implements ChatServiceListener{
 		compteLabel = new JLabel(Messages.getString("Window.lblPasConnecte.text")); //$NON-NLS-1$
 		
 		connectezVous = new JLabel(Messages.getString("Window.lblConnectezVousPour.text")); //$NON-NLS-1$
+		
+		panier = new JButton(Messages.getString("Window.btnPanier.text")); //$NON-NLS-1$
+		panier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Panier().setVisible(true);
+			}
+		});
 		GroupLayout gl_toolBar = new GroupLayout(toolBar);
 		gl_toolBar.setHorizontalGroup(
 			gl_toolBar.createParallelGroup(Alignment.LEADING)
@@ -122,9 +130,11 @@ public class Window extends JFrame implements ChatServiceListener{
 					.addComponent(ajouterAnnonce)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(connectezVous)
-					.addPreferredGap(ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 318, Short.MAX_VALUE)
 					.addComponent(compteLabel)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panier)
+					.addGap(10)
 					.addComponent(monCompte))
 		);
 		gl_toolBar.setVerticalGroup(
@@ -134,7 +144,8 @@ public class Window extends JFrame implements ChatServiceListener{
 						.addComponent(ajouterAnnonce)
 						.addComponent(monCompte)
 						.addComponent(compteLabel)
-						.addComponent(connectezVous))
+						.addComponent(connectezVous)
+						.addComponent(panier))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		toolBar.setLayout(gl_toolBar);
@@ -173,11 +184,13 @@ public class Window extends JFrame implements ChatServiceListener{
 		if(user != null) {
 			ajouterAnnonce.setEnabled(true);
 			connectezVous.setVisible(false);
+			panier.setVisible(true);
 			btnMsg.setEnabled(true);
 		}
 		else {
 			ajouterAnnonce.setEnabled(false);
 			connectezVous.setVisible(true);
+			panier.setVisible(false);
 			btnMsg.setEnabled(false);
 		}
 	}
@@ -203,5 +216,4 @@ public class Window extends JFrame implements ChatServiceListener{
 			
 		}
 	}
-	
 }
