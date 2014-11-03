@@ -104,4 +104,10 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 		return this.objets.size();
 	}
 
+	@Override
+	public void removeAll() {
+		this.objets.removeAll(objets);
+		
+	}
+
 }

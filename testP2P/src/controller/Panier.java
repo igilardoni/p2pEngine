@@ -8,73 +8,54 @@ import model.UsersManagement;
 
 public class Panier implements Validator {
 	
-	private Objet obj = null;
-	private User user;
-	private String title;
-	private String resume;
-	private String img;
-	private boolean troc;
-	private boolean vente;
+	public static enum Action {
+		DELETE,
+		UP,
+		DOWN
+	}
 	
+	private int i;
 	private ObjetsManagement panier;
+	private Action action;
 	
-	public Panier(String title, String resume, String img, boolean troc, boolean vente) {
-		// TODO Auto-generated constructor stub
-		this.title = title;
-		this.resume = resume;
-		this.img = img;
-		this.troc = troc;
-		this.vente = vente;
-		
+	public Panier(int i, Action action) {
 		panier = Application.getInstance().getUsers().getConnectedUser().getPanier();
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String res = "";
-		res += "Troc: " + troc + " Argent: " + vente + "\n";
-		res += "Titre: " + title + "\n";
-		res += "R\u00E9sum\u00E9: " + resume + "\n\n";
-		res += "Image: " + img;
-		return res;
-	}
-	
-	
-	public String getTitle(){
-		return title;
-	}
-	
-		
-	public String getResDescr(){
-		return resume;
-	}
-	
-	public String getTrocVente(){
-		if(troc)
-			return "Troc";
-		return "Vente";
+		this.i = i;
+		this.action = action;
 	}
 
+	private boolean validateDelete() {
+		return panier.get(i) != null;
+	}
+	
+	private boolean validateUp() {
+		return panier.get(i) != null;
+	}
+	
+	private boolean validateDown() {
+		return panier.get(i) != null;
+	}
+	
 	@Override
 	public boolean validate() {
-		// TODO Auto-generated method stub
-		
-		
-		return false;
+		switch(action) {
+		case DELETE: return validateDelete();
+		case UP: return validateUp();
+		case DOWN: return validateDown();
+		default: return false;
+		}
 	}
 
 	@Override
 	public boolean process() {
-		// TODO Auto-generated method stub
+		switch(action) {
+		case DELETE: panier.delete(i); break;
+		case UP: panier.upPos(panier.get(i)); break;
+		case DOWN: panier.downPos(panier.get(i)); break;
+		default: return false;
+		}
 		
-		
-		return false;
-	}
-
-	public void setEditObjet(Objet obj2) {
-		// TODO Auto-generated method stub
-		this.obj = obj;
+		return true;
 	}
 
 }

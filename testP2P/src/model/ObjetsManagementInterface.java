@@ -80,4 +80,6 @@ public interface ObjetsManagementInterface {
 	 */
 	public int size();
 	
+	public void removeAll();
+	
 }
