@@ -47,17 +47,18 @@ public class Rechercher implements Validator{
 		@Override
 		public boolean process() {
 			// TODO Auto-generated method stub
-			System.out.println(recherche);
+			//System.out.println(recherche);
 			
 			
 			DiscoveryService ds = Application.getInstance().getPeer().getDiscovery(); 
-			RemoteRessource<Objet> rs = new RemoteRessource<Objet>(ds, "titre", 5000);
-			Objet obj = rs.getRemoteRessource(recherche);
+			RemoteSearch<Objet> rs = new RemoteSearch<Objet>(ds, "login");
+			rs.search("recherche");
+			ArrayList<Objet> obj = rs.getResults();
 			if (obj!=null)
 			{
 				//System.out.println(obj.size());
-				//for(User u : obj)
-					System.out.println("icic" + obj.getDesc());
+				for(Objet u : obj)
+					System.out.println( u.getDesc());
 			}
 			else
 				System.out.println("ca marche pas ");
