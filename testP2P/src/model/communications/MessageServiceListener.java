@@ -1,5 +1,5 @@
 package model.communications;
 
-public interface ChatServiceListener {
+public interface MessageServiceListener {
 	public void messageEvent(MessageData msg);
 }

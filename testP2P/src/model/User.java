@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import model.communications.MessageData;
 import model.communications.UserMessages;
 import model.pdf.ObjetPdfModel;
 import model.pdf.ObjetPdfGenerator;
@@ -39,6 +40,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 	private ObjetsManagement panier = new ObjetsManagement();
 	private UserMessages messages = new UserMessages();
 	private ArrayList<String> friends = new ArrayList<String>();
+	private ArrayList<MessageData> requests = new ArrayList<MessageData>();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -50,6 +52,19 @@ public class User extends AbstractAdvertisable implements Serializable{
 		this.adresse = adresse;
 		this.notes = new Vector<Integer>();
 		this.setPassword(password);
+	}
+	
+	public ArrayList<MessageData> getRequests() {
+		return requests;
+	}
+	
+	public void acceptRequest(String user) {
+		for(MessageData m: requests) {
+			if(m.getSender().equals(user)) {
+				requests.remove(m);
+				friends.add(user);
+			}
+		}
 	}
 	
 	public String getNom() {

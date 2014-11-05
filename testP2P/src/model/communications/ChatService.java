@@ -7,17 +7,12 @@ import model.UsersManagement;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.endpoint.Message;
 
-public class ChatService implements MessageService {
+public class ChatService extends Service {
 
 	private UsersManagement users;
-	private ArrayList<ChatServiceListener> listeners = new ArrayList<ChatServiceListener>();
 	
 	public ChatService(UsersManagement users) {
 		this.users = users;
-	}
-	
-	public void addListener(ChatServiceListener listener) {
-		listeners.add(listener);
 	}
 	
 	@Override
@@ -28,15 +23,9 @@ public class ChatService implements MessageService {
 	public static String getServName() {
 		return ChatService.class.getName();
 	}
-	
-	private void notifyListeners(MessageData msg) {
-		for(ChatServiceListener l: listeners) {
-			l.messageEvent(msg);
-		}
-	}
 
 	@Override
-	public void putMessage(Message message) {
+	public MessageData handleMessage(Message message) {
 		byte[] contentBytes = message.getMessageElement("Content").getBytes(true);
 		byte[] toBytes = message.getMessageElement("To").getBytes(true);
 		byte[] fromBytes = message.getMessageElement("From").getBytes(true);
@@ -51,8 +40,9 @@ public class ChatService implements MessageService {
 		if(user != null) {
 			MessageData messageData = new MessageData(from, to, content, date);
 			user.getMessages().addMessage(messageData, from);
-			notifyListeners(messageData);
+			return messageData;
 		}
+		return null;
 		
 	}
 	

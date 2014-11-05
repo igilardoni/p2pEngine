@@ -70,4 +70,8 @@ public class UserMessages implements Serializable{
 		messages.get(user).newMessage = 0;
 	}
 	
+	public int getNumberUserMessage(String user) {
+		return messages.get(user).newMessage;
+	}
+	
 }

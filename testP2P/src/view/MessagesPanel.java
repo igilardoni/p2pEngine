@@ -20,7 +20,7 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import model.User;
-import model.communications.ChatServiceListener;
+import model.communications.MessageServiceListener;
 import model.communications.MessageData;
 
 import java.awt.Rectangle;
@@ -31,7 +31,7 @@ import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MessagesPanel extends JDialog implements ChatServiceListener{
+public class MessagesPanel extends JDialog implements MessageServiceListener{
 	private JTextField textField;
 	private JTextPane texte;
 	private HTMLEditorKit kit;
@@ -135,6 +135,7 @@ public class MessagesPanel extends JDialog implements ChatServiceListener{
 		texte.setText("");
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		ArrayList<MessageData> msgs = user.getMessages().getMessages(userName);
+		user.getMessages().viewUser(userName);
 		
 		if(msgs != null) {
 			for(MessageData m: msgs) {
@@ -157,10 +158,12 @@ public class MessagesPanel extends JDialog implements ChatServiceListener{
 		}
 		
 		revalidate();
+		repaint();
 	}
 	
 	public void addConversButton(final String s) {
-		JButton button = new JButton(s);
+		JButton button = new JButton(s + "(" 
+				+ Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberUserMessage(s) + ")");
 		button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -193,6 +196,8 @@ public class MessagesPanel extends JDialog implements ChatServiceListener{
 		}
 		
 		texte.setCaretPosition(doc.getLength());
+		//revalidate();
+		
 		
 	}
 
@@ -201,6 +206,9 @@ public class MessagesPanel extends JDialog implements ChatServiceListener{
 		if(currentSender != null && currentSender.equals(msg.getSender()) && 
 		   Application.getInstance().getUsers().getConnectedUser().getLogin().equals(msg.getTo())) {
 			addText(msg.getDate(), msg.getSender(), msg.getContent());
+			
+			if(this.isVisible())
+			Application.getInstance().getUsers().getConnectedUser().getMessages().viewUser(msg.getSender());
 		}
 		loadConvers();
 		

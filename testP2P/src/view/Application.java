@@ -50,9 +50,6 @@ public class Application {
 		chatService = new ChatService(users);
 		chatter.addService(chatService);
 		users.publishUsers(peer.getDiscovery());
-		users.getConnectedUser().getPanier().add(new Objet(true, false, false, false, "Test panier", "test resume lol", "description", null, users.getConnectedUser()));
-		users.getConnectedUser().getPanier().add(new Objet(true, false, false, false, "Test panier 2", "test resume lol", "description", null, users.getConnectedUser()));
-	
 	}
 	
 	public Peer getPeer() {
@@ -244,7 +241,8 @@ public class Application {
 			stream = new ObjectInputStream(fichier);
 			Locale.setDefault((Locale) stream.readObject());
 		} catch (Exception e) {
-			e.printStackTrace();
+			//pas de fichier, on laisse la langue par défaut
+			//e.printStackTrace();
 		} finally {
 			if(stream != null) {
 				try {

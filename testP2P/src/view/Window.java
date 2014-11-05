@@ -20,7 +20,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
 import model.User;
-import model.communications.ChatServiceListener;
+import model.communications.MessageServiceListener;
 import model.communications.MessageData;
 
 import javax.swing.JMenuItem;
@@ -30,7 +30,7 @@ import java.awt.Component;
 
 import javax.swing.Box;
 
-public class Window extends JFrame implements ChatServiceListener{
+public class Window extends JFrame implements MessageServiceListener{
 
 	private JPanel contentPane;
 	private JLabel compteLabel;
