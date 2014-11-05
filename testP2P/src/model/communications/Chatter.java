@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import model.Peer;
 import model.RemoteRessource;
@@ -35,7 +36,7 @@ public class Chatter implements PipeMsgListener{
 	}
 	
 	private void initPipeAdv() {
-		pipeAdv = Peer.get_PipeAdvertisement(IDFactory.newPipeID(peer.getPeerGroupID(), peer.getPeerId().toString().getBytes()), false);
+		pipeAdv = Peer.get_PipeAdvertisement(IDFactory.newPipeID(peer.getPeerGroupID(), SERVICE_NAME.getBytes()), false);
 		
 		try {
 			peer.getPipeService().createInputPipe(pipeAdv, this);
