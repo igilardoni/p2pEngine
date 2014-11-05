@@ -7,11 +7,11 @@ public class ObjetPdfGenerator extends AbstractPdfGenerator {
 	
 	public ObjetPdfGenerator(ObjetPdfModel model){
 
-		this.texte = model.getTexteMap();
-		this.image = model.getImageMap();
-		this.bool = model.getBoolMap();
+		this.texte.putAll(model.getTexteMap());
+		this.image.putAll(model.getImageMap());
+		this.bool.putAll(model.getBoolMap());
 		
-		createPDF();
+		createPdf();
 		
 	}
 	

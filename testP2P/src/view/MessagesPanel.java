@@ -58,10 +58,10 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.NORTH);
 		
-		sender = new JLabel("Vous pouvez choisir une discussion");
+		sender = new JLabel(Messages.getString("MessagesPanel.lblChoisirDiscussion.text"));
 		panel_2.add(sender);
 		
-		JButton btnCreerUneDiscussion = new JButton("Ajouter une discussion");
+		JButton btnCreerUneDiscussion = new JButton(Messages.getString("MessagesPanel.btnAjouterDiscussion.text"));
 		final MessagesPanel this_ = this;
 		btnCreerUneDiscussion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -78,7 +78,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		panel_3.add(textField, BorderLayout.CENTER);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Envoyer");
+		JButton btnNewButton = new JButton(Messages.getString("MessagesPanel.btnEnvoyer.text"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				controller.Messages controller = new controller.Messages(textField.getText(), currentSender);
@@ -121,10 +121,10 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		JPanel panel_6 = new JPanel();
 		panel_4.add(panel_6, BorderLayout.SOUTH);
 		
-		JLabel lblContacts = new JLabel("Contacts");
+		JLabel lblContacts = new JLabel(Messages.getString("MessagesPanel.lblContacts.text"));
 		panel_6.add(lblContacts);
 		
-		JButton btnAjouter = new JButton("Ajouter");
+		JButton btnAjouter = new JButton(Messages.getString("MessagesPanel.btnAjouter.text"));
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AddFriend().setVisible(true);
