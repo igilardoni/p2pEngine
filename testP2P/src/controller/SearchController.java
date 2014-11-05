@@ -6,12 +6,11 @@ import java.util.Map;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
-
 import view.Application;
-
 import model.AbstractAdvertisement;
 import model.Advertisable;
 import model.Objet;
+import model.ObjetsManagement;
 import model.RemoteSearch;
 import model.SearchListener;
 
@@ -27,22 +26,20 @@ public class SearchController implements Validator, SearchListener{
 	public boolean errorTroc;
 	public boolean errorVente;
 	
+	public ObjetsManagement results = new ObjetsManagement();
+	private SearchListener container;
 	
-	public SearchController(String recherche, boolean troc, boolean vente)
+	public SearchController(String recherche, boolean troc, boolean vente, SearchListener container)
 	{
 			this.recherche = recherche;
 			this.troc = troc;
 			this.vente = vente;
+			this.container = container;
 			
-			troc = vente = errorRecherche = errorTroc = errorVente = false;
+			errorRecherche = errorTroc = errorVente = false;
 	}
 	
-	// remoteSearch a trouvé un nouvelle objet, on peut le traiter, demander l'affichage ...
-	@Override
-	public void searchEvent(Advertisable adv) {
-		Advertisement ad = adv.getAdvertisement();
-		
-	}
+	
 
 	//La on traite l'entree utilisateur, champs bien rempli etc ..
 	@Override
@@ -51,7 +48,7 @@ public class SearchController implements Validator, SearchListener{
 		checkRecherche();
 		checkEchange();		
 		
-		return errorRecherche || errorTroc || errorVente;
+		return !(errorRecherche || errorTroc || errorVente);
 	}
 	
 	private void checkRecherche(){
@@ -65,35 +62,30 @@ public class SearchController implements Validator, SearchListener{
 	// c'est ici qu'on lancera la recherche si validate a retourner true (voir les autres controller pour l'exemple)
 	@Override
 	public boolean process() {
-	
-		if(recherche.contains(";"))
-			Filtage();
-		else 
-			rechercheFiltre.put("login", recherche);
-		
 		DiscoveryService ds = Application.getInstance().getPeer().getDiscovery();
-		RemoteSearch<Objet> remoteSearch = new RemoteSearch(ds,"login");
+		RemoteSearch<Objet> remoteSearch = new RemoteSearch(ds,"titre");
+		remoteSearch.addListener(this);
 		remoteSearch.search(recherche);
-		
-		if (remoteSearch.getResults() == null)
-			return false;
-		
-		for (Objet obj : remoteSearch.getResults())
-			searchEvent(obj);
-			
-		return true ;
+		return true;
 	}
 	
-	public void Filtage()
-	{
-			String [] liste = recherche.split(";");
-			ArrayList <String[]> p = new ArrayList<String[]>();
+	public boolean filtrage(Advertisable adv) {
+			
 		
-			for (String l : liste)
-				p.add(l.split("?"));
+		return true;
+	}
+
+
+
+	@Override
+	public void searchEvent(Advertisable adv) {
+		if(filtrage(adv)) {
+			results.add((Objet) adv);
+			container.searchEvent(adv);
+		}
 		
-			for (String[] l : p )
-				this.rechercheFiltre.put(l[0], l[1]);
+		Application.getInstance().updateUI();
+		
 	}
 
 }

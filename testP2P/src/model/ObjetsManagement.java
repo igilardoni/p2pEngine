@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.jxta.discovery.DiscoveryService;
+
 public class ObjetsManagement implements ObjetsManagementInterface, Serializable  {
 
 	/**
@@ -108,6 +110,12 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 	public void removeAll() {
 		this.objets.removeAll(objets);
 		
+	}
+	
+	public void publishObjets(DiscoveryService discovery) {
+		for(Objet o: objets) {
+			o.publish(discovery);
+		}
 	}
 
 }

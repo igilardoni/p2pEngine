@@ -29,8 +29,10 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
+import model.SearchListener;
 import model.User;
 import net.miginfocom.swing.MigLayout;
 
@@ -49,9 +51,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class MainPanel extends JPanel {
-	private JTextField textField;
+public class MainPanel extends JPanel implements SearchListener{
+	private JTextField rechercheB;
 	private APanel annonceContainer;
+	private APanel rechercheContainer;
 
 	/**
 	 * Create the panel.
@@ -81,11 +84,11 @@ public class MainPanel extends JPanel {
 		
 		JPanel panel = new JPanel();
 		tabbedPane.addTab(Messages.getString("MainPanel.tabRecherche.text"), null, panel, null);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(0, 0, 445, 26);
-		panel.add(panel_4);
+		panel.add(panel_4, BorderLayout.NORTH);
 		
 		JPanel panel_5 = new JPanel();
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
@@ -101,9 +104,9 @@ public class MainPanel extends JPanel {
 		);
 		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
 		
-		textField = new JTextField();
-		panel_5.add(textField);
-		textField.setColumns(10);
+		rechercheB = new JTextField();
+		panel_5.add(rechercheB);
+		rechercheB.setColumns(10);
 		
 		JButton btnRechercher = new JButton(Messages.getString("MainPanel.btnRecherche.text"));
 		panel_5.add(btnRechercher);
@@ -117,17 +120,11 @@ public class MainPanel extends JPanel {
 		
 		btnRechercher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println(textField.getText());
-				controller.Rechercher rechercher = new controller.Rechercher(textField.getText(), rdbtnTroc.isSelected(), rdbtnVente.isSelected());
-				if(!rechercher.validate()) {
-					rechercher.process();
-					//Application.getInstance().updateUI();
-					//JPanel parent = (JPanel) getParent();
-					//JDialog dialog = (JDialog) parent.getRootPane().getParent();
-					//dialog.dispose();
+				controller.SearchController validator = new controller.SearchController(rechercheB.getText(), rdbtnTroc.isSelected(), rdbtnVente.isSelected(), getThis());
+				if(validator.validate()) {
+					rechercheContainer.removeAll();
+					validator.process();
 				}
-				//else errorMsg.setVisible(true);*/
-		
 			}
 		
 			});
@@ -135,26 +132,22 @@ public class MainPanel extends JPanel {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(0, 26, 445, 234);
 		panel.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_3.add(scrollPane);
 		
-		APanel panel_7 = new APanel();
-		panel_7.setPreferredSize(new Dimension(0, 0));
-		scrollPane.setViewportView(panel_7);
-		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
 		
-		AnnoncePanel annoncePanel_3 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
-		panel_7.add(annoncePanel_3);
+		rechercheContainer = new APanel();
+		scrollPane.setViewportView(rechercheContainer);
+		rechercheContainer.setPreferredSize(new Dimension(0,0));
+		rechercheContainer.setLayout(new BoxLayout(rechercheContainer, BoxLayout.Y_AXIS));
 		
-		AnnoncePanel annoncePanel_4 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
-		panel_7.add(annoncePanel_4);
 		
-		AnnoncePanel annoncePanel_5 = new AnnoncePanel(new Objet(true, false, true, true, "Test", "Le r\u00E9sum\u00E9", "ladescription", null, null), 0);
-		panel_7.add(annoncePanel_5);
+		
+		
 		setLayout(new CardLayout(0, 0));
 		add(tabbedPane, "name_111035141476854");
 
@@ -164,6 +157,10 @@ public class MainPanel extends JPanel {
 	public void revalidate() {
 		if(annonceContainer != null) getUserObjet(annonceContainer);
 		super.revalidate();
+	}
+	
+	public MainPanel getThis() {
+		return this;
 	}
 	
 	private void getUserObjet(APanel panel) {
@@ -178,5 +175,11 @@ public class MainPanel extends JPanel {
 				panel.add(new AnnoncePanel(objets.get(i), i));
 			}
 		}
+	}
+
+	@Override
+	public void searchEvent(Advertisable adv) {
+		Objet obj = (Objet) adv;
+		rechercheContainer.add(new AnnonceRecherchePanel(obj, 0));
 	}
 }

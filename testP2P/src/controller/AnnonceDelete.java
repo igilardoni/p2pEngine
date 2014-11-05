@@ -26,6 +26,8 @@ public class AnnonceDelete implements Validator{
 
 	@Override
 	public boolean process() {
+		Objet o = user.getObjets().get(i);
+		o.flush(Application.getInstance().getPeer().getDiscovery());
 		user.getObjets().delete(i);
 		return true;
 	}

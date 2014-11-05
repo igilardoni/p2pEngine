@@ -63,6 +63,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 			if(m.getSender().equals(user)) {
 				requests.remove(m);
 				friends.add(user);
+				return;
 			}
 		}
 	}
@@ -187,6 +188,10 @@ public class User extends AbstractAdvertisable implements Serializable{
 	
 	public ArrayList<String> getFriends() {
 		return friends;
+	}
+	
+	public void publishObjects(DiscoveryService discovery) {
+		this.objets.publishObjets(discovery);
 	}
 	
 }

@@ -54,7 +54,7 @@ public class RemoteSearch<T extends Advertisable> implements DiscoveryListener {
 		AbstractAdvertisement<T> adv;
 		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 		while(advs.hasMoreElements()) {
-			adv = (AbstractAdvertisement<T>) event.getResponse().getAdvertisements().nextElement();
+			adv = (AbstractAdvertisement<T>) advs.nextElement();
 			T founded = adv.toClass();
 			results.add(founded);
 			notifyListeners(founded); //on notifie les éléments qui en ont besoin qu'on a trouver un objet.

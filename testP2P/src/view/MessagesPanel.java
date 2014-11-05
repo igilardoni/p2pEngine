@@ -125,6 +125,11 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		panel_6.add(lblContacts);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddFriend().setVisible(true);
+			}
+		});
 		panel_6.add(btnAjouter);
 
 	}
@@ -142,6 +147,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 				addText(m.getDate(), m.getSender(), m.getContent());
 			}
 		}
+		loadConvers();
 		
 	}
 	
@@ -203,6 +209,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 
 	@Override
 	public void messageEvent(MessageData msg) {
+		if(!this.isVisible()) return;
 		if(currentSender != null && currentSender.equals(msg.getSender()) && 
 		   Application.getInstance().getUsers().getConnectedUser().getLogin().equals(msg.getTo())) {
 			addText(msg.getDate(), msg.getSender(), msg.getContent());

@@ -121,6 +121,7 @@ public class AnnonceEditor implements Validator{
 			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
 			obj.setDate(System.currentTimeMillis());
 			user.getObjets().add(obj);
+			obj.publish(Application.getInstance().getPeer().getDiscovery());
 		}
 		else {
 			obj.setProposition(proposition);
@@ -131,6 +132,7 @@ public class AnnonceEditor implements Validator{
 			obj.setResume(resume);
 			obj.setDesc(desc);
 			obj.setImg(img);
+			obj.update(Application.getInstance().getPeer().getDiscovery());
 			
 		}	
 		

@@ -44,6 +44,8 @@ public class Window extends JFrame implements MessageServiceListener{
 	private JButton btnMsg;
 	private JButton panier;
 	private int nonlu = 0;
+	private MessagesPanel messagePanel;
+	private JButton requetecontact;
 
 	/**
 	 * Create the frame.
@@ -155,15 +157,35 @@ public class Window extends JFrame implements MessageServiceListener{
 		contentPane.add(toolBar_1, BorderLayout.SOUTH);
 		
 		btnMsg = new JButton(Messages.getString("Window.btnFriends.text")); //$NON-NLS-1$
-		final MessagesPanel messagePanel = new MessagesPanel(this);
+		messagePanel = new MessagesPanel(this);
 		Application.getInstance().getChatService().addListener(messagePanel);
 		btnMsg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				messagePanel.setVisible(true);
 				btnMsg.setBackground(null);
+				btnMsg.setText("Messagerie");
 			}
 		});
 		toolBar_1.add(btnMsg);
+		
+		requetecontact = new JButton(Messages.getString("Window.btnRequtesContacts.text")); //$NON-NLS-1$
+		Application.getInstance().getFriendRequestService().addListener(new MessageServiceListener()  {
+			
+			@Override
+			public void messageEvent(MessageData msg) {
+				User u = Application.getInstance().getUsers().getConnectedUser();
+				if(msg.getTo().equals(u.getLogin())) {
+					requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text") + " (" + u.getRequests().size() + ")");
+				}
+			}
+		});
+		requetecontact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FriendRequests fr = new FriendRequests();
+				fr.show((Component) arg0.getSource(), 0, -fr.getPreferredSize().height);
+			}
+		});
+		toolBar_1.add(requetecontact);
 		
 		
 		Application.getInstance().getChatService().addListener(this);
@@ -186,12 +208,17 @@ public class Window extends JFrame implements MessageServiceListener{
 			connectezVous.setVisible(false);
 			panier.setVisible(true);
 			btnMsg.setEnabled(true);
+			requetecontact.setEnabled(true);
+			requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text") + " (" + user.getRequests().size() + ")");
+			
 		}
 		else {
 			ajouterAnnonce.setEnabled(false);
 			connectezVous.setVisible(true);
 			panier.setVisible(false);
 			btnMsg.setEnabled(false);
+			requetecontact.setEnabled(false);
+			requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text"));
 		}
 	}
 	
@@ -210,6 +237,7 @@ public class Window extends JFrame implements MessageServiceListener{
 	@Override
 	public void messageEvent(MessageData msg) {
 		if(Application.getInstance().getUsers().getConnectedUser() == null) return;
+		if(messagePanel.isVisible()) return;
 		if(msg.getTo().equals(Application.getInstance().getUsers().getConnectedUser().getLogin())) {
 			btnMsg.setText("Messagerie ("+Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberNewMsgs()+")");
 			btnMsg.setBackground(Color.green);

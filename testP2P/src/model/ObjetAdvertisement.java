@@ -84,6 +84,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 				  Boolean.parseBoolean(this.getValue("vente")), 
 				  this.getValue("titre"), this.getValue("resume"), 
 				  this.getValue("desc"), this.getValue("img"), null);
+		obj.setDate(new Long(this.getValue("date")));
 		return obj;
 	}
 

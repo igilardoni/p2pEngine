@@ -23,6 +23,7 @@ import model.User;
 import model.UsersManagement;
 import model.communications.ChatService;
 import model.communications.Chatter;
+import model.communications.FriendRequestService;
 
 /**
  * Class "main" du programme
@@ -39,6 +40,7 @@ public class Application {
 	private Peer peer;
 	private Chatter chatter;
 	private ChatService chatService;
+	private FriendRequestService friendRequest;
 	
 	
 	public Application() {
@@ -49,11 +51,17 @@ public class Application {
 		chatter = new Chatter(peer);
 		chatService = new ChatService(users);
 		chatter.addService(chatService);
+		friendRequest = new FriendRequestService(users);
+		chatter.addService(friendRequest);
 		users.publishUsers(peer.getDiscovery());
 	}
 	
 	public Peer getPeer() {
 		return peer;
+	}
+	
+	public FriendRequestService getFriendRequestService() {
+		return friendRequest;
 	}
 	
 	public ChatService getChatService() {

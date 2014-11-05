@@ -40,8 +40,11 @@ public class FriendRequestService extends Service{
 		if(user != null) {
 			MessageData msg = new MessageData(from, to, type, date);
 			if(type.equals(REQUEST)) {
-				user.getRequests().add(msg);
-				return msg;
+				if(!user.getRequests().contains(msg)) {
+					user.getRequests().add(msg);
+					return msg;
+				}
+				
 			}
 			if(type.equals(ACCEPT)) {
 				user.acceptRequest(from);
