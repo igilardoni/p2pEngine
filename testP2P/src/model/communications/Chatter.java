@@ -35,7 +35,7 @@ public class Chatter implements PipeMsgListener{
 	}
 	
 	private void initPipeAdv() {
-		pipeAdv = Peer.get_PipeAdvertisement(IDFactory.newPipeID(peer.getPeerGroupID(), SERVICE_NAME.getBytes()), false);
+		pipeAdv = Peer.get_PipeAdvertisement(IDFactory.newPipeID(peer.getPeerGroupID(), peer.getPeerId().toString().getBytes()), false);
 		
 		try {
 			peer.getPipeService().createInputPipe(pipeAdv, this);
