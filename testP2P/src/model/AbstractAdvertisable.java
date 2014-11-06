@@ -20,6 +20,7 @@ public abstract class AbstractAdvertisable implements Advertisable, Serializable
 		try {
 			discovery.publish(lastAdv);
 			//discovery.remotePublish(lastAdv);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,7 +30,6 @@ public abstract class AbstractAdvertisable implements Advertisable, Serializable
 	@Override
 	public void flush(DiscoveryService discovery) {
 		try {
-			System.out.println("testlol");
 			discovery.flushAdvertisement(lastAdv);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
