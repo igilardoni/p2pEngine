@@ -87,9 +87,10 @@ public class Chatter implements PipeMsgListener{
 			RemoteRessource<User> res = new RemoteRessource<User>(peer.getDiscovery(), "login", 5000);
 			User u = res.getRemoteRessource(userName);
 			if(u != null) { //on a trouvé l'utilisateur
+				System.out.println(u.getPeerID());
 				HashSet<PeerID> to = new HashSet<PeerID>();
 				try {
-					to.add((PeerID)IDFactory.fromURI(new URI(res.getLastRequestSource())));
+					to.add((PeerID)IDFactory.fromURI(new URI(u.getPeerID())));
 					sender = peer.getPipeService().createOutputPipe(pipeAdv, to, 10000);
 					System.out.println("creation du pipe ...");
 					this.usersPeerID.put(userName, sender);

@@ -44,6 +44,7 @@ public class Application {
 	
 	
 	public Application() {
+		instance = this;
 		loadUsers();
 		loadLocale();
 		startNetwork();

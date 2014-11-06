@@ -18,6 +18,7 @@ import model.pdf.UserPdfGenerator;
 import model.pdf.UserPdfModel;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
+import net.jxta.peer.PeerID;
 
 /**
  * Represente un utilisateur
@@ -41,6 +42,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 	private UserMessages messages = new UserMessages();
 	private ArrayList<String> friends = new ArrayList<String>();
 	private ArrayList<MessageData> requests = new ArrayList<MessageData>();
+	private String peerID;
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -56,6 +58,14 @@ public class User extends AbstractAdvertisable implements Serializable{
 	
 	public ArrayList<MessageData> getRequests() {
 		return requests;
+	}
+	
+	public void setPeerID(String pid) {
+		this.peerID = pid;
+	}
+	
+	public String getPeerID() {
+		return peerID;
 	}
 	
 	public void acceptRequest(String user) {

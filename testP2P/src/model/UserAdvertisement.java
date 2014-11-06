@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+import view.Application;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.Element;
 import net.jxta.id.ID;
@@ -23,6 +24,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		this.putValue("adresse", user.getAdresse());
 		this.putValue("tel", user.getTel());
 		this.putValue("password", Integer.toString(user.getPasswordHash()));
+		this.putValue("pid", Application.getInstance().getPeer().getPeerId().toURI().toString());
 	}
 	
 	@Override
@@ -34,6 +36,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		this.addKey("tel", false);
 		this.addKey("password", false);
 		this.addKey("mail", false);
+		this.addKey("pid", false);
 	}
 	
 	public static String getAdvertisementType() {
@@ -62,6 +65,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		User user = new User(this.getValue("nom"), this.getValue("prenom"), this.getValue("adresse"), 
 				this.getValue("tel"), this.getValue("mail"), this.getValue("login"), null);
 		user.setPassword(Integer.parseInt(this.getValue("password")));
+		user.setPeerID(this.getValue("pid"));
 		return user;
 	}
 
