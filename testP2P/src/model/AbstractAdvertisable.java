@@ -19,7 +19,7 @@ public abstract class AbstractAdvertisable implements Advertisable, Serializable
 		lastAdv = getAdvertisement();
 		try {
 			discovery.publish(lastAdv);
-			discovery.remotePublish(lastAdv);
+			//discovery.remotePublish(lastAdv);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

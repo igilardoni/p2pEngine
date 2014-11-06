@@ -49,9 +49,6 @@ public class UserMessages implements Serializable{
 		}
 		messages.get(from).msgs.add(message);
 		messages.get(from).newMessage++;
-		for(MessageData m: messages.get(from).msgs) {
-			System.out.println(m.getContent());
-		}
 	}
 	
 	public ArrayList<MessageData> getMessages(String from) {

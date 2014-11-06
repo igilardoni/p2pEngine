@@ -114,8 +114,9 @@ public class Inscription implements Validator{
 
 		User user = new User(nom, prenom, adresse, tel, email, login, password);
 		users.addUser(user);
+		user.publish(Application.getInstance().getPeer().getDiscovery());
 		
-		return false;
+		return true;
 	}
 	
 	public String toString() {

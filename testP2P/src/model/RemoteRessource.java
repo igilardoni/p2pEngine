@@ -57,6 +57,7 @@ public class RemoteRessource<T extends Advertisable> implements DiscoveryListene
 	}
 	
 	public String getLastRequestSource() {
+		if(fromPeerID == null) System.out.println("prob ici");
 		return fromPeerID;
 	}
 

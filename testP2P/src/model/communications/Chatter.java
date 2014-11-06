@@ -29,9 +29,13 @@ public class Chatter implements PipeMsgListener{
 	private HashMap<String, MessageService> services = new HashMap<String, MessageService>();
 	private PipeAdvertisement pipeAdv;
 	private HashMap<String, OutputPipe> usersPeerID = new HashMap<String, OutputPipe>();
+	private String pipeName;
 	
 	public Chatter(Peer peer) {
 		this.peer = peer;
+		
+		pipeName = SERVICE_NAME + peer.getPeerId();
+		pipeName = Integer.toString(pipeName.hashCode());
 		initPipeAdv();
 	}
 	
@@ -87,6 +91,7 @@ public class Chatter implements PipeMsgListener{
 				try {
 					to.add((PeerID)IDFactory.fromURI(new URI(res.getLastRequestSource())));
 					sender = peer.getPipeService().createOutputPipe(pipeAdv, to, 10000);
+					System.out.println("creation du pipe ...");
 					this.usersPeerID.put(userName, sender);
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
@@ -102,6 +107,7 @@ public class Chatter implements PipeMsgListener{
 		}
 		try {
 			sender.send(msg);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

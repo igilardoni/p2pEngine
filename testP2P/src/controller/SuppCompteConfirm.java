@@ -29,6 +29,7 @@ public class SuppCompteConfirm implements Validator{
 		UsersManagement users = Application.getInstance().getUsers();
 		users.deleteUser(user.getLogin(), password);
 		users.disconnectUser();
+		user.flush(Application.getInstance().getPeer().getDiscovery());
 		return true;
 	}
 	
