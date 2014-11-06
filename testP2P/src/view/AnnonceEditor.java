@@ -51,24 +51,39 @@ public class AnnonceEditor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField titre;
 	private JTextField resume;
-	private JLabel imageLabel;
 	private JRadioButton proposition;
 	private JRadioButton souhait;
 	private JCheckBox troc;
 	private JCheckBox argent;
 	private HTMLEditorPane description;
+	private JButton btnParcourir;
 	
 	private JLabel errorTermes ;
 	private JLabel errorTitre;
 	private JLabel errorResume ;
 	private JLabel errorDesc; 
+	private JLabel lblImageAperu;
+	private JLabel lblDescription;
+	private JLabel lblAnnonce;
+	private JLabel lblRsumDeDescription;
+	private JLabel lblTitre;
+	private JLabel lblDiffusion;
+	private JLabel lblTermesDeLchange;
+	private JLabel lblConfig;
+	private JLabel lblTypeDeLannonce;
+	private JLabel imageLabel;
+	
+	private JSeparator separatorConfig;
+	private JSeparator separatorDiffusion;
+	private JSeparator separatorAnnonce;
 	
 	private Objet obj = null;
 
 	/**
-	 * Create the dialog.
+	 * Fenêtre de création/modification d'une annonce
 	 */
 	public AnnonceEditor() {
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		setResizable(false);
@@ -77,65 +92,67 @@ public class AnnonceEditor extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel = new JLabel(Messages.getString("AnnonceEditor.lblConfiguration.text")); //$NON-NLS-1$
-		lblNewLabel.setForeground(SystemColor.textHighlight);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JSeparator separator = new JSeparator();
+		lblConfig = new JLabel(Messages.getString("AnnonceEditor.lblConfiguration.text")); //$NON-NLS-1$
+		lblConfig.setForeground(SystemColor.textHighlight);
+		lblConfig.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JLabel lblTypeDeLannonce = new JLabel(Messages.getString("AnnonceEditor.lblTypeDeLannonce.text")); //$NON-NLS-1$
+		separatorConfig = new JSeparator();
 		
-		proposition = new JRadioButton(Messages.getString("AnnonceEditor.rbtnProposition.text")); //$NON-NLS-1$
-		proposition.setSelected(true);
+		lblTypeDeLannonce = new JLabel(Messages.getString("AnnonceEditor.lblTypeDeLannonce.text")); //$NON-NLS-1$
 		
+		proposition = new JRadioButton(Messages.getString("AnnonceEditor.rbtnProposition.text")); //$NON-NLS-1$	
 		souhait = new JRadioButton(Messages.getString("AnnonceEditor.rbtnSouhait.text")); //$NON-NLS-1$
 		
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(proposition);
-		bg.add(souhait);
+		ButtonGroup bgPropSouhait = new ButtonGroup();
+		bgPropSouhait.add(proposition);
+		bgPropSouhait.add(souhait);
 		
-		JLabel lblTermesDeLchange = new JLabel(Messages.getString("AnnonceEditor.lblTermesDeLchange.text")); //$NON-NLS-1$
+		lblTermesDeLchange = new JLabel(Messages.getString("AnnonceEditor.lblTermesDeLchange.text")); //$NON-NLS-1$
 		
 		troc = new JCheckBox(Messages.getString("AnnonceEditor.cbTroc.text")); //$NON-NLS-1$
-		troc.setSelected(true);
+		argent = new JCheckBox(Messages.getString("AnnonceEditor.cbArgent.text")); //$NON-NLS-1$	
+
+
 		
-		argent = new JCheckBox(Messages.getString("AnnonceEditor.cbArgent.text")); //$NON-NLS-1$
-		
-		JLabel lblDiffusion = new JLabel(Messages.getString("AnnonceEditor.lblDiffusion.text")); //$NON-NLS-1$
+		lblDiffusion = new JLabel(Messages.getString("AnnonceEditor.lblDiffusion.text")); //$NON-NLS-1$
 		lblDiffusion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDiffusion.setForeground(SystemColor.textHighlight);
 		
-		JSeparator separator_1 = new JSeparator();
+		separatorDiffusion = new JSeparator();
 		
-		JLabel lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text")); //$NON-NLS-1$
+		lblTitre = new JLabel(Messages.getString("AnnonceEditor.lblTitre.text")); //$NON-NLS-1$
 		
 		titre = new JTextField();
 		titre.setColumns(10);
 		
-		JLabel lblRsumDeDescription = new JLabel(Messages.getString("AnnonceEditor.lblRsumDeDescription.text")); //$NON-NLS-1$
+		lblRsumDeDescription = new JLabel(Messages.getString("AnnonceEditor.lblRsumDeDescription.text")); //$NON-NLS-1$
 		
 		resume = new JTextField();
 		resume.setColumns(10);
-		
-		JLabel lblAnnonce = new JLabel(Messages.getString("AnnonceEditor.lblAnnonce.text")); //$NON-NLS-1$
+
+
+		lblAnnonce = new JLabel(Messages.getString("AnnonceEditor.lblAnnonce.text")); //$NON-NLS-1$
 		lblAnnonce.setForeground(SystemColor.textHighlight);
 		lblAnnonce.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		
-		JSeparator separator_2 = new JSeparator();
+		separatorAnnonce = new JSeparator();
 		
-		JLabel lblDescription = new JLabel(Messages.getString("AnnonceEditor.lblCompleteDesc.text")); //$NON-NLS-1$
+		lblDescription = new JLabel(Messages.getString("AnnonceEditor.lblCompleteDesc.text")); //$NON-NLS-1$
 		
 		description = new HTMLEditorPane();
 		
-		JLabel lblImageAperu = new JLabel(Messages.getString("AnnonceEditor.lblImageApercu.text"));
+		lblImageAperu = new JLabel(Messages.getString("AnnonceEditor.lblImageApercu.text"));
 		
-		JButton btnNewButton = new JButton(Messages.getString("AnnonceEditor.btnParcourir.text")); //$NON-NLS-1$
+		btnParcourir = new JButton(Messages.getString("AnnonceEditor.btnParcourir.text")); //$NON-NLS-1$
+		
 		imageLabel = new JLabel(Messages.getString("AnnonceEditor.lblImage.text")); //$NON-NLS-1$
 		imageLabel.setMinimumSize(new Dimension(100, 100));
 		imageLabel.setMaximumSize(new Dimension(100, 100));
 		imageLabel.setIcon(null);
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		btnParcourir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ImageDialog dialog = new ImageDialog();
 				dialog.showOpenDialog(null);
@@ -143,8 +160,9 @@ public class AnnonceEditor extends JDialog {
 				setImage(dialog.getSelectedFile().toString());
 				
 			}
-		});
-		
+		});	
+
+
 		errorTermes = new JLabel(Messages.getString("AnnonceEditor.lblErrorTermes.text")); //$NON-NLS-1$
 		errorTermes.setVisible(false);
 		errorTermes.setForeground(Color.RED);
@@ -160,15 +178,17 @@ public class AnnonceEditor extends JDialog {
 		errorDesc = new JLabel(Messages.getString("AnnonceEditor.lblErrorDescription.text")); //$NON-NLS-1$
 		errorDesc.setVisible(false);
 		errorDesc.setForeground(Color.RED);
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(description, GroupLayout.PREFERRED_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(lblNewLabel)
+						.addComponent(separatorAnnonce, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+						.addComponent(separatorDiffusion, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+						.addComponent(lblConfig)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -187,7 +207,7 @@ public class AnnonceEditor extends JDialog {
 									.addGap(18)
 									.addComponent(errorTermes)))
 							.addGap(33))
-						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+						.addComponent(separatorConfig, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
 						.addComponent(lblDiffusion)
 						.addComponent(lblAnnonce)
 						.addGroup(gl_contentPanel.createSequentialGroup()
@@ -196,7 +216,7 @@ public class AnnonceEditor extends JDialog {
 							.addGap(162)
 							.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-							.addComponent(btnNewButton))
+							.addComponent(btnParcourir))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -221,9 +241,9 @@ public class AnnonceEditor extends JDialog {
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblNewLabel)
+					.addComponent(lblConfig)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+					.addComponent(separatorConfig, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTypeDeLannonce)
@@ -238,7 +258,7 @@ public class AnnonceEditor extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblDiffusion)
 					.addGap(9)
-					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(separatorDiffusion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTitre)
@@ -252,7 +272,7 @@ public class AnnonceEditor extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAnnonce)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+					.addComponent(separatorAnnonce, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDescription)
@@ -262,7 +282,7 @@ public class AnnonceEditor extends JDialog {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblImageAperu)
-						.addComponent(btnNewButton)
+						.addComponent(btnParcourir)
 						.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(27, Short.MAX_VALUE))
 		);
@@ -307,7 +327,8 @@ public class AnnonceEditor extends JDialog {
 		}
 	}
 	
-	
+
+
 	public AnnonceEditor(int i) {
 		this();
 		this.obj = Application.getInstance().getUsers().getConnectedUser().getObjets().get(i);
@@ -340,5 +361,4 @@ public class AnnonceEditor extends JDialog {
 		if(editor.errorResume) errorResume.setVisible(true);
 		if(editor.errorDesc) errorDesc.setVisible(true);
 	}
-	
 }

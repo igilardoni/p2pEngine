@@ -52,16 +52,15 @@ import model.Objet;
 
 public class AnnoncePanel extends JPanel {
 
-	private Objet obj = null;
-	private static final Color COLOR_ACTIVE=new Color(110, 153, 204);
-	private static final Color COLOR_INACTIVE=new Color(191, 205, 219);
+	private static final Color COLOR_ACTIVE = new Color(110, 153, 204);
+	private static final Color COLOR_INACTIVE = new Color(191, 205, 219);
 	
 	
 	/**
-	 * Create the panel.
+	 * Panel d'une annonce
 	 */
 	public AnnoncePanel(Objet obj, final int i) {
-		this.obj = obj;
+		
 		setMinimumSize(new Dimension(10, 100));
 		setMaximumSize(new Dimension(32767, 100));
 		setLayout(new BorderLayout(0, 0));

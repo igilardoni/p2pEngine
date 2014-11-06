@@ -64,7 +64,7 @@ public class Panier extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnViderLePanier = new JButton("Vider le panier");
+				JButton btnViderLePanier = new JButton(Messages.getString("Panier.btnViderPanier.text"));
 				btnViderLePanier.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						Application.getInstance().getUsers().getConnectedUser().getPanier().removeAll();
@@ -74,7 +74,7 @@ public class Panier extends JDialog {
 				buttonPane.add(btnViderLePanier);
 			}
 			{
-				JButton okButton = new JButton("Quitter");
+				JButton okButton = new JButton(Messages.getString("Panier.btnPoursuivreMesAchats.text"));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -97,7 +97,7 @@ public class Panier extends JDialog {
 	private void loadPanier() {
 		annonceContainer.removeAll();
 		ObjetsManagement panier = Application.getInstance().getUsers().getConnectedUser().getPanier();
-		if(panier.size() == 0) annonceContainer.add(new JLabel("Le panier est vide"));
+		if(panier.size() == 0) annonceContainer.add(new JLabel(Messages.getString("Panier.lblPanierVide.text")));
 		for(int i = 0; i < panier.size(); i++) {
 			annonceContainer.add(new AnnoncePanierPanel(panier.get(i), i, this));
 		}

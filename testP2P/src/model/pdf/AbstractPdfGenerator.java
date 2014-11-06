@@ -22,21 +22,34 @@ import com.itextpdf.text.pdf.PdfStamper;
 public abstract class AbstractPdfGenerator {	
 	
 	protected Document document;
-	
+	protected PdfReader pdfTemplate = null;
+	protected FileOutputStream fileOutputStream = null;
 	protected AcroFields stamp;
 	protected PdfStamper stamper;
-	protected HashMap<String,String> texte;
-	protected HashMap<String,String> image;
-	protected HashMap<String,Boolean> bool;
+	protected HashMap<String,String> texte = new HashMap<String,String>();
+	protected HashMap<String,String> image = new HashMap<String,String>();
+	protected HashMap<String,Boolean> bool = new HashMap<String,Boolean>();
 	
-	protected void createPDF(){
+	protected void createPdf(){
+			
+		openPdf();
+		addContent();
+		flattenPdf();
+		closePdf();	
+	}
+	
+	protected void mergePdf(){
 		
 		
-		PdfReader pdfTemplate = null;
+		addContent();
+	}
+	
+	protected void openPdf(){
+		
 		try {pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");} 
 		catch (IOException e) {e.printStackTrace();}
 		
-		FileOutputStream fileOutputStream = null;
+		
 		try {fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
 		
@@ -46,12 +59,16 @@ public abstract class AbstractPdfGenerator {
 		catch (IOException e) {e.printStackTrace();}
 		
 		stamp = stamper.getAcroFields();
-
-		addContent();
 		
-		
+	}
+	
+	protected void flattenPdf(){
 		stamper.setFormFlattening(true);
 		stamp.setGenerateAppearances(true);
+	}
+	
+	protected void closePdf(){
+		
 		try {stamper.close();} 
 		catch (DocumentException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
@@ -60,14 +77,12 @@ public abstract class AbstractPdfGenerator {
 		
 		try {fileOutputStream.close();} 
 		catch (IOException e) {e.printStackTrace();}
-		
-		
 	}
+	
 	
 	protected abstract void addContent();
 	
-	
-	
+
 	protected void addTexte(){
 		for(Map.Entry<String,String> champ : texte.entrySet()){
 			try {stamp.setField(champ.getKey(), champ.getValue());} 
