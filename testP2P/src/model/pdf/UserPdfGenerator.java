@@ -10,7 +10,7 @@ public class UserPdfGenerator extends AbstractPdfGenerator {
 		this.image.putAll(model.getImageMap());
 		this.bool.putAll(model.getBoolMap());
 		
-		createPdf();
+		createPdf(model.getTexteMap().get("fileOut"), model.getTexteMap().get("modele"));
 		
 	}
 	

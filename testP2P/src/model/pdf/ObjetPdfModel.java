@@ -37,33 +37,39 @@ public class ObjetPdfModel extends AbstractPdfModel {
 				
 	}
 	
-	private void addFicheObjet() {
-		objetTextMap.put("titre", objet.getTitre());
-		objetTextMap.put("resume", objet.getResume());
-		objetImageMap.put("image", objet.getImg());
+	private void addFile() {
+		objetTextMap.put("modele", modele);
+		objetTextMap.put("fileOut", objet.getTitre());
 		
-		objetBoolMap.put("vente", objet.isVente());
-		objetBoolMap.put("troc", objet.isTroc());
-		objetBoolMap.put("souhait", objet.isSouhait());
-		objetBoolMap.put("proposition", objet.isProposition());
+	}
+	
+	private void addFicheObjet() {
+		objetTextMap.put("titreObjet", objet.getTitre());
+		objetTextMap.put("resumeObjet", objet.getResume());
+		objetImageMap.put("imageObjet", objet.getImg());
+		
+		objetBoolMap.put("venteObjet", objet.isVente());
+		objetBoolMap.put("trocObjet", objet.isTroc());
+		objetBoolMap.put("souhaitObjet", objet.isSouhait());
+		objetBoolMap.put("propositionObjet", objet.isProposition());
 		
 	}
 
 
 	private void addSignature() {
-		objetTextMap.put("signature", concat(objet.getUser().getPrenom(), objet.getUser().getNom()));
+		objetTextMap.put("signatureObjet", concat(objet.getUser().getPrenom(), objet.getUser().getNom()));
 		
 	}
 
 
 	private void addDate() {
-		objetTextMap.put("date", objet.getSimpleDate());
+		objetTextMap.put("dateObjet", objet.getSimpleDate());
 		
 	}
 
 
 	private void addObjet() {
-		objetTextMap.put("objet", "Objet: Fiche d'objet");
+		objetTextMap.put("objetObjet", "Objet: Fiche d'objet");
 		
 	}
 
@@ -79,14 +85,7 @@ public class ObjetPdfModel extends AbstractPdfModel {
 		
 		String coordonnees = paragraphe(liste);
 		
-		objetTextMap.put("coordonnees", coordonnees);
-	}
-
-
-	private void addFile() {
-		objetTextMap.put("modele", modele);
-		objetTextMap.put("filename", objet.getTitre());
-		
+		objetTextMap.put("coordonneesObjet", coordonnees);
 	}
 
 

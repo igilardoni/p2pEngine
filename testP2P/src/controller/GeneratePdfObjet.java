@@ -21,7 +21,7 @@ public class GeneratePdfObjet implements Validator{
 
 
 	public boolean process() {
-		user.getObjets().get(i).createPDF();
+		user.getObjets().get(i).createPdf();
 		return true;
 	}
 }

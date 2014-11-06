@@ -15,6 +15,9 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BadPdfFormatException;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
@@ -26,54 +29,112 @@ public abstract class AbstractPdfGenerator {
 	protected FileOutputStream fileOutputStream = null;
 	protected AcroFields stamp;
 	protected PdfStamper stamper;
+	protected ByteArrayOutputStream byteStream;
+	protected PdfCopy copy = null;
 	protected HashMap<String,String> texte = new HashMap<String,String>();
 	protected HashMap<String,String> image = new HashMap<String,String>();
 	protected HashMap<String,Boolean> bool = new HashMap<String,Boolean>();
 	
-	protected void createPdf(){
+	protected void createPdf(String fileOut, String modele){
 			
-		openPdf();
+		openPdfReader(modele);
+		openFileOut(fileOut);
+		openStamper();
+		
 		addContent();
 		flattenPdf();
-		closePdf();	
+		
+		closeStamper();
+		closePdfReader();
+		closeFileOut();
 	}
 	
-	protected void mergePdf(){
+	protected void mergePdf(List<String> modeles, String fileOut){
 		
+		document = new Document();
 		
-		addContent();
-	}
+		try {copy = new PdfCopy(document, new FileOutputStream("modeles/"+fileOut+".pdf"));}
+		catch (FileNotFoundException e) {e.printStackTrace();} 
+		catch (DocumentException e) {e.printStackTrace();}
+		
+		document.open();
+		byteStream = new ByteArrayOutputStream();
+		
+		for(String modele : modeles){
+			
+			openPdfReader(modele);
+			
+			stamper = null;
+			try {stamper = new PdfStamper(pdfTemplate, byteStream);} 
+			catch (DocumentException e) {e.printStackTrace();} 
+			catch (IOException e) {e.printStackTrace();}
+			
 	
-	protected void openPdf(){
+			PdfContentByte cb = stamper.getUnderContent(1);
+			try {stamper.close();} 
+			catch (DocumentException e) {e.printStackTrace();} 
+			catch (IOException e) {e.printStackTrace();}
+			
+			
+			PdfReader outReader = null;
+			try {outReader = new PdfReader(byteStream.toByteArray());} 
+			catch (IOException e) {e.printStackTrace();}
+			
+			try {copy.addPage(copy.getImportedPage(outReader,1));} 
+			catch (BadPdfFormatException e) {e.printStackTrace();} 
+			catch (IOException e) {e.printStackTrace();}
+			
+			outReader.close();
+			closePdfReader();
+		}
 		
-		try {pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");} 
+		copy.close();
+		try {byteStream.close();} 
 		catch (IOException e) {e.printStackTrace();}
 		
+	//	createPdf(fileOut, fileOut);
+	}
+	
+	protected void openPdfReader(String modele){
 		
-		try {fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");} 
+		try {pdfTemplate = new PdfReader("modeles/"+modele+".pdf");} 
+		catch (IOException e) {e.printStackTrace();}
+	}
+	
+	protected void openFileOut(String fileOut){
+		
+		try {fileOutputStream = new FileOutputStream("pdf/"+fileOut+".pdf");} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
-		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+	}
+	
+	protected void openStamper(){
 		try {stamper = new PdfStamper(pdfTemplate, fileOutputStream);} 
 		catch (DocumentException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
 		
 		stamp = stamper.getAcroFields();
-		
 	}
 	
 	protected void flattenPdf(){
+		
 		stamper.setFormFlattening(true);
 		stamp.setGenerateAppearances(true);
 	}
 	
-	protected void closePdf(){
+	protected void closePdfReader(){
+	
+		pdfTemplate.close();
+	}
+	
+	protected void closeStamper(){
 		
 		try {stamper.close();} 
 		catch (DocumentException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
 		
-		pdfTemplate.close();
+	}
+	protected void closeFileOut(){
 		
 		try {fileOutputStream.close();} 
 		catch (IOException e) {e.printStackTrace();}

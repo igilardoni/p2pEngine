@@ -37,17 +37,17 @@ public class NewConvers extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblCrationDuneDiscussion = new JLabel("Création d'une discussion");
+		JLabel lblCrationDuneDiscussion = new JLabel(Messages.getString("NewConvers.lblNouvelleDiscu.text"));
 		lblCrationDuneDiscussion.setForeground(SystemColor.textHighlight);
 		lblCrationDuneDiscussion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
-		JLabel lblVeuillezEntrerLidentifiant = new JLabel("Veuillez entrer l'identifiant de la personne à contacter");
+		JLabel lblVeuillezEntrerLidentifiant = new JLabel(Messages.getString("NewConvers.lblIdentifiant.text"));
 		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
-		JButton btnValider = new JButton("Valider");
+		JButton btnValider = new JButton(Messages.getString("NewConvers.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.NewConvers validator = new controller.NewConvers(textField.getText());
@@ -64,7 +64,7 @@ public class NewConvers extends JDialog {
 			}
 		});
 		
-		lblUtilisateurInconnue = new JLabel("Utilisateur inconnue");
+		lblUtilisateurInconnue = new JLabel(Messages.getString("NewConvers.lblUtilInconnu.text"));
 		lblUtilisateurInconnue.setVisible(false);
 		lblUtilisateurInconnue.setForeground(Color.RED);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -109,7 +109,7 @@ public class NewConvers extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Annuler");
+				JButton okButton = new JButton(Messages.getString("NewConvers.btnAnnuler.text"));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

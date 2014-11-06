@@ -34,20 +34,20 @@ public class UserPdfModel extends AbstractPdfModel  {
 
 	private void addInfos() {
 				
-		userTextMap.put("pseudo", user.getLogin());
-		userTextMap.put("nom", user.getNom());
-		userTextMap.put("prenom", user.getPrenom());
-		userTextMap.put("adresse", user.getAdresse());
-		userTextMap.put("telephone", user.getTel());
-		userTextMap.put("mail", user.getMail());
-		userTextMap.put("note",String.valueOf(user.getMoyenneNotes()));
+		userTextMap.put("pseudoUser", user.getLogin());
+		userTextMap.put("nomUser", user.getNom());
+		userTextMap.put("prenomUser", user.getPrenom());
+		userTextMap.put("adresseUser", user.getAdresse());
+		userTextMap.put("telephoneUser", user.getTel());
+		userTextMap.put("mailUser", user.getMail());
+		userTextMap.put("noteUser",String.valueOf(user.getMoyenneNotes()));
 		
 	}
 
 
 	private void addFile() {
 		userTextMap.put("modele", modele);
-		userTextMap.put("filename", user.getLogin());
+		userTextMap.put("fileOut", user.getLogin());
 		
 	}
 

@@ -169,7 +169,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 		return new UserPdfModel(this);
 	}
 	
-	public void createPDF(){
+	public void createPdf(){
 		UserPdfModel model = createModel();
 		new UserPdfGenerator(model);
 	}
