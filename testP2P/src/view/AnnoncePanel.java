@@ -157,7 +157,7 @@ public class AnnoncePanel extends JPanel {
 		JButton btnNewButton = new JButton(Messages.getString("AnnoncePanel.btnPdf.text")); //$NON-NLS-1$
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GeneratePdfContrat validator = new GeneratePdfContrat(i);
+				GeneratePdfObjet validator = new GeneratePdfObjet(i);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();
