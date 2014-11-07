@@ -15,13 +15,15 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BadPdfFormatException;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
-
+/**
+ * Plusieurs fonctions nécessaires à la génération/concaténation de fichiers PDF à partir de modèles et templates
+ * @author Ismael Cussac
+ *
+ */
 public abstract class AbstractPdfGenerator {	
 	
 	protected Document document;
@@ -29,12 +31,15 @@ public abstract class AbstractPdfGenerator {
 	protected FileOutputStream fileOutputStream = null;
 	protected AcroFields stamp;
 	protected PdfStamper stamper;
-	protected ByteArrayOutputStream byteStream;
 	protected PdfCopy copy = null;
 	protected HashMap<String,String> texte = new HashMap<String,String>();
 	protected HashMap<String,String> image = new HashMap<String,String>();
 	protected HashMap<String,Boolean> bool = new HashMap<String,Boolean>();
 	
+	
+	/**
+	 * Crée et complète un PDF à partir d'un modèle
+	 */
 	protected void createPdf(String fileOut, String modele){
 			
 		openPdfReader(modele);
@@ -49,6 +54,9 @@ public abstract class AbstractPdfGenerator {
 		closeFileOut();
 	}
 	
+	/**
+	 * Concatene une liste de PDF
+	 */
 	protected void mergePdf(List<String> modeles, String fileOut){
 		
 		document = new Document();
@@ -56,43 +64,16 @@ public abstract class AbstractPdfGenerator {
 		try {copy = new PdfCopy(document, new FileOutputStream("modeles/"+fileOut+".pdf"));}
 		catch (FileNotFoundException e) {e.printStackTrace();} 
 		catch (DocumentException e) {e.printStackTrace();}
-		
+		copy.setMergeFields();
 		document.open();
-		byteStream = new ByteArrayOutputStream();
 		
 		for(String modele : modeles){
-			
-			openPdfReader(modele);
-			
-			stamper = null;
-			try {stamper = new PdfStamper(pdfTemplate, byteStream);} 
+			try {copy.addDocument(new PdfReader("modeles/"+modele+".pdf"));} 
 			catch (DocumentException e) {e.printStackTrace();} 
 			catch (IOException e) {e.printStackTrace();}
-			
-	
-			PdfContentByte cb = stamper.getUnderContent(1);
-			try {stamper.close();} 
-			catch (DocumentException e) {e.printStackTrace();} 
-			catch (IOException e) {e.printStackTrace();}
-			
-			
-			PdfReader outReader = null;
-			try {outReader = new PdfReader(byteStream.toByteArray());} 
-			catch (IOException e) {e.printStackTrace();}
-			
-			try {copy.addPage(copy.getImportedPage(outReader,1));} 
-			catch (BadPdfFormatException e) {e.printStackTrace();} 
-			catch (IOException e) {e.printStackTrace();}
-			
-			outReader.close();
-			closePdfReader();
 		}
 		
 		copy.close();
-		try {byteStream.close();} 
-		catch (IOException e) {e.printStackTrace();}
-		
-	//	createPdf(fileOut, fileOut);
 	}
 	
 	protected void openPdfReader(String modele){
@@ -116,6 +97,9 @@ public abstract class AbstractPdfGenerator {
 		stamp = stamper.getAcroFields();
 	}
 	
+	/**
+	 * Met les champs en lecture seule et les affiche
+	 */
 	protected void flattenPdf(){
 		
 		stamper.setFormFlattening(true);
@@ -140,10 +124,14 @@ public abstract class AbstractPdfGenerator {
 		catch (IOException e) {e.printStackTrace();}
 	}
 	
-	
+	/**
+	 * Ajoute le contenu du PDF
+	 */
 	protected abstract void addContent();
 	
-
+	/**
+	 * Complète tous les textFields avec du texte
+	 */
 	protected void addTexte(){
 		for(Map.Entry<String,String> champ : texte.entrySet()){
 			try {stamp.setField(champ.getKey(), champ.getValue());} 
@@ -152,6 +140,9 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 	
+	/**
+	 * Complète les textFields avec des images
+	 */
 	protected void addImage(){
 		for(Map.Entry<String,String> champ : image.entrySet()){
 			if(champ.getValue() != null){
@@ -175,6 +166,9 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 	
+	/**
+	 * Complète les field qui nécessitent des booleens
+	 */
 	protected void addCheckBox(){
 		for(Map.Entry<String,Boolean> champ : bool.entrySet()){
 			if(champ.getValue())
@@ -184,3 +178,4 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 }
+

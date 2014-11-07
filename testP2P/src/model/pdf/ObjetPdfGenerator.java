@@ -1,7 +1,11 @@
 package model.pdf;
 
 
-
+/**
+ * Permet de générer un PDF de type objet à partir du modèle Objet et de son template
+ * @author Ismael Cussac
+ *
+ */
 public class ObjetPdfGenerator extends AbstractPdfGenerator {
 
 	

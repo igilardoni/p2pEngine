@@ -5,25 +5,27 @@ import model.RemoteRessource;
 import model.User;
 import model.communications.FriendRequestService;
 
+/**
+ * Ajouter un ami à la liste de contacts
+ * @author 
+ * @param friend nom de l'ami
+ */
 public class AddFriend implements Validator {
 
-	private String f = null;
+	private String friend = null;
 	
-	public AddFriend(String f) {
-		this.f = f;
+	public AddFriend(String friend) {
+		this.friend = friend;
 	}
 	
-	@Override
 	public boolean validate() {
-		if(f == null || f.length() == 0) return false;
+		if(friend == null || friend.length() == 0) return false;
 		RemoteRessource<User> rs = new RemoteRessource<User>(Application.getInstance().getPeer().getDiscovery(), "login", 1000);
-		User u = rs.getRemoteRessource(f);
+		User u = rs.getRemoteRessource(friend);
 		return u != null;
 	}
 
-	@Override
 	public boolean process() {
-		return FriendRequestService.sendRequest(Application.getInstance().getChatter(), Application.getInstance().getUsers().getConnectedUser().getLogin(), f);
+		return FriendRequestService.sendRequest(Application.getInstance().getChatter(), Application.getInstance().getUsers().getConnectedUser().getLogin(), friend);
 	}
-
 }

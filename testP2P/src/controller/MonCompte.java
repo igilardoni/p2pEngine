@@ -3,6 +3,11 @@ package controller;
 import model.User;
 import view.Application;
 
+/**
+ * Accéder au compte de l'utilisateur connecté
+ * @author 
+ *
+ */
 public class MonCompte implements Validator{
 
 	private String email;
@@ -20,7 +25,6 @@ public class MonCompte implements Validator{
 		errorEmail = errorTel = errorAdresse = false;
 	}
 	
-	@Override
 	public boolean validate() {
 		Inscription insc = new Inscription("", "", "", adresse, email, tel, "", "");
 		insc.validate();
@@ -30,12 +34,10 @@ public class MonCompte implements Validator{
 		return !(errorEmail || errorTel || errorAdresse);
 	}
 
-	@Override
 	public boolean process() {
 		user.setAdresse(adresse);
 		user.setMail(email);
 		user.setTel(tel);
 		return true;
 	}
-
 }

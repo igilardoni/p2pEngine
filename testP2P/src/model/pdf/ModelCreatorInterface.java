@@ -1,5 +1,10 @@
 package model.pdf;
 
+/**
+ * 
+ * @author Ismael Cussac
+ *
+ */
 public interface ModelCreatorInterface {
 	
 	

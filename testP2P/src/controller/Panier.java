@@ -1,11 +1,13 @@
 package controller;
 
 import view.Application;
-import model.Objet;
 import model.ObjetsManagement;
-import model.User;
-import model.UsersManagement;
 
+/**
+ * Afficher le panier de l'utilisateur connecté
+ * @author 
+ *
+ */
 public class Panier implements Validator {
 	
 	public static enum Action {
@@ -35,8 +37,7 @@ public class Panier implements Validator {
 	private boolean validateDown() {
 		return panier.get(i) != null;
 	}
-	
-	@Override
+
 	public boolean validate() {
 		switch(action) {
 		case DELETE: return validateDelete();
@@ -46,7 +47,6 @@ public class Panier implements Validator {
 		}
 	}
 
-	@Override
 	public boolean process() {
 		switch(action) {
 		case DELETE: panier.delete(i); break;
@@ -57,5 +57,4 @@ public class Panier implements Validator {
 		
 		return true;
 	}
-
 }

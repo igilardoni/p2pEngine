@@ -130,23 +130,6 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		this.user = user;
 	}
 	
-	/*
-	public ObjetPdfModel createModelObjet(){
-		return new ObjetPdfModel(this);
-	}
-	
-	public UserPdfModel createModelUser(){
-		return new UserPdfModel(this.getUser());
-	}
-	
-	public void createPdf(){
-		ObjetPdfModel modelObj = createModelObjet();
-		UserPdfModel modelUser = createModelUser();
-		new ContratPdfGenerator(modelObj, modelUser);
-	}
-	/*/
-
-	
 	public ObjetPdfModel createModel(){
 		return new ObjetPdfModel(this);
 	}

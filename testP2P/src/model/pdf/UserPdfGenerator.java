@@ -1,7 +1,11 @@
 package model.pdf;
 
 
-
+/**
+ * Permet de générer un PDF de type utilisateur à partir du modèle User et de son template
+ * @author Ismael Cussac
+ *
+ */
 public class UserPdfGenerator extends AbstractPdfGenerator {
 	
 	public UserPdfGenerator(UserPdfModel model){
