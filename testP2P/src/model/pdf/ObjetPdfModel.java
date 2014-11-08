@@ -11,7 +11,7 @@ import model.Objet;
  * @author Ismael Cussac
  * 
  * Champs du template: modele, filename, coordonneesObjet, objetObjet, dateObjet, resumeObjet,
- *  imageObjet, signatureObjet, venteObjet, trocObjet, propositionObjet, souhaitObjet, titreObjet
+ *  imageObjet, signatureObjet, venteObjet, trocObjet, propositionObjet, souhaitObjet, titreObjet, prixObjet, contreObjet
  */
 
 public class ObjetPdfModel extends AbstractPdfModel {
@@ -57,11 +57,14 @@ public class ObjetPdfModel extends AbstractPdfModel {
 		objetBoolMap.put("trocObjet", objet.isTroc());
 		objetBoolMap.put("souhaitObjet", objet.isSouhait());
 		objetBoolMap.put("propositionObjet", objet.isProposition());
+		
+		objetTextMap.put("contreObjet", objet.getContre());
+		objetTextMap.put("prixObjet", Long.toString(objet.getArgent()));
 	}
 
 
 	private void addSignature() {
-		objetTextMap.put("signatureObjet", concat(objet.getUser().getPrenom(), objet.getUser().getNom()));
+		objetTextMap.put("signatureObjet", objet.getUser().getLogin());
 	}
 
 

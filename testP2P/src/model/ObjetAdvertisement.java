@@ -30,6 +30,8 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 		putValue("troc", Boolean.toString(obj.isTroc()));
 		putValue("vente", Boolean.toString(obj.isVente()));
 		putValue("date", Long.toString(obj.getDate()));
+		putValue("contre", obj.getContre());
+		putValue("argent", Long.toString(obj.getArgent()));
 	}
 
 	@Override
@@ -43,6 +45,8 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 		this.addKey("souhait", false);
 		this.addKey("troc", false);
 		this.addKey("vente", false);
+		this.addKey("contre", false);
+		this.addKey("argent", false);
 		
 		// TODO
 	}
@@ -64,7 +68,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 	}
 	
 	public static void main(String[] args) {
-		Objet obj = new Objet(true, false, true, false, "des patates", "des patates bien fraiches", "<h1>la description</h1>", null, null);
+		Objet obj = new Objet(true, false, true, false, "des patates", "des patates bien fraiches", "<h1>la description</h1>", null, null, null, (long) 0.0);
 		obj.setDate(System.currentTimeMillis());
 		ObjetAdvertisement adv = new ObjetAdvertisement(obj);
 		obj = adv.toClass();
@@ -83,7 +87,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 				  Boolean.parseBoolean(this.getValue("troc")), 
 				  Boolean.parseBoolean(this.getValue("vente")), 
 				  this.getValue("titre"), this.getValue("resume"), 
-				  this.getValue("desc"), this.getValue("img"), null);
+				  this.getValue("desc"), this.getValue("img"), null, this.getValue("contre"),  Long.parseLong(this.getValue("argent")));
 		obj.setDate(new Long(this.getValue("date")));
 		return obj;
 	}

@@ -1,26 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Image;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
-
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -33,13 +24,14 @@ import java.awt.SystemColor;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 
 import model.Objet;
 import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -51,6 +43,8 @@ public class AnnonceEditor extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField titre;
 	private JTextField resume;
+	private JTextField objetTroc;
+	private JTextField prix;
 	private JRadioButton proposition;
 	private JRadioButton souhait;
 	private JCheckBox troc;
@@ -78,6 +72,7 @@ public class AnnonceEditor extends JDialog {
 	private JSeparator separatorAnnonce;
 	
 	private Objet obj = null;
+	
 
 	/**
 	 * Fenêtre de création/modification d'une annonce
@@ -102,6 +97,7 @@ public class AnnonceEditor extends JDialog {
 		lblTypeDeLannonce = new JLabel(Messages.getString("AnnonceEditor.lblTypeDeLannonce.text")); //$NON-NLS-1$
 		
 		proposition = new JRadioButton(Messages.getString("AnnonceEditor.rbtnProposition.text")); //$NON-NLS-1$	
+		proposition.setSelected(true);
 		souhait = new JRadioButton(Messages.getString("AnnonceEditor.rbtnSouhait.text")); //$NON-NLS-1$
 		
 		ButtonGroup bgPropSouhait = new ButtonGroup();
@@ -113,7 +109,33 @@ public class AnnonceEditor extends JDialog {
 		troc = new JCheckBox(Messages.getString("AnnonceEditor.cbTroc.text")); //$NON-NLS-1$
 		argent = new JCheckBox(Messages.getString("AnnonceEditor.cbArgent.text")); //$NON-NLS-1$	
 
-
+		objetTroc = new JTextField();
+		objetTroc.setText(Messages.getString("AnnonceEditor.lblContre.text"));
+		objetTroc.setEnabled(false);
+		objetTroc.setColumns(10);
+		
+		prix = new JTextField();
+		prix.setText(Messages.getString("AnnonceEditor.lblPrix.text"));
+		prix.setEnabled(false);
+		prix.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		prix.setColumns(10);
+		
+		ItemListener trocListener = new ItemListener()
+        {
+            public void itemStateChanged(ItemEvent ie)
+            {
+                objetTroc.setEnabled(ie.getStateChange() == ItemEvent.SELECTED);
+            }
+        };
+        ItemListener argentListener = new ItemListener()
+        {
+            public void itemStateChanged(ItemEvent ie)
+            {
+                prix.setEnabled(ie.getStateChange() == ItemEvent.SELECTED);
+            }
+        };
+        troc.addItemListener(trocListener);
+        argent.addItemListener(argentListener);
 		
 		lblDiffusion = new JLabel(Messages.getString("AnnonceEditor.lblDiffusion.text")); //$NON-NLS-1$
 		lblDiffusion.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -180,90 +202,134 @@ public class AnnonceEditor extends JDialog {
 		errorDesc.setForeground(Color.RED);
 		
 		
+		JLabel lblEuros = new JLabel(Messages.getString("AnnonceEditor.lblEuros.text")); //$NON-NLS-1$
+		
+		JLabel lblContre = new JLabel(Messages.getString("AnnonceEditor.lblContre.text")); //$NON-NLS-1$
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(description, GroupLayout.PREFERRED_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(separatorAnnonce, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(separatorDiffusion, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(lblConfig)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTypeDeLannonce)
-								.addComponent(lblTermesDeLchange))
-							.addGap(48)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(proposition)
-									.addGap(18)
-									.addComponent(souhait))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(troc)
-									.addGap(18)
-									.addComponent(argent)
-									.addGap(18)
-									.addComponent(errorTermes)))
-							.addGap(33))
-						.addComponent(separatorConfig, GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-						.addComponent(lblDiffusion)
-						.addComponent(lblAnnonce)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblImageAperu)
-							.addGap(162)
-							.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-							.addComponent(btnParcourir))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblRsumDeDescription)
-									.addGap(18)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(resume)
-										.addComponent(titre, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)))
-								.addComponent(lblTitre))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(errorResume)
-								.addComponent(errorTitre)))
+						.addComponent(separatorConfig, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1187, Short.MAX_VALUE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblDescription)
+							.addGap(57)
+							.addComponent(errorDesc))
+						.addComponent(separatorAnnonce, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1187, Short.MAX_VALUE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addContainerGap()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblTypeDeLannonce)
+										.addComponent(lblTermesDeLchange)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblRsumDeDescription))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblTitre))
+								.addComponent(lblDiffusion))
 							.addGap(18)
-							.addComponent(errorDesc)))
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(titre)
+										.addComponent(resume, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(errorResume)
+										.addComponent(errorTitre)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(47)
+									.addComponent(proposition)
+									.addGap(58)
+									.addComponent(souhait))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(argent)
+										.addComponent(troc))
+									.addGap(18)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(10)
+											.addComponent(prix, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblEuros)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(errorTermes)
+											.addGap(24))
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(lblContre)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(objetTroc, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+											.addGap(178)))))
+							.addPreferredGap(ComponentPlacement.RELATED, 501, Short.MAX_VALUE))
+						.addComponent(separatorDiffusion, GroupLayout.DEFAULT_SIZE, 1187, Short.MAX_VALUE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(description, GroupLayout.PREFERRED_SIZE, 826, Short.MAX_VALUE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblImageAperu)
+									.addGap(136)
+									.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
+							.addGap(351))
+						.addComponent(lblConfig)
+						.addComponent(lblAnnonce))
 					.addContainerGap())
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap(560, Short.MAX_VALUE)
+					.addComponent(btnParcourir)
+					.addGap(548))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(lblConfig)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separatorConfig, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTypeDeLannonce)
+								.addComponent(proposition))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTermesDeLchange)
+								.addComponent(troc)
+								.addComponent(lblContre))
+							.addGap(4))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(2)
+							.addComponent(souhait)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(objetTroc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(argent)
+								.addComponent(prix, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEuros)
+								.addComponent(errorTermes))
+							.addGap(29))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(lblDiffusion)
+							.addGap(10)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTypeDeLannonce)
-						.addComponent(proposition)
-						.addComponent(souhait))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTermesDeLchange)
-						.addComponent(troc)
-						.addComponent(argent)
-						.addComponent(errorTermes))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblDiffusion)
-					.addGap(9)
 					.addComponent(separatorDiffusion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblTitre)
-						.addComponent(titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(errorTitre))
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(errorTitre)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRsumDeDescription)
@@ -277,14 +343,18 @@ public class AnnonceEditor extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDescription)
 						.addComponent(errorDesc))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(description, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblImageAperu)
-						.addComponent(btnParcourir)
-						.addComponent(imageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(27, Short.MAX_VALUE))
+					.addComponent(description, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(29)
+							.addComponent(lblImageAperu)
+							.addGap(10)
+							.addComponent(btnParcourir)
+							.addGap(48))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(imageLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 		);
 		
 		contentPanel.setLayout(gl_contentPanel);
@@ -298,7 +368,7 @@ public class AnnonceEditor extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						initError();
 						controller.AnnonceEditor validator = new controller.AnnonceEditor(proposition.isSelected(), souhait.isSelected(), troc.isSelected(), argent.isSelected(), titre.getText(), 
-								resume.getText(), description.getText(), imageLabel.getToolTipText());
+								resume.getText(), description.getText(), imageLabel.getToolTipText(), objetTroc.getText(), Long.parseLong(prix.getText()));
 						if(validator.validate()) {
 							if(obj != null) validator.setEditObjet(obj);
 							validator.process();
@@ -339,6 +409,8 @@ public class AnnonceEditor extends JDialog {
 		titre.setText(obj.getTitre());
 		resume.setText(obj.getResume());
 		description.setText(obj.getDesc());
+		objetTroc.setText(obj.getContre());
+		prix.setText(Long.toString(obj.getArgent()));
 		setImage(obj.getImg());
 	}
 	

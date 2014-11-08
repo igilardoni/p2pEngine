@@ -19,14 +19,17 @@ public class AnnonceEditor implements Validator{
 	private String desc;
 	private String img;
 	private User user;
+	private String contre;
+	private long argent;
 	private Objet obj = null; /* si l'on souhaite modifier un objet */
 	
 	public boolean errorProposition, errorSouhait, errorTroc, errorVente, errorTitle, 
 					errorResume, errorDesc, errorImg;
 	
+	
 	public AnnonceEditor(boolean proposition, boolean souhait, 
 			boolean troc, boolean vente, String title, 
-			String resDesc, String desc, String img) {
+			String resDesc, String desc, String img, String contre, long argent) {
 		
 		this.proposition = proposition;
 		this.souhait = souhait;
@@ -36,6 +39,8 @@ public class AnnonceEditor implements Validator{
 		this.resume = resDesc;
 		this.desc = desc;
 		this.img = img;
+		this.contre = contre;
+		this.argent = argent;
 		
 		user = Application.getInstance().getUsers().getConnectedUser();
 		
@@ -102,7 +107,7 @@ public class AnnonceEditor implements Validator{
 		if(user == null) return false;
 		
 		if(obj == null) {
-			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
+			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user, contre, argent);
 			obj.setDate(System.currentTimeMillis());
 			user.getObjets().add(obj);
 			obj.publish(Application.getInstance().getPeer().getDiscovery());
@@ -116,6 +121,8 @@ public class AnnonceEditor implements Validator{
 			obj.setResume(resume);
 			obj.setDesc(desc);
 			obj.setImg(img);
+			obj.setContre(contre);
+			obj.setArgent(argent);
 			obj.update(Application.getInstance().getPeer().getDiscovery());
 			
 		}	
@@ -130,6 +137,8 @@ public class AnnonceEditor implements Validator{
 		res += "R\u00E9sum\u00E9: " + resume + "\n\n";
 		res += "Description: \n" + desc + "\n";
 		res += "Image: " + img;
+		res += "Contre: " + contre;
+		res += "Prix: " + argent;
 		
 		return res;	
 	}

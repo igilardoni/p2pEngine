@@ -28,6 +28,8 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	private String resume;
 	private String desc;
 	private String img;
+	private String contre;
+	private long argent;
 	private long date;
 	private boolean proposition, souhait;
 	private boolean troc, vente;
@@ -35,6 +37,22 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	//voir ObjectAdvertisement
 	private String otherName;
 	private User user;
+	
+	public String getContre() {
+		return contre;
+	}
+	
+	public void setContre(String contre) {
+		this.contre = contre;
+	}
+	
+	public long getArgent() {
+		return argent;
+	}
+	
+	public void setArgent(long argent) {
+		this.argent = argent;
+	}
 	
 	public String getResume() {
 		return resume;
@@ -118,7 +136,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	
 
 	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 
-			String titre, String resume, String desc, String img, User user) {
+			String titre, String resume, String desc, String img, User user, String contre, long argent) {
 		this.proposition = proposition;
 		this.souhait = souhait;
 		this.troc = troc;
@@ -128,6 +146,8 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		this.desc = desc;
 		this.img = img;
 		this.user = user;
+		this.contre = contre;
+		this.argent = argent;
 	}
 	
 	public ObjetPdfModel createModel(){
