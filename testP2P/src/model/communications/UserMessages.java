@@ -55,6 +55,10 @@ public class UserMessages implements Serializable{
 		return messages.get(from).msgs;
 	}
 	
+	public void deleteConvest(String from) {
+		messages.remove(from);
+	}
+	
 	public int getNumberNewMsgs() {
 		int i = 0;
 		for(MessagesContainer c: messages.values()) {

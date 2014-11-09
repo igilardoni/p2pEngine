@@ -3,6 +3,7 @@ package view;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JDialog;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
 
 public class MessagesPanel extends JDialog implements MessageServiceListener{
 	private JTextField textField;
@@ -46,7 +48,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 	public MessagesPanel(JFrame w) {
 		super(w);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		setBounds(100, 100, 600, 300);
+		setBounds(100, 100, 789, 394);
 		
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -57,9 +59,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.NORTH);
-		
-		sender = new JLabel(Messages.getString("MessagesPanel.lblChoisirDiscussion.text"));
-		panel_2.add(sender);
+		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnCreerUneDiscussion = new JButton(Messages.getString("MessagesPanel.btnAjouterDiscussion.text"));
 		final MessagesPanel this_ = this;
@@ -69,6 +69,9 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 			}
 		});
 		panel_2.add(btnCreerUneDiscussion);
+		
+		sender = new JLabel(Messages.getString("MessagesPanel.lblChoisirDiscussion.text"));
+		panel_2.add(sender);
 		
 		JPanel panel_3 = new JPanel();
 		panel.add(panel_3, BorderLayout.SOUTH);
@@ -86,6 +89,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 					addText(System.currentTimeMillis(), Application.getInstance().getUsers().getConnectedUser().getLogin(), textField.getText());
 					textField.setText("");
 					controller.process();
+					Application.getInstance().getUsers().getConnectedUser().getMessages().viewUser(currentSender);
 				}
 			}
 		});
@@ -117,6 +121,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		
 		convers = new JPanel();
 		panel_4.add(convers, BorderLayout.CENTER);
+		convers.setLayout(new BoxLayout(convers, BoxLayout.Y_AXIS));
 		
 		JPanel panel_6 = new JPanel();
 		panel_4.add(panel_6, BorderLayout.SOUTH);
@@ -136,7 +141,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 	
 	public void setConvers(String userName) {
 		this.currentSender = userName;
-		sender.setText(userName);
+		sender.setText("Vous discutez avec "+ userName);
 		texte.setText("");
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		ArrayList<MessageData> msgs = user.getMessages().getMessages(userName);
@@ -168,6 +173,8 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 	}
 	
 	public void addConversButton(final String s) {
+		JPanel wrapperButton = new JPanel();
+		wrapperButton.setLayout(new BoxLayout(wrapperButton, BoxLayout.X_AXIS));
 		JButton button = new JButton(s + "(" 
 				+ Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberUserMessage(s) + ")");
 		button.addActionListener(new ActionListener() {
@@ -177,7 +184,26 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 				setConvers(s);
 			}
 		});
-		convers.add(button);
+		if(currentSender != null && currentSender.equals(s)) {
+			button.setBackground(Color.green);
+		}
+		wrapperButton.setPreferredSize(button.getPreferredSize());
+		wrapperButton.add(button, BorderLayout.CENTER);
+		JButton closeButton = new JButton("Fermer");
+		closeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controller.DeleteConvers validator = new controller.DeleteConvers(s);
+				if(validator.validate()) {
+					validator.process();
+					loadConvers();
+				}
+			}
+			
+		});
+		wrapperButton.add(closeButton, BorderLayout.EAST);
+		convers.add(wrapperButton);
 	}
 	
 	@Override
@@ -202,6 +228,7 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		}
 		
 		texte.setCaretPosition(doc.getLength());
+		
 		//revalidate();
 		
 		
