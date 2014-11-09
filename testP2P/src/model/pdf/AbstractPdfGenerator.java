@@ -15,10 +15,15 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
-
+/**
+ * Plusieurs fonctions nécessaires à la génération/concaténation de fichiers PDF à partir de modèles et templates
+ * @author Ismael Cussac
+ *
+ */
 public abstract class AbstractPdfGenerator {	
 	
 	protected Document document;
@@ -26,63 +31,107 @@ public abstract class AbstractPdfGenerator {
 	protected FileOutputStream fileOutputStream = null;
 	protected AcroFields stamp;
 	protected PdfStamper stamper;
+	protected PdfCopy copy = null;
 	protected HashMap<String,String> texte = new HashMap<String,String>();
 	protected HashMap<String,String> image = new HashMap<String,String>();
 	protected HashMap<String,Boolean> bool = new HashMap<String,Boolean>();
 	
-	protected void createPdf(){
+	
+	/**
+	 * Crée et complète un PDF à partir d'un modèle
+	 */
+	protected void createPdf(String fileOut, String modele){
 			
-		openPdf();
+		openPdfReader(modele);
+		openFileOut(fileOut);
+		openStamper();
+		
 		addContent();
 		flattenPdf();
-		closePdf();	
+		
+		closeStamper();
+		closePdfReader();
+		closeFileOut();
 	}
 	
-	protected void mergePdf(){
+	/**
+	 * Concatene une liste de PDF
+	 */
+	protected void mergePdf(List<String> modeles, String fileOut){
 		
+		document = new Document();
 		
-		addContent();
+		try {copy = new PdfCopy(document, new FileOutputStream("modeles/"+fileOut+".pdf"));}
+		catch (FileNotFoundException e) {e.printStackTrace();} 
+		catch (DocumentException e) {e.printStackTrace();}
+		copy.setMergeFields();
+		document.open();
+		
+		for(String modele : modeles){
+			try {copy.addDocument(new PdfReader("modeles/"+modele+".pdf"));} 
+			catch (DocumentException e) {e.printStackTrace();} 
+			catch (IOException e) {e.printStackTrace();}
+		}
+		
+		copy.close();
 	}
 	
-	protected void openPdf(){
+	protected void openPdfReader(String modele){
 		
-		try {pdfTemplate = new PdfReader("modeles/"+texte.get("modele")+".pdf");} 
+		try {pdfTemplate = new PdfReader("modeles/"+modele+".pdf");} 
 		catch (IOException e) {e.printStackTrace();}
+	}
+	
+	protected void openFileOut(String fileOut){
 		
-		
-		try {fileOutputStream = new FileOutputStream("pdf/"+texte.get("filename")+".pdf");} 
+		try {fileOutputStream = new FileOutputStream("pdf/"+fileOut+".pdf");} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
-		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+	}
+	
+	protected void openStamper(){
 		try {stamper = new PdfStamper(pdfTemplate, fileOutputStream);} 
 		catch (DocumentException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
 		
 		stamp = stamper.getAcroFields();
-		
 	}
 	
+	/**
+	 * Met les champs en lecture seule et les affiche
+	 */
 	protected void flattenPdf(){
+		
 		stamper.setFormFlattening(true);
 		stamp.setGenerateAppearances(true);
 	}
 	
-	protected void closePdf(){
+	protected void closePdfReader(){
+	
+		pdfTemplate.close();
+	}
+	
+	protected void closeStamper(){
 		
 		try {stamper.close();} 
 		catch (DocumentException e) {e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
 		
-		pdfTemplate.close();
+	}
+	protected void closeFileOut(){
 		
 		try {fileOutputStream.close();} 
 		catch (IOException e) {e.printStackTrace();}
 	}
 	
-	
+	/**
+	 * Ajoute le contenu du PDF
+	 */
 	protected abstract void addContent();
 	
-
+	/**
+	 * Complète tous les textFields avec du texte
+	 */
 	protected void addTexte(){
 		for(Map.Entry<String,String> champ : texte.entrySet()){
 			try {stamp.setField(champ.getKey(), champ.getValue());} 
@@ -91,6 +140,9 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 	
+	/**
+	 * Complète les textFields avec des images
+	 */
 	protected void addImage(){
 		for(Map.Entry<String,String> champ : image.entrySet()){
 			if(champ.getValue() != null){
@@ -114,6 +166,9 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 	
+	/**
+	 * Complète les field qui nécessitent des booleens
+	 */
 	protected void addCheckBox(){
 		for(Map.Entry<String,Boolean> champ : bool.entrySet()){
 			if(champ.getValue())
@@ -123,3 +178,4 @@ public abstract class AbstractPdfGenerator {
 		}
 	}
 }
+

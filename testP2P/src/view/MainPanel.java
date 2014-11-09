@@ -50,6 +50,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JCheckBox;
 
 public class MainPanel extends JPanel implements SearchListener{
 	private JTextField rechercheB;
@@ -111,10 +112,12 @@ public class MainPanel extends JPanel implements SearchListener{
 		JButton btnRechercher = new JButton(Messages.getString("MainPanel.btnRecherche.text"));
 		panel_5.add(btnRechercher);
 		
-		final JRadioButton rdbtnTroc = new JRadioButton(Messages.getString("MainPanel.rbtnTroc.text"));
+		final JCheckBox rdbtnTroc = new JCheckBox(Messages.getString("MainPanel.rbtnTroc.text"));
+		rdbtnTroc.setSelected(true);
 		panel_5.add(rdbtnTroc);
 		
-		final JRadioButton rdbtnVente = new JRadioButton(Messages.getString("MainPanel.rbtnVente.text"));
+		final JCheckBox rdbtnVente = new JCheckBox(Messages.getString("MainPanel.rbtnVente.text"));
+		rdbtnVente.setSelected(true);
 		panel_5.add(rdbtnVente);
 		panel_4.setLayout(gl_panel_4);
 		

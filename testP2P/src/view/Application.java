@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import net.jxta.document.MimeMediaType;
 import net.jxta.exception.PeerGroupException;
+import net.jxta.impl.util.Base64;
 import model.AdvertisementInstaciator;
 import model.Objet;
 import model.Peer;

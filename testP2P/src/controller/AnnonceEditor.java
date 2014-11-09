@@ -1,26 +1,17 @@
 package controller;
 
-import java.io.IOException;
-
+import model.ImageBase64;
 import model.Objet;
 import model.User;
-import model.pdf.ObjetPdfGenerator;
 import view.Application;
 
+/**
+ * Fen�tre de cr�ation/�dition d'une annonce
+ * @author Prudhomme Julien
+ * 
+ */
+
 public class AnnonceEditor implements Validator{
-	
-	/**
-	 * Valide le formulaire
-	 * @param propChecked "proposition" selectionné
-	 * @param souhaitChecked "souhait" selectionné
-	 * @param trocChecked Case "trock" cochée
-	 * @param venteChecked Case "vente" cochée
-	 * @param title titre entré
-	 * @param resDesc resumé de la description entrée
-	 * @param desc description
-	 * @param img image
-	 * @return
-	 */
 	
 	private boolean proposition, souhait;
 	private boolean troc, vente;
@@ -33,6 +24,7 @@ public class AnnonceEditor implements Validator{
 	
 	public boolean errorProposition, errorSouhait, errorTroc, errorVente, errorTitle, 
 					errorResume, errorDesc, errorImg;
+	
 	
 	public AnnonceEditor(boolean proposition, boolean souhait, 
 			boolean troc, boolean vente, String title, 
@@ -54,7 +46,6 @@ public class AnnonceEditor implements Validator{
 	}
 
 	
-	@Override
 	public boolean validate() {
 		
 		checkCheckBox();
@@ -63,17 +54,15 @@ public class AnnonceEditor implements Validator{
 		checkDescription();
 		checkImg();
 		
-		
 		return !(errorProposition || errorSouhait || errorTroc || errorVente || errorTitle 
 				|| errorResume || errorDesc || errorImg);
-		
 	}
 	
 	/**
-	 * Au moins une case doit être cochée.
+	 * Au moins une case doit �tre coch�e
 	 */
 	private void checkCheckBox() {
-		if(!(troc || vente) || (troc && vente)) errorTroc = errorVente = true;
+		if(troc == false && vente == false) errorTroc = errorVente = true;
 	}
 	
 	/**
@@ -86,7 +75,6 @@ public class AnnonceEditor implements Validator{
 	/**
 	 * Le résumé doit faire au moins 10 caractères.
 	 */
-	
 	private void checkResume() {
 		if(resume.length() < 10) errorResume = true;
 	}
@@ -108,17 +96,15 @@ public class AnnonceEditor implements Validator{
 		if(img == null) return;
 	}
 
-	
 	public void setEditObjet(Objet obj) {
 		this.obj = obj;
 	}
 	
-	@Override
 	public boolean process() {
 		if(user == null) return false;
 		
 		if(obj == null) {
-			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
+			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, ImageBase64.encode(img), user);
 			obj.setUserName(user.getLogin());
 			obj.setDate(System.currentTimeMillis());
 			user.getObjets().add(obj);
@@ -132,11 +118,13 @@ public class AnnonceEditor implements Validator{
 			obj.setTitre(title);
 			obj.setResume(resume);
 			obj.setDesc(desc);
-			obj.setImg(img);
+			if(!obj.getImg().equals(img)) {
+				obj.setImg(ImageBase64.encode(img));
+			}
+			
 			obj.update(Application.getInstance().getPeer().getDiscovery());
 			
 		}	
-		
 		return true;	
 	}
 	
@@ -149,32 +137,6 @@ public class AnnonceEditor implements Validator{
 		res += "Description: \n" + desc + "\n";
 		res += "Image: " + img;
 		
-		return res;
-		
+		return res;	
 	}
-	
-	public String getTitle(){
-		return title;
-	}
-	
-	public String getTrocVente(){
-		if(troc)
-			return "Troc";
-		return "Vente";
-	}
-	
-	public String getPropSouhait(){
-		if(proposition)
-			return "Proposition";
-		return "Souhait";
-	}
-	
-	public String getResDescr(){
-		return resume;
-	}
-	
-	public String getDescrComp(){
-		return desc;
-	}
-	
 }

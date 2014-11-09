@@ -4,7 +4,13 @@ import java.util.HashMap;
 
 import model.User;
 
-//Champs: pseudo, nom, prenom, adresse, telephone, mail, note
+
+/**
+ * Permet de générer un modèle de type utilisateur à partir d'un User
+ * @author Ismael Cussac
+ * 
+ * Champs: modele, filename, pseudoUser, nomUser, prenomUser, adresseUser, telephoneUser, mailUser, noteUser
+ */
 
 public class UserPdfModel extends AbstractPdfModel  {
 
@@ -26,29 +32,26 @@ public class UserPdfModel extends AbstractPdfModel  {
 	private void fillMap() {
 		
 		addFile();
-		addInfos();
-		
-				
+		addInfos();		
 	}
 
 
 	private void addInfos() {
 				
-		userTextMap.put("pseudo", user.getLogin());
-		userTextMap.put("nom", user.getNom());
-		userTextMap.put("prenom", user.getPrenom());
-		userTextMap.put("adresse", user.getAdresse());
-		userTextMap.put("telephone", user.getTel());
-		userTextMap.put("mail", user.getMail());
-		userTextMap.put("note",String.valueOf(user.getMoyenneNotes()));
-		
+		userTextMap.put("pseudoUser", user.getLogin());
+		userTextMap.put("nomUser", user.getNom());
+		userTextMap.put("prenomUser", user.getPrenom());
+		userTextMap.put("adresseUser", user.getAdresse());
+		userTextMap.put("telephoneUser", user.getTel());
+		userTextMap.put("mailUser", user.getMail());
+		userTextMap.put("noteUser",String.valueOf(user.getMoyenneNotes()));	
 	}
 
 
 	private void addFile() {
-		userTextMap.put("modele", modele);
-		userTextMap.put("filename", user.getLogin());
 		
+		userTextMap.put("modele", modele);
+		userTextMap.put("fileOut", user.getLogin());	
 	}
 
 
@@ -56,11 +59,9 @@ public class UserPdfModel extends AbstractPdfModel  {
 		return userTextMap;
 	}
 
-
 	public HashMap<String, String> getImageMap() {
 		return userImageMap;
 	}
-
 
 	public HashMap<String, Boolean> getBoolMap() {
 		return userBoolMap;

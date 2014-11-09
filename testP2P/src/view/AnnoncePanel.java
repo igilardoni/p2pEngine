@@ -47,7 +47,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import controller.AnnonceDelete;
+import controller.GeneratePdfContrat;
 import controller.GeneratePdfObjet;
+import model.ImageBase64;
 import model.Objet;
 
 public class AnnoncePanel extends JPanel {
@@ -122,7 +124,7 @@ public class AnnoncePanel extends JPanel {
 		contentAnnonce.add(imageAnnonce, BorderLayout.WEST);
 		
 		JLabel lblNewLabel = new JLabel(Messages.getString("AnnoncePanel.lblImage.text"));
-		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(new ImageIcon(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(ImageBase64.decode(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 		imageAnnonce.add(lblNewLabel);
 		
 		JPanel textAnonce = new JPanel();
@@ -156,7 +158,7 @@ public class AnnoncePanel extends JPanel {
 		JButton btnNewButton = new JButton(Messages.getString("AnnoncePanel.btnPdf.text")); //$NON-NLS-1$
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GeneratePdfObjet validator = new GeneratePdfObjet(i);
+				GeneratePdfContrat validator = new GeneratePdfContrat(i);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();

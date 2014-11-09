@@ -1,25 +1,26 @@
 package controller;
 
-import model.User;
 import view.Application;
+import model.User;
 
 /**
- * Crée un PDF de type Objet
+ * Crée un PDF de type contrat de vente/échange
  * @author Ismael Cussac
- * @param i numero du l'Objet
+ *
  */
-public class GeneratePdfObjet implements Validator{
-	
+public class GeneratePdfContrat implements Validator {
+
 	private int i;
 	private User user;
 	
-	public GeneratePdfObjet(int i) {
+	public GeneratePdfContrat(int i) {
 		this.i = i;
 		this.user = Application.getInstance().getUsers().getConnectedUser();
 	}
-
+	
 	public boolean validate() {
-		return user.getObjets().get(i) != null;
+		return user.getObjets().get(i) != null && user != null;
+		
 	}
 
 	public boolean process() {

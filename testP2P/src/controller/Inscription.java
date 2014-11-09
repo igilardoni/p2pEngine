@@ -4,6 +4,12 @@ import view.Application;
 import model.User;
 import model.UsersManagement;
 
+/**
+ * Créer un nouveau compte utilisateur
+ * @author 
+ *
+ */
+
 public class Inscription implements Validator{
 
 	private String login;
@@ -29,10 +35,8 @@ public class Inscription implements Validator{
 		this.nom = nom;
 		
 		errorLogin = errorPassword = errorPassword2 = errorEmail = errorTel = errorDuplicateLogin = false;
-		
 	}
 	
-	@Override
 	public boolean validate() {
 		
 		checkLogin();
@@ -44,13 +48,12 @@ public class Inscription implements Validator{
 		checkNom();
 		checkPrenom();
 		
-		
 		return !(errorLogin || errorDuplicateLogin || errorPassword || errorPassword2 || errorEmail || errorTel || errorAdresse || errorNom || errorPrenom);
 	}
 
 	
 	/**
-	 * Le login doit faire plus de 3 caractÃ¨res et ne doit pas dÃ©jÃ  exister
+	 * Le login doit faire plus de 3 caractères et ne doit pas déja exister
 	 */
 	private void checkLogin() {
 		if(login.length() < 3) errorLogin = true;
@@ -58,28 +61,36 @@ public class Inscription implements Validator{
 	}
 	
 	/**
-	 * Le mot de passe doit faire +6 caractÃ¨res
-	 * @return
+	 * Le mot de passe doit faire plus de 6 caractères
 	 */
 	private void checkPassword() {
 		if(password.length() < 6) errorPassword = true;
 	}
 	
+	/**
+	 * Les deux mots de passe doivent être identiques
+	 */
 	private void checkPassword2() {
 		if(!password.equals(password2)) errorPassword2 = true;
 	}
 	
 	/**
-	 * L'adresse ne doit pas Ãªtre vide
+	 * L'adresse ne doit pas être vide
 	 */
 	private void checkAdresse() {
 		if(adresse.length() < 1) errorAdresse = true;
 	}
 	
+	/**
+	 * L'e-mail doit respecter le format
+	 */
 	private void checkEmail() {
 		if(!email.matches("^[a-zA-Z_0-9.]*@[a-zA-Z_0-9]*\\.[a-z]*$")) errorEmail = true;
 	}
 	
+	/**
+	 * Le numéro de téléphone ne doit comporter que 10 chiffres
+	 */
 	private void checkTel() {
 		tel = tel.replaceAll("[^0-9]*", "");
 		if(tel.length() != 10) errorTel = true;
@@ -93,23 +104,20 @@ public class Inscription implements Validator{
 		tel = normalizedTel;
 	}
 	
-	
 	/**
-	 * Le nom ne doit pas Ãªtre vide
+	 * Le nom ne doit pas être vide
 	 */
 	private void checkNom() {
 		if(nom.length() < 1) errorNom = true;
 	}
 	
 	/**
-	 * Le prÃ©nom de doit pas Ãªtre vide
+	 * Le prénom de doit pas être vide
 	 */
 	private void checkPrenom() {
 		if(prenom.length() < 1) errorPrenom = true;
 	}
 	
-	
-	@Override
 	public boolean process() {
 
 		User user = new User(nom, prenom, adresse, tel, email, login, password);
@@ -128,5 +136,4 @@ public class Inscription implements Validator{
 		res += "Tel: " + tel + "\n";
 		return res;
 	}
-
 }

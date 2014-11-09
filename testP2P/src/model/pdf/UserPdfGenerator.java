@@ -1,7 +1,11 @@
 package model.pdf;
 
 
-
+/**
+ * Permet de générer un PDF de type utilisateur à partir du modèle User et de son template
+ * @author Ismael Cussac
+ *
+ */
 public class UserPdfGenerator extends AbstractPdfGenerator {
 	
 	public UserPdfGenerator(UserPdfModel model){
@@ -10,7 +14,7 @@ public class UserPdfGenerator extends AbstractPdfGenerator {
 		this.image.putAll(model.getImageMap());
 		this.bool.putAll(model.getBoolMap());
 		
-		createPdf();
+		createPdf(model.getTexteMap().get("fileOut"), model.getTexteMap().get("modele"));
 		
 	}
 	

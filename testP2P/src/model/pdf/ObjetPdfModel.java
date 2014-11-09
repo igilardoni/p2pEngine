@@ -6,8 +6,13 @@ import java.util.List;
 
 import model.Objet;
 
-
-//Champs: modele, filename, coordonnees, objet, date, resume, image, signature, vente, troc, proposition, souhait, titre
+/**
+ * Permet de g�n�rer un mod�le de type objet � partir d'un Objet
+ * @author Ismael Cussac
+ * 
+ * Champs du template: modele, filename, coordonneesObjet, objetObjet, dateObjet, resumeObjet,
+ *  imageObjet, signatureObjet, venteObjet, trocObjet, propositionObjet, souhaitObjet, titreObjet, prixObjet, contreObjet
+ */
 
 public class ObjetPdfModel extends AbstractPdfModel {
 
@@ -33,42 +38,45 @@ public class ObjetPdfModel extends AbstractPdfModel {
 		addObjet();
 		addDate();
 		addFicheObjet();
-		addSignature();
-				
+		addSignature();		
+	}
+	
+	private void addFile() {
+		
+		objetTextMap.put("modele", modele);
+		objetTextMap.put("fileOut", objet.getTitre());
 	}
 	
 	private void addFicheObjet() {
-		objetTextMap.put("titre", objet.getTitre());
-		objetTextMap.put("resume", objet.getResume());
-		objetImageMap.put("image", objet.getImg());
 		
-		objetBoolMap.put("vente", objet.isVente());
-		objetBoolMap.put("troc", objet.isTroc());
-		objetBoolMap.put("souhait", objet.isSouhait());
-		objetBoolMap.put("proposition", objet.isProposition());
+		objetTextMap.put("titreObjet", objet.getTitre());
+		objetTextMap.put("resumeObjet", objet.getResume());
+		objetImageMap.put("imageObjet", objet.getImg());
 		
+		objetBoolMap.put("venteObjet", objet.isVente());
+		objetBoolMap.put("trocObjet", objet.isTroc());
+		objetBoolMap.put("souhaitObjet", objet.isSouhait());
+		objetBoolMap.put("propositionObjet", objet.isProposition());
 	}
 
 
 	private void addSignature() {
-		objetTextMap.put("signature", concat(objet.getUser().getPrenom(), objet.getUser().getNom()));
-		
+		objetTextMap.put("signatureObjet", objet.getUser().getLogin());
 	}
 
 
 	private void addDate() {
-		objetTextMap.put("date", objet.getSimpleDate());
-		
+		objetTextMap.put("dateObjet", objet.getSimpleDate());
 	}
 
 
 	private void addObjet() {
-		objetTextMap.put("objet", "Objet: Fiche d'objet");
-		
+		objetTextMap.put("objetObjet", "Objet: Fiche d'objet");
 	}
 
 
 	private void addCoordonnees() {
+		
 		String nom = concat(objet.getUser().getPrenom(), objet.getUser().getNom());
 		List<String> liste = new ArrayList<String>();
 		
@@ -79,14 +87,7 @@ public class ObjetPdfModel extends AbstractPdfModel {
 		
 		String coordonnees = paragraphe(liste);
 		
-		objetTextMap.put("coordonnees", coordonnees);
-	}
-
-
-	private void addFile() {
-		objetTextMap.put("modele", modele);
-		objetTextMap.put("filename", objet.getTitre());
-		
+		objetTextMap.put("coordonneesObjet", coordonnees);
 	}
 
 
@@ -102,4 +103,3 @@ public class ObjetPdfModel extends AbstractPdfModel {
 		return objetBoolMap;
 	}
 }
-

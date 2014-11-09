@@ -1,22 +1,22 @@
 package controller;
 
 /**
- * Tout formulaire doit Ãªtre vÃ©rifier (validate() avant d'envoyer la requete (process())
+ * Tout formulaire doit être vérifier (validate() avant d'envoyer la requète (process())
  * @author Prudhomme Julien
  *
  */
 public interface Validator {
 	
 	/**
-	 * Valide une ou des entrÃ©es
-	 * @return false une ou des entrÃ©e sont Ã©rronnÃ©e
+	 * Valide une ou des entrées
+	 * @return false une ou des entrée sont érronnée
 	 */
 	public boolean validate();
 	
 	
 	/**
-	 * Se sert des donnÃ©es validÃ©e pour faire la requÃªte
-	 * @return vrai si la requete Ã  rÃ©ussi ou faux (erreur rÃ©seau, etc)
+	 * Se sert des données validée pour faire la requète
+	 * @return vrai si la requete à réussi ou faux (erreur réseau, etc)
 	 */
 	public boolean process();
 }

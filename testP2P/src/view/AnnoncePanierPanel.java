@@ -48,6 +48,7 @@ import javax.swing.border.LineBorder;
 
 import controller.AnnonceDelete;
 import controller.GeneratePdfObjet;
+import model.ImageBase64;
 import model.Objet;
 
 public class AnnoncePanierPanel extends JPanel {
@@ -125,7 +126,7 @@ public class AnnoncePanierPanel extends JPanel {
 		contentAnnonce.add(imageAnnonce, BorderLayout.WEST);
 		
 		JLabel lblNewLabel = new JLabel(Messages.getString("AnnoncePanel.lblImage.text"));
-		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(new ImageIcon(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(ImageBase64.decode(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 		imageAnnonce.add(lblNewLabel);
 		
 		JPanel textAnonce = new JPanel();

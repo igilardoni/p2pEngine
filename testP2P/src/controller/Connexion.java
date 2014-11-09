@@ -3,6 +3,12 @@ package controller;
 import view.Application;
 import model.UsersManagement;
 
+/**
+ * Se connecter en tant qu'utilisateur
+ * @author
+ * @param login 
+ * @param password
+ */
 public class Connexion implements Validator{
 
 	private String login;
@@ -19,7 +25,6 @@ public class Connexion implements Validator{
 		errorLogin = errorPassword = false;
 	}
 	
-	@Override
 	public boolean validate() {
 		if(!users.checkLogin(login, password)) {
 			errorLogin = errorPassword = true;
@@ -27,9 +32,7 @@ public class Connexion implements Validator{
 		return !(errorLogin || errorPassword);
 	}
 
-	@Override
 	public boolean process() {
 		return users.connectUser(login, password);
 	}
-
 }
