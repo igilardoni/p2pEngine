@@ -33,6 +33,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	//voir ObjectAdvertisement
 	private String otherName;
 	private User user;
+	private String userName;
 	
 	public String getResume() {
 		return resume;
@@ -178,5 +179,23 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		flush(discovery);
 		publish(discovery);
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	
+	public boolean equals(Object o) {
+		Objet obj = (Objet) o;
+		if(!this.titre.equals(obj.getTitre())) return false;
+		if(!this.resume.equals(obj.getResume())) return false;
+		if(!this.userName.equals(obj.userName)) return false;
+		return true;
+	}
+
+	public void setUserName(String login) {
+		this.userName = login;
+	}
+	
 }
 

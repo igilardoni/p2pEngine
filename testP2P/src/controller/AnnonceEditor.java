@@ -119,6 +119,7 @@ public class AnnonceEditor implements Validator{
 		
 		if(obj == null) {
 			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img, user);
+			obj.setUserName(user.getLogin());
 			obj.setDate(System.currentTimeMillis());
 			user.getObjets().add(obj);
 			obj.publish(Application.getInstance().getPeer().getDiscovery());

@@ -82,4 +82,8 @@ public interface ObjetsManagementInterface {
 	
 	public void removeAll();
 	
+	public boolean contains(Objet obj);
+	
+	public boolean containsUser(String user);
+	
 }

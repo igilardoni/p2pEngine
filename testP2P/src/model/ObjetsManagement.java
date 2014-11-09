@@ -118,4 +118,17 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 		}
 	}
 
+	@Override
+	public boolean contains(Objet obj) {
+		return objets.contains(obj);
+	}
+
+	@Override
+	public boolean containsUser(String user) {
+		for(Objet o: objets) {
+			if(o.getUserName().equals(user)) return true;
+		}
+		return false;
+	}
+
 }

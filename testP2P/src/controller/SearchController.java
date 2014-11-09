@@ -13,6 +13,7 @@ import model.Objet;
 import model.ObjetsManagement;
 import model.RemoteSearch;
 import model.SearchListener;
+import model.search.GrammarSearch;
 
 public class SearchController implements Validator, SearchListener{
 
@@ -63,9 +64,12 @@ public class SearchController implements Validator, SearchListener{
 	@Override
 	public boolean process() {
 		DiscoveryService ds = Application.getInstance().getPeer().getDiscovery();
-		RemoteSearch<Objet> remoteSearch = new RemoteSearch(ds,"titre");
-		remoteSearch.addListener(this);
-		remoteSearch.search(recherche);
+		//RemoteSearch<Objet> remoteSearch = new RemoteSearch(ds,"titre");
+		//remoteSearch.addListener(this);
+		GrammarSearch gs = new GrammarSearch(ds);
+		gs.addListener(this);
+		gs.search(recherche);
+		//remoteSearch.search(recherche);
 		return true;
 	}
 	

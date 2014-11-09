@@ -30,6 +30,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 		putValue("troc", Boolean.toString(obj.isTroc()));
 		putValue("vente", Boolean.toString(obj.isVente()));
 		putValue("date", Long.toString(obj.getDate()));
+		putValue("user", obj.getUserName());
 	}
 
 	@Override
@@ -43,6 +44,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 		this.addKey("souhait", false);
 		this.addKey("troc", false);
 		this.addKey("vente", false);
+		this.addKey("user", true);
 		
 		// TODO
 	}
@@ -85,6 +87,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 				  this.getValue("titre"), this.getValue("resume"), 
 				  this.getValue("desc"), this.getValue("img"), null);
 		obj.setDate(new Long(this.getValue("date")));
+		obj.setUserName(this.getValue("user"));
 		return obj;
 	}
 

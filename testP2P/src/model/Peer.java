@@ -151,7 +151,6 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
             System.err.println(ex.toString());
         }
 		subgroup = net_group.newGroup(subgroup_id, mAdv, subgroup_name, subgroup_desc);
-		
 		 // On verifie qu'on est bien connecté au sous groupe !
         if (Module.START_OK != subgroup.startApp(new String[0]))
             System.err.println("Impossible de d�marer le sous-groupe");
@@ -168,6 +167,8 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
         // présenter
         discovery = subgroup.getDiscoveryService();
         discovery.addDiscoveryListener(this);
+        
+        
         
         ModuleClassAdvertisement mcadv = (ModuleClassAdvertisement)
         AdvertisementFactory.newAdvertisement(ModuleClassAdvertisement.getAdvertisementType());
