@@ -104,7 +104,7 @@ public class AnnonceEditor implements Validator{
 		if(user == null) return false;
 		
 		if(obj == null) {
-			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, ImageBase64.encode(img), user);
+			Objet obj = new Objet(proposition, souhait, troc, vente, title, resume, desc, img == null ? null:ImageBase64.encode(img), user);
 			obj.setUserName(user.getLogin());
 			obj.setDate(System.currentTimeMillis());
 			user.getObjets().add(obj);
