@@ -251,4 +251,8 @@ public class Window extends JFrame implements MessageServiceListener{
 			
 		}
 	}
+	
+	public MessagesPanel getMessagePanel() {
+		return this.messagePanel;
+	}
 }

@@ -174,7 +174,7 @@ public class GrammarSearch implements ListenerTalker {
 	
 	private void getFilters(Input in) {
 		if(in.userFilter) {
-			final Filter f = new Filter();
+			final Filter f = new Filter(discovery);
 			filters.add(f);
 			f.setDemandeFilter(in.demande);
 			f.setOffreFilter(in.offre);
@@ -189,7 +189,7 @@ public class GrammarSearch implements ListenerTalker {
 			else lastFilter = f;
 		}
 		else if(in.username) {
-			Filter f = new Filter();
+			Filter f = new Filter(discovery);
 			f.setUserFilter(in.query);
 			System.out.println("username = " + in.query);
 			
@@ -206,7 +206,7 @@ public class GrammarSearch implements ListenerTalker {
 			
 		}
 		else {
-			final Filter f = new Filter();
+			final Filter f = new Filter(discovery);
 			f.setOffreFilter(in.offre);
 			f.setDemandeFilter(in.demande);
 			RemoteSearch<Objet> rs = new RemoteSearch<Objet>(discovery, "titre");

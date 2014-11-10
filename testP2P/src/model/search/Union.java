@@ -15,8 +15,10 @@ public class Union extends BaseListenerTalker{
 	@Override
 	public void searchEvent(Advertisable adv) {
 		Objet obj = (Objet) adv;
-		objets.add(obj);
-		System.out.println("Union: Objet trouvé:" + obj.getTitre());
-		notifyListener(obj);
+		if(!objets.contains(obj)) {
+			objets.add(obj);
+			notifyListener(obj);
+		}
+		
 	}
 }

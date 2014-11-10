@@ -52,6 +52,7 @@ public class UserMessages implements Serializable{
 	}
 	
 	public ArrayList<MessageData> getMessages(String from) {
+		if(messages.get(from) == null) return new ArrayList<MessageData>();
 		return messages.get(from).msgs;
 	}
 	
@@ -68,11 +69,12 @@ public class UserMessages implements Serializable{
 	}
 	
 	public void viewUser(String user) {
+		if(messages.get(user) != null)
 		messages.get(user).newMessage = 0;
 	}
 	
 	public int getNumberUserMessage(String user) {
-		return messages.get(user).newMessage;
+		return messages.get(user) == null ? 0: messages.get(user).newMessage;
 	}
 	
 }

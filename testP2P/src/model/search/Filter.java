@@ -1,14 +1,22 @@
 package model.search;
 
 
+import net.jxta.discovery.DiscoveryService;
 import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
+import model.RemoteRessource;
+import model.User;
 
 public class Filter extends BaseListenerTalker{
 	private boolean offre = false;
 	private boolean demande = false;
 	private String user = null;
+	private DiscoveryService discovery;
+	
+	public Filter(DiscoveryService discovery) {
+		this.discovery = discovery;
+	}
 	
 	public void setOffreFilter(boolean offre) {
 		this.offre = offre;
@@ -38,6 +46,8 @@ public class Filter extends BaseListenerTalker{
 		
 		if(!objets.contains(obj)) {
 			objets.add(obj);
+			RemoteRessource<User> rs = new RemoteRessource<User>(discovery, "login", 1000);
+			obj.setUser(rs.getRemoteRessource(obj.getUserName()));
 			this.notifyListener(obj); //on notifie les potentiels écouteurs qu'on a accepté un nouveau objet.
 		}
 	}

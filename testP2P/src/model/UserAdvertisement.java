@@ -25,6 +25,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		this.putValue("tel", user.getTel());
 		this.putValue("password", Integer.toString(user.getPasswordHash()));
 		this.putValue("pid", Application.getInstance().getPeer().getPeerId().toURI().toString());
+		this.putValue("mail", user.getMail());
 	}
 	
 	@Override

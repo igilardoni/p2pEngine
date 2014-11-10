@@ -265,6 +265,13 @@ public class Application {
 		}
 	}
 	
+	public void openConvers(String user) {
+		window.getMessagePanel().setVisible(true);
+		window.getMessagePanel().addConversButton(user);
+		window.getMessagePanel().setNewConvers(user);
+		
+	}
+	
 	public static void restartUI() {
 		Messages.updateLanguage();
 		Application.getInstance().window.dispose();
