@@ -24,8 +24,10 @@ import javax.swing.JTextPane;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
+import controller.NewConvers;
 import model.ImageBase64;
 import model.Objet;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -104,7 +106,12 @@ public class AnnonceViewer extends JFrame {
 		JButton btnEnvoyerUnMessage = new JButton("Envoyer un message");
 		btnEnvoyerUnMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Application.getInstance().openConvers(o.getUserName());
+				controller.NewConvers validator = new controller.NewConvers(o.getUserName());
+				if(validator.validate()) {
+					validator.process();
+					Application.getInstance().openConvers(o.getUserName());
+				}
+				
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
