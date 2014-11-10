@@ -155,6 +155,14 @@ public class AnnonceRecherchePanel extends JPanel {
 				}
 			}
 		});
+		
+		JButton btnVoirPlus = new JButton(Messages.getString("AnnonceRecherchePanel.btnVoirPlus.text")); //$NON-NLS-1$
+		btnVoirPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AnnonceViewer(obj).setVisible(true);
+			}
+		});
+		panel.add(btnVoirPlus);
 		panel.add(btnNewButton);
 		
 		JButton btnSauvegarder = new JButton(Messages.getString("AnnonceRecherchePanel.btnSauvegarder.text")); //$NON-NLS-1$
