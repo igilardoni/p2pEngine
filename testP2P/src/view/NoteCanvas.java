@@ -2,12 +2,17 @@ package view;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+/**
+ * Affiche la note de l'utilisateur
+ * @author
+ *
+ */
 
 public class NoteCanvas extends Canvas implements MouseMotionListener, MouseListener{
 	static final long serialVersionUID = 5976281278513438960L;
@@ -15,7 +20,7 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 	
 	
 	/**
-	 * Crée une instance qui affiche les étoiles en fonction de la note, non éditable
+	 * Cree une instance qui affiche les etoiles en fonction de la note, non editable
 	 * @param note
 	 */
 	public NoteCanvas(int note) {
@@ -23,7 +28,7 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 	}
 	
 	/**
-	 * Créer une instance éditable (on peut "noter")
+	 * Creer une instance editable (on peut "noter")
 	 */
 	public NoteCanvas() {
 		this.addMouseMotionListener(this);
@@ -71,7 +76,6 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 		Point p = e.getPoint();
 		int oldNote = note;
 		note = (int) ((float)e.getX() / (float)this.getWidth() * 5);
-		//System.out.println(note);
 		
 		if(oldNote != note) this.repaint();
 	}
@@ -100,5 +104,4 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 			drawSquare(g, i);
 		}
 	}
-
 }

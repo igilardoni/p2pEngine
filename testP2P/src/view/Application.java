@@ -13,18 +13,13 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.jxta.document.MimeMediaType;
-import net.jxta.exception.PeerGroupException;
-import net.jxta.impl.util.Base64;
 import model.AdvertisementInstaciator;
-import model.Objet;
 import model.Peer;
-import model.RemoteRessource;
-import model.User;
 import model.UsersManagement;
 import model.communications.ChatService;
 import model.communications.Chatter;
 import model.communications.FriendRequestService;
+import net.jxta.exception.PeerGroupException;
 
 /**
  * Class "main" du programme
@@ -34,7 +29,6 @@ import model.communications.FriendRequestService;
 public class Application {
 	private static Application instance;
 	private UsersManagement users;
-	private UsersManagement remote_users;
 	private Window window;
 	private static final String USERS_DIR = "users.data";
 	private static final String LOCALE_DIR = "locale.data";
@@ -88,13 +82,10 @@ public class Application {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args) {
-		Application app = new Application();
-		Application.setInstance(app);
-		app.lauch();
-	}
-	
+
+	/**
+	 * Lance le programme, cree une nouvelle fenetre principale window
+	 */
 	private void lauch() {
 		window = new Window();
 		window.setVisible(true);
@@ -113,11 +104,17 @@ public class Application {
 		return this.users;
 	}
 	
+	/**
+	 * Rafraichi la fenetre principale de l'application
+	 */
 	public void updateUI() {
 		window.revalidate();
 		window.repaint();
 	}
 	
+	/**
+	 * Charge la listes des utilisateurs enregistres sur la machine dans users.data
+	 */
 	public void loadUsers() {
 		ObjectInputStream stream = null;
 		try {
@@ -132,13 +129,15 @@ public class Application {
 				try {
 					stream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Sauvegarde la listes des utilisateurs sur la machine dans users.data
+	 */
 	public void saveUsers() {
 		ObjectOutputStream stream = null;
 		try {
@@ -146,10 +145,8 @@ public class Application {
 			stream = new ObjectOutputStream(fichier);
 			stream.writeObject(this.getUsers());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(stream != null) {
@@ -157,7 +154,6 @@ public class Application {
 					stream.flush();
 					stream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -168,56 +164,39 @@ public class Application {
 	private WindowListener getWindowListener() {
 		return new WindowListener() {
 
-			@Override
 			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
 				updateUI();
 			}
 
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void windowClosed(WindowEvent e) {}
 			
 			/**
-			 * On sauvegarde tout ce qui a été fait avant de fermer le programme...
+			 * On sauvegarde tout ce qui a ete fait avant de fermer le programme...
 			 */
-			@Override
 			public void windowClosing(WindowEvent e) {
 				saveUsers();
 			}
 
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void windowDeactivated(WindowEvent e) {}
 
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
 
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void windowDeiconified(WindowEvent e) {}
+
+			public void windowIconified(WindowEvent e) {}
 			
 			/**
-			 * On met a jour la vue dès l'ouverture pour prendre en compte les données chargées.
+			 * On met a jour la vue des l'ouverture pour prendre en compte les donnees chargees.
 			 */
-			@Override
 			public void windowOpened(WindowEvent e) {
-				updateUI();
-				
+				updateUI();	
 			}
 			
 		};
 	}
 	
+	/**
+	 * Sauvegarde les donnees locales dans locale.data
+	 */
 	public static void saveLocale(Locale l) {
 		ObjectOutputStream stream = null;
 		try {
@@ -225,10 +204,8 @@ public class Application {
 			stream = new ObjectOutputStream(fichier);
 			stream.writeObject(l);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(stream != null) {
@@ -236,14 +213,15 @@ public class Application {
 					stream.flush();
 					stream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 		}
 	}
 	
+	/**
+	 * Charge les donnees locales depuis locale.data
+	 */
 	public void loadLocale() {
 		ObjectInputStream stream = null;
 		try {
@@ -258,23 +236,28 @@ public class Application {
 				try {
 					stream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Ouvre une nouvelle conversation
+	 */
 	public void openConvers(String user) {
 		window.getMessagePanel().setVisible(true);
 		window.getMessagePanel().setNewConvers(user);
-		
+	
 	}
 	
+	
+	/**
+	 * Relance la fenetre principale de l'application
+	 */
 	public static void restartUI() {
-		Messages.updateLanguage();
+		Langues.updateLanguage();
 		Application.getInstance().window.dispose();
 		Application.getInstance().lauch();
 	}
-	
 }

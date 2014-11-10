@@ -4,7 +4,7 @@ import view.Application;
 import model.ObjetsManagement;
 
 /**
- * Afficher le panier de l'utilisateur connecté
+ * Afficher le panier de l'utilisateur connecte
  * @author 
  *
  */

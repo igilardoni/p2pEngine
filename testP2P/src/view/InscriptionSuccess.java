@@ -2,6 +2,10 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,23 +14,25 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-
-import java.awt.Font;
-import java.awt.SystemColor;
-
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
+/**
+ * Apparait en cas de succes lors d'une nouvelle inscription
+ * @author
+ *
+ */
+@SuppressWarnings("serial")
 public class InscriptionSuccess extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
-	/**
-	 * Create the dialog.
-	 */
+	
+	private JLabel lblTitre;
+	private JLabel lblSucces;
+	private JLabel lblConnecte;
+	
+	private JButton btnContinuer;
+	
 	public InscriptionSuccess() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 180);
@@ -34,39 +40,40 @@ public class InscriptionSuccess extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblInscriptionRussie = new JLabel(Messages.getString("InscriptionSuccess.lblReussi.text"));
-		lblInscriptionRussie.setForeground(SystemColor.textHighlight);
-		lblInscriptionRussie.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTitre = new JLabel(Langues.getString("InscriptionSuccess.lblReussi.text"));
+		lblTitre.setForeground(SystemColor.textHighlight);
+		lblTitre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblLinscriptionSestDroule = new JLabel(Messages.getString("InscriptionSuccess.lblSucces.text"));
+		lblSucces = new JLabel(Langues.getString("InscriptionSuccess.lblSucces.text"));
 		
-		JLabel lblVousPouvezDs = new JLabel(Messages.getString("InscriptionSuccess.lblSeConnecter.text"));
+		lblConnecte = new JLabel(Langues.getString("InscriptionSuccess.lblSeConnecter.text"));
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblInscriptionRussie)
+					.addComponent(lblTitre)
 					.addContainerGap(306, Short.MAX_VALUE))
 				.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblLinscriptionSestDroule)
+					.addComponent(lblSucces)
 					.addContainerGap())
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblVousPouvezDs)
+					.addComponent(lblConnecte)
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblInscriptionRussie)
+					.addComponent(lblTitre)
 					.addGap(9)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblLinscriptionSestDroule)
+					.addComponent(lblSucces)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblVousPouvezDs)
+					.addComponent(lblConnecte)
 					.addContainerGap(128, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
@@ -75,15 +82,15 @@ public class InscriptionSuccess extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
+				btnContinuer = new JButton(Langues.getString("InscriptionSuccess.btnContinuer.text"));
+				btnContinuer.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnContinuer.setActionCommand("OK");
+				buttonPane.add(btnContinuer);
+				getRootPane().setDefaultButton(btnContinuer);
 			}
 		}
 	}

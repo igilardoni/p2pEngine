@@ -2,34 +2,35 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.UIManager;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 import model.User;
-import model.communications.MessageServiceListener;
 import model.communications.MessageData;
+import model.communications.MessageServiceListener;
 
-import javax.swing.JMenuItem;
-import javax.swing.JToolBar;
+/**
+ * Fenetre principale du programme
+ * @author 
+ *
+ */
 
-import java.awt.Component;
-
-import javax.swing.Box;
-
+@SuppressWarnings("serial")
 public class Window extends JFrame implements MessageServiceListener{
 
 	private JPanel contentPane;
@@ -50,17 +51,11 @@ public class Window extends JFrame implements MessageServiceListener{
 	
 	private MessagesPanel messagePanel;
 	
-
-	/**
-	 * Create the frame.
-	 */
 	public Window() {
-		
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -70,10 +65,10 @@ public class Window extends JFrame implements MessageServiceListener{
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		menuOption = new JMenu(Messages.getString("Window.menuOptions.text")); //$NON-NLS-1$
+		menuOption = new JMenu(Langues.getString("Window.menuOptions.text")); //$NON-NLS-1$
 		menuBar.add(menuOption);
 		
-		mntmLangue = new JMenuItem(Messages.getString("Window.mntmLangue.text")); //$NON-NLS-1$
+		mntmLangue = new JMenuItem(Langues.getString("Window.mntmLangue.text")); //$NON-NLS-1$
 		mntmLangue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new LangueSelector().setVisible(true);
@@ -81,7 +76,7 @@ public class Window extends JFrame implements MessageServiceListener{
 		});
 		menuOption.add(mntmLangue);
 		
-		menuAide = new JMenu(Messages.getString("Window.menuAide.text")); //$NON-NLS-1$
+		menuAide = new JMenu(Langues.getString("Window.menuAide.text")); //$NON-NLS-1$
 		menuBar.add(menuAide);
 		
 		
@@ -97,14 +92,14 @@ public class Window extends JFrame implements MessageServiceListener{
 		contentPane.add(infoBar, BorderLayout.NORTH);
 		
 
-		ajouterAnnonce = new JButton(Messages.getString("Window.btnAjouterAnnonce")); //$NON-NLS-1$
+		ajouterAnnonce = new JButton(Langues.getString("Window.btnAjouterAnnonce")); //$NON-NLS-1$
 		ajouterAnnonce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AnnonceEditor().setVisible(true);
 			}
 		});
 		
-		btnMonCompte = new JButton(Messages.getString("Window.btnMonCompte.text")); //$NON-NLS-1$
+		btnMonCompte = new JButton(Langues.getString("Window.btnMonCompte.text")); //$NON-NLS-1$
 		btnMonCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				User connectedUser = Application.getInstance().getUsers().getConnectedUser();
@@ -116,16 +111,14 @@ public class Window extends JFrame implements MessageServiceListener{
 					MonCompte monCompte = new MonCompte();
 					monCompte.setVisible(true);
 				}
-				
 			}
 		});
-		
 
-		compteLabel = new JLabel(Messages.getString("Window.lblPasConnecte.text")); //$NON-NLS-1$
+		compteLabel = new JLabel(Langues.getString("Window.lblPasConnecte.text")); //$NON-NLS-1$
 		
-		connectezVous = new JLabel(Messages.getString("Window.lblConnectezVousPour.text")); //$NON-NLS-1$
+		connectezVous = new JLabel(Langues.getString("Window.lblConnectezVousPour.text")); //$NON-NLS-1$
 		
-		panier = new JButton(Messages.getString("Window.btnPanier.text")); //$NON-NLS-1$
+		panier = new JButton(Langues.getString("Window.btnPanier.text")); //$NON-NLS-1$
 		panier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Panier().setVisible(true);
@@ -162,7 +155,7 @@ public class Window extends JFrame implements MessageServiceListener{
 		chatBar.setFloatable(false);
 		contentPane.add(chatBar, BorderLayout.SOUTH);
 		
-		btnMsg = new JButton(Messages.getString("Window.btnFriends.text")); //$NON-NLS-1$
+		btnMsg = new JButton(Langues.getString("Window.btnFriends.text")); //$NON-NLS-1$
 		messagePanel = new MessagesPanel(this);
 		
 		Application.getInstance().getChatService().addListener(messagePanel);
@@ -170,19 +163,18 @@ public class Window extends JFrame implements MessageServiceListener{
 			public void actionPerformed(ActionEvent arg0) {
 				messagePanel.setVisible(true);
 				btnMsg.setBackground(null);
-				btnMsg.setText("Messagerie");
+				btnMsg.setText(Langues.getString("Window.btnMsg.text"));
 			}
 		});
 		chatBar.add(btnMsg);
 		
-		requetecontact = new JButton(Messages.getString("Window.btnRequtesContacts.text")); //$NON-NLS-1$
+		requetecontact = new JButton(Langues.getString("Window.btnRequtesContacts.text")); //$NON-NLS-1$
 		Application.getInstance().getFriendRequestService().addListener(new MessageServiceListener()  {
 			
-			@Override
 			public void messageEvent(MessageData msg) {
 				User u = Application.getInstance().getUsers().getConnectedUser();
 				if(msg.getTo().equals(u.getLogin())) {
-					requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text") + " (" + u.getRequests().size() + ")");
+					requetecontact.setText(Langues.getString("Window.btnRequtesContacts.text") + " (" + u.getRequests().size() + ")");
 				}
 			}
 		});
@@ -194,12 +186,10 @@ public class Window extends JFrame implements MessageServiceListener{
 		});
 		chatBar.add(requetecontact);
 		
-		
 		Application.getInstance().getChatService().addListener(this);
 		
 	}
 	
-
 	public void revalidate() {
 		show_account_buttons();
 		show_annonce_button();
@@ -217,7 +207,7 @@ public class Window extends JFrame implements MessageServiceListener{
 			panier.setVisible(true);
 			btnMsg.setEnabled(true);
 			requetecontact.setEnabled(true);
-			requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text") + " (" + user.getRequests().size() + ")");
+			requetecontact.setText(Langues.getString("Window.btnRequtesContacts.text") + " (" + user.getRequests().size() + ")");
 			
 		}
 		else {
@@ -226,19 +216,19 @@ public class Window extends JFrame implements MessageServiceListener{
 			panier.setVisible(false);
 			btnMsg.setEnabled(false);
 			requetecontact.setEnabled(false);
-			requetecontact.setText(Messages.getString("Window.btnRequtesContacts.text"));
+			requetecontact.setText(Langues.getString("Window.btnRequtesContacts.text"));
 		}
 	}
 	
 	private void show_account_buttons() {
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		if(user != null) {
-			compteLabel.setText(Messages.getString("Window.txtConnecteComme.text") + user.getLogin());
-			btnMonCompte.setText(Messages.getString("Window.btnMonCompte.text"));
+			compteLabel.setText(Langues.getString("Window.txtConnecteComme.text") + user.getLogin());
+			btnMonCompte.setText(Langues.getString("Window.btnMonCompte.text"));
 		}
 		else {
-			compteLabel.setText(Messages.getString("Window.txtPasConnecte.text"));
-			btnMonCompte.setText(Messages.getString("Window.btnSeConnecter.text"));
+			compteLabel.setText(Langues.getString("Window.txtPasConnecte.text"));
+			btnMonCompte.setText(Langues.getString("Window.btnSeConnecter.text"));
 		}
 	}
 
@@ -246,7 +236,7 @@ public class Window extends JFrame implements MessageServiceListener{
 		if(Application.getInstance().getUsers().getConnectedUser() == null) return;
 		if(messagePanel.isVisible()) return;
 		if(msg.getTo().equals(Application.getInstance().getUsers().getConnectedUser().getLogin())) {
-			btnMsg.setText("Messagerie ("+Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberNewMsgs()+")");
+			btnMsg.setText(Langues.getString("Window.btnMsg.text")+ " ("+Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberNewMsgs()+")");
 			btnMsg.setBackground(Color.green);
 			
 		}

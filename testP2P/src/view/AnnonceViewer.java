@@ -1,44 +1,61 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
-import java.awt.Dimension;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-
-import java.awt.SystemColor;
-import java.awt.Font;
-
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JCheckBox;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
-import controller.NewConvers;
 import model.ImageBase64;
 import model.Objet;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+/**
+ * Affiche une annonce pour un utilisateur qui souhaite voir son contenu integral
+ * @author 
+ *
+ */
 
+@SuppressWarnings("serial")
 public class AnnonceViewer extends JFrame {
 
 	private JPanel contentPane;
-
-
-	/**
-	 * Create the frame.
-	 */
+	
+	private JLabel lblImage;
+	private JLabel lblTitre;
+	private JLabel lblTypeAnnonce;
+	private JLabel lblPropSouh;
+	private JLabel lblPosteLe;
+	private JLabel lblDateHeure;
+	private JLabel lblUtilisateur;
+	private JLabel lblNomUtilisateur;
+	private JLabel lblTrocVente;
+	private JLabel lblEmail;
+	private JLabel lblAdresseMail;
+	private JLabel lblTel;
+	private JLabel lblNumero;
+	
+	private JTextPane pnlResume;
+	private JTextPane pnlDescription;
+	
+	private JCheckBox cbTroc;
+	private JCheckBox cbVente;
+	
+	private JButton btnContacter;
+	private JButton btnEnvoyerMessage;
+	
 	public AnnonceViewer(final Objet o) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 660, 519);
@@ -46,65 +63,65 @@ public class AnnonceViewer extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setMaximumSize(new Dimension(100, 100));
-		lblNewLabel.setMinimumSize(new Dimension(100, 100));
-		lblNewLabel.setPreferredSize(new Dimension(100, 100));
-		lblNewLabel.setSize(new Dimension(100, 100));
+		lblImage = new JLabel();
+		lblImage.setMaximumSize(new Dimension(100, 100));
+		lblImage.setMinimumSize(new Dimension(100, 100));
+		lblImage.setPreferredSize(new Dimension(100, 100));
+		lblImage.setSize(new Dimension(100, 100));
 		if(o.getImg() != null) {
-			lblNewLabel.setIcon(new ImageIcon(ImageBase64.decode(o.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+			lblImage.setIcon(new ImageIcon(ImageBase64.decode(o.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
 		}
 		
-		JLabel lblLeTitreDe = new JLabel(o.getTitre());
-		lblLeTitreDe.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblLeTitreDe.setForeground(SystemColor.textHighlight);
+		lblTitre = new JLabel(o.getTitre());
+		lblTitre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTitre.setForeground(SystemColor.textHighlight);
 		
-		JTextPane textArea = new JTextPane();
-		textArea.setText(o.getResume());
-		textArea.setEditable(false);
-		textArea.setOpaque(false);
+		pnlResume = new JTextPane();
+		pnlResume.setText(o.getResume());
+		pnlResume.setEditable(false);
+		pnlResume.setOpaque(false);
 		
-		JLabel lblTermesDeLchange = new JLabel("Termes de l'échange");
+		lblTrocVente = new JLabel(Langues.getString("AnnonceViewer.lblTrocVente.text"));
 		
-		JCheckBox chckbxTroc = new JCheckBox("Troc");
-		chckbxTroc.setSelected(o.isTroc());
-		chckbxTroc.setEnabled(false);
-		chckbxTroc.setFocusable(false);
+		cbTroc = new JCheckBox(Langues.getString("AnnonceViewer.cbTroc.text"));
+		cbTroc.setSelected(o.isTroc());
+		cbTroc.setEnabled(false);
+		cbTroc.setFocusable(false);
 		
-		JCheckBox chckbxVente = new JCheckBox("Vente");
-		chckbxVente.setSelected(o.isVente());
-		chckbxVente.setEnabled(false);
+		cbVente = new JCheckBox(Langues.getString("AnnonceViewer.cbVente.text"));
+		cbVente.setSelected(o.isVente());
+		cbVente.setEnabled(false);
 		
-		JLabel lblTypeDeLannonce = new JLabel("Type de l'annonce :");
+		lblTypeAnnonce = new JLabel(Langues.getString("AnnonceViewer.lblTypeAnnonce.text"));
 		
-		JLabel lblProposition = new JLabel(o.isProposition() ?  "Proposition":"Souhait");
+		lblPropSouh = new JLabel(o.isProposition() ?  Langues.getString("AnnonceViewer.lblProposition.text"):Langues.getString("AnnonceViewer.lblSouhait.text"));
 		
-		JLabel lblPostLe = new JLabel("Posté le :");
+		lblPosteLe = new JLabel(Langues.getString("AnnonceViewer.lblPosteLe.text"));
 		
-		JLabel lblh = new JLabel(o.getSimpleDate() + " à " + o.getSimpleTime());
+		lblDateHeure = new JLabel(o.getSimpleDate() + Langues.getString("AnnonceViewer.lblDateHeure.text") + o.getSimpleTime());
 		
-		JLabel lblUtilisateur = new JLabel("Utilisateur :");
+		lblUtilisateur = new JLabel(Langues.getString("AnnonceViewer.lblUtilisateur.text"));
 		
-		JLabel lblCrashxxl = new JLabel(o.getUserName());
+		lblNomUtilisateur = new JLabel(o.getUserName());
 		
-		JTextPane txtpnLoremIpsumDolor = new JTextPane();
-		txtpnLoremIpsumDolor.setOpaque(false);
-		txtpnLoremIpsumDolor.setEditable(false);
-		txtpnLoremIpsumDolor.setContentType("text/html");
-		txtpnLoremIpsumDolor.setText("<html>" + o.getDesc());
+		pnlDescription = new JTextPane();
+		pnlDescription.setOpaque(false);
+		pnlDescription.setEditable(false);
+		pnlDescription.setContentType("text/html");
+		pnlDescription.setText("<html>" + o.getDesc());
 		
-		JButton btnContacterLutilisateurPour = new JButton("Contacter l'utilisateur pour un accords");
+		btnContacter = new JButton(Langues.getString("AnnonceViewer.btnContacter.text"));
 		
-		JLabel lblEmail = new JLabel("E-mail :");
+		lblEmail = new JLabel(Langues.getString("AnnonceViewer.lblEmail.text"));
 		
-		JLabel lblMail = new JLabel(o.getUser().getMail());
+		lblAdresseMail = new JLabel(o.getUser().getMail());
 		
-		JLabel lblTlphone = new JLabel("Téléphone :");
+		lblTel = new JLabel(Langues.getString("AnnonceViewer.lblTel.text"));
 		
-		JLabel label = new JLabel(o.getUser().getTel());
+		lblNumero = new JLabel(o.getUser().getTel());
 		
-		JButton btnEnvoyerUnMessage = new JButton("Envoyer un message");
-		btnEnvoyerUnMessage.addActionListener(new ActionListener() {
+		btnEnvoyerMessage = new JButton(Langues.getString("AnnonceViewer.btnEnvoyerMessage.text"));
+		btnEnvoyerMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controller.NewConvers validator = new controller.NewConvers(o.getUserName());
 				if(validator.validate()) {
@@ -114,90 +131,91 @@ public class AnnonceViewer extends JFrame {
 				
 			}
 		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap(194, Short.MAX_VALUE)
-					.addComponent(btnContacterLutilisateurPour)
+					.addComponent(btnContacter)
 					.addGap(189))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(txtpnLoremIpsumDolor, GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
+							.addComponent(pnlDescription, GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblLeTitreDe)
-								.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE))))
+								.addComponent(lblTitre)
+								.addComponent(pnlResume, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE))))
 					.addContainerGap())
 				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTermesDeLchange)
-								.addComponent(lblTypeDeLannonce))
+								.addComponent(lblTrocVente)
+								.addComponent(lblTypeAnnonce))
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(chckbxTroc)
+									.addComponent(cbTroc)
 									.addGap(18)
-									.addComponent(chckbxVente))
-								.addComponent(lblProposition)))
+									.addComponent(cbVente))
+								.addComponent(lblPropSouh)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblPostLe)
+							.addComponent(lblPosteLe)
 							.addGap(18)
-							.addComponent(lblh)))
+							.addComponent(lblDateHeure)))
 					.addGap(38)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblEmail)
 						.addComponent(lblUtilisateur)
-						.addComponent(lblTlphone))
+						.addComponent(lblTel))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(label)
+							.addComponent(lblNumero)
 							.addGap(18)
-							.addComponent(btnEnvoyerUnMessage))
-						.addComponent(lblMail)
-						.addComponent(lblCrashxxl))
+							.addComponent(btnEnvoyerMessage))
+						.addComponent(lblAdresseMail)
+						.addComponent(lblNomUtilisateur))
 					.addContainerGap(25, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblImage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblLeTitreDe)
+							.addComponent(lblTitre)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(pnlResume, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTermesDeLchange)
-						.addComponent(chckbxTroc)
-						.addComponent(chckbxVente)
+						.addComponent(lblTrocVente)
+						.addComponent(cbTroc)
+						.addComponent(cbVente)
 						.addComponent(lblUtilisateur)
-						.addComponent(lblCrashxxl))
+						.addComponent(lblNomUtilisateur))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTypeDeLannonce)
-						.addComponent(lblProposition)
-						.addComponent(lblMail)
+						.addComponent(lblTypeAnnonce)
+						.addComponent(lblPropSouh)
+						.addComponent(lblAdresseMail)
 						.addComponent(lblEmail))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPostLe)
-						.addComponent(lblh)
-						.addComponent(lblTlphone)
-						.addComponent(label)
-						.addComponent(btnEnvoyerUnMessage))
+						.addComponent(lblPosteLe)
+						.addComponent(lblDateHeure)
+						.addComponent(lblTel)
+						.addComponent(lblNumero)
+						.addComponent(btnEnvoyerMessage))
 					.addGap(18)
-					.addComponent(txtpnLoremIpsumDolor, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+					.addComponent(pnlDescription, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnContacterLutilisateurPour)
+					.addComponent(btnContacter)
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);

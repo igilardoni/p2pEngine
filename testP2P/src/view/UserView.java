@@ -1,30 +1,38 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
 import java.awt.Font;
 import java.awt.SystemColor;
 
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 import model.User;
 
+/**
+ * Panel de transition pour contacter le vendeur
+ * @author 
+ *
+ */
+
+@SuppressWarnings("serial")
 public class UserView extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Create the frame.
-	 */
+	
+	private JLabel lblUtilisateur;
+	private JLabel lblEmail;
+	private JLabel lblAdMail;
+	private JLabel lblTelephone;
+	private JLabel lblNumero;
+	
+	private JButton btnEnvoyer;
+	
 	public UserView(User u) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -32,19 +40,20 @@ public class UserView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblUtilisateur = new JLabel("Utilisateur : " + u.getLogin());
+		lblUtilisateur = new JLabel(Langues.getString("UserView.lblUtilisateur.text") + u.getLogin());
 		lblUtilisateur.setForeground(SystemColor.textHighlight);
 		lblUtilisateur.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblEmail = new JLabel("E-mail:");
+		lblEmail = new JLabel(Langues.getString("UserView.lblEmail.text"));
 		
-		JLabel lblEmailemailemail = new JLabel(u.getMail());
+		lblAdMail = new JLabel(u.getMail());
 		
-		JLabel lblTlphone = new JLabel("Téléphone:");
+		lblTelephone = new JLabel(Langues.getString("UserView.lblTelephone.text"));
 		
-		JLabel label = new JLabel(u.getTel());
+		lblNumero = new JLabel(u.getTel());
 		
-		JButton btnEnvoyerUnMessage = new JButton("Envoyer un message");
+		btnEnvoyer = new JButton(Langues.getString("UserView.btnEnvoyer.text"));
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -55,14 +64,14 @@ public class UserView extends JFrame {
 							.addContainerGap()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblEmail)
-								.addComponent(lblTlphone))
+								.addComponent(lblTelephone))
 							.addGap(32)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(label)
-								.addComponent(lblEmailemailemail)))
+								.addComponent(lblNumero)
+								.addComponent(lblAdMail)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(btnEnvoyerUnMessage)))
+							.addComponent(btnEnvoyer)))
 					.addContainerGap(204, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -72,13 +81,13 @@ public class UserView extends JFrame {
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEmail)
-						.addComponent(lblEmailemailemail))
+						.addComponent(lblAdMail))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTlphone)
-						.addComponent(label))
+						.addComponent(lblTelephone)
+						.addComponent(lblNumero))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnEnvoyerUnMessage)
+					.addComponent(btnEnvoyer)
 					.addContainerGap(136, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);

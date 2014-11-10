@@ -19,17 +19,31 @@ import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.Color;
 
+/**
+ * Fenetre de connexion
+ */
+
+
+@SuppressWarnings("serial")
 public class Connexion extends JPanel {
 	private JTextField login;
 	private JPasswordField password;
+	
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
-	private JLabel errorMsg;
+	
+	private JLabel errorLogin;
+	private JLabel lblNomCompte;
+	private JLabel lblMotDePasse;
+	private JLabel lblListeDesComptes;
+	
+	private JButton btnValider;
+	private JButton btnCrerUnNouveau;
 
-	/**
-	 * Create the panel.
-	 */
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Connexion() {
-		JLabel lblListeDesComptes = new JLabel(Messages.getString("Connexion.lblListeComptes.text"));
+		lblListeDesComptes = new JLabel(Langues.getString("Connexion.lblListeComptes.text"));
 		
 		comboBox = new JComboBox();
 		comboBox.addActionListener(new ActionListener() {
@@ -40,7 +54,7 @@ public class Connexion extends JPanel {
 		comboBox.setModel(new DefaultComboBoxModel(getUsersNamesList()));
 		comboBox.setMaximumRowCount(20);
 		
-		JButton btnCrerUnNouveau = new JButton(Messages.getString("Connexion.btnNouveauCompte.text"));
+		btnCrerUnNouveau = new JButton(Langues.getString("Connexion.btnNouveauCompte.text"));
 		btnCrerUnNouveau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel parent = (JPanel) getParent();
@@ -50,16 +64,17 @@ public class Connexion extends JPanel {
 				dialog.pack();
 			}
 		});
-		JLabel lblLogin = new JLabel(Messages.getString("Connexion.lblNomCompte.text"));
 		
-		JLabel lblMotDePass = new JLabel(Messages.getString("Connexion.lblMotDePasse.text"));
+		lblNomCompte = new JLabel(Langues.getString("Connexion.lblNomCompte.text"));
+		
+		lblMotDePasse = new JLabel(Langues.getString("Connexion.lblMotDePasse.text"));
 		
 		login = new JTextField();
 		login.setColumns(10);
 		
 		password = new JPasswordField();
 		
-		JButton btnValider = new JButton(Messages.getString("Connexion.btnValider.text"));
+		btnValider = new JButton(Langues.getString("Connexion.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.Connexion connexion = new controller.Connexion(login.getText(), new String(password.getPassword()));
@@ -70,21 +85,22 @@ public class Connexion extends JPanel {
 					JDialog dialog = (JDialog) parent.getRootPane().getParent();
 					dialog.dispose();
 				}
-				else errorMsg.setVisible(true);
+				else errorLogin.setVisible(true);
 			}
 		});
 		
-		errorMsg = new JLabel(Messages.getString("Connexion.lblMauvaisLog.text"));
-		errorMsg.setVisible(false);
-		errorMsg.setForeground(Color.RED);
+		errorLogin = new JLabel(Langues.getString("Connexion.errorLogin.text"));
+		errorLogin.setVisible(false);
+		errorLogin.setForeground(Color.RED);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblMotDePass)
-						.addComponent(lblLogin)
+						.addComponent(lblMotDePasse)
+						.addComponent(lblNomCompte)
 						.addComponent(lblListeDesComptes))
 					.addGap(44)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -98,7 +114,7 @@ public class Connexion extends JPanel {
 								.addComponent(password, Alignment.LEADING)
 								.addComponent(login, Alignment.LEADING))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(errorMsg)))
+							.addComponent(errorLogin)))
 					.addContainerGap(5, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -111,12 +127,12 @@ public class Connexion extends JPanel {
 						.addComponent(btnCrerUnNouveau))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLogin)
+						.addComponent(lblNomCompte)
 						.addComponent(login, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(errorMsg))
+						.addComponent(errorLogin))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMotDePass)
+						.addComponent(lblMotDePasse)
 						.addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnValider)

@@ -12,12 +12,10 @@ public class DeleteConvers implements Validator{
 		user = Application.getInstance().getUsers().getConnectedUser();
 	}
 	
-	@Override
 	public boolean validate() {
 		return user.getMessages().getMessages(userName) != null;
 	}
 
-	@Override
 	public boolean process() {
 		user.getMessages().deleteConvest(userName);
 		return true;

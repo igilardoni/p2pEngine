@@ -4,7 +4,7 @@ import view.Application;
 import model.User;
 
 /**
- * Crée un PDF de type contrat de vente/échange
+ * Cree un PDF de type contrat de vente/echange
  * @author Ismael Cussac
  *
  */

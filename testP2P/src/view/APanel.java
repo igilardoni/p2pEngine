@@ -5,6 +5,13 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+/**
+ * Contient une liste d'AnnoncePanel / AnnoncePanierPanel / AnnonceRecherchePanel
+ * @author 
+ *
+ */
+
+@SuppressWarnings("serial")
 public class APanel extends JPanel{
 	
 	public APanel() {

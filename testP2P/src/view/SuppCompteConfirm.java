@@ -22,16 +22,28 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Panel de suppression d'un compte courrant
+ * @author
+ *
+ */
+
+@SuppressWarnings("serial")
 public class SuppCompteConfirm extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JPasswordField passwordField;
+	private JPasswordField password;
 	private JLabel errorPass;
 	private JDialog parent;
+	private JLabel lblSupprimerCompte;
+	private JLabel lblQuestion;
+	private JLabel lblIrreversible;
+	private JLabel lblConfirmer;
+	private JLabel lblMotDePasse;
+	private JPanel buttonPane;
+	private JButton btnAnnuler;
+	private JButton btnSupprimer;
 
-	/**
-	 * Create the dialog.
-	 */
 	public SuppCompteConfirm(JDialog parent_) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.parent = parent_;
@@ -40,27 +52,27 @@ public class SuppCompteConfirm extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblSupprimerVotreCompte = new JLabel(Messages.getString("SuppCompteConfirm.lblSupprimerCompte.text"));
-		lblSupprimerVotreCompte.setForeground(SystemColor.textHighlight);
-		lblSupprimerVotreCompte.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblSupprimerCompte = new JLabel(Langues.getString("SuppCompteConfirm.lblSupprimerCompte.text"));
+		lblSupprimerCompte.setForeground(SystemColor.textHighlight);
+		lblSupprimerCompte.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblEtesvousSurDe = new JLabel(Messages.getString("SuppCompteConfirm.lblQuestion.text"));
+		lblQuestion = new JLabel(Langues.getString("SuppCompteConfirm.lblQuestion.text"));
 		
-		JLabel lblCetteOprationEst = new JLabel(Messages.getString("SuppCompteConfirm.lblIrreversible.text"));
+		lblIrreversible = new JLabel(Langues.getString("SuppCompteConfirm.lblIrreversible.text"));
 		
-		JLabel lblEntrezVotreMot = new JLabel(Messages.getString("SuppCompteConfirm.lblConfirmer.text"));
+		lblConfirmer = new JLabel(Langues.getString("SuppCompteConfirm.lblConfirmer.text"));
 		
-		JLabel lblMotDePasse = new JLabel(Messages.getString("SuppCompteConfirm.lblMotDePasse.text"));
+		lblMotDePasse = new JLabel(Langues.getString("SuppCompteConfirm.lblMotDePasse.text"));
 		
-		passwordField = new JPasswordField();
+		password = new JPasswordField();
 		
-		JButton btnSupprimer = new JButton(Messages.getString("SuppCompteConfirm.btnSupprimer.text"));
+		btnSupprimer = new JButton(Langues.getString("SuppCompteConfirm.btnSupprimer.text"));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initError();
-				controller.SuppCompteConfirm confirm = new controller.SuppCompteConfirm(new String(passwordField.getPassword()));
+				controller.SuppCompteConfirm confirm = new controller.SuppCompteConfirm(new String(password.getPassword()));
 				if(confirm.validate()) {
 					confirm.process();
 					parent.dispose();
@@ -71,28 +83,29 @@ public class SuppCompteConfirm extends JDialog {
 			}
 		});
 		
-		errorPass = new JLabel(Messages.getString("SuppCompteConfirm.lblErrorMdP.text"));
+		errorPass = new JLabel(Langues.getString("SuppCompteConfirm.lblErrorMdP.text"));
 		errorPass.setForeground(Color.RED);
 		errorPass.setVisible(false);
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblSupprimerVotreCompte)
+					.addComponent(lblSupprimerCompte)
 					.addContainerGap(259, Short.MAX_VALUE))
 				.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblEtesvousSurDe)
+					.addComponent(lblQuestion)
 					.addContainerGap(354, Short.MAX_VALUE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblCetteOprationEst)
+					.addComponent(lblIrreversible)
 					.addContainerGap(354, Short.MAX_VALUE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblEntrezVotreMot)
+					.addComponent(lblConfirmer)
 					.addContainerGap(85, Short.MAX_VALUE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
@@ -101,7 +114,7 @@ public class SuppCompteConfirm extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(errorPass)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+							.addComponent(password, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnSupprimer)))
 					.addContainerGap(65, Short.MAX_VALUE))
@@ -109,19 +122,19 @@ public class SuppCompteConfirm extends JDialog {
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblSupprimerVotreCompte)
+					.addComponent(lblSupprimerCompte)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblEtesvousSurDe)
+					.addComponent(lblQuestion)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblCetteOprationEst)
+					.addComponent(lblIrreversible)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblEntrezVotreMot)
+					.addComponent(lblConfirmer)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMotDePasse)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSupprimer))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(errorPass)
@@ -129,18 +142,18 @@ public class SuppCompteConfirm extends JDialog {
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton(Messages.getString("SuppCompteConfirm.btnAnnuler.text"));
-				cancelButton.addActionListener(new ActionListener() {
+				btnAnnuler = new JButton(Langues.getString("SuppCompteConfirm.btnAnnuler.text"));
+				btnAnnuler.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnAnnuler.setActionCommand("Cancel");
+				buttonPane.add(btnAnnuler);
 			}
 		}
 	}
