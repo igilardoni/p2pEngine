@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.ImageBase64;
+
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -127,7 +129,13 @@ public abstract class AbstractPdfGenerator {
 	/**
 	 * Ajoute le contenu du PDF
 	 */
-	protected abstract void addContent();
+	protected void addContent(){
+		
+		addTexte();
+		addImage();
+		addCheckBox();
+		
+	}	
 	
 	/**
 	 * Complète tous les textFields avec du texte
@@ -147,7 +155,7 @@ public abstract class AbstractPdfGenerator {
 		for(Map.Entry<String,String> champ : image.entrySet()){
 			if(champ.getValue() != null){
 				Image img = null;
-				try {img = Image.getInstance(String.format("%s", champ.getValue()));} 
+				try {img = Image.getInstance(ImageBase64.decode(champ.getValue()).getImage(), null);} 
 				catch (BadElementException e) {e.printStackTrace();} 
 				catch (MalformedURLException e) {e.printStackTrace();} 
 				catch (IOException e) {e.printStackTrace();}

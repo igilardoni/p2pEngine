@@ -18,12 +18,4 @@ public class ObjetPdfGenerator extends AbstractPdfGenerator {
 		createPdf(model.getTexteMap().get("fileOut"), model.getTexteMap().get("modele"));
 		
 	}
-	
-	protected void addContent(){
-		
-		addTexte();
-		addImage();
-		addCheckBox();
-		
-	}	
 }
