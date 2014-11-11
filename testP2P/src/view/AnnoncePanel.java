@@ -21,7 +21,7 @@ import javax.swing.border.EtchedBorder;
 import model.ImageBase64;
 import model.Objet;
 import controller.AnnonceDelete;
-import controller.GeneratePdfContrat;
+import controller.GeneratePdfObjet;
 
 /**
  * Panel d'une annonce
@@ -159,7 +159,7 @@ public class AnnoncePanel extends JPanel {
 		btnPdf = new JButton(Langues.getString("AnnoncePanel.btnPdf.text")); //$NON-NLS-1$
 		btnPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GeneratePdfContrat validator = new GeneratePdfContrat(i);
+				GeneratePdfObjet validator = new GeneratePdfObjet(i);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();

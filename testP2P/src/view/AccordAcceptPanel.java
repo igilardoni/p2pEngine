@@ -11,10 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import controller.GeneratePdfContrat;
 import model.Accord;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import controller.GeneratePdfContrat;
 
 /**
  * Affiche le succes de l'accord

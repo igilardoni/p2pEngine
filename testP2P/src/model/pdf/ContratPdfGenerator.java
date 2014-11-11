@@ -1,5 +1,6 @@
 package model.pdf;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,29 +14,75 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 	private List<String> modeles = new ArrayList<String>();
 	private String fileOut = "";
 	
-	public ContratPdfGenerator(ObjetPdfModel modelObjet, UserPdfModel modelUser ){
+	ObjetPdfModel obj1;
+	ObjetPdfModel obj2 = null;
+	UserPdfModel user1;
+	UserPdfModel user2;
+	
+	
+	public ContratPdfGenerator(ObjetPdfModel modelObjet1, ObjetPdfModel modelObjet2, UserPdfModel modelUser1, UserPdfModel modelUser2){
 
-		this.texte.putAll(modelObjet.getTexteMap());
-		this.image.putAll(modelObjet.getImageMap());
-		this.bool.putAll(modelObjet.getBoolMap());
-		this.texte.putAll(modelUser.getTexteMap());
-		this.image.putAll(modelUser.getImageMap());
-		this.bool.putAll(modelUser.getBoolMap());
+		this.obj1 = modelObjet1;
+		this.obj2 = modelObjet2;
+		this.user1 = modelUser1;
+		this.user1 = modelUser2;
 		
-		modeles.add(modelObjet.getTexteMap().get("modele"));
-		modeles.add(modelUser.getTexteMap().get("modele"));
-		
-		fileOut += "Contrat "+ modelObjet.getTexteMap().get("titreObjet");
+		genererContrat();
+		fileOut += "Contrat "+ modelObjet1.getTexteMap().get("titreObjet")+"_"+modelObjet2.getTexteMap().get("titreObjet");
 		mergePdf(modeles, fileOut);
-		createPdf(fileOut, fileOut);
-		
+	
+		deleteFiles(modelObjet1.getTexteMap().get("titreObjet"),modelObjet2.getTexteMap().get("titreObjet"));
+		deleteFiles(modelUser1.getTexteMap().get("nomUser"),modelUser2.getTexteMap().get("nomUser"));
 	}
 	
-	protected void addContent() {
+	public ContratPdfGenerator(ObjetPdfModel modelObj1, UserPdfModel modelUser1, UserPdfModel modelUser2) {
+		this.obj1 = modelObj1;
+		this.user1 = modelUser1;
+		this.user1 = modelUser2;
 		
-		addTexte();
-		addImage();
-		addCheckBox();
+		genererContrat();
 	}
 
+	private void genererContrat() {
+		
+		creerFicheObjet(obj1);
+		if(obj2 != null)
+			creerFicheObjet(obj2);
+		creerFicheUser(user1);
+		creerFicheUser(user2);
+		
+	}
+
+	private void creerFicheUser(UserPdfModel user) {
+		this.texte.putAll(user.getTexteMap());
+		this.image.putAll(user.getImageMap());
+		this.bool.putAll(user.getBoolMap());
+		createPdf(user.getTexteMap().get("modele"), user.getTexteMap().get("nomUser"));
+		modeles.add(user.getTexteMap().get("modele"));
+		viderMap();
+	}
+
+	private void creerFicheObjet(ObjetPdfModel obj){
+		this.texte.putAll(obj.getTexteMap());
+		this.image.putAll(obj.getImageMap());
+		this.bool.putAll(obj.getBoolMap());
+		createPdf(obj.getTexteMap().get("modele"), obj.getTexteMap().get("titreObjet"));
+		modeles.add(obj.getTexteMap().get("modele"));
+		viderMap();
+	}
+	
+	
+	private void deleteFiles(String file1, String file2){
+		File MyFile = new File("modeles/"+file1+".pdf"); 
+		MyFile.delete(); 
+		
+		MyFile = new File("modeles/"+file2+".pdf"); 
+		MyFile.delete(); 
+	}
+	
+	private void viderMap(){
+		this.texte.clear();
+		this.texte.clear();
+		this.bool.clear();
+	}
 }
