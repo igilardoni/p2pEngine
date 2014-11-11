@@ -24,7 +24,7 @@ public class Langues {
 	// Bundle access
 	//
 	////////////////////////////////////////////////////////////////////////////
-	private static final String BUNDLE_NAME = "view.Langues"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "view.messages"; //$NON-NLS-1$
 	private static ResourceBundle RESOURCE_BUNDLE = loadBundle();
 	public static ResourceBundle loadBundle() {
 		return ResourceBundle.getBundle(BUNDLE_NAME);
