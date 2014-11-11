@@ -118,7 +118,7 @@ public class AnnonceEditor implements Validator{
 			obj.setTitre(title);
 			obj.setResume(resume);
 			obj.setDesc(desc);
-			if(!obj.getImg().equals(img)) {
+			if(obj.getImg() != null && !obj.getImg().equals(img) && img != null) {
 				obj.setImg(ImageBase64.encode(img));
 			}
 			
