@@ -66,9 +66,6 @@ public class AccordService extends Service {
 			byte[] rateBytes = message.getMessageElement("Rate").getBytes(true);
 			int rate = Integer.parseInt(new String(rateBytes));
 			users.getUser(to).addNote(rate);
-			Accords accords = users.getUser(to).getAccords();
-			Accord accord = accords.getAccord(to, from, annonce);
-			accords.rateAccord(accord);
 			return new MessageData(from, to, RATE, System.currentTimeMillis());
 		}
 		

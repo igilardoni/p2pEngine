@@ -265,6 +265,7 @@ public class Application {
 	 */
 	public void openConvers(String user) {
 		window.getMessagePanel().setVisible(true);
+		window.getMessagePanel().loadConvers();
 		window.getMessagePanel().setNewConvers(user);
 	
 	}

@@ -33,8 +33,31 @@ public class AccordNewPanel extends JPanel {
 		});
 		
 		JButton btnRefuser = new JButton("Refuser");
+		btnRefuser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.DeclineAccord validator = new controller.DeclineAccord(a);
+				if(validator.validate()) {
+					if(!validator.process()) {
+						//erreur
+					}
+					else {
+						parent.revalidate();
+					}
+				}
+			}
+		});
 		
 		JButton btnDiscuter = new JButton("Discuter");
+		btnDiscuter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.NewConvers validator = new controller.NewConvers(a.getFrom());
+				if(validator.validate()) {
+					validator.process();
+					Application.getInstance().openConvers(a.getFrom());
+				}
+				
+			}
+		});
 		
 		JSeparator separator = new JSeparator();
 		

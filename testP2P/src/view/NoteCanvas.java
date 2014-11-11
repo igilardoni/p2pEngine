@@ -17,6 +17,7 @@ import java.awt.event.MouseMotionListener;
 public class NoteCanvas extends Canvas implements MouseMotionListener, MouseListener{
 	static final long serialVersionUID = 5976281278513438960L;
 	private int note;
+	private NoteListener listener = null;
 	
 	
 	/**
@@ -25,6 +26,10 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 	 */
 	public NoteCanvas(int note) {
 		this.note = note;
+	}
+	
+	public void setNoteListener(NoteListener l) {
+		listener = l;
 	}
 	
 	/**
@@ -37,8 +42,9 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(listener != null) {
+			listener.noteSet(note);
+		}
 	}
 
 	@Override
@@ -75,7 +81,7 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 	public void mouseMoved(MouseEvent e) {
 		Point p = e.getPoint();
 		int oldNote = note;
-		note = (int) ((float)e.getX() / (float)this.getWidth() * 5);
+		note = (int) ((int) (((float)e.getX() / (float)this.getWidth()) * 6));
 		
 		if(oldNote != note) this.repaint();
 	}

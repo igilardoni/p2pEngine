@@ -64,7 +64,7 @@ public class AccordList extends JFrame {
 				panel_1.add(new AccordNewPanel(a, getThis()));
 			}
 			else if(a.isAccepted()) {
-				panel_1.add(new AccordAcceptPanel(a));
+				panel_1.add(new AccordAcceptPanel(a, getThis()));
 			}
 			
 		}

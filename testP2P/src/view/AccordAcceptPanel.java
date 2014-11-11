@@ -10,19 +10,26 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import model.Accord;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AccordAcceptPanel extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
-	public AccordAcceptPanel(Accord a) {
+	public AccordAcceptPanel(final Accord a, final AccordList parent) {
 		
 		JLabel lblVousAvezReu = new JLabel("L'accord au sujet de l'annonce " + a.getAnnonce() + " a été accepté");
 		
 		JSeparator separator = new JSeparator();
 		
 		JButton btnNoter = new JButton("Noter");
+		btnNoter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new RateView(a, parent).setVisible(true);
+			}
+		});
+		if(a.isRated()) {
+			btnNoter.setEnabled(false);
+		}
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
