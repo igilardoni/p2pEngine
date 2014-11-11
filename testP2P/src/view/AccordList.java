@@ -45,12 +45,23 @@ public class AccordList extends JFrame {
 		contentPane.add(lblAccords, BorderLayout.NORTH);
 	}
 	
+	private AccordList getThis() {
+		return this;
+	}
+	
+	public void revalidate() {
+		loadAccords();
+		repaint();
+		super.revalidate();
+	}
+	
 	public void loadAccords() {
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		Accords accords = Application.getInstance().getUsers().getConnectedUser().getAccords();
+		panel_1.removeAll();
 		for(Accord a: accords.getAccords()) {
 			if(!a.getFrom().equals(user.getLogin()) && !a.isAccepted()) {
-				panel_1.add(new AccordNewPanel(a));
+				panel_1.add(new AccordNewPanel(a, getThis()));
 			}
 			else if(a.isAccepted()) {
 				panel_1.add(new AccordAcceptPanel(a));

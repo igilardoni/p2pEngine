@@ -26,7 +26,7 @@ public class AccordAcceptView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AccordAcceptView(final Accord a) {
+	public AccordAcceptView(final Accord a, final  AccordList parent) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -49,6 +49,10 @@ public class AccordAcceptView extends JFrame {
 				if(validator.validate()) {
 					if(!validator.process()) {
 						//erreur
+					}
+					else {
+						parent.revalidate();
+						dispose();
 					}
 				}
 				else {

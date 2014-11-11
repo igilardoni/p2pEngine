@@ -18,16 +18,17 @@ public class AccordNewPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AccordNewPanel(final Accord a) {
+	public AccordNewPanel(final Accord a, final AccordList parent) {
 		
 		JLabel lblVousAvezReu = new JLabel("Vous avez reçu une demande d'accord de " + a.getFrom());
 		
 		JTextArea textArea = new JTextArea(a.getMessageFrom());
+		textArea.setEditable(false);
 		
 		JButton btnAccepter = new JButton("Accepter");
 		btnAccepter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new AccordAcceptView(a).setVisible(true);
+				new AccordAcceptView(a, parent).setVisible(true);
 			}
 		});
 		
