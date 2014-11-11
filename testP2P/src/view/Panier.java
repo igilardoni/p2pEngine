@@ -49,6 +49,7 @@ public class Panier extends JDialog {
 		annonceContainer = new APanel();
 		annonceContainer.setPreferredSize(new Dimension(0, 0));
 		annonceContainer.setLayout(new BoxLayout(annonceContainer, BoxLayout.Y_AXIS));
+		scrpnlAnnonces.setViewportView(annonceContainer);
 		
 		loadPanier();
 			
