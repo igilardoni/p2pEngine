@@ -34,6 +34,10 @@ public class Accords implements Serializable{
 		accords.remove(a);
 	}
 	
+	public ArrayList<Accord> getAccords() {
+		return accords;
+	}
+	
 	
 	
 	

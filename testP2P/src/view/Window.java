@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import model.User;
 import model.communications.MessageData;
 import model.communications.MessageServiceListener;
+import javax.swing.Box;
 
 /**
  * Fenetre principale du programme
@@ -50,6 +51,9 @@ public class Window extends JFrame implements MessageServiceListener{
 	private JPanel infoBar;
 	
 	private MessagesPanel messagePanel;
+	private JButton btnAccords;
+	private Component horizontalStrut;
+	private Component horizontalStrut_1;
 	
 	public Window() {
 		
@@ -184,7 +188,21 @@ public class Window extends JFrame implements MessageServiceListener{
 				fr.show((Component) arg0.getSource(), 0, -fr.getPreferredSize().height);
 			}
 		});
+		
+		horizontalStrut = Box.createHorizontalStrut(20);
+		chatBar.add(horizontalStrut);
 		chatBar.add(requetecontact);
+		
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		chatBar.add(horizontalStrut_1);
+		
+		btnAccords = new JButton(Langues.getString("Window.btnAccords.text")); //$NON-NLS-1$
+		btnAccords.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AccordList().setVisible(true);
+			}
+		});
+		chatBar.add(btnAccords);
 		
 		Application.getInstance().getChatService().addListener(this);
 		
