@@ -1,28 +1,48 @@
 package view;
 
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
+import controller.GeneratePdfContrat;
 import model.Accord;
-
+/**
+ * Affiche le succes de l'accord
+ * @author 
+ *
+ */
+@SuppressWarnings("serial")
 public class AccordAcceptPanel extends JPanel {
-
-	/**
-	 * Create the panel.
-	 */
+	
+	private JLabel lblAccordPasse;
+	private JButton btnNoter;
+	private JButton btnContrat;
+	
 	public AccordAcceptPanel(Accord a) {
 		
-		JLabel lblVousAvezReu = new JLabel("L'accord au sujet de l'annonce " + a.getAnnonce() + " a été accepté");
+		lblAccordPasse = new JLabel(Langues.getString("AccordAcceptPanel.lblAccordPasse1.text") + a.getAnnonce() + Langues.getString("AccordAcceptPanel.lblAccordPasse2.text"));
 		
 		JSeparator separator = new JSeparator();
 		
-		JButton btnNoter = new JButton("Noter");
+		btnNoter = new JButton(Langues.getString("AccordAcceptPanel.btnNoter.text"));
+		btnContrat = new JButton(Langues.getString("AccordAcceptPanel.btnContrat.text"));
+		btnContrat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GeneratePdfContrat validator = new GeneratePdfContrat(i);
+				if(validator.validate()) {
+					validator.process();
+					Application.getInstance().updateUI();
+				}
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -30,9 +50,10 @@ public class AccordAcceptPanel extends JPanel {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblVousAvezReu)
+							.addComponent(lblAccordPasse)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnNoter))
+							.addComponent(btnNoter)
+							.addComponent(btnContrat))
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 659, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -41,8 +62,9 @@ public class AccordAcceptPanel extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblVousAvezReu)
-						.addComponent(btnNoter))
+						.addComponent(lblAccordPasse)
+						.addComponent(btnNoter)
+						.addComponent(btnContrat))
 					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addGap(23))

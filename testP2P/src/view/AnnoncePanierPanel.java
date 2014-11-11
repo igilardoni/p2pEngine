@@ -55,6 +55,7 @@ public class AnnoncePanierPanel extends JPanel {
 	private JLabel lblImage;
 	private JLabel lblTitre;
 	
+	private JButton btnVoirPlus;
 	private JButton btnMonter;
 	private JButton btnDescendre;
 	private JButton btnSupprimer;
@@ -62,7 +63,7 @@ public class AnnoncePanierPanel extends JPanel {
 	private JTextPane pnlResume;
 	
 	
-	public AnnoncePanierPanel(Objet obj, final int i, Panier p_) {
+	public AnnoncePanierPanel(final Objet obj, final int i, Panier p_) {
 		this.panier = p_;
 		setMinimumSize(new Dimension(10, 100));
 		setMaximumSize(new Dimension(32767, 100));
@@ -107,7 +108,7 @@ public class AnnoncePanierPanel extends JPanel {
 		pnlPropSouh = new JPanel();
 		pnlChoix.add(pnlPropSouh, BorderLayout.SOUTH);
 		
-		String s = obj.isProposition() ? Langues.getString("AnnoncePanierPanel.lblProposition.text"):Langues.getString("AnnoncePanierPanel.lblSouhait.text");
+		String s = obj.isProposition() ? Langues.getString("AnnoncePanielPanel.lblProposition.text"):Langues.getString("AnnoncePanielPanel.lblSouhait.text");
 		lblPropOuSouhait = new JLabel(s);
 		lblPropOuSouhait.setBackground(COLOR_ACTIVE);
 		lblPropOuSouhait.setOpaque(true);
@@ -146,6 +147,16 @@ public class AnnoncePanierPanel extends JPanel {
 		pnlBoutons = new JPanel();
 		pnlBoutons.setOpaque(false);
 		pnlTitreAnnonce.add(pnlBoutons, BorderLayout.EAST);
+		
+		
+		btnVoirPlus = new JButton(Langues.getString("AnnonceRecherchePanel.btnVoirPlus.text")); //$NON-NLS-1$
+		btnVoirPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AnnonceViewer(obj).setVisible(true);
+			}
+		});
+		pnlBoutons.add(btnVoirPlus);
+		
 		
 		btnDescendre = new JButton(Langues.getString("AnnoncePanierPanel.btnDescendre.text"));
 		if(i == Application.getInstance().getUsers().getConnectedUser().getPanier().size() - 1) btnDescendre.setEnabled(false);

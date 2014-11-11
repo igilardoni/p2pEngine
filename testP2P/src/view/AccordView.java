@@ -1,35 +1,32 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JEditorPane;
-import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 
 import model.Objet;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class AccordView extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel erreurMsg;
 
 	public AccordView(final Objet o) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 632, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,6 +73,7 @@ public class AccordView extends JFrame {
 		erreurMsg = new JLabel("Le message doit faire plus de 10 caractère");
 		erreurMsg.setVisible(false);
 		erreurMsg.setForeground(Color.RED);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)

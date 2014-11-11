@@ -1,27 +1,37 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JEditorPane;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 import model.Accord;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
+/**
+ * Juste avant l'accord
+ * @author
+ *
+ */
+
+@SuppressWarnings("serial")
 public class AccordAcceptView extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel errorMessage;
+	private JLabel lblAccepter;
+	private JLabel lblAnnonce;
+	private JLabel lblMessage;
+	private JButton btnEnvoyer;
+	private final JEditorPane texte;
 
 	/**
 	 * Create the frame.
@@ -33,16 +43,16 @@ public class AccordAcceptView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblVousAllezAccepter = new JLabel("Vous allez accepter l'accord de " + a.getFrom());
+		lblAccepter = new JLabel(Langues.getString("AccordAcceptView.lblAccepter.text") + a.getFrom());
 		
-		JLabel lblAnnonce = new JLabel("Annonce : " + a.getAnnonce());
+		lblAnnonce = new JLabel(Langues.getString("AccordAcceptView.lblAnnonce.text") + a.getAnnonce());
 		
-		JLabel lblMessage = new JLabel("Message :");
+		lblMessage = new JLabel(Langues.getString("AccordAcceptView.lblMessage.text"));
 		
-		final JEditorPane texte = new JEditorPane();
-		texte.setText("Bonjour " + a.getFrom() + ", j'accepte l'accord au sujet de l'annonce : " + a.getAnnonce());
+		texte = new JEditorPane();
+		texte.setText(Langues.getString("AccordAcceptView.editTexte1.text") + a.getFrom() + Langues.getString("AccordAcceptView.editTexte2.text") + a.getAnnonce());
 		
-		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer = new JButton(Langues.getString("AccordAcceptView.btnEnvoyer.text"));
 		btnEnvoyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controller.AcceptAccord validator = new controller.AcceptAccord(a, texte.getText());
@@ -61,9 +71,10 @@ public class AccordAcceptView extends JFrame {
 			}
 		});
 		
-		errorMessage = new JLabel("Le message doit faire plus de 10 caractères");
+		errorMessage = new JLabel(Langues.getString("AccordAcceptView.errorMessage.text"));
 		errorMessage.setVisible(false);
 		errorMessage.setForeground(Color.RED);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -71,7 +82,7 @@ public class AccordAcceptView extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(texte, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-						.addComponent(lblVousAllezAccepter)
+						.addComponent(lblAccepter)
 						.addComponent(lblAnnonce)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblMessage)
@@ -83,7 +94,7 @@ public class AccordAcceptView extends JFrame {
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblVousAllezAccepter)
+					.addComponent(lblAccepter)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAnnonce)
 					.addPreferredGap(ComponentPlacement.RELATED)
