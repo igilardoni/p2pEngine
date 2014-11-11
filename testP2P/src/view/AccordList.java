@@ -1,27 +1,32 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import model.Accord;
 import model.Accords;
 import model.User;
 
-import java.awt.Font;
-import java.awt.SystemColor;
+/**
+ * Liste de tous les accords deja passes
+ * @author
+ *
+ */
 
+@SuppressWarnings("serial")
 public class AccordList extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel panel_1;
-	
+	private JPanel panel;
+	private JScrollPane scrollPane;
+	private JLabel lblAccords;
 
 	public AccordList() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -31,15 +36,15 @@ public class AccordList extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
-		panel_1 = new APanel();
-		scrollPane.setViewportView(panel_1);
+		panel = new APanel();
+		scrollPane.setViewportView(panel);
 		
 		loadAccords();
 		
-		JLabel lblAccords = new JLabel("Accords");
+		lblAccords = new JLabel(Langues.getString("AccordList.lblAccords.text"));
 		lblAccords.setForeground(SystemColor.textHighlight);
 		lblAccords.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		contentPane.add(lblAccords, BorderLayout.NORTH);
@@ -58,13 +63,13 @@ public class AccordList extends JFrame {
 	public void loadAccords() {
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		Accords accords = Application.getInstance().getUsers().getConnectedUser().getAccords();
-		panel_1.removeAll();
+		panel.removeAll();
 		for(Accord a: accords.getAccords()) {
 			if(!a.getFrom().equals(user.getLogin()) && !a.isAccepted()) {
-				panel_1.add(new AccordNewPanel(a, getThis()));
+				panel.add(new AccordNewPanel(a, getThis()));
 			}
 			else if(a.isAccepted()) {
-				panel_1.add(new AccordAcceptPanel(a, getThis()));
+				panel.add(new AccordAcceptPanel(a, getThis()));
 			}
 			
 		}

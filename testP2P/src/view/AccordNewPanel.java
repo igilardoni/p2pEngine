@@ -10,29 +10,40 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import model.Accord;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AccordNewPanel extends JPanel {
+/**
+ * Nouvelle demande d'accord
+ * @author 
+ */
 
-	/**
-	 * Create the panel.
-	 */
+@SuppressWarnings("serial")
+public class AccordNewPanel extends JPanel {
+	private JLabel lblNouvelAccord;
+	private JTextArea textArea;
+	private JButton btnAccepter;
+	private JButton btnRefuser;
+	private JButton btnDiscuter;
+	private JLabel lblAnnonce;
+
 	public AccordNewPanel(final Accord a, final AccordList parent) {
 		
-		JLabel lblVousAvezReu = new JLabel("Vous avez reçu une demande d'accord de " + a.getFrom());
+		lblNouvelAccord = new JLabel(Langues.getString("AccordNewPanel.lblNouvelAccord.text") + a.getFrom());
 		
-		JTextArea textArea = new JTextArea(a.getMessageFrom());
+		textArea = new JTextArea(a.getMessageFrom());
 		textArea.setEditable(false);
 		
-		JButton btnAccepter = new JButton("Accepter");
+		btnAccepter = new JButton(Langues.getString("AccordNewPanel.btnAccepter.text"));
 		btnAccepter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new AccordAcceptView(a, parent).setVisible(true);
 			}
 		});
 		
-		JButton btnRefuser = new JButton("Refuser");
+
+		btnRefuser = new JButton(Langues.getString("AccordNewPanel.btnRefuser.text"));
 		btnRefuser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controller.DeclineAccord validator = new controller.DeclineAccord(a);
@@ -47,7 +58,7 @@ public class AccordNewPanel extends JPanel {
 			}
 		});
 		
-		JButton btnDiscuter = new JButton("Discuter");
+		btnDiscuter = new JButton(Langues.getString("AccordNewPanel.btnDiscuter.text"));
 		btnDiscuter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controller.NewConvers validator = new controller.NewConvers(a.getFrom());
@@ -61,7 +72,8 @@ public class AccordNewPanel extends JPanel {
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblAnnonce = new JLabel("Annonce : " + a.getAnnonce());
+		lblAnnonce = new JLabel(Langues.getString("AccordNewPanel.lblAnnonce.text") + a.getAnnonce());
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -69,7 +81,7 @@ public class AccordNewPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblVousAvezReu))
+							.addComponent(lblNouvelAccord))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(202)
 							.addComponent(btnAccepter)
@@ -92,7 +104,7 @@ public class AccordNewPanel extends JPanel {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblVousAvezReu)
+					.addComponent(lblNouvelAccord)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAnnonce)
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -21,7 +21,8 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 	public ObjetAdvertisement(Objet obj) {
 		super();
 		if(obj == null) return;
-		putValue("titre", obj.getTitre());
+		putValue("titre", obj.getTitre().toLowerCase());
+		putValue("titreReel", obj.getTitre());
 		putValue("resume", obj.getResume());
 		putValue("desc", obj.getDesc());
 		putValue("img", obj.getImg());
@@ -31,11 +32,13 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 		putValue("vente", Boolean.toString(obj.isVente()));
 		putValue("date", Long.toString(obj.getDate()));
 		putValue("user", obj.getUserName());
+
 	}
 
 	@Override
 	protected void setKeys() {
 		this.addKey("titre", true);
+		this.addKey("titreReel", true);
 		this.addKey("resume", false);
 		this.addKey("desc", false);
 		this.addKey("img", false);
@@ -74,7 +77,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 				  Boolean.parseBoolean(this.getValue("souhait")), 
 				  Boolean.parseBoolean(this.getValue("troc")), 
 				  Boolean.parseBoolean(this.getValue("vente")), 
-				  this.getValue("titre"), this.getValue("resume"), 
+				  this.getValue("titreReel"), this.getValue("resume"), 
 				  this.getValue("desc"), this.getValue("img"), null);
 		obj.setDate(new Long(this.getValue("date")));
 		obj.setUserName(this.getValue("user"));
