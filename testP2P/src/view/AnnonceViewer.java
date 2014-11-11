@@ -94,6 +94,11 @@ public class AnnonceViewer extends JFrame {
 		txtpnLoremIpsumDolor.setText("<html>" + o.getDesc());
 		
 		JButton btnContacterLutilisateurPour = new JButton("Contacter l'utilisateur pour un accords");
+		btnContacterLutilisateurPour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AccordView(o).setVisible(true);
+			}
+		});
 		
 		JLabel lblEmail = new JLabel("E-mail :");
 		

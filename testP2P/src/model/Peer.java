@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,8 +102,15 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
             configurator.setTcpOutgoing(true);
             configurator.setUseMulticast(true);
             configurator.setPeerID(peer_id);
+            configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+            configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+            configurator.setTcpEndPort(-1);
+            configurator.setTcpStartPort(-1);
 		} catch (IOException e) {
 			// ? Si le dossier a bien été crée pas trop de raison d'avoir cette exception 
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -140,6 +148,9 @@ public class Peer implements PipeMsgListener, DiscoveryListener {
 		
 		//passe en mode rendez vous (sorte de peer plus important que les autre) si besoin
 		net_group.getRendezVousService().setAutoStart(true);
+		
+		System.out.println(manager.getConfigurator().getTcpPublicAddress());
+		System.out.println(manager.getConfigurator().getTcpPort());
 		
 		
 		//on se connecte au sous groupe, on le crée s'il n'existe pas

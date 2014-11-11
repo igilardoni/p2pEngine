@@ -43,6 +43,7 @@ public class User extends AbstractAdvertisable implements Serializable{
 	private ArrayList<String> friends = new ArrayList<String>();
 	private ArrayList<MessageData> requests = new ArrayList<MessageData>();
 	private String peerID;
+	private Accords accords = new Accords();
 	
 	
 	public User(String nom, String prenom, String adresse, String tel, String mail, String login, String password) {
@@ -54,6 +55,10 @@ public class User extends AbstractAdvertisable implements Serializable{
 		this.adresse = adresse;
 		this.notes = new Vector<Integer>();
 		this.setPassword(password);
+	}
+	
+	public Accords getAccords() {
+		return accords;
 	}
 	
 	public ArrayList<MessageData> getRequests() {
