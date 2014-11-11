@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import model.AdvertisementInstaciator;
 import model.Peer;
 import model.UsersManagement;
+import model.communications.AccordService;
 import model.communications.ChatService;
 import model.communications.Chatter;
 import model.communications.FriendRequestService;
@@ -36,6 +37,7 @@ public class Application {
 	private Chatter chatter;
 	private ChatService chatService;
 	private FriendRequestService friendRequest;
+	private AccordService accords;
 	
 	
 	public Application() {
@@ -45,10 +47,16 @@ public class Application {
 		startNetwork();
 		
 		chatter = new Chatter(peer);
+		
 		chatService = new ChatService(users);
 		chatter.addService(chatService);
+		
 		friendRequest = new FriendRequestService(users);
 		chatter.addService(friendRequest);
+		
+		accords = new AccordService(users);
+		chatter.addService(accords);
+		
 		users.publishUsers(peer.getDiscovery());
 	}
 	
@@ -58,6 +66,10 @@ public class Application {
 	
 	public FriendRequestService getFriendRequestService() {
 		return friendRequest;
+	}
+	
+	public AccordService getAccordService() {
+		return accords;
 	}
 	
 	public ChatService getChatService() {

@@ -75,7 +75,7 @@ public class AccordService extends Service {
 		return null;
 	}
 	
-	public static void sendAccord(Chatter chatter, String from, String to, String annonce, String messageFrom) {
+	public static boolean sendAccord(Chatter chatter, String from, String to, String annonce, String messageFrom) {
 		Message message = new Message();
 		message.addMessageElement(new ByteArrayMessageElement(Chatter.toServiceTag, null, getServName().getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("From", null, from.getBytes(), null));
@@ -83,10 +83,10 @@ public class AccordService extends Service {
 		message.addMessageElement(new ByteArrayMessageElement("Annonce", null, annonce.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Type", null, NEW.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("MessageFrom", null, messageFrom.getBytes(), null));
-		chatter.sendToUser(to, message);
+		return chatter.sendToUser(to, message);
 	}
 	
-	public static void sendAccept(Chatter chatter, String from, String to, String annonce, String messageTo) {
+	public static boolean sendAccept(Chatter chatter, String from, String to, String annonce, String messageTo) {
 		Message message = new Message();
 		message.addMessageElement(new ByteArrayMessageElement(Chatter.toServiceTag, null, getServName().getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("From", null, from.getBytes(), null));
@@ -94,20 +94,20 @@ public class AccordService extends Service {
 		message.addMessageElement(new ByteArrayMessageElement("Annonce", null, annonce.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Type", null, ACCEPT.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("MessageTo", null, messageTo.getBytes(), null));
-		chatter.sendToUser(to, message);
+		return chatter.sendToUser(to, message);
 	}
 	
-	public static void sendDecline(Chatter chatter, String from, String to, String annonce) {
+	public static boolean sendDecline(Chatter chatter, String from, String to, String annonce) {
 		Message message = new Message();
 		message.addMessageElement(new ByteArrayMessageElement(Chatter.toServiceTag, null, getServName().getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("From", null, from.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("To", null, to.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Annonce", null, annonce.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Type", null, DECLINE.getBytes(), null));
-		chatter.sendToUser(to, message);
+		return chatter.sendToUser(to, message);
 	}
 	
-	public static void sendRate(Chatter chatter, String from, String to, String annonce, int rate) {
+	public static boolean sendRate(Chatter chatter, String from, String to, String annonce, int rate) {
 		Message message = new Message();
 		message.addMessageElement(new ByteArrayMessageElement(Chatter.toServiceTag, null, getServName().getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("From", null, from.getBytes(), null));
@@ -115,7 +115,7 @@ public class AccordService extends Service {
 		message.addMessageElement(new ByteArrayMessageElement("Annonce", null, annonce.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Type", null, RATE.getBytes(), null));
 		message.addMessageElement(new ByteArrayMessageElement("Rate", null, Integer.toString(rate).getBytes(), null));
-		chatter.sendToUser(to, message);
+		return chatter.sendToUser(to, message);
 	}
 
 }

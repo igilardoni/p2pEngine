@@ -19,12 +19,16 @@ import javax.swing.JEditorPane;
 import javax.swing.JButton;
 
 import model.Objet;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AccordView extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel erreurMsg;
 
-	public AccordView(Objet o) {
+	public AccordView(final Objet o) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 632, 345);
 		contentPane = new JPanel();
@@ -47,17 +51,38 @@ public class AccordView extends JFrame {
 		
 		JLabel lblMessage = new JLabel("Message:");
 		
-		JEditorPane dtrpnBonjourJeSuis = new JEditorPane();
-		dtrpnBonjourJeSuis.setText("Bonjour " + o.getUserName() + " , je suis interessé(e) par votre annonce \"" + o.getTitre() + "\" ...");
+		final JEditorPane texte = new JEditorPane();
+		texte.setText("Bonjour " + o.getUserName() + " , je suis interessé(e) par votre annonce \"" + o.getTitre() + "\" ...");
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.NewAccord validator = new controller.NewAccord(o, texte.getText());
+				if(validator.validate()) {
+					if(validator.process()) {
+						dispose();
+					}
+					else {
+						//TODO erreur
+					}
+				}
+				else {
+					erreurMsg.setVisible(true);
+				}
+				
+			}
+		});
+		
+		erreurMsg = new JLabel("Le message doit faire plus de 10 caractère");
+		erreurMsg.setVisible(false);
+		erreurMsg.setForeground(Color.RED);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(lblAccordsSurUne)
 					.addContainerGap(426, Short.MAX_VALUE))
-				.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(46)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -67,17 +92,19 @@ public class AccordView extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblTitreDeLannonce)
 						.addComponent(lblUser))
-					.addContainerGap(371, Short.MAX_VALUE))
+					.addContainerGap(409, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblMessage)
-					.addContainerGap(536, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(erreurMsg)
+					.addContainerGap(474, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(dtrpnBonjourJeSuis, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+					.addComponent(texte, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(495, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(515, Short.MAX_VALUE)
 					.addComponent(btnEnvoyer)
 					.addContainerGap())
 		);
@@ -96,12 +123,14 @@ public class AccordView extends JFrame {
 						.addComponent(lblUtilisateur)
 						.addComponent(lblUser))
 					.addGap(30)
-					.addComponent(lblMessage)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMessage)
+						.addComponent(erreurMsg))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(dtrpnBonjourJeSuis, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+					.addComponent(texte, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnEnvoyer)
-					.addContainerGap(80, Short.MAX_VALUE))
+					.addContainerGap(31, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
