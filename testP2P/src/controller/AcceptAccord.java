@@ -1,6 +1,9 @@
 package controller;
 
+import view.Application;
 import model.Accord;
+import model.Accords;
+import model.communications.AccordService;
 
 public class AcceptAccord implements Validator{
 
@@ -27,8 +30,10 @@ public class AcceptAccord implements Validator{
 
 	@Override
 	public boolean process() {
-		// TODO Auto-generated method stub
-		return false;
+		Accords accords = Application.getInstance().getUsers().getConnectedUser().getAccords();
+		accords.acceptAccord(a);
+		return AccordService.sendAccept(Application.getInstance().getChatter(), 
+				Application.getInstance().getUsers().getConnectedUser().getLogin(), a.getFrom(), a.getAnnonce(), messageTo);
 	}
 
 }

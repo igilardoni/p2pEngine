@@ -10,19 +10,26 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import model.Accord;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AccordNewPanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public AccordNewPanel(Accord a) {
+	public AccordNewPanel(final Accord a) {
 		
 		JLabel lblVousAvezReu = new JLabel("Vous avez reçu une demande d'accord de " + a.getFrom());
 		
 		JTextArea textArea = new JTextArea(a.getMessageFrom());
 		
 		JButton btnAccepter = new JButton("Accepter");
+		btnAccepter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AccordAcceptView(a).setVisible(true);
+			}
+		});
 		
 		JButton btnRefuser = new JButton("Refuser");
 		
