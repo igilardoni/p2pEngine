@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Arrays;
+
 import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
@@ -56,10 +58,30 @@ public class SearchController implements Validator, SearchListener{
 		DiscoveryService ds = Application.getInstance().getPeer().getDiscovery();
 		GrammarSearch gs = new GrammarSearch(ds);
 		gs.addListener(this);
+		changeMinuscule();
 		gs.search(recherche);
 		return true;
 	}
 	
+	/**
+	 * Passe la recherche en minuscule sauf AND, OR et les tags user:
+	 */
+	private void changeMinuscule() {
+		String[] result = recherche.split("\\s");
+		for (int x=0; x<result.length; x++){
+		     if(!result[x].equals("AND") && !result[x].equals("OR"))
+		    	 result[x] = result[x].toLowerCase();
+		}
+		 
+		StringBuilder builder = new StringBuilder();
+		for(String s : result) {
+		     builder.append(s+" ");
+		}
+		
+		recherche = builder.toString();
+
+	}
+
 	public boolean filtrage(Advertisable adv) {
 		return true;
 	}

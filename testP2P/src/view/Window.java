@@ -47,6 +47,7 @@ public class Window extends JFrame implements MessageServiceListener{
 	private JMenu menuOption;
 	private JMenu menuAide ;
 	private JMenuItem mntmLangue;
+	private JMenuItem mntmRecherche;
 	private JToolBar chatBar;
 	private JPanel infoBar;
 	
@@ -82,6 +83,14 @@ public class Window extends JFrame implements MessageServiceListener{
 		
 		menuAide = new JMenu(Langues.getString("Window.menuAide.text")); //$NON-NLS-1$
 		menuBar.add(menuAide);
+		
+		mntmRecherche = new JMenuItem(Langues.getString("Window.mntmRecherche.text")); //$NON-NLS-1$
+		mntmRecherche.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new RechercheInfo().setVisible(true);
+			}
+		});
+		menuAide.add(mntmRecherche);
 		
 		
 		contentPane = new JPanel();
