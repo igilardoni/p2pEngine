@@ -94,7 +94,13 @@ public class Application {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void main(String[] args) {
+		Application app = new Application();
+		Application.setInstance(app);
+		app.lauch();
+	}
+	
 	/**
 	 * Lance le programme, cree une nouvelle fenetre principale window
 	 */
