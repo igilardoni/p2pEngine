@@ -1,207 +1,207 @@
 package view;
 
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Image;
-
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JTextPane;
-import javax.swing.JFormattedTextField;
-
-import java.awt.CardLayout;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
-import java.awt.FlowLayout;
-
-import javax.swing.ImageIcon;
-
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.SystemColor;
 
-import javax.swing.JSeparator;
 import javax.swing.BoxLayout;
-
-import java.awt.Component;
-import java.text.DateFormat;
-import java.util.Date;
-
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 
-import controller.AnnonceDelete;
-import controller.GeneratePdfObjet;
 import model.ImageBase64;
 import model.Objet;
 
+
+/**
+ * Panel d'une annonce dans le panier de l'utilisateur
+ * @author 
+ *
+ */
+
+@SuppressWarnings("serial")
 public class AnnoncePanierPanel extends JPanel {
 
-	private Objet obj = null;
 	private static final Color COLOR_ACTIVE=new Color(110, 153, 204);
 	private static final Color COLOR_INACTIVE=new Color(191, 205, 219);
-	private Panier p;
+	private Panier panier;
+	
+	private JPanel pnlInfoAnnonce;
+	private JPanel pnlDateHeure;
+	private JPanel pnlChoix;
+	private JPanel pnlTrocVente;
+	private JPanel pnlPropSouh;
+	private JPanel pnlContentAnnonce;
+	private JPanel pnlImageAnnonce;
+	private JPanel pnlTextAnnonce;
+	private JPanel pnlTitreAnnonce;
+	private JPanel pnlBoutons;
+	private JPanel pnlResumeAnnonce;
+	
+	private JLabel lblDate;
+	private JLabel lblHeure;
+	private JLabel lblIsTroc;
+	private JLabel lblIsVente;
+	private JLabel lblPropOuSouhait;
+	private JLabel lblImage;
+	private JLabel lblTitre;
+	
+	private JButton btnMonter;
+	private JButton btnDescendre;
+	private JButton btnSupprimer;
+	
+	private JTextPane pnlResume;
 	
 	
-	/**
-	 * Create the panel.
-	 */
 	public AnnoncePanierPanel(Objet obj, final int i, Panier p_) {
-		this.p = p_;
-		this.obj = obj;
+		this.panier = p_;
 		setMinimumSize(new Dimension(10, 100));
 		setMaximumSize(new Dimension(32767, 100));
 		setLayout(new BorderLayout(0, 0));
 		
-		JPanel infoAnnonce = new JPanel();
-		infoAnnonce.setOpaque(false);
-		add(infoAnnonce, BorderLayout.WEST);
-		infoAnnonce.setLayout(new BorderLayout(0, 0));
+		pnlInfoAnnonce = new JPanel();
+		pnlInfoAnnonce.setOpaque(false);
+		add(pnlInfoAnnonce, BorderLayout.WEST);
+		pnlInfoAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		infoAnnonce.add(panel_1, BorderLayout.NORTH);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-		JLabel lblNewLabel_1 = new JLabel(obj.getSimpleDate());
-		lblNewLabel_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_1.add(lblNewLabel_1);
+		pnlDateHeure = new JPanel();
+		pnlInfoAnnonce.add(pnlDateHeure, BorderLayout.NORTH);
+		pnlDateHeure.setLayout(new BoxLayout(pnlDateHeure, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel_2 = new JLabel(obj.getSimpleTime()); //$NON-NLS-1$
-		lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_1.add(lblNewLabel_2);
+		lblDate = new JLabel(obj.getSimpleDate());
+		lblDate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		pnlDateHeure.add(lblDate);
 		
-		JPanel panel_2 = new JPanel();
-		infoAnnonce.add(panel_2, BorderLayout.CENTER);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		lblHeure = new JLabel(obj.getSimpleTime()); //$NON-NLS-1$
+		lblHeure.setAlignmentX(Component.CENTER_ALIGNMENT);
+		pnlDateHeure.add(lblHeure);
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.CENTER);
+		pnlChoix = new JPanel();
+		pnlInfoAnnonce.add(pnlChoix, BorderLayout.CENTER);
+		pnlChoix.setLayout(new BorderLayout(0, 0));
 		
-		JLabel isTroc = new JLabel(Messages.getString("AnnoncePanel.lblTroc.text")); //$NON-NLS-1$
-		isTroc.setBackground(obj.isTroc()?COLOR_ACTIVE:COLOR_INACTIVE);
-		isTroc.setOpaque(true);
-		isTroc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_3.add(isTroc);
+		pnlTrocVente = new JPanel();
+		pnlChoix.add(pnlTrocVente, BorderLayout.CENTER);
 		
-		JLabel isVente = new JLabel(Messages.getString("AnnoncePanel.lblVente.text")); //$NON-NLS-1$
-		isVente.setOpaque(true);
-		isVente.setBackground(obj.isVente()?COLOR_ACTIVE:COLOR_INACTIVE);
-		isVente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_3.add(isVente);
+		lblIsTroc = new JLabel(Langues.getString("AnnoncePanierPanel.lblTroc.text")); //$NON-NLS-1$
+		lblIsTroc.setBackground(obj.isTroc()?COLOR_ACTIVE:COLOR_INACTIVE);
+		lblIsTroc.setOpaque(true);
+		lblIsTroc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlTrocVente.add(lblIsTroc);
 		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4, BorderLayout.SOUTH);
+		lblIsVente = new JLabel(Langues.getString("AnnoncePanierPanel.lblVente.text")); //$NON-NLS-1$
+		lblIsVente.setOpaque(true);
+		lblIsVente.setBackground(obj.isVente()?COLOR_ACTIVE:COLOR_INACTIVE);
+		lblIsVente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlTrocVente.add(lblIsVente);
 		
-		String s = obj.isProposition() ? Messages.getString("AnnoncePanel.lblProposition.text"):"Souhait";
-		JLabel propOuSouhait = new JLabel(s);
-		propOuSouhait.setBackground(COLOR_ACTIVE);
-		propOuSouhait.setOpaque(true);
-		panel_4.add(propOuSouhait);
-		propOuSouhait.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlPropSouh = new JPanel();
+		pnlChoix.add(pnlPropSouh, BorderLayout.SOUTH);
 		
-		JPanel contentAnnonce = new JPanel();
-		contentAnnonce.setOpaque(false);
-		contentAnnonce.setSize(new Dimension(0, 100));
-		contentAnnonce.setMaximumSize(new Dimension(32767, 100));
-		add(contentAnnonce, BorderLayout.CENTER);
-		contentAnnonce.setLayout(new BorderLayout(0, 0));
+		String s = obj.isProposition() ? Langues.getString("AnnoncePanierPanel.lblProposition.text"):Langues.getString("AnnoncePanierPanel.lblSouhait.text");
+		lblPropOuSouhait = new JLabel(s);
+		lblPropOuSouhait.setBackground(COLOR_ACTIVE);
+		lblPropOuSouhait.setOpaque(true);
+		pnlPropSouh.add(lblPropOuSouhait);
+		lblPropOuSouhait.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
-		JPanel imageAnnonce = new JPanel();
-		imageAnnonce.setOpaque(false);
-		contentAnnonce.add(imageAnnonce, BorderLayout.WEST);
+		pnlContentAnnonce = new JPanel();
+		pnlContentAnnonce.setOpaque(false);
+		pnlContentAnnonce.setSize(new Dimension(0, 100));
+		pnlContentAnnonce.setMaximumSize(new Dimension(32767, 100));
+		add(pnlContentAnnonce, BorderLayout.CENTER);
+		pnlContentAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel(Messages.getString("AnnoncePanel.lblImage.text"));
-		if(obj.getImg() != null) lblNewLabel.setIcon(new ImageIcon(ImageBase64.decode(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-		imageAnnonce.add(lblNewLabel);
+		pnlImageAnnonce = new JPanel();
+		pnlImageAnnonce.setOpaque(false);
+		pnlContentAnnonce.add(pnlImageAnnonce, BorderLayout.WEST);
 		
-		JPanel textAnonce = new JPanel();
-		textAnonce.setOpaque(false);
-		contentAnnonce.add(textAnonce, BorderLayout.CENTER);
-		textAnonce.setLayout(new BorderLayout(0, 0));
+		lblImage = new JLabel(Langues.getString("AnnoncePanielPanel.lblImage.text"));
+		if(obj.getImg() != null) lblImage.setIcon(new ImageIcon(ImageBase64.decode(obj.getImg()).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+		pnlImageAnnonce.add(lblImage);
 		
-		JPanel titreAnnonce = new JPanel();
-		titreAnnonce.setOpaque(false);
-		textAnonce.add(titreAnnonce, BorderLayout.NORTH);
-		titreAnnonce.setLayout(new BorderLayout(0, 0));
+		pnlTextAnnonce = new JPanel();
+		pnlTextAnnonce.setOpaque(false);
+		pnlContentAnnonce.add(pnlTextAnnonce, BorderLayout.CENTER);
+		pnlTextAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JLabel titreLabel = new JLabel(obj.getTitre());
-		titreLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		titreAnnonce.add(titreLabel, BorderLayout.CENTER);
+		pnlTitreAnnonce = new JPanel();
+		pnlTitreAnnonce.setOpaque(false);
+		pnlTextAnnonce.add(pnlTitreAnnonce, BorderLayout.NORTH);
+		pnlTitreAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		titreAnnonce.add(panel, BorderLayout.EAST);
+		lblTitre = new JLabel(obj.getTitre());
+		lblTitre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnlTitreAnnonce.add(lblTitre, BorderLayout.CENTER);
 		
-		JButton editButton = new JButton("Descendre");
-		if(i == Application.getInstance().getUsers().getConnectedUser().getPanier().size() - 1) editButton.setEnabled(false);
-		editButton.addActionListener(new ActionListener() {
+		pnlBoutons = new JPanel();
+		pnlBoutons.setOpaque(false);
+		pnlTitreAnnonce.add(pnlBoutons, BorderLayout.EAST);
+		
+		btnDescendre = new JButton(Langues.getString("AnnoncePanierPanel.btnDescendre.text"));
+		if(i == Application.getInstance().getUsers().getConnectedUser().getPanier().size() - 1) btnDescendre.setEnabled(false);
+		btnDescendre.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controller.Panier validator = new controller.Panier(i, controller.Panier.Action.DOWN);
 				if(validator.validate()) {
 					validator.process();
-					p.revalidate();
+					panier.revalidate();
 				}
 			}
 			
 		});
 		
-		JButton btnNewButton = new JButton("Monter"); //$NON-NLS-1$
-		if(i == 0) btnNewButton.setEnabled(false);
-		btnNewButton.addActionListener(new ActionListener() {
+		btnMonter = new JButton(Langues.getString("AnnoncePanierPanel.btnMonter.text")); //$NON-NLS-1$
+		if(i == 0) btnMonter.setEnabled(false);
+		btnMonter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				controller.Panier validator = new controller.Panier(i, controller.Panier.Action.UP);
 				if(validator.validate()) {
 					validator.process();
-					p.revalidate();
+					panier.revalidate();
 				}
 			}
 		});
-		panel.add(btnNewButton);
-		panel.add(editButton);
+		pnlBoutons.add(btnMonter);
+		pnlBoutons.add(btnDescendre);
 		
-		JButton delButton = new JButton(Messages.getString("AnnoncePanel.lblSupprimer.text"));
-		delButton.addActionListener(new ActionListener() {
+		btnSupprimer = new JButton(Langues.getString("AnnoncePanierPanel.btnSupprimer.text"));
+		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.Panier validator = new controller.Panier(i, controller.Panier.Action.DELETE);
 				if(validator.validate()) {
 					validator.process();
-					p.revalidate();
+					panier.revalidate();
 				}
 				
 			}
 		});
-		panel.add(delButton);
+		pnlBoutons.add(btnSupprimer);
 		
-		JPanel resumeAnnonce = new JPanel();
-		resumeAnnonce.setOpaque(false);
-		textAnonce.add(resumeAnnonce, BorderLayout.CENTER);
-		resumeAnnonce.setLayout(new BorderLayout(0, 0));
+		pnlResumeAnnonce = new JPanel();
+		pnlResumeAnnonce.setOpaque(false);
+		pnlTextAnnonce.add(pnlResumeAnnonce, BorderLayout.CENTER);
+		pnlResumeAnnonce.setLayout(new BorderLayout(0, 0));
 		
-		JTextPane txtpnLoremIpsumDolor = new JTextPane();
-		txtpnLoremIpsumDolor.setEditable(false);
-		txtpnLoremIpsumDolor.setFocusable(false);
-		txtpnLoremIpsumDolor.setVerifyInputWhenFocusTarget(false);
-		txtpnLoremIpsumDolor.setRequestFocusEnabled(false);
-		txtpnLoremIpsumDolor.setOpaque(false);
-		txtpnLoremIpsumDolor.setText(obj.getResume());
-		resumeAnnonce.add(txtpnLoremIpsumDolor, BorderLayout.CENTER);
+		pnlResume = new JTextPane();
+		pnlResume.setEditable(false);
+		pnlResume.setFocusable(false);
+		pnlResume.setVerifyInputWhenFocusTarget(false);
+		pnlResume.setRequestFocusEnabled(false);
+		pnlResume.setOpaque(false);
+		pnlResume.setText(obj.getResume());
+		pnlResumeAnnonce.add(pnlResume, BorderLayout.CENTER);
 		
 		JSeparator separator = new JSeparator();
 		add(separator, BorderLayout.SOUTH);

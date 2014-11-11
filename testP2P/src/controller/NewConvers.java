@@ -5,7 +5,7 @@ import model.RemoteRessource;
 import model.User;
 
 /**
- * Créer une nouvelle conversation dans le chat
+ * Creer une nouvelle conversation dans le chat
  * @author 
  *
  */

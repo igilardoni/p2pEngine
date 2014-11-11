@@ -1,27 +1,27 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-
 import model.UsersManagement;
-import model.User;
 
-import java.awt.Dimension;
+/**
+ * Liste d'amis de la fenetre de conversation
+ */
 
+@SuppressWarnings("serial")
 public class FriendList extends JPopupMenu {
 
 	private static int WIDTH = 120;
 	private static int HEIGHT = 150;
 	private UsersManagement users;
-	/**
-	 * Create the panel.
-	 */
+	
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	
@@ -43,6 +43,9 @@ public class FriendList extends JPopupMenu {
 
 	}
 	
+	/**
+	 * Ajoute les amis a la liste pour l'afficher
+	 */
 	public void fillFriends() {
 		panel.removeAll();
 		scrollPane.setPreferredSize(new Dimension(WIDTH + 20, 5));
@@ -63,5 +66,4 @@ public class FriendList extends JPopupMenu {
 			scrollPane.setPreferredSize(d);
 		}
 	}
-
 }

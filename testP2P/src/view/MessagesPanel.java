@@ -1,50 +1,62 @@
 package view;
 
-import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import javax.swing.JSeparator;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-
-import model.User;
-import model.communications.MessageServiceListener;
-import model.communications.MessageData;
-
-import java.awt.Rectangle;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+
+import model.User;
+import model.communications.MessageData;
+import model.communications.MessageServiceListener;
+/**
+ * Fentere principale de l'outils de conversation 
+ * @author
+ *
+ */
+@SuppressWarnings("serial")
 public class MessagesPanel extends JDialog implements MessageServiceListener{
-	private JTextField textField;
+	private JTextField message;
 	private JTextPane texte;
 	private HTMLEditorKit kit;
     private HTMLDocument doc;
     private String currentSender = null;
-    private JLabel sender;
-    private JPanel convers;
-
-	/**
-	 * Create the panel.
-	 */
+    
+	private JLabel lblChoisir;
+	private JLabel lblContacts;
+	private JPanel convers;
+	private JPanel pnlDiscussion;
+	private JPanel pnlHaut;
+	private JPanel pnlBas;
+	private JPanel pnlDroite;
+	private JPanel pnlAjouterContact;
+	private JPanel pnlContacts;
+	
+	private JScrollPane scrpnlMessages;
+	private JScrollPane scrpnlContacts;
+	
+	private JButton btnAjouter;
+	private JButton btnCreerDiscussion;
+	private JButton btnEnvoyer;
+    
 	public MessagesPanel(JFrame w) {
 		super(w);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -53,50 +65,50 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.setLayout(new BorderLayout(0, 0));
+		pnlDiscussion = new JPanel();
+		getContentPane().add(pnlDiscussion, BorderLayout.CENTER);
+		pnlDiscussion.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2, BorderLayout.NORTH);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		pnlHaut = new JPanel();
+		pnlDiscussion.add(pnlHaut, BorderLayout.NORTH);
+		pnlHaut.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton btnCreerUneDiscussion = new JButton(Messages.getString("MessagesPanel.btnAjouterDiscussion.text"));
+		btnCreerDiscussion = new JButton(Langues.getString("MessagesPanel.btnCreerDiscussion.text"));
 		final MessagesPanel this_ = this;
-		btnCreerUneDiscussion.addActionListener(new ActionListener() {
+		btnCreerDiscussion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new NewConvers(this_).setVisible(true);
 			}
 		});
-		panel_2.add(btnCreerUneDiscussion);
+		pnlHaut.add(btnCreerDiscussion);
 		
-		sender = new JLabel(Messages.getString("MessagesPanel.lblChoisirDiscussion.text"));
-		panel_2.add(sender);
+		lblChoisir = new JLabel(Langues.getString("MessagesPanel.lblChoisirDiscussion.text"));
+		pnlHaut.add(lblChoisir);
 		
-		JPanel panel_3 = new JPanel();
-		panel.add(panel_3, BorderLayout.SOUTH);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		pnlBas = new JPanel();
+		pnlDiscussion.add(pnlBas, BorderLayout.SOUTH);
+		pnlBas.setLayout(new BorderLayout(0, 0));
 		
-		textField = new JTextField();
-		panel_3.add(textField, BorderLayout.CENTER);
-		textField.setColumns(10);
+		message = new JTextField();
+		pnlBas.add(message, BorderLayout.CENTER);
+		message.setColumns(10);
 		
-		JButton btnNewButton = new JButton(Messages.getString("MessagesPanel.btnEnvoyer.text"));
-		btnNewButton.addActionListener(new ActionListener() {
+		btnEnvoyer = new JButton(Langues.getString("MessagesPanel.btnEnvoyer.text"));
+		btnEnvoyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				controller.Messages controller = new controller.Messages(textField.getText(), currentSender);
+				controller.Messages controller = new controller.Messages(message.getText(), currentSender);
 				if(controller.validate()) {
-					addText(System.currentTimeMillis(), Application.getInstance().getUsers().getConnectedUser().getLogin(), textField.getText());
-					textField.setText("");
+					addText(System.currentTimeMillis(), Application.getInstance().getUsers().getConnectedUser().getLogin(), message.getText());
+					message.setText("");
 					controller.process();
 					Application.getInstance().getUsers().getConnectedUser().getMessages().viewUser(currentSender);
 				}
 			}
 		});
-		panel_3.add(btnNewButton, BorderLayout.EAST);
+		pnlBas.add(btnEnvoyer, BorderLayout.EAST);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, BorderLayout.CENTER);
+		scrpnlMessages = new JScrollPane();
+		pnlDiscussion.add(scrpnlMessages, BorderLayout.CENTER);
 		
 		texte = new JTextPane();
 		kit = new HTMLEditorKit();
@@ -105,43 +117,42 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 	    texte.setDocument(doc);
 		
 		texte.setEditable(false);
-		scrollPane.setViewportView(texte);
+		scrpnlMessages.setViewportView(texte);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setPreferredSize(new Dimension(200, 10));
-		getContentPane().add(panel_1, BorderLayout.EAST);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		pnlDroite = new JPanel();
+		pnlDroite.setPreferredSize(new Dimension(200, 10));
+		getContentPane().add(pnlDroite, BorderLayout.EAST);
+		pnlDroite.setLayout(new BorderLayout(0, 0));
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		panel_1.add(scrollPane_1);
+		scrpnlContacts = new JScrollPane();
+		pnlDroite.add(scrpnlContacts);
 		
-		JPanel panel_4 = new JPanel();
-		scrollPane_1.setViewportView(panel_4);
-		panel_4.setLayout(new BorderLayout(0, 0));
+		pnlContacts = new JPanel();
+		scrpnlContacts.setViewportView(pnlContacts);
+		pnlContacts.setLayout(new BorderLayout(0, 0));
 		
 		convers = new JPanel();
-		panel_4.add(convers, BorderLayout.CENTER);
+		pnlContacts.add(convers, BorderLayout.CENTER);
 		convers.setLayout(new BoxLayout(convers, BoxLayout.Y_AXIS));
 		
-		JPanel panel_6 = new JPanel();
-		panel_4.add(panel_6, BorderLayout.SOUTH);
+		pnlAjouterContact = new JPanel();
+		pnlContacts.add(pnlAjouterContact, BorderLayout.SOUTH);
 		
-		JLabel lblContacts = new JLabel(Messages.getString("MessagesPanel.lblContacts.text"));
-		panel_6.add(lblContacts);
+		lblContacts = new JLabel(Langues.getString("MessagesPanel.lblContacts.text"));
+		pnlAjouterContact.add(lblContacts);
 		
-		JButton btnAjouter = new JButton(Messages.getString("MessagesPanel.btnAjouter.text"));
+		btnAjouter = new JButton(Langues.getString("MessagesPanel.btnAjouter.text"));
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AddFriend().setVisible(true);
 			}
 		});
-		panel_6.add(btnAjouter);
-
+		pnlAjouterContact.add(btnAjouter);
 	}
 	
 	public void setConvers(String userName) {
 		this.currentSender = userName;
-		sender.setText("Vous discutez avec "+ userName);
+		lblChoisir.setText(Langues.getString("MessagesPanel.lblDiscutezAvec.text")+ userName);
 		texte.setText("");
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		ArrayList<MessageData> msgs = user.getMessages().getMessages(userName);
@@ -161,6 +172,9 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		loadConvers();
 	}
 	
+	/**
+	 * Charge les conversations en cours
+	 */
 	public void loadConvers() {
 		convers.removeAll();
 		
@@ -172,6 +186,9 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		repaint();
 	}
 	
+	/**
+	 * Ajoute un bouton pour chaque conversation en cours pour switcher entre elles
+	 */
 	public void addConversButton(final String s) {
 		JPanel wrapperButton = new JPanel();
 		wrapperButton.setLayout(new BoxLayout(wrapperButton, BoxLayout.X_AXIS));
@@ -179,7 +196,6 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 				+ Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberUserMessage(s) + ")");
 		button.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				setConvers(s);
 			}
@@ -192,7 +208,6 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		JButton closeButton = new JButton("Fermer");
 		closeButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				controller.DeleteConvers validator = new controller.DeleteConvers(s);
 				if(validator.validate()) {
@@ -206,12 +221,14 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		convers.add(wrapperButton);
 	}
 	
-	@Override
 	public void setVisible(boolean visible) {
 		loadConvers();
 		super.setVisible(visible);
 	}
 	
+	/**
+	 * Ajoute un message
+	 */
 	public void addText(long date, String userName, String content) {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
 		Date d = new Date(date);
@@ -220,21 +237,18 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		try {
 			kit.insertHTML(doc, doc.getLength(), "<font color=\"#bbbbbb\">" + dateString + "</font>    <b>" + userName + "</b>: " + content, 0, 0, null);
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		texte.setCaretPosition(doc.getLength());
 		
-		//revalidate();
-		
-		
 	}
-
-	@Override
+	
+	/**
+	 * Notifie visuellement l'utilisateur s'il recoit un nouveau message
+	 */
 	public void messageEvent(MessageData msg) {
 		if(!this.isVisible()) return;
 		if(currentSender != null && currentSender.equals(msg.getSender()) && 
@@ -245,7 +259,5 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 			Application.getInstance().getUsers().getConnectedUser().getMessages().viewUser(msg.getSender());
 		}
 		loadConvers();
-		
 	}
-
 }

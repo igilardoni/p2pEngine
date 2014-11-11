@@ -4,7 +4,7 @@ import model.User;
 import view.Application;
 
 /**
- * Crée un PDF de type User
+ * Cree un PDF de type User
  * @author Ismael Cussac
  *
  */

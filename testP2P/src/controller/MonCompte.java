@@ -4,7 +4,7 @@ import model.User;
 import view.Application;
 
 /**
- * Accéder au compte de l'utilisateur connecté
+ * Acceder au compte de l'utilisateur connecte
  * @author 
  *
  */

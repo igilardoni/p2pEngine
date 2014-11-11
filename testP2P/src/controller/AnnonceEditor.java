@@ -6,7 +6,7 @@ import model.User;
 import view.Application;
 
 /**
- * Fen�tre de cr�ation/�dition d'une annonce
+ * Fenetre de creation/edition d'une annonce
  * @author Prudhomme Julien
  * 
  */
@@ -59,28 +59,28 @@ public class AnnonceEditor implements Validator{
 	}
 	
 	/**
-	 * Au moins une case doit �tre coch�e
+	 * Au moins une case doit etre cochee
 	 */
 	private void checkCheckBox() {
 		if(troc == false && vente == false) errorTroc = errorVente = true;
 	}
 	
 	/**
-	 * Le titre doit être d'au moins 3 caractères.
+	 * Le titre doit etre d'au moins 3 caracteres.
 	 */
 	private void checkTitle() {
 		if(title.length() < 3) errorTitle = true;
 	}
 	
 	/**
-	 * Le résumé doit faire au moins 10 caractères.
+	 * Le resume doit faire au moins 10 caracteres.
 	 */
 	private void checkResume() {
 		if(resume.length() < 10) errorResume = true;
 	}
 	
 	/**
-	 * La description doit faire au moins 10 caractères.
+	 * La description doit faire au moins 10 caracteres.
 	 */
 	private void checkDescription() {
 
@@ -89,7 +89,7 @@ public class AnnonceEditor implements Validator{
 	}
 	
 	/**
-	 * Le champ image peut être vide, sinon l'image doit être valide
+	 * Le champ image peut etre vide, sinon l'image doit etre valide
 	 */
 	private void checkImg() {
 		

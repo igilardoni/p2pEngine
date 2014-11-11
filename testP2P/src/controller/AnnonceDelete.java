@@ -5,7 +5,7 @@ import model.Objet;
 import model.User;
 
 /**
- * Supprimer une annonce de l'utilisateur connecté
+ * Supprimer une annonce de l'utilisateur connecte
  * @param i le rang i de l'annonce chez l'utilisateur courrant.
  */
 public class AnnonceDelete implements Validator{

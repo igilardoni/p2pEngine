@@ -1,79 +1,78 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-import java.awt.SystemColor;
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+/**
+ * Fenetre qui permet d'ajouter un ami aux contacts
+ * @author 
+ *
+ */
+@SuppressWarnings("serial")
 public class AddFriend extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JLabel nontrouve;
+	private JPanel pnlBoutons;
+	private JTextField nomContact;
+	private JLabel errorContact;
+	private JLabel lblAjouterUnAmi;
+	private JLabel lblNomDuContact;
+	private JButton btnValider;
+	private JButton btnAnnuler;
+	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddFriend dialog = new AddFriend();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public AddFriend() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblAjouterUnAmi = new JLabel("Ajouter un ami");
+		
+		lblAjouterUnAmi = new JLabel(Langues.getString("AddFriend.lblAjouterAmi.text"));
 		lblAjouterUnAmi.setForeground(SystemColor.textHighlight);
 		lblAjouterUnAmi.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblAjouterUnAmi.setBackground(SystemColor.textHighlight);
 		
 		JSeparator separator = new JSeparator();
-		JLabel lblNomDuContact = new JLabel("Nom du contact");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		lblNomDuContact = new JLabel(Langues.getString("AddFriend.lblNomContact.text"));
 		
-		JButton btnValider = new JButton("Valider");
+		nomContact = new JTextField();
+		nomContact.setColumns(10);
+		
+		btnValider = new JButton(Langues.getString("AddFriend.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.AddFriend validator = new controller.AddFriend(textField.getText());
+				controller.AddFriend validator = new controller.AddFriend(nomContact.getText());
 				if(validator.validate()) {
 					validator.process();
 					dispose();
 				}
-				else nontrouve.setVisible(true);
+				else errorContact.setVisible(true);
 				
 			}
 		});
 		
-		nontrouve = new JLabel("Contact non trouv\u00E9");
-		nontrouve.setVisible(false);
-		nontrouve.setForeground(Color.RED);
+		errorContact = new JLabel(Langues.getString("AddFriend.lblErrorContact.text"));
+		errorContact.setVisible(false);
+		errorContact.setForeground(Color.RED);
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -84,11 +83,11 @@ public class AddFriend extends JDialog {
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblNomDuContact)
 							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
+							.addComponent(nomContact, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnValider))
 						.addComponent(lblAjouterUnAmi)
-						.addComponent(nontrouve))
+						.addComponent(errorContact))
 					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -100,27 +99,27 @@ public class AddFriend extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNomDuContact)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(nomContact, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnValider))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(nontrouve)
+					.addComponent(errorContact)
 					.addContainerGap(142, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			pnlBoutons = new JPanel();
+			pnlBoutons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(pnlBoutons, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Annuler");
-				okButton.addActionListener(new ActionListener() {
+				btnAnnuler = new JButton(Langues.getString("AddFriend.btnAnnuler.text"));
+				btnAnnuler.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnAnnuler.setActionCommand("OK");
+				pnlBoutons.add(btnAnnuler);
+				getRootPane().setDefaultButton(btnAnnuler);
 			}
 		}
 	}

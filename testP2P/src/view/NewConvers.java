@@ -3,6 +3,16 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.JSeparator;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -10,26 +20,26 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.SystemColor;
-import javax.swing.JSeparator;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
 
+/**
+ * Permet de rechercher un utilisateur afin d'ouvrir une nouvelle discussion
+ * @author
+ *
+ */
+
+@SuppressWarnings("serial")
 public class NewConvers extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JPanel buttonPane;
+	private JTextField identifiant;
 	private MessagesPanel mp;
-	private JLabel lblUtilisateurInconnue;
-
-
-	/**
-	 * Create the dialog.
-	 */
+	private JLabel errorUtilisateurInconnu;
+	private JLabel lblCreationDiscu;
+	private JLabel lblEntrerIdentifiant;
+	private JButton btnValider;
+	private JButton btnAnnuler;
+	
 	public NewConvers(MessagesPanel mp_) {
 		this.mp = mp_;
 		setBounds(100, 100, 450, 250);
@@ -37,87 +47,88 @@ public class NewConvers extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblCrationDuneDiscussion = new JLabel(Messages.getString("NewConvers.lblNouvelleDiscu.text"));
-		lblCrationDuneDiscussion.setForeground(SystemColor.textHighlight);
-		lblCrationDuneDiscussion.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCreationDiscu = new JLabel(Langues.getString("NewConvers.lblNouvelleDiscu.text"));
+		lblCreationDiscu.setForeground(SystemColor.textHighlight);
+		lblCreationDiscu.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
-		JLabel lblVeuillezEntrerLidentifiant = new JLabel(Messages.getString("NewConvers.lblIdentifiant.text"));
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		lblEntrerIdentifiant = new JLabel(Langues.getString("NewConvers.lblIdentifiant.text"));
 		
-		JButton btnValider = new JButton(Messages.getString("NewConvers.btnValider.text"));
+		identifiant = new JTextField();
+		identifiant.setColumns(10);
+		
+		btnValider = new JButton(Langues.getString("NewConvers.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.NewConvers validator = new controller.NewConvers(textField.getText());
+				controller.NewConvers validator = new controller.NewConvers(identifiant.getText());
 				if(validator.validate()) {
 					validator.process();
-					mp.setNewConvers(textField.getText());
+					mp.setNewConvers(identifiant.getText());
 					dispose();
 					return;
-					
 				}
 				else {
-					lblUtilisateurInconnue.setVisible(true);
+					errorUtilisateurInconnu.setVisible(true);
 				}
 			}
 		});
 		
-		lblUtilisateurInconnue = new JLabel(Messages.getString("NewConvers.lblUtilInconnu.text"));
-		lblUtilisateurInconnue.setVisible(false);
-		lblUtilisateurInconnue.setForeground(Color.RED);
+		errorUtilisateurInconnu = new JLabel(Langues.getString("NewConvers.errorUtilInconnu.text"));
+		errorUtilisateurInconnu.setVisible(false);
+		errorUtilisateurInconnu.setForeground(Color.RED);
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblCrationDuneDiscussion)
+						.addComponent(lblCreationDiscu)
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblVeuillezEntrerLidentifiant))
+							.addComponent(lblEntrerIdentifiant))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+							.addComponent(identifiant, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnValider))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblUtilisateurInconnue)))
+							.addComponent(errorUtilisateurInconnu)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(lblCrationDuneDiscussion)
+					.addComponent(lblCreationDiscu)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblVeuillezEntrerLidentifiant)
+					.addComponent(lblEntrerIdentifiant)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(identifiant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnValider))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblUtilisateurInconnue)
+					.addComponent(errorUtilisateurInconnu)
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton(Messages.getString("NewConvers.btnAnnuler.text"));
-				okButton.addActionListener(new ActionListener() {
+				btnAnnuler = new JButton(Langues.getString("NewConvers.btnAnnuler.text"));
+				btnAnnuler.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnAnnuler.setActionCommand("OK");
+				buttonPane.add(btnAnnuler);
+				getRootPane().setDefaultButton(btnAnnuler);
 			}
 		}
 	}

@@ -5,12 +5,18 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+/**
+ * Verifie le format de l'image mise dans l'annonce
+ * @author
+ *
+ */
+
+@SuppressWarnings("serial")
 public class ImageDialog extends JFileChooser{
 
 	public ImageDialog() {
 		this.setFileFilter(new FileFilter() {
 
-			@Override
 			public boolean accept(File f) {
 				String name = f.getName();
 				if(name.endsWith(".png")) return true;
@@ -21,13 +27,9 @@ public class ImageDialog extends JFileChooser{
 				return false;
 			}
 
-			@Override
 			public String getDescription() {
-				// TODO Auto-generated method stub
-				return "Images(png, jpg, jpeg, bmp, gif)";
+				return Langues.getString("ImageDialog.formatImages.text");
 			}
-			
 		});
-	}
-	
+	}	
 }

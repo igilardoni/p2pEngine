@@ -5,7 +5,7 @@ import model.User;
 import model.UsersManagement;
 
 /**
- * Créer un nouveau compte utilisateur
+ * Creer un nouveau compte utilisateur
  * @author 
  *
  */

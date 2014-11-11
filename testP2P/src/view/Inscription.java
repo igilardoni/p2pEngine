@@ -20,79 +20,90 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
+/**
+ * Fenetre d'inscription d'une nouvel utilisateur
+ * @author 
+ */
+
+@SuppressWarnings("serial")
 public class Inscription extends JPanel {
-	private JTextField login;
-	private JPasswordField password;
-	private JPasswordField password2;
+	private JTextField nom;
+	private JTextField prenom;
 	private JTextField adresse;
 	private JTextField tel;
+	private JTextField login;
+	
+	private JPasswordField password1;
+	private JPasswordField password2;
 	private JFormattedTextField email;
+	
+	private JLabel lblNouveauCompte;
+	private JLabel lblLogin;
+	private JLabel lblPass1;
+	private JLabel lblPass2;
+	private JLabel lblInfoPersonnelles;
+	private JLabel lblAdresse;
+	private JLabel lblEmail;
+	private JLabel lblTelephone;
+	private JLabel lblNom;
+	private JLabel lblPrenom;
 	
 	private JLabel errorLogin;
 	private JLabel errorPass1;
 	private JLabel errorPass2;
-	private JTextField nom;
-	private JTextField prenom;
-	
 	private JLabel errorAdresse;
 	private JLabel errorEmail;
 	private JLabel errorTel; 
 	private JLabel errorNom;
 	private JLabel errorPrenom;
+	
+	private JButton btnValider;
 
-	/**
-	 * Create the panel.
-	 */
 	public Inscription() {
 		
-		JLabel lblNouveauCompte = new JLabel(Messages.getString("Inscription.lblNouveauCompte.text"));
+		lblNouveauCompte = new JLabel(Langues.getString("Inscription.lblNouveauCompte.text"));
 		lblNouveauCompte.setForeground(SystemColor.textHighlight);
 		lblNouveauCompte.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblLogin = new JLabel(Messages.getString("Inscription.lblNomCompte.text"));
+		lblLogin = new JLabel(Langues.getString("Inscription.lblLogin.text"));
 		
-		JLabel lblMotDePasse = new JLabel(Messages.getString("Inscription.lblMotDePasse.text"));
+		lblPass1 = new JLabel(Langues.getString("Inscription.lblPass1.text"));
 		
-		JLabel lblConfirmationDuMot = new JLabel(Messages.getString("Inscription.lblConfirmation.text"));
+		lblPass2 = new JLabel(Langues.getString("Inscription.lblPass2.text"));
 		
 		login = new JTextField();
 		login.setColumns(10);
 		
-		password = new JPasswordField();
-		password.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					if (password.getPassword().equals("azertyuiop")){
-						JLabel lblForce = new JLabel(Messages.getString("Inscription.lblForce.text"));}
-				}});	
+		password1 = new JPasswordField();
 		password2 = new JPasswordField();
 		
-		JLabel lblInformationPersonnelles = new JLabel(Messages.getString("Inscription.lblInfoPerso.text"));
-		lblInformationPersonnelles.setForeground(SystemColor.textHighlight);
-		lblInformationPersonnelles.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblInfoPersonnelles = new JLabel(Langues.getString("Inscription.lblInfoPersonnelles.text"));
+		lblInfoPersonnelles.setForeground(SystemColor.textHighlight);
+		lblInfoPersonnelles.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel lblAdresse = new JLabel(Messages.getString("Inscription.lblAdresse.text"));
+		lblAdresse = new JLabel(Langues.getString("Inscription.lblAdresse.text"));
 		
 		adresse = new JTextField();
 		adresse.setColumns(10);
 		
-		JLabel lblEmail = new JLabel(Messages.getString("Inscription.lblEMail.text"));
+		lblEmail = new JLabel(Langues.getString("Inscription.lblEMail.text"));
 		
-		 email = new JFormattedTextField();
+		email = new JFormattedTextField();
 		
-		JLabel lblTelephone = new JLabel(Messages.getString("Inscription.lblTelephone.text"));
+		lblTelephone = new JLabel(Langues.getString("Inscription.lblTelephone.text"));
 		
 		tel = new JTextField();
 		tel.setColumns(10);
 		
-		JButton btnValider = new JButton(Messages.getString("Inscription.btnValider.text"));
+		btnValider = new JButton(Langues.getString("Inscription.btnValider.text"));
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initErrorMsg();
-				controller.Inscription inscription = new controller.Inscription(login.getText(), new String(password.getPassword()), 
+				controller.Inscription inscription = new controller.Inscription(login.getText(), new String(password1.getPassword()), 
 						new String(password2.getPassword()), adresse.getText(), email.getText(), 
 						tel.getText(), nom.getText(), prenom.getText());
 				if(inscription.validate()) {
@@ -109,21 +120,21 @@ public class Inscription extends JPanel {
 			}
 		});
 		
-		errorLogin = new JLabel(Messages.getString("Inscription.lblErrorNomCompte.text"));
+		errorLogin = new JLabel(Langues.getString("Inscription.errorLogin.text"));
 		errorLogin.setVisible(false);
 		errorLogin.setForeground(Color.RED);
 		
-		errorPass1 = new JLabel(Messages.getString("Inscription.lblErrorMdP.text"));
+		errorPass1 = new JLabel(Langues.getString("Inscription.errorPass1.text"));
 		errorPass1.setVisible(false);
 		errorPass1.setForeground(Color.RED);
 		
-		errorPass2 = new JLabel(Messages.getString("Inscription.lblErrorMdP2.text"));
+		errorPass2 = new JLabel(Langues.getString("Inscription.errorPass2.text"));
 		errorPass2.setVisible(false);
 		errorPass2.setForeground(Color.RED);
 		
-		JLabel lblNom = new JLabel(Messages.getString("Inscription.lblNom.text"));
+		lblNom = new JLabel(Langues.getString("Inscription.lblNom.text"));
 		
-		JLabel lblPrnom = new JLabel(Messages.getString("Inscription.lblPrenom.text"));
+		lblPrenom = new JLabel(Langues.getString("Inscription.lblPrenom.text"));
 		
 		nom = new JTextField();
 		nom.setColumns(10);
@@ -131,25 +142,27 @@ public class Inscription extends JPanel {
 		prenom = new JTextField();
 		prenom.setColumns(10);
 		
-		errorAdresse = new JLabel(Messages.getString("Inscription.lblErrorAdresse.text"));
+		errorAdresse = new JLabel(Langues.getString("Inscription.errorAdresse.text"));
 		errorAdresse.setVisible(false);
 		errorAdresse.setForeground(Color.RED);
 		
-		errorEmail = new JLabel(Messages.getString("Inscription.lblErrorEMail.text"));
+		errorEmail = new JLabel(Langues.getString("Inscription.errorEMail.text"));
 		errorEmail.setVisible(false);
 		errorEmail.setForeground(Color.RED);
 		
-		errorTel = new JLabel(Messages.getString("Inscription.lblErrorTelephone.text"));
+		errorTel = new JLabel(Langues.getString("Inscription.errorTelephone.text"));
 		errorTel.setVisible(false);
 		errorTel.setForeground(Color.RED);
 		
-		errorNom = new JLabel(Messages.getString("Inscription.lblErrorNom.text"));
+		errorNom = new JLabel(Langues.getString("Inscription.errorNom.text"));
 		errorNom.setVisible(false);
 		errorNom.setForeground(Color.RED);
 		
-		errorPrenom = new JLabel(Messages.getString("Inscription.lblErrorPrenom.text"));
+		errorPrenom = new JLabel(Langues.getString("Inscription.lblErrorPrenom.text"));
 		errorPrenom.setVisible(false);
 		errorPrenom.setForeground(Color.RED);
+		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -161,13 +174,13 @@ public class Inscription extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblConfirmationDuMot)
-						.addComponent(lblMotDePasse)
+						.addComponent(lblPass2)
+						.addComponent(lblPass1)
 						.addComponent(lblLogin))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(password2)
-						.addComponent(password)
+						.addComponent(password1)
 						.addComponent(login, GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -177,13 +190,13 @@ public class Inscription extends JPanel {
 					.addContainerGap(32, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblInformationPersonnelles)
+					.addComponent(lblInfoPersonnelles)
 					.addContainerGap(298, Short.MAX_VALUE))
 				.addComponent(separator_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(26)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblPrnom)
+						.addComponent(lblPrenom)
 						.addComponent(lblNom)
 						.addComponent(lblEmail)
 						.addComponent(lblAdresse)
@@ -221,16 +234,16 @@ public class Inscription extends JPanel {
 						.addComponent(errorLogin))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMotDePasse)
-						.addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPass1)
+						.addComponent(password1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(errorPass1))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblConfirmationDuMot)
+						.addComponent(lblPass2)
 						.addComponent(password2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(errorPass2))
 					.addGap(18)
-					.addComponent(lblInformationPersonnelles)
+					.addComponent(lblInfoPersonnelles)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
@@ -255,7 +268,7 @@ public class Inscription extends JPanel {
 						.addComponent(errorNom))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPrnom)
+						.addComponent(lblPrenom)
 						.addComponent(prenom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(errorPrenom))
 					.addGap(18)
@@ -266,6 +279,9 @@ public class Inscription extends JPanel {
 
 	}
 	
+	/**
+	 * Cache tous les messages d'erreur
+	 */
 	private void initErrorMsg() {
 		errorLogin.setVisible(false);
 		errorPass1.setVisible(false);
@@ -277,27 +293,25 @@ public class Inscription extends JPanel {
 		errorPrenom.setVisible(false);
 	}
 	
+	/**
+	 * Affiche certains messages d'erreur si besoin
+	 */
 	private void showErrorMsg(controller.Inscription inscription) {
 		if(inscription.errorLogin) {
 			errorLogin.setVisible(true);
 		}
-		
 		if(inscription.errorDuplicateLogin) {
 			errorLogin.setVisible(true);
 		}
-		
 		if(inscription.errorPassword) {
 			errorPass1.setVisible(true);
 		}
-		
 		if(inscription.errorPassword2) {
 			errorPass2.setVisible(true);
 		}
-		
 		if(inscription.errorEmail) {
 			errorEmail.setVisible(true);
 		}
-		
 		if(inscription.errorTel) {
 			errorTel.setVisible(true);
 		}

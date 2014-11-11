@@ -1,55 +1,68 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-
-import java.awt.SystemColor;
-import java.awt.Font;
-
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 import model.User;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JTextField;
-
-import controller.GeneratePdfObjet;
 import controller.GeneratePdfUser;
 
-import java.awt.Dimension;
-import java.awt.Color;
+/**
+ * Affiche la fenetre du compte de l'utilisateur courrant
+ * @author 
+ *
+ */
 
+@SuppressWarnings("serial")
 public class MonCompte extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	/**
-	 * @wbp.nonvisual location=-430,117
-	 */
-	private final NoteCanvas noteCanvas = new NoteCanvas();
 	private User user = Application.getInstance().getUsers().getConnectedUser();
+	private NoteCanvas noteCanvas;
+	private JPanel panel;
+	private JPanel buttonPane;
+	
 	private JTextField email;
 	private JTextField tel;
 	private JTextField adresse;
+	
 	private JLabel errorEmail;
 	private JLabel errorTel;
 	private JLabel errorAdresse;
 	private JLabel succesForm;
+	private JLabel lblConnecteComme;
+	private JLabel lblActions;
+	private JLabel lblNoteDe;
+	private JLabel lblEmail;
+	private JLabel lblTelephone;
+	private JLabel lblAdresse;
+	private JLabel lblNom;
+	private JLabel lblPrenom;
+	private JLabel lblAffNom;
+	private JLabel lblAffPrenom;
+	private JLabel lblNote;
 	
-
-	/**
-	 * Create the dialog.
-	 */
+	private JButton btnEnregistrer;
+	private JButton btnSupprimer;
+	private JButton btnDeconnexion;
+	private JButton btnPdf;
+	private JButton btnQuitter;
+	
 	public MonCompte() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 595, 459);
@@ -57,29 +70,30 @@ public class MonCompte extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblCrashxxl = new JLabel(Messages.getString("MonCompte.lblQuiSuisJe.text") + user.getLogin());
-		lblCrashxxl.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCrashxxl.setForeground(SystemColor.textHighlight);
+		lblConnecteComme = new JLabel(Langues.getString("MonCompte.lblQuiSuisJe.text") + user.getLogin());
+		lblConnecteComme.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblConnecteComme.setForeground(SystemColor.textHighlight);
 		
 		JSeparator separator = new JSeparator();
-		JLabel lblActions = new JLabel(Messages.getString("MonCompte.lblActions.text"));
+		
+		lblActions = new JLabel(Langues.getString("MonCompte.lblActions.text"));
 		lblActions.setForeground(SystemColor.textHighlight);
 		lblActions.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		JSeparator separator_1 = new JSeparator();
 		
-		JButton btnSupprimer = new JButton(Messages.getString("MonCompte.btnSupprimerCompte.text"));
+		btnSupprimer = new JButton(Langues.getString("MonCompte.btnSupprimerCompte.text"));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new SuppCompteConfirm(getThis()).setVisible(true);
 			}
 		});
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		
-		JLabel lblNote = new JLabel(Messages.getString("MonCompte.lblNote.text"));
+		lblNoteDe = new JLabel(Langues.getString("MonCompte.lblNote.text"));
 		
-		JButton btnDconnexion = new JButton(Messages.getString("MonCompte.btnDeconnexion.text"));
-		btnDconnexion.addActionListener(new ActionListener() {
+		btnDeconnexion = new JButton(Langues.getString("MonCompte.btnDeconnexion.text"));
+		btnDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Application.getInstance().getUsers().disconnectUser();
 				Application.getInstance().updateUI();
@@ -87,23 +101,23 @@ public class MonCompte extends JDialog {
 			}
 		});
 		
-		JLabel lblEmail = new JLabel(Messages.getString("MonCompte.lblEMail.text"));
+		lblEmail = new JLabel(Langues.getString("MonCompte.lblEMail.text"));
 		
 		email = new JTextField(user.getMail());
 		email.setColumns(10);
 		
-		JLabel lblTlphone = new JLabel(Messages.getString("MonCompte.lblTelephone.text"));
+		lblTelephone = new JLabel(Langues.getString("MonCompte.lblTelephone.text"));
 		
 		tel = new JTextField(user.getTel());
 		tel.setColumns(10);
 		
-		JLabel lblAdresse = new JLabel(Messages.getString("MonCompte.lblAdresse.text"));
+		lblAdresse = new JLabel(Langues.getString("MonCompte.lblAdresse.text"));
 		
 		adresse = new JTextField(user.getAdresse());
 		adresse.setColumns(10);
 		
-		JButton btnValiderChangements = new JButton(Messages.getString("MonCompte.btnEnregChange.text"));
-		btnValiderChangements.addActionListener(new ActionListener() {
+		btnEnregistrer = new JButton(Langues.getString("MonCompte.btnEnregChange.text"));
+		btnEnregistrer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				initError();
 				controller.MonCompte compte = new controller.MonCompte(email.getText(), tel.getText(), adresse.getText());
@@ -115,35 +129,35 @@ public class MonCompte extends JDialog {
 			}
 		});
 		
-		JLabel lblNom = new JLabel(Messages.getString("MonCompte.lblNom.text"));
+		lblNom = new JLabel(Langues.getString("MonCompte.lblNom.text"));
 		
-		JLabel lblPrnom = new JLabel(Messages.getString("MonCompte.lblPrenom.text"));
+		lblPrenom = new JLabel(Langues.getString("MonCompte.lblPrenom.text"));
 		
-		JLabel lblNewLabel = new JLabel(user.getNom());
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblAffNom = new JLabel(user.getNom());
+		lblAffNom.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		JLabel lblNewLabel_1 = new JLabel(user.getPrenom());
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblAffPrenom = new JLabel(user.getPrenom());
+		lblAffPrenom.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
-		JLabel label = new JLabel(user.getMoyenneNotes() + Messages.getString("MonCompte.lblTotalNote.text"));
+		lblNote = new JLabel(user.getMoyenneNotes() + Langues.getString("MonCompte.lblTotalNote.text"));
 		
-		errorEmail = new JLabel(Messages.getString("MonCompte.lblErrorEMail.text"));
+		errorEmail = new JLabel(Langues.getString("MonCompte.lblErrorEMail.text"));
 		errorEmail.setVisible(false);
 		errorEmail.setForeground(Color.RED);
 		
-		errorTel = new JLabel(Messages.getString("MonCompte.lblErrorTelephone.text"));
+		errorTel = new JLabel(Langues.getString("MonCompte.lblErrorTelephone.text"));
 		errorTel.setVisible(false);
 		errorTel.setForeground(Color.RED);
 		
-		errorAdresse = new JLabel(Messages.getString("MonCompte.lblErrorAdresse.text"));
+		errorAdresse = new JLabel(Langues.getString("MonCompte.lblErrorAdresse.text"));
 		errorAdresse.setVisible(false);
 		errorAdresse.setForeground(Color.RED);
 		
-		succesForm = new JLabel(Messages.getString("MonCompte.lblModifEnreg.text"));
+		succesForm = new JLabel(Langues.getString("MonCompte.lblModifEnreg.text"));
 		succesForm.setVisible(false);
 		succesForm.setForeground(new Color(0, 204, 0));
 		
-		JButton btnPdf = new JButton(Messages.getString("MonCompte.btnPdf.text")); //$NON-NLS-1$
+		btnPdf = new JButton(Langues.getString("MonCompte.btnPdf.text")); //$NON-NLS-1$
 		btnPdf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GeneratePdfUser validator = new GeneratePdfUser();
@@ -153,19 +167,20 @@ public class MonCompte extends JDialog {
 				}
 			}
 		});
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblCrashxxl)
-					.addPreferredGap(ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-					.addComponent(lblNote)
+					.addComponent(lblConnecteComme)
+					.addPreferredGap(ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+					.addComponent(lblNoteDe)
 					.addGap(18)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(label)
+					.addComponent(lblNote)
 					.addGap(7))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(12)
@@ -174,31 +189,31 @@ public class MonCompte extends JDialog {
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(btnSupprimer)
 							.addGap(18)
-							.addComponent(btnDconnexion)
+							.addComponent(btnDeconnexion)
 							.addGap(18)
 							.addComponent(btnPdf)))
-					.addContainerGap(206, Short.MAX_VALUE))
+					.addContainerGap(246, Short.MAX_VALUE))
 				.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblPrnom)
+						.addComponent(lblPrenom)
 						.addComponent(lblNom)
 						.addComponent(lblAdresse)
-						.addComponent(lblTlphone)
+						.addComponent(lblTelephone)
 						.addComponent(lblEmail))
 					.addGap(18)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel_1)
+							.addComponent(lblAffPrenom)
 							.addContainerGap())
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_contentPanel.createSequentialGroup()
-								.addComponent(lblNewLabel)
+								.addComponent(lblAffNom)
 								.addContainerGap())
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(btnValiderChangements)
+									.addComponent(btnEnregistrer)
 									.addContainerGap())
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 									.addGroup(gl_contentPanel.createSequentialGroup()
@@ -212,15 +227,10 @@ public class MonCompte extends JDialog {
 										.addContainerGap(223, Short.MAX_VALUE))
 									.addGroup(gl_contentPanel.createSequentialGroup()
 										.addComponent(adresse, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+										.addGap(18)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGap(207)
-												.addComponent(noteCanvas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-											.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGap(18)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-													.addComponent(succesForm)
-													.addComponent(errorAdresse))))
+											.addComponent(succesForm)
+											.addComponent(errorAdresse))
 										.addGap(99)))))))
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -229,11 +239,11 @@ public class MonCompte extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(label))
+							.addComponent(lblNote))
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-							.addComponent(lblCrashxxl, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+							.addComponent(lblConnecteComme, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
 							.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblNote, Alignment.TRAILING)))
+							.addComponent(lblNoteDe, Alignment.TRAILING)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -243,28 +253,26 @@ public class MonCompte extends JDialog {
 						.addComponent(errorEmail))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTlphone)
+						.addComponent(lblTelephone)
 						.addComponent(tel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(errorTel))
 					.addGap(10)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(noteCanvas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblAdresse)
-							.addComponent(adresse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(errorAdresse)))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblAdresse)
+						.addComponent(adresse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(errorAdresse))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnValiderChangements)
+						.addComponent(btnEnregistrer)
 						.addComponent(succesForm))
 					.addGap(13)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNom)
-						.addComponent(lblNewLabel))
+						.addComponent(lblAffNom))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPrnom)
-						.addComponent(lblNewLabel_1))
+						.addComponent(lblPrenom)
+						.addComponent(lblAffPrenom))
 					.addGap(52)
 					.addComponent(lblActions)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -272,29 +280,29 @@ public class MonCompte extends JDialog {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSupprimer)
-						.addComponent(btnDconnexion)
+						.addComponent(btnDeconnexion)
 						.addComponent(btnPdf))
 					.addGap(47))
 		);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		NoteCanvas noteCanvas_1 = new NoteCanvas(user.getMoyenneNotes());
-		panel.add(noteCanvas_1, BorderLayout.CENTER);
+		noteCanvas = new NoteCanvas(user.getMoyenneNotes());
+		panel.add(noteCanvas, BorderLayout.CENTER);
 		contentPanel.setLayout(gl_contentPanel);
 		{
-			JPanel buttonPane = new JPanel();
+			buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton(Messages.getString("MonCompte.btnQuitter.text"));
-				okButton.addActionListener(new ActionListener() {
+				btnQuitter = new JButton(Langues.getString("MonCompte.btnQuitter.text"));
+				btnQuitter.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnQuitter.setActionCommand("OK");
+				buttonPane.add(btnQuitter);
+				getRootPane().setDefaultButton(btnQuitter);
 			}
 		}
 	}
