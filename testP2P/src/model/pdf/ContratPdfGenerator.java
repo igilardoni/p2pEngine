@@ -31,8 +31,7 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		fileOut += "Contrat "+ modelObjet1.getTexteMap().get("titreObjet")+"_"+modelObjet2.getTexteMap().get("titreObjet");
 		mergePdf(modeles, fileOut);
 	
-		deleteFiles(modelObjet1.getTexteMap().get("titreObjet"),modelObjet2.getTexteMap().get("titreObjet"));
-		deleteFiles(modelUser1.getTexteMap().get("nomUser"),modelUser2.getTexteMap().get("nomUser"));
+		deleteFiles(modeles);
 	}
 	
 	public ContratPdfGenerator(ObjetPdfModel modelObj1, UserPdfModel modelUser1, UserPdfModel modelUser2) {
@@ -41,6 +40,10 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		this.user1 = modelUser2;
 		
 		genererContrat();
+		fileOut += "Contrat "+ modelObj1.getTexteMap().get("titreObjet");
+		mergePdf(modeles, fileOut);
+	
+		deleteFiles(modeles);
 	}
 
 	private void genererContrat() {
@@ -72,12 +75,13 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 	}
 	
 	
-	private void deleteFiles(String file1, String file2){
-		File MyFile = new File("modeles/"+file1+".pdf"); 
-		MyFile.delete(); 
+	private void deleteFiles(List<String> liste){
+		File myFile;
 		
-		MyFile = new File("modeles/"+file2+".pdf"); 
-		MyFile.delete(); 
+		for(String file : liste){
+			myFile= new File("modeles/"+file+".pdf"); 
+			myFile.delete(); 
+		}
 	}
 	
 	private void viderMap(){
