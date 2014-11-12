@@ -40,7 +40,7 @@ public class GeneratePdfContrat implements Validator {
 	}
 
 	public boolean process() {
-		accord.createContrat(obj1,obj2, user1, user2);
+		accord.createContrat(obj1, obj2, user1, user2);
 		return true;
 	}
 }

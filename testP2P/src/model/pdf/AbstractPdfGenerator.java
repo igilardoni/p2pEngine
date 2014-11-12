@@ -22,7 +22,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
 /**
- * Plusieurs fonctions nécessaires à la génération/concaténation de fichiers PDF à partir de modèles et templates
+ * Plusieurs fonctions nï¿½cessaires ï¿½ la gï¿½nï¿½ration/concatï¿½nation de fichiers PDF ï¿½ partir de modï¿½les et templates
  * @author Ismael Cussac
  *
  */
@@ -40,7 +40,7 @@ public abstract class AbstractPdfGenerator {
 	
 	
 	/**
-	 * Crée et complète un PDF à partir d'un modèle
+	 * Crï¿½e et complï¿½te un PDF ï¿½ partir d'un modï¿½le
 	 */
 	protected void createPdf(String fileOut, String modele){
 			
@@ -137,7 +137,7 @@ public abstract class AbstractPdfGenerator {
 	}	
 	
 	/**
-	 * Complète tous les textFields avec du texte
+	 * Complï¿½te tous les textFields avec du texte
 	 */
 	protected void addTexte(){
 		for(Map.Entry<String,String> champ : texte.entrySet()){
@@ -148,11 +148,12 @@ public abstract class AbstractPdfGenerator {
 	}
 	
 	/**
-	 * Complète les textFields avec des images
+	 * Complï¿½te les textFields avec des images
 	 */
 	protected void addImage(){
-		for(Map.Entry<String,String> champ : image.entrySet()){
-			if(champ.getValue() != null){
+		if(!image.isEmpty()){
+			for(Map.Entry<String,String> champ : image.entrySet()){
+				
 				Image img = null;
 				try {img = Image.getInstance(ImageBase64.decode(champ.getValue()).getImage(), null);} 
 				catch (BadElementException e) {e.printStackTrace();} 
@@ -169,12 +170,13 @@ public abstract class AbstractPdfGenerator {
 	
 				try {stamper.getOverContent(page).addImage(img);} 
 				catch (DocumentException e) {e.printStackTrace();}
+				
 			}
 		}
 	}
 	
 	/**
-	 * Complète les field qui nécessitent des booleens
+	 * Complï¿½te les field qui nï¿½cessitent des booleens
 	 */
 	protected void addCheckBox(){
 		for(Map.Entry<String,Boolean> champ : bool.entrySet()){

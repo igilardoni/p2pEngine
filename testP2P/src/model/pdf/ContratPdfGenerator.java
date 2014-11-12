@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Permet de générer un PDF de type contrat à partir des modèles Objet et User et de leur template
+ * Permet de gï¿½nï¿½rer un PDF de type contrat ï¿½ partir des modï¿½les Objet et User et de leur template
  * @author Ismael Cussac
  *
  */
@@ -89,7 +89,7 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 	
 	private void viderMap(){
 		this.texte.clear();
-		this.texte.clear();
+		this.image.clear();
 		this.bool.clear();
 	}
 }
