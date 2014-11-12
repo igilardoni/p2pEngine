@@ -13,6 +13,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import model.Accord;
 import model.Objet;
+import model.RemoteRessource;
 import model.User;
 import controller.GeneratePdfContrat;
 
@@ -48,7 +49,9 @@ public class AccordAcceptPanel extends JPanel {
 		btnContrat = new JButton(Langues.getString("AccordAcceptPanel.btnContrat.text"));
 		btnContrat.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-				GeneratePdfContrat validator = new GeneratePdfContrat(a, obj1, obj2, user1, user2);
+					RemoteRessource<User> rs = new RemoteRessource<User>(Application.getInstance().getPeer().getDiscovery(), "login", 1000);
+					User user2 = rs.getRemoteRessource(Application.getInstance().getUsers().getConnectedUser().getLogin() == a.getFrom() ? a.getTo():a.getFrom());
+				GeneratePdfContrat validator = new GeneratePdfContrat(a, a.getObjet(), Application.getInstance().getUsers().getConnectedUser(), user2);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();

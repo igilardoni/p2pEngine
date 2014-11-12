@@ -12,18 +12,24 @@ public class Accord implements Serializable{
 	private String from, to;
 	private String messageFrom, messageTo;
 	private String annonce;
+	private Objet obj;
 	private boolean accepted;
 	private boolean rated;
 	
-	public Accord(String from, String to, String messageFrom, String annonce) {
+	public Accord(String from, String to, String messageFrom, String annonce, Objet o) {
 		this.from = from;
 		this.to = to;
 		this.messageFrom = messageFrom;
 		this.annonce = annonce;
+		this.obj = o;
 	}
 	
 	public boolean isAccepted() {
 		return accepted;
+	}
+	
+	public Objet getObjet() {
+		return obj;
 	}
 	
 	public void setAccepted() {

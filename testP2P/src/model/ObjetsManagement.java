@@ -131,4 +131,12 @@ public class ObjetsManagement implements ObjetsManagementInterface, Serializable
 		return false;
 	}
 
+	@Override
+	public Objet get(String titre) {
+		for(Objet o: objets) {
+			if(o.getTitre().equals(titre)) return o;
+		}
+		return null;
+	}
+
 }

@@ -86,4 +86,11 @@ public interface ObjetsManagementInterface {
 	
 	public boolean containsUser(String user);
 	
+	/**
+	 * Retrouve un objet grace au titre;
+	 * @param titre
+	 * @return
+	 */
+	public Objet get(String titre);
+	
 }

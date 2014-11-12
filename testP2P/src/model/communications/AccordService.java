@@ -2,6 +2,7 @@ package model.communications;
 
 import model.Accord;
 import model.Accords;
+import model.Objet;
 import model.UsersManagement;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.endpoint.Message;
@@ -44,7 +45,8 @@ public class AccordService extends Service {
 			byte[] messageFromBytes = message.getMessageElement("MessageFrom").getBytes(true);
 			String messageFrom = new String(messageFromBytes);
 			Accords accords = users.getUser(to).getAccords();
-			Accord accord = new Accord(from, to, messageFrom, annonce);
+			Objet obj = users.getConnectedUser().getObjets().get(annonce);
+			Accord accord = new Accord(from, to, messageFrom, annonce, obj);
 			accords.addAccord(accord);
 			return new MessageData(from, to, NEW, System.currentTimeMillis());
 		}

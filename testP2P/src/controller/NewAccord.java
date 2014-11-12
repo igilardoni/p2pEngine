@@ -36,7 +36,7 @@ public class NewAccord implements Validator{
 		
 		Accords accords = Application.getInstance().getUsers().getConnectedUser().getAccords();
 		accords.addAccord(new Accord(Application.getInstance().getUsers().getConnectedUser().getLogin(), 
-				obj.getUser().getLogin(), messageFrom, obj.getTitre()));
+				obj.getUser().getLogin(), messageFrom, obj.getTitre(), obj));
 		
 		return AccordService.sendAccord(Application.getInstance().getChatter(), Application.getInstance().getUsers().getConnectedUser().getLogin(),
 				obj.getUser().getLogin(), obj.getTitre(), messageFrom);
