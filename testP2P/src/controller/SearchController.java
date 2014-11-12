@@ -64,7 +64,7 @@ public class SearchController implements Validator, SearchListener{
 	}
 	
 	/**
-	 * Passe la recherche en minuscule sauf AND, OR et les tags user:
+	 * Passe la recherche en minuscule sauf AND, OR
 	 */
 	private void changeMinuscule() {
 		String[] result = recherche.split("\\s");
@@ -79,6 +79,7 @@ public class SearchController implements Validator, SearchListener{
 		}
 		
 		recherche = builder.toString();
+		System.out.println(recherche);
 
 	}
 

@@ -117,9 +117,10 @@ public class MainPanel extends JPanel implements SearchListener{
 		
 		btnRechercher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				rechercheContainer.removeAll();
+				Application.getInstance().updateUI();
 				controller.SearchController validator = new controller.SearchController(recherche.getText(), rdbtnTroc.isSelected(), rdbtnVente.isSelected(), getThis());
 				if(validator.validate()) {
-					rechercheContainer.removeAll();
 					validator.process();
 				}
 			}

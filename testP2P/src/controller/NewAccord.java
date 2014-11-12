@@ -39,7 +39,7 @@ public class NewAccord implements Validator{
 				obj.getUserName(), messageFrom, obj.getTitre()));
 		
 		return AccordService.sendAccord(Application.getInstance().getChatter(), Application.getInstance().getUsers().getConnectedUser().getLogin(),
-				obj.getUserName(), obj.getTitre(), messageFrom);
+				obj.getUser().getLogin(), obj.getTitre(), messageFrom);
 	}
 
 }

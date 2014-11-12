@@ -265,7 +265,6 @@ public class Window extends JFrame implements MessageServiceListener{
 		if(msg.getTo().equals(Application.getInstance().getUsers().getConnectedUser().getLogin())) {
 			btnMsg.setText(Langues.getString("Window.btnMsg.text")+ " ("+Application.getInstance().getUsers().getConnectedUser().getMessages().getNumberNewMsgs()+")");
 			btnMsg.setBackground(Color.green);
-			
 		}
 	}
 	

@@ -19,6 +19,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		super();
 		if(user == null) return;
 		this.putValue("login", user.getLogin());
+		this.putValue("miniLogin", user.getLogin().toLowerCase());
 		this.putValue("nom", user.getNom());
 		this.putValue("prenom", user.getPrenom());
 		this.putValue("adresse", user.getAdresse());
@@ -38,6 +39,7 @@ public class UserAdvertisement extends AbstractAdvertisement<User> implements Se
 		this.addKey("password", false);
 		this.addKey("mail", false);
 		this.addKey("pid", false);
+		this.addKey("miniLogin", true);
 	}
 	
 	public static String getAdvertisementType() {

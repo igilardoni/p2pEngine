@@ -45,7 +45,7 @@ public class AccordView extends JFrame {
 		
 		JLabel lblUtilisateur = new JLabel("Utilisateur :");
 		
-		JLabel lblUser = new JLabel(o.getUserName());
+		JLabel lblUser = new JLabel(o.getUser().getLogin());
 		
 		JLabel lblMessage = new JLabel("Message:");
 		

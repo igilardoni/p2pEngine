@@ -15,6 +15,7 @@ public class AcceptAccord implements Validator{
 	public AcceptAccord(Accord a, String messageTo) {
 		this.a = a;
 		this.messageTo = messageTo;
+		System.out.println("messageTo = " + messageTo);
 		errorMessageTo = false;
 	}
 	

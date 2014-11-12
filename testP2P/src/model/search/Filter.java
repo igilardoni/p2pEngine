@@ -46,7 +46,7 @@ public class Filter extends BaseListenerTalker{
 		
 		if(!objets.contains(obj)) {
 			objets.add(obj);
-			RemoteRessource<User> rs = new RemoteRessource<User>(discovery, "login", 1000);
+			RemoteRessource<User> rs = new RemoteRessource<User>(discovery, "miniLogin", 1000);
 			obj.setUser(rs.getRemoteRessource(obj.getUserName()));
 			this.notifyListener(obj); //on notifie les potentiels écouteurs qu'on a accepté un nouveau objet.
 		}

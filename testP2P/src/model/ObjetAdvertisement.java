@@ -38,7 +38,7 @@ public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements 
 	@Override
 	protected void setKeys() {
 		this.addKey("titre", true);
-		this.addKey("titreReel", true);
+		this.addKey("titreReel", false);
 		this.addKey("resume", false);
 		this.addKey("desc", false);
 		this.addKey("img", false);

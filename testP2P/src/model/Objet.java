@@ -194,7 +194,7 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	}
 
 	public void setUserName(String login) {
-		this.userName = login;
+		this.userName = login.toLowerCase();
 	}
 	
 }

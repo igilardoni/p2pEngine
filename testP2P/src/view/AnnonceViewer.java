@@ -102,7 +102,7 @@ public class AnnonceViewer extends JFrame {
 		
 		lblUtilisateur = new JLabel(Langues.getString("AnnonceViewer.lblUtilisateur.text"));
 		
-		lblNomUtilisateur = new JLabel(o.getUserName());
+		lblNomUtilisateur = new JLabel(o.getUser().getLogin());
 		
 		pnlDescription = new JTextPane();
 		pnlDescription.setOpaque(false);
@@ -129,10 +129,10 @@ public class AnnonceViewer extends JFrame {
 		btnEnvoyerMessage = new JButton(Langues.getString("AnnonceViewer.btnEnvoyerMessage.text"));
 		btnEnvoyerMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controller.NewConvers validator = new controller.NewConvers(o.getUserName());
+				controller.NewConvers validator = new controller.NewConvers(o.getUser().getLogin());
 				if(validator.validate()) {
 					validator.process();
-					Application.getInstance().openConvers(o.getUserName());
+					Application.getInstance().openConvers(o.getUser().getLogin());
 				}
 				
 			}
