@@ -12,6 +12,8 @@ import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import model.Accord;
+import model.Objet;
+import model.User;
 import controller.GeneratePdfContrat;
 
 /**
@@ -46,7 +48,7 @@ public class AccordAcceptPanel extends JPanel {
 		btnContrat = new JButton(Langues.getString("AccordAcceptPanel.btnContrat.text"));
 		btnContrat.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-				GeneratePdfContrat validator = new GeneratePdfContrat(0);
+				GeneratePdfContrat validator = new GeneratePdfContrat(a, obj1, obj2, user1, user2);
 				if(validator.validate()) {
 					validator.process();
 					Application.getInstance().updateUI();
