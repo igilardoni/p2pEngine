@@ -27,13 +27,16 @@ import javax.swing.text.html.HTMLEditorKit;
 import model.User;
 import model.communications.MessageData;
 import model.communications.MessageServiceListener;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 /**
  * Fentere principale de l'outils de conversation 
  * @author
  *
  */
 @SuppressWarnings("serial")
-public class MessagesPanel extends JDialog implements MessageServiceListener{
+public class MessagesPanel extends JFrame implements MessageServiceListener{
 	private JTextField message;
 	private JTextPane texte;
 	private HTMLEditorKit kit;
@@ -58,16 +61,12 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 	private JButton btnEnvoyer;
     
 	public MessagesPanel(JFrame w) {
-		super(w);
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		setBounds(100, 100, 789, 394);
-		
-
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		super();
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 850, 394);
 		
 		pnlDiscussion = new JPanel();
-		getContentPane().add(pnlDiscussion, BorderLayout.CENTER);
-		pnlDiscussion.setLayout(new BorderLayout(0, 0));
+		pnlDiscussion.setLayout(new BorderLayout());
 		
 		pnlHaut = new JPanel();
 		pnlDiscussion.add(pnlHaut, BorderLayout.NORTH);
@@ -121,11 +120,8 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 		
 		pnlDroite = new JPanel();
 		pnlDroite.setPreferredSize(new Dimension(200, 10));
-		getContentPane().add(pnlDroite, BorderLayout.EAST);
-		pnlDroite.setLayout(new BorderLayout(0, 0));
 		
 		scrpnlContacts = new JScrollPane();
-		pnlDroite.add(scrpnlContacts);
 		
 		pnlContacts = new JPanel();
 		scrpnlContacts.setViewportView(pnlContacts);
@@ -148,6 +144,36 @@ public class MessagesPanel extends JDialog implements MessageServiceListener{
 			}
 		});
 		pnlAjouterContact.add(btnAjouter);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(pnlDiscussion, GroupLayout.PREFERRED_SIZE, 568, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(pnlDroite, GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(pnlDiscussion, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
+						.addComponent(pnlDroite, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		GroupLayout gl_pnlDroite = new GroupLayout(pnlDroite);
+		gl_pnlDroite.setHorizontalGroup(
+			gl_pnlDroite.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrpnlContacts, GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+		);
+		gl_pnlDroite.setVerticalGroup(
+			gl_pnlDroite.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pnlDroite.createSequentialGroup()
+					.addComponent(scrpnlContacts, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		pnlDroite.setLayout(gl_pnlDroite);
+		getContentPane().setLayout(groupLayout);
 	}
 	
 	public void setConvers(String userName) {

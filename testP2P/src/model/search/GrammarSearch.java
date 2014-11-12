@@ -191,7 +191,6 @@ public class GrammarSearch implements ListenerTalker {
 		else if(in.username) {
 			Filter f = new Filter(discovery);
 			f.setUserFilter(in.query);
-			System.out.println("username = " + in.query);
 			
 			if(lastFilter == null) {
 				RemoteSearch<Objet> rs = new RemoteSearch<Objet>(discovery, "user");

@@ -79,7 +79,6 @@ public class SearchController implements Validator, SearchListener{
 		}
 		
 		recherche = builder.toString();
-		System.out.println(recherche);
 
 	}
 

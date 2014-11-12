@@ -15,10 +15,8 @@ public class Intersection extends BaseListenerTalker{
 	}
 	
 	
-	@Override
 	public void searchEvent(Advertisable adv) {
 		Objet obj = (Objet) adv;
-		System.out.println("Objet trouvé " + obj.getTitre());
 		if(t1.getObjets().contains(obj) && t2.getObjets().contains(obj) && !objets.contains(obj)) {
 			objets.add(obj);
 			notifyListener(obj);

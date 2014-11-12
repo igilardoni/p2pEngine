@@ -14,7 +14,7 @@ public class AccordsTest
 	public void testAcceptAccord()
 	{
 		Accords listeAcc = new Accords();
-		Accord acc = new Accord("bibi", "bobo", "baba", "patate");
+		Accord acc = new Accord("bibi", "bobo", "baba", "patate", null);
 		listeAcc.acceptAccord(acc);
 		assertTrue(acc.isAccepted());
 	}
@@ -24,7 +24,7 @@ public class AccordsTest
 	{
 
 		Accords listeAcc = new Accords();
-		Accord acc = new Accord("bibi", "bobo", "baba", "patate");
+		Accord acc = new Accord("bibi", "bobo", "baba", "patate", null);
 		listeAcc.rateAccord(acc);
 		assertTrue(acc.isRated());
 	}
@@ -33,8 +33,8 @@ public class AccordsTest
 	public void testGetAccord()
 	{
 		Accords listeAcc = new Accords();
-		Accord acc = new Accord("bibi", "bobo", "baba", "patate");
-		Accord acc1 = new Accord("lili", "lolo", "lala", "patate");
+		Accord acc = new Accord("bibi", "bobo", "baba", "patate", null);
+		Accord acc1 = new Accord("lili", "lolo", "lala", "patate", null);
 		listeAcc.addAccord(acc1);
 		listeAcc.addAccord(acc);
 		assertEquals(acc1, listeAcc.getAccord("lili", "lolo", "patate"));
@@ -44,8 +44,8 @@ public class AccordsTest
 	public void testDeclineAccord()
 	{
 		Accords listeAcc = new Accords();
-		Accord acc = new Accord("bibi", "bobo", "baba", "patate");
-		Accord acc1 = new Accord("lili", "lolo", "lala", "patate");
+		Accord acc = new Accord("bibi", "bobo", "baba", "patate", null);
+		Accord acc1 = new Accord("lili", "lolo", "lala", "patate", null);
 		listeAcc.addAccord(acc1);
 		listeAcc.addAccord(acc);
 		listeAcc.declineAccord("bibi", "bobo", "patate");
@@ -56,7 +56,7 @@ public class AccordsTest
 	public void testAddAccord()
 	{
 		Accords listeAcc = new Accords();
-		Accord acc = new Accord("bibi", "bobo", "baba", "patate");
+		Accord acc = new Accord("bibi", "bobo", "baba", "patate", null);
 
 		listeAcc.addAccord(acc);
 		assertEquals(acc, listeAcc.getAccord("bibi", "bobo", "patate"));
