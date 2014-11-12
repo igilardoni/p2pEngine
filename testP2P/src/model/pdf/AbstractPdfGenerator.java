@@ -63,14 +63,14 @@ public abstract class AbstractPdfGenerator {
 		
 		document = new Document();
 		
-		try {copy = new PdfCopy(document, new FileOutputStream("modeles/"+fileOut+".pdf"));}
+		try {copy = new PdfCopy(document, new FileOutputStream("pdf/"+fileOut+".pdf"));}
 		catch (FileNotFoundException e) {e.printStackTrace();} 
 		catch (DocumentException e) {e.printStackTrace();}
 		copy.setMergeFields();
 		document.open();
 		
 		for(String modele : modeles){
-			try {copy.addDocument(new PdfReader("modeles/"+modele+".pdf"));} 
+			try {copy.addDocument(new PdfReader("pdf/"+modele+".pdf"));} 
 			catch (DocumentException e) {e.printStackTrace();} 
 			catch (IOException e) {e.printStackTrace();}
 		}
@@ -85,7 +85,6 @@ public abstract class AbstractPdfGenerator {
 	}
 	
 	protected void openFileOut(String fileOut){
-		
 		try {fileOutputStream = new FileOutputStream("pdf/"+fileOut+".pdf");} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -25,7 +25,7 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		this.obj1 = modelObjet1;
 		this.obj2 = modelObjet2;
 		this.user1 = modelUser1;
-		this.user1 = modelUser2;
+		this.user2 = modelUser2;
 		
 		genererContrat();
 		fileOut += "Contrat "+ modelObjet1.getTexteMap().get("titreObjet")+"_"+modelObjet2.getTexteMap().get("titreObjet");
@@ -37,7 +37,7 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 	public ContratPdfGenerator(ObjetPdfModel modelObj1, UserPdfModel modelUser1, UserPdfModel modelUser2) {
 		this.obj1 = modelObj1;
 		this.user1 = modelUser1;
-		this.user1 = modelUser2;
+		this.user2 = modelUser2;
 		
 		genererContrat();
 		fileOut += "Contrat "+ modelObj1.getTexteMap().get("titreObjet");
@@ -60,8 +60,8 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		this.texte.putAll(user.getTexteMap());
 		this.image.putAll(user.getImageMap());
 		this.bool.putAll(user.getBoolMap());
-		createPdf(user.getTexteMap().get("modele"), user.getTexteMap().get("nomUser"));
-		modeles.add(user.getTexteMap().get("modele"));
+		createPdf(user.getTexteMap().get("nomUser"), user.getTexteMap().get("modele"));
+		modeles.add(user.getTexteMap().get("nomUser"));
 		viderMap();
 	}
 
@@ -69,8 +69,8 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		this.texte.putAll(obj.getTexteMap());
 		this.image.putAll(obj.getImageMap());
 		this.bool.putAll(obj.getBoolMap());
-		createPdf(obj.getTexteMap().get("modele"), obj.getTexteMap().get("titreObjet"));
-		modeles.add(obj.getTexteMap().get("modele"));
+		createPdf(obj.getTexteMap().get("titreObjet"), obj.getTexteMap().get("modele"));
+		modeles.add(obj.getTexteMap().get("titreObjet"));
 		viderMap();
 	}
 	
@@ -79,7 +79,10 @@ public class ContratPdfGenerator extends AbstractPdfGenerator{
 		File myFile;
 		
 		for(String file : liste){
-			myFile= new File("modeles/"+file+".pdf"); 
+			myFile= new File("pdf/"+file+".pdf"); 
+			myFile.setWritable(true);
+			myFile.canWrite();
+			myFile.canExecute();
 			myFile.delete(); 
 		}
 	}

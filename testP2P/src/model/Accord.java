@@ -78,8 +78,8 @@ public class Accord implements Serializable{
 		if(obj2 !=  null){
 			modelObj2 = createModelObjet(obj2);
 			new ContratPdfGenerator(modelObj1, modelObj2, modelUser1, modelUser2);
-		}
-		new ContratPdfGenerator(modelObj1, modelUser1, modelUser2);
+		}else
+			new ContratPdfGenerator(modelObj1, modelUser1, modelUser2);
 		
 	}
 	
