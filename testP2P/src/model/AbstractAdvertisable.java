@@ -6,6 +6,12 @@ import java.io.Serializable;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
+
+/**
+ * Toute classe devant être partagée sur le réseau devrait etendre celle-ci.
+ * @author Prudhomme Julien
+ *
+ */
 public abstract class AbstractAdvertisable implements Advertisable, Serializable{
 
 	private static final long serialVersionUID = -7885382990544813281L;

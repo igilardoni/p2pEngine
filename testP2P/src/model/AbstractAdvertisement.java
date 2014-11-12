@@ -13,6 +13,13 @@ import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.document.TextElement;
 
+/**
+ * Représente un Advertisement. Les advertisement sont utiles pour envoyer ou recevoir des données sur le réseau.
+ * @author Prudhomme Julien
+ *
+ * @param <T> un objet Advertisable
+ */
+
 public abstract class AbstractAdvertisement<T extends Advertisable> extends Advertisement implements Serializable{
 
 	private static final long serialVersionUID = 6800858564387966533L;
@@ -22,19 +29,37 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
 	public final static Logger LOG = Logger.getLogger(Package.class.getName());
 	
 	
+	/**
+	 * Creer l'advertisement
+	 */
 	public AbstractAdvertisement() {
 		super();
 		setKeys();
 	}
 	
+	/**
+	 * Permet de definir les clés avec addKey()
+	 */
+	
 	protected abstract void setKeys();
 	
+	
+	/**
+	 * Retourne la valeur d'une clé si elle est définie.
+	 * @param key
+	 * @return
+	 */
 	public String getValue(String key) {
 		if(this.keyval.containsKey(key)) {
 			return this.keyval.get(key);
 		}
 		else throw new IllegalArgumentException("Key " + key + " inconnue");
 	}
+	
+	/**
+	 * Créer un advertisement à partir d'un document (xml)
+	 * @param root La racine d'un document, xml par exemple.
+	 */
 	
 	public AbstractAdvertisement(Element root) {
 		this();
@@ -65,6 +90,12 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
         }
 	}
 	
+	
+	/**
+	 * Vérifie si l'élement trouvé correspond à une clé, si oui enregistre sa valeur dans la clé correspondante
+	 * @param elem
+	 * @return
+	 */
 	protected boolean handleElement(TextElement elem) {
 		if(keyval.containsKey(elem.getName())) {
 			keyval.put(elem.getName(), elem.getValue());
