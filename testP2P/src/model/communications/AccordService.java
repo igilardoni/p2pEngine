@@ -53,6 +53,7 @@ public class AccordService extends Service {
 			String messageTo = new String(messageToBytes);
 			Accords accords = users.getUser(to).getAccords();
 			Accord accord = accords.getAccord(to, from, annonce);
+			if(accord == null) System.out.println("c'est ca !");
 			accord.setMessageTo(messageTo);
 			accords.acceptAccord(accord);
 			return new MessageData(from, to, ACCEPT, System.currentTimeMillis());
