@@ -3,11 +3,11 @@ package controller;
 import view.Application;
 import model.UsersManagement;
 
+
 /**
- * Se connecter en tant qu'utilisateur
- * @author
- * @param login 
- * @param password
+ * Controller pour les connexions utilisateur
+ * @author Prudhomme Julien
+ *
  */
 public class Connexion implements Validator{
 
@@ -18,6 +18,12 @@ public class Connexion implements Validator{
 	public boolean errorLogin;
 	public boolean errorPassword;
 	
+	
+	/**
+	 * Se connecter en tant qu'utilisateur
+	 * @param login 
+	 * @param password
+	 */
 	public Connexion(String login, String password) {
 		this.login = login;
 		this.password = password;

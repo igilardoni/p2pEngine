@@ -40,6 +40,10 @@ public class Application {
 	private AccordService accords;
 	
 	
+	
+	/**
+	 * Lance l'application. A instancier une fois. Instance obtenable avec getInstance()
+	 */
 	public Application() {
 		instance = this;
 		loadUsers();
@@ -60,25 +64,51 @@ public class Application {
 		users.publishUsers(peer.getDiscovery());
 	}
 	
+	
+	/**
+	 * 
+	 * @return Peer
+	 */
 	public Peer getPeer() {
 		return peer;
 	}
+	
+	/**
+	 * 
+	 * @return FriendRequestService
+	 */
 	
 	public FriendRequestService getFriendRequestService() {
 		return friendRequest;
 	}
 	
+	
+	/**
+	 * 
+	 * @return AccordService
+	 */
 	public AccordService getAccordService() {
 		return accords;
 	}
 	
+	
+	/**
+	 * 
+	 * @return ChatService
+	 */
 	public ChatService getChatService() {
 		return chatService;
 	}
 	
+	/**
+	 * 
+	 * @return Chatter
+	 */
+	
 	public Chatter getChatter() {
 		return chatter;
 	}
+	
 	
 	private void startNetwork() {
 		Logger.getLogger("net.jxta").setLevel(Level.OFF);
@@ -95,6 +125,11 @@ public class Application {
 		}
 	}
 	
+	
+	/**
+	 * Lance le programme
+	 * @param args Unused
+	 */
 	public static void main(String[] args) {
 		Application app = new Application();
 		Application.setInstance(app);
@@ -102,7 +137,7 @@ public class Application {
 	}
 	
 	/**
-	 * Lance le programme, cree une nouvelle fenetre principale window
+	 * Lance la partie graphique, cree une nouvelle fenetre principale window
 	 */
 	private void lauch() {
 		window = new Window();
@@ -110,14 +145,28 @@ public class Application {
 		window.addWindowListener(this.getWindowListener());
 	}
 
+	
+	/**
+	 * Retourne la seule et unique instance de Application.
+	 * @return Application
+	 */
 	public static Application getInstance() {
 		return instance;
 	}
 	
+	
+	/**
+	 * Permet de définir l'instance de la classe
+	 * @param app Application
+	 */
 	public static void setInstance(Application app) {
 		instance = app;
 	}
 	
+	/**
+	 * 
+	 * @return UsersManagement
+	 */
 	public UsersManagement getUsers() {
 		return this.users;
 	}
@@ -179,6 +228,10 @@ public class Application {
 		}
 	}
 	
+	/**
+	 * Sert à savoir quand on quitter le programme en fermant la fenetre ..
+	 * @return
+	 */
 	private WindowListener getWindowListener() {
 		return new WindowListener() {
 
@@ -261,7 +314,8 @@ public class Application {
 	}
 	
 	/**
-	 * Ouvre une nouvelle conversation
+	 * Ouvre la messagerie depuis n'importe ou, focalisé sur l'user
+	 * @param user L'utilisateur a contacter
 	 */
 	public void openConvers(String user) {
 		window.getMessagePanel().setVisible(true);
