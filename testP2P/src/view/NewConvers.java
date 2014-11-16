@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 
 /**
  * Permet de rechercher un utilisateur afin d'ouvrir une nouvelle discussion
- * @author
+ * @author Prudhomme Julien
  *
  */
 

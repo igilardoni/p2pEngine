@@ -1,16 +1,26 @@
-package model;
+package model.advertisements;
 
 import java.io.Serializable;
 
 import view.Application;
+import model.User;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.Element;
 import net.jxta.id.ID;
 
+/**
+ * L'advertisement pour les User
+ * @author Prudhomme Julien
+ *
+ */
 public class UserAdvertisement extends AbstractAdvertisement<User> implements Serializable{
 	
 	private static final long serialVersionUID = -2830006496117978252L;
 
+	/**
+	 * Sera appelé par jxta si le type de l'advertisment recu est UsersAdvertisement !
+	 * @param root
+	 */
 	public UserAdvertisement(Element root) {
 		super(root);
 	}

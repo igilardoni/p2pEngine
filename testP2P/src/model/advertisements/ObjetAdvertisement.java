@@ -1,23 +1,33 @@
-package model;
+package model.advertisements;
 
 import java.io.Serializable;
 
+import model.Objet;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.id.ID;
 
+/**
+ * L'advertisement de Objet
+ * @author Prudhomme Julien
+ *
+ */
 public class ObjetAdvertisement extends AbstractAdvertisement<Objet> implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4192804726504222705L;
 
+	/**
+	 * Sera appelé par jxta si le type de l'advertisment recu est ObjetAdvertisement !
+	 * @param root
+	 */
 	public ObjetAdvertisement(Element root) {
 		super(root);
 	}
 	
+	/**
+	 * Creer l'advertisement à partir d'un objet
+	 * @param obj
+	 */
 	public ObjetAdvertisement(Objet obj) {
 		super();
 		if(obj == null) return;

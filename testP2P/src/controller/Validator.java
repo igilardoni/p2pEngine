@@ -16,7 +16,7 @@ public interface Validator {
 	
 	/**
 	 * Se sert des donnees valides pour faire la requete
-	 * @return vrai si la requete a reussi ou faux (erreur reseau, etc)
+	 * @return vrai si la requete a reussi ou faux (erreur reseau, donnÃ©es indisponibles ...)
 	 */
 	public boolean process();
 }

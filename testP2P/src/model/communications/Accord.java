@@ -1,7 +1,9 @@
-package model;
+package model.communications;
 
 import java.io.Serializable;
 
+import model.Objet;
+import model.User;
 import model.pdf.ContratPdfGenerator;
 import model.pdf.ObjetPdfModel;
 import model.pdf.UserPdfModel;

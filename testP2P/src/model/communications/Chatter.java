@@ -8,9 +8,9 @@ import java.util.HashSet;
 import java.util.Random;
 
 import model.Peer;
-import model.RemoteRessource;
 import model.User;
 import model.UsersManagement;
+import model.search.RemoteRessource;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.endpoint.Message;
 import net.jxta.endpoint.MessageElement;
@@ -21,6 +21,11 @@ import net.jxta.pipe.PipeMsgEvent;
 import net.jxta.pipe.PipeMsgListener;
 import net.jxta.protocol.PipeAdvertisement;
 
+/**
+ * Gère l'envoit et la reception de message. Les transmet aux services correspondants.
+ * @author Prudhomme Julien
+ *
+ */
 public class Chatter implements PipeMsgListener{
 
 	public static final String toServiceTag = "ToService";
@@ -31,6 +36,10 @@ public class Chatter implements PipeMsgListener{
 	private HashMap<String, OutputPipe> usersPeerID = new HashMap<String, OutputPipe>();
 	private String pipeName;
 	
+	/**
+	 * Creer le chatter. Tout les messages sont recu et envoyer a partir d'ici.
+	 * @param peer l'instance de Peer
+	 */
 	public Chatter(Peer peer) {
 		this.peer = peer;
 		
@@ -39,6 +48,9 @@ public class Chatter implements PipeMsgListener{
 		initPipeAdv();
 	}
 	
+	/**
+	 * Génère l'advertisement qui décrit le pipe qui sert a communiquer
+	 */
 	private void initPipeAdv() {
 		pipeAdv = Peer.get_PipeAdvertisement(IDFactory.newPipeID(peer.getPeerGroupID(), SERVICE_NAME.getBytes()), false);
 		
@@ -53,8 +65,7 @@ public class Chatter implements PipeMsgListener{
 	}
 	
 	/**
-	 * On reçoit un msg: on regarde le l'envoyeur et le destinataire (utilisateur de ce client visé)
-	 * et on archive le message
+	 * On reçoit un msg: on le transmet au service associé.
 	 */
 	@Override
 	public void pipeMsgEvent(PipeMsgEvent event) {
@@ -74,10 +85,21 @@ public class Chatter implements PipeMsgListener{
 		}
 	}
 	
+	/**
+	 * On ajoute un service de reception.
+	 * @param service
+	 */
 	public void addService(MessageService service) {
 		services.put(service.getServiceName(), service);
 	}
 	
+	/**
+	 * Envoit un message. Il est plus efficace de se servir d'une méthode contenu dans les services pour envoyer
+	 * les messages leurs correspondants.
+	 * @param userName
+	 * @param msg
+	 * @return
+	 */
 	public boolean sendToUser(String userName, Message msg) {
 		OutputPipe sender = null;
 		if(this.usersPeerID.containsKey(userName)) { //on recupere le pipe de communication si il existe
@@ -92,7 +114,6 @@ public class Chatter implements PipeMsgListener{
 				try {
 					to.add((PeerID)IDFactory.fromURI(new URI(u.getPeerID())));
 					sender = peer.getPipeService().createOutputPipe(pipeAdv, to, 10000);
-					System.out.println("creation du pipe ...");
 					this.usersPeerID.put(userName, sender);
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block

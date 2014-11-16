@@ -31,7 +31,7 @@ import net.atlanticbb.tantlinger.shef.HTMLEditorPane;
 
 /**
  * Fenetre de creation/modification d'une annonce
- * @author 
+ * @author Prudhomme Julien
  * 
  */
 

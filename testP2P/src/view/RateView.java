@@ -8,8 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
-import model.Accord;
+import model.communications.Accord;
 
+/**
+ * Fenetre pour noter une transaction
+ * @author Prudhomme Julien
+ *
+ */
 public class RateView extends JFrame {
 
 	private JPanel contentPane;

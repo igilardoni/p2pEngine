@@ -5,6 +5,11 @@ import model.UsersManagement;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.endpoint.Message;
 
+/**
+ * Service de requete d'amis
+ * @author Prudhomme Julien
+ *
+ */
 public class FriendRequestService extends Service{
 
 	private static String REQUEST = "Request";

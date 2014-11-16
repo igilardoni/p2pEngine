@@ -1,13 +1,18 @@
 package model.search;
 
-import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
+import model.advertisements.Advertisable;
 
 public class UserIntersection extends Intersection{
 
 	private ObjetsManagement temp = new ObjetsManagement();
 	
+	/**
+	 * Garde les objets de t1 uniquement si l'utilisateur est présent dans t2
+	 * @param t1 Un filtre, une unions, etc
+	 * @param t2 Un filtre, une unions, etc, dont on retient surtout l'utilisateur
+	 */
 	public UserIntersection(BaseListenerTalker t1, BaseListenerTalker t2) {
 		super(t1, t2);
 		// TODO Auto-generated constructor stub

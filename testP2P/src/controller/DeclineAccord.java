@@ -1,7 +1,7 @@
 package controller;
 
 import view.Application;
-import model.Accord;
+import model.communications.Accord;
 import model.communications.AccordService;
 
 /**

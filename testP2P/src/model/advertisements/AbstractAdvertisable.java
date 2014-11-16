@@ -1,4 +1,4 @@
-package model;
+package model.advertisements;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -8,7 +8,7 @@ import net.jxta.document.Advertisement;
 
 
 /**
- * Toute classe devant être partagée sur le réseau devrait etendre celle-ci.
+ * Toute classe devant etre partagee sur le reseau devrait etendre celle-ci.
  * @author Prudhomme Julien
  *
  */

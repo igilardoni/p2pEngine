@@ -1,14 +1,24 @@
 package controller;
 
 import view.Application;
-import model.Accord;
+import model.communications.Accord;
 import model.communications.AccordService;
 
+/**
+ * Controller pour noter une transatction
+ * @author Prudhomme Julien
+ *
+ */
 public class Rate implements Validator{
 
 	private Accord a;
 	private int rating;
 	
+	/**
+	 * Note un accord, s'il n'as pas deja été noté
+	 * @param a
+	 * @param rating
+	 */
 	public Rate(Accord a, int rating) {
 		this.a = a;
 		this.rating = rating;
@@ -16,7 +26,7 @@ public class Rate implements Validator{
 	
 	@Override
 	public boolean validate() {
-		return true;
+		return a.isRated();
 	}
 
 	@Override

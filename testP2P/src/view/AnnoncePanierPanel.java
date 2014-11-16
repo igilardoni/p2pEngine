@@ -24,7 +24,7 @@ import model.Objet;
 
 /**
  * Panel d'une annonce dans le panier de l'utilisateur
- * @author 
+ * @author Prudhomme Julien
  *
  */
 

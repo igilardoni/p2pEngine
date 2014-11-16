@@ -20,7 +20,7 @@ import model.ObjetsManagement;
 
 /**
  * Affiche le panier de l'utilisateur courrant
- * @author
+ * @author Prudhomme Julien
  *
  */
 

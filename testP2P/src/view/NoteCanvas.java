@@ -9,8 +9,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Affiche la note de l'utilisateur
- * @author
+ * Affiche la note de l'utilisateur, ou permet de noter un utilisateur
+ * @author Prudhomme Julien
  *
  */
 
@@ -28,6 +28,10 @@ public class NoteCanvas extends Canvas implements MouseMotionListener, MouseList
 		this.note = note;
 	}
 	
+	/**
+	 * Permet de dire a un listerner que l'on a noter 
+	 * @param l
+	 */
 	public void setNoteListener(NoteListener l) {
 		listener = l;
 	}

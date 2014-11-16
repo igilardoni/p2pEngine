@@ -1,9 +1,9 @@
 package controller;
 
 import view.Application;
-import model.RemoteRessource;
 import model.User;
 import model.communications.FriendRequestService;
+import model.search.RemoteRessource;
 
 /**
  * Controlleur pour l'ajout d'ami

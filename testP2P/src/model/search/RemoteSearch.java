@@ -1,9 +1,10 @@
-package model;
+package model.search;
 
 import java.util.*;
 
 import view.Application;
-
+import model.advertisements.AbstractAdvertisement;
+import model.advertisements.Advertisable;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;

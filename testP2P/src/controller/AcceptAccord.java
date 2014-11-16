@@ -1,9 +1,9 @@
 package controller;
 
 import view.Application;
-import model.Accord;
-import model.Accords;
+import model.communications.Accord;
 import model.communications.AccordService;
+import model.communications.Accords;
 
 /**
  * Controlleur pour accepter un accord

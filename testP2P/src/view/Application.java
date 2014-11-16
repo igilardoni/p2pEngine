@@ -13,9 +13,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import model.AdvertisementInstaciator;
 import model.Peer;
 import model.UsersManagement;
+import model.advertisements.AdvertisementInstaciator;
 import model.communications.AccordService;
 import model.communications.ChatService;
 import model.communications.Chatter;
@@ -24,6 +24,7 @@ import net.jxta.exception.PeerGroupException;
 
 /**
  * Class "main" du programme
+ * Donne accès à l'instance unique, qui permet d'acceder aux éléments cles du programme
  * @author Prudhomme Julien
  *
  */

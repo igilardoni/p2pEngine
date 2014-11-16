@@ -1,4 +1,4 @@
-package model;
+package model.advertisements;
 
 import net.jxta.document.Attributable;
 import net.jxta.document.Document;
@@ -11,11 +11,11 @@ public class DocumentGenerator {
 	
 	
 	/**
-	 * Génénère un document structuré (par exemple XML) 
-	 * @param asMimeType 
-	 * @param advType
+	 * Génère un document structuré (par exemple XML) à partir d'une liste de clé/valeur
+	 * @param asMimeType le type de sortie voulu (typiquement XML)
+	 * @param advType le type de l'advertisement
 	 * @param args key, value, key, value, ..., key, value
-	 * @return
+	 * @return Un Document conforme pour JXTA :)
 	 */
 	
 	public static Document getGeneratedDocument(MimeMediaType asMimeType, String advType, String ...args) {
@@ -38,15 +38,4 @@ public class DocumentGenerator {
 		
 		return adv;
 	}
-	
-	public static void main(String[] args) {
-		Document doc = getGeneratedDocument(MimeMediaType.XMLUTF8, "jxta:advexemple", 
-				"titre", "Les bonnes patates", 
-				"resume", "des patates fraiche", 
-				"desc", "des patates francaise, peut servir a faire des frites");
-		
-		System.out.println(doc);
-	}
-	
-	
 }

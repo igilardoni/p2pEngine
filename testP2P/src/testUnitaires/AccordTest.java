@@ -1,7 +1,7 @@
 package testUnitaires;
 
 import static org.junit.Assert.*;
-import model.Accord;
+import model.communications.Accord;
 
 import org.junit.Test;
 

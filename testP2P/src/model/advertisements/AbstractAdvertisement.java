@@ -1,4 +1,4 @@
-package model;
+package model.advertisements;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import net.jxta.document.MimeMediaType;
 import net.jxta.document.TextElement;
 
 /**
- * Représente un Advertisement. Les advertisement sont utiles pour envoyer ou recevoir des données sur le réseau.
+ * Represente un Advertisement. Les advertisement sont utiles pour envoyer ou recevoir des donnees sur le reseau.
  * @author Prudhomme Julien
  *
  * @param <T> un objet Advertisable
@@ -38,14 +38,14 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
 	}
 	
 	/**
-	 * Permet de definir les clés avec addKey()
+	 * Permet de definir les cles avec addKey()
 	 */
 	
 	protected abstract void setKeys();
 	
 	
 	/**
-	 * Retourne la valeur d'une clé si elle est définie.
+	 * Retourne la valeur d'une cle si elle est definie.
 	 * @param key
 	 * @return
 	 */
@@ -57,7 +57,7 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
 	}
 	
 	/**
-	 * Créer un advertisement à partir d'un document (xml)
+	 * Creer un advertisement a partir d'un document (xml)
 	 * @param root La racine d'un document, xml par exemple.
 	 */
 	
@@ -92,7 +92,7 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
 	
 	
 	/**
-	 * Vérifie si l'élement trouvé correspond à une clé, si oui enregistre sa valeur dans la clé correspondante
+	 * Verifie si l'element trouve correspond a une cle, si oui enregistre sa valeur dans la cle correspondante
 	 * @param elem
 	 * @return
 	 */
@@ -137,5 +137,9 @@ public abstract class AbstractAdvertisement<T extends Advertisable> extends Adve
 		else throw new IllegalArgumentException("Key " + key + " inconnue");
 	}
 	
+	/**
+	 * Converti un advertisement en son objet T correspondant
+	 * @return
+	 */
 	public abstract T toClass();
 }

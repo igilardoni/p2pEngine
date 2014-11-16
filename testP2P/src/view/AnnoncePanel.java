@@ -25,7 +25,7 @@ import controller.GeneratePdfObjet;
 
 /**
  * Panel d'une annonce
- * @author 
+ * @author Prudhomme Julien
  * 
  */
 

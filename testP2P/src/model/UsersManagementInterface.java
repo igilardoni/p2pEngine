@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Interface pour la gestion des objets
+ * @author Prudhomme Julien
+ *
+ */
 public interface UsersManagementInterface {
 
 	/**

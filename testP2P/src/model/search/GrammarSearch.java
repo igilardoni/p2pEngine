@@ -1,33 +1,41 @@
 package model.search;
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import model.Advertisable;
 import model.Objet;
-import model.RemoteSearch;
-import model.SearchListener;
+import model.advertisements.Advertisable;
 import net.jxta.discovery.DiscoveryService;
 
-import com.itextpdf.text.log.SysoCounter;
-
+/**
+ * Classe pour la recherche suivant une synthaxe précise
+ * Plusieurs recherches se lancerons, les résultats sont récupérer au fur et a mesure et transmis aux listeners.
+ * @author Prudhomme Julien
+ *
+ */
 public class GrammarSearch implements ListenerTalker {
 	
+	/**
+	 * Classe qui garde une trace d'une requete (un seul mot clé avec ses tags)
+	 * @author Prudhomme Julien
+	 *
+	 */
 	class Input {
 		boolean offre = false, demande = false, username = false, userFilter = false;
 		boolean titre = false;
 		String query;
 	}
 	
+	/**
+	 * Sert a définir les recherches afin de les lancés une fois que toute la requete aura été parsé
+	 * @author Prudhomme Julien
+	 *
+	 */
 	class Search {
-		RemoteSearch<Objet> rs;
-		String query;
+		RemoteSearch<Objet> rs; //L'objet qui nous sert a rechercher
+		String query; //La requete
 		
 		Search(RemoteSearch<Objet> rs, String query) {
 			this.rs = rs;
@@ -35,11 +43,20 @@ public class GrammarSearch implements ListenerTalker {
 		}
 	}
 	
+	/**
+	 * Sert a savoir si on utilise l'union ou l'intersection entre chaque mot clé
+	 * Par défaut OP = AND
+	 * @author Prudhomme Julien
+	 *
+	 */
 	enum OP {
 		OR,
 		AND
 	}
 	
+	/*
+	 * On garde les tags en static
+	 */
 	public static String propositionTag = "offer";
 	public static String souhaitTag = "wish";
 	public static String userTag = "user";
@@ -54,23 +71,43 @@ public class GrammarSearch implements ListenerTalker {
 	private OP currentOP = OP.AND;
 	private ArrayList<SearchListener> listeners = new ArrayList<SearchListener>();
 	
+	/*
+	 * C'est la regex qui reconnait un mot
+	 * Un mot est une suite de caractère sans espaces, ou une suite de caractère entre guillemet :
+	 * Mots simple : a, b, ab
+	 * Mots entre guillement : "a", "ab", "a b", "ab ba"s
+	 */
 	private String regexMot = "([^ \"]+)|(\".+\")";
 	
+	/**
+	 * Initialise la recherche
+	 * @param discovery
+	 */
 	public GrammarSearch(DiscoveryService discovery) {
 		setTags();
 		this.discovery = discovery;
 	}
 	
+	/**
+	 * Met tout les tags a false
+	 */
 	private void initTags() {
 		for(String s: tags.keySet()) {
 			tags.put(s, false);
 		}
 	}
 	
+	/**
+	 * Permet d'ajouter un tag au reconnaisseur
+	 * @param tag
+	 */
 	public void addTag(String tag) {
 		tags.put(tag, false);
 	}
 	
+	/**
+	 * Définitions des tags par défaut
+	 */
 	protected void setTags() {
 		addTag(userTag);
 		addTag(titleTag);
@@ -82,6 +119,12 @@ public class GrammarSearch implements ListenerTalker {
 		this.regexMot = regex;
 	}
 	
+	/**
+	 * Permet de construire la regex qui reconnait un tag
+	 * à partir des tags définis
+	 * "(tag1|tag2|tag3):"
+	 * @return la regex qui reconnait un tag défini
+	 */
 	private String getTagsRegex() {
 		String res = "";
 		int i = 0;
@@ -94,15 +137,29 @@ public class GrammarSearch implements ListenerTalker {
 		return res;
 	}
 	
+	/**
+	 * Active un tag: le mot en cours d'analyse contient le tag "tag"
+	 * @param tag
+	 */
 	private void activeTag(String tag) {
 		String realTag = tag.subSequence(0, tag.length()-1).toString();
 		tags.put(realTag, true);
 	}
 	
+	/**
+	 * Permet de savoir si un tag est activé
+	 * @param s
+	 * @return true si le tag s est activé
+	 */
 	private boolean tagSelected(String s) {
 		return tags.get(s);
 	}
 	
+	/**
+	 * Analyse une partie de la chaine
+	 * Une chaine peut contenir une sous chaine, l'analyse est récursive
+	 * @param s la (sous)chaine
+	 */
 	protected void handle(String s) {
 		Matcher m = Pattern.compile(getTagsRegex()).matcher(s);
 		if(m.find()) {
@@ -131,6 +188,10 @@ public class GrammarSearch implements ListenerTalker {
 		}
 	}
 	
+	/**
+	 * Ajoute et connecte un filtre (suivant l'état de currentOP)
+	 * @param f
+	 */
 	private void addFilter(BaseListenerTalker f) {
 		if(lastFilter == null) lastFilter = f;
 		else {
@@ -145,6 +206,10 @@ public class GrammarSearch implements ListenerTalker {
 		}
 	}
 	
+	/**
+	 * Lance la recherche. Les résultats sont transmis aux listeners
+	 * @param query
+	 */
 	public void search(String query) {
 		
 		String requete = "((" + getTagsRegex() + ")*" + regexMot + ")+";
@@ -159,15 +224,8 @@ public class GrammarSearch implements ListenerTalker {
 			}
 		}
 		
-		/*for(Input in: inputs) {
-			getFilters(in);
-		} */
-		
 		lastFilter.addListener(this);
 		lauchSearchs();
-		
-		
-		
 	}
 	
 
@@ -219,13 +277,6 @@ public class GrammarSearch implements ListenerTalker {
 		for(Search s: searchs) {
 			s.rs.search(s.query);
 		}
-	}
-	
-	public static void main(String[] args) {
-		GrammarSearch gs = new GrammarSearch(null);
-		gs.search("besoin:title:patate user:demande:title:carotte OR patate");
-		
-		
 	}
 
 	@Override

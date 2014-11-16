@@ -32,7 +32,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 /**
  * Fentere principale de l'outils de conversation 
- * @author
+ * @author Prudhomme Julien
  *
  */
 @SuppressWarnings("serial")

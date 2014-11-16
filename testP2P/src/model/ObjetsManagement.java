@@ -6,11 +6,14 @@ import java.util.Collections;
 
 import net.jxta.discovery.DiscoveryService;
 
+/**
+ * 
+ * @author Sarah Bourkis
+ * @author Mariana ANDUJAR
+ *
+ */
 public class ObjetsManagement implements ObjetsManagementInterface, Serializable  {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8340926028918727791L;
 	ArrayList <Objet> objets = new ArrayList<Objet>();
 	

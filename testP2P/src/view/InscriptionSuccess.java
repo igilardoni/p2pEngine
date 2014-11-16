@@ -19,7 +19,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  * Apparait en cas de succes lors d'une nouvelle inscription
- * @author
+ * @author Prudhomme Julien
  *
  */
 @SuppressWarnings("serial")

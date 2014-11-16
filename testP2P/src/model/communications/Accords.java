@@ -1,4 +1,4 @@
-package model;
+package model.communications;
 
 import java.io.Serializable;
 import java.util.ArrayList;

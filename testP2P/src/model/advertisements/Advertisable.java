@@ -1,4 +1,4 @@
-package model;
+package model.advertisements;
 
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
@@ -29,5 +29,9 @@ public interface Advertisable {
 	 */
 	public void flush(DiscoveryService discovery);
 	
+	/**
+	 * Met a jour un advertisement (suppression et re publication)
+	 * @param discovery
+	 */
 	public void update(DiscoveryService discovery);
 }

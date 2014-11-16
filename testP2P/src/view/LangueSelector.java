@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * Permet de choisir la langue du programme
- * @author 
+ * @author Prudhomme Julien
  *
  */
 @SuppressWarnings({"serial", "rawtypes"})

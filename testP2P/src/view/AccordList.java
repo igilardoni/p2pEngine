@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import model.Accord;
-import model.Accords;
 import model.User;
+import model.communications.Accord;
+import model.communications.Accords;
 
 /**
  * Liste de tous les accords deja passes
- * @author
+ * @author Prudhomme Julien
  *
  */
 

@@ -9,14 +9,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 
-import model.Accord;
+import model.communications.Accord;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
  * Nouvelle demande d'accord
- * @author 
+ * @author Prudhomme Julien
  */
 
 @SuppressWarnings("serial")

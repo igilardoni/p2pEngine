@@ -24,7 +24,7 @@ import model.Objet;
 
 /**
  * Affiche une annonce pour un utilisateur qui souhaite voir son contenu integral
- * @author 
+ * @author Prudhomme Julien
  *
  */
 

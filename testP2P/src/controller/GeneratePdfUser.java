@@ -12,6 +12,9 @@ public class GeneratePdfUser implements Validator{
 
 	private User user;
 	
+	/**
+	 * Génére le PDF de l'utilisateur connecté.
+	 */
 	public GeneratePdfUser() {
 		this.user = Application.getInstance().getUsers().getConnectedUser();
 	}
