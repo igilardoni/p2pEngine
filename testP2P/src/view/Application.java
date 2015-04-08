@@ -24,7 +24,7 @@ import net.jxta.exception.PeerGroupException;
 
 /**
  * Class "main" du programme
- * Donne accÃ¨s Ã  l'instance unique, qui permet d'acceder aux éléments cles du programme
+ * Donne accès Ã  l'instance unique, qui permet d'acceder aux éléments cles du programme
  * @author Prudhomme Julien
  *
  */
