@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * Contient le panel de connexion ou d'inscription
- * @author Prudhomme Julien
+ * @author
  *
  */
 

@@ -2,11 +2,6 @@ package model.communications;
 
 import java.io.Serializable;
 
-/**
- * Represente un message recu qui peut être archivé
- * @author Prudhomme Julien
- *
- */
 public class MessageData implements Serializable{
 
 	private static final long serialVersionUID = -5218533412702632722L;

@@ -20,7 +20,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 /**
  * Fenetre qui permet d'ajouter un ami aux contacts
- * @author Prudhomme Julien
+ * @author 
  *
  */
 @SuppressWarnings("serial")

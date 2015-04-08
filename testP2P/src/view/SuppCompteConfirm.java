@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * Panel de suppression d'un compte courrant
- * @author Prudhomme Julien
+ * @author
  *
  */
 

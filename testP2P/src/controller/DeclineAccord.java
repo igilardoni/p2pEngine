@@ -1,22 +1,13 @@
 package controller;
 
 import view.Application;
-import model.communications.Accord;
+import model.Accord;
 import model.communications.AccordService;
 
-/**
- * Controller pour refuser un accord
- * @author Prudhomme Julien
- *
- */
 public class DeclineAccord implements Validator{
 
 	private Accord accord;
 	
-	/**
-	 * 
-	 * @param accord L'accord à décliner
-	 */
 	public DeclineAccord(Accord accord) {
 		this.accord = accord;
 	}

@@ -1,16 +1,18 @@
 package controller;
 
+import java.util.Arrays;
+
+import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
-import model.advertisements.Advertisable;
+import model.SearchListener;
 import model.search.GrammarSearch;
-import model.search.SearchListener;
 import net.jxta.discovery.DiscoveryService;
 import view.Application;
 
 /**
- * Controller pour la recherche.
- * @author Prudhomme Julien
+ * Recherche un ou plusieurs mots dans les donnees des utilisateurs
+ * @author 
  *
  */
 
@@ -27,13 +29,6 @@ public class SearchController implements Validator, SearchListener{
 	public ObjetsManagement results = new ObjetsManagement();
 	private SearchListener container;
 	
-	/**
-	 * Lance une recherche. Les résultats sont notifiés à container
-	 * @param recherche
-	 * @param troc
-	 * @param vente
-	 * @param container Les résultats arriverons au fur et a mesure, et seront notifié à cet objet
-	 */
 	public SearchController(String recherche, boolean troc, boolean vente, SearchListener container)
 	{
 			this.recherche = recherche;
@@ -44,7 +39,6 @@ public class SearchController implements Validator, SearchListener{
 			errorRecherche = errorTroc = errorVente = false;
 	}
 
-	@Override
 	public boolean validate() {
 		checkRecherche();
 		checkEchange();		
@@ -52,16 +46,10 @@ public class SearchController implements Validator, SearchListener{
 		return !(errorRecherche || errorTroc || errorVente);
 	}
 	
-	/**
-	 * La recherche doit faire u moins 3 caractères.
-	 */
 	private void checkRecherche(){
 		if(recherche.length() < 3) errorRecherche = true;	
 	}
 	
-	/**
-	 * Au moin une des cases doit être cochée.
-	 */
 	private void checkEchange(){
 		if(!(troc || vente)) errorTroc = errorVente = true;
 	}
@@ -69,9 +57,9 @@ public class SearchController implements Validator, SearchListener{
 	public boolean process() {
 		DiscoveryService ds = Application.getInstance().getPeer().getDiscovery();
 		GrammarSearch gs = new GrammarSearch(ds);
-		gs.addListener(this); //on recoit les résultat dans cet objet en premier
-		changeMinuscule(); //on passe la recherche en miniscule 
-		gs.search(recherche); //on lance la recherche
+		gs.addListener(this);
+		changeMinuscule();
+		gs.search(recherche);
 		return true;
 	}
 	
@@ -91,33 +79,19 @@ public class SearchController implements Validator, SearchListener{
 		}
 		
 		recherche = builder.toString();
+		System.out.println(recherche);
 
 	}
 
-	/**
-	 * On applique un dernier filtre (troc/vente)
-	 * @param adv 
-	 * @return Vrai si l'objet est accepté
-	 */
 	public boolean filtrage(Advertisable adv) {
-		Objet obj = (Objet) adv;
-		if(!this.troc) {
-			if(obj.isTroc()) return false;
-		}
-		if(!this.vente) {
-			if(obj.isVente()) return false;
-		}
 		return true;
 	}
 
-	/**
-	 * On a recu un résultat
-	 */
 	public void searchEvent(Advertisable adv) {
-		if(filtrage(adv)) { //si l'objet est accepté par le filtre
-			results.add((Objet) adv); //on le garde
-			container.searchEvent(adv); //on notifie le listenaire l'interface graphique
+		if(filtrage(adv)) {
+			results.add((Objet) adv);
+			container.searchEvent(adv);
 		}
-		Application.getInstance().updateUI(); //on met a jour l'affichage
+		Application.getInstance().updateUI();
 	}
 }

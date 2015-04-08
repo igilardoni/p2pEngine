@@ -1,27 +1,17 @@
 package controller;
 
 import view.Application;
+import model.Accord;
+import model.Accords;
 import model.Objet;
-import model.communications.Accord;
 import model.communications.AccordService;
-import model.communications.Accords;
 
-/**
- * Creer un nouvel accord.
- * @author Prudhomme Julien
- *
- */
 public class NewAccord implements Validator{
 	private String messageFrom;
 	private Objet obj;
 	
 	public boolean errorMessageFrom;
 	
-	/**
-	 * Créé un accord sur l'objet Obj. L'accord est envoyé au possesseur de l'annonce.
-	 * @param obj
-	 * @param messageFrom Le message à envoyer avec l'accord.
-	 */
 	public NewAccord(Objet obj, String messageFrom) {
 		this.messageFrom = messageFrom;
 		this.obj = obj;
@@ -35,9 +25,6 @@ public class NewAccord implements Validator{
 		return !(errorMessageFrom);
 	}
 	
-	/**
-	 * Les message doivent faire au moins 10 caractère.
-	 */
 	private void checkMessageFrom() {
 		if(messageFrom.length() < 10) {
 			errorMessageFrom = true;

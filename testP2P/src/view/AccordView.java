@@ -20,11 +20,6 @@ import javax.swing.border.EmptyBorder;
 import model.Objet;
 
 @SuppressWarnings("serial")
-/**
- * Vue sur un accord recu
- * @author Prudhomme Julien
- *
- */
 public class AccordView extends JFrame {
 
 	private JPanel contentPane;

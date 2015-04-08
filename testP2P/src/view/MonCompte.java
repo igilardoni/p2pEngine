@@ -24,7 +24,7 @@ import controller.GeneratePdfUser;
 
 /**
  * Affiche la fenetre du compte de l'utilisateur courrant
- * @author Prudhomme Julien
+ * @author 
  *
  */
 

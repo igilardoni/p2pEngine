@@ -27,7 +27,7 @@ import javax.swing.Box;
 
 /**
  * Fenetre principale du programme
- * @author Prudhomme Julien
+ * @author 
  *
  */
 
@@ -55,7 +55,6 @@ public class Window extends JFrame implements MessageServiceListener{
 	private JButton btnAccords;
 	private Component horizontalStrut;
 	private Component horizontalStrut_1;
-	private JMenuItem mntmAbout;
 	
 	public Window() {
 		
@@ -92,14 +91,6 @@ public class Window extends JFrame implements MessageServiceListener{
 			}
 		});
 		menuAide.add(mntmRecherche);
-		
-		mntmAbout = new JMenuItem(Langues.getString("Window.mntmAbout.text")); //$NON-NLS-1$
-		mntmAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new about().setVisible(true);
-			}
-		});
-		menuAide.add(mntmAbout);
 		
 		
 		contentPane = new JPanel();
@@ -259,12 +250,10 @@ public class Window extends JFrame implements MessageServiceListener{
 	private void show_account_buttons() {
 		User user = Application.getInstance().getUsers().getConnectedUser();
 		if(user != null) {
-			btnAccords.setEnabled(true);
 			compteLabel.setText(Langues.getString("Window.txtConnecteComme.text") + user.getLogin());
 			btnMonCompte.setText(Langues.getString("Window.btnMonCompte.text"));
 		}
 		else {
-			btnAccords.setEnabled(false);
 			compteLabel.setText(Langues.getString("Window.txtPasConnecte.text"));
 			btnMonCompte.setText(Langues.getString("Window.btnSeConnecter.text"));
 		}

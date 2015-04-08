@@ -6,7 +6,7 @@ import model.User;
 import view.Application;
 
 /**
- * Controlleur pour la création / edition d'annonce
+ * Fenetre de creation/edition d'une annonce
  * @author Prudhomme Julien
  * 
  */
@@ -26,17 +26,6 @@ public class AnnonceEditor implements Validator{
 					errorResume, errorDesc, errorImg;
 	
 	
-	/**
-	 * Creer le controlleur à partir des champs du formulaire
-	 * @param proposition
-	 * @param souhait
-	 * @param troc
-	 * @param vente
-	 * @param title
-	 * @param resDesc
-	 * @param desc
-	 * @param img
-	 */
 	public AnnonceEditor(boolean proposition, boolean souhait, 
 			boolean troc, boolean vente, String title, 
 			String resDesc, String desc, String img) {
@@ -56,7 +45,7 @@ public class AnnonceEditor implements Validator{
 		= errorResume = errorDesc = errorImg = false;
 	}
 
-	@Override
+	
 	public boolean validate() {
 		
 		checkCheckBox();
@@ -107,15 +96,10 @@ public class AnnonceEditor implements Validator{
 		if(img == null) return;
 	}
 
-	/**
-	 * A appeler si l'action sera une modification d'objet (et non une création)
-	 * @param obj l'objet à modifier
-	 */
 	public void setEditObjet(Objet obj) {
 		this.obj = obj;
 	}
 	
-	@Override
 	public boolean process() {
 		if(user == null) return false;
 		
@@ -142,5 +126,17 @@ public class AnnonceEditor implements Validator{
 			
 		}	
 		return true;	
+	}
+	
+	public String toString() {
+		String res = "";
+		res += "Proposition: " + proposition + " " + "Souhait: " + souhait + "\n";
+		res += "Troc: " + troc + " Argent: " + vente + "\n";
+		res += "Titre: " + title + "\n";
+		res += "R\u00E9sum\u00E9: " + resume + "\n\n";
+		res += "Description: \n" + desc + "\n";
+		res += "Image: " + img;
+		
+		return res;	
 	}
 }

@@ -11,15 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import model.Accord;
 import model.Objet;
+import model.RemoteRessource;
 import model.User;
-import model.communications.Accord;
-import model.search.RemoteRessource;
 import controller.GeneratePdfContrat;
 
 /**
  * Affiche le succes de l'accord
- * @author Prudhomme Julien
+ * @author 
  *
  */
 @SuppressWarnings("serial")

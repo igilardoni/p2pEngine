@@ -7,8 +7,7 @@ import javax.swing.JPanel;
 
 /**
  * Contient une liste d'AnnoncePanel / AnnoncePanierPanel / AnnonceRecherchePanel
- * et aggrandit sa taille en fonction du nombre et de la taille des éléments (indispendable pour integrer dans un scrolling !)
- * @author Prudhomme Julien
+ * @author 
  *
  */
 

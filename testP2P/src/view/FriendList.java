@@ -13,7 +13,6 @@ import model.UsersManagement;
 
 /**
  * Liste d'amis de la fenetre de conversation
- * @author Prudhomme Julien
  */
 
 @SuppressWarnings("serial")

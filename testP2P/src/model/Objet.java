@@ -7,8 +7,6 @@ import java.util.Date;
 
 import com.itextpdf.text.DocumentException;
 
-import model.advertisements.AbstractAdvertisable;
-import model.advertisements.ObjetAdvertisement;
 import model.pdf.ContratPdfGenerator;
 import model.pdf.ObjetPdfModel;
 import model.pdf.ObjetPdfGenerator;
@@ -17,7 +15,7 @@ import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
 /**
- * Représente un objet (offre ou demande)
+ * Repr�sente un objet (offre ou demande)
  * @author Prudhomme Julien
  *
  */
@@ -34,13 +32,8 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	private boolean proposition, souhait;
 	private boolean troc, vente;
 	
-	private String otherName; //ne sert pas encore finalement
-	
-	/*
-	 * On a 2 champs user et userName, car quand on reçoit un advertisement et que celui ci
-	 * est convertie en objet, nous n'avons pas directement l'user, mais seulement sont login.
-	 * S'en suit une recherche du vrai user à partir du login (voir classes recherches)
-	 */
+	//voir ObjectAdvertisement
+	private String otherName;
 	private User user;
 	private String userName;
 	
@@ -125,18 +118,6 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 	}	
 	
 
-	/**
-	 * Créer un nouvel objet
-	 * @param proposition
-	 * @param souhait
-	 * @param troc
-	 * @param vente
-	 * @param titre
-	 * @param resume
-	 * @param desc
-	 * @param img
-	 * @param user Peut etre null (on revoit un objet et on n'as pas encore l'user)
-	 */
 	public Objet(boolean proposition, boolean souhait, boolean troc, boolean vente, 
 			String titre, String resume, String desc, String img, User user) {
 		this.proposition = proposition;
@@ -185,19 +166,10 @@ public class Objet extends AbstractAdvertisable implements Comparable<Objet>, Se
 		return format.format(d);
 	}
 	
-	/**
-	 * Retourne la date de publication sous format courant jour/mois/année
-	 * L'affichage de la date SELON la localisation n'est pas implémenté. Cela s'affichera toujours sous ce format
-	 * @return
-	 */
 	public String getSimpleDate() {
 		return getFormatedDate("dd/MM/yy");
 	}
 	
-	/**
-	 * Retourne l'heure de publication
-	 * @return
-	 */
 	public String getSimpleTime() {
 		return getFormatedDate("HH:mm:ss");
 	}

@@ -1,5 +1,6 @@
 package model.pdf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public abstract class AbstractPdfGenerator {
 	
 	
 	/**
-	 * Cree et complete un PDF a partir d'un modele
+	 * Cr�e et compl�te un PDF � partir d'un mod�le
 	 */
 	protected void createPdf(String fileOut, String modele){
 			
@@ -86,6 +87,7 @@ public abstract class AbstractPdfGenerator {
 	protected void openFileOut(String fileOut){
 		try {fileOutputStream = new FileOutputStream("pdf/"+fileOut+".pdf");} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 	}
 	
 	protected void openStamper(){

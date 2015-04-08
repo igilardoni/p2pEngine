@@ -11,7 +11,6 @@ import model.communications.MessageData;
 
 /**
  * Affiche les demandes d'amis
- * @author Prudhomme Julien
  */
 
 @SuppressWarnings("serial")

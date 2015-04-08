@@ -7,8 +7,7 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * Verifie le format de l'image mise dans l'annonce
- * pour l'affichage dans la fenetre. Affiche aussi les dossier
- * @author Prudhomme Julien
+ * @author
  *
  */
 
@@ -25,7 +24,6 @@ public class ImageDialog extends JFileChooser{
 				if(name.endsWith(".jpeg")) return true;
 				if(name.endsWith(".bmp")) return true;
 				if(name.endsWith(".gif")) return true;
-				if(f.isDirectory()) return true;
 				return false;
 			}
 

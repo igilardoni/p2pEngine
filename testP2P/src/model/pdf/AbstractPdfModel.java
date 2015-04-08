@@ -4,21 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Fonctions utilisees pour creer les elements de remplissage des champs du template
+ * Fonctions utilisées pour créer les éléments de remplissage des champs du template
  * @author Ismael Cussac
  *
  */
 public abstract class AbstractPdfModel {
 
 	/**
-	 * Concatene 2 String
+	 * Concatène 2 String
 	 */
 	protected String concat(String string1, String string2){
 		return string1+" "+string2;
 	}
 	
 	/**
-	 * Concatene une liste de String
+	 * Concatène une liste de String
 	 */
 	protected String concat(List<String> strings){
 		String ligne = null;
@@ -30,7 +30,7 @@ public abstract class AbstractPdfModel {
 	}
 	
 	/**
-	 * Cree un paragraphe a partir d'une liste de String
+	 * Crée un paragraphe à partir d'une liste de String
 	 */
 	protected String paragraphe(List<String> strings){
 		String paragraphe = "";
@@ -42,7 +42,7 @@ public abstract class AbstractPdfModel {
 	}
 	
 	/**
-	 * Accesseurs des differentes HashMap
+	 * Accesseurs des différentes HashMap
 	 */
 	public abstract HashMap<String,String> getTexteMap();
 	public abstract HashMap<String,String> getImageMap();

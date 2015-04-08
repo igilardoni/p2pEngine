@@ -5,8 +5,8 @@ import model.UsersManagement;
 import view.Application;
 
 /** 
- * Controller pour la suppression du compte connecté.
- * @author Prudhomme Julien
+ * Supprimer un compte utilisateur
+ * @author
  *
  */
 public class SuppCompteConfirm implements Validator{
@@ -15,22 +15,16 @@ public class SuppCompteConfirm implements Validator{
 	private User user = Application.getInstance().getUsers().getConnectedUser();
 	public boolean errorPassword;
 	
-	/**
-	 * Supprime le compte connecté
-	 * @param password Le mot de passe de l'utilisateur connecté
-	 */
 	public SuppCompteConfirm(String password) {
 		this.password = password;
 		errorPassword = false;
 	}
 	
-	@Override
 	public boolean validate() {
 		checkPassword();
 		return !(errorPassword);
 	}
 
-	@Override
 	public boolean process() {
 		UsersManagement users = Application.getInstance().getUsers();
 		users.deleteUser(user.getLogin(), password);
@@ -39,9 +33,6 @@ public class SuppCompteConfirm implements Validator{
 		return true;
 	}
 	
-	/**
-	 * Les mots de passes doivent être égaux
-	 */
 	public void checkPassword() {
 		if(!user.isPasswordEqual(password)) errorPassword = true;
 	}

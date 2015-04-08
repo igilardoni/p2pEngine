@@ -5,13 +5,19 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * MultiLangue. Les messages sont pris dans message_[fr/en..].properties
- * @author Prudhomme Julien
+ * Gere la langue des affichages
+ * @author
  *
  */
 
 public class Langues {
+	////////////////////////////////////////////////////////////////////////////
+	//
+	// Constructor
+	//
+	////////////////////////////////////////////////////////////////////////////
 	private Langues() {
+		// do not instantiate
 	}
 	////////////////////////////////////////////////////////////////////////////
 	//

@@ -14,11 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import model.communications.Accord;
+import model.Accord;
 
 /**
  * Juste avant l'accord
- * @author Prudhomme Julien
+ * @author
  *
  */
 

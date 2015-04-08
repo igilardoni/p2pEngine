@@ -10,9 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import model.advertisements.AbstractAdvertisable;
-import model.advertisements.UserAdvertisement;
-import model.communications.Accords;
 import model.communications.MessageData;
 import model.communications.UserMessages;
 import model.pdf.ObjetPdfModel;

@@ -1,30 +1,25 @@
 package controller;
 
 import view.Application;
-import model.communications.Accord;
+import model.Accord;
+import model.Accords;
 import model.communications.AccordService;
-import model.communications.Accords;
 
-/**
- * Controlleur pour accepter un accord
- * @author Prudhomme Julien
- *
- */
 public class AcceptAccord implements Validator{
 
 	private Accord a;
 	private String messageTo;
 	
-	public boolean errorMessageTo; //erreur sur le message
+	public boolean errorMessageTo;
 	
-	/**
-	 * 
-	 * @param a l'accord à accepter
-	 * @param messageTo la réponse
-	 */
 	public AcceptAccord(Accord a, String messageTo) {
 		this.a = a;
 		this.messageTo = messageTo;
+		System.out.println("messageTo = " + messageTo);
+		System.out.println("messageTo = " + messageTo);
+		System.out.println("messageTo = " + messageTo);
+		System.out.println("messageTo = " + messageTo);
+		System.out.println("messageTo = " + messageTo);
 		errorMessageTo = false;
 	}
 	
@@ -34,9 +29,6 @@ public class AcceptAccord implements Validator{
 		return !(errorMessageTo);
 	}
 	
-	/**
-	 * Le message doit faire plus de 10 char
-	 */
 	private void checkMessageTo() {
 		if(messageTo.length() < 10) errorMessageTo = true;
 	}

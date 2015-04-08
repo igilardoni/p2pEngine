@@ -22,7 +22,7 @@ import java.awt.Color;
 
 /**
  * Fenetre d'inscription d'une nouvel utilisateur
- * @author Prudhomme Julien
+ * @author 
  */
 
 @SuppressWarnings("serial")

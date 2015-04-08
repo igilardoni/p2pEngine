@@ -19,15 +19,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import model.Advertisable;
 import model.Objet;
 import model.ObjetsManagement;
+import model.SearchListener;
 import model.User;
-import model.advertisements.Advertisable;
-import model.search.SearchListener;
 
 /**
  * Contient les onglets Mes annonces et Rechercher sur la page principale
- * @author Prudhomme Julien
+ * @author
  *
  */
 

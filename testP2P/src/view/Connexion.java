@@ -21,7 +21,6 @@ import java.awt.Color;
 
 /**
  * Fenetre de connexion
- * @author Prudhomme Julien
  */
 
 

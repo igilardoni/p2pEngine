@@ -13,9 +13,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import model.AdvertisementInstaciator;
 import model.Peer;
 import model.UsersManagement;
-import model.advertisements.AdvertisementInstaciator;
 import model.communications.AccordService;
 import model.communications.ChatService;
 import model.communications.Chatter;
@@ -24,7 +24,6 @@ import net.jxta.exception.PeerGroupException;
 
 /**
  * Class "main" du programme
- * Donne accès Ã  l'instance unique, qui permet d'acceder aux éléments cles du programme
  * @author Prudhomme Julien
  *
  */
@@ -41,10 +40,6 @@ public class Application {
 	private AccordService accords;
 	
 	
-	
-	/**
-	 * Lance l'application. A instancier une fois. Instance obtenable avec getInstance()
-	 */
 	public Application() {
 		instance = this;
 		loadUsers();
@@ -65,51 +60,25 @@ public class Application {
 		users.publishUsers(peer.getDiscovery());
 	}
 	
-	
-	/**
-	 * 
-	 * @return Peer
-	 */
 	public Peer getPeer() {
 		return peer;
 	}
-	
-	/**
-	 * 
-	 * @return FriendRequestService
-	 */
 	
 	public FriendRequestService getFriendRequestService() {
 		return friendRequest;
 	}
 	
-	
-	/**
-	 * 
-	 * @return AccordService
-	 */
 	public AccordService getAccordService() {
 		return accords;
 	}
 	
-	
-	/**
-	 * 
-	 * @return ChatService
-	 */
 	public ChatService getChatService() {
 		return chatService;
 	}
 	
-	/**
-	 * 
-	 * @return Chatter
-	 */
-	
 	public Chatter getChatter() {
 		return chatter;
 	}
-	
 	
 	private void startNetwork() {
 		Logger.getLogger("net.jxta").setLevel(Level.OFF);
@@ -126,11 +95,6 @@ public class Application {
 		}
 	}
 	
-	
-	/**
-	 * Lance le programme
-	 * @param args Unused
-	 */
 	public static void main(String[] args) {
 		Application app = new Application();
 		Application.setInstance(app);
@@ -138,7 +102,7 @@ public class Application {
 	}
 	
 	/**
-	 * Lance la partie graphique, cree une nouvelle fenetre principale window
+	 * Lance le programme, cree une nouvelle fenetre principale window
 	 */
 	private void lauch() {
 		window = new Window();
@@ -146,28 +110,14 @@ public class Application {
 		window.addWindowListener(this.getWindowListener());
 	}
 
-	
-	/**
-	 * Retourne la seule et unique instance de Application.
-	 * @return Application
-	 */
 	public static Application getInstance() {
 		return instance;
 	}
 	
-	
-	/**
-	 * Permet de dÃ©finir l'instance de la classe
-	 * @param app Application
-	 */
 	public static void setInstance(Application app) {
 		instance = app;
 	}
 	
-	/**
-	 * 
-	 * @return UsersManagement
-	 */
 	public UsersManagement getUsers() {
 		return this.users;
 	}
@@ -229,10 +179,6 @@ public class Application {
 		}
 	}
 	
-	/**
-	 * Sert Ã  savoir quand on quitter le programme en fermant la fenetre ..
-	 * @return
-	 */
 	private WindowListener getWindowListener() {
 		return new WindowListener() {
 
@@ -315,8 +261,7 @@ public class Application {
 	}
 	
 	/**
-	 * Ouvre la messagerie depuis n'importe ou, focalisÃ© sur l'user
-	 * @param user L'utilisateur a contacter
+	 * Ouvre une nouvelle conversation
 	 */
 	public void openConvers(String user) {
 		window.getMessagePanel().setVisible(true);
