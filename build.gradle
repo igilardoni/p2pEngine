@@ -23,7 +23,7 @@ jar {
 mainClassName = "view.Application"
 
 dependencies {
-	compile fileTree(dir: './', include: '*.jar')
+	compile fileTree(dir: './libs', include: '*.jar')
 }
 
 
