@@ -1,4 +1,4 @@
-package makerXML;
+package model;
 
 import java.lang.reflect.Field;
 

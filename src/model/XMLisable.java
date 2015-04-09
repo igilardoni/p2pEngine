@@ -1,4 +1,4 @@
-package makerXML;
+package model;
 
 import org.jdom2.Element;
 
