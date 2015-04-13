@@ -19,13 +19,13 @@ public class MakerXML {
 				Element temp = new Element(balise);
 				temp.addContent(contenu);
 				racine.addContent(temp);
-				//System.out.println("\t<"+balise+">"+contenu+"</"+balise+">");
+				System.out.println("\t<"+balise+">"+contenu+"</"+balise+">");
 				attributes[i].setAccessible(access);
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				e.printStackTrace();
 			}
 		}
-		//System.out.println("</"+name+">");
+		System.out.println("</"+name+">");
 		return racine;
 	}
 }

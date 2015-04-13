@@ -9,21 +9,21 @@
 	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry sourcepath="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/73d0340eaecbb0ec9d3e0ace90547ef08cbfaf27/commons-collections-3.2-sources.jar" kind="lib" path="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/f951934aa5ae5a88d7e6dfaa6d32307d834a88be/commons-collections-3.2.jar" exported="true"/>
-	<classpathentry sourcepath="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar" kind="lib" path="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" exported="true"/>
-	<classpathentry sourcepath="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="C:/Users/Julien/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/forms-1.3.0.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/itext-pdfa-5.5.3.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/itext-xtra-5.5.3.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/itextpdf-5.5.3.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/jdom-2.0.5.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/jtidy-8.0.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/jxta-jxse-2.6-20090213.011822-22-javadoc.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/jxta-jxse-2.6-20090213.011822-22-sources.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/jxta.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/miglayout15-swing.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/novaworx-syntax-0.0.7.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/sam.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/SHEF.jar" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/Julien/git/SXP_Project/libs/xmlworker-5.5.3.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/73d0340eaecbb0ec9d3e0ace90547ef08cbfaf27/commons-collections-3.2-sources.jar" kind="lib" path="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/f951934aa5ae5a88d7e6dfaa6d32307d834a88be/commons-collections-3.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar" kind="lib" path="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="C:/Users/El MEHDI/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/forms-1.3.0.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/itext-pdfa-5.5.3.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/itext-xtra-5.5.3.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/itextpdf-5.5.3.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/jdom-2.0.5.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/jtidy-8.0.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/jxta-jxse-2.6-20090213.011822-22-javadoc.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/jxta-jxse-2.6-20090213.011822-22-sources.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/jxta.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/miglayout15-swing.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/novaworx-syntax-0.0.7.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/sam.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/SHEF.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/El MEHDI/git/p2pEngine/libs/xmlworker-5.5.3.jar" exported="true"/>
 </classpath>
