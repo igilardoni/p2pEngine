@@ -4,6 +4,11 @@ import java.math.BigInteger;
 
 import util.Hasheur;
 
+/* TODO
+ * A voir pour la partie des clé (peut etre dans un autre objet ?)
+ * Je crois qu'on aura plus besoin du peerID.
+ */
+
 public class User {
 	private String login;
 	private String hashPwd;

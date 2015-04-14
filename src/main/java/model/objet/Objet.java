@@ -4,6 +4,14 @@ import java.util.Locale;
 
 import model.user.User;
 
+/* TODO tout mettre en anglais svp ! 
+ * Pense a commenter ton code (quelqu'un d'exterieur peut mettre 5 min 
+ * a regarder ailleur avant de comprendre a quoi correspond tel ou tel attribute.)
+ * Locale zone sert a quoi ?
+ * 
+ * */
+
+
 /**
  * Class Objet : description of objects
  */

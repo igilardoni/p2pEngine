@@ -145,42 +145,6 @@ public class Network implements NetworkInterface {
 	}
 	
 	public static void main(String[] args) {
-		Network n1 = new Network(9704, ".peerTemp1", "Alice");
-		
-		n1.start();
-		 ModuleClassAdvertisement mcadv = (ModuleClassAdvertisement)
-		 AdvertisementFactory.newAdvertisement(ModuleClassAdvertisement.getAdvertisementType());
-			        
-		 mcadv.setName("P2PEngine:HELLO");
-		 mcadv.setDescription("Troc avec moi");
-			        
-		 ModuleClassID mcID = IDFactory.newModuleClassID();
-		 mcadv.setModuleClassID(mcID);
-		 
-		 try {
-			n1.getDefaultGroup().getDiscoveryService().publish(mcadv);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	     n1.getDefaultGroup().getDiscoveryService().addDiscoveryListener(new DiscoveryListener() {
-			
-			@Override
-			public void discoveryEvent(DiscoveryEvent event) {
-				System.out.println("something found ! ");
-			}
-		});
-	     
-	     while(true) {
-	    	 n1.getDefaultGroup().getDiscoveryService()
-	    	 	.getRemoteAdvertisements(null, DiscoveryService.ADV, "Name", "P2PEngine:HELLO", 1, null);
-	    	 try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	     }
 		
 	}
 }
