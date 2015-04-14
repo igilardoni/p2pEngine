@@ -8,18 +8,22 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
+import net.jxta.platform.ModuleClassID;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
+import net.jxta.protocol.ModuleClassAdvertisement;
 import net.jxta.protocol.ModuleImplAdvertisement;
 
 public class Network implements NetworkInterface {
-	
-	private PeerID peerID;
 	private NetworkManager networkManager;
 	private HashMap<String, PeerGroup> peergroups = new HashMap<String, PeerGroup> ();
 	private PeerGroup defaultGroup;
@@ -34,14 +38,18 @@ public class Network implements NetworkInterface {
 	 * @param peerName Peer name on the network
 	 */
 	public Network(int port, String folder, String peerName) {
-		peerID = generatePeerID(peerName); /* Generating an unique PeerID */
-		File configFile = new File("." + System.getProperty("file.separator") + peerName); /* Used by the networkManager */
+		File configFile = new File("." + System.getProperty("file.separator") + folder); /* Used by the networkManager */
 		networkManager = networkManagerSetup(configFile, port, peerName);
+		networkManager.setConfigPersistent(true);
 	}
 
 	@Override
 	public PeerGroup getGroup(String group) {
 		return this.peergroups.get(group);
+	}
+	
+	public PeerGroup getDefaultGroup() {
+		return defaultGroup;
 	}
 
 	@Override
@@ -66,13 +74,11 @@ public class Network implements NetworkInterface {
 			e.printStackTrace();
 		}
 		defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
-		
 	}
 	
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		
+		networkManager.stopNetwork();
 	}
 	
 	/**
@@ -118,12 +124,10 @@ public class Network implements NetworkInterface {
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-         configurator.setPeerID(peerID);
          /*configurator.setTcpPublicAddress(IpChecker.getIp(), false); TODO set public adress to make Jxta works on internet */
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
-			
 			e.printStackTrace();
 		}
          configurator.setTcpEndPort(-1);
@@ -141,9 +145,42 @@ public class Network implements NetworkInterface {
 	}
 	
 	public static void main(String[] args) {
-		Network network = new Network(9703, ".peerTemp", "Julien");
-		network.setLogger(Level.SEVERE);
-		network.start();
-		network.addGroup("objets");
+		Network n1 = new Network(9704, ".peerTemp1", "Alice");
+		
+		n1.start();
+		 ModuleClassAdvertisement mcadv = (ModuleClassAdvertisement)
+		 AdvertisementFactory.newAdvertisement(ModuleClassAdvertisement.getAdvertisementType());
+			        
+		 mcadv.setName("P2PEngine:HELLO");
+		 mcadv.setDescription("Troc avec moi");
+			        
+		 ModuleClassID mcID = IDFactory.newModuleClassID();
+		 mcadv.setModuleClassID(mcID);
+		 
+		 try {
+			n1.getDefaultGroup().getDiscoveryService().publish(mcadv);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	     n1.getDefaultGroup().getDiscoveryService().addDiscoveryListener(new DiscoveryListener() {
+			
+			@Override
+			public void discoveryEvent(DiscoveryEvent event) {
+				System.out.println("something found ! ");
+			}
+		});
+	     
+	     while(true) {
+	    	 n1.getDefaultGroup().getDiscoveryService()
+	    	 	.getRemoteAdvertisements(null, DiscoveryService.ADV, "Name", "P2PEngine:HELLO", 1, null);
+	    	 try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	     }
+		
 	}
 }
