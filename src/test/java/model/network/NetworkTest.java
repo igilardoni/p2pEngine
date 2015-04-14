@@ -1,14 +1,13 @@
 package model.network;
 
 
-import junit.framework.TestCase;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class NetworkTest extends TestCase{
-	
+public class NetworkTest {
+
 	@Test
-	public void groupCreatingTest() {
+	public void groupCreating() {
 		Network network = new Network(7905, ".jxtaTest", "TestPeer");
 		network.start();
 		network.addGroup("objet");
