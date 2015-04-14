@@ -3,7 +3,9 @@ package model.objet;
 import util.*;
 
 public class Categorie {
-
+	
+	private static String linkText = "Categorie.CATEGORY.";
+	
 	public static enum CATEGORY {
 		Appliances,
 		Baby,
@@ -37,31 +39,34 @@ public class Categorie {
 	
 	private String choix;
 	
-	public Categorie(Categorie.CATEGORY cat){
-		this.choix = Langues.getString("Categorie.categorie."+cat.toString()) ;
+	public Categorie(CATEGORY choix){
+		setChoix(choix);
 	}
 	
 	public Categorie(String choix){
-		boolean temp = false;
-		
-		for (int i = 0; i < CATEGORY.values().length; i++) {
-			if(CATEGORY.values()[i].toString().toLowerCase().equals(choix.toLowerCase())){
-				temp = true;
-				this.choix = Langues.getString("Categorie.categorie."+choix);
-				break;
-			}
-		}
-		if(!temp)
-			this.choix = Langues.getString("Categorie.categorie.OtherProducts");
-		
+		setChoix(choix);		
 	}
 	
 	public String getChoix() {
 		return choix;
 	}
 	
-	public void setChoix(String choix) {
-		this.choix = choix;
+	public void setChoix(CATEGORY choix) {
+		this.choix = Langues.getString(linkText+choix.toString());
+	}
+	
+	public void setChoix(String choix){
+		boolean temp = false;
+		
+		for (int i = 0; i < CATEGORY.values().length; i++) {
+			if(CATEGORY.values()[i].toString().toLowerCase().equals(choix.toLowerCase())){
+				temp = true;
+				this.choix = Langues.getString(linkText+choix);
+				break;
+			}
+		}
+		if(!temp)
+			this.choix = Langues.getString(linkText+"OtherProducts");
 	}
 	
 	public static void main(String[] args){
