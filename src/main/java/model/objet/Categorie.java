@@ -34,10 +34,11 @@ public class Categorie {
 		OtherServices,
 		PersonalCaring,
 		Teaching,
-		Transport
+		Transport,
+		NC
 	}; 
 	
-	private String choix;
+	private CATEGORY choix;
 	
 	public Categorie(CATEGORY choix){
 		setChoix(choix);
@@ -48,25 +49,27 @@ public class Categorie {
 	}
 	
 	public String getChoix() {
-		return choix;
+		return Langues.getString(linkText+choix.toString());
 	}
 	
 	public void setChoix(CATEGORY choix) {
-		this.choix = Langues.getString(linkText+choix.toString());
+		this.choix = choix;
 	}
 	
 	public void setChoix(String choix){
 		boolean temp = false;
 		
 		for (int i = 0; i < CATEGORY.values().length; i++) {
-			if(CATEGORY.values()[i].toString().toLowerCase().equals(choix.toLowerCase())){
+			String s = choix.toString().toLowerCase();
+			if(CATEGORY.values()[i].toString().toLowerCase().equals(s) ||
+					Langues.getString(linkText+CATEGORY.values()[i]).toLowerCase().equals(s)){
 				temp = true;
-				this.choix = Langues.getString(linkText+choix);
+				this.choix = CATEGORY.values()[i];
 				break;
 			}
 		}
 		if(!temp)
-			this.choix = Langues.getString(linkText+"OtherProducts");
+			this.choix = CATEGORY.NC;
 	}
 	
 	public static void main(String[] args){
@@ -76,7 +79,7 @@ public class Categorie {
 		test = new Categorie("Baby");
 		System.out.println("test 2 : "+test.getChoix());
 
-		test = new Categorie("trucs");
+		test = new Categorie("???");
 		System.out.println("test 3 : "+test.getChoix());
 	}
 	
