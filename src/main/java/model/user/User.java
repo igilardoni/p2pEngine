@@ -2,10 +2,10 @@ package model.user;
 
 import java.math.BigInteger;
 
-import util.Hasheur;
+import util.Hasher;
 
 /* TODO
- * A voir pour la partie des clé (peut etre dans un autre objet ?)
+ * A voir pour la partie des clï¿½ (peut etre dans un autre objet ?)
  * Je crois qu'on aura plus besoin du peerID.
  */
 
@@ -80,7 +80,7 @@ public class User {
 	 */
 	public boolean isPassword(String password){
 		try {
-			String hash = Hasheur.SHA256(password);
+			String hash = Hasher.SHA256(password);
 			if(hash.equals(this.hashPwd))
 				return true;
 		} catch (Exception e) {
