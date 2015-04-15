@@ -35,4 +35,11 @@ public interface NetworkInterface {
 	 * Stop the network
 	 */
 	public void stop();
+	
+	
+	/**
+	 * Should return true only if the network is correctly started.
+	 * @return true if the network is running, otherwise false.
+	 */
+	public boolean isStarted();
 }
