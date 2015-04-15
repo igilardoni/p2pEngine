@@ -8,19 +8,13 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.jxta.discovery.DiscoveryEvent;
-import net.jxta.discovery.DiscoveryListener;
-import net.jxta.discovery.DiscoveryService;
-import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
-import net.jxta.platform.ModuleClassID;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
-import net.jxta.protocol.ModuleClassAdvertisement;
 import net.jxta.protocol.ModuleImplAdvertisement;
 
 public class Network implements NetworkInterface {
@@ -82,15 +76,6 @@ public class Network implements NetworkInterface {
 	}
 	
 	/**
-	 * Generate an unique Peer ID from the peer name.
-	 * @param peerName A string, generally the peer name, from the PeerID will be generated.
-	 * @return the newly generated PeerID
-	 */
-	private PeerID generatePeerID(String peerName) {
-		return IDFactory.newPeerID(PeerGroupID.defaultNetPeerGroupID, peerName.getBytes());
-	}
-	
-	/**
 	 * Generate an unique PeerGroup ID from the peer group name
 	 * @param peerGroupName A string, generally the peer name, from the PeerID will be generated.
 	 * @return the newly generated PeerID
@@ -146,5 +131,10 @@ public class Network implements NetworkInterface {
 	
 	public static void main(String[] args) {
 		
+	}
+
+	@Override
+	public boolean isStarted() {
+		return this.networkManager.isStarted();
 	}
 }
