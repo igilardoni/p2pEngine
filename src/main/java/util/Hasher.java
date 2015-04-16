@@ -2,7 +2,7 @@ package util;
 
 import java.security.MessageDigest;
 
-public class Hasheur {
+public class Hasher {
 	public static String SHA256(String string) throws Exception{
         MessageDigest md = MessageDigest.getInstance("SHA-256");
  
@@ -26,4 +26,14 @@ public class Hasheur {
     	
     	return hexString.toString();
     }
+	
+	public static void main(String[] args){
+		String message = "Ceci est un test !";
+		System.out.println(message);
+		try {
+			System.out.println(SHA256(message));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
