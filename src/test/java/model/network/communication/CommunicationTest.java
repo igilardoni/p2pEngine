@@ -10,25 +10,12 @@ public class CommunicationTest {
 	/*
 	 * Communication instantation should throw an exeption if the network isn't started.
 	 */
-	@Test
-	public void exeptionIfNetworkNotStarted() {
+	
+	
+	@Test(expected=Exception.class)
+	public void exeptionIfNetworkNotStarted() throws Exception {
 		Network n = new Network(9705, ".test", "Test");
-		boolean ex = false;
-		try {
-			Communication c = new Communication(n);
-		} catch (Exception e) {
-			ex = true;
-		}
-		assertEquals(true, ex);
-		
-		n.start();
-		ex = false;
-		try {
-			Communication c = new Communication(n);
-		} catch (Exception e) {
-			ex = true;
-		}
-		assertEquals(false, ex);
-		
+		Communication c = new Communication(n);
 	}
+	
 }
