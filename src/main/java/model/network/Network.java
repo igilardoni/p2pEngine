@@ -8,14 +8,18 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
+import net.jxta.pipe.PipeID;
+import net.jxta.pipe.PipeService;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.ModuleImplAdvertisement;
+import net.jxta.protocol.PipeAdvertisement;
 
 public class Network implements NetworkInterface {
 	private NetworkManager networkManager;
@@ -137,4 +141,25 @@ public class Network implements NetworkInterface {
 	public boolean isStarted() {
 		return this.networkManager.isStarted();
 	}
+	
+	
+	/**
+	 * Generate an advertisement for a new Pipe
+	 * @param id the Pipe's id
+	 * @param is_multicast the pipe's type.
+	 * @return a PipeAdvertisement.
+	 */
+	public static PipeAdvertisement getPipeAdvertisement(PipeID id, boolean is_multicast) {
+        PipeAdvertisement adv = (PipeAdvertisement )AdvertisementFactory.
+            newAdvertisement(PipeAdvertisement.getAdvertisementType());
+        adv.setPipeID(id);
+        if (is_multicast)
+            adv.setType(PipeService.PropagateType); 
+        else 
+            adv.setType(PipeService.UnicastType); 
+        adv.setName("Pipe");
+        adv.setDescription("...");
+        return adv;
+    }
+	
 }
