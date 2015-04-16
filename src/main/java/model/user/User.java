@@ -2,55 +2,50 @@ package model.user;
 
 import java.math.BigInteger;
 
+import model.advertisement.AbstractAdvertisement;
+import model.objet.Item;
+import net.jxta.document.Element;
+import net.jxta.document.XMLElement;
+import net.jxta.id.ID;
 import util.Hasher;
 
-/* TODO
- * A voir pour la partie des cl� (peut etre dans un autre objet ?)
- * Je crois qu'on aura plus besoin du peerID.
- */
-
-public class User {
-	private String login;
+public class User extends AbstractAdvertisement<User>{
+	private String nick;
 	private String hashPwd;
 	private String name;
 	private String firstName;
 	private String email;
 	private String phone;
-	private BigInteger privateKey;
-	private BigInteger publicKey;
-	private String peerID;
+	private TwinKey key;
 	
 	/**
 	 * To edit existing users in the XML file
-	 * @param login
+	 * @param nick
 	 * @param password
 	 * @param name
 	 * @param firstName
 	 * @param email
 	 * @param phone
-	 * @param privateKey
-	 * @param publicKey
-	 * @param peerID
+	 * @param key
 	 */
-	public User(String login,String password,String name,
+	public User(String nick,String password,String name,
 			String firstName,String email,
-			String phone,BigInteger privateKey, BigInteger publicKey,String peerID
+			String phone,TwinKey key
 			){
-		
-		this.login = login;
+		super();
+		this.nick = nick;
 		this.hashPwd = password;
 		this.name = name;
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
-		this.privateKey = privateKey;
-		this.publicKey = publicKey;
-		this.peerID = peerID;
+		this.key = key;
+		putKeys();
 	}
 	
 	/**
 	 * To make new User (during registration)
-	 * @param login
+	 * @param nick
 	 * @param password
 	 * @param name
 	 * @param firstName
@@ -58,19 +53,23 @@ public class User {
 	 * @param phone
 	 * @param peerID
 	 */
-	public User(String login,String password,String name,
+	public User(String nick,String password,String name,
 			String firstName,String email,
-			String phone,String peerID
+			String phone
 			){
-		
-		this.login = login;
-		this.hashPwd = password;
+		super();
+		this.nick = nick;
+		try {
+			this.hashPwd = Hasher.SHA256(password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.name = name;
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
-		// Generation des clés public et privée ICI
-		this.peerID = peerID;
+		this.key = new TwinKey(true);
+		putKeys();
 	}
 	
 	/**
@@ -90,8 +89,8 @@ public class User {
 	}
 	
 	//////////// GETTERS \\\\\\\\\\\\\\\\
-	public String getLogin() {
-		return login;
+	public String getNick() {
+		return nick;
 	}
 	public String getPassword() {
 		return hashPwd;
@@ -108,19 +107,25 @@ public class User {
 	public String getPhone() {
 		return phone;
 	}
-	public BigInteger getPrivateKey() {
-		return privateKey;
+	public TwinKey getKey(){
+		return key;
 	}
-	public BigInteger getPublicKey() {
-		return publicKey;
+	public BigInteger getPublicKey(){
+		return key.getPublicKey();
 	}
-	public String getId_peer() {
-		return peerID;
+	public BigInteger getPrivateKey(){
+		return key.getPrivateKey();
+	}
+	public BigInteger getP(){
+		return key.getP();
+	}
+	public BigInteger getG(){
+		return key.getG();
 	}
 	
 	//////////// SETTERS \\\\\\\\\\\\\\\\
-	public void setLogin(String login) {
-		this.login = login;
+	public void setNick(String login) {
+		this.nick = login;
 	}
 	public void setPassword(String password) {
 		this.hashPwd = password;
@@ -137,7 +142,96 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setId_peer(String id_peer) {
-		this.peerID = id_peer;
+	public void setKey(TwinKey key){
+		this.key = key;
+	}
+	
+	/*
+	 * TODO A SUPPRIMER ULTERIEUREMENT (UTILE POUR LES TESTS)
+	 */
+	public String toString(){
+		String ret = "";
+		ret += "  Nickname : "+this.getNick()+"\n";
+		ret += "     Login : "+this.getPublicKey().toString(16)+"\n";
+		ret += "Private key: "+this.getPrivateKey().toString(16)+"\n";
+		ret += "HashPassword:"+this.getPassword()+"\n";
+		ret += "      Name : "+this.getName()+"\n";
+		ret += "First name : "+this.getFirstName()+"\n";
+		ret += "     Email : "+this.getEmail()+"\n";
+		ret += "     Phone : "+this.getPhone()+"\n";
+		return ret;
+	}
+	
+	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Used to define Keys
+	 */
+	@Override
+	protected void setKeys() {
+		this.addKey("nick", false);
+		this.addKey("hashPwd", false);
+		this.addKey("name", false);
+		this.addKey("firstName", false);
+		this.addKey("email", false);
+		this.addKey("phone", false);
+		this.addKey("privatekey", false);
+		this.addKey("publicKey", true);
+	}
+
+	/**
+	 * Used to add all keys
+	 */
+	@Override
+	protected void putKeys() {
+		this.putValue("nick", this.getNick());
+		this.putValue("hashPwd", this.getPassword());
+		this.putValue("name", this.getName());
+		this.putValue("firstName", this.getFirstName());
+		this.putValue("email", this.getEmail());
+		this.putValue("phone", this.getPhone());
+		this.putValue("privatekey", this.getPrivateKey().toString(16));
+		this.putValue("publicKey", this.getPublicKey().toString(16));
+	}
+	
+	/**
+	 * Used to create Element for a known key
+	 */
+	@Override
+	@SuppressWarnings({"rawtypes","null"})
+	protected Element getElement(String key) {
+		XMLElement root = null;
+		root.addAttribute(key, keyValue.get(key));
+		return root;
+	}
+
+	@Override
+	public ID getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getIndexFields() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public String getAdvType(){
+		return "jxta:"+Item.class.getName();
+	}
+	
+	
+	
+	
+	
+	
+	
+	public static void main(String[] args){
+		User u = new User("pja35", "pwd", "Arrighi", "Pablo", "arrighi.pablo@hotmail.fr", "0612345678");
+		System.out.println(u.toString());
+		System.out.println();
+		System.out.println("pwd : "+u.isPassword("pwd"));
+		System.out.println("PWD : "+u.isPassword("PWD"));
 	}
 }

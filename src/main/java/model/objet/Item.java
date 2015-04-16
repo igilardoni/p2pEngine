@@ -1,15 +1,11 @@
 package model.objet;
 
-import java.math.BigInteger;
 import java.util.Locale;
 
-import net.jxta.document.Document;
+import model.advertisement.AbstractAdvertisement;
 import net.jxta.document.Element;
-import net.jxta.document.MimeMediaType;
 import net.jxta.document.XMLElement;
 import net.jxta.id.ID;
-import model.advertisement.AbstractAdvertisement;
-import model.user.User;
 
 /**
  * Class Item : description of object
@@ -23,6 +19,7 @@ public class Item extends AbstractAdvertisement<Item>{
 	};
 	
 	private String owner;			// Owner of the object
+	private String friendlyNick;	// Friendly-user Pseudo of owner
 	private String title;			// Title of the object
 	private Category category;		// Category of the object
 	private String description;		// Big description of the object
@@ -59,6 +56,14 @@ public class Item extends AbstractAdvertisement<Item>{
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+	
+	public String getFriendNick(){
+		return friendlyNick;
+	}
+	
+	public void setFriendNick(String friendNick){
+		this.friendlyNick = friendNick;
 	}
 
 	public String getTitle() {
@@ -150,10 +155,13 @@ public class Item extends AbstractAdvertisement<Item>{
 	}
 	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	
+	/**
+	 * Used to define Keys
+	 */
 	@Override
 	protected void setKeys() {
 		this.addKey("owner", true);
+		this.addKey("friendNick", false);
 		this.addKey("title", true);
 		this.addKey("category",true);
 		this.addKey("description",false);
@@ -164,10 +172,14 @@ public class Item extends AbstractAdvertisement<Item>{
 		this.addKey("lifeTime",false);
 		this.addKey("type", true);
 	}
-
+	
+	/**
+	 * Used to add all keys
+	 */
 	@Override
 	protected void putKeys() {
 		putValue("owner", this.getOwner());
+		putValue("friendNick", this.getFriendNick());
 		putValue("title", this.getTitle());
 		putValue("category", category.getChoice());
 		putValue("description", this.getDescription());
@@ -178,7 +190,10 @@ public class Item extends AbstractAdvertisement<Item>{
 		putValue("lifeTime", String.valueOf(this.getLifeTime()));
 		putValue("type", this.getType().toString());
 	}
-
+	
+	/**
+	 * Used to create Element for a known key
+	 */
 	@Override
 	@SuppressWarnings({"rawtypes","null"})
 	protected Element getElement(String key) {
@@ -203,16 +218,4 @@ public class Item extends AbstractAdvertisement<Item>{
 	public String getAdvType(){
 		return "jxta:"+Item.class.getName();
 	}
-	
-	
-	
-	
-	public static void main(String[] args){
-		User o = new User("pja35", "", "Arrighi", "Pablo", "", "", new BigInteger("38973656463465346455486",16), new BigInteger("13546343684631434303abbbbeff541b3f1035e430",16), "");
-		Category c = new Category(Category.CATEGORY.Baby);
-		Item a = new Item(o.getPublicKey().toString(), "test", c, "Poupée de chiffon", "", Locale.FRANCE, "", 1, 1, Item.TYPE.WISH);
-		
-		System.out.println(a.getDocument(MimeMediaType.XMLUTF8));
-	}
-	
 }

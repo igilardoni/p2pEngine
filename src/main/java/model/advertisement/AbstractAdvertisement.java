@@ -9,8 +9,6 @@ import net.jxta.document.Element;
 import net.jxta.document.MimeMediaType;
 import net.jxta.document.StructuredDocument;
 import net.jxta.document.StructuredDocumentFactory;
-import net.jxta.document.TextElement;
-import net.jxta.document.XMLElement;
 
 public abstract class AbstractAdvertisement<T> extends Advertisement implements AbstractAdvertisementInterface {
 	protected HashMap<String, String> keyValue = new HashMap<String, String>();
@@ -57,13 +55,20 @@ public abstract class AbstractAdvertisement<T> extends Advertisement implements 
 		else throw new IllegalArgumentException("Unknown key : " + key);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes", "null" })
-	public XMLElement rootElement(){
-		XMLElement root = null;
+	public org.jdom2.Element getRootElement(){
+		org.jdom2.Element root = new org.jdom2.Element(this.getClass().getSimpleName());
+		//XMLElement root = null;
 		for (String key : keyValue.keySet()) {
-			root.appendChild(getElement(key));
+			org.jdom2.Element e = new org.jdom2.Element(key);
+			e.addContent(keyValue.get(key));
+			root.addContent(e);
+			//root.appendChild(getElement(key));
 		}
 		return root;
+	}
+	
+	public org.jdom2.Document getJdomDocument(){
+		return new org.jdom2.Document(this.getRootElement(), null, null);
 	}
 	
 	@SuppressWarnings({"rawtypes","unchecked"})
@@ -71,10 +76,8 @@ public abstract class AbstractAdvertisement<T> extends Advertisement implements 
 		StructuredDocument adv = StructuredDocumentFactory.newStructuredDocument(arg0, getAdvType());
 		Element e;
 		for (String key : keyValue.keySet()) {
-			if(keyValue.get(key) != "" && keyValue.get(key) !=null){
-				e = adv.createElement(key,keyValue.get(key));
-				adv.appendChild(e);
-			}
+			e = adv.createElement(key,keyValue.get(key));
+			adv.appendChild(e);
 		}
 		return adv;
 	}

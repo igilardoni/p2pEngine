@@ -1,10 +1,9 @@
 package model.objet;
 
-import util.*;
 
 public class Category {
 	
-	private static String linkText = "Category.CATEGORY.";
+	public static String linkText = "Category.CATEGORY.";
 	
 	public static enum CATEGORY {
 		Appliances,
