@@ -72,7 +72,14 @@ public class Communication implements PipeMsgListener {
 	
 	
 	
-	
+	/**
+	 * Check the message format. Message received had to contain minimums elements
+	 * <toService /> The service aimed by the message
+	 * <from /> the publicKey of the message's author
+	 * <sign /> the signature
+	 * @param m
+	 * @return
+	 */
 	private boolean checkMessageFormat(Message m) {
 		return
 				m.getMessageElement(SERVICE_TAG) != null &&
@@ -87,26 +94,37 @@ public class Communication implements PipeMsgListener {
 	 * @return
 	 */
 	private boolean checkSignature(Message m) {
-		
 		String s = "";
 		ElementIterator iterator = m.getMessageElements();
+		
+		//We prepare the hash
 		while(iterator.hasNext()) {
 			MessageElement e = iterator.next();
 			if(e.getElementName().equals("sign")) continue; //we will hash all except the signature.
 			s = s + new String(e.getBytes(true));
 		}
 		
-		String hash = Hasher.SHA256(s);
-		String signature = new String(m.getMessageElement("sign").getBytes(true));
+		String hash = Hasher.SHA256(s); //hash the entire message.
+		String signature = new String(m.getMessageElement("sign").getBytes(true)); //getting signature
 		
 		
-		// TODO check if hash = descrypt(from, sign)
+		// TODO check if hash = decrypt(from, sign)
 		
 		return true;
 	}
 	
+	
 	/**
-	 * Catchs all messages aimed for this peer and redirect to the proper
+	 * Check if the service exists
+	 * @param m the message received
+	 * @return true if the service is known and added in the communication module
+	 */
+	private boolean checkService(Message m) {
+		return this.services.containsKey(new String(m.getMessageElement(SERVICE_TAG).getBytes(true)));
+	}
+	
+	/**
+	 * Catch all messages aimed for this peer and redirect to the proper
 	 * service, if the message's signature is correct. If not, the message is ignored.
 	 */
 	@Override
@@ -114,12 +132,16 @@ public class Communication implements PipeMsgListener {
 		Message m = event.getMessage();
 		if(!checkMessageFormat(m)) return; // Message format incorrect, aborting...
 		if(!checkSignature(m)) return; // Message signature incorrect, aborting...
+		if(!checkService(m)) return; // Service unknown ..
 		
-		
-		
-		
+		String service = new String(m.getMessageElement(SERVICE_TAG).getBytes(true));
+		this.services.get(service).putMessage(m); //sending message to the according service.
 	}
 	
+	/**
+	 * Add a service to the communication module
+	 * @param service a class implementing ServiceInterface
+	 */
 	public void addService(ServiceInterface service) {
 		services.put(service.getServiceName(), service);
 	}
