@@ -1,9 +1,15 @@
 package model.network.communication;
 
 import java.io.IOException;
+import java.util.HashMap;
 
+import util.Hasher;
 import model.network.Network;
 import model.network.NetworkInterface;
+import model.network.communication.service.ServiceInterface;
+import net.jxta.endpoint.Message;
+import net.jxta.endpoint.Message.ElementIterator;
+import net.jxta.endpoint.MessageElement;
 import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.pipe.PipeMsgEvent;
@@ -22,6 +28,8 @@ public class Communication implements PipeMsgListener {
 	public final static String SERVICE_TAG = "toService";
 	private NetworkInterface network = null;
 	private PeerGroup communicationGroup = null;
+	private HashMap<String, ServiceInterface> services = new HashMap<String, ServiceInterface>();
+	
 	/**
 	 * Instantiate the Communication class, based on a pipe
 	 * provided by the network. Communication should be instantiate once.
@@ -58,7 +66,6 @@ public class Communication implements PipeMsgListener {
 		try {
 			network.getGroup(this.getClass().getName()).getPipeService().createInputPipe(pipeAdv, this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -66,11 +73,55 @@ public class Communication implements PipeMsgListener {
 	
 	
 	
+	private boolean checkMessageFormat(Message m) {
+		return
+				m.getMessageElement(SERVICE_TAG) != null &&
+				m.getMessageElement("from") != null &&
+				m.getMessageElement("sign") != null;
+	}
 	
+	
+	/**
+	 * Check the message signature according to the from public key, and the hash of the entire message.
+	 * @param m
+	 * @return
+	 */
+	private boolean checkSignature(Message m) {
+		
+		String s = "";
+		ElementIterator iterator = m.getMessageElements();
+		while(iterator.hasNext()) {
+			MessageElement e = iterator.next();
+			if(e.getElementName().equals("sign")) continue; //we will hash all except the signature.
+			s = s + new String(e.getBytes(true));
+		}
+		
+		String hash = Hasher.SHA256(s);
+		String signature = new String(m.getMessageElement("sign").getBytes(true));
+		
+		
+		// TODO check if hash = descrypt(from, sign)
+		
+		return true;
+	}
+	
+	/**
+	 * Catchs all messages aimed for this peer and redirect to the proper
+	 * service, if the message's signature is correct. If not, the message is ignored.
+	 */
 	@Override
 	public void pipeMsgEvent(PipeMsgEvent event) {
-		// TODO Auto-generated method stub
+		Message m = event.getMessage();
+		if(!checkMessageFormat(m)) return; // Message format incorrect, aborting...
+		if(!checkSignature(m)) return; // Message signature incorrect, aborting...
 		
+		
+		
+		
+	}
+	
+	public void addService(ServiceInterface service) {
+		services.put(service.getServiceName(), service);
 	}
 
 }

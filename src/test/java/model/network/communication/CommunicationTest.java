@@ -17,4 +17,5 @@ public class CommunicationTest {
 		Network n = new Network(9705, ".test", "Test");
 		Communication c = new Communication(n);
 	}
+	
 }

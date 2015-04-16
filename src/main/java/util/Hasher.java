@@ -1,10 +1,16 @@
 package util;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Hasher {
-	public static String SHA256(String string) throws Exception{
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
+	public static String SHA256(String string) {
+        MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
  
         byte[] dataBytes = new byte[1024];
  
