@@ -27,6 +27,16 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	private static int keyLength = 160;
 	
 	/**
+	 * This constructor is used for unknown PrivateKey
+	 */
+	public AsymKeysImpl(BigInteger p, BigInteger g, BigInteger publicKey){
+		this.privateKey = null;
+		this.publicKey = publicKey;
+		this.p = p;
+		this.g = g;
+	}
+	
+	/**
 	 * This constructor is used if Keys are already generated.
 	 */
 	public AsymKeysImpl(BigInteger p, BigInteger g, BigInteger publicKey, BigInteger privateKey) throws Exception{
