@@ -29,10 +29,7 @@ public class KeyGenerator {
 	 * This constructor is used for generate the public key and the private key with default p and q.
 	 */
 	public KeyGenerator(){
-		privateKey = new BigInteger(keyLength,random);
-		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)
-			privateKey = new BigInteger(keyLength,random);
-		publicKey = g.modPow(privateKey,p);
+		this(false);
 	}
 	
 	/**
