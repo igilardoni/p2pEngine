@@ -9,7 +9,7 @@ import java.security.SecureRandom;
  * 
  */
 
-public class KeyGenerator {
+public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<BigInteger> {
 	static SecureRandom  random = new SecureRandom();
 	
 	private static BigInteger ONE = BigInteger.ONE;
@@ -18,6 +18,7 @@ public class KeyGenerator {
 	private boolean pGenerated = false;
 	private BigInteger g = new BigInteger ("57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171");
 	
+	private boolean wellGenerated = false;
 	private BigInteger q;
 	private BigInteger privateKey;
 	private BigInteger publicKey;
@@ -26,17 +27,31 @@ public class KeyGenerator {
 	private static int keyLength = 160;
 	
 	/**
-	 * This constructor is used for generate the public key and the private key with default p and q.
+	 * This constructor is used if Keys are already generated.
 	 */
-	public KeyGenerator(){
-		this(false);
+	public AsymKeysImpl(BigInteger p, BigInteger g, BigInteger publicKey, BigInteger privateKey) throws Exception{
+		this.privateKey = privateKey;
+		this.publicKey = publicKey;
+		this.p = p;
+		this.g = g;
+		if(isCompatible())
+			throw new IllegalArgumentException(this.getClass().getName()+" : Incompatible Keys !!!");
+		else
+			wellGenerated = true;
+	}
+	
+	/**
+	 * Empty Constructor.
+	 * @deprecated
+	 */
+	private AsymKeysImpl(){
 	}
 	
 	/**
 	 * This constructor is used for generate the public key and private key with possibility of generation p and q.
 	 * @param pgGenerated - true for generate p and q, false else.
 	 */
-	public KeyGenerator(boolean pgGenerate){
+	public AsymKeysImpl(boolean pgGenerate){
 		if(pgGenerate){
 			GenerateP();
 			GenerateG();
@@ -45,6 +60,7 @@ public class KeyGenerator {
 		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)
 			privateKey = new BigInteger(keyLength,random);
 		publicKey = g.modPow(privateKey,p);
+		this.wellGenerated = true;
 	}
 	
 	/**
@@ -124,5 +140,52 @@ public class KeyGenerator {
 	 */
 	public BigInteger getG(){
 		return g;
+	}
+	
+	/**
+	 * @deprecated
+	 * @param publicKey
+	 */
+	public void setPublicKey(BigInteger publicKey){
+		this.publicKey = publicKey;
+	}
+	/**
+	 * @deprecated
+	 * @param privateKey
+	 */
+	public void setPrivateKey(BigInteger privateKey){
+		this.privateKey = privateKey;
+	}
+	/**
+	 * @deprecated
+	 * @param p
+	 */
+	public void setP(BigInteger p){
+		this.p = p;
+	}
+	/**
+	 * @deprecated
+	 * @param g
+	 */
+	public void setG(BigInteger g){
+		this.g = g;
+	}
+	
+
+	@Override
+	public boolean generate() {
+		return wellGenerated;
+	}
+	
+	/**
+	 * Used to verify if publicKey, privateKey, p and g are compatible ! 
+	 * @return true if keys are compatible, false else.
+	 */
+	public boolean isCompatible(){
+		BigInteger verif = this.getG().modPow(this.getPrivateKey(), this.getP());
+		if(verif.compareTo(this.getPublicKey())==0)
+			return true;
+		else
+			return false;
 	}
 }

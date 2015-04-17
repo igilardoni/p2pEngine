@@ -21,4 +21,15 @@ public interface AsymKeys<K> {
 	 */
 	public K getPrivateKey();
 	
+	/**
+	 * Get G of the publicKey
+	 * @return
+	 */
+	public K getG();
+	
+	/**
+	 * Get P of the publicKey
+	 * @return
+	 */
+	public K getP();
 }

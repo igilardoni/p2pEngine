@@ -8,6 +8,7 @@ import net.jxta.document.Element;
 import net.jxta.document.XMLElement;
 import net.jxta.id.ID;
 import util.Hasher;
+import util.secure.AsymKeysImpl;
 
 public class User extends AbstractAdvertisement<User>{
 	private String nick;
@@ -16,7 +17,7 @@ public class User extends AbstractAdvertisement<User>{
 	private String firstName;
 	private String email;
 	private String phone;
-	private TwinKey key;
+	private AsymKeysImpl key;
 	
 	/**
 	 * To edit existing users in the XML file
@@ -30,7 +31,7 @@ public class User extends AbstractAdvertisement<User>{
 	 */
 	public User(String nick,String password,String name,
 			String firstName,String email,
-			String phone,TwinKey key
+			String phone,AsymKeysImpl key
 			){
 		super();
 		this.nick = nick;
@@ -68,7 +69,7 @@ public class User extends AbstractAdvertisement<User>{
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
-		this.key = new TwinKey(true);
+		this.key = new AsymKeysImpl(false);
 		putKeys();
 	}
 	
@@ -107,7 +108,7 @@ public class User extends AbstractAdvertisement<User>{
 	public String getPhone() {
 		return phone;
 	}
-	public TwinKey getKey(){
+	public AsymKeysImpl getKey(){
 		return key;
 	}
 	public BigInteger getPublicKey(){
@@ -142,7 +143,7 @@ public class User extends AbstractAdvertisement<User>{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setKey(TwinKey key){
+	public void setKey(AsymKeysImpl key){
 		this.key = key;
 	}
 	
