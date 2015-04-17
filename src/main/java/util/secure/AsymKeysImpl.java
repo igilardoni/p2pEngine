@@ -44,7 +44,7 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		this.publicKey = publicKey;
 		this.p = p;
 		this.g = g;
-		if(isCompatible())
+		if(!isCompatible())
 			throw new IllegalArgumentException(this.getClass().getName()+" : Incompatible Keys !!!");
 		else
 			wellGenerated = true;
