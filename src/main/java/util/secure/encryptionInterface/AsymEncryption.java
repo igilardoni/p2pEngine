@@ -10,13 +10,20 @@ package util.secure.encryptionInterface;
  */
 public interface AsymEncryption<K, D> {
 	
+	
+	/**
+	 * Set the public/private key if known, and the right P & G.
+	 * @param keys
+	 */
+	public void setAsymsKeys(AsymKeys<K> keys);
+	
 	/**
 	 * Encrypt the data with a public key.
 	 * @param data the data to encrypt
 	 * @param publicKey the public key
 	 * @return the data encrypted
 	 */
-	public D encryptWithPublicKey(D data, K publicKey);
+	public D encryptWithPublicKey(D data);
 	
 	/**
 	 * Encrypt with the data with a private key (typically for emit a signature)
@@ -24,7 +31,7 @@ public interface AsymEncryption<K, D> {
 	 * @param privateKey the private key
 	 * @return the data encrypted
 	 */
-	public D encryptWithPrivateKey(D data, K privateKey);
+	public D encryptWithPrivateKey(D data);
 	
 	
 	/**
@@ -33,7 +40,7 @@ public interface AsymEncryption<K, D> {
 	 * @param publicKey the public key
 	 * @return the data decrypted.
 	 */
-	public D decryptWithPublicKey(D data, K publicKey);
+	public D decryptWithPublicKey(D data);
 	
 	/**
 	 * Decrypt the data with the private key
@@ -41,5 +48,5 @@ public interface AsymEncryption<K, D> {
 	 * @param privateKey the private key
 	 * @return the data decrypted
 	 */
-	public D descryptWithPrivateKey(D data, K privateKey);
+	public D descryptWithPrivateKey(D data);
 }

@@ -5,7 +5,9 @@ import java.math.BigInteger;
 import java.util.HashMap;
 
 import util.Hasher;
+import util.secure.AsymKeysImpl;
 import util.secure.encryptionInterface.AsymEncryption;
+import util.secure.encryptionInterface.AsymKeys;
 import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceInterface;
@@ -78,6 +80,8 @@ public class Communication implements PipeMsgListener {
 	 * Check the message format. Message received had to contain minimums elements
 	 * <toService /> The service aimed by the message
 	 * <from /> the publicKey of the message's author
+	 * <p></p> p value for the encryption
+	 * <g></g> g value for the encryption
 	 * <sign /> the signature
 	 * @param m
 	 * @return
@@ -86,6 +90,8 @@ public class Communication implements PipeMsgListener {
 		return
 				m.getMessageElement(SERVICE_TAG) != null &&
 				m.getMessageElement("from") != null &&
+				m.getMessageElement("p") != null &&
+				m.getMessageElement("g") != null &&
 				m.getMessageElement("sign") != null;
 	}
 	
@@ -97,7 +103,7 @@ public class Communication implements PipeMsgListener {
 	 */
 	private boolean checkSignature(Message m) {
 		String s = "";
-		ElementIterator iterator = m.getMessageElements();
+		ElementIterator iterator = m.getMessageElements(); //getting all elements
 		
 		//We prepare the hash
 		while(iterator.hasNext()) {
@@ -107,10 +113,26 @@ public class Communication implements PipeMsgListener {
 		}
 		
 		String expected = Hasher.SHA256(s); //hash the entire message, the expected signature
-		String publicKey = new String(m.getMessageElement("from").getBytes(true));
+		
+		
+		//Retrieving public key
+		BigInteger publicKey = new BigInteger(m.getMessageElement("from").getBytes(true));
+		BigInteger p = new BigInteger(m.getMessageElement("p").getBytes(true));
+		BigInteger g = new BigInteger(m.getMessageElement("g").getBytes(true));
 		byte[] signature = m.getMessageElement("sign").getBytes(true); //getting signature
-		AsymEncryption<BigInteger, byte[]> crypter = null; // TODO
-		String actual = new String(crypter.decryptWithPublicKey(signature, new BigInteger(publicKey)));
+		
+		AsymEncryption<BigInteger, byte[]> crypter = null; // TODO AsymEncryption Implementation
+		
+		AsymKeys keys;
+		try {
+			keys = new AsymKeysImpl(p, g, publicKey, null);
+		} catch (Exception e) {
+			//incompatible keys/p/g !
+			e.printStackTrace();
+			return false;
+		}
+		crypter.setAsymsKeys(keys);
+		String actual = new String(crypter.decryptWithPublicKey(signature));
 		
 		return actual.equals(expected);
 	}

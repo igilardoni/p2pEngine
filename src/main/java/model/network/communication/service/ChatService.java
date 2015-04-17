@@ -36,6 +36,8 @@ public class ChatService extends Service{
 		String date = new String(m.getMessageElement("date").getBytes(true));
 		
 		
+		//TODO process the message
+		
 		
 		return true;
 	}
