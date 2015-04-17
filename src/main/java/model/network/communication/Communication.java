@@ -1,9 +1,11 @@
 package model.network.communication;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 
 import util.Hasher;
+import util.secure.encryptionInterface.AsymEncryption;
 import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceInterface;
@@ -104,13 +106,13 @@ public class Communication implements PipeMsgListener {
 			s = s + new String(e.getBytes(true));
 		}
 		
-		String hash = Hasher.SHA256(s); //hash the entire message.
-		String signature = new String(m.getMessageElement("sign").getBytes(true)); //getting signature
+		String expected = Hasher.SHA256(s); //hash the entire message, the expected signature
+		String publicKey = new String(m.getMessageElement("from").getBytes(true));
+		byte[] signature = m.getMessageElement("sign").getBytes(true); //getting signature
+		AsymEncryption<BigInteger, byte[]> crypter = null; // TODO
+		String actual = new String(crypter.decryptWithPublicKey(signature, new BigInteger(publicKey)));
 		
-		
-		// TODO check if hash = decrypt(from, sign)
-		
-		return true;
+		return actual.equals(expected);
 	}
 	
 	
