@@ -11,7 +11,7 @@ import net.jxta.id.ID;
  * Class Item : description of object
  */
 
-public class Item extends AbstractAdvertisement<Item>{
+public class Item extends AbstractAdvertisement{
 	
 	public static enum TYPE{
 		WISH,						// If object is needed
@@ -44,7 +44,7 @@ public class Item extends AbstractAdvertisement<Item>{
 		this.date = date;
 		this.lifeTime = lifeTime;
 		this.type = type;
-		putKeys();
+		setKeys();
 	}
 	
 	public Item(){
@@ -177,45 +177,28 @@ public class Item extends AbstractAdvertisement<Item>{
 	 * Used to add all keys
 	 */
 	@Override
-	protected void putKeys() {
-		putValue("owner", this.getOwner());
-		putValue("friendNick", this.getFriendNick());
-		putValue("title", this.getTitle());
-		putValue("category", category.getChoice());
-		putValue("description", this.getDescription());
-		putValue("image", this.getImage());
-		putValue("zone", this.getCountry());
-		putValue("contact", this.getContact());
-		putValue("date", String.valueOf(this.getDate()));
-		putValue("lifeTime", String.valueOf(this.getLifeTime()));
-		putValue("type", this.getType().toString());
-	}
-	
-	/**
-	 * Used to create Element for a known key
-	 */
-	@Override
-	@SuppressWarnings({"rawtypes","null"})
-	protected Element getElement(String key) {
-		XMLElement root = null;
-		root.addAttribute(key, keyValue.get(key));
-		return root;
+	protected void putValues() {
+		addValue("owner", this.getOwner());
+		addValue("friendNick", this.getFriendNick());
+		addValue("title", this.getTitle());
+		addValue("category", category.getChoice());
+		addValue("description", this.getDescription());
+		addValue("image", this.getImage());
+		addValue("zone", this.getCountry());
+		addValue("contact", this.getContact());
+		addValue("date", String.valueOf(this.getDate()));
+		addValue("lifeTime", String.valueOf(this.getLifeTime()));
+		addValue("type", this.getType().toString());
 	}
 
 	@Override
-	public ID getID() {
+	protected String getAdvertisementName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	protected boolean handleElement(org.jdom2.Element e) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] getIndexFields() {
-		// TODO Need verification
-		return (String[]) indexes.toArray();
-	}
-	
-	@Override
-	public String getAdvType(){
-		return "jxta:"+Item.class.getName();
+		return false;
 	}
 }

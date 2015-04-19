@@ -10,7 +10,7 @@ import net.jxta.id.ID;
 import util.Hasher;
 import util.secure.AsymKeysImpl;
 
-public class User extends AbstractAdvertisement<User>{
+public class User extends AbstractAdvertisement{
 	private String nick;
 	private String hashPwd;
 	private String name;
@@ -41,7 +41,7 @@ public class User extends AbstractAdvertisement<User>{
 		this.email = email;
 		this.phone = phone;
 		this.key = key;
-		putKeys();
+		setKeys();
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class User extends AbstractAdvertisement<User>{
 		this.email = email;
 		this.phone = phone;
 		this.key = new AsymKeysImpl(false);
-		putKeys();
+		setKeys();
 	}
 	
 	/**
@@ -183,49 +183,16 @@ public class User extends AbstractAdvertisement<User>{
 	 * Used to add all keys
 	 */
 	@Override
-	protected void putKeys() {
-		this.putValue("nick", this.getNick());
-		this.putValue("hashPwd", this.getPassword());
-		this.putValue("name", this.getName());
-		this.putValue("firstName", this.getFirstName());
-		this.putValue("email", this.getEmail());
-		this.putValue("phone", this.getPhone());
-		this.putValue("privatekey", this.getPrivateKey().toString(16));
-		this.putValue("publicKey", this.getPublicKey().toString(16));
+	protected void putValues() {
+		addValue("nick", this.getNick());
+		addValue("hashPwd", this.getPassword());
+		addValue("name", this.getName());
+		addValue("firstName", this.getFirstName());
+		addValue("email", this.getEmail());
+		addValue("phone", this.getPhone());
+		addValue("privatekey", this.getPrivateKey().toString(16));
+		addValue("publicKey", this.getPublicKey().toString(16));
 	}
-	
-	/**
-	 * Used to create Element for a known key
-	 */
-	@Override
-	@SuppressWarnings({"rawtypes","null"})
-	protected Element getElement(String key) {
-		XMLElement root = null;
-		root.addAttribute(key, keyValue.get(key));
-		return root;
-	}
-
-	@Override
-	public ID getID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String[] getIndexFields() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public String getAdvType(){
-		return "jxta:"+Item.class.getName();
-	}
-	
-	
-	
-	
-	
 	
 	
 	public static void main(String[] args){
@@ -234,5 +201,16 @@ public class User extends AbstractAdvertisement<User>{
 		System.out.println();
 		System.out.println("pwd : "+u.isPassword("pwd"));
 		System.out.println("PWD : "+u.isPassword("PWD"));
+	}
+
+	@Override
+	protected String getAdvertisementName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	protected boolean handleElement(org.jdom2.Element e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
