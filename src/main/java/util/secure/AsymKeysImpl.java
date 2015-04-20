@@ -53,9 +53,8 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	
 	/**
 	 * Empty Constructor.
-	 * @deprecated
 	 */
-	private AsymKeysImpl(){
+	public AsymKeysImpl(){
 	}
 	
 	/**
@@ -154,28 +153,24 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	}
 	
 	/**
-	 * @deprecated
 	 * @param publicKey
 	 */
 	public void setPublicKey(BigInteger publicKey){
 		this.publicKey = publicKey;
 	}
 	/**
-	 * @deprecated
 	 * @param privateKey
 	 */
 	public void setPrivateKey(BigInteger privateKey){
 		this.privateKey = privateKey;
 	}
 	/**
-	 * @deprecated
 	 * @param p
 	 */
 	public void setP(BigInteger p){
 		this.p = p;
 	}
 	/**
-	 * @deprecated
 	 * @param g
 	 */
 	public void setG(BigInteger g){

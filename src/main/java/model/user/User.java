@@ -3,16 +3,16 @@ package model.user;
 import java.math.BigInteger;
 
 import model.advertisement.AbstractAdvertisement;
-import model.objet.Item;
-import net.jxta.document.Element;
-import net.jxta.document.XMLElement;
-import net.jxta.id.ID;
+
+import org.jdom2.Element;
+
 import util.Hasher;
 import util.secure.AsymKeysImpl;
 
 /**
- * TODO Description et test
- * @author
+ * This class can be instantiated for contains an user.
+ * This class extends AbstractAdvertisement and can be used like an advertisement.
+ * @author michael
  *
  */
 public class User extends AbstractAdvertisement{
@@ -26,6 +26,38 @@ public class User extends AbstractAdvertisement{
 	
 	/**
 	 * To edit existing users in the XML file
+	 * @param nick
+	 * @param password
+	 * @param name
+	 * @param firstName
+	 * @param email
+	 * @param phone
+	 * @param publicKey
+	 * @param p
+	 * @param g
+	 */
+	public User(String nick,String password,String name,
+			String firstName,String email,
+			String phone,BigInteger publicKey,
+			BigInteger p, BigInteger g
+			){
+		super();
+		this.nick = nick;
+		this.hashPwd = password;
+		this.name = name;
+		this.firstName = firstName; 
+		this.email = email;
+		this.phone = phone;
+		this.key = new AsymKeysImpl();
+		key.setP(p);
+		key.setG(g);
+		key.setPublicKey(publicKey);
+		key.setPrivateKey(null);
+		setKeys();
+	}
+	
+	/**
+	 * To edit existing user
 	 * @param nick
 	 * @param password
 	 * @param name
@@ -151,6 +183,18 @@ public class User extends AbstractAdvertisement{
 	public void setKey(AsymKeysImpl key){
 		this.key = key;
 	}
+	public void setPrivateKey(BigInteger privateKey){
+		this.key.setPrivateKey(privateKey);
+	}
+	public void setPublicKey(BigInteger publicKey){
+		this.key.setPublicKey(publicKey);
+	}
+	public void setG(BigInteger g){
+		this.key.setG(g);
+	}
+	public void setP(BigInteger p){
+		this.key.setP(p);
+	}
 	
 	/*
 	 * TODO A SUPPRIMER ULTERIEUREMENT (UTILE POUR LES TESTS)
@@ -197,6 +241,8 @@ public class User extends AbstractAdvertisement{
 		addValue("phone", this.getPhone());
 		addValue("privatekey", this.getPrivateKey().toString(16));
 		addValue("publicKey", this.getPublicKey().toString(16));
+		addValue("p", this.getP().toString(16));
+		addValue("g", this.getG().toString(16));
 	}
 	
 	
@@ -215,7 +261,46 @@ public class User extends AbstractAdvertisement{
 
 	@Override
 	protected boolean handleElement(org.jdom2.Element e) {
-		// TODO Auto-generated method stub
-		return false;
+		String val = e.getText();
+		switch(e.getName()){
+		case "nick":
+			setNick(val);
+			return true;
+		case "hashPwd":
+			setPassword(val);
+			return true;
+		case "name":
+			setName(val);
+			return true;
+		case "firstName":
+			setFirstName(val);
+			return true;
+		case "email":
+			setEmail(val);
+			return true;
+		case "phone":
+			setPhone(val);
+			return true;
+		case "key":									// Not used for now, can be used if XML format is changed
+			boolean all = true;
+			for(Element f: e.getChildren()) {
+				all &= handleElement(f);
+			}
+			return all;
+		case "privatekey":
+			setPrivateKey(new BigInteger(val));
+			return true;
+		case "publicKey":
+			setPublicKey(new BigInteger(val));
+			return true;
+		case "p":
+			setP(new BigInteger(val));
+			return true;
+		case "g":
+			setG(new BigInteger(val));
+			return true;
+		default:
+			return false;
+		}
 	}
 }
