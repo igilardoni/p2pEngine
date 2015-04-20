@@ -5,7 +5,7 @@ import net.jxta.endpoint.Message;
 /**
  * A service handle messages and process these. Typically, the Communication class
  * will call the putMessage method according to the toService tag of the message.
- * @author Julien
+ * @author Julien Prudhomme
  *
  */
 public interface ServiceInterface {

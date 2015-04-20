@@ -3,7 +3,7 @@ package util.secure.encryptionInterface;
 /**
  * public interface for encrypt/ decrypt operation with an asymetric algorithm.
  * The interface isn't dependant on the algorithm.
- * @author Julien
+ * @author Julien Prudhomme
  *
  * @param <K> The type of private and public keys (Typically a BigInteger)
  * @param <D> The type of crypted or decrypted data (Typically byte[])

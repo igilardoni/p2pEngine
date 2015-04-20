@@ -22,6 +22,12 @@ import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.ModuleImplAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
 
+
+/**
+ * Core class, setting Jxta, groups, and network.
+ * @author Julien Prudhomme
+ *
+ */
 public class Network implements NetworkInterface {
 	private NetworkManager networkManager;
 	private HashMap<String, PeerGroup> peergroups = new HashMap<String, PeerGroup> ();

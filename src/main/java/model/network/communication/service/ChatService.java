@@ -2,6 +2,11 @@ package model.network.communication.service;
 
 import net.jxta.endpoint.Message;
 
+/**
+ * Chat service for communication. Handle all message for Chat service. For discussion between users.
+ * @author Julien Prudhomme
+ *
+ */
 public class ChatService extends Service{
 
 	@Override

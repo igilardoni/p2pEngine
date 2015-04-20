@@ -6,7 +6,8 @@ import java.security.SecureRandom;
 /*
  * Attention au effets de bords plz. (utiliser les valeurs de retour. GenerateP devrait retourner P.
  * Les 2 constructeurs sont quasi les meme, un peu de factorisation avec super() ca serait pas mal
- * 
+ * TODO description & comments
+ * Julien.
  */
 
 public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<BigInteger> {

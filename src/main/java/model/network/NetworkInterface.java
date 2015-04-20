@@ -4,7 +4,7 @@ import net.jxta.peergroup.PeerGroup;
 
 /**
  * Network interface for groups and scope
- * @author Julien
+ * @author Julien Prudhomme
  *
  */
 public interface NetworkInterface {

@@ -10,6 +10,11 @@ import net.jxta.id.ID;
 import util.Hasher;
 import util.secure.AsymKeysImpl;
 
+/**
+ * TODO Description et test
+ * @author
+ *
+ */
 public class User extends AbstractAdvertisement{
 	private String nick;
 	private String hashPwd;

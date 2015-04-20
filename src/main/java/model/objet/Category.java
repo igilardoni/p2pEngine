@@ -1,6 +1,10 @@
 package model.objet;
 
-
+/**
+ * TODO ajoute la descrption, les commentaires & les tests
+ * @author 
+ *
+ */
 public class Category {
 	
 	public static String linkText = "Category.CATEGORY.";

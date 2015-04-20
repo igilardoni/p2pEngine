@@ -5,35 +5,28 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Gere la langue des affichages
- * @author
+ * Localisation of Strings.
+ * @author Prudhomme Julien
  *
  */
 
 public class Langues {
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// Constructor
-	//
-	////////////////////////////////////////////////////////////////////////////
 	private Langues() {
 		// do not instantiate
 	}
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// Bundle access
-	//
-	////////////////////////////////////////////////////////////////////////////
-	private static final String BUNDLE_NAME = "util.messages"; //$NON-NLS-1$
+	
+	private static final String BUNDLE_NAME = "util.messages";
 	private static ResourceBundle RESOURCE_BUNDLE = loadBundle();
+	
 	public static ResourceBundle loadBundle() {
 		return ResourceBundle.getBundle(BUNDLE_NAME);
 	}
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// Strings access
-	//
-	////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Retrieve a string according to the key and the current Locale.
+	 * @param key the string's key
+	 * @return the according string in the current user language.
+	 */
 	public static String getString(String key) {
 		try {
 			ResourceBundle bundle = Beans.isDesignTime() ? loadBundle() : RESOURCE_BUNDLE;
@@ -43,6 +36,9 @@ public class Langues {
 		}
 	}
 	
+	/**
+	 * Call if the current langage may change.
+	 */
 	public static void updateLanguage() {
 		RESOURCE_BUNDLE = loadBundle();
 	}

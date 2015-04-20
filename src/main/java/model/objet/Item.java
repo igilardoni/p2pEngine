@@ -8,7 +8,9 @@ import net.jxta.document.XMLElement;
 import net.jxta.id.ID;
 
 /**
- * Class Item : description of object
+ * TODO Pareil que pour category surtout les tests.
+ * @author 
+ *
  */
 
 public class Item extends AbstractAdvertisement{

@@ -1,5 +1,11 @@
 package util.secure.encryptionInterface;
 
+/**
+ * Interface for asymetric encryption.
+ * @author Julien Prudhomme
+ *
+ * @param <K> the datas' type
+ */
 public interface AsymKeys<K> {
 	
 	/**

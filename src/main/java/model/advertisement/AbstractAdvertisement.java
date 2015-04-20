@@ -15,6 +15,14 @@ import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
 
+
+/**
+ * This class simplify the interface with Jxta for producting advertisement for
+ * an object. This helps to produce a valid xml file for JXTA(datas and indexes) or for our own use.
+ * 
+ * @author Julien Prudhomme
+ *
+ */
 public abstract class AbstractAdvertisement extends Advertisement{
 
 	/*
@@ -207,7 +215,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	@Override
 	public ID getID() {
-		// We don't use id on advertisements.
+		// We don't use ids on advertisements.
 		return null;
 	}
 

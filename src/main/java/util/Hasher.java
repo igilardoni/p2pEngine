@@ -3,6 +3,13 @@ package util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * TODO description comment & test
+ * surtout les tests (ca à l'air de bien marché, mais on sait jamais)
+ * pourquoi dataBytes[1024] ? que se passe-t-il si ma string fais plus de 1ko ?
+ * Julien.
+ *
+ */
 public class Hasher {
 	public static String SHA256(String string) {
         MessageDigest md = null;

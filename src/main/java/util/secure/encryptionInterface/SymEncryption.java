@@ -3,7 +3,7 @@ package util.secure.encryptionInterface;
 /**
  * Interface for encrypting and decrypting data with
  * a secret key.
- * @author Julien
+ * @author Julien Prudhomme
  *
  * @param <D> The type of data encrypted / descripted 
  * @param <K> The type of the secret key

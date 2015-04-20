@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import net.jxta.endpoint.Message;
 
 /**
- * Base service, handling message and notifying listeners
- * @author Julien
+ * Base service for Communication, handling message and notifying listeners.
+ * @author Julien Prudhomme
  *
  */
 public abstract class Service implements ServiceInterface {

@@ -4,7 +4,7 @@ import net.jxta.endpoint.Message;
 
 /**
  * Interface for some class that want's to know a service receive a message.
- * @author Julien
+ * @author Julien Prudhomme
  *
  */
 public interface ServiceListener {

@@ -24,7 +24,7 @@ import net.jxta.protocol.PipeAdvertisement;
  * This class can be bind to an input pipe (specified by the Network) to receive all messages specified to this client.
  * These messages have a specified format, its contain a toService element, then 
  * this class will redirect the message to the specified service, if it exists
- * @author Julien
+ * @author Julien Prudhomme
  *
  */
 
