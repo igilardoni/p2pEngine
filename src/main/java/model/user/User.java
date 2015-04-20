@@ -15,7 +15,7 @@ import util.secure.AsymKeysImpl;
  * @author michael
  *
  */
-public class User extends AbstractAdvertisement{
+public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String nick;
 	private String hashPwd;
 	private String name;
@@ -109,6 +109,10 @@ public class User extends AbstractAdvertisement{
 		this.key = new AsymKeysImpl(false);
 		setKeys();
 	}
+	/**
+	 * Empty Constructor
+	 */
+	public User(){}
 	
 	/**
 	 * Verifies that the password in parameter corresponds to hashPwd
@@ -302,5 +306,14 @@ public class User extends AbstractAdvertisement{
 		default:
 			return false;
 		}
+	}
+
+	@Override
+	public int compareTo(User user) {
+		if(this.getPublicKey().compareTo(user.getPublicKey()) != 0 ||
+				this.getP().compareTo(user.getP()) != 0 ||
+				this.getG().compareTo(user.getG()) != 0)
+			return 1;
+		return 0;
 	}
 }
