@@ -6,24 +6,24 @@ import model.item.Category.CATEGORY;
 import org.junit.Test;
 
 public class ItemTest {
-
+	private static String owner = "owner";
+	private static String friendlyNick = "friendlyNick";
+	private static String title = "title";
+	private static Category category = new Category(CATEGORY.NC);
+	private static String description = "description";
+	private static String image = "";
+	private static String country = "country";
+	private static String contact = "contact";
+	private static long date = System.currentTimeMillis();
+	private static long lifeTime = 1000000;
+	private static Item.TYPE type = Item.TYPE.PROPOSAL;
+	
 	@Test
 	public void compareTo() {
 		Item item1;
 		Item item2;
 		
-		String owner = "Moi";
-		String title = "item";
-		Category category = new Category(CATEGORY.NC);
-		String description = "Aucune description";
-		String image = "";
-		String country = "FRANCE";
-		String contact = "Ne m'appelez pas";
-		long date = System.currentTimeMillis();
-		long lifeTime = 1000000;
-		Item.TYPE type = Item.TYPE.PROPOSAL;
-		
-		item1 = new Item(owner, title, category, description, image, country, contact, date, lifeTime, type);
+		item1 = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
 		
 		item2 = new Item();
 		item2.setOwner(owner);
@@ -37,33 +37,22 @@ public class ItemTest {
 		item2.setLifeTime(lifeTime);
 		item2.setType(type);
 		
-		assertEquals(item1.compareTo(item2), 0);
+		assertEquals(item1.compareTo(item2), 0); // Equals expected
 		
 		item2.setOwner(owner+"!");
 		
-		assertEquals(item1.compareTo(item2), 1);
+		assertEquals(item1.compareTo(item2), 1); // Different expected
 	}
 	
 	@Test
 	public void isAlive(){
 		Item item;
 		
-		String owner = "Moi";
-		String title = "item";
-		Category category = new Category(CATEGORY.NC);
-		String description = "Aucune description";
-		String image = "";
-		String country = "FRANCE";
-		String contact = "Ne m'appelez pas";
-		long date = System.currentTimeMillis()-1;
-		long lifeTime = 0;
-		Item.TYPE type = Item.TYPE.PROPOSAL;
-		
-		item = new Item(owner, title, category, description, image, country, contact, date, lifeTime, type);
+		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
 		
 		assertEquals(item.isAlive(), false);
 		
-		item.setLifeTime(10000);
+		item.setLifeTime(Long.MAX_VALUE);
 		
 		assertEquals(item.isAlive(), true);
 	}

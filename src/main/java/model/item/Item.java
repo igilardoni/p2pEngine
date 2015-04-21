@@ -1,6 +1,7 @@
 package model.item;
 
 import model.advertisement.AbstractAdvertisement;
+import model.user.User;
 
 /**
  * This class can be instantiated for contains an item.
@@ -16,17 +17,17 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		PROPOSAL					// If object is proposed
 	};
 	
-	private String owner;			// Owner of the object
-	private String friendlyNick;	// Friendly-user Pseudo of owner
-	private String title;			// Title of the object
-	private Category category;		// Category of the object
-	private String description;		// Big description of the object
-	private String image;			// Image of the object (convert with Base64)
-	private String country;			// Country of the object (TODO add city and more if needed)
-	private String contact;			// Description of method for contact the owner
-	private long date;				// Date of post/update
-	private long lifeTime;			// LifeTime of the object (at the end of this, the object is delete)
-	private TYPE type;				// Proposal/Wish
+	private String owner = null;			// Owner of the object
+	private String friendlyNick = null;		// Friendly-user Pseudo of owner
+	private String title = null;			// Title of the object
+	private Category category = null;		// Category of the object
+	private String description = null;		// Big description of the object
+	private String image = null;			// Image of the object (convert with Base64)
+	private String country = null;			// Country of the object (TODO add city and more if needed)
+	private String contact = null;			// Description of method for contact the owner
+	private long date = 0;					// Date of post/update
+	private long lifeTime = 0;				// LifeTime of the object (at the end of this, the object is delete)
+	private TYPE type = TYPE.PROPOSAL;		// Proposal/Wish
 	
 	/**
 	 * Constructor of Item
@@ -41,21 +42,41 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param lifeTime
 	 * @param type
 	 */
-	public Item(String owner,String title,
+	public Item(String owner, String friendlyNick, String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
 		super();
-		this.owner = owner;
-		this.title = title;
-		this.category = category;
-		this.description = description ;
-		this.image = image;
-		this.country = country;
-		this.contact = contact;
-		this.date = date;
-		this.lifeTime = lifeTime;
-		this.type = type;
+		this.setOwner(owner);
+		this.setFriendlyNick(friendlyNick);
+		this.setTitle(title);
+		this.setCategory(category);
+		this.setDescription(description);
+		this.setImage(image);
+		this.setCountry(country);
+		this.setContact(contact);
+		this.setDate(date);
+		this.setLifeTime(lifeTime);
+		this.setType(type);
 		setKeys();
+	}
+	
+	/**
+	 * Constructor in case of User Object is passed in parameter
+	 * @param owner
+	 * @param title
+	 * @param category
+	 * @param description
+	 * @param image
+	 * @param country
+	 * @param contact
+	 * @param date
+	 * @param lifeTime
+	 * @param type
+	 */
+	public Item(User owner,String title,
+			Category category, String description, String image,
+			String country,String contact,long date,long lifeTime,TYPE type){
+		this(owner.getPrivateKey().toString(16),owner.getNick(),title, category, description, image, country, contact, date, lifeTime, type);
 	}
 	
 	/**
@@ -81,6 +102,14 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	}
 	
 	/**
+	 * Define the owner of this Item (with User Object in parameter)
+	 * @param owner
+	 */
+	public void setOwner(User owner){
+		this.owner = owner.getPublicKey().toString(16);
+	}
+	
+	/**
 	 * Return the friendly-user nickname of the owner
 	 * @return
 	 */
@@ -90,10 +119,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	
 	/**
 	 * Define the friendly-user nickname of the owner
-	 * @param friendNick
+	 * @param friendLYNick
 	 */
-	public void setFriendNick(String friendNick){
-		this.friendlyNick = friendNick;
+	public void setFriendlyNick(String friendLYNick){
+		this.friendlyNick = friendLYNick;
 	}
 	
 	/**
@@ -264,7 +293,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @return
 	 */
 	public boolean isAlive(){
-		if((date + lifeTime)>=System.currentTimeMillis())
+		if((date + lifeTime)<System.currentTimeMillis())
 			return true;
 		return false;
 	}
@@ -319,7 +348,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			setOwner(val);
 			return true;
 		case "friendNick":
-			setFriendNick(val);
+			setFriendlyNick(val);
 			return true;
 		case "title":
 			setTitle(val);
@@ -359,6 +388,9 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	}
 	
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * @return boolean 0 if both are identical, 1 else
+	 */
 	@Override
 	public int compareTo(Item item) {
 		if(!this.getOwner().equals(item.getOwner()) || 

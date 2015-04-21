@@ -12,17 +12,17 @@ import util.secure.AsymKeysImpl;
 /**
  * This class can be instantiated for contains an user.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
- * @author michael
+ * @author Michael
  *
  */
 public class User extends AbstractAdvertisement implements Comparable<User>{
-	private String nick;
-	private String hashPwd;
-	private String name;
-	private String firstName;
-	private String email;
-	private String phone;
-	private AsymKeysImpl key;
+	private String nick = null;
+	private String hashPwd = null;
+	private String name = null;
+	private String firstName = null;
+	private String email = null;
+	private String phone = null;
+	private AsymKeysImpl key = new AsymKeysImpl();
 	
 	/**
 	 * To edit existing users in the XML file
@@ -167,25 +167,43 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	//////////// SETTERS \\\\\\\\\\\\\\\\
 	public void setNick(String login) {
-		this.nick = login;
+		if(login==null)
+			this.nick = "";
+		else
+			this.nick = login;
 	}
 	public void setPassword(String password) {
 		this.hashPwd = password;
 	}
 	public void setName(String name) {
-		this.name = name;
+		if(name == null)
+			this.name = "";
+		else
+			this.name = name;
 	}
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		if(firstName == null)
+			this.firstName = "";
+		else
+			this.firstName = firstName;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		if(email == null)
+			this.email = "";
+		else
+			this.email = email;
 	}
 	public void setPhone(String phone) {
-		this.phone = phone;
+		if(phone == null)
+			this.phone = "";
+		else
+			this.phone = phone;
 	}
 	public void setKey(AsymKeysImpl key){
-		this.key = key;
+		if(key == null)
+			this.key = new AsymKeysImpl();
+		else
+			this.key = key;
 	}
 	public void setPrivateKey(BigInteger privateKey){
 		this.key.setPrivateKey(privateKey);
@@ -308,11 +326,27 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		}
 	}
 
+	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * @return boolean 0 if both are identical, 1 else
+	 */
 	@Override
 	public int compareTo(User user) {
-		if(this.getPublicKey().compareTo(user.getPublicKey()) != 0 ||
-				this.getP().compareTo(user.getP()) != 0 ||
-				this.getG().compareTo(user.getG()) != 0)
+		if( (this.getPublicKey() == null || user.getPublicKey() == null)
+				&& (this.getPublicKey() != null || user.getPublicKey() != null))
+			return 1;
+		if((this.getP() == null || user.getP() == null)
+				&& (this.getP() != null || user.getP() != null))
+			return 1;
+		if((this.getG() == null || user.getG() == null)
+				&& (this.getG() != null || user.getG() != null))
+			return 1;
+		if(!(this.getG() != null || user.getG() != null) && 
+				(this.getPublicKey().compareTo(user.getPublicKey()) != 0) ||
+				!(this.getP() != null || user.getP() != null) && 
+				(this.getP().compareTo(user.getP()) != 0) ||
+				!(this.getPublicKey() != null || user.getPublicKey() != null) && 
+				(this.getG().compareTo(user.getG()) != 0))
 			return 1;
 		return 0;
 	}
