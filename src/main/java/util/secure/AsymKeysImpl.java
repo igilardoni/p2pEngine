@@ -3,6 +3,14 @@ package util.secure;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.generators.ElGamalKeyPairGenerator;
+import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
+import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
+import org.bouncycastle.crypto.params.ElGamalParameters;
+import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+
 /**
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
  * If needed, this class can call KeyGenerator
@@ -26,6 +34,116 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	private static int pLength = 1024;
 	private static int keyLength = 160;
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*/																										  /*/
+	/*/									SARAH'S GENERATION OF KEYS											  /*/
+	/*/																										  /*/
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * This method is used to generate P and G
+	 * @return ElGamalParameters for GenerateKeys
+	 */
+	private ElGamalParameters GeneratePG(){	
+		ElGamalParameters params;
+		ElGamalParametersGenerator apg;
+		apg = new ElGamalParametersGenerator();
+		apg.init(1024, 20, random);
+        
+		params = apg.generateParameters();
+        p = params.getP();
+        g = params.getG();
+        pGenerated = true;
+        return params;
+	}
+	
+	/**
+	 * This method is used to generate Public Key and Private Key
+	 * @param params
+	 */
+	private void GenerateKeys(ElGamalParameters params){
+		ElGamalKeyGenerationParameters elGP = new ElGamalKeyGenerationParameters(random,params);
+		ElGamalKeyPairGenerator KeyPair = new ElGamalKeyPairGenerator();
+		KeyPair.init(elGP);
+		AsymmetricCipherKeyPair cipher1 = KeyPair.generateKeyPair();
+		publicKey = ((ElGamalPublicKeyParameters) cipher1.getPublic()).getY();
+		privateKey = ((ElGamalPrivateKeyParameters)cipher1.getPrivate()).getX();
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*/																										  /*/
+	/*/									OLD SARAH'S GENERATION OF KEYS										  /*/
+	/*/																			@DEPRECATED					  /*/
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * @deprecated
+	 * This method is used for generate P (without BountyCastle)
+	 */
+	@SuppressWarnings("unused")
+	private void GenerateP()
+	{
+		BigInteger p,q;
+		p = BigInteger.valueOf(4);
+		q = ONE;
+		while (!p.isProbablePrime(20))
+		{
+			q = BigInteger.probablePrime(pLength-1, random);
+			while (q.bitLength()!=pLength-1)
+				q = BigInteger.probablePrime(pLength-1, random);
+			p = q.multiply(TWO).add(ONE);
+		}
+		this.p = p;
+		this.q = q;
+		pGenerated = true;
+	}
+	
+	/**
+	 * @deprecated
+	 * This method is used for generate G. If P isn't generated, the system crash (without BountyCastle)
+	 */
+	@SuppressWarnings("unused")
+	private void GenerateG()
+	{
+		if(!pGenerated){
+			System.err.println("ERROR "+this.getClass().getName()+" : G can't be generated !!!");
+			System.exit(-1);
+		}
+		BigInteger g = BigInteger.ZERO;
+		BigInteger n = p.subtract(ONE);
+		BigInteger p1 = TWO;
+		BigInteger p2 = q;
+		Boolean ok = false;
+		while (!ok)
+		{
+			g = new BigInteger(pLength,random);
+			while (g.compareTo(p) >= 0 || g.compareTo(BigInteger.ONE)<=0)
+				g = new BigInteger(pLength,random);
+			
+				BigInteger b1 = g.modPow(n.divide(p1), p);
+				BigInteger b2 = g.modPow(n.divide(p2), p);
+				
+				if (!b1.equals(ONE) && !b2.equals(ONE))
+					ok = true;	
+		}
+		this.g = g;
+	}
+	
+	/**
+	 * @deprecated
+	 * This method is used to generate Keys (without BountyCastle)
+	 */
+	private void GenerateKeys(){
+		privateKey = new BigInteger(keyLength,random);
+		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)
+			privateKey = new BigInteger(keyLength,random);
+		publicKey = g.modPow(privateKey,p);
+		this.wellGenerated = true;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*/																										  /*/
+	/*/										CLASS GESTION BY MICHAEL										  /*/
+	/*/																										  /*/
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * This constructor is used for unknown PrivateKey
 	 */
@@ -61,64 +179,14 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	 * @param pgGenerated - true for generate p and q, false else.
 	 */
 	public AsymKeysImpl(boolean pgGenerate){
+		ElGamalParameters params;
 		if(pgGenerate){
-			GenerateP();
-			GenerateG();
+			params = GeneratePG();
 		}
-		privateKey = new BigInteger(keyLength,random);
-		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)
-			privateKey = new BigInteger(keyLength,random);
-		publicKey = g.modPow(privateKey,p);
-		this.wellGenerated = true;
-	}
-	
-	/**
-	 * This method is used for generate P.
-	 */
-	private void GenerateP()
-	{
-		BigInteger p,q;
-		p = BigInteger.valueOf(4);
-		q = ONE;
-		while (!p.isProbablePrime(20))
-		{
-			q = BigInteger.probablePrime(pLength-1, random);
-			while (q.bitLength()!=pLength-1)
-				q = BigInteger.probablePrime(pLength-1, random);
-			p = q.multiply(TWO).add(ONE);
+		else{
+			params = new ElGamalParameters(p, g);
 		}
-		this.p = p;
-		this.q = q;
-		pGenerated = true;
-	}
-	
-	/**
-	 * This method is used for generate G. If P isn't generated, the system crash.
-	 */
-	private void GenerateG()
-	{
-		if(!pGenerated){
-			System.err.println("ERROR "+this.getClass().getName()+" : G can't be generated !!!");
-			System.exit(-1);
-		}
-		BigInteger g = BigInteger.ZERO;
-		BigInteger n = p.subtract(ONE);
-		BigInteger p1 = TWO;
-		BigInteger p2 = q;
-		Boolean ok = false;
-		while (!ok)
-		{
-			g = new BigInteger(pLength,random);
-			while (g.compareTo(p) >= 0 || g.compareTo(BigInteger.ONE)<=0)
-				g = new BigInteger(pLength,random);
-			
-				BigInteger b1 = g.modPow(n.divide(p1), p);
-				BigInteger b2 = g.modPow(n.divide(p2), p);
-				
-				if (!b1.equals(ONE) && !b2.equals(ONE))
-					ok = true;	
-		}
-		this.g = g;
+		GenerateKeys(params);
 	}
 	
 	/**

@@ -8,7 +8,7 @@ package util.secure.encryptionInterface;
  * @param <K> The type of private and public keys (Typically a BigInteger)
  * @param <D> The type of crypted or decrypted data (Typically byte[])
  */
-public interface AsymEncryption<K, D> {
+public interface AsymEncryption<D, K> {
 	
 	
 	/**
