@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
 import util.secure.encryptionInterface.AsymEncryption;
 import util.secure.encryptionInterface.AsymKeys;
 import model.network.Network;
@@ -121,9 +122,9 @@ public class Communication implements PipeMsgListener {
 		BigInteger g = new BigInteger(m.getMessageElement("g").getBytes(true));
 		byte[] signature = m.getMessageElement("sign").getBytes(true); //getting signature
 		
-		AsymEncryption<byte[], BigInteger> crypter = null; // TODO AsymEncryption Implementation
+		AsymEncryption<byte[], BigInteger> crypter = new ElGamal(); // TODO AsymEncryption Implementation
 		
-		AsymKeys keys;
+		AsymKeys<BigInteger> keys;
 		try {
 			keys = new AsymKeysImpl(p, g, publicKey, null);
 		} catch (Exception e) {

@@ -15,10 +15,21 @@ public class EmbeddedRunner {
 	private AtomicBoolean initialized = new AtomicBoolean();
 	private GlassFish glassfish;
 
+	
+	/**
+	 * Create the glassfish embeddedRunner
+	 * Call init and start to run the server.
+	 * @param port the server port. For exemple, the server will be accessible at localhost:port
+	 */
 	public EmbeddedRunner(int port) {
 		this.port = port;
 	}
 
+	/**
+	 * Initialize the serveur properties.
+	 * @return
+	 * @throws Exception
+	 */
 	public EmbeddedRunner init() throws Exception{
 		if ( initialized.get() ) {
 			throw new RuntimeException("runner was already initialized");
@@ -41,7 +52,7 @@ public class EmbeddedRunner {
 
 	/**
 	 * Run the server and deploy the application
-	 * @return this
+	 * @return EmbeddedRunner
 	 * @throws Exception
 	 */
 	public EmbeddedRunner start() throws Exception{
@@ -51,15 +62,14 @@ public class EmbeddedRunner {
 		return this;
 	}
 
+	/**
+	 * Stop the server.
+	 * @return
+	 * @throws Exception
+	 */
 	public EmbeddedRunner stop() throws Exception{
 		check();
 		glassfish.stop();
 		return this;
-	}
-
-	public static void main(String args[]) throws Exception {
-		
-		EmbeddedRunner runner = new EmbeddedRunner(8080).init().start();
-		// kill the task to stop the server :p
 	}
 }
