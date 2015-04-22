@@ -121,7 +121,7 @@ public class Communication implements PipeMsgListener {
 		BigInteger g = new BigInteger(m.getMessageElement("g").getBytes(true));
 		byte[] signature = m.getMessageElement("sign").getBytes(true); //getting signature
 		
-		AsymEncryption<BigInteger, byte[]> crypter = null; // TODO AsymEncryption Implementation
+		AsymEncryption<byte[], BigInteger> crypter = null; // TODO AsymEncryption Implementation
 		
 		AsymKeys keys;
 		try {

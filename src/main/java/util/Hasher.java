@@ -10,6 +10,31 @@ import java.security.NoSuchAlgorithmException;
  *
  */
 public class Hasher {	
+	public static String SHA256(byte[] bytes){
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(bytes);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+        byte[] mdbytes = md.digest();
+        return Hexa.bytesToHex(mdbytes);
+	}
+	
+	public static String SHA256(byte[] bytes, byte[] salt){
+        MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(salt);
+			md.update(bytes);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+        byte[] mdbytes = md.digest();
+        return Hexa.bytesToHex(mdbytes);
+	}
+	
 	public static String SHA256(String string) {
         MessageDigest md = null;
 		try {
@@ -19,7 +44,7 @@ public class Hasher {
 			e.printStackTrace();
 		}
         byte[] mdbytes = md.digest();
-        return bytesToHex(mdbytes);
+        return Hexa.bytesToHex(mdbytes);
     }
 	
 	public static String SHA256(String passWord, String salt){
@@ -32,12 +57,6 @@ public class Hasher {
 			e.printStackTrace();
 		}
         byte[] mdbytes = md.digest();
-        return bytesToHex(mdbytes);
+        return Hexa.bytesToHex(mdbytes);
 	}
-
-    private static String bytesToHex(byte[] bytes) {
-        StringBuffer result = new StringBuffer();
-        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
-        return result.toString();
-    }
 }
