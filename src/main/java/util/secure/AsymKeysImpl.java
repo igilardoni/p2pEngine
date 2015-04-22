@@ -3,13 +3,12 @@ package util.secure;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-/*
- * Attention au effets de bords plz. (utiliser les valeurs de retour. GenerateP devrait retourner P.
- * Les 2 constructeurs sont quasi les meme, un peu de factorisation avec super() ca serait pas mal
- * TODO description & comments
- * Julien.
+/**
+ * AsymKeysImpl contains the public key (and P and G) and eventually the private key
+ * If needed, this class can call KeyGenerator
+ * @author Michael
+ *
  */
-
 public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<BigInteger> {
 	static SecureRandom  random = new SecureRandom();
 	
@@ -20,9 +19,9 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	private BigInteger g = new BigInteger ("57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171");
 	
 	private boolean wellGenerated = false;
-	private BigInteger q;
-	private BigInteger privateKey;
-	private BigInteger publicKey;
+	private BigInteger q = null;
+	private BigInteger privateKey = null;
+	private BigInteger publicKey = null;
 	
 	private static int pLength = 1024;
 	private static int keyLength = 160;
@@ -75,7 +74,6 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	
 	/**
 	 * This method is used for generate P.
-	 * @return
 	 */
 	private void GenerateP()
 	{
@@ -94,6 +92,9 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		pGenerated = true;
 	}
 	
+	/**
+	 * This method is used for generate G. If P isn't generated, the system crash.
+	 */
 	private void GenerateG()
 	{
 		if(!pGenerated){
@@ -188,6 +189,11 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	 * @return true if keys are compatible, false else.
 	 */
 	public boolean isCompatible(){
+		if(this.getG() == null ||
+				this.getP() == null ||
+				this.getPrivateKey() == null ||
+				this.getPublicKey() == null)
+			return false;
 		BigInteger verif = this.getG().modPow(this.getPrivateKey(), this.getP());
 		if(verif.compareTo(this.getPublicKey())==0)
 			return true;
