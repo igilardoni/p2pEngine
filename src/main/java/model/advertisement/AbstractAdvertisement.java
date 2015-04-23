@@ -93,7 +93,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	protected void addValue(String key, String value) {
-		if(keyValues.get(key) == null) {
+		if(!keyValues.containsKey(key)) {
 			throw new IllegalArgumentException("unknown key");
 		}
 		keyValues.put(key, value);

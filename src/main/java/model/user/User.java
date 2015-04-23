@@ -1,13 +1,20 @@
 package model.user;
 
+import java.io.Reader;
+import java.io.StringReader;
 import java.math.BigInteger;
 
 import model.advertisement.AbstractAdvertisement;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
+import util.secure.Serpent;
 
 /**
  * This class can be instantiated for contains an user.
@@ -27,7 +34,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	/**
 	 * To edit existing users in the XML file
 	 * @param nick
-	 * @param password
+	 * @param hashPwd
 	 * @param name
 	 * @param firstName
 	 * @param email
@@ -36,14 +43,14 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 * @param p
 	 * @param g
 	 */
-	public User(String nick,String password,String name,
+	public User(String nick,String hashPwd,String name,
 			String firstName,String email,
 			String phone,BigInteger publicKey,
 			BigInteger p, BigInteger g
 			){
 		super();
 		this.nick = nick;
-		this.hashPwd = password;
+		this.hashPwd = hashPwd;
 		this.name = name;
 		this.firstName = firstName; 
 		this.email = email;
@@ -59,20 +66,20 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	/**
 	 * To edit existing user
 	 * @param nick
-	 * @param password
+	 * @param hashPwd
 	 * @param name
 	 * @param firstName
 	 * @param email
 	 * @param phone
 	 * @param key
 	 */
-	public User(String nick,String password,String name,
+	public User(String nick,String hashPwd,String name,
 			String firstName,String email,
 			String phone,AsymKeysImpl key
 			){
 		super();
 		this.nick = nick;
-		this.hashPwd = password;
+		this.hashPwd = hashPwd;
 		this.name = name;
 		this.firstName = firstName; 
 		this.email = email;
@@ -83,22 +90,23 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	/**
 	 * To make new User (during registration)
+	 * This method will generate new Key
 	 * @param nick
-	 * @param password
+	 * @param hashPwd
 	 * @param name
 	 * @param firstName
 	 * @param email
 	 * @param phone
 	 * @param peerID
 	 */
-	public User(String nick,String password,String name,
+	public User(String nick,String passWord,String name,
 			String firstName,String email,
 			String phone
 			){
 		super();
 		this.nick = nick;
 		try {
-			this.hashPwd = Hasher.SHA256(password);
+			this.hashPwd = Hasher.SHA256(passWord);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -218,19 +226,31 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.key.setP(p);
 	}
 	
-	/*
-	 * TODO A SUPPRIMER ULTERIEUREMENT (UTILE POUR LES TESTS)
+	/**
+	 * @return user in String format
 	 */
 	public String toString(){
 		String ret = "";
-		ret += "  Nickname : "+this.getNick()+"\n";
-		ret += "     Login : "+this.getPublicKey().toString(16)+"\n";
-		ret += "Private key: "+this.getPrivateKey().toString(16)+"\n";
-		ret += "HashPassword:"+this.getPassword()+"\n";
-		ret += "      Name : "+this.getName()+"\n";
-		ret += "First name : "+this.getFirstName()+"\n";
-		ret += "     Email : "+this.getEmail()+"\n";
-		ret += "     Phone : "+this.getPhone()+"\n";
+		if(this.getNick() != null)
+			ret += "Nickname : "+this.getNick()+"\n";
+		if(this.getPublicKey() != null)
+			ret += "Login : "+this.getPublicKey().toString(16)+"\n";
+		if(this.getP() != null)
+			ret += "P : "+this.getP();
+		if(this.getG() != null)
+			ret += "G : "+this.getG();
+		if(this.getPrivateKey() != null)
+			ret += "Private key: "+this.getPrivateKey().toString(16)+"\n";
+		if(this.getPassword() != null)
+			ret += "HashPwd:"+this.getPassword()+"\n";
+		if(getName() != null)
+			ret += "Name : "+this.getName()+"\n";
+		if(this.getFirstName() != null)
+			ret += "First name : "+this.getFirstName()+"\n";
+		if(this.getEmail() != null)
+			ret += "Email : "+this.getEmail()+"\n";
+		if(this.getPhone() != null)
+			ret += "Phone : "+this.getPhone()+"\n";
 		return ret;
 	}
 	
@@ -248,6 +268,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addKey("phone", false);
 		this.addKey("privatekey", false);
 		this.addKey("publicKey", true);
+		this.addKey("p", false);
+		this.addKey("g", false);
 	}
 
 	/**
@@ -255,25 +277,16 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	@Override
 	protected void putValues() {
-		addValue("nick", this.getNick());
-		addValue("hashPwd", this.getPassword());
-		addValue("name", this.getName());
-		addValue("firstName", this.getFirstName());
-		addValue("email", this.getEmail());
-		addValue("phone", this.getPhone());
-		addValue("privatekey", this.getPrivateKey().toString(16));
-		addValue("publicKey", this.getPublicKey().toString(16));
-		addValue("p", this.getP().toString(16));
-		addValue("g", this.getG().toString(16));
-	}
-	
-	
-	public static void main(String[] args){
-		User u = new User("pja35", "pwd", "Arrighi", "Pablo", "arrighi.pablo@hotmail.fr", "0612345678");
-		System.out.println(u.toString());
-		System.out.println();
-		System.out.println("pwd : "+u.isPassword("pwd"));
-		System.out.println("PWD : "+u.isPassword("PWD"));
+		this.addValue("nick", this.getNick());
+		this.addValue("hashPwd", this.getPassword());
+		this.addValue("name", this.getName());
+		this.addValue("firstName", this.getFirstName());
+		this.addValue("email", this.getEmail());
+		this.addValue("phone", this.getPhone());
+		this.addValue("privatekey", this.getPrivateKey().toString(16));
+		this.addValue("publicKey", this.getPublicKey().toString(16));
+		this.addValue("p", this.getP().toString(16));
+		this.addValue("g", this.getG().toString(16));
 	}
 
 	@Override
@@ -349,5 +362,39 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 				(this.getG().compareTo(user.getG()) != 0))
 			return 1;
 		return 0;
+	}
+	
+	
+	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
+	public static void main(String[] args){
+		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
+		Serpent s = new Serpent("pwd");
+		// Encryption Private Key
+		BigInteger newKey = new BigInteger(s.encrypt(user.getPrivateKey().toByteArray()));
+		user.setPrivateKey(newKey);
+		
+		// Document -> String
+		Document document = user.getDocument();
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        String xmlString = outputter.outputString(document);
+        System.out.println(xmlString);
+		System.out.println();
+        try{
+        	// String -> Document 
+        	SAXBuilder saxBuilder=new SAXBuilder();
+            Reader stringReader=new StringReader(xmlString);
+            Document document2=saxBuilder.build(stringReader);
+            
+            // Document -> String (just for see if same r
+            XMLOutputter ouputter2 = new XMLOutputter(Format.getPrettyFormat());
+            String xmlString2 = ouputter2.outputString(document2);
+            System.out.println(xmlString2);
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
+        
+        System.out.println();
+        System.out.println(new BigInteger(s.decrypt(newKey.toByteArray())));
 	}
 }
