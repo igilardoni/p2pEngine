@@ -38,18 +38,17 @@ public class ElGamalTest {
 	
 	@Test
 	public void signVerify(){
+		byte[][] rAndS = new byte[2][];
 		// Bob signs :
 		try {
-			elGamalBob.Signs(msgBobToAlice.getBytes());
+			rAndS = elGamalBob.Signs(msgBobToAlice.getBytes());
 		} catch (Exception e) {
 			fail(e.toString());
 		}
 		
 		// Alice verifies
-		elGamalAlice.setR(elGamalBob.getR());
-		elGamalAlice.setS(elGamalBob.getS());
 		try {
-			boolean signatureVerif = elGamalAlice.VerifieSignature(msgBobToAlice.getBytes());
+			boolean signatureVerif = elGamalAlice.VerifieSignature(msgBobToAlice.getBytes(), rAndS[0], rAndS[1]);
 			assertEquals(signatureVerif, true);
 		} catch (Exception e) {
 			fail(e.toString());
