@@ -7,6 +7,7 @@ import java.util.HashMap;
 import util.Hasher;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
+import util.secure.ElGamalSign;
 import util.secure.encryptionInterface.AsymEncryption;
 import util.secure.encryptionInterface.AsymKeys;
 import model.network.Network;
@@ -93,36 +94,35 @@ public class Communication implements PipeMsgListener {
 				m.getMessageElement("from") != null &&
 				m.getMessageElement("p") != null &&
 				m.getMessageElement("g") != null &&
-				m.getMessageElement("sign") != null;
+				m.getMessageElement("signR") != null &&
+				m.getMessageElement("signS") != null;
 	}
 	
 	
 	/**
-	 * Check the message signature according to the from public key, and the hash of the entire message.
+	 * Check the message signature according to the "from" public key, and the hash of the entire message.
 	 * @param m
 	 * @return
 	 */
 	private boolean checkSignature(Message m) {
-		String s = "";
+		String mConcat = "";
 		ElementIterator iterator = m.getMessageElements(); //getting all elements
 		
 		//We prepare the hash
 		while(iterator.hasNext()) {
 			MessageElement e = iterator.next();
 			if(e.getElementName().equals("sign")) continue; //we will hash all except the signature.
-			s = s + new String(e.getBytes(true));
+			mConcat = mConcat + new String(e.getBytes(true));
 		}
-		
-		String expected = Hasher.SHA256(s); //hash the entire message, the expected signature
 		
 		
 		//Retrieving public key
 		BigInteger publicKey = new BigInteger(m.getMessageElement("from").getBytes(true));
 		BigInteger p = new BigInteger(m.getMessageElement("p").getBytes(true));
 		BigInteger g = new BigInteger(m.getMessageElement("g").getBytes(true));
-		byte[] signature = m.getMessageElement("sign").getBytes(true); //getting signature
-		
-		AsymEncryption<byte[], BigInteger> crypter = new ElGamal(); // TODO AsymEncryption Implementation
+		BigInteger r = new BigInteger(m.getMessageElement("signR").getBytes(true));
+		BigInteger s = new BigInteger(m.getMessageElement("signS").getBytes(true));
+		ElGamal crypter = new ElGamal(); // TODO AsymEncryption Implementation
 		
 		AsymKeys<BigInteger> keys;
 		try {
@@ -133,9 +133,8 @@ public class Communication implements PipeMsgListener {
 			return false;
 		}
 		crypter.setAsymsKeys(keys);
-		String actual = new String(crypter.decryptWithPublicKey(signature));
 		
-		return actual.equals(expected);
+		return crypter.verifySignature(mConcat.getBytes(), new ElGamalSign(r, s));
 	}
 	
 	

@@ -30,7 +30,7 @@ public class ElGamalTest {
 		String encryptedAlice = Hexa.bytesToHex(encrypted);
 		
 		// Bob decrypts :
-		byte[] decrypted = elGamalBob.descryptWithPrivateKey(Hexa.hexToBytes(encryptedAlice));
+		byte[] decrypted = elGamalBob.decryptWithPrivateKey(Hexa.hexToBytes(encryptedAlice));
 		String decryptedBob = Hexa.bytesToString(decrypted);
 		
 		assertEquals(msgAliceToBob, decryptedBob);
@@ -38,20 +38,9 @@ public class ElGamalTest {
 	
 	@Test
 	public void signVerify(){
-		byte[][] rAndS = new byte[2][];
-		// Bob signs :
-		try {
-			rAndS = elGamalBob.Signs(msgBobToAlice.getBytes());
-		} catch (Exception e) {
-			fail(e.toString());
-		}
 		
-		// Alice verifies
-		try {
-			boolean signatureVerif = elGamalAlice.VerifieSignature(msgBobToAlice.getBytes(), rAndS[0], rAndS[1]);
-			assertEquals(signatureVerif, true);
-		} catch (Exception e) {
-			fail(e.toString());
-		}
+		ElGamalSign sign = elGamalBob.getMessageSignature(msgBobToAlice.getBytes());
+		boolean signatureVerif = elGamalAlice.verifySignature(msgBobToAlice.getBytes(), sign);
+		assertEquals(signatureVerif, true);
 	}
 }

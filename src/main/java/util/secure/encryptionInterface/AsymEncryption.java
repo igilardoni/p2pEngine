@@ -12,7 +12,7 @@ public interface AsymEncryption<D, K> {
 	
 	
 	/**
-	 * Set the public/private key if known, and the right P & G.
+	 * Set the public/private key if known, and the right P & G if needed
 	 * @param keys
 	 */
 	public void setAsymsKeys(AsymKeys<K> keys);
@@ -26,27 +26,10 @@ public interface AsymEncryption<D, K> {
 	public D encryptWithPublicKey(D data);
 	
 	/**
-	 * Encrypt with the data with a private key (typically for emit a signature)
-	 * @param data the data to encrypt
-	 * @param privateKey the private key
-	 * @return the data encrypted
-	 */
-	public D encryptWithPrivateKey(D data);
-	
-	
-	/**
-	 * Decrypt the data with the public key (typically for decrypt a signature)
-	 * @param data the data to decrypt
-	 * @param publicKey the public key
-	 * @return the data decrypted.
-	 */
-	public D decryptWithPublicKey(D data);
-	
-	/**
 	 * Decrypt the data with the private key
 	 * @param data the data encrypted
 	 * @param privateKey the private key
 	 * @return the data decrypted
 	 */
-	public D descryptWithPrivateKey(D data);
+	public D decryptWithPrivateKey(D data);
 }

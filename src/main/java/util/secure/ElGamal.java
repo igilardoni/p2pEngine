@@ -11,12 +11,13 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 import util.Hasher;
 import util.secure.encryptionInterface.AsymEncryption;
 import util.secure.encryptionInterface.AsymKeys;
+import util.secure.encryptionInterface.Signature;
 /**
  * This class is used for encryption, decryption, signs and verify signature.
  * @author michael
  *
  */
-public class ElGamal implements AsymEncryption<byte[], BigInteger> {
+public class ElGamal implements AsymEncryption<byte[], BigInteger>, Signature<byte[], ElGamalSign> {
 	
 	public SecureRandom  random = new SecureRandom();
 	
@@ -43,10 +44,14 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger> {
 	 * To sign a message
 	 * @param M - byte[]
 	 */
-	public byte[][] Signs(byte[] M) throws Exception
+	public ElGamalSign getMessageSignature(byte[] M)
 	{
 		if(keys.getPrivateKey() == null)
-			throw new Exception("Private key unknown");
+			try {
+				throw new Exception("Private key unknown");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		BigInteger k;
 		BigInteger l;
 		BigInteger r;
@@ -62,44 +67,32 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger> {
 		
 		r = keys.getG().modPow(k,keys.getP());
 		s = l.multiply(m.subtract(r.multiply(keys.getPrivateKey())).mod(keys.getP().subtract(BigInteger.ONE)));
-		return new byte[][]{r.toByteArray(),s.toByteArray()};
+		return new ElGamalSign(r, s);
 	}
 	
 	/**
 	 * To verify a signature
 	 * @param M - byte[]
 	 * @return true if the signature is from public Key, false else
-	 * @throws Exception
 	 */
-	public boolean VerifieSignature(byte[] M, byte[] rBytes, byte[] sBytes) throws Exception{
-		if(rBytes==null || sBytes==null){
-			throw new Exception("R or S unknown");
+	public boolean verifySignature(byte[] M, ElGamalSign sign){
+		try {
+			if(sign == null || sign.getR() == null || sign.getS() == null){
+				throw new Exception("R or S unknown");
+			}
+			if(keys.getPublicKey() == null){
+				throw new Exception("Public key unknown");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		if(keys.getPublicKey() == null){
-			throw new Exception("Public key unknown");
-		}
-		BigInteger r = new BigInteger(rBytes);
-		BigInteger s = new BigInteger(sBytes);
+		
 		
 		BigInteger m = new BigInteger(Hasher.SHA256(M).getBytes());
 		BigInteger v = keys.getG().modPow(m, keys.getP());
-		BigInteger w = (keys.getPublicKey().modPow(r, keys.getP()).multiply(r.modPow(s, keys.getP())).mod(keys.getP()));
+		BigInteger w = (keys.getPublicKey().modPow(sign.getR(), keys.getP()).multiply(sign.getR().modPow(sign.getS(), keys.getP())).mod(keys.getP()));
 		
 		return (v.equals(w));
-	}
-	
-	@Override
-	@Deprecated
-	public byte[] encryptWithPrivateKey(byte[] data) {
-		// TODO Delete from interface ?
-		return null;
-	}
-
-	@Override
-	@Deprecated
-	public byte[] decryptWithPublicKey(byte[] data) {
-		// TODO Delete from interface ?
-		return null;
 	}
 	
 	@Override
@@ -113,7 +106,7 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger> {
 	}
 
 	@Override
-	public byte[] descryptWithPrivateKey(byte[] data) {
+	public byte[] decryptWithPrivateKey(byte[] data) {
 		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());
 		ElGamalPrivateKeyParameters privKey = new ElGamalPrivateKeyParameters(keys.getPrivateKey(), params);
 		
