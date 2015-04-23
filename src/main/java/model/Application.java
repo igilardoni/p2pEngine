@@ -95,6 +95,11 @@ public class Application {
 		}
 	}
 	
+	
+	/**
+	 * We start the app here !
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new Application();
 	}

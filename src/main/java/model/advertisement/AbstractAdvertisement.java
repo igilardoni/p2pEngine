@@ -1,11 +1,18 @@
 package model.advertisement;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 
 import org.jdom2.Element;
 import org.jdom2.IllegalDataException;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import net.jxta.document.Advertisement;
 import net.jxta.document.Document;
@@ -55,6 +62,28 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		this();
 		initialize(root);
 	}
+	
+	
+	/**
+	 * Construct and initialize the class with a string in XML format.
+	 * @param XML
+	 */
+	public AbstractAdvertisement(String XML) {
+		this();
+		SAXBuilder saxBuilder=new SAXBuilder();
+        Reader stringReader=new StringReader(XML);
+        Element root = null;
+        try {
+			root = saxBuilder.build(stringReader).getRootElement();
+		} catch (JDOMException e) {
+			System.err.println("Parse problem in " + this.getAdvType());
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        initialize(root);
+	}
+	
 	
 	@SuppressWarnings("rawtypes")
 	/**
@@ -217,6 +246,18 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public ID getID() {
 		// We don't use ids on advertisements.
 		return null;
+	}
+	
+	
+	@Override
+	/**
+	 * Return a string, XML-Formatted, representing this instance.
+	 */
+	public String toString() {
+		org.jdom2.Document document = this.getDocument();
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        String xmlString = outputter.outputString(document);
+		return xmlString;
 	}
 
 }

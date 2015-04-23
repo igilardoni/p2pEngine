@@ -83,6 +83,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * Empty Constructor
 	 */
 	public Item(){
+		super();
+	}
+	
+	/**
+	 * Construct an Item based on a XML, well and known formated string.
+	 * @param XML
+	 */
+	public Item(String XML) {
+		super(XML);
 	}
 	
 	/**

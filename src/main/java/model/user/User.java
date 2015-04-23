@@ -120,8 +120,16 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	/**
 	 * Empty Constructor
 	 */
-	public User(){}
+	public User(){ super(); }
 	
+	/**
+	 * Construct a new user based on a XML, well and known formated string.
+	 * @param XML
+	 */
+	public User(String XML) {
+		super(XML);
+	}
+
 	/**
 	 * Verifies that the password in parameter corresponds to hashPwd
 	 * @param password
@@ -228,7 +236,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	/**
 	 * @return user in String format
-	 */
 	public String toString(){
 		String ret = "";
 		if(this.getNick() != null)
@@ -252,7 +259,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		if(this.getPhone() != null)
 			ret += "Phone : "+this.getPhone()+"\n";
 		return ret;
-	}
+	} */
 	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -329,7 +336,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			setPublicKey(new BigInteger(val));
 			return true;
 		case "p":
-			setP(new BigInteger(val));
+			setP(new BigInteger(val)); // TODO Peut etre qu'il faut convertir le hex en décimal ? :)
 			return true;
 		case "g":
 			setG(new BigInteger(val));
@@ -375,12 +382,13 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		user.setPrivateKey(newKey);
 		
 		// Document -> String
-		Document document = user.getDocument();
+		/*Document document = user.getDocument();
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         String xmlString = outputter.outputString(document);
         System.out.println(xmlString);
-		System.out.println();
-        try{
+		System.out.println(); */
+		System.out.println(user.toString() + "\n");
+       /* try{
         	// String -> Document 
         	SAXBuilder saxBuilder=new SAXBuilder();
             Reader stringReader=new StringReader(xmlString);
@@ -392,7 +400,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
             System.out.println(xmlString2);
         }catch(Exception e){
         	e.printStackTrace();
-        }
+        } */
+		
+		User user2 = new User(user.toString());
+		System.out.println(user2 + "\n");
         
         System.out.println();
         System.out.println(new BigInteger(s.decrypt(newKey.toByteArray())));
