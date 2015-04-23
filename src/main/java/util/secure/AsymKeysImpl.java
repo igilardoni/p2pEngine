@@ -131,6 +131,7 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	 * @deprecated
 	 * This method is used to generate Keys (without BountyCastle)
 	 */
+	@SuppressWarnings("unused")
 	private void GenerateKeys(){
 		privateKey = new BigInteger(keyLength,random);
 		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)

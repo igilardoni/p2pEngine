@@ -12,7 +12,11 @@ import util.Hasher;
 import util.Hexa;
 import util.secure.encryptionInterface.AsymEncryption;
 import util.secure.encryptionInterface.AsymKeys;
-
+/**
+ * This class is used for encryption, decryption, signs and verify signature.
+ * @author michael
+ *
+ */
 public class ElGamal implements AsymEncryption<byte[], BigInteger> {
 	
 	public SecureRandom  random = new SecureRandom();
@@ -38,7 +42,6 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger> {
 	public void setKeys(AsymKeysImpl keys){
 		this.keys = keys;
 	}
-	
 	public void setR(byte[] r){
 		this.r = new BigInteger(r);
 	}
