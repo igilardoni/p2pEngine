@@ -1,16 +1,10 @@
 package model.user;
 
-import java.io.Reader;
-import java.io.StringReader;
 import java.math.BigInteger;
 
 import model.advertisement.AbstractAdvertisement;
 
-import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
@@ -234,33 +228,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.key.setP(p);
 	}
 	
-	/**
-	 * @return user in String format
-	public String toString(){
-		String ret = "";
-		if(this.getNick() != null)
-			ret += "Nickname : "+this.getNick()+"\n";
-		if(this.getPublicKey() != null)
-			ret += "Login : "+this.getPublicKey().toString(16)+"\n";
-		if(this.getP() != null)
-			ret += "P : "+this.getP();
-		if(this.getG() != null)
-			ret += "G : "+this.getG();
-		if(this.getPrivateKey() != null)
-			ret += "Private key: "+this.getPrivateKey().toString(16)+"\n";
-		if(this.getPassword() != null)
-			ret += "HashPwd:"+this.getPassword()+"\n";
-		if(getName() != null)
-			ret += "Name : "+this.getName()+"\n";
-		if(this.getFirstName() != null)
-			ret += "First name : "+this.getFirstName()+"\n";
-		if(this.getEmail() != null)
-			ret += "Email : "+this.getEmail()+"\n";
-		if(this.getPhone() != null)
-			ret += "Phone : "+this.getPhone()+"\n";
-		return ret;
-	} */
-	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Used to define Keys
@@ -273,7 +240,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addKey("firstName", false);
 		this.addKey("email", false);
 		this.addKey("phone", false);
-		this.addKey("privatekey", false);
+		this.addKey("privateKey", false);
 		this.addKey("publicKey", true);
 		this.addKey("p", false);
 		this.addKey("g", false);
@@ -290,7 +257,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addValue("firstName", this.getFirstName());
 		this.addValue("email", this.getEmail());
 		this.addValue("phone", this.getPhone());
-		this.addValue("privatekey", this.getPrivateKey().toString(16));
+		this.addValue("privateKey", this.getPrivateKey().toString(16));
 		this.addValue("publicKey", this.getPublicKey().toString(16));
 		this.addValue("p", this.getP().toString(16));
 		this.addValue("g", this.getG().toString(16));
@@ -329,17 +296,18 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 				all &= handleElement(f);
 			}
 			return all;
-		case "privatekey":
-			setPrivateKey(new BigInteger(val));
+		case "privateKey":
+			setPrivateKey(new BigInteger(val.getBytes()));
 			return true;
 		case "publicKey":
-			setPublicKey(new BigInteger(val));
+			BigInteger valBigInt = new BigInteger(val,16);
+			setPublicKey(valBigInt);
 			return true;
 		case "p":
-			setP(new BigInteger(val)); // TODO Peut etre qu'il faut convertir le hex en décimal ? :)
+			setP(new BigInteger(val.getBytes())); // TODO Peut etre qu'il faut convertir le hex en dï¿½cimal ? :)
 			return true;
 		case "g":
-			setG(new BigInteger(val));
+			setG(new BigInteger(val.getBytes()));
 			return true;
 		default:
 			return false;

@@ -26,9 +26,6 @@ import net.jxta.id.ID;
 /**
  * This class simplify the interface with Jxta for producting advertisement for
  * an object. This helps to produce a valid xml file for JXTA(datas and indexes) or for our own use.
- * 
- * @author Julien Prudhomme
- *
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 

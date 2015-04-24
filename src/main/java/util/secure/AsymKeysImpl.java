@@ -14,8 +14,6 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 /**
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
  * If needed, this class can call KeyGenerator
- * @author Michael
- *
  */
 public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<BigInteger> {
 	static SecureRandom  random = new SecureRandom();

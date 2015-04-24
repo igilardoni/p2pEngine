@@ -19,16 +19,7 @@ public class TransmitAccountService extends Service {
 				m.getMessageElement("to") != null &
 				m.getMessageElement("userSignR") != null &
 				m.getMessageElement("userSignS") != null &
-				m.getMessageElement("nick") != null &
-				m.getMessageElement("publicKey") != null &
-				m.getMessageElement("p") != null &
-				m.getMessageElement("g") != null &
-				m.getMessageElement("privateKey") != null &
-				m.getMessageElement("name") != null &
-				m.getMessageElement("firstName") != null &
-				m.getMessageElement("hashPwd") != null &
-				m.getMessageElement("email") != null &
-				m.getMessageElement("phone") != null;
+				m.getMessageElement("content") != null;
 	}
 	
 	private boolean checkValidation(User u, BigInteger s, BigInteger r){
@@ -40,27 +31,11 @@ public class TransmitAccountService extends Service {
 		if(!checkMessageFormat(m)) return false;
 		
 		String to = new String(m.getMessageElement("to").getBytes(true));
+		String content = new String(m.getMessageElement("content").getBytes(true));
 		BigInteger userSignR = new BigInteger(m.getMessageElement("userSignR").getBytes(true));
 		BigInteger userSignS = new BigInteger(m.getMessageElement("userSignS").getBytes(true));
 		
-		BigInteger publicKey = new BigInteger(m.getMessageElement("publicKey").getBytes(true));
-		BigInteger privateKey = new BigInteger(m.getMessageElement("privateKey").getBytes(true));
-		BigInteger p = new BigInteger(m.getMessageElement("p").getBytes(true));
-		BigInteger g = new BigInteger(m.getMessageElement("g").getBytes(true));
-		AsymKeysImpl key = new AsymKeysImpl();
-		key.setG(g);
-		key.setP(p);
-		key.setPublicKey(publicKey);
-		key.setPrivateKey(privateKey);
-		
-		String nick = new String(m.getMessageElement("nick").getBytes(true));
-		String name = new String(m.getMessageElement("name").getBytes(true));
-		String firstName = new String(m.getMessageElement("firstName").getBytes(true));
-		String hashPwd = new String(m.getMessageElement("hashPwd").getBytes(true));
-		String email = new String(m.getMessageElement("email").getBytes(true));
-		String phone = new String(m.getMessageElement("phone").getBytes(true));
-		
-		User user = new User(nick, hashPwd, name, firstName, email, phone, key);
+		User user = new User(content);
 		
 		if(checkValidation(user, userSignS, userSignR)){
 			// TODO process in case of wrong message !
