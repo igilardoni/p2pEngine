@@ -23,7 +23,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String firstName = null;
 	private String email = null;
 	private String phone = null;
-	private AsymKeysImpl key = new AsymKeysImpl();
+	private AsymKeysImpl key;
 	
 	/**
 	 * To edit existing users in the XML file
@@ -54,7 +54,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		key.setG(g);
 		key.setPublicKey(publicKey);
 		key.setPrivateKey(null);
-		setKeys();
 	}
 	
 	/**
@@ -79,7 +78,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.email = email;
 		this.phone = phone;
 		this.key = key;
-		setKeys();
 	}
 	
 	/**
@@ -109,12 +107,14 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.email = email;
 		this.phone = phone;
 		this.key = new AsymKeysImpl(false);
-		setKeys();
 	}
 	/**
 	 * Empty Constructor
 	 */
-	public User(){ super(); }
+	public User(){ 
+		
+		super(); 
+	}
 	
 	/**
 	 * Construct a new user based on a XML, well and known formated string.
@@ -225,15 +225,18 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.key.setG(g);
 	}
 	public void setP(BigInteger p){
+		if(this.key == null)
+			System.out.println("ahhhhhhhhhhhhhh");
 		this.key.setP(p);
 	}
 	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * Used to define Keys
+	 * Used to define Keys and initialize some values
 	 */
 	@Override
 	protected void setKeys() {
+		this.key = new AsymKeysImpl();
 		this.addKey("nick", false);
 		this.addKey("hashPwd", false);
 		this.addKey("name", false);
