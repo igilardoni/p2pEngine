@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
 
-import util.Hasher;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
-import util.secure.encryptionInterface.AsymEncryption;
 import util.secure.encryptionInterface.AsymKeys;
 import model.network.Network;
 import model.network.NetworkInterface;
-import model.network.communication.service.ServiceInterface;
+import model.network.communication.service.Service;
 import net.jxta.endpoint.Message;
 import net.jxta.endpoint.Message.ElementIterator;
 import net.jxta.endpoint.MessageElement;
@@ -34,7 +32,8 @@ public class Communication implements PipeMsgListener {
 	public final static String SERVICE_TAG = "toService";
 	private NetworkInterface network = null;
 	private PeerGroup communicationGroup = null;
-	private HashMap<String, ServiceInterface> services = new HashMap<String, ServiceInterface>();
+	@SuppressWarnings("rawtypes")
+	private HashMap<String, Service> services = new HashMap<String, Service>();
 	
 	/**
 	 * Instantiate the Communication class, based on a pipe
@@ -51,6 +50,11 @@ public class Communication implements PipeMsgListener {
 		communicationGroup = network.getGroup(this.getClass().getName());
 		this.network = network;
 		createInputPipe();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Service getService(String name) {
+		return services.get(name);
 	}
 	
 	/**
@@ -166,7 +170,7 @@ public class Communication implements PipeMsgListener {
 	 * Add a service to the communication module
 	 * @param service a class implementing ServiceInterface
 	 */
-	public void addService(ServiceInterface service) {
+	public void addService(Service<?> service) {
 		services.put(service.getServiceName(), service);
 	}
 

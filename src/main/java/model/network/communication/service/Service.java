@@ -8,19 +8,20 @@ import net.jxta.endpoint.Message;
  * @author Julien Prudhomme
  *
  */
-public abstract class Service implements ServiceInterface {
+public abstract class Service<D> implements ServiceInterface {
 
-	private ArrayList<ServiceListener> listeners = new ArrayList<ServiceListener>(); //listeners list
+	private ArrayList<ServiceListener<D>> listeners = new ArrayList<ServiceListener<D>>(); //listeners list
 	
 	@Override
 	public void putMessage(Message m) {
-		if(handleMessage(m)) notifyListeners(m);
+		D res = handleMessage(m);
+		if(res != null) notifyListeners(res);
 	}
 	/**
 	 * Add a new listener for this service.
 	 * @param l A listener.
 	 */
-	public void addListener(ServiceListener l) {
+	public void addListener(ServiceListener<D> l) {
 		listeners.add(l);
 	}
 	
@@ -28,8 +29,8 @@ public abstract class Service implements ServiceInterface {
 	 * Send the event to all listeners.
 	 * @param m
 	 */
-	private void notifyListeners(Message m) {
-		for(ServiceListener l : listeners) {
+	private void notifyListeners(D m) {
+		for(ServiceListener<D> l : listeners) {
 			l.messageEvent(m);
 		}
 	}
@@ -39,6 +40,6 @@ public abstract class Service implements ServiceInterface {
 	 * @param m the message
 	 * @return true if the message was correctly processed
 	 */
-	public abstract boolean handleMessage(Message m);
+	public abstract D handleMessage(Message m);
 
 }

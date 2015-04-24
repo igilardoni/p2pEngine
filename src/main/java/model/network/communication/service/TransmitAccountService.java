@@ -2,15 +2,12 @@ package model.network.communication.service;
 
 import java.math.BigInteger;
 
-import util.Hasher;
-import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
-import model.Application;
 import model.user.User;
 import net.jxta.endpoint.Message;
 
-public class TransmitAccountService extends Service {
+public class TransmitAccountService extends Service<User> {
 
 	@Override
 	public String getServiceName() {
@@ -32,8 +29,8 @@ public class TransmitAccountService extends Service {
 	}
 	
 	@Override
-	public boolean handleMessage(Message m) {
-		if(!checkMessageFormat(m)) return false;
+	public User handleMessage(Message m) {
+		if(!checkMessageFormat(m)) return null;
 		
 		String to = new String(m.getMessageElement("to").getBytes(true));
 		String content = new String(m.getMessageElement("content").getBytes(true));
@@ -45,12 +42,10 @@ public class TransmitAccountService extends Service {
 		if(!checkValidation(user, userSignS, userSignR)){
 			// TODO process in case of wrong message !
 			System.err.println("THIS MESSAGE IS SHIT !");
-		}else{
-			// TODO Need Modification !!!
-			Application.getInstance().getManager().addUser(user);
+			return null;
 		}
 		
-		return true;
+		return user;
 	}
 
 }
