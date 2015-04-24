@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+ <html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login and Registration</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="Login and Registration Form with HTML5 and CSS3" />
+        <meta name="keywords" content="html5, css3, form, switch, animation, :target, pseudo-class" />
+        <meta name="author" content="Codrops" />
+        <link rel="shortcut icon" href="./VIEW/../favicon.ico"> 
+        <link rel="stylesheet" type="text/css" href="./VIEW/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="./VIEW/css/style2.css" />
+		<link rel="stylesheet" type="text/css" href="./VIEW/css/animate-custom.css" />
+		<link rel="stylesheet" type="text/css" href="./VIEW/css/animate-custom.css" />
+		<script type="text/javascript" src="./VIEW/js/to_log_in.js"></script>  
+	</head>
+	
+    <body onload="openSocket();">
+        <div class="container">
+            <header>
+                <h1 id="myH2">Login and Registration</h1>
+            </header>
+            <section>				
+                <div id="container_demo" >
+ 
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate form">
+                              <h1>Log in</h1> 
+                                <p> 
+                                    <label id="label_name" for="username" class="uname" data-icon="u" > Your email or username </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                                </p>
+                                <p> 
+                                    <label for="password" id="label_password"  class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                                <p class="keeplogin"> 
+									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
+									<label for="loginkeeping">Keep me logged in</label>
+								</p>
+								
+                                <p class="login button"> 
+                                    <input type="submit" onclick="connexion();" value="Login" /> 
+								</p>
+								
+                                <p class="change_link">
+									Not a member yet ?
+									<a href="#toregister" class="to_register">Join us</a>
+								</p>
+                         
+                        </div>
+
+                        <div id="register" class="animate form">
+                                <h1> Sign up </h1> 
+                                <p> 
+                                    <label id="label_nick"  for="usernamesignup" class="uname" data-icon="u">Your nick</label>
+                                    <input id="nick" name="nick" required="required" type="text" placeholder="Your nick" />
+                                </p>
+                                  <p> 
+                                    <label id="name_label" for="name"  class="uname" data-icon="u">Your name</label>
+                                    <input id="name" name="name" required="required" type="text" placeholder="Your name" />
+                                </p>
+                                  <p> 
+                                    <label for="firstName" id="label_firstName" class="uname" data-icon="u">Your firstName</label>
+                                    <input id="firstName" name="firstName" required="required" type="text" placeholder="Your firstName" />
+                                </p>
+                                <p> 
+                                    <label for="email" id="label_email" class="youmail" data-icon="e" >Your email</label>
+                                    <input id="email" name="email" required="required" type="email" placeholder="mysupermail@mail.com"/> 
+                                </p>
+                                <p> 
+                                    <label for="passwordsignup" id="label_pw1" class="youpasswd" data-icon="p">Your password </label>
+                                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                                </p>
+                                <p> 
+                                    <label for="passwordsignup_confirm" id="label_pw2" class="youpasswd" data-icon="p">Please confirm your password </label>
+                                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                                </p>
+                               
+                               <p>
+                                <input type="text" id="input_text_file" name="input_text_file" class="inputText" readonly="readonly" style="display: none;"/>
+       							 <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
+                               </p>
+                                <p class="signin button"> 
+									<input type="submit" onclick="to_register();" value="Sign up" /> 
+								</p>
+                                <p class="change_link">  
+									Already a member ?
+									<a href="#tologin" class="to_register"> Go and log in </a>
+								</p>
+                         
+                        </div>
+						
+                    </div>
+                </div>  
+            </section>
+        </div>    
+      </body>
+</html>
