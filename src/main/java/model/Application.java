@@ -2,6 +2,9 @@ package model;
 
 import model.manager.Manager;
 import model.network.Network;
+import model.network.communication.Communication;
+import model.network.communication.service.ChatService;
+import model.network.communication.service.TransmitAccountService;
 
 /**
  * The main class of the software. This class can be instancied only once. (singleton)
@@ -15,10 +18,12 @@ public class Application {
 	private EmbeddedRunner server;
 	private Network network;
 	private Manager manager;
+	private Communication com;
 
 	/**
 	 * Launch the application.
 	 */
+	@SuppressWarnings("unchecked")
 	public Application() {
 		if(instance != null) {
 			try {
@@ -30,11 +35,25 @@ public class Application {
 		}
 		
 		startNetwork();
+		startCommunication();
 		manager = new Manager();
-		
+		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		startLocalServer();
 		
 		instance = this;
+	}
+	
+	/**
+	 * Start the communication package.
+	 */
+	private void startCommunication() {
+		try {
+			this.com = new Communication(network);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		com.addService(new ChatService());
+		com.addService(new TransmitAccountService());
 	}
 	
 	/**

@@ -7,7 +7,7 @@ import net.jxta.endpoint.Message;
  * @author Julien Prudhomme
  *
  */
-public class ChatService extends Service{
+public class ChatService extends Service<Message>{
 
 	@Override
 	public String getServiceName() {
@@ -33,8 +33,8 @@ public class ChatService extends Service{
 	}
 	
 	@Override
-	public boolean handleMessage(Message m) {
-		if(!checkMessageFormat(m)) return false;
+	public Message handleMessage(Message m) {
+		if(!checkMessageFormat(m)) return null;
 		String to = new String(m.getMessageElement("to").getBytes(true));
 		String fromNick = new String(m.getMessageElement("fromNick").getBytes(true));
 		String content = new String(m.getMessageElement("content").getBytes(true));
@@ -44,7 +44,7 @@ public class ChatService extends Service{
 		//TODO process the message
 		
 		
-		return true;
+		return m;
 	}
  // TODO
 }

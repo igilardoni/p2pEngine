@@ -12,7 +12,6 @@ import model.network.communication.Communication;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
-import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
@@ -138,18 +137,6 @@ public class Network implements NetworkInterface {
 	 */
 	public void setLogger(Level level) {
 		Logger.getLogger("net.jxta").setLevel(level);
-	}
-	
-	public static void main(String[] args) {
-		Network n = new Network(7905, ".test2", "Julien");
-		n.start();
-		Communication c;
-		try {
-			c = new Communication(n);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import model.item.Item;
 import model.network.communication.service.ServiceListener;
 import model.user.User;
 
-public class Manager implements ServiceListener {
+public class Manager implements ServiceListener<User> {
 	HashMap<Item, String> association = new HashMap<Item, String>();
 	HashMap<String, User> users = new HashMap<String, User>();
 	ArrayList<Item> items = new ArrayList<Item>();
@@ -127,8 +127,7 @@ public class Manager implements ServiceListener {
 	}
 
 	@Override
-	public void messageEvent(Message m) {
-		// TODO Auto-generated method stub
-		
+	public void messageEvent(User m) {
+		addUser(m);
 	}
 }
