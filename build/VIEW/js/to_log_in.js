@@ -8,7 +8,7 @@
                     return;
                 }
                 // Create a new instance of the websocket
-                webSocket = new WebSocket("ws://localhost:8080/SXPReboot/echo");
+                webSocket = new WebSocket("ws://localhost:8080/EchoChamber/serv");
                  
                 /**
                  * Binds functions to the listeners for the websocket.
