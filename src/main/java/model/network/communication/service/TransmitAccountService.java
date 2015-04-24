@@ -4,6 +4,9 @@ import java.math.BigInteger;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
+import util.secure.ElGamalSign;
+import model.Application;
 import model.user.User;
 import net.jxta.endpoint.Message;
 
@@ -23,7 +26,9 @@ public class TransmitAccountService extends Service {
 	}
 	
 	private boolean checkValidation(User u, BigInteger s, BigInteger r){
-		return true;
+		ElGamal eg = new ElGamal(u.getKey());
+		ElGamalSign sign = new ElGamalSign(r, s);
+		return eg.verifySignature(u.toString().getBytes(), sign);
 	}
 	
 	@Override
@@ -37,12 +42,13 @@ public class TransmitAccountService extends Service {
 		
 		User user = new User(content);
 		
-		if(checkValidation(user, userSignS, userSignR)){
+		if(!checkValidation(user, userSignS, userSignR)){
 			// TODO process in case of wrong message !
 			System.err.println("THIS MESSAGE IS SHIT !");
+		}else{
+			// TODO Need Modification !!!
+			Application.getInstance().getManager().addUser(user);
 		}
-		
-		// TODO I don't know who have to get this fuckin user !!!!
 		
 		return true;
 	}
