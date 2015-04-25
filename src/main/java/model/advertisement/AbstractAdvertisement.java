@@ -143,6 +143,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return an element.
 	 */
 	public Element getRootElement() {
+		putValues();
 		Element root = new Element(getAdvertisementName());
 		for(String key: keyValues.keySet()) { //creating an element for each keys. Add to root content.
 			Element e = new Element(key);
@@ -157,7 +158,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return a Jdom2 Document.
 	 */
 	public org.jdom2.Document getDocument() {
-		putValues();
 		return new org.jdom2.Document(this.getRootElement());
 	}
 	

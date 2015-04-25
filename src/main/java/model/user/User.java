@@ -17,12 +17,12 @@ import util.secure.Serpent;
  *
  */
 public class User extends AbstractAdvertisement implements Comparable<User>{
-	private String nick = null;
-	private String hashPwd = null;
-	private String name = null;
-	private String firstName = null;
-	private String email = null;
-	private String phone = null;
+	private String nick;
+	private String hashPwd;
+	private String name;
+	private String firstName;
+	private String email;
+	private String phone;
 	private AsymKeysImpl key;
 	
 	/**
@@ -348,35 +348,16 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public static void main(String[] args){
 		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
 		Serpent s = new Serpent("pwd");
+		
 		// Encryption Private Key
 		BigInteger newKey = new BigInteger(s.encrypt(user.getPrivateKey().toByteArray()));
 		user.setPrivateKey(newKey);
-		
-		// Document -> String
-		/*Document document = user.getDocument();
-		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-        String xmlString = outputter.outputString(document);
-        System.out.println(xmlString);
-		System.out.println(); */
-		System.out.println(user.toString() + "\n");
-       /* try{
-        	// String -> Document 
-        	SAXBuilder saxBuilder=new SAXBuilder();
-            Reader stringReader=new StringReader(xmlString);
-            Document document2=saxBuilder.build(stringReader);
-            
-            // Document -> String (just for see if same r
-            XMLOutputter ouputter2 = new XMLOutputter(Format.getPrettyFormat());
-            String xmlString2 = ouputter2.outputString(document2);
-            System.out.println(xmlString2);
-        }catch(Exception e){
-        	e.printStackTrace();
-        } */
+		// System.out.println(user.toString() + "\n"); 
 		
 		User user2 = new User(user.toString());
 		System.out.println(user2 + "\n");
         
         System.out.println();
-        System.out.println(new BigInteger(s.decrypt(newKey.toByteArray())));
+       // System.out.println(new BigInteger(s.decrypt(newKey.toByteArray())));
 	}
 }
