@@ -15,7 +15,7 @@ public class ItemTest {
 	private static String country = "country";
 	private static String contact = "contact";
 	private static long date = System.currentTimeMillis();
-	private static long lifeTime = 1000000;
+	private static long lifeTime = 1;
 	private static Item.TYPE type = Item.TYPE.PROPOSAL;
 	
 	@Test
@@ -53,6 +53,10 @@ public class ItemTest {
 		assertEquals(item.isAlive(), false);
 		
 		item.setLifeTime(Long.MAX_VALUE);
+		
+		assertEquals(item.isAlive(), true);
+		
+		item.setLifeTime(0);
 		
 		assertEquals(item.isAlive(), true);
 	}
