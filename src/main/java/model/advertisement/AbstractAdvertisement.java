@@ -257,6 +257,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	private boolean setSignature(String signature) {
 		Element sign = StringToElement.getElementFromString(signature, "signs");
+		
 		if(sign.getChild("signR") == null) return false;
 		BigInteger r = new BigInteger(sign.getChild("signR").getValue(), 16);
 		if(sign.getChild("signS") == null) return false;
@@ -267,7 +268,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	private boolean superHandleElement(Element e) {
 		switch(e.getName()) {
-		case "signature": return setSignature(e.getValue());
+		case "signature": setSignature(e.getValue()); return true;
 		default: return handleElement(e);
 		}
 	}
@@ -322,6 +323,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void sign(AsymKeysImpl keys) {
 		ElGamal crypter = new ElGamal(keys);
 		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
+		if(signature == null) System.out.println("ici");
 	}
 	
 	public boolean checkSignature(AsymKeysImpl keys) {

@@ -28,4 +28,9 @@ public class ElGamalSign {
 	public BigInteger getS() {
 		return s;
 	}
+	
+	public String toString() {
+		return "<signR>" + r.toString(16) + "</signR>" +
+				"<signS>" + s.toString(16) + "</signS>";
+	}
 }

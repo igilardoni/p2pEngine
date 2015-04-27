@@ -379,14 +379,26 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public static void main(String[] args){
 		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
+		user.sign(user.key);
 		User user2 = new User(user.toString());
-		System.out.println(user.getPublicKey());
-		System.out.println(user2.getPublicKey());
+		User user3 = new User("nick3", "pwd3", "name", "firstname", "email", "phone");
+		
+		//System.out.println(user.getPublicKey());
+		//System.out.println(user2.getPublicKey());
 		
 		if(user2.toString().equals(user.toString())) {
 			System.out.println("ok");
 		}
 		
-		System.out.println("\n"+user.toString());
+		if(user2.checkSignature(user2.getKey())) {
+			System.out.println("signature ok");
+		}
+		
+		if(!user2.checkSignature(user3.getKey())) {
+			System.out.println("signature ok");
+		}
+		
+		//System.out.println("\n"+user.toString());
+		//System.out.println("\n" + user2.toString());
 	}
 }
