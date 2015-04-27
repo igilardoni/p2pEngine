@@ -251,6 +251,13 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * Return a string, XML-Formatted, representing this instance.
 	 */
 	public String toString() {
+		org.jdom2.Element document = this.getRootElement();
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        String xmlString = outputter.outputString(document);
+		return xmlString;
+	}
+	
+	public String getDocumentString() {
 		org.jdom2.Document document = this.getDocument();
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         String xmlString = outputter.outputString(document);

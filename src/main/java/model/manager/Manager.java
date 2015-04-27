@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import net.jxta.endpoint.Message;
 import model.item.Item;
 import model.network.communication.service.ServiceListener;
 import model.user.User;

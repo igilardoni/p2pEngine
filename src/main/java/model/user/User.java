@@ -125,6 +125,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		super(XML);
 	}
 
+	public User(Element u) {
+		super(u);
+	}
+
 	/**
 	 * Verifies that the password in parameter corresponds to hashPwd
 	 * @param password
@@ -359,5 +363,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		User user2 = new User(user.toString());
 		System.out.println(user.getPrivateKey());
 		System.out.println(user2.getPrivateKey());
+		
+		if(user2.toString().equals(user.toString())) {
+			System.out.println("ok");
+		}
 	}
 }

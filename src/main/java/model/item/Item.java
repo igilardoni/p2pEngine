@@ -1,5 +1,7 @@
 package model.item;
 
+import org.jdom2.Element;
+
 import model.advertisement.AbstractAdvertisement;
 import model.user.User;
 
@@ -17,17 +19,17 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		PROPOSAL					// If object is proposed
 	};
 	
-	private String owner = null;			// Owner of the object
-	private String friendlyNick = null;		// Friendly-user Pseudo of owner
-	private String title = null;			// Title of the object
-	private Category category = null;		// Category of the object
-	private String description = null;		// Big description of the object
-	private String image = null;			// Image of the object (convert with Base64)
-	private String country = null;			// Country of the object (TODO add city and more if needed)
-	private String contact = null;			// Description of method for contact the owner
-	private long date = 0;					// Date of post/update
-	private long lifeTime = 0;				// LifeTime of the object (at the end of this, the object is delete)
-	private TYPE type = TYPE.PROPOSAL;		// Proposal/Wish
+	private String owner;			// Owner of the object
+	private String friendlyNick;		// Friendly-user Pseudo of owner
+	private String title;			// Title of the object
+	private Category category;		// Category of the object
+	private String description;		// Big description of the object
+	private String image;			// Image of the object (convert with Base64)
+	private String country;			// Country of the object (TODO add city and more if needed)
+	private String contact;			// Description of method for contact the owner
+	private long date;					// Date of post/update
+	private long lifeTime;				// LifeTime of the object (at the end of this, the object is delete)
+	private TYPE type;		// Proposal/Wish
 	
 	/**
 	 * Constructor of Item
@@ -94,6 +96,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		super(XML);
 	}
 	
+	public Item(Element i) {
+		super(i);
+	}
+
 	/**
 	 * Return the owner of this Item
 	 * @return
@@ -371,7 +377,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		case "image":
 			setImage(val);
 			return true;
-		case "country":
+		case "zone": //TODO j'crois que tu t'es emmelé country/zone du coup j'ai changé la mais faut check.
 			setCountry(val);
 			return true;
 		case "contact":
@@ -384,12 +390,14 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			setLifeTime(Long.parseLong(val));
 			return true;
 		case "type":
-			if(val.equals(TYPE.PROPOSAL.toString().toLowerCase()))
+			if(val.toLowerCase().equals(TYPE.PROPOSAL.toString().toLowerCase()))
 				setType(TYPE.PROPOSAL);
-			else if(val.equals(TYPE.WISH.toString().toLowerCase()))
+			else if(val.toLowerCase().equals(TYPE.WISH.toString().toLowerCase()))
 				setType(TYPE.WISH);
-			else
+			else {
 				return false;
+			}
+				
 			return true;
 		default:
 			return false;
