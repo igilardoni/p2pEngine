@@ -9,6 +9,7 @@ import org.jdom2.Element;
 import util.Hasher;
 import util.secure.AsymKeysImpl;
 import util.secure.Serpent;
+import util.secure.encryptionInterface.AsymKeys;
 
 /**
  * This class can be instantiated for contains an user.
@@ -17,12 +18,12 @@ import util.secure.Serpent;
  *
  */
 public class User extends AbstractAdvertisement implements Comparable<User>{
-	private String nick = null;
-	private String hashPwd = null;
-	private String name = null;
-	private String firstName = null;
-	private String email = null;
-	private String phone = null;
+	private String nick;
+	private String hashPwd;
+	private String name;
+	private String firstName;
+	private String email;
+	private String phone;
 	private AsymKeysImpl key;
 	
 	/**
@@ -124,6 +125,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		super(XML);
 	}
 
+	public User(Element u) {
+		super(u);
+	}
+
 	/**
 	 * Verifies that the password in parameter corresponds to hashPwd
 	 * @param password
@@ -182,51 +187,59 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		else
 			this.nick = login;
 	}
+	
 	public void setPassword(String password) {
 		this.hashPwd = password;
 	}
+	
 	public void setName(String name) {
 		if(name == null)
 			this.name = "";
 		else
 			this.name = name;
 	}
+	
 	public void setFirstName(String firstName) {
 		if(firstName == null)
 			this.firstName = "";
 		else
 			this.firstName = firstName;
 	}
+	
 	public void setEmail(String email) {
 		if(email == null)
 			this.email = "";
 		else
 			this.email = email;
 	}
+	
 	public void setPhone(String phone) {
 		if(phone == null)
 			this.phone = "";
 		else
 			this.phone = phone;
 	}
+	
 	public void setKey(AsymKeysImpl key){
 		if(key == null)
 			this.key = new AsymKeysImpl();
 		else
 			this.key = key;
 	}
+	
 	public void setPrivateKey(BigInteger privateKey){
 		this.key.setPrivateKey(privateKey);
 	}
+	
 	public void setPublicKey(BigInteger publicKey){
 		this.key.setPublicKey(publicKey);
 	}
+	
 	public void setG(BigInteger g){
 		this.key.setG(g);
 	}
+	
 	public void setP(BigInteger p){
-		if(this.key == null)
-			System.out.println("ahhhhhhhhhhhhhh");
 		this.key.setP(p);
 	}
 	
@@ -237,7 +250,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	@Override
 	protected void setKeys() {
 		this.key = new AsymKeysImpl();
-		this.addKey("nick", false);
+		this.addKey("nick", true);
 		this.addKey("hashPwd", false);
 		this.addKey("name", false);
 		this.addKey("firstName", false);
@@ -300,17 +313,17 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			}
 			return all;
 		case "privateKey":
-			setPrivateKey(new BigInteger(val.getBytes()));
+			setPrivateKey(new BigInteger(val, 16));
 			return true;
 		case "publicKey":
 			BigInteger valBigInt = new BigInteger(val,16);
 			setPublicKey(valBigInt);
 			return true;
 		case "p":
-			setP(new BigInteger(val.getBytes())); // TODO Peut etre qu'il faut convertir le hex en d�cimal ? :)
+			setP(new BigInteger(val, 16));
 			return true;
 		case "g":
-			setG(new BigInteger(val.getBytes()));
+			setG(new BigInteger(val, 16));
 			return true;
 		default:
 			return false;
@@ -347,36 +360,14 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public static void main(String[] args){
 		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
-		Serpent s = new Serpent("pwd");
-		// Encryption Private Key
-		BigInteger newKey = new BigInteger(s.encrypt(user.getPrivateKey().toByteArray()));
-		user.setPrivateKey(newKey);
-		
-		// Document -> String
-		/*Document document = user.getDocument();
-		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-        String xmlString = outputter.outputString(document);
-        System.out.println(xmlString);
-		System.out.println(); */
-		System.out.println(user.toString() + "\n");
-       /* try{
-        	// String -> Document 
-        	SAXBuilder saxBuilder=new SAXBuilder();
-            Reader stringReader=new StringReader(xmlString);
-            Document document2=saxBuilder.build(stringReader);
-            
-            // Document -> String (just for see if same r
-            XMLOutputter ouputter2 = new XMLOutputter(Format.getPrettyFormat());
-            String xmlString2 = ouputter2.outputString(document2);
-            System.out.println(xmlString2);
-        }catch(Exception e){
-        	e.printStackTrace();
-        } */
-		
 		User user2 = new User(user.toString());
-		System.out.println(user2 + "\n");
-        
-        System.out.println();
-        System.out.println(new BigInteger(s.decrypt(newKey.toByteArray())));
+		System.out.println(user.getPrivateKey());
+		System.out.println(user2.getPrivateKey());
+		
+		if(user2.toString().equals(user.toString())) {
+			System.out.println("ok");
+		}
+		
+		System.out.println(user.toString());
 	}
 }

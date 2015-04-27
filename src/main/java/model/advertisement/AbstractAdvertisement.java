@@ -143,6 +143,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return an element.
 	 */
 	public Element getRootElement() {
+		putValues();
 		Element root = new Element(getAdvertisementName());
 		for(String key: keyValues.keySet()) { //creating an element for each keys. Add to root content.
 			Element e = new Element(key);
@@ -157,7 +158,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return a Jdom2 Document.
 	 */
 	public org.jdom2.Document getDocument() {
-		putValues();
 		return new org.jdom2.Document(this.getRootElement());
 	}
 	
@@ -251,6 +251,13 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * Return a string, XML-Formatted, representing this instance.
 	 */
 	public String toString() {
+		org.jdom2.Element document = this.getRootElement();
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        String xmlString = outputter.outputString(document);
+		return xmlString;
+	}
+	
+	public String getDocumentString() {
 		org.jdom2.Document document = this.getDocument();
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         String xmlString = outputter.outputString(document);
