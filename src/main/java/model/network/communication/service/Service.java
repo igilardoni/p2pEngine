@@ -49,5 +49,7 @@ public abstract class Service<D> implements ServiceInterface {
 	public void setCommunication(Communication c) {
 		this.sender = c;
 	}
+	
+	public abstract void sendMessage(D data);
 
 }

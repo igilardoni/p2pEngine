@@ -47,4 +47,11 @@ public class ChatService extends Service<Message>{
 		return m;
 	}
  // TODO
+
+
+	@Override
+	public void sendMessage(Message m) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -3,6 +3,8 @@ package model.user;
 import java.math.BigInteger;
 
 import model.advertisement.AbstractAdvertisement;
+import model.advertisement.AdvertisementInstaciator;
+import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
@@ -400,5 +402,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		
 		//System.out.println("\n"+user.toString());
 		//System.out.println("\n" + user2.toString());
+	}
+	
+	public static void register() {
+		User u = new User();
+		AdvertisementFactory.registerAdvertisementInstance(u.getAdvType(),
+                										   new AdvertisementInstaciator(u.getClass(), u.getAdvType()));
 	}
 }

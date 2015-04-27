@@ -1,8 +1,11 @@
 package model.item;
 
+import net.jxta.document.AdvertisementFactory;
+
 import org.jdom2.Element;
 
 import model.advertisement.AbstractAdvertisement;
+import model.advertisement.AdvertisementInstaciator;
 import model.user.User;
 
 /**
@@ -424,5 +427,11 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				)
 			return 1;
 		return 0;
+	}
+	
+	public static void register() {
+		Item i = new Item();
+		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
+                										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
 }
