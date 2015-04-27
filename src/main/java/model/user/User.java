@@ -320,7 +320,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			setPublicKey(valBigInt);
 			return true;
 		case "p":
-			setP(new BigInteger(val, 16)); // TODO Peut etre qu'il faut convertir le hex en d�cimal ? :)
+			setP(new BigInteger(val, 16));
 			return true;
 		case "g":
 			setG(new BigInteger(val, 16));
@@ -367,5 +367,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		if(user2.toString().equals(user.toString())) {
 			System.out.println("ok");
 		}
+		
+		System.out.println(user.toString());
 	}
 }

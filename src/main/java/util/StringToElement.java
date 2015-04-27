@@ -10,7 +10,7 @@ import org.jdom2.input.SAXBuilder;
 
 public class StringToElement {
 	/**
-	 * Convert an XML string (with a correct root Element) into an element with his childrens.
+	 * Convert an XML string (with a correct root Element) into an element with his children.
 	 * @param XML
 	 * @return
 	 */
@@ -30,7 +30,7 @@ public class StringToElement {
 	}
 	
 	/**
-	 * Convert an XML string without root element into an element with his childrens.
+	 * Convert an XML string without root element into an element with his children.
 	 * @param XML
 	 * @param rootName The name of the needed root element. Will be added.
 	 * @return
