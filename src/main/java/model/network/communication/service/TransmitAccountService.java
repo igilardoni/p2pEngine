@@ -16,7 +16,6 @@ public class TransmitAccountService extends Service<User> {
 
 	private boolean checkMessageFormat(Message m) {
 		return 
-				m.getMessageElement("to") != null &
 				m.getMessageElement("userSignR") != null &
 				m.getMessageElement("userSignS") != null &
 				m.getMessageElement("content") != null;
@@ -32,7 +31,6 @@ public class TransmitAccountService extends Service<User> {
 	public User handleMessage(Message m) {
 		if(!checkMessageFormat(m)) return null;
 		
-		String to = new String(m.getMessageElement("to").getBytes(true));
 		String content = new String(m.getMessageElement("content").getBytes(true));
 		BigInteger userSignR = new BigInteger(m.getMessageElement("userSignR").getBytes(true));
 		BigInteger userSignS = new BigInteger(m.getMessageElement("userSignS").getBytes(true));

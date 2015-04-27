@@ -8,8 +8,6 @@ import org.jdom2.Element;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
-import util.secure.Serpent;
-import util.secure.encryptionInterface.AsymKeys;
 
 /**
  * This class can be instantiated for contains an user.
@@ -24,6 +22,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String firstName;
 	private String email;
 	private String phone;
+	private long date;
 	private AsymKeysImpl key;
 	
 	/**
@@ -40,7 +39,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	public User(String nick,String hashPwd,String name,
 			String firstName,String email,
-			String phone,BigInteger publicKey,
+			String phone,long date,BigInteger publicKey,
 			BigInteger p, BigInteger g
 			){
 		super();
@@ -50,6 +49,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
+		this.date = date;
 		this.key = new AsymKeysImpl();
 		key.setP(p);
 		key.setG(g);
@@ -69,7 +69,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	public User(String nick,String hashPwd,String name,
 			String firstName,String email,
-			String phone,AsymKeysImpl key
+			String phone,long date,AsymKeysImpl key
 			){
 		super();
 		this.nick = nick;
@@ -78,6 +78,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
+		this.date = date;
 		this.key = key;
 	}
 	
@@ -85,7 +86,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 * To make new User (during registration)
 	 * This method will generate new Key
 	 * @param nick
-	 * @param hashPwd
+	 * @param passWord
 	 * @param name
 	 * @param firstName
 	 * @param email
@@ -107,6 +108,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.firstName = firstName; 
 		this.email = email;
 		this.phone = phone;
+		this.date = System.currentTimeMillis();
 		this.key = new AsymKeysImpl(false);
 	}
 	/**
@@ -149,7 +151,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public String getNick() {
 		return nick;
 	}
-	public String getPassword() {
+	public String getHashPwd() {
 		return hashPwd;
 	}
 	public String getName() {
@@ -163,6 +165,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	}
 	public String getPhone() {
 		return phone;
+	}
+	public long getDate(){
+		return date;
 	}
 	public AsymKeysImpl getKey(){
 		return key;
@@ -188,8 +193,12 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			this.nick = login;
 	}
 	
-	public void setPassword(String password) {
-		this.hashPwd = password;
+	public void setPassWord(String passWord){
+		this.hashPwd = Hasher.SHA256(passWord);
+	}
+	
+	public void setHashPwd(String hashPwd) {
+		this.hashPwd = hashPwd;
 	}
 	
 	public void setName(String name) {
@@ -218,6 +227,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			this.phone = "";
 		else
 			this.phone = phone;
+	}
+	
+	public void setDate(long date){
+		this.date = date;
 	}
 	
 	public void setKey(AsymKeysImpl key){
@@ -256,6 +269,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addKey("firstName", false);
 		this.addKey("email", false);
 		this.addKey("phone", false);
+		this.addKey("date", false);
 		this.addKey("privateKey", false);
 		this.addKey("publicKey", true);
 		this.addKey("p", false);
@@ -268,11 +282,12 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	@Override
 	protected void putValues() {
 		this.addValue("nick", this.getNick());
-		this.addValue("hashPwd", this.getPassword());
+		this.addValue("hashPwd", this.getHashPwd());
 		this.addValue("name", this.getName());
 		this.addValue("firstName", this.getFirstName());
 		this.addValue("email", this.getEmail());
 		this.addValue("phone", this.getPhone());
+		this.addValue("date",Long.toString(this.getDate()));
 		this.addValue("privateKey", this.getPrivateKey().toString(16));
 		this.addValue("publicKey", this.getPublicKey().toString(16));
 		this.addValue("p", this.getP().toString(16));
@@ -292,7 +307,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			setNick(val);
 			return true;
 		case "hashPwd":
-			setPassword(val);
+			setHashPwd(val);
 			return true;
 		case "name":
 			setName(val);
@@ -305,6 +320,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			return true;
 		case "phone":
 			setPhone(val);
+			return true;
+		case "date":
+			setDate(Long.parseLong(val));
 			return true;
 		case "key":									// Not used for now, can be used if XML format is changed
 			boolean all = true;
@@ -350,7 +368,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 				!(this.getP() != null || user.getP() != null) && 
 				(this.getP().compareTo(user.getP()) != 0) ||
 				!(this.getPublicKey() != null || user.getPublicKey() != null) && 
-				(this.getG().compareTo(user.getG()) != 0))
+				(this.getG().compareTo(user.getG()) != 0) &&
+				this.getDate()==user.getDate())
 			return 1;
 		return 0;
 	}
@@ -361,13 +380,13 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public static void main(String[] args){
 		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
 		User user2 = new User(user.toString());
-		System.out.println(user.getPrivateKey());
-		System.out.println(user2.getPrivateKey());
+		System.out.println(user.getPublicKey());
+		System.out.println(user2.getPublicKey());
 		
 		if(user2.toString().equals(user.toString())) {
 			System.out.println("ok");
 		}
 		
-		System.out.println(user.toString());
+		System.out.println("\n"+user.toString());
 	}
 }

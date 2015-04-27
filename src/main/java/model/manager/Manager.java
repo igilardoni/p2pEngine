@@ -3,49 +3,164 @@ package model.manager;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
+import model.advertisement.AbstractAdvertisement;
+import model.item.Category;
 import model.item.Item;
 import model.network.communication.service.ServiceListener;
 import model.user.User;
 
-public class Manager implements ServiceListener<User> {
-	HashMap<Item, String> association = new HashMap<Item, String>();
-	HashMap<String, User> users = new HashMap<String, User>();
-	ArrayList<Item> items = new ArrayList<Item>();
+import org.jdom2.Element;
+
+import util.StringToElement;
+
+public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
+	private HashMap<String, User> users; //The string key is the user's public key in hexadecimal
+	private ArrayList<Item> items;
 	
+	public Manager(String XML) {
+		super(XML);
+	}
+
+	public Manager() {
+		super();
+	}
+
 	/**
-	 * Add a user to the manager
-	 * @param user
-	 * @return true if the user can be added, false if the user is already contained
+	 * to add an user in this instance of manager
+	 * if user is already in the manager, this function check if this user is more recent
+	 * TODO If don't want exception, change to System.err.println
+	 * @param u - User to add
 	 */
-	public boolean addUser(User user){
-		if(users.containsValue(user))
-			return false;
-		users.put(user.getKey().getPublicKey().toString(16),user);
-		return true;
+	public void addUser(User u) {
+		if(u == null){
+			new Exception("This User is empty !");
+			return;
+		}
+		String key = u.getPublicKey().toString(16);
+		if(users.containsKey(key)){
+			User existUser = users.get(key);
+			if(existUser.getDate() <= u.getDate())
+				new Exception("User is already registred !");
+			else{
+				users.remove(key);
+				users.put(key, u);
+			}
+		}else
+			users.put(key, u);
 	}
 	
 	/**
-	 * Add an item to the manager
-	 * @param item
-	 * @return true if the item can be added, false if the owner isn't in the Manager or if item don't contain an owner
+	 * to add a item in this instance of manager
+	 * if owner of the item isn't registered in this instance of manger, function will fail
+	 * TODO If don't want exception, change to System.err.println
+	 * @param i
 	 */
-	public boolean addItem(Item item){
-		if(item == null)
-			return false;
-		String owner = item.getOwner();
-		if(owner.isEmpty())
-			return false;
-		if(!users.containsKey(owner))
-			return false;
-		if(items.contains(item))
-			return false;
-		items.add(item);
-		association.put(item, owner);
-		return true;
+	public void addItem(Item i) {
+		if(i == null){
+			new Exception("This Item is empty !");
+			return;
+		}
+		String owner = i.getOwner();
+		if(owner.isEmpty()){
+			new Exception("No owner found !");
+			return;
+		}
+		if(!users.containsKey(owner)){
+			new Exception("Owner unknown !");
+			return;
+		}
+		if(items.contains(i)){
+			new Exception("Item is already registred !");
+			return;
+		}
+		// End exceptions
+		items.add(i);
 	}
 	
+	/**
+	 * Get an XML string representing all the users that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	private String getUsersXML() {
+		StringBuffer s = new StringBuffer();
+		for(User u: users.values()) {
+			s.append(u);
+		}
+		return s.toString();
+	}
+	
+	/**
+	 * Get an XML string representing all the users that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	private String getItemsXML() {
+		StringBuffer s = new StringBuffer();
+		for(Item i: items) {
+			s.append(i); 
+		}
+		return s.toString();
+	}
+	
+	/**
+	 * Load all the users in this element
+	 * @param e an element that contains users in XML format.
+	 */
+	private void loadUsers(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element u: root.getChildren()) {
+			addUser(new User(u));
+		}
+	}
+	
+	/**
+	 * Load all the items in this element
+	 * @param e an element that contains items in XML format.
+	 */
+	private void loadItems(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element i: root.getChildren()) {
+			addItem(new Item(i));
+		}
+	}
+	
+	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@Override
+	protected boolean handleElement(Element e) {
+		switch(e.getName()) {
+		case "users": loadUsers(e); break;
+		case "items": loadItems(e); break;
+		default: return false;
+		}
+		return true;
+	}
+
+	@Override
+	protected String getAdvertisementName() {
+		return Manager.class.getSimpleName();
+	}
+
+	@Override
+	protected void setKeys() {
+		users = new HashMap<String, User>();
+		items = new ArrayList<Item>();
+		addKey("users", false);
+		addKey("items", false);
+	}
+	
+	@Override
+	protected void putValues() {
+		addValue("users", getUsersXML());
+		addValue("items", getItemsXML());
+	}
+
+	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@Override
+	public void messageEvent(Manager m) {
+		// TODO Auto-generated method stub
+	}
+	
+	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Remove an user if he haven't item !
 	 * @param user
@@ -53,10 +168,10 @@ public class Manager implements ServiceListener<User> {
 	 */
 	public boolean removeUserIfNotItem(User user){
 		String userKey = user.getPublicKey().toString(16);
-		if(!users.containsKey(user.getPublicKey().toString(16)))
+		if(!users.containsKey(userKey))
 			return false;
-		for (Entry<Item, String> i : association.entrySet()) {
-			if(i.getValue().equals(userKey))
+		for (Item i : items) {
+			if(i.getOwner().equals(userKey))
 				return false;
 		}
 		users.remove(userKey);
@@ -73,9 +188,9 @@ public class Manager implements ServiceListener<User> {
 		if(!users.containsKey(user.getPublicKey().toString(16)))
 			return false;
 		boolean valid = true;
-		for (Entry<Item, String> i : association.entrySet()) {
-			if(i.getValue().equals(userKey))
-				valid &= (association.remove(i.getKey())!=null);
+		for (Item i : items) {
+			if(i.getOwner().equals(userKey))
+				valid &= items.remove(i);
 		}
 		return (valid &= (users.remove(userKey)!=null));
 	}
@@ -86,9 +201,20 @@ public class Manager implements ServiceListener<User> {
 	 * @return
 	 */
 	public boolean removeItem(Item item){
-		return items.remove(item) && association.remove(item)!=null;
+		return items.remove(item);
 	}
 	
+	/**
+	 * to remove all items with lifeTime is over
+	 */
+	public void cleanItems(){
+		for(Item i : items){
+			if(!i.isAlive())
+				removeItem(i);
+		}
+	}
+	
+	///////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Return the user with this key
 	 * @param key - String format
@@ -113,20 +239,28 @@ public class Manager implements ServiceListener<User> {
 	 * @return
 	 */
 	public User whoHas(Item item){
-		return users.get(association.get(item));
+		return users.get(item.getOwner());
 	}
 	
-	/**
-	 * Return the public Key of the owner
-	 * @param item
-	 * @return
-	 */
-	public String whatPublicHas(Item item){
-		return association.get(item);
-	}
-
-	@Override
-	public void messageEvent(User m) {
-		addUser(m);
+	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public static void main(String[] args) {
+		Manager manager = new Manager();
+		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
+		User user2 = new User("user2", "pass2", "name2", "firstname2", "email2", "phone2");
+		Item item1 = new Item(user1, "patate", new Category(Category.CATEGORY.Appliances), 
+				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
+		Item item2 = new Item(user2, "carotte", new Category(Category.CATEGORY.Appliances), 
+				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
+		manager.addUser(user1);
+		manager.addUser(user2);
+		manager.addItem(item1);
+		manager.addItem(item2);
+		
+		Manager manager2 = new Manager(manager.toString());
+		if(manager2.toString().equals(manager.toString())) {
+			System.out.println("ok !");
+		}
 	}
 }
+
+
