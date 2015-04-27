@@ -47,7 +47,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	protected ArrayList<String> indexes = new ArrayList<String>();
 	
-	private ElGamalSign signature;
+	/*
+	 * The Elgamal signature of this object.
+	 */
+	private ElGamalSign signature; 
+	
+	
 	
 	/**
 	 * Instantiate an empty Advertisement, just setting the appropriate keys.
@@ -55,6 +60,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public AbstractAdvertisement() {
 		super();
 		addKey("signature", false);
+		addKey("cipherAsym", false);
+		addKey("cipherSym", false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 	}
 	
@@ -189,6 +196,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	/**
 	 * Will be called on new instances to set the advertisement's available elements.
+	 * You should also initialize the data here.
 	 */
 	protected abstract void setKeys();
 	

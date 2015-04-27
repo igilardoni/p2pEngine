@@ -16,8 +16,13 @@ import util.StringToElement;
 
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
 	private HashMap<String, User> users; //The string key is the user's public key in hexadecimal
-	private ArrayList<Item> items;
+	private ArrayList<Item> items; //list of items handled by this manager.
+	private User currentUser;
 	
+	/**
+	 * Create a manager based on a String that is XML formated.
+	 * @param XML
+	 */
 	public Manager(String XML) {
 		super(XML);
 	}
@@ -37,8 +42,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			new Exception("This User is empty !");
 			return;
 		}
-		if(!u.checkSignature(u.getKey())) return;
-		String key = u.getPublicKey().toString(16);
+		if(!u.checkSignature(u.getKeys())) return;
+		String key = u.getKeys().getPublicKey().toString(16);
 		if(users.containsKey(key)){
 			User existUser = users.get(key);
 			if(existUser.getDate() <= u.getDate())
@@ -146,6 +151,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	protected void setKeys() {
 		users = new HashMap<String, User>();
 		items = new ArrayList<Item>();
+		currentUser = null;
 		addKey("users", false);
 		addKey("items", false);
 	}
@@ -159,17 +165,17 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	public void messageEvent(Manager m) {
-		// TODO Auto-generated method stub
+		// TODO Someone send us a manager to keep. Merge with our.
 	}
 	
 	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * Remove an user if he haven't item !
+	 * Remove an user if he haven't item ! TODO Pourquoi ? un utilisateur n'as pas le droit de pas poster d'objets ?
 	 * @param user
 	 * @return
 	 */
 	public boolean removeUserIfNotItem(User user){
-		String userKey = user.getPublicKey().toString(16);
+		String userKey = user.getKeys().getPublicKey().toString(16);
 		if(!users.containsKey(userKey))
 			return false;
 		for (Item i : items) {
@@ -186,8 +192,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @return
 	 */
 	public boolean removeUserWithItems(User user){
-		String userKey = user.getPublicKey().toString(16);
-		if(!users.containsKey(user.getPublicKey().toString(16)))
+		String userKey = user.getKeys().getPublicKey().toString(16);
+		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
 			return false;
 		boolean valid = true;
 		for (Item i : items) {
@@ -242,6 +248,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public User whoHas(Item item){
 		return users.get(item.getOwner());
+	}
+	
+	
+	public void login(String nickname, String password) {
+		User u = null; //TODO get user on network or local, check it and login.
+		currentUser = u;
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

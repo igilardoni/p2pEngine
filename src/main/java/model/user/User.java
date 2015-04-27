@@ -15,6 +15,7 @@ import util.secure.AsymKeysImpl;
  * This class can be instantiated for contains an user.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
  * @author Michael
+ * @author Julien Prudhomme
  *
  */
 public class User extends AbstractAdvertisement implements Comparable<User>{
@@ -25,64 +26,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String email;
 	private String phone;
 	private long date;
-	private AsymKeysImpl key;
+	private AsymKeysImpl keys; //the public key, user ID on network, is here.
 	
-	/**
-	 * To edit existing users in the XML file
-	 * @param nick
-	 * @param hashPwd
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param phone
-	 * @param publicKey
-	 * @param p
-	 * @param g
-	 */
-	public User(String nick,String hashPwd,String name,
-			String firstName,String email,
-			String phone,long date,BigInteger publicKey,
-			BigInteger p, BigInteger g
-			){
-		super();
-		this.nick = nick;
-		this.hashPwd = hashPwd;
-		this.name = name;
-		this.firstName = firstName; 
-		this.email = email;
-		this.phone = phone;
-		this.date = date;
-		this.key = new AsymKeysImpl();
-		key.setP(p);
-		key.setG(g);
-		key.setPublicKey(publicKey);
-		key.setPrivateKey(null);
-	}
-	
-	/**
-	 * To edit existing user
-	 * @param nick
-	 * @param hashPwd
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param phone
-	 * @param key
-	 */
-	public User(String nick,String hashPwd,String name,
-			String firstName,String email,
-			String phone,long date,AsymKeysImpl key
-			){
-		super();
-		this.nick = nick;
-		this.hashPwd = hashPwd;
-		this.name = name;
-		this.firstName = firstName; 
-		this.email = email;
-		this.phone = phone;
-		this.date = date;
-		this.key = key;
-	}
+	private String clearPassword; //is never saved, not null only if a user log in this.
 	
 	/**
 	 * To make new User (during registration)
@@ -111,13 +57,12 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.email = email;
 		this.phone = phone;
 		this.date = System.currentTimeMillis();
-		this.key = new AsymKeysImpl(false);
+		this.keys = new AsymKeysImpl(false);
 	}
 	/**
 	 * Empty Constructor
 	 */
 	public User(){ 
-		
 		super(); 
 	}
 	
@@ -129,6 +74,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		super(XML);
 	}
 
+	/**
+	 * Construct a new user based on an XML element
+	 * @param u
+	 */
 	public User(Element u) {
 		super(u);
 	}
@@ -141,58 +90,49 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public boolean isPassword(String password){
 		try {
 			String hash = Hasher.SHA256(password);
-			if(hash.equals(this.hashPwd))
-				return true;
+			return hash.equals(this.hashPwd);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 	
 	//////////// GETTERS \\\\\\\\\\\\\\\\
 	public String getNick() {
 		return nick;
 	}
+	
 	public String getHashPwd() {
 		return hashPwd;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public String getPhone() {
 		return phone;
 	}
+	
 	public long getDate(){
 		return date;
 	}
-	public AsymKeysImpl getKey(){
-		return key;
-	}
-	public BigInteger getPublicKey(){
-		return key.getPublicKey();
-	}
-	public BigInteger getPrivateKey(){
-		return key.getPrivateKey();
-	}
-	public BigInteger getP(){
-		return key.getP();
-	}
-	public BigInteger getG(){
-		return key.getG();
-	}
+	
+	public AsymKeysImpl getKeys(){
+		return keys;
+	}	
 	
 	//////////// SETTERS \\\\\\\\\\\\\\\\
 	public void setNick(String login) {
-		if(login==null)
-			this.nick = "";
-		else
-			this.nick = login;
+		this.nick = login == null ? "":login;
 	}
 	
 	public void setPassWord(String passWord){
@@ -204,31 +144,19 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	}
 	
 	public void setName(String name) {
-		if(name == null)
-			this.name = "";
-		else
-			this.name = name;
+		this.name = name == null ? "": name;
 	}
 	
 	public void setFirstName(String firstName) {
-		if(firstName == null)
-			this.firstName = "";
-		else
-			this.firstName = firstName;
+		this.firstName = firstName == null ? "": firstName;
 	}
 	
 	public void setEmail(String email) {
-		if(email == null)
-			this.email = "";
-		else
-			this.email = email;
+		this.email = email == null ? "": email;
 	}
 	
 	public void setPhone(String phone) {
-		if(phone == null)
-			this.phone = "";
-		else
-			this.phone = phone;
+		this.phone = phone == null ? "":phone;
 	}
 	
 	public void setDate(long date){
@@ -236,26 +164,23 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	}
 	
 	public void setKey(AsymKeysImpl key){
-		if(key == null)
-			this.key = new AsymKeysImpl();
-		else
-			this.key = key;
+		this.keys = key == null ? new AsymKeysImpl(): key;
 	}
 	
 	public void setPrivateKey(BigInteger privateKey){
-		this.key.setPrivateKey(privateKey);
+		this.keys.setPrivateKey(privateKey);
 	}
 	
 	public void setPublicKey(BigInteger publicKey){
-		this.key.setPublicKey(publicKey);
+		this.keys.setPublicKey(publicKey);
 	}
 	
 	public void setG(BigInteger g){
-		this.key.setG(g);
+		this.keys.setG(g);
 	}
 	
 	public void setP(BigInteger p){
-		this.key.setP(p);
+		this.keys.setP(p);
 	}
 	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -264,7 +189,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	@Override
 	protected void setKeys() {
-		this.key = new AsymKeysImpl();
+		this.keys = new AsymKeysImpl();
+		clearPassword = null;
 		this.addKey("nick", true);
 		this.addKey("hashPwd", false);
 		this.addKey("name", false);
@@ -290,10 +216,10 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addValue("email", this.getEmail());
 		this.addValue("phone", this.getPhone());
 		this.addValue("date",Long.toString(this.getDate()));
-		this.addValue("privateKey", this.getPrivateKey().toString(16));
-		this.addValue("publicKey", this.getPublicKey().toString(16));
-		this.addValue("p", this.getP().toString(16));
-		this.addValue("g", this.getG().toString(16));
+		this.addValue("privateKey", this.keys.getPrivateKey().toString(16));
+		this.addValue("publicKey", this.keys.getPublicKey().toString(16));
+		this.addValue("p", this.keys.getP().toString(16));
+		this.addValue("g", this.keys.getG().toString(16));
 	}
 
 	@Override
@@ -352,25 +278,26 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * @return boolean 0 if both are identical, 1 else
+	 * @return boolean 0 if both are identical, 1 else TODO très compliqué pour dire que les 2 clés sont égual
+	 * de plus c'est plus a faire dans la méthode .equals()
 	 */
 	@Override
 	public int compareTo(User user) {
-		if( (this.getPublicKey() == null || user.getPublicKey() == null)
-				&& (this.getPublicKey() != null || user.getPublicKey() != null))
+		if( (this.keys.getPublicKey() == null || user.keys.getPublicKey() == null)
+				&& (this.keys.getPublicKey() != null || user.keys.getPublicKey() != null))
 			return 1;
-		if((this.getP() == null || user.getP() == null)
-				&& (this.getP() != null || user.getP() != null))
+		if((this.keys.getP() == null || user.keys.getP() == null)
+				&& (this.keys.getP() != null || user.keys.getP() != null))
 			return 1;
-		if((this.getG() == null || user.getG() == null)
-				&& (this.getG() != null || user.getG() != null))
+		if((this.keys.getG() == null || user.keys.getG() == null)
+				&& (this.keys.getG() != null || user.keys.getG() != null))
 			return 1;
-		if(!(this.getG() != null || user.getG() != null) && 
-				(this.getPublicKey().compareTo(user.getPublicKey()) != 0) ||
-				!(this.getP() != null || user.getP() != null) && 
-				(this.getP().compareTo(user.getP()) != 0) ||
-				!(this.getPublicKey() != null || user.getPublicKey() != null) && 
-				(this.getG().compareTo(user.getG()) != 0) &&
+		if(!(this.keys.getG() != null || user.keys.getG() != null) && 
+				(this.keys.getPublicKey().compareTo(user.keys.getPublicKey()) != 0) ||
+				!(this.keys.getP() != null || user.keys.getP() != null) && 
+				(this.keys.getP().compareTo(user.keys.getP()) != 0) ||
+				!(this.keys.getPublicKey() != null || user.keys.getPublicKey() != null) && 
+				(this.keys.getG().compareTo(user.keys.getG()) != 0) &&
 				this.getDate()==user.getDate())
 			return 1;
 		return 0;
@@ -381,7 +308,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public static void main(String[] args){
 		User user = new User("nick", "pwd", "name", "firstname", "email", "phone");
-		user.sign(user.key);
+		user.sign(user.keys);
 		User user2 = new User(user.toString());
 		User user3 = new User("nick3", "pwd3", "name", "firstname", "email", "phone");
 		
@@ -392,11 +319,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			System.out.println("ok");
 		}
 		
-		if(user2.checkSignature(user2.getKey())) {
+		if(user2.checkSignature(user2.getKeys())) {
 			System.out.println("signature ok");
 		}
 		
-		if(!user2.checkSignature(user3.getKey())) {
+		if(!user2.checkSignature(user3.getKeys())) {
 			System.out.println("signature ok");
 		}
 		
