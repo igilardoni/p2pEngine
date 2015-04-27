@@ -198,7 +198,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	protected abstract void putValues();
 	
 	private void superPutValues() {
-		addValue("signature", signature.toString());
+		addValue("signature", signature == null ? null:signature.toString());
 		putValues();
 	}
 	
