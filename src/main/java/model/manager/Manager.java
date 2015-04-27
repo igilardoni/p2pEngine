@@ -37,6 +37,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			new Exception("This User is empty !");
 			return;
 		}
+		if(!u.checkSignature(u.getKey())) return;
 		String key = u.getPublicKey().toString(16);
 		if(users.containsKey(key)){
 			User existUser = users.get(key);
@@ -61,6 +62,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			new Exception("This Item is empty !");
 			return;
 		}
+		//TODO CheckSignature
 		String owner = i.getOwner();
 		if(owner.isEmpty()){
 			new Exception("No owner found !");

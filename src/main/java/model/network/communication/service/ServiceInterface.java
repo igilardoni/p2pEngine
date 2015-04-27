@@ -1,5 +1,6 @@
 package model.network.communication.service;
 
+import model.network.communication.Communication;
 import net.jxta.endpoint.Message;
 
 /**
@@ -21,4 +22,10 @@ public interface ServiceInterface {
 	 * @param the message
 	 */
 	public void putMessage(Message m);
+	
+	/**
+	 * Define the communication instance used to send messages.
+	 * @param c
+	 */
+	public void setCommunication(Communication c);
 }

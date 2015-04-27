@@ -3,6 +3,7 @@ package model.network.communication;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
@@ -15,7 +16,9 @@ import net.jxta.endpoint.Message;
 import net.jxta.endpoint.Message.ElementIterator;
 import net.jxta.endpoint.MessageElement;
 import net.jxta.id.IDFactory;
+import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.pipe.OutputPipe;
 import net.jxta.pipe.PipeMsgEvent;
 import net.jxta.pipe.PipeMsgListener;
 import net.jxta.protocol.PipeAdvertisement;
@@ -171,7 +174,38 @@ public class Communication implements PipeMsgListener {
 	 * @param service a class implementing ServiceInterface
 	 */
 	public void addService(Service<?> service) {
+		service.setCommunication(this);
 		services.put(service.getServiceName(), service);
+	}
+	
+	/**
+	 * Sends a message to one or severals peers.
+	 * @param message the message content.
+	 * @param ids the peers' PeerID.
+	 * @return true if the message is sended.
+	 */
+	public boolean sendMessage(Message message, PeerID ...ids) {
+		HashSet<PeerID> to = new HashSet<PeerID>();
+		OutputPipe pipe = null;
+		for(PeerID id: ids) {
+			to.add(id);
+		}
+		try {
+			pipe = communicationGroup.getPipeService().createOutputPipe(getAdvertisement(), to, 10000);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		try {
+			pipe.send(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+			pipe.close();
+			return false;
+		}
+		
+		pipe.close();
+		return true;
 	}
 
 }
