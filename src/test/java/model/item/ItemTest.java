@@ -50,14 +50,15 @@ public class ItemTest {
 		
 		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
 		
-		assertEquals(item.isAlive(), false);
+		assertEquals(false, item.isAlive());
 		
-		item.setLifeTime(Long.MAX_VALUE);
+		item.setLifeTime(100000);
 		
-		assertEquals(item.isAlive(), true);
+		assertEquals(true, item.isAlive());
 		
 		item.setLifeTime(0);
 		
+
 		assertEquals(item.isAlive(), true);
 	}*/
 

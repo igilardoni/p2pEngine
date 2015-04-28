@@ -48,7 +48,7 @@ uploadArchives {
 
 task(run, dependsOn: 'classes', type: JavaExec) {
 	description = 'Launch the application.'
-	main = 'model.EmbeddedRunner'
+	main = 'model.Application'
 	classpath = sourceSets.main.runtimeClasspath
 }
 

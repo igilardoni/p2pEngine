@@ -16,11 +16,10 @@ public class ASymKeysImplTest {
 		gen = new AsymKeysImpl(false);
 		verif = gen.getG().modPow(gen.getPrivateKey(), gen.getP());
 		assertEquals(gen.getPublicKey(), verif);
-		
-		gen = new AsymKeysImpl(true);
-		verif = gen.getG().modPow(gen.getPrivateKey(), gen.getP()); */
-		assertEquals(true, true);
-		//assertEquals(gen.getPublicKey(), verif);
+		// TODO Reduction time duration !
+		/*gen = new AsymKeysImpl(true);
+		verif = gen.getG().modPow(gen.getPrivateKey(), gen.getP());
+		assertEquals(gen.getPublicKey(), verif);*/
 	}
 	
 	@Test

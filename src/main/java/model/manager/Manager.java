@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
@@ -14,7 +13,6 @@ import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
 import org.jdom2.Element;
-
 import util.StringToElement;
 
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
@@ -40,24 +38,26 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function check if this user is more recent
-	 * TODO If don't want exception, change to System.err.println
 	 * @param u - User to add
 	 */
-	public void addUser(User u) {
+	public void addUser(User u){
 		if(u == null){
-			new Exception("This User is empty !");
+			System.err.println(this.getAdvertisementName()+" : This User is empty !");
 			return;
 		}
-		if(!u.checkSignature(u.getKeys())) return;
+		if(!u.checkSignature(u.getKeys())){
+			System.err.println(this.getAdvertisementName()+" : Bad Signature for "+u.getNick());
+			return;
+		}
 		String key = u.getKeys().getPublicKey().toString(16);
 		if(users.containsKey(key)){
 			User existUser = users.get(key);
-			if(existUser.getDate() <= u.getDate())
-				new Exception("User is already registred !");
-			else{
-				users.remove(key);
-				users.put(key, u);
+			if(existUser.getDate() <= u.getDate()){
+				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
+				return;
 			}
+			users.remove(key);
+			users.put(key, u);
 		}else
 			users.put(key, u);
 	}
@@ -65,26 +65,28 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	/**
 	 * to add a item in this instance of manager
 	 * if owner of the item isn't registered in this instance of manger, function will fail
-	 * TODO If don't want exception, change to System.err.println
-	 * @param i
+	 * @param i - Item to add
 	 */
-	public void addItem(Item i) {
+	public void addItem(Item i){
 		if(i == null){
-			new Exception("This Item is empty !");
+			System.err.println(this.getAdvertisementName()+" : This Item is empty !");
 			return;
 		}
-		//TODO CheckSignature
 		String owner = i.getOwner();
 		if(owner.isEmpty()){
-			new Exception("No owner found !");
+			System.err.println(this.getAdvertisementName()+" : No owner found !");
 			return;
 		}
 		if(!users.containsKey(owner)){
-			new Exception("Owner unknown !");
+			System.err.println(this.getAdvertisementName()+" : Owner unknown for "+i.getTitle());
+			return;
+		}
+		if(!i.checkSignature(users.get(owner).getKeys())){
+			System.err.println(this.getAdvertisementName()+" : Bad Signature for "+i.getTitle());
 			return;
 		}
 		if(items.contains(i)){
-			new Exception("Item is already registred !");
+			System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
 			return;
 		}
 		// End exceptions
@@ -104,7 +106,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	/**
-	 * Get an XML string representing all the users that are saved on this device.
+	 * Get an XML string representing all the items that are saved on this device.
 	 * @return A string, XML formated
 	 */
 	private String getItemsXML() {
@@ -171,12 +173,25 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	public void messageEvent(Manager m) {
-		// TODO Someone send us a manager to keep. Merge with our.
+		// TODO Tests
+        Element elements;
+    	// Add all Users
+		elements = null;
+    	elements  = StringToElement.getElementFromString(m.getUsersXML(), "users");
+    	for (Element element : elements.getChildren()) {
+			this.addUser(new User(element));
+		}
+		// Add all Items
+		elements = null;
+		elements  = StringToElement.getElementFromString(m.getItemsXML(), "items");
+		for (Element element : elements.getChildren()) {
+			this.addItem(new Item(element));
+		}
 	}
 	
 	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * Remove an user if he haven't item ! TODO Pourquoi ? un utilisateur n'as pas le droit de pas poster d'objets ?
+	 * Remove an user if he haven't item !
 	 * @param user
 	 * @return
 	 */
@@ -222,9 +237,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * to remove all items with lifeTime is over
 	 */
 	public void cleanItems(){
-		for(Item i : items){
-			if(!i.isAlive())
-				removeItem(i);
+		for(int i = 0; i <items.size();i++){
+			if(!items.get(i).isAlive())
+				removeItem(items.get(i));
 		}
 	}
 	
@@ -256,6 +271,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return users.get(item.getOwner());
 	}
 	
+
 	
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
