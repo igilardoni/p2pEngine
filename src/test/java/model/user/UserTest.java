@@ -1,6 +1,7 @@
 package model.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -24,41 +25,58 @@ public class UserTest {
 	private static AsymKeysImpl key = new AsymKeysImpl(false);
 	
 	@Test
+	public void password(){
+		User user1 = new User(nick, password, name, firstName, email, phone);
+		assertEquals(user1.getHashPwd(), hashPassword);
+		assertEquals(user1.getClearPwd(), password);
+		
+		// Expected ClearPassword null in user2 construct with XML 
+		User user2 = new User(user1.toString());
+		assertEquals(user1.getClearPwd().equals(user2.getClearPwd()), false);
+	}
+	
+	@Test
 	public void constructors(){
 		User user1,user2,user3;
 		
 		// Three type of constructor
 		user1 = new User(nick, password, name, firstName, email, phone);
 		user1.setKey(key);
-		user2 = new User(nick, hashPassword, name, firstName, email, phone, date, key);
-		user3 = new User(nick, hashPassword, name, firstName, email, phone, date,  key.getPublicKey(), key.getP(), key.getG());
+		user2 = new User(user1.toString());
+		user3 = new User(user2.toString());
 		
-		assertEquals(user1.compareTo(user2), 0);
-		assertEquals(user2.compareTo(user3), 0);
-		assertEquals(user3.compareTo(user1), 0);
+		assertEquals(user1.equals(user2), true);
+		assertEquals(user2.equals(user3), true);
+		assertEquals(user3.equals(user1), true);
 		
 		// Compare with empty key and not empty key (different expected)
 		user1.setKey(null);
-		assertEquals(user1.compareTo(user2), 1);
-		assertEquals(user1.compareTo(user3), 1);
+		assertEquals(user1.equals(user2), false);
+		assertEquals(user1.equals(user3), false);
 		
 		// Compare two user with empty key (equals expected)
 		user2.setKey(null);
-		assertEquals(user1.compareTo(user2), 0);
+		assertEquals(user1.equals(user2), true);
 		
 		// Compare empty constructor with user with empty key (equals expected)
 		user1 = new User();
-		assertEquals(user1.compareTo(user2), 0);
+		assertEquals(user1.equals(user2), true);
 		
 		// Compare empty constructor with user with not empty key (different expected)
-		assertEquals(user1.compareTo(user3), 1);
+		assertEquals(user1.equals(user3), false);
 	}
 	
 	@Test
 	public void isPassword(){
 		User user;
-		user = new User(nick, hashPassword, name, firstName, email, phone, date, key);
+		user = new User(nick, password, name, firstName, email, phone);
+		user.setDate(date);
 		assertEquals(user.isPassword(password), true);
 		assertEquals(user.isPassword(password+"#"), false);
+		
+		user = new User(nick, password+"#", name, firstName, email, phone);
+		user.setDate(date);
+		assertEquals(user.isPassword(password), false);
+		assertEquals(user.isPassword(password+"#"), true);
 	}
 }

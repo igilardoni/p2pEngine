@@ -18,17 +18,17 @@ import util.secure.AsymKeysImpl;
  * @author Julien Prudhomme
  *
  */
-public class User extends AbstractAdvertisement implements Comparable<User>{
-	private String nick;
-	private String hashPwd;
-	private String name;
-	private String firstName;
-	private String email;
-	private String phone;
-	private long date;
-	private AsymKeysImpl keys; //the public key, user ID on network, is here.
+public class User extends AbstractAdvertisement{
+	private String nick;			// Friendly user nickname (useless for the system)
+	private String hashPwd;			// PassWord is never saved but the hash of the password have to be saved
+	private String name;			// The family name of the user
+	private String firstName;		// The first name of the user
+	private String email;			// The email of the user
+	private String phone;			// The phone of the user
+	private long date;				// The date of creation/update of the user's profile
+	private AsymKeysImpl keys; 		// The public key, user ID on network, is here.
 	
-	private String clearPassword; //is never saved, not null only if a user log in this.
+	private String clearPassword;	// is never saved, not null only if a user log in this.
 	
 	/**
 	 * To make new User (during registration)
@@ -47,11 +47,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 			){
 		super();
 		this.nick = nick;
-		try {
-			this.hashPwd = Hasher.SHA256(passWord);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.hashPwd = Hasher.SHA256(passWord);
+		this.clearPassword = passWord;				// NEW user, so password saved in clearPassword
 		this.name = name;
 		this.firstName = firstName; 
 		this.email = email;
@@ -59,6 +56,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.date = System.currentTimeMillis();
 		this.keys = new AsymKeysImpl(false);
 	}
+	
 	/**
 	 * Empty Constructor
 	 */
@@ -128,7 +126,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public AsymKeysImpl getKeys(){
 		return keys;
-	}	
+	}
+	
+	public String getClearPwd(){
+		return clearPassword;
+	}
 	
 	//////////// SETTERS \\\\\\\\\\\\\\\\
 	public void setNick(String login) {
@@ -183,7 +185,21 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.keys.setP(p);
 	}
 	
+	public void setClearPwd(String password){
+		this.clearPassword = password;
+	}
+	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+	/**
+	 * Give the good class to the constructor
+	 */
+	public static void register() {
+		User u = new User();
+		AdvertisementFactory.registerAdvertisementInstance(u.getAdvType(),
+                										   new AdvertisementInstaciator(u.getClass(), u.getAdvType()));
+	}
+	
 	/**
 	 * Used to define Keys and initialize some values
 	 */
@@ -278,20 +294,20 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * @return boolean 0 if both are identical, 1 else TODO très compliqué pour dire que les 2 clés sont égual
-	 * de plus c'est plus a faire dans la méthode .equals()
+	 * True if keys are the same, false else
+	 * @param user
+	 * @return
 	 */
-	@Override
-	public int compareTo(User user) {
+	public boolean equals(User user) {
 		if( (this.keys.getPublicKey() == null || user.keys.getPublicKey() == null)
 				&& (this.keys.getPublicKey() != null || user.keys.getPublicKey() != null))
-			return 1;
+			return false;
 		if((this.keys.getP() == null || user.keys.getP() == null)
 				&& (this.keys.getP() != null || user.keys.getP() != null))
-			return 1;
+			return false;
 		if((this.keys.getG() == null || user.keys.getG() == null)
 				&& (this.keys.getG() != null || user.keys.getG() != null))
-			return 1;
+			return false;
 		if(!(this.keys.getG() != null || user.keys.getG() != null) && 
 				(this.keys.getPublicKey().compareTo(user.keys.getPublicKey()) != 0) ||
 				!(this.keys.getP() != null || user.keys.getP() != null) && 
@@ -299,8 +315,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 				!(this.keys.getPublicKey() != null || user.keys.getPublicKey() != null) && 
 				(this.keys.getG().compareTo(user.keys.getG()) != 0) &&
 				this.getDate()==user.getDate())
-			return 1;
-		return 0;
+			return false;
+		return true;
 	}
 	
 	
@@ -329,11 +345,5 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		
 		//System.out.println("\n"+user.toString());
 		//System.out.println("\n" + user2.toString());
-	}
-	
-	public static void register() {
-		User u = new User();
-		AdvertisementFactory.registerAdvertisementInstance(u.getAdvType(),
-                										   new AdvertisementInstaciator(u.getClass(), u.getAdvType()));
 	}
 }
