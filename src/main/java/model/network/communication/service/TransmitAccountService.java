@@ -1,51 +1,35 @@
 package model.network.communication.service;
 
-import java.math.BigInteger;
-
-import util.secure.ElGamal;
-import util.secure.ElGamalSign;
+import model.manager.Manager;
 import model.user.User;
 import net.jxta.endpoint.Message;
+import net.jxta.peer.PeerID;
 
-public class TransmitAccountService extends Service<User> {
+public class TransmitAccountService extends Service<Manager> {
 
 	@Override
 	public String getServiceName() {
 		return this.getClass().getName();
 	}
 
-	private boolean checkMessageFormat(Message m) {
-		return 
-				m.getMessageElement("to") != null &
-				m.getMessageElement("userSignR") != null &
-				m.getMessageElement("userSignS") != null &
-				m.getMessageElement("content") != null;
-	}
 	
-	private boolean checkValidation(User u, BigInteger s, BigInteger r){
-		ElGamal eg = new ElGamal(u.getKey());
-		ElGamalSign sign = new ElGamalSign(r, s);
-		return eg.verifySignature(u.toString().getBytes(), sign);
-	}
+	
 	
 	@Override
-	public User handleMessage(Message m) {
-		if(!checkMessageFormat(m)) return null;
-		
-		String to = new String(m.getMessageElement("to").getBytes(true));
-		String content = new String(m.getMessageElement("content").getBytes(true));
-		BigInteger userSignR = new BigInteger(m.getMessageElement("userSignR").getBytes(true));
-		BigInteger userSignS = new BigInteger(m.getMessageElement("userSignS").getBytes(true));
-		
-		User user = new User(content);
-		
-		if(!checkValidation(user, userSignS, userSignR)){
-			// TODO process in case of wrong message !
-			System.err.println("THIS MESSAGE IS SHIT !");
-			return null;
-		}
-		
-		return user;
+	public Manager handleMessage(Message m) {
+		Manager manager = new Manager(new String(m.getMessageElement("content").getBytes(true)));
+		//TODO publish des données recue
+		return manager;
+	}
+
+	@Override
+	/**
+	 * Transmit accounts data to others peers.
+	 */
+	public void sendMessage(Manager m) {
+		/* TODO chercher X peer et leur envoyer le manager */
+		Message message = new Message();
+		sender.sendMessage(m.toString(), null); //TODO ajouter la liste des peer a la place de null
 	}
 
 }

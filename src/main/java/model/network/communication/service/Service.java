@@ -1,6 +1,8 @@
 package model.network.communication.service;
 
 import java.util.ArrayList;
+
+import model.network.communication.Communication;
 import net.jxta.endpoint.Message;
 
 /**
@@ -11,6 +13,7 @@ import net.jxta.endpoint.Message;
 public abstract class Service<D> implements ServiceInterface {
 
 	private ArrayList<ServiceListener<D>> listeners = new ArrayList<ServiceListener<D>>(); //listeners list
+	protected Communication sender;
 	
 	@Override
 	public void putMessage(Message m) {
@@ -41,5 +44,12 @@ public abstract class Service<D> implements ServiceInterface {
 	 * @return true if the message was correctly processed
 	 */
 	public abstract D handleMessage(Message m);
+	
+	@Override
+	public void setCommunication(Communication c) {
+		this.sender = c;
+	}
+	
+	public abstract void sendMessage(D data);
 
 }

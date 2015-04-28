@@ -3,7 +3,9 @@ package model.advertisement;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 
@@ -14,6 +16,10 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import util.StringToElement;
+import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
+import util.secure.ElGamalSign;
 import net.jxta.document.Advertisement;
 import net.jxta.document.Document;
 import net.jxta.document.MimeMediaType;
@@ -41,6 +47,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	protected ArrayList<String> indexes = new ArrayList<String>();
 	
+	/*
+	 * The Elgamal signature of this object.
+	 */
+	private ElGamalSign signature; 
+	
 	
 	
 	/**
@@ -48,6 +59,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	public AbstractAdvertisement() {
 		super();
+		addKey("signature", false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 	}
 	
@@ -143,7 +155,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return an element.
 	 */
 	public Element getRootElement() {
-		putValues();
+		superPutValues();
 		Element root = new Element(getAdvertisementName());
 		for(String key: keyValues.keySet()) { //creating an element for each keys. Add to root content.
 			Element e = new Element(key);
@@ -166,7 +178,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Document getDocument(MimeMediaType mediatype) {
-		putValues();
+		superPutValues();
 		StructuredDocument adv = StructuredDocumentFactory.newStructuredDocument(mediatype, getAdvType());
 		for (String key : keyValues.keySet()) {
 			net.jxta.document.Element e = adv.createElement(key,keyValues.get(key));
@@ -182,6 +194,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	/**
 	 * Will be called on new instances to set the advertisement's available elements.
+	 * You should also initialize the data here.
 	 */
 	protected abstract void setKeys();
 	
@@ -189,6 +202,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * Will be called to put the class properties in the xml document.
 	 */
 	protected abstract void putValues();
+	
+	private void superPutValues() {
+		addValue("signature", signature == null ? null:signature.toString());
+		putValues();
+	}
 	
 	/**
 	 * Initialize this advertisement with the root element handle by JXTA.
@@ -212,7 +230,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
         	TextElement elem = (TextElement) elements.nextElement();
         	Element e = new Element(elem.getName()); //convert into a Jdom element.
         	e.addContent(elem.getValue());
-        	if (!handleElement(e)) {
+        	if (!superHandleElement(e)) {
                 throw new IllegalDataException(elem.getName());
                 //this element is unknown for this advertisement.
             }
@@ -225,7 +243,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	protected void initialize(Element root) {
 		for(Element e: root.getChildren()) {
-			if(!handleElement(e)) {
+			if(!superHandleElement(e)) {
 				throw new IllegalDataException(e.getName());
                 //this element is unknown for this advertisement.
 			}
@@ -238,6 +256,28 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @return true if the element is known and handled. Otherwise false.
 	 */
 	abstract protected boolean handleElement(Element e);
+	
+	/**
+	 * Set the signature with the handled value
+	 * @param signature
+	 */
+	private boolean setSignature(String signature) {
+		Element sign = StringToElement.getElementFromString(signature, "signs");
+		
+		if(sign.getChild("signR") == null) return false;
+		BigInteger r = new BigInteger(sign.getChild("signR").getValue(), 16);
+		if(sign.getChild("signS") == null) return false;
+		BigInteger s = new BigInteger(sign.getChild("signS").getValue(), 16);
+		this.signature = new ElGamalSign(r, s);
+		return true;
+	}
+	
+	private boolean superHandleElement(Element e) {
+		switch(e.getName()) {
+		case "signature": setSignature(e.getValue()); return true;
+		default: return handleElement(e);
+		}
+	}
 	
 	@Override
 	public ID getID() {
@@ -262,6 +302,40 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         String xmlString = outputter.outputString(document);
 		return xmlString;
+	}
+	
+	
+	private String getConcatenedElements() {
+		superPutValues();
+		ArrayList<String> sortedElements = new ArrayList<String>();
+		for(String s: keyValues.keySet()) {
+			if(!s.equals("signature")) {
+				sortedElements.add(keyValues.get(s));
+			}
+		}
+		Collections.sort(sortedElements);
+		StringBuffer s = new StringBuffer();
+		for(String c : sortedElements) {
+			s.append(c);
+		}
+		return s.toString();
+	}
+	
+	/**
+	 * generate and save this advertisement signature.
+	 * @param privateKey
+	 * @return
+	 */
+	public void sign(AsymKeysImpl keys) {
+		ElGamal crypter = new ElGamal(keys);
+		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
+		if(signature == null) System.out.println("ici");
+	}
+	
+	public boolean checkSignature(AsymKeysImpl keys) {
+		if(signature == null) return false;
+		ElGamal crypter = new ElGamal(keys);
+		return crypter.verifySignature(getConcatenedElements().getBytes(), signature);
 	}
 
 }

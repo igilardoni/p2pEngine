@@ -1,10 +1,15 @@
 package model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import model.manager.Manager;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
 import model.network.communication.service.TransmitAccountService;
+import model.user.User;
 
 /**
  * The main class of the software. This class can be instancied only once. (singleton)
@@ -15,7 +20,7 @@ import model.network.communication.service.TransmitAccountService;
 public class Application {
 	private static Application instance = null; //the current instance of this class.
 	
-	private EmbeddedRunner server;
+	private EmbeddedRunner server = null;
 	private Network network;
 	private Manager manager;
 	private Communication com;
@@ -24,7 +29,7 @@ public class Application {
 	 * Launch the application.
 	 */
 	@SuppressWarnings("unchecked")
-	public Application() {
+	public Application(boolean startLocalServer) {
 		if(instance != null) {
 			try {
 				throw new Exception("this class can be instancied only once");
@@ -38,7 +43,13 @@ public class Application {
 		startCommunication();
 		manager = new Manager();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
-		startLocalServer();
+		
+		network.addGroup("items");
+		network.addGroup("users");
+		
+		
+		if(startLocalServer)
+			startLocalServer();	
 		
 		instance = this;
 	}
@@ -107,6 +118,7 @@ public class Application {
 	}
 	
 	public void stopServer() {
+		if(server == null) return;
 		try {
 			server.stop();
 		} catch (Exception e) {
@@ -116,10 +128,46 @@ public class Application {
 	
 	
 	/**
+	 * Properly close the app : closing network & server, and saving datas.
+	 */
+	public void close() {
+		System.out.println("closing ...");
+		stopServer();
+		network.stop();
+		File f = new File(".data");
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(f);
+			fw.write(manager.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	/**
 	 * We start the app here !
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Application();
+		new Application(false);
+		User u = new User("nick", "pwd", "name", "firstname", "email", "phone");
+		u.sign(u.getKeys());
+		Application.getInstance().getManager().addUser(u);
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Application.getInstance().close();
 	}
 }

@@ -1,8 +1,11 @@
 package model.item;
 
+import net.jxta.document.AdvertisementFactory;
+
 import org.jdom2.Element;
 
 import model.advertisement.AbstractAdvertisement;
+import model.advertisement.AdvertisementInstaciator;
 import model.user.User;
 
 /**
@@ -20,16 +23,16 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	};
 	
 	private String owner;			// Owner of the object
-	private String friendlyNick;		// Friendly-user Pseudo of owner
+	private String friendlyNick;	// Friendly-user Pseudo of owner
 	private String title;			// Title of the object
 	private Category category;		// Category of the object
 	private String description;		// Big description of the object
 	private String image;			// Image of the object (convert with Base64)
 	private String country;			// Country of the object (TODO add city and more if needed)
 	private String contact;			// Description of method for contact the owner
-	private long date;					// Date of post/update
-	private long lifeTime;				// LifeTime of the object (at the end of this, the object is delete)
-	private TYPE type;		// Proposal/Wish
+	private long date;				// Date of post/update
+	private long lifeTime;			// LifeTime of the object (at the end of this, the object is delete)
+	private TYPE type;				// Proposal/Wish
 	
 	/**
 	 * Constructor of Item
@@ -78,7 +81,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(User owner,String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
-		this(owner.getPrivateKey().toString(16),owner.getNick(),title, category, description, image, country, contact, date, lifeTime, type);
+		this(owner.getKeys().getPublicKey().toString(16),owner.getNick(),title, 
+				category, description, image, country, contact, date, lifeTime, type);
 	}
 	
 	/**
@@ -121,7 +125,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param owner
 	 */
 	public void setOwner(User owner){
-		this.owner = owner.getPublicKey().toString(16);
+		this.owner = owner.getKeys().getPublicKey().toString(16);
 	}
 	
 	/**
@@ -308,6 +312,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @return
 	 */
 	public boolean isAlive(){
+		if(lifeTime == 0)
+			return true;
 		if((date + lifeTime)<System.currentTimeMillis())
 			return true;
 		return false;
@@ -325,7 +331,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		this.addKey("category",true);
 		this.addKey("description",false);
 		this.addKey("image",false);
-		this.addKey("zone",true);
+		this.addKey("country",true);
 		this.addKey("contact",false);
 		this.addKey("date",true);
 		this.addKey("lifeTime",false);
@@ -343,7 +349,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		addValue("category", category.getStringChoice());
 		addValue("description", this.getDescription());
 		addValue("image", this.getImage());
-		addValue("zone", this.getCountry());
+		addValue("country", this.getCountry());
 		addValue("contact", this.getContact());
 		addValue("date", String.valueOf(this.getDate()));
 		addValue("lifeTime", String.valueOf(this.getLifeTime()));
@@ -377,7 +383,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		case "image":
 			setImage(val);
 			return true;
-		case "zone": //TODO j'crois que tu t'es emmelé country/zone du coup j'ai changé la mais faut check.
+		case "country":
 			setCountry(val);
 			return true;
 		case "contact":
@@ -397,7 +403,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			else {
 				return false;
 			}
-				
 			return true;
 		default:
 			return false;
@@ -423,5 +428,11 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				)
 			return 1;
 		return 0;
+	}
+	
+	public static void register() {
+		Item i = new Item();
+		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
+                										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
 }

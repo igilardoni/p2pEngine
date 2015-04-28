@@ -20,6 +20,7 @@ public class UserTest {
 	private static String firstName = "firstName";
 	private static String email = "email";
 	private static String phone = "phone";
+	private static long date = System.currentTimeMillis();
 	private static AsymKeysImpl key = new AsymKeysImpl(false);
 	
 	@Test
@@ -29,8 +30,8 @@ public class UserTest {
 		// Three type of constructor
 		user1 = new User(nick, password, name, firstName, email, phone);
 		user1.setKey(key);
-		user2 = new User(nick, hashPassword, name, firstName, email, phone, key);
-		user3 = new User(nick, hashPassword, name, firstName, email, phone, key.getPublicKey(), key.getP(), key.getG());
+		user2 = new User(nick, hashPassword, name, firstName, email, phone, date, key);
+		user3 = new User(nick, hashPassword, name, firstName, email, phone, date,  key.getPublicKey(), key.getP(), key.getG());
 		
 		assertEquals(user1.compareTo(user2), 0);
 		assertEquals(user2.compareTo(user3), 0);
@@ -56,7 +57,7 @@ public class UserTest {
 	@Test
 	public void isPassword(){
 		User user;
-		user = new User(nick, hashPassword, name, firstName, email, phone, key);
+		user = new User(nick, hashPassword, name, firstName, email, phone, date, key);
 		assertEquals(user.isPassword(password), true);
 		assertEquals(user.isPassword(password+"#"), false);
 	}
