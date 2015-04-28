@@ -314,7 +314,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public boolean isAlive(){
 		if(lifeTime == 0)
 			return true;
-		if((date + lifeTime)<System.currentTimeMillis())
+		if((date + lifeTime)<=System.currentTimeMillis())
 			return true;
 		return false;
 	}

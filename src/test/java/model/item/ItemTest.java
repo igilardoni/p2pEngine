@@ -48,17 +48,17 @@ public class ItemTest {
 	public void isAlive(){
 		Item item;
 		
-		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
+		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, (date+1000000), lifeTime, type);
 		
-		assertEquals(item.isAlive(), false);
+		assertEquals(false, item.isAlive());
 		
 		item.setLifeTime(Long.MAX_VALUE);
 		
-		assertEquals(item.isAlive(), true);
+		assertEquals(true, item.isAlive());
 		
 		item.setLifeTime(0);
 		
-		assertEquals(item.isAlive(), true);
+		assertEquals(true, item.isAlive());
 	}
 
 }
