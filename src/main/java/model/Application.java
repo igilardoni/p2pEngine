@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import model.advertisement.AdvertisementInstaciator;
 import model.manager.Manager;
 import model.network.Network;
 import model.network.communication.Communication;
@@ -40,6 +41,7 @@ public class Application {
 		}
 		
 		startNetwork();
+		AdvertisementInstaciator.RegisterAllAdv();
 		startCommunication();
 		manager = new Manager();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
@@ -158,16 +160,16 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Application(false);
+		new Application(true);
 		User u = new User("nick", "pwd", "name", "firstname", "email", "phone");
 		u.sign(u.getKey());
 		Application.getInstance().getManager().addUser(u);
-		try {
+		/*try {
 			Thread.sleep(20000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Application.getInstance().close();
+		Application.getInstance().close(); */
 	}
 }
