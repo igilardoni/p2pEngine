@@ -43,13 +43,14 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param image
 	 * @param zone
 	 * @param contact
-	 * @param date
+	 * @param date - if equals zero date will be current Time
 	 * @param lifeTime
 	 * @param type
 	 */
 	public Item(String owner, String friendlyNick, String title,
 			Category category, String description, String image,
-			String country,String contact,long date,long lifeTime,TYPE type){
+			String country, String contact, long date,
+			long lifeTime,TYPE type){
 		super();
 		this.setOwner(owner);
 		this.setFriendlyNick(friendlyNick);
@@ -59,7 +60,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		this.setImage(image);
 		this.setCountry(country);
 		this.setContact(contact);
-		this.setDate(date);
+		if(date == 0)
+			this.setDate(System.currentTimeMillis());
+		else
+			this.setDate(date);
 		this.setLifeTime(lifeTime);
 		this.setType(type);
 		setKeys();
@@ -314,7 +318,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public boolean isAlive(){
 		if(lifeTime == 0)
 			return true;
-		if((date + lifeTime)<=System.currentTimeMillis())
+		if((date + lifeTime)>System.currentTimeMillis())
 			return true;
 		return false;
 	}
@@ -409,6 +413,11 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		}
 	}
 	
+	public static void register() {
+		Item i = new Item();
+		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
+                										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
+	}
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * @return boolean 0 if both are identical, 1 else
@@ -428,11 +437,5 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				)
 			return 1;
 		return 0;
-	}
-	
-	public static void register() {
-		Item i = new Item();
-		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
-                										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
 }
