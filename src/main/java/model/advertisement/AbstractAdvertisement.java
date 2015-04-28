@@ -60,8 +60,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public AbstractAdvertisement() {
 		super();
 		addKey("signature", false);
-		addKey("cipherAsym", false);
-		addKey("cipherSym", false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 	}
 	
