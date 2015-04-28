@@ -38,15 +38,38 @@ public class EchoServer {
     @OnMessage
     public void onMessage(String message, Session session){
     	String[] contents = message.split(":");
-    	System.out.println(contents[0]+" "+contents[1]);
-    	if(verif(contents[0], contents[1])){
-    		try {
-				session.getBasicRemote().sendText("connecter.html");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-    	}
+    	switch (contents[0]) {
+		case "/index":
+			if(Verifying(contents[1], contents[2])){
+				System.out.println("je suis ici");
+	    		try {
+					session.getBasicRemote().sendText("index.html");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+	    	}
+			break;
+		case "/register":
+			if(add_new_user(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6])){
+				System.out.println("un nouveau utilisateur inscrit");
+				try {
+					session.getBasicRemote().sendText("Se_connecter.html#tologin");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			break;
+			
+		case "/new_objet":
+			System.out.println("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY OBJET");
+			break;
+		default:
+			break;
+		}
+    	
     	
        
     }
@@ -71,11 +94,18 @@ public class EchoServer {
         System.out.println("Session has ended");
     }
     
-    
-    public boolean verif(String login, String password){
+    //Verifying user account
+    public boolean Verifying(String login, String password){
+    	//System.out.println(login+":"+password);
     	if(login.equals("toto") && password.equals("toto"))
     		return true;
     	return false;
+    }
+    
+    //add new user
+    public boolean add_new_user(String nick,String password, String name, String firstName, String email, String phone){
+    	//call model
+    	return true;
     }
     
     public static void main(String[] args){

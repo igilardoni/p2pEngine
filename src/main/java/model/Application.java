@@ -162,7 +162,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		User u = new User("nick", "pwd", "name", "firstname", "email", "phone");
-		u.sign(u.getKey());
+		u.sign(u.getKeys());
 		Application.getInstance().getManager().addUser(u);
 		/*try {
 			Thread.sleep(20000);

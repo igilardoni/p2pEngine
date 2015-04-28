@@ -78,11 +78,12 @@
                                     <label for="passwordsignup_confirm" id="label_pw2" class="youpasswd" data-icon="p">Please confirm your password </label>
                                     <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
                                 </p>
-                               
-                               <p>
-                                <input type="text" id="input_text_file" name="input_text_file" class="inputText" readonly="readonly" style="display: none;"/>
-       							 <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
-                               </p>
+
+                                <p> 
+                                    <label for="phone" id="label_phone" class="youmail" data-icon="e" >Your phone number</label>
+                                    <input id="phone" name="phone" required="required" type="tel" placeholder="0618878165"/> 
+                                </p>
+                             
                                 <p class="signin button"> 
 									<input type="submit" onclick="to_register();" value="Sign up" /> 
 								</p>

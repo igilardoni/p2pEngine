@@ -81,7 +81,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(User owner,String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
-		this(owner.getPublicKey().toString(16),owner.getNick(),title, category, description, image, country, contact, date, lifeTime, type);
+		this(owner.getKeys().getPublicKey().toString(16),owner.getNick(),title, 
+				category, description, image, country, contact, date, lifeTime, type);
 	}
 	
 	/**
@@ -124,7 +125,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param owner
 	 */
 	public void setOwner(User owner){
-		this.owner = owner.getPublicKey().toString(16);
+		this.owner = owner.getKeys().getPublicKey().toString(16);
 	}
 	
 	/**

@@ -35,6 +35,15 @@
             /**
              * Sends the value of the text input to the server
              */
+            
+            
+            
+            	function new_objet(){
+            	
+            		webSocket.send("/new_objet:");
+            
+            }
+            
             function connexion(){
             	
             	var password = document.getElementById("password").value;
@@ -48,7 +57,7 @@
             	}else{
             		document.getElementById("label_password").style.color = "#2E1C08";
             		document.getElementById("label_name").style.color = "#2E1C08";
-                	webSocket.send(password+":"+nickname);
+                	webSocket.send("/index:"+password+":"+nickname);
             	}
             
             }
@@ -60,7 +69,8 @@
             	var email = document.getElementById("email").value;
             	var passwordsignup = document.getElementById("passwordsignup").value;
             	var passwordsignup_confirm = document.getElementById("passwordsignup_confirm").value;
-            	var picture = document.getElementById("input_text_file").value;
+            	var phone = document.getElementById("phone").value;
+				
             	
             	if(nick == ""){
             		document.getElementById("label_nick").innerHTML = " Please enter your nickname"; 
@@ -90,14 +100,14 @@
             		document.getElementById("label_pw1").innerHTML = "Your password";
             		document.getElementById("label_pw1").style.color = "#2E1C08";
             		document.getElementById("label_pw2").style.color = "#ff0000";
-            	}else if(picture == "" ){
+            	}else if(!checknum(phone)){
+            		document.getElementById("label_phone").style.color = "#ff0000";
+            		document.getElementById("label_phone").innerHTML = "Please enter your phone number";    		
             		document.getElementById("label_pw2").innerHTML = "Please confirm your password ";
             		document.getElementById("label_pw2").style.color = "#2E1C08";
-            		document.getElementById("input_text_file").style.color = "#ff0000";
+            		
             	}else {
-            		document.getElementById("label_pw2").style.color = "#2E1C08";
-            		document.getElementById("input_text_file").style.color = "#2E1C08";
-            		webSocket.send(password+":"+nickname);
+            		webSocket.send("/register:"+nick+":"+passwordsignup+":"+name+":"+firstName+":"+email+":"+phone);
             	}
             
             }
@@ -123,13 +133,27 @@
             	
             	return true;
             }}
+            
+            
+            function checknum(num){
+                var valide = /^0[1-6]\d{8}$/;
+                if(valide.test(num)){
+                	return true;
+                }
+                else{
+                	return false;
+                }
+            }
+            
             function closeSocket(){
                 webSocket.close();
             }
  
             function writeResponse(text){
-            
+            	messages.innerHTML += "<br/>" + text;
             	window.location.replace(text);
                 
             }
+            
+            
             		
