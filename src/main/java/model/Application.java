@@ -43,7 +43,7 @@ public class Application {
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
 		startCommunication();
-		manager = new Manager();
+		manager = new Manager(network);
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		
 		network.addGroup("items");

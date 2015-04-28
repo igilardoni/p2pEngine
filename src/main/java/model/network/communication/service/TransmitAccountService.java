@@ -17,7 +17,7 @@ public class TransmitAccountService extends Service<Manager> {
 	
 	@Override
 	public Manager handleMessage(Message m) {
-		Manager manager = new Manager(new String(m.getMessageElement("content").getBytes(true)));
+		Manager manager = new Manager(new String(m.getMessageElement("content").getBytes(true)), null);
 		//TODO publish des données recue
 		return manager;
 	}

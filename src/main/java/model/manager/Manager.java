@@ -1,5 +1,6 @@
 package model.manager;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +8,10 @@ import java.util.HashMap;
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
+import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
 import model.user.User;
+import net.jxta.discovery.DiscoveryService;
 
 import org.jdom2.Element;
 
@@ -17,18 +20,21 @@ import util.StringToElement;
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
 	private HashMap<String, User> users; //The string key is the user's public key in hexadecimal
 	private ArrayList<Item> items; //list of items handled by this manager.
+	private NetworkInterface network;
 	private User currentUser;
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
 	 * @param XML
 	 */
-	public Manager(String XML) {
+	public Manager(String XML, NetworkInterface network) {
 		super(XML);
+		this.network = network;
 	}
 
-	public Manager() {
+	public Manager(NetworkInterface network) {
 		super();
+		this.network = network;
 	}
 
 	/**
@@ -251,14 +257,55 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	
-	public void login(String nickname, String password) {
+	/**
+	 * Retrieve the corresponding user according to nickname and password.
+	 * @param nickname
+	 * @param password
+	 */
+	public boolean login(String nickname, String password) {
 		User u = null; //TODO get user on network or local, check it and login.
 		currentUser = u;
+		currentUser.setPassWord(password);
+		return currentUser != null;
+	}
+	
+	
+	
+	public void logout() {
+		currentUser.setClearPassword(null);
+		currentUser = null;
+	}
+	
+	
+	private void publishUsers() {
+		DiscoveryService discovery = network.getGroup("users").getDiscoveryService();
+		for(User u: users.values()) {
+			try {
+				discovery.flushAdvertisement(u);
+				discovery.publish(u); //"i have this user"
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void publishItems() {
+		
+	}
+	
+	/**
+	 * Publish (advertise) users and item on network. Also check data resilience and send data to other
+	 * peers if needed.
+	 */
+	public void publishManager() {
+		publishUsers();
+		publishItems();
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
-		Manager manager = new Manager();
+		Manager manager = new Manager(null);
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
 		User user2 = new User("user2", "pass2", "name2", "firstname2", "email2", "phone2");
 		Item item1 = new Item(user1, "patate", new Category(Category.CATEGORY.Appliances), 
@@ -270,7 +317,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		manager.addItem(item1);
 		manager.addItem(item2);
 		
-		Manager manager2 = new Manager(manager.toString());
+		Manager manager2 = new Manager(manager.toString(), null);
 		if(manager2.toString().equals(manager.toString())) {
 			System.out.println("ok !");
 		}

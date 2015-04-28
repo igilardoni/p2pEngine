@@ -141,6 +141,10 @@ public class User extends AbstractAdvertisement{
 		this.hashPwd = Hasher.SHA256(passWord);
 	}
 	
+	public void setClearPassword(String password) {
+		this.clearPassword = password;
+	}
+	
 	public void setHashPwd(String hashPwd) {
 		this.hashPwd = hashPwd;
 	}
