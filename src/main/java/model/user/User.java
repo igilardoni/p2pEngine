@@ -10,7 +10,6 @@ import org.jdom2.Element;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
-import util.secure.ElGamal;
 import util.secure.Serpent;
 
 /**
@@ -82,6 +81,7 @@ public class User extends AbstractAdvertisement{
 		super(u);
 	}
 
+	//////////////////////////////////////////////////// TOOLS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Verifies that the password in parameter corresponds to hashPwd
 	 * @param password
@@ -177,106 +177,83 @@ public class User extends AbstractAdvertisement{
 		return true;
 	}
 	
-	//////////// GETTERS \\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public String getNick() {
 		return nick;
 	}
-	
 	public String getHashPwd() {
 		return hashPwd;
 	}
-	
 	public String getName() {
 		return name;
 	}
-	
 	public String getFirstName() {
 		return firstName;
 	}
-	
 	public String getEmail() {
 		return email;
 	}
-	
 	public String getPhone() {
 		return phone;
 	}
-	
 	public long getDate(){
 		return date;
 	}
-	
 	public AsymKeysImpl getKeys(){
 		return keys;
 	}
-	
 	public String getClearPwd(){
 		return clearPassword;
 	}
 	
-	//////////// SETTERS \\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public void setNick(String login) {
 		this.nick = login == null ? "":login;
 	}
-	
 	public void setPassWord(String passWord){
 		this.hashPwd = Hasher.SHA256(passWord);
 	}
-	
 	public void setClearPassword(String password) {
 		this.clearPassword = password;
 	}
-	
 	public void setHashPwd(String hashPwd) {
 		this.hashPwd = hashPwd;
 	}
-	
 	public void setName(String name) {
 		this.name = name == null ? "": name;
 	}
-	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName == null ? "": firstName;
 	}
-	
 	public void setEmail(String email) {
 		this.email = email == null ? "": email;
 	}
-	
 	public void setPhone(String phone) {
 		this.phone = phone == null ? "":phone;
 	}
-	
 	public void setDate(long date){
 		this.date = date;
 	}
-	
 	public void setKey(AsymKeysImpl key){
 		this.keys = key == null ? new AsymKeysImpl(): key;
 	}
-	
 	public void setPrivateKey(BigInteger privateKey){
 		this.keys.setPrivateKey(privateKey);
 	}
-	
 	public void setPublicKey(BigInteger publicKey){
 		this.keys.setPublicKey(publicKey);
 	}
-	
 	public void setG(BigInteger g){
 		this.keys.setG(g);
 	}
-	
 	public void setP(BigInteger p){
 		this.keys.setP(p);
 	}
-	
 	public void setClearPwd(String password){
 		this.clearPassword = password;
 	}
 	
 	//////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
 	/**
 	 * Give the good class to the constructor
 	 */
