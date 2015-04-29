@@ -1,39 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0">
-   
+<meta charset="utf-8">
+<title>Display Webcam Stream</title>
+  
+<style>
+#container {
+    margin: 0px auto;
+    width: 300px;
+    height: 175px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 300px;
+    height: 175px;
+    background-color: #666;
+}
+#canvas {
+    width: 300px;
+    height: 175px;
+    
+    background-color: #CCC;
+}
+</style>
+
 </head>
+  
 <body>
-<video autoplay id="vid" style="display:none;"></video>
-<canvas id="canvas" width="640" height="480" style="border:1px solid #d3d3d3;"></canvas><br>
-<button onclick="snapshot()">Take Picture</button>
+<!-- On iOS 6 we can use the file select input with the following attributes to capture an image from the camera -->
+<input id="fileselect" type="file" accept="image/*" capture="camera">
 
-<script type="text/javascript">
+<!-- For devices that support getUserMedia and have a webcam we can display the feed in a video element -->
+<div id="container">
+    <video autoplay id="videoElement">
+     
+    </video>
+</div>
 
-    var video = document.querySelector("#vid");
-    var canvas = document.querySelector('#canvas');
-    var ctx = canvas.getContext('2d');
-    var localMediaStream = null;
+<-- Selected image will be draw to a canvas -->
+<canvas id="canvas" width="200" height="175"></canvas>
 
-    var onCameraFail = function (e) {
-        console.log('Camera did not work.', e);
-    };
+<!-- Used to capture frame from webcam video feed -->
+<input type="button" value="Save" id="save" />
 
-    function snapshot() {
-        if (localMediaStream) {
-            ctx.drawImage(video, 0, 0);
-        }
-    }
+<-- Or alternatively added to an img tag -->
+<img id="imgtag" src="" width="300" height="175" alt="capture" />
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    window.URL = window.URL || window.webkitURL;
-    navigator.getUserMedia({video:true}, function (stream) {
-        video.src = window.URL.createObjectURL(stream);
-        localMediaStream = stream;
-    }, onCameraFail);
-
-</script>
+<-- For the JavaScript below -->
+	<script type="text/javascript" src="exemple.js"></script> 
+	
 </body>
 </html>

@@ -16,7 +16,27 @@
 	<link id="base-style" href="./VIEW/index/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="./VIEW/index/css/style-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
-
+<script type="text/javascript" src="./VIEW/js/exemple.js"></script> 
+		
+<style>
+#container {
+    margin: 0px auto;
+    width: 300px;
+    height: 175px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 300px;
+    height: 175px;
+    background-color: #666;
+}
+#canvas {
+    width: 300px;
+    height: 175px;
+    
+    background-color: #CCC;
+}
+</style>
 </head>
 
 <body onload="openSocket();">
@@ -187,10 +207,17 @@
 								<input class="input-file uniform_on" id="Picture" name="Picture" type="file">
 							  </div>
 							</div>
-							<div id="picture_t2">
-							
-							ici camera
+							<div id="container">
+							    <video autoplay id="videoElement">
+							     
+							    </video>
 							</div>
+							<canvas id="canvas" width="200" height="175"></canvas>
+							
+							<input type="button" value="Save" id="save" />
+							
+							<img id="imgtag" src="" width="300" height="175" alt="capture" />
+							
 							 <div class="control-group">
 								<label class="control-label">Type image</label>
 								<div class="controls">
@@ -288,6 +315,8 @@
 
 		<script src="./VIEW/index/js/custom.js"></script>
 		<script type="text/javascript" src="./VIEW/js/to_log_in.js"></script> 
+		
+	
 	<!-- end: JavaScript-->
 	</div>
 </body>
