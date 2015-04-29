@@ -1,6 +1,10 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -10,6 +14,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import model.Application;
+import model.user.User;
  
 /** 
  * @ServerEndpoint gives the relative name for the end point
@@ -41,8 +46,10 @@ public class EchoServer {
     	switch (contents[0]) {
 		case "/index":
 			if(Verifying(contents[1], contents[2])){
-				System.out.println("je suis ici");
+				System.out.println("recu merci merci");
 	    		try {
+	    			//String res=lire();
+	    				//System.out.println("bien recu "+res+" voici");
 					session.getBasicRemote().sendText("index.html");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -63,9 +70,34 @@ public class EchoServer {
 			}
 			break;
 			
-		case "/new_objet":
-			System.out.println("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY OBJET");
+		case "/newobjet":
+			try {
+				session.getBasicRemote().sendText("new_objet.html");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
+			
+		case "/newindex":
+			try {
+				session.getBasicRemote().sendText("index.html");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+		case "/newchat":
+			try {
+				session.getBasicRemote().sendText("chat.html");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+			
 		default:
 			break;
 		}
@@ -104,9 +136,35 @@ public class EchoServer {
     
     //add new user
     public boolean add_new_user(String nick,String password, String name, String firstName, String email, String phone){
-    	//call model
+    	User user = new User(nick, password, name, firstName, email, phone);
+    	Application.getInstance().getManager().addUser(user);
     	return true;
     }
+    
+    public static String  lire(){
+    	String chaine="";
+		String fichier ="toto.txt";
+		
+		//lecture du fichier texte	
+		try{
+			InputStream ips=new FileInputStream(fichier); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			while ((ligne=br.readLine())!=null){
+				System.out.println(ligne);
+				chaine+=ligne+"\n";
+				System.out.println("heeeeeeey");
+			}
+			br.close(); 
+		}		
+		catch (Exception e){
+			System.out.println(e.toString());
+		}
+		return chaine;
+	
+    }
+    
     
     public static void main(String[] args){
     	

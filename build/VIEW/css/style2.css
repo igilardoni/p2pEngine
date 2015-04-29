@@ -9,6 +9,17 @@ body{
 background-image: url(../img/bg-login.jpg);
 
 }
+#picture_t2 {
+    margin: 0px auto;
+    width: 200px;
+    height: 175px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 200px;
+    height: 175px;
+    background-color: #666;
+}
 
 /** fonts used for the icons **/ 
 @font-face {
