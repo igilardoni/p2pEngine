@@ -4,18 +4,26 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import model.Application;
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
+import model.network.search.Search;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
 import org.jdom2.Element;
+
 import util.StringToElement;
 
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
+	
+	private static final int RECURRING_ACCOUNT_NUMBER = 5;
+	private static final long RECURRING_ACCOUNT_TIMEOUT = 3000;
+	
 	private HashMap<String, User> users;	// The string key is the user's public key in hexadecimal
 	private ArrayList<Item> items;			// list of items handled by this manager.
 	private NetworkInterface network;
@@ -326,8 +334,31 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		publishItems();
 	}
 	
+	/**
+	 * to update recurrence of current account
+	 */
 	public void checkDataResilience() {
-		//TODO
+		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
+		// Wait 3 seconds or 5 results
+		search.search(currentUser.getKeys().getPublicKey().toString(16), RECURRING_ACCOUNT_TIMEOUT, RECURRING_ACCOUNT_NUMBER);
+		
+		ArrayList<User> recurrentUser = search.getResults();
+		long maxDate = 0;
+		for (User user : recurrentUser) {
+			if(!user.checkSignature(user.getKeys())){
+				recurrentUser.remove(user);
+			}else{
+				maxDate = Long.compare(maxDate, user.getLastUpdated()) >= 0 ? maxDate : user.getLastUpdated();
+			}
+		}
+		for (User user : recurrentUser) {
+			if(user.getLastUpdated() < maxDate){
+				// TODO Mise a jour du peer qui a envoye ce compte OU envoie d'un arret de diffusion.
+			}
+		}
+		for(int i = 0 ; i < (recurrentUser.size() - RECURRING_ACCOUNT_NUMBER) ; i++){
+			// TODO Envoyer une copie du compte a un peer aleatoire
+		}
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

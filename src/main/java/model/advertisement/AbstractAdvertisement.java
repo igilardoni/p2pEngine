@@ -58,6 +58,9 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	private long lastUpdated;
 	
+	public long getLastUpdated(){
+		return this.lastUpdated;
+	}
 	
 	/**
 	 * Instantiate an empty Advertisement, just setting the appropriate keys.
