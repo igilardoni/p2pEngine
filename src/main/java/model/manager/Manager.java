@@ -16,10 +16,10 @@ import org.jdom2.Element;
 import util.StringToElement;
 
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
-	private HashMap<String, User> users; //The string key is the user's public key in hexadecimal
-	private ArrayList<Item> items; //list of items handled by this manager.
+	private HashMap<String, User> users;	// The string key is the user's public key in hexadecimal
+	private ArrayList<Item> items;			// list of items handled by this manager.
 	private NetworkInterface network;
-	private User currentUser;
+	private User currentUser;				// User logged
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
@@ -279,7 +279,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param password
 	 */
 	public boolean login(String nickname, String password) {
-		User u = null; //TODO get user on network or local, check it and login.
+		User u = null; // TODO get user on network or local and login.
+		// Check password
+		if(!u.isPassword(password))
+			return false;
+		// Check privateKey decryption
+		// TODO Not sure if decrypt the private Key now
+		if(!u.decryptPrivateKey(password))
+			return false;
 		currentUser = u;
 		currentUser.setPassWord(password);
 		return currentUser != null;

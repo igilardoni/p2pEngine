@@ -10,6 +10,8 @@ import org.jdom2.Element;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
+import util.secure.Serpent;
 
 /**
  * This class can be instantiated for contains an user.
@@ -93,6 +95,86 @@ public class User extends AbstractAdvertisement{
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	/**
+	 * Encrypt privateKey with password
+	 * @param password - have to be this account's password
+	 * @return true if encryption was successful, else false
+	 */
+	public boolean encryptPrivateKey(String password){
+		// Check if Key isn't empty
+		if(this.getKeys() == null ||
+				this.getKeys().getG() == null ||
+				this.getKeys().getP() == null ||
+				this.getKeys().getPublicKey() == null ||
+				this.getKeys().getPrivateKey() == null){
+			System.err.println(this.getAdvertisementName()+" : Key empty !");
+			return false;
+		}
+		// Check if private key is decrypted
+		if(!this.getKeys().isCompatible()){
+			System.err.println(this.getAdvertisementName()+" : Can't encrypt uncompatible keys !");
+			return false;
+		}
+		BigInteger goodPrivate = this.getKeys().getPrivateKey();
+		// Check if the password is good
+		if(!this.isPassword(password)){
+			System.err.println(this.getAdvertisementName()+" : Wrong password !");
+			return false;
+		}
+		// Try to encrypt
+		Serpent cypher = new Serpent(password);
+		byte[] privateByte = cypher.encrypt(goodPrivate.toByteArray());
+		BigInteger privateKey = new BigInteger(privateByte);
+		this.setPrivateKey(privateKey);
+		// Check if Keys are compatible
+		if(this.getKeys().isCompatible()){
+			System.err.println(this.getAdvertisementName()+" : Error during encrypting !");
+			this.setPrivateKey(goodPrivate);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Decrypt the private key with the password
+	 * @param password - have to be this account's password
+	 * @return true if decryption was successful, else false
+	 */
+	public boolean decryptPrivateKey(String password){
+		// Check if Key isn't empty
+		if(this.getKeys() == null ||
+				this.getKeys().getG() == null ||
+				this.getKeys().getP() == null ||
+				this.getKeys().getPublicKey() == null ||
+				this.getKeys().getPrivateKey() == null){
+			System.err.println(this.getAdvertisementName()+" : Key empty !");
+			return false;
+		}
+		// Check if private key is encrypted
+		if(this.getKeys().isCompatible()){
+			System.err.println(this.getAdvertisementName()+" : Private key already decrypted !");
+			return true;
+		}
+		BigInteger wrongPrivate = this.getKeys().getPrivateKey();
+		// Check if the password is good
+		if(!this.isPassword(password)){
+			System.err.println(this.getAdvertisementName()+" : Wrong password !");
+			return false;
+		}
+		// Try to decrypt
+		Serpent cypher = new Serpent(password);
+		byte[] privateByte = cypher.decrypt(wrongPrivate.toByteArray());
+		BigInteger privateKey = new BigInteger(privateByte);
+		this.setPrivateKey(privateKey);
+		// Check if Keys are compatible
+		if(!this.getKeys().isCompatible()){
+			System.err.println(this.getAdvertisementName()+" : Uncompatible Key !");
+			this.setPrivateKey(wrongPrivate);
+			return false;
+		}
+		return true;
 	}
 	
 	//////////// GETTERS \\\\\\\\\\\\\\\\
