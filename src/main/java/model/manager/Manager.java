@@ -326,6 +326,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		publishItems();
 	}
 	
+	public void checkDataResilience() {
+		//TODO
+	}
+	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
 		Manager manager = new Manager(null);
