@@ -3,6 +3,8 @@ package model.user;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.math.BigInteger;
+
 import org.junit.Test;
 
 import util.Hasher;
@@ -78,5 +80,17 @@ public class UserTest {
 		user.setDate(date);
 		assertEquals(user.isPassword(password), false);
 		assertEquals(user.isPassword(password+"#"), true);
+	}
+	
+	@Test
+	public void cryptPrivate(){
+		User user1;
+		user1 = new User(nick, password, name, firstName, email, phone);
+		BigInteger truePrivate = user1.getKeys().getPrivateKey();
+		user1.encryptPrivateKey(password);
+		
+		User user2 = new User(user1.toString());
+		user2.decryptPrivateKey(password);
+		assertEquals(truePrivate, user2.getKeys().getPrivateKey());
 	}
 }

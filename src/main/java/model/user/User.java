@@ -55,7 +55,7 @@ public class User extends AbstractAdvertisement{
 		this.email = email;
 		this.phone = phone;
 		this.date = System.currentTimeMillis();
-		this.keys = new AsymKeysImpl(false);
+		this.keys = new AsymKeysImpl(false);		// TODO false / true finally choice ?
 	}
 	
 	/**
