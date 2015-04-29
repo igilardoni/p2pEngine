@@ -270,7 +270,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param date - long based of epoch time
 	 */
 	public void setDate(long date) {
-		this.date = date;
+		if(date == 0)
+			this.date =System.currentTimeMillis();
+		else
+			this.date = date;
 	}
 
 	/**
@@ -424,6 +427,13 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	@Override
 	public int compareTo(Item item) {
+		if(this.equals(item))
+			return 0;
+		// TODO Make comparison to order Items
+		return 1;
+	}
+	
+	public boolean equals(Item item){
 		if(!this.getOwner().equals(item.getOwner()) || 
 				!this.getTitle().equals(item.getTitle()) ||
 				!this.getCategory().toString().equals(item.getCategory().toString()) ||
@@ -435,7 +445,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				this.getLifeTime() != item.getLifeTime() ||
 				!this.getType().toString().equals(item.getType().toString())
 				)
-			return 1;
-		return 0;
+			return false;
+		return true;
 	}
 }

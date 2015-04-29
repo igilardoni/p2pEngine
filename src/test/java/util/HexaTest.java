@@ -1,6 +1,6 @@
 package util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -51,8 +51,6 @@ public class HexaTest {
 	
 	@Test
 	public void hexStringToBytes() {
-		for (int i = 0; i < msgByte.length; i++) {
-			assertEquals(msgByte[i], Hexa.hexToBytes(msgHex)[i]);
-		}
+		assertArrayEquals(msgByte, Hexa.hexToBytes(msgHex));
 	}
 }
