@@ -1,7 +1,8 @@
 package model.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+import java.math.BigInteger;
 
 import org.junit.Test;
 
@@ -27,12 +28,13 @@ public class UserTest {
 	@Test
 	public void password(){
 		User user1 = new User(nick, password, name, firstName, email, phone);
-		assertEquals(user1.getHashPwd(), hashPassword);
-		assertEquals(user1.getClearPwd(), password);
+		assertEquals(hashPassword, user1.getHashPwd());
+		assertEquals(password, user1.getClearPwd());
 		
 		// Expected ClearPassword null in user2 construct with XML 
 		User user2 = new User(user1.toString());
-		assertEquals(user1.getClearPwd().equals(user2.getClearPwd()), false);
+		assertEquals(hashPassword, user2.getHashPwd());
+		assertNull(user2.getClearPwd());
 	}
 	
 	@Test
@@ -45,25 +47,25 @@ public class UserTest {
 		user2 = new User(user1.toString());
 		user3 = new User(user2.toString());
 		
-		assertEquals(user1.equals(user2), true);
-		assertEquals(user2.equals(user3), true);
-		assertEquals(user3.equals(user1), true);
+		assertTrue(user1.equals(user2));
+		assertTrue(user2.equals(user3));
+		assertTrue(user3.equals(user1));
 		
 		// Compare with empty key and not empty key (different expected)
 		user1.setKey(null);
-		assertEquals(user1.equals(user2), false);
-		assertEquals(user1.equals(user3), false);
+		assertFalse(user1.equals(user2));
+		assertFalse(user1.equals(user3));
 		
 		// Compare two user with empty key (equals expected)
 		user2.setKey(null);
-		assertEquals(user1.equals(user2), true);
+		assertTrue(user1.equals(user2));
 		
 		// Compare empty constructor with user with empty key (equals expected)
 		user1 = new User();
-		assertEquals(user1.equals(user2), true);
+		assertTrue(user1.equals(user2));
 		
 		// Compare empty constructor with user with not empty key (different expected)
-		assertEquals(user1.equals(user3), false);
+		assertFalse(user1.equals(user3));
 	}
 	
 	@Test
@@ -71,12 +73,24 @@ public class UserTest {
 		User user;
 		user = new User(nick, password, name, firstName, email, phone);
 		user.setDate(date);
-		assertEquals(user.isPassword(password), true);
-		assertEquals(user.isPassword(password+"#"), false);
+		assertTrue(user.isPassword(password));
+		assertFalse(user.isPassword(password+"#"));
 		
 		user = new User(nick, password+"#", name, firstName, email, phone);
 		user.setDate(date);
-		assertEquals(user.isPassword(password), false);
-		assertEquals(user.isPassword(password+"#"), true);
+		assertFalse(user.isPassword(password));
+		assertTrue(user.isPassword(password+"#"));
+	}
+	
+	@Test
+	public void cryptPrivate(){
+		User user1;
+		user1 = new User(nick, password, name, firstName, email, phone);
+		BigInteger truePrivate = user1.getKeys().getPrivateKey();
+		user1.encryptPrivateKey(password);
+		
+		User user2 = new User(user1.toString());
+		user2.decryptPrivateKey(password);
+		assertEquals(truePrivate, user2.getKeys().getPrivateKey());
 	}
 }

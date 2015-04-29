@@ -1,6 +1,6 @@
 package model.manager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import model.item.Category;
 import model.item.Category.CATEGORY;
 import model.item.Item;
@@ -42,7 +42,7 @@ public class ManagerTest {
 		
 		Manager manager2 = new Manager(manager1.toString(), null);
 		
-		assertEquals(true, manager1.toString().equals(manager2.toString()));
+		assertTrue(manager1.toString().equals(manager2.toString()));
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class ManagerTest {
 		
 		manager2.messageEvent(manager1);
 		
-		assertEquals(true, manager1.toString().equals(manager2.toString()));
+		assertTrue(manager1.toString().equals(manager2.toString()));
 	}
 	
 	@Test
@@ -67,10 +67,10 @@ public class ManagerTest {
 		manager1.addItem(item1_2);
 		manager1.addUser(user2);
 		
-		assertEquals(false, manager1.removeUserIfNotItem(user1));
-		assertEquals(true, manager1.removeUserIfNotItem(user2));
+		assertFalse(manager1.removeUserIfNotItem(user1));
+		assertTrue(manager1.removeUserIfNotItem(user2));
 		
-		assertEquals(true, manager1.removeUserWithItems(user1));
+		assertTrue(manager1.removeUserWithItems(user1));
 	}
 	
 	@Test
@@ -93,6 +93,11 @@ public class ManagerTest {
 		
 		manager1.cleanItems();
 		
-		assertEquals(true, manager1.toString().equals(manager2.toString()));
+		assertTrue(manager1.toString().equals(manager2.toString()));
+	}
+	
+	@Test
+	public void login(){
+		// TODO
 	}
 }

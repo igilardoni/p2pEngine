@@ -10,7 +10,7 @@ public class ASymKeysImplTest {
 
 	@Test(timeout=180000)
 	public void Generation() {
-		/*AsymKeysImpl gen;
+		AsymKeysImpl gen;
 		BigInteger verif;
 		
 		gen = new AsymKeysImpl(false);
@@ -25,6 +25,9 @@ public class ASymKeysImplTest {
 	@Test
 	public void isCompatible(){
 		AsymKeysImpl gen = new AsymKeysImpl();
-		assertEquals(gen.isCompatible(), false);
+		assertFalse(gen.isCompatible());
+		
+		gen = new AsymKeysImpl(false);
+		assertTrue(gen.isCompatible());
 	}
 }

@@ -338,9 +338,14 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		ElGamal crypter = new ElGamal(keys);
 		lastUpdated = System.currentTimeMillis();
 		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
-		if(signature == null) System.out.println("ici");
+		if(signature == null) System.err.println(this.getAdvertisementName()+" : Signature null");
 	}
 	
+	/**
+	 * Check signature
+	 * @param keys
+	 * @return true if ok, else false
+	 */
 	public boolean checkSignature(AsymKeysImpl keys) {
 		if(signature == null) return false;
 		ElGamal crypter = new ElGamal(keys);

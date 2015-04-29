@@ -14,16 +14,15 @@ public class ItemTest {
 	private static String image = "";
 	private static String country = "country";
 	private static String contact = "contact";
-	private static long date = System.currentTimeMillis();
 	private static long lifeTime = 1;
 	private static Item.TYPE type = Item.TYPE.PROPOSAL;
 	
 	@Test
-	public void compareTo() {
+	public void equals() {
 		Item item1;
 		Item item2;
 		
-		item1 = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
+		item1 = new Item(owner, friendlyNick, title, category, description, image, country, contact, 0, lifeTime, type);
 		
 		item2 = new Item();
 		item2.setOwner(owner);
@@ -33,33 +32,31 @@ public class ItemTest {
 		item2.setImage(image);
 		item2.setCountry(country);
 		item2.setContact(contact);
-		item2.setDate(date);
+		item2.setDate(0);
 		item2.setLifeTime(lifeTime);
 		item2.setType(type);
 		
-		assertEquals(item1.compareTo(item2), 0); // Equals expected
+		assertTrue(item1.equals(item2)); // Equals expected
 		
 		item2.setOwner(owner+"!");
 		
-		assertEquals(item1.compareTo(item2), 1); // Different expected
+		assertFalse(item1.equals(item2)); // Different expected
 	}
 	
-	/*@Test
+	@Test
 	public void isAlive(){
 		Item item;
 		
-		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, date, lifeTime, type);
+		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, 0, lifeTime, type);
+		item.setDate(100000);
+		assertFalse(item.isAlive());
 		
-		assertEquals(false, item.isAlive());
-		
+		item.setDate(0);
 		item.setLifeTime(100000);
-		
-		assertEquals(true, item.isAlive());
+		assertTrue(item.isAlive());
 		
 		item.setLifeTime(0);
-		
-
-		assertEquals(item.isAlive(), true);
-	}*/
+		assertTrue(item.isAlive());
+	}
 
 }

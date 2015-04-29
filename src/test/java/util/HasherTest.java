@@ -1,6 +1,6 @@
 package util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class HasherTest {
 	public void validation() {
 		String hashGener;
 		hashGener = util.Hasher.SHA256(message);
-		assertEquals(hashGener, hashMsg);
+		assertEquals(hashMsg, hashGener);
 	}
 	
 	@Test
@@ -53,22 +53,22 @@ public class HasherTest {
 		// With salt and without have to be different
 		hash1 = util.Hasher.SHA256(message, salt1);
 		hash2 = util.Hasher.SHA256(message);
-		assertEquals(hash1.equals(hash2), false);
+		assertFalse(hash1.equals(hash2));
 		
 		// With two dissimilar salt have to be different
 		hash1 = util.Hasher.SHA256(message, salt1);
 		hash2 = util.Hasher.SHA256(message, salt2);
-		assertEquals(hash1.equals(hash2), false);
+		assertFalse(hash1.equals(hash2));
 
 		// With two different message and the same salt, have to be different
 		hash1 = util.Hasher.SHA256(message, salt1);
 		hash2 = util.Hasher.SHA256(message+" ", salt1);
-		assertEquals(hash1.equals(hash2), false);
+		assertFalse(hash1.equals(hash2));
 	
 		// With two different message and no salt, have to be different
 		hash1 = util.Hasher.SHA256(message);
 		hash2 = util.Hasher.SHA256(message+" ");
-		assertEquals(hash1.equals(hash2), false);
+		assertFalse(hash1.equals(hash2));
 	}
 
 }

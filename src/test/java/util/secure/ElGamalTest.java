@@ -41,6 +41,6 @@ public class ElGamalTest {
 		
 		ElGamalSign sign = elGamalBob.getMessageSignature(msgBobToAlice.getBytes());
 		boolean signatureVerif = elGamalAlice.verifySignature(msgBobToAlice.getBytes(), sign);
-		assertEquals(signatureVerif, true);
+		assertTrue(signatureVerif);
 	}
 }
