@@ -53,6 +53,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	private ElGamalSign signature; 
 	
 	
+	/*
+	 * Last time this object was modified
+	 */
+	private long lastUpdated;
+	
 	
 	/**
 	 * Instantiate an empty Advertisement, just setting the appropriate keys.
@@ -60,6 +65,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public AbstractAdvertisement() {
 		super();
 		addKey("signature", false);
+		addKey("lastUpdated", false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 	}
 	
@@ -205,6 +211,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	private void superPutValues() {
 		addValue("signature", signature == null ? null:signature.toString());
+		addValue("lastUpdated", Long.toString(lastUpdated));
 		putValues();
 	}
 	
@@ -275,6 +282,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	private boolean superHandleElement(Element e) {
 		switch(e.getName()) {
 		case "signature": setSignature(e.getValue()); return true;
+		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
 		default: return handleElement(e);
 		}
 	}
@@ -328,6 +336,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	public void sign(AsymKeysImpl keys) {
 		ElGamal crypter = new ElGamal(keys);
+		lastUpdated = System.currentTimeMillis();
 		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
 		if(signature == null) System.err.println(this.getAdvertisementName()+" : Signature null");
 	}

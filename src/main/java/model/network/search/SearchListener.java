@@ -1,4 +1,4 @@
-package search;
+package model.network.search;
 
 /**
  * Classes that want to know some searchs events should implements this interface
