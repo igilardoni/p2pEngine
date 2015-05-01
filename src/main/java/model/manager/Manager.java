@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Application;
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
@@ -315,7 +314,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				discovery.flushAdvertisement(u);
 				discovery.publish(u); //"i have this user"
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

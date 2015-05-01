@@ -1,9 +1,7 @@
 package model.network.communication.service;
 
 import model.manager.Manager;
-import model.user.User;
 import net.jxta.endpoint.Message;
-import net.jxta.peer.PeerID;
 
 public class TransmitAccountService extends Service<Manager> {
 

@@ -1,21 +1,14 @@
 package model.network.communication;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import util.secure.AsymKeysImpl;
-import util.secure.ElGamal;
-import util.secure.ElGamalSign;
-import util.secure.encryptionInterface.AsymKeys;
 import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.Service;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.endpoint.Message;
-import net.jxta.endpoint.Message.ElementIterator;
-import net.jxta.endpoint.MessageElement;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
