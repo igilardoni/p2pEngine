@@ -35,8 +35,45 @@
             
             
             	function new_objet(){
-            	
-            		webSocket.send("/new_objet:");
+            		var Title = document.getElementById("Title").value;
+                	var Category = document.getElementById("Category").value;
+                	var Country = document.getElementById("Country").value;
+                	var Life_time = document.getElementById("Life_time").value;
+                	var Picture = document.getElementById("Picture").value;
+                	var Description = document.getElementById("Description").value;
+                	
+                	if(Title == ""){
+                		document.getElementById("Title_label").style.color = "#ff0000";
+                	}else if(Category == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#ff0000";
+                	}else if(Country =""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#ff0000";
+                	}else if(Life_time = ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#ff0000";
+                	}else if(Picture == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#ff0000";               	
+                	}else if(Description == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#2E1C08";   
+                		document.getElementById("description_label").style.color = "#ff0000";          	
+                	}else{
+                		webSocket.send("/new_objet:");
+                	}
+                	
+            		
             
             }
             

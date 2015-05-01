@@ -27,27 +27,77 @@
 </head>
   
 <body>
-<!-- On iOS 6 we can use the file select input with the following attributes to capture an image from the camera -->
-<input id="fileselect" type="file" accept="image/*" capture="camera">
 
-<!-- For devices that support getUserMedia and have a webcam we can display the feed in a video element -->
-<div id="container">
-    <video autoplay id="videoElement">
-     
-    </video>
-</div>
+<video id="video" width="640" height="480" autoplay></video>
+	<input type="submit" onclick="to_register();" value="Sign up" /> 
+								
+<canvas id="canvas" width="640" height="480"></canvas>
+<img id="pict" src="" width="300" height="175" alt="capture" />
+					
 
-<-- Selected image will be draw to a canvas -->
-<canvas id="canvas" width="200" height="175"></canvas>
+<script type="text/javascript">
 
-<!-- Used to capture frame from webcam video feed -->
-<input type="button" value="Save" id="save" />
 
-<-- Or alternatively added to an img tag -->
-<img id="imgtag" src="" width="300" height="175" alt="capture" />
+//Put event listeners into place
+window.addEventListener("DOMContentLoaded", function() {
+	// Grab elements, create settings, etc.
+	var canvas = document.getElementById("canvas"),
+		context = canvas.getContext("2d"),
+		video = document.getElementById("video"),
+		videoObj = { "video": true },
+		errBack = function(error) {
+			console.log("Video capture error: ", error.code); 
+		};
 
-<-- For the JavaScript below -->
-	<script type="text/javascript" src="exemple.js"></script> 
+	// Put video listeners into place
+	if(navigator.getUserMedia) { // Standard
+		navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+		}, errBack);
+	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+		navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+		navigator.mozGetUserMedia(videoObj, function(stream){
+			video.src = window.URL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+}, false);
+
+function drawDataURIOnCanvas(strDataURI, canvas) {
+    "use strict";
+    var img = new window.Image();
+    img.addEventListener("load", function () {
+        canvas.getContext("2d").drawImage(img, 0, 0);
+    });
+    img.setAttribute("src", strDataURI);
+   
+}
+
+function to_register(){
+	var  uri = canvas.toDataURL("image/jpeg"); // convert canvas to data URI
 	
+	document.getElementById("pict").src = uri
+	   
+	var image  = document.getElementById("pict");
+	 var canvas = document.createElement("canvas");
+	    document.body.appendChild(canvas);
+	 
+    canvas.width  = image.width;
+    canvas.height = image.height;
+ 
+    var context = canvas.getContext("2d");
+ 
+    context.drawImage(image, 0, 0);
+	
+
+}
+
+</script>
 </body>
 </html>

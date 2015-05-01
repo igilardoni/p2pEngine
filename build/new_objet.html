@@ -16,7 +16,6 @@
 	<link id="base-style" href="./VIEW/index/css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="./VIEW/index/css/style-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="./VIEW/js/exemple.js"></script> 
 		
 <style>
 #container {
@@ -121,13 +120,13 @@
 						<div class="form-horizontal">
 						  <fieldset>
 							<div class="control-group">
-							  <label class="control-label" for="typeahead">Title</label>
+							  <label class="control-label" for="typeahead" id="Title_label" >Title</label>
 							  <div class="controls">
 								<input type="text" class="span6 typeahead" id="Title" name="Title">		
 							  </div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="selectError2">Category</label>
+								<label class="control-label" for="selectError2" id="Category_label">Category</label>
 								<div class="controls">
 									<select data-placeholder="Your Favorite Football Team" id="Category" name="Category" data-rel="chosen">
 										<option value=""></option>
@@ -174,7 +173,7 @@
 								</div>
 							  </div>
 							   <div class="control-group">
-								<label class="control-label" for="selectError">Country</label>
+								<label class="control-label" for="selectError" id="Country_label">Country</label>
 								<div class="controls">
 								  <select id="Country" name="Country" data-rel="chosen">
 									<option>France</option>
@@ -187,13 +186,13 @@
 							  </div>
 							  
 							<div class="control-group">
-							  <label class="control-label" for="date01">Life time</label>
+							  <label class="control-label" for="date01" id="Life_time_label">Life time</label>
 							  <div class="controls">
 								<input type="text" class="input-xlarge datepicker" id="Life_time" name="Life_time" value="02/16/12">
 							  </div>
 							</div>
 							 <div class="control-group">
-								<label class="control-label" for="selectError">Type</label>
+								<label class="control-label" for="selectError" id="type_label">Type</label>
 								<div class="controls">
 								  <select id="Type" name="Type" data-rel="chosen">
 									<option>Wish</option>
@@ -202,22 +201,14 @@
 								</div>
 							  </div>
 							<div class="control-group" id="picture_t1" name="picture_t1">
-							  <label class="control-label" for="fileInput">Picture</label>
+							  <label class="control-label" for="fileInput" id="picture_label">Picture</label>
 							  <div class="controls">
 								<input class="input-file uniform_on" id="Picture" name="Picture" type="file">
 							  </div>
 							</div>
-							<div id="container">
-							    <video autoplay id="videoElement">
-							     
-							    </video>
-							</div>
-							<canvas id="canvas" width="200" height="175"></canvas>
-							
-							<input type="button" value="Save" id="save" />
-							
-							<img id="imgtag" src="" width="300" height="175" alt="capture" />
-							
+					            
+					        
+						
 							 <div class="control-group">
 								<label class="control-label">Type image</label>
 								<div class="controls">
@@ -233,7 +224,7 @@
 								</div>
 							  </div>         
 							<div class="control-group hidden-phone">
-							  <label class="control-label" for="textarea2">Description</label>
+							  <label class="control-label" for="textarea2" id="description_label">Description</label>
 							  <div class="controls">
 								<textarea class="cleditor" id="Description" name="Description" rows="3"></textarea>
 							  </div>
@@ -314,10 +305,12 @@
 		<script src="./VIEW/index/js/retina.js"></script>
 
 		<script src="./VIEW/index/js/custom.js"></script>
+		
 		<script type="text/javascript" src="./VIEW/js/to_log_in.js"></script> 
 		
 	
 	<!-- end: JavaScript-->
 	</div>
+		
 </body>
 </html>
