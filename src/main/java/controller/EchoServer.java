@@ -18,7 +18,7 @@ import model.user.User;
  
 /** 
  * @ServerEndpoint gives the relative name for the end point
- * This will be accessed via ws://localhost:8080/EchoChamber/echo
+ * This will be accessed via ws://localhost:8080/EchoChamber/echo .
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
