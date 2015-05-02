@@ -32,9 +32,12 @@
              * Sends the value of the text input to the server
              */
             
+
+ 
             
             
             	function new_objet(){
+            		 
             		var Title = document.getElementById("Title").value;
                 	var Category = document.getElementById("Category").value;
                 	var Country = document.getElementById("Country").value;
@@ -71,10 +74,9 @@
                 		document.getElementById("description_label").style.color = "#ff0000";          	
                 	}else{
                 		webSocket.send("/new_objet:");
-                	}
                 	
-            		
-            
+                	}
+
             }
             
             function connexion(){
@@ -206,10 +208,19 @@
  
             function writeResponse(text){
             
-            	$( "#messages" ).load(text);
-            	
+            	window.location.replace(text);
                 
             }
+           function miseajour() {
+        	   document.getElementById("user_compte").innerHTML = "past words are not identical";
+       		
+           }
+            
+            
+            
+            
+            
+            
             
         
             
