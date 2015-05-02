@@ -43,6 +43,8 @@
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
+
+
 .green,
 .green [class="box-header"],
 .green.box,
@@ -1635,6 +1637,8 @@ fieldset[disabled] .btn:active {
   background-color: #2D89EF;
   border-color: #2D89EF;
 }
+
+
 
 .btn-primary:hover,
 .btn-primary:focus,
