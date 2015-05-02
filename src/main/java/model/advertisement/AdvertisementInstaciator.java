@@ -6,6 +6,13 @@ import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory.Instantiator;
 import net.jxta.document.Element;
 
+/**
+ * This class is a wrapper to construct an Instantiator for our Advertisement
+ * Once the AdvertisementInstanciator registered to JXTA, JXTA can construct a received
+ * advertisement automatically
+ * @author Prudhomme Julien
+ *
+ */
 public class AdvertisementInstaciator implements Instantiator{
 	
 	private Class<? extends Advertisement> advClass;
@@ -26,22 +33,20 @@ public class AdvertisementInstaciator implements Instantiator{
 		try {
 			return advClass.newInstance();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Advertisement newInstance(Element root) {
 		try {
 			advClass.getConstructor(Element.class).newInstance(root);
 			return advClass.getConstructor(Element.class).newInstance(root);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

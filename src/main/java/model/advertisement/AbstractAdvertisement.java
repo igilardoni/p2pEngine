@@ -30,8 +30,11 @@ import net.jxta.id.ID;
 
 
 /**
- * This class simplify the interface with Jxta for producting advertisement for
- * an object. This helps to produce a valid xml file for JXTA(datas and indexes) or for our own use.
+ * This class simplify the interface with Jxta to produce advertisement for
+ * a class. This helps to produce a valid xml file for JXTA(datas and indexes) or for our own use.
+ * There is a few abstract method to implements. You can use addKey and addValue method in setKeys and putvalues.
+ * This abstract class give an auto signature method.
+ * Each time you call a method that will called your putValues method, the lastUpdated field is updated.
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 
@@ -334,8 +337,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	/**
 	 * generate and save this advertisement signature.
-	 * @param privateKey
-	 * @return
+	 * @param keys - The AsymKeysImp that contain a private key.
 	 */
 	public void sign(AsymKeysImpl keys) {
 		ElGamal crypter = new ElGamal(keys);
@@ -345,8 +347,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	/**
-	 * Check signature
-	 * @param keys
+	 * Check the signature of this object according to a public key.
+	 * @param keys - An AsymKeysImpl object that contain a public key.
 	 * @return true if ok, else false
 	 */
 	public boolean checkSignature(AsymKeysImpl keys) {
