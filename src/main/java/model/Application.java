@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
 import model.advertisement.AdvertisementInstaciator;
 import model.manager.Manager;
 import model.manager.SharingManager;
@@ -71,7 +74,7 @@ public class Application {
 	 * Start the network and keep instance reference.
 	 */
 	private void startNetwork() {
-		network = new Network(9706, ".peerFolder", "peer name");
+		network = new Network(9708, ".peerFolder3", "peer name3");
 		network.start();
 	}
 	
@@ -161,9 +164,8 @@ public class Application {
 	 */
 	public static void main(String[] args) {
 		new Application(true);
-		User u = new User("nick", "pwd", "name", "firstname", "email", "phone");
-		u.sign(u.getKeys());
-		Application.getInstance().getManager().addUser(u);
+		Network n = Application.getInstance().getNetwork();
+
 		/*try {
 			Thread.sleep(20000);
 		} catch (InterruptedException e) {

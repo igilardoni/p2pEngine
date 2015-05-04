@@ -1,5 +1,7 @@
 package model.network.search;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Map;
@@ -9,6 +11,7 @@ import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
+import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import model.advertisement.AbstractAdvertisement;
 
@@ -28,11 +31,16 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	private ArrayList<Result> resultsWithPeerID = new ArrayList<Result>();
 	
 	public class Result {
-		public String peerID;
+		public PeerID peerID;
 		public T result;
 		
 		protected Result(String peerID, T result) {
-			this.peerID = peerID;
+			
+			try {
+				this.peerID = (PeerID) IDFactory.fromURI(new URI(peerID));
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 			this.result = result;
 		}
 		
@@ -102,12 +110,12 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	@SuppressWarnings("unchecked")
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
-		PeerID pid = event.getResponse().getPeerAdvertisement().getPeerID();
+		String pid = "urn:jxta:" + event.getSource().toString().substring(7);
 		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 		while(advs.hasMoreElements()) {
 			T adv = (T) advs.nextElement();
 			results.add(adv);
-			resultsWithPeerID.add(new Result(pid.toURI().toString(), adv));
+			resultsWithPeerID.add(new Result(pid, adv));
 			notifyListeners(adv);
 		}
 		
