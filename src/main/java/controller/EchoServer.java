@@ -14,6 +14,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import model.Application;
+import model.item.Item;
 import model.user.User;
  
 /* TODO MEDHI CREE D'AUTRES CLASSES TU VA PAS TOUT FOUTRE ICI 
@@ -46,26 +47,26 @@ public class EchoServer {
      */
     @OnMessage
     public void onMessage(String message, Session session){
+    	System.out.println(message+" : heey heeeeey");
     	String[] contents = message.split(":");
     	switch (contents[0]) {
 		case "/index":
-			if(Verifying(contents[1], contents[2])){
-				//String nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			if(Verifying(contents[2], contents[1])){
+
 				try {
-	    			session.getBasicRemote().sendText("index.html");
+	    			session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}		
 	    	}
 			break;
 		case "/register":
-			if(add_new_user(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6])){
+			add_new_user(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6]);
 				System.out.println("un nouveau utilisateur inscrit");
 				try {
-					session.getBasicRemote().sendText("Se_connecter.html#tologin");
+					session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
 				
 			}
 			break;
@@ -81,7 +82,8 @@ public class EchoServer {
 			 
 		case "/new_objet_add" :
 			System.out.println(contents[1]+" "+contents[2]+" "+contents[3]+" "+contents[4]+" "+contents[5]+" "+contents[6]+":"+contents[7]);
-			//add new objet
+			User owner = Application.getInstance().getManager().getCurrentUser();
+			//Item new_item = new Item(owner, title, category, description, image, country, contact, 0, lifeTime, "");
 			break;
 		case "/newindex":
 			try {
@@ -98,7 +100,15 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-			
+		case "/load_use":
+			System.out.println("JE SUIS ICI UN NEW LOAD");
+			//String nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			try {
+    			session.getBasicRemote().sendText("load_user:mehdi");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 			
 		default:
 			break;
@@ -135,12 +145,13 @@ public class EchoServer {
     }
     
     //add new user
-    public boolean add_new_user(String nick,String password, String name, String firstName, String email, String phone){
+    public void add_new_user(String nick,String password, String name, String firstName, String email, String phone){
     	User user = new User(nick, password, name, firstName, email, phone);
+    	user.sign(user.getKeys());
     	Application.getInstance().getManager().addUser(user);
-    	
-    	return true;
-    }
+   }
+    
+    
     
    
     

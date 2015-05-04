@@ -15,6 +15,7 @@ import model.network.search.Search;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
 
 import util.StringToElement;
@@ -22,7 +23,7 @@ import util.StringToElement;
 /**
  * Local manager for Users, items and messages.
  * @author Julien
- * @autor Michael
+ * @autor Michael Dubuis
  *
  */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
@@ -47,6 +48,39 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 
 	
+	/**
+	 * Return the user's items' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's items
+	 */
+	public ArrayList<Item> getUserItems(String publicKey) {
+		ArrayList<Item> userItems = new ArrayList<Item>();
+		for(Item i: items) {
+			if(i.getOwner().equals(publicKey)) {
+				userItems.add(i);
+			}
+		}
+		return userItems;
+	}
+	
+	/**
+	 * Return an XML string containing user's info and his items.
+	 * @param publicKey
+	 * @return a string, XML-formated, containing the user and his objects
+	 */
+	public String UserItemXMLString(String publicKey) {
+		StringBuffer s = new StringBuffer();
+		s.append(this.whoIs(publicKey).toString());
+		s.append("<Items>");
+		for(Item i : getUserItems(publicKey)) {
+			s.append(i.toString());
+		}
+		
+		s.append("</Items>");
+		
+		return s.toString();
+	}
+	
 	public Collection<User> getUsers() {
 		return users.values();
 	}
@@ -66,11 +100,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
-		if(users.containsKey(key)){
-			users.remove(key);
-			users.put(key, u);
-		}else
-			users.put(key, u);
+		if(users.containsValue(u)){
+			if(users.get(key).getLastUpdated() >= u.getLastUpdated()){
+				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
+				return;
+			}
+		}
+		users.put(key, u);
 	}
 	
 	/**
@@ -97,10 +133,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		if(items.contains(i)){
-			System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
-			return;
+			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
+				System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
+				return;
+			}
 		}
-		// End exceptions
 		items.add(i);
 	}
 	
@@ -378,5 +415,4 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	
 }
-
 
