@@ -3,6 +3,7 @@ package model.manager;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
@@ -18,10 +19,13 @@ import org.jdom2.Element;
 
 import util.StringToElement;
 
+/**
+ * Local manager for Users, items and messages.
+ * @author Julien
+ * @autor Michael
+ *
+ */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
-	
-	private static final int RECURRING_ACCOUNT_NUMBER = 5;
-	private static final long RECURRING_ACCOUNT_TIMEOUT = 3000;
 	
 	private HashMap<String, User> users;	// The string key is the user's public key in hexadecimal
 	private ArrayList<Item> items;			// list of items handled by this manager.
@@ -42,6 +46,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		this.network = network;
 	}
 
+	
+	public Collection<User> getUsers() {
+		return users.values();
+	}
+	
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function check if this user is more recent
@@ -330,33 +339,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void publishManager() {
 		publishUsers();
 		publishItems();
-	}
-	
-	/**
-	 * to update recurrence of current account
-	 */
-	public void checkDataResilience() {
-		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
-		// Wait 3 seconds or 5 results
-		search.search(currentUser.getKeys().getPublicKey().toString(16), RECURRING_ACCOUNT_TIMEOUT, RECURRING_ACCOUNT_NUMBER);
-		
-		ArrayList<User> recurrentUser = search.getResults();
-		long maxDate = 0;
-		for (User user : recurrentUser) {
-			if(!user.checkSignature(user.getKeys())){
-				recurrentUser.remove(user);
-			}else{
-				maxDate = Long.compare(maxDate, user.getLastUpdated()) >= 0 ? maxDate : user.getLastUpdated();
-			}
-		}
-		for (User user : recurrentUser) {
-			if(user.getLastUpdated() < maxDate){
-				// TODO Mise a jour du peer qui a envoye ce compte OU envoie d'un arret de diffusion.
-			}
-		}
-		for(int i = 0 ; i < (recurrentUser.size() - RECURRING_ACCOUNT_NUMBER) ; i++){
-			// TODO Envoyer une copie du compte a un peer aleatoire
-		}
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

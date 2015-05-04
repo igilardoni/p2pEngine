@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import model.advertisement.AdvertisementInstaciator;
 import model.manager.Manager;
+import model.manager.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
@@ -25,8 +26,7 @@ public class Application {
 	private Network network;
 	private Manager manager;
 	private Communication com;
-	private Thread process = null; //Thread that do updates and saves 
-	private boolean processRunning = false; //true if process main loop can be executed.
+	private SharingManager sharingManager;
 	
 	/**
 	 * Launch the application.
@@ -34,12 +34,7 @@ public class Application {
 	@SuppressWarnings("unchecked")
 	public Application(boolean startLocalServer) {
 		if(instance != null) {
-			try {
-				throw new Exception("this class can be instancied only once");
-			} catch (Exception e) {
-				e.printStackTrace();
-				return;
-			}
+			throw new RuntimeException("this class can be instancied only once");
 		}
 		
 		startNetwork();
@@ -50,8 +45,9 @@ public class Application {
 		
 		network.addGroup("items");
 		network.addGroup("users");
+		sharingManager = new SharingManager(manager, network, 5, 30);
+		sharingManager.startSharing();
 		
-		startProcess();
 		if(startLocalServer)
 			startLocalServer();	
 		
@@ -130,49 +126,6 @@ public class Application {
 		}
 	}
 	
-	
-	/**
-	 * Own the thread that handle recurrent tasks.
-	 */
-	private void startProcess() {
-		this.processRunning = true;
-		process = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while(processRunning) {
-					
-					
-					//do all the things.
-					
-					
-					try {
-						Thread.sleep(120000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				
-			}
-			
-		});
-		
-	}
-	
-	private void stopProcess() {
-		processRunning = false;
-		if(process == null) return;
-		while(process.isAlive()) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		process = null;
-	}
-	
 	/**
 	 * Properly close the app : closing network & server, and saving datas.
 	 */
@@ -180,7 +133,7 @@ public class Application {
 		System.out.println("closing ...");
 		stopServer();
 		network.stop();
-		stopProcess();
+		sharingManager.stopSharing();
 		File f = new File(".data");
 		FileWriter fw = null;
 		try {
