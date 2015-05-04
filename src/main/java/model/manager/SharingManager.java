@@ -96,7 +96,7 @@ public class SharingManager {
 			// Wait 3 seconds or "replications" results
 			search.search(publicKey, 3000, this.replications);
 			ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
-			User user = manager.whoIs(publicKey);
+			User user = manager.getUser(publicKey);
 			long maxDate = user.getLastUpdated();
 			for (Search<User>.Result r : results) {
 				if(!r.result.checkSignature(r.result.getKeys())){
@@ -117,7 +117,7 @@ public class SharingManager {
 			for (Search<User>.Result r : results) {
 				if(r.result.getLastUpdated() < maxDate){
 					// TODO service "updaterUsers"
-					com.sendMessage(manager.UserItemXMLString(publicKey), "TransmitAccountService", r.peerID);
+					com.sendMessage(manager.completUserXMLString(publicKey), "TransmitAccountService", r.peerID);
 				}
 			}
 			if((results.size() - this.replications) > 0){
@@ -125,7 +125,7 @@ public class SharingManager {
 				finder.findPeers(3000, (results.size() - this.replications));
 				PeerID[] randomPeers = new PeerID[finder.getResults().size()]; 
 				randomPeers = finder.getResults().toArray(randomPeers);
-				com.sendMessage(manager.UserItemXMLString(publicKey), "TransmitAccountService", randomPeers);
+				com.sendMessage(manager.completUserXMLString(publicKey), "TransmitAccountService", randomPeers);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

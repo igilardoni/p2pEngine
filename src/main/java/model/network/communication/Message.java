@@ -65,6 +65,9 @@ public class Message extends AbstractAdvertisement{
 	}
 	
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public String getOwner(){
+		return to.toString(16);
+	}
 	public BigInteger getTo(){
 		return to;
 	}
@@ -109,8 +112,9 @@ public class Message extends AbstractAdvertisement{
 		BigInteger publicSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getPublicKey().toByteArray()));
 		BigInteger pSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getP().toByteArray()));
 		BigInteger gSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getG().toByteArray()));
+		AsymKeysImpl senderKey_Decrypted = new AsymKeysImpl(pSender_Decrypted, gSender_Decrypted, publicSender_Decrypted);
 		
-		return new AsymKeysImpl(pSender_Decrypted, gSender_Decrypted, publicSender_Decrypted);
+		return senderKey_Decrypted;
 	}
 	
 	/**

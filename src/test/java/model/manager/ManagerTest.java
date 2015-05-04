@@ -67,10 +67,10 @@ public class ManagerTest {
 		manager1.addItem(item1_2);
 		manager1.addUser(user2);
 		
-		assertFalse(manager1.removeUserIfNotItem(user1));
-		assertTrue(manager1.removeUserIfNotItem(user2));
+		assertFalse(manager1.removeUserIfEmpty(user1));
+		assertTrue(manager1.removeUserIfEmpty(user2));
 		
-		assertTrue(manager1.removeUserWithItems(user1));
+		assertTrue(manager1.removeUser(user1));
 	}
 	
 	@Test

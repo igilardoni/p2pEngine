@@ -9,14 +9,15 @@ import model.item.Item.TYPE;
 import model.manager.Manager;
 import model.network.Network;
 import model.network.communication.Communication;
+import model.network.communication.Message;
 import model.user.User;
 import net.jxta.endpoint.ByteArrayMessageElement;
-import net.jxta.endpoint.Message;
 import net.jxta.peer.PeerID;
 
 /**
  * This class handle message for updating / creating new users with user's items
  * @author Julien
+ * @author Michael
  *
  */
 public class UpdateUser extends Service<String>{
@@ -39,14 +40,15 @@ public class UpdateUser extends Service<String>{
 	 */
 	private boolean checkRootFormat(Element root) {
 		return root.getChild("User") != null &&
-				root.getChild("Items") != null;
+				root.getChild("Items") != null &&
+				root.getChild("Messages") != null;
 	}
 	
 	private boolean addUserIfMoreRecent(User u) {
-		User u2 = manager.whoIs(u.getKeys().getPublicKey());
+		User u2 = manager.getUser(u.getKeys().getPublicKey());
 		if(u2 != null) {
 			if(u2.getLastUpdated() > u.getLastUpdated()) return false;
-			manager.removeUserWithItems(u2);
+			manager.removeUser(u2);
 		}
 		manager.addUser(u);
 		return true;
@@ -54,17 +56,23 @@ public class UpdateUser extends Service<String>{
 	}
 	
 	@Override
-	public String handleMessage(Message m) {
+	public String handleMessage(net.jxta.endpoint.Message m) {
 		String content = new String(m.getMessageElement("content").getBytes(true));
 		Element root = StringToElement.getElementFromString(content, "UserData");
 		if(!checkRootFormat(root)) return null; //message format incorrect
 		User u = new User(root.getChild("User"));
 		if(!u.checkSignature(u.getKeys())) return null;
 		if(!addUserIfMoreRecent(u)) return null; //our user is more recent, doesn't need to update item or user.
+		// TODO NEED UPDATE MESSAGE (MAYBE)
 		for(Element e: root.getChild("Items").getChildren()) {
 			Item i = new Item(e);
 			if(!i.checkSignature(u.getKeys())) continue;
 			manager.addItem(i);
+		}
+		for(Element e : root.getChild("Messages").getChildren()) {
+			Message msg = new Message(e);
+			if(!msg.checkSignature(u.getKeys())) continue;
+			manager.addMessage(msg);
 		}
 		return content;
 	}
@@ -95,11 +103,14 @@ public class UpdateUser extends Service<String>{
 		u.sign(u.getKeys());
 		Item i = new Item(u, "patate", new Category(Category.CATEGORY.Appliances), "description", "une image", "france", "contact", 0, 0, TYPE.WISH);
 		i.sign(u.getKeys());
+		Message msg = new Message(u.getKeys(), u.getKeys(), "Salut");
+		msg.sign(u.getKeys());
 		m.addUser(u);
 		m.addItem(i);
+		m.addMessage(msg);
 		
-		String xml = m.UserItemXMLString(u.getKeys().getPublicKey().toString(16));
-		Message message = new Message();
+		String xml = m.completUserXMLString(u.getKeys().getPublicKey().toString(16));
+		net.jxta.endpoint.Message message = new net.jxta.endpoint.Message();
 		message.addMessageElement(new ByteArrayMessageElement("content", null, xml.getBytes(), null));
 		uu.handleMessage(message);
 	}

@@ -10,12 +10,11 @@ import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
 import model.network.NetworkInterface;
+import model.network.communication.Message;
 import model.network.communication.service.ServiceListener;
-import model.network.search.Search;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
-import org.jdom2.Document;
 import org.jdom2.Element;
 
 import util.StringToElement;
@@ -23,15 +22,16 @@ import util.StringToElement;
 /**
  * Local manager for Users, items and messages.
  * @author Julien
- * @autor Michael Dubuis
+ * @author Michael Dubuis
  *
  */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
 	
-	private HashMap<String, User> users;	// The string key is the user's public key in hexadecimal
-	private ArrayList<Item> items;			// list of items handled by this manager.
+	private HashMap<String, User> users;		// The string key is the user's public key in hexadecimal
+	private ArrayList<Item> items;				// list of items handled by this manager.
 	private NetworkInterface network;
-	private User currentUser;				// User logged
+	private User currentUser;					// User logged
+	private ArrayList<Message> messages;		// Messages for users
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
@@ -45,43 +45,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public Manager(NetworkInterface network) {
 		super();
 		this.network = network;
-	}
-	
-	/**
-	 * Return the user's items' list
-	 * @param publicKey the user public key
-	 * @return a new list containing user's items
-	 */
-	public ArrayList<Item> getUserItems(String publicKey) {
-		ArrayList<Item> userItems = new ArrayList<Item>();
-		for(Item i: items) {
-			if(i.getOwner().equals(publicKey)) {
-				userItems.add(i);
-			}
-		}
-		return userItems;
-	}
-	
-	/**
-	 * Return an XML string containing user's info and his items.
-	 * @param publicKey
-	 * @return a string, XML-formated, containing the user and his objects
-	 */
-	public String UserItemXMLString(String publicKey) {
-		StringBuffer s = new StringBuffer();
-		s.append(this.whoIs(publicKey).toString());
-		s.append("<Items>");
-		for(Item i : getUserItems(publicKey)) {
-			s.append(i.toString());
-		}
-		
-		s.append("</Items>");
-		
-		return s.toString();
-	}
-	
-	public Collection<User> getUsers() {
-		return users.values();
 	}
 	
 	/**
@@ -141,6 +104,61 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	/**
+	 * to add a message
+	 * if receiver of the message isn't registered in this instance of manger, function will fail
+	 * @param m
+	 */
+	public void addMessage(Message m){
+		if(m == null){
+			System.err.println(this.getAdvertisementName()+" : This Message is empty !");
+			return;
+		}
+		String owner = m.getOwner();
+		if(owner.isEmpty()){
+			System.err.println(this.getAdvertisementName()+" : No owner found !");
+			return;
+		}
+		if(!users.containsKey(owner)){
+			System.err.println(this.getAdvertisementName()+" : Owner unknown "+owner);
+			return;
+		}
+		if(!m.checkSignature(users.get(owner).getKeys())){
+			System.err.println(this.getAdvertisementName()+" : Bad Signature");
+			return;
+		}
+		if(messages.contains(m)){
+			if(messages.get(messages.indexOf(m)).getLastUpdated() >= m.getLastUpdated()){
+				System.err.println(this.getAdvertisementName()+" : This message is already registred !");
+				return;
+			}
+		}
+		messages.add(m);
+	}
+
+	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Return an XML string containing user's info and his items and his messages.
+	 * @param publicKey
+	 * @return a string, XML-formated, containing the user and his objects and his messages
+	 */
+	public String completUserXMLString(String publicKey) {
+		StringBuffer s = new StringBuffer();
+		s.append(this.getUser(publicKey).toString());
+		s.append("<Items>");
+		for(Item i : getUserItems(publicKey)) {
+			s.append(i.toString());
+		}
+		s.append("</Items>");
+		s.append("<Messages>");
+		for(Message m : getUserMessages(publicKey)){
+			s.append(m.toString());
+		}
+		s.append("</Messages>");
+		
+		return s.toString();
+	}
+	
+	/**
 	 * Get an XML string representing all the users that are saved on this device.
 	 * @return A string, XML formated
 	 */
@@ -160,6 +178,18 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		StringBuffer s = new StringBuffer();
 		for(Item i: items) {
 			s.append(i); 
+		}
+		return s.toString();
+	}
+	
+	/**
+	 * Get an XML string representing all the messages that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	private String getMessagesXML() {
+		StringBuffer s = new StringBuffer();
+		for(Message m: messages) {
+			s.append(m); 
 		}
 		return s.toString();
 	}
@@ -186,12 +216,24 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 	}
 	
+	/**
+	 * Load all the messages in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	private void loadMessages(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element m: root.getChildren()) {
+			addMessage(new Message(m));
+		}
+	}
+	
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
-		case "users": loadUsers(e); break;
-		case "items": loadItems(e); break;
+		case "users": 		loadUsers(e); break;
+		case "items": 		loadItems(e); break;
+		case "messages": 	loadMessages(e); break;
 		default: return false;
 		}
 		return true;
@@ -206,15 +248,18 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	protected void setKeys() {
 		users = new HashMap<String, User>();
 		items = new ArrayList<Item>();
+		messages = new ArrayList<Message>();
 		currentUser = null;
 		addKey("users", false);
 		addKey("items", false);
+		addKey("messages", false);
 	}
 	
 	@Override
 	protected void putValues() {
 		addValue("users", getUsersXML());
 		addValue("items", getItemsXML());
+		addValue("messages", getMessagesXML());
 	}
 
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -234,15 +279,21 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Element element : elements.getChildren()) {
 			this.addItem(new Item(element));
 		}
+		// Add all Messages
+		elements = null;
+		elements  = StringToElement.getElementFromString(m.getItemsXML(), "messages");
+		for (Element element : elements.getChildren()) {
+			this.addMessage(new Message(element));
+		}
 	}
 	
 	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * Remove an user if he haven't item !
+	 * Remove an user if he haven't item and message !
 	 * @param user
 	 * @return
 	 */
-	public boolean removeUserIfNotItem(User user){
+	public boolean removeUserIfEmpty(User user){
 		String userKey = user.getKeys().getPublicKey().toString(16);
 		if(!users.containsKey(userKey))
 			return false;
@@ -251,15 +302,21 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				return false;
 		}
 		users.remove(userKey);
+		for (Message m : messages) {
+			if(m.getOwner().equals(userKey))
+				return false;
+		}
 		return true;
 	}
 	
 	/**
-	 * Remove an user and items of him.
+	 * Remove an user.
+	 * If this user have items, they will be deleted.
+	 * If this user have messages, they will be deleted.
 	 * @param user
 	 * @return
 	 */
-	public boolean removeUserWithItems(User user){
+	public boolean removeUser(User user){
 		String userKey = user.getKeys().getPublicKey().toString(16);
 		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
 			return false;
@@ -267,6 +324,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Item i : items) {
 			if(i.getOwner().equals(userKey))
 				valid &= items.remove(i);
+		}
+		for(Message m : messages){
+			if(m.getOwner().equals(user.getKeys().getPublicKey()))
+				valid &= messages.remove(m);
 		}
 		return (valid &= (users.remove(userKey)!=null));
 	}
@@ -290,13 +351,26 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 	}
 	
+	/**
+	 * Remove a message from the Manager
+	 * @param msg
+	 * @return
+	 */
+	public boolean removeMessage(Message msg){
+		return messages.remove(msg);
+	}
+	
 	///////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public Collection<User> getUsers() {
+		return users.values();
+	}
+	
 	/**
 	 * Return the user with this key
 	 * @param key - String format
 	 * @return
 	 */
-	public User whoIs(String key){
+	public User getUser(String key){
 		return users.get(key);
 	}
 	
@@ -305,7 +379,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param key - BigInteger format
 	 * @return
 	 */
-	public User whoIs(BigInteger key){
+	public User getUser(BigInteger key){
 		return users.get(key.toString(16));
 	}
 	
@@ -335,6 +409,38 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return null;
 	}
 	
+	/**
+	 * Return the user's items' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's items
+	 */
+	public ArrayList<Item> getUserItems(String publicKey) {
+		ArrayList<Item> userItems = new ArrayList<Item>();
+		for(Item i: items) {
+			if(i.getOwner().equals(publicKey)) {
+				userItems.add(i);
+			}
+		}
+		return userItems;
+	}
+	
+	/**
+	 * Return the user's messages' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's messages
+	 */
+	public ArrayList<Message> getUserMessages(String publicKey) {
+		ArrayList<Message> userMessages = new ArrayList<Message>();
+		for(Message m : messages){
+			if(m.getOwner().equals(publicKey)) {
+				userMessages.add(m);
+			}
+		}
+		return userMessages;
+	}
+	
+	
+	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
 	 * @param nickname
@@ -380,7 +486,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	private void publishItems() {
-		
+		// TODO
+	}
+	
+	private void publishMessages() {
+		// TODO
 	}
 	
 	/**
@@ -390,6 +500,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void publishManager() {
 		publishUsers();
 		publishItems();
+		publishMessages();
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

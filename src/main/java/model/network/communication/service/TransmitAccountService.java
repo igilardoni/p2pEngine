@@ -17,7 +17,7 @@ public class TransmitAccountService extends Service<Manager> {
 	@Override
 	public Manager handleMessage(Message m) {
 		Manager manager = new Manager(new String(m.getMessageElement("content").getBytes(true)), null);
-		//TODO publish des données recue
+		//TODO publish des donnees recue
 		return manager;
 	}
 
@@ -28,7 +28,7 @@ public class TransmitAccountService extends Service<Manager> {
 	public void sendMessage(Manager m, PeerID ...ids) {
 		/* TODO chercher X peer et leur envoyer le manager */
 		Message message = new Message();
-		sender.sendMessage(m.toString(), null); //TODO ajouter la liste des peer a la place de null
+		sender.sendMessage(m.toString(),this.getServiceName(), ids);
 	}
 
 }
