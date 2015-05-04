@@ -55,6 +55,14 @@ public class Communication implements PipeMsgListener {
 	}
 	
 	/**
+	 * Get the network interface binded with this communication instance.
+	 * @return
+	 */
+	public NetworkInterface getNetwork() {
+		return network;
+	}
+	
+	/**
 	 * Create a simple advertisement for the pipes' class.
 	 * @return
 	 */

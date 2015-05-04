@@ -10,6 +10,8 @@ import model.manager.Manager;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.Message;
+import model.network.search.Search;
+import model.network.search.Search.Result;
 import model.user.User;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.peer.PeerID;
@@ -55,15 +57,13 @@ public class UpdateUser extends Service<String>{
 		
 	}
 	
-	@Override
-	public String handleMessage(net.jxta.endpoint.Message m) {
-		String content = new String(m.getMessageElement("content").getBytes(true));
-		Element root = StringToElement.getElementFromString(content, "UserData");
-		if(!checkRootFormat(root)) return null; //message format incorrect
+	public boolean receiveUser(Element root) {
 		User u = new User(root.getChild("User"));
-		if(!u.checkSignature(u.getKeys())) return null;
-		if(!addUserIfMoreRecent(u)) return null; //our user is more recent, doesn't need to update item or user.
+		if(!u.checkSignature(u.getKeys())) return false;
+		if(!addUserIfMoreRecent(u)) return false; //our user is more recent, doesn't need to update item or user.
 		// TODO NEED UPDATE MESSAGE (MAYBE)
+		if(!u.checkSignature(u.getKeys())) return false;
+		if(!addUserIfMoreRecent(u)) return false; //our user is more recent, doesn't need to update item or user.
 		for(Element e: root.getChild("Items").getChildren()) {
 			Item i = new Item(e);
 			if(!i.checkSignature(u.getKeys())) continue;
@@ -74,12 +74,40 @@ public class UpdateUser extends Service<String>{
 			if(!msg.checkSignature(u.getKeys())) continue;
 			manager.addMessage(msg);
 		}
+		return true;
+	}
+	
+	public boolean receiveRequest(Element root) {
+		String pkey = root.getChild("RequestUser").getValue();
+		//sendMessage(data, ids);
+		return true;
+	}
+	
+	@Override
+	public String handleMessage(net.jxta.endpoint.Message m) {
+		String content = new String(m.getMessageElement("content").getBytes(true));
+		Element root = StringToElement.getElementFromString(content, "UserData");
+		if(!checkRootFormat(root)) return null; //message format incorrect
+		
 		return content;
 	}
 
 	@Override
 	public void sendMessage(String data, PeerID ... ids) {
 		sender.sendMessage(data, getServiceName(), ids);
+	}
+	
+	
+	public void requestUser(String publicKey) {
+		Search<User> s = new Search<User>(getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
+		s.search(publicKey, 5000, 5);
+		PeerID[] pids = new PeerID[s.getResultsWithPeerID().size()];
+		int i = 0;
+		for(Result r: s.getResultsWithPeerID()) {
+			pids[i++] = r.peerID;
+		}
+		sender.sendMessage("<RequestUser>" + publicKey + "</RequestUser>", getServiceName(), pids);
+		
 	}
 	
 	// TEST
