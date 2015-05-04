@@ -11,7 +11,7 @@ public class ChatService extends Service<Message>{
 
 	@Override
 	public String getServiceName() {
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 
 	

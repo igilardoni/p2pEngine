@@ -22,6 +22,7 @@ public class SharingManager {
 	private int checkTime; //intervals for checking data's replication
 	private boolean continueThread = false; //boolean to start/stop the thread.
 	private Thread thread = null;
+	private Communication com = null;
 	
 	
 	/**
@@ -35,10 +36,11 @@ public class SharingManager {
 	 * @param replications Number of account replication that would be enough on the network.
 	 * @param checkTime The amount of time (in minutes) between 2 data replication
 	 */
-	public SharingManager(Manager manager, NetworkInterface network, int replications, int checkTime) {
+	public SharingManager(Manager manager, NetworkInterface network, Communication com, int replications, int checkTime) {
 		this.manager = manager;
 		this.network = network;
 		this.replications = replications;
+		this.com = com;
 		this.checkTime = checkTime;
 	}
 	
@@ -89,7 +91,7 @@ public class SharingManager {
 	 */
 	private void checkUserResilience(String publicKey) {
 		try {
-			Communication sender = new Communication(network);
+			Communication sender = com;
 			Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
 			// Wait 3 seconds or "replications" results
 			search.search(publicKey, 3000, this.replications);
@@ -115,7 +117,7 @@ public class SharingManager {
 			for (Search<User>.Result r : results) {
 				if(r.result.getLastUpdated() < maxDate){
 					// TODO service "updaterUsers"
-					sender.sendMessage(user.toString(), "updaterUsers", r.peerID);
+					sender.sendMessage(manager.UserItemXMLString(publicKey), "UpdateUser", r.peerID);
 				}
 			}
 			if((results.size() - this.replications) > 0){
@@ -123,7 +125,7 @@ public class SharingManager {
 				finder.findPeers(3000, (results.size() - this.replications));
 				PeerID[] randomPeers = new PeerID[finder.getResults().size()]; 
 				randomPeers = finder.getResults().toArray(randomPeers);
-				sender.sendMessage(user.toString(), "", randomPeers);
+				sender.sendMessage(manager.UserItemXMLString(publicKey), "UpdateUser", randomPeers);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

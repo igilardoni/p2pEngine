@@ -15,6 +15,7 @@ import model.network.search.Search;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
 
 import util.StringToElement;
@@ -46,6 +47,39 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		this.network = network;
 	}
 
+	
+	/**
+	 * Return the user's items' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's items
+	 */
+	public ArrayList<Item> getUserItems(String publicKey) {
+		ArrayList<Item> userItems = new ArrayList<Item>();
+		for(Item i: items) {
+			if(i.getOwner().equals(publicKey)) {
+				userItems.add(i);
+			}
+		}
+		return userItems;
+	}
+	
+	/**
+	 * Return an XML string containing user's info and his items.
+	 * @param publicKey
+	 * @return a string, XML-formated, containing the user and his objects
+	 */
+	public String UserItemXMLString(String publicKey) {
+		StringBuffer s = new StringBuffer();
+		s.append(this.whoIs(publicKey).toString());
+		s.append("<Items>");
+		for(Item i : getUserItems(publicKey)) {
+			s.append(i.toString());
+		}
+		
+		s.append("</Items>");
+		
+		return null;
+	}
 	
 	public Collection<User> getUsers() {
 		return users.values();
