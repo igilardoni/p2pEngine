@@ -360,6 +360,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			System.out.println("ok !");
 		}
 	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	
+	
 }
 
 

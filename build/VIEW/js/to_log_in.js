@@ -45,27 +45,29 @@
                 	var Picture = document.getElementById("Picture").value;
                 	var Description = document.getElementById("Description").value;
                 	var URI = document.getElementById("uri_cam").value;
-                	if(Title == ""){
+                	
+                	var media = "";
+;                		if(Title == ""){
                 		document.getElementById("Title_label").style.color = "#ff0000";
-                	}else if(Category == ""){
+                	} else if(Category == ""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
                 		document.getElementById("Category_label").style.color = "#ff0000";
-                	}else if(Country =""){
+                	} else  if(Country == ""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
                 		document.getElementById("Category_label").style.color = "#2E1C08";
                 		document.getElementById("Country_label").style.color = "#ff0000";
-                	}else if(Life_time = ""){
+                	} else if(Life_time == ""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
                 		document.getElementById("Category_label").style.color = "#2E1C08";
                 		document.getElementById("Country_label").style.color = "#2E1C08";
                 		document.getElementById("Life_time_label").style.color = "#ff0000";
-                	}else if(Picture == "" || uri_cam == ""){
+                	} else if(Picture == "" && URI ==""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
                 		document.getElementById("Category_label").style.color = "#2E1C08";
                 		document.getElementById("Country_label").style.color = "#2E1C08";
                 		document.getElementById("Life_time_label").style.color = "#2E1C08";
                 		document.getElementById("picture_label").style.color = "#ff0000";               	
-                	}else if(Description == ""){
+                	} else if(Description == ""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
                 		document.getElementById("Category_label").style.color = "#2E1C08";
                 		document.getElementById("Country_label").style.color = "#2E1C08";
@@ -73,10 +75,18 @@
                 		document.getElementById("picture_label").style.color = "#2E1C08";   
                 		document.getElementById("description_label").style.color = "#ff0000";          	
                 	}else{
-                		webSocket.send("/new_objet:");
-                	
+                		if(Picture != ""){
+                			media = Picture;
+                		}else if( URI != ""){
+                			media = URI;
+                		}else{
+                			media = Picture;
+                		}
+                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Country+":"+Life_time+":"+Description+":"+media);
+                		
                 	}
 
+                	
             }
             
             function connexion(){

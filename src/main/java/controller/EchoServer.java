@@ -50,10 +50,9 @@ public class EchoServer {
     	switch (contents[0]) {
 		case "/index":
 			if(Verifying(contents[1], contents[2])){
+				//String nick = Application.getInstance().getManager().getCurrentUser().getNick();
 				try {
-	    			//String res=lire();
-	    				//System.out.println("bien recu "+res+" voici");
-					session.getBasicRemote().sendText("index.html");
+	    			session.getBasicRemote().sendText("index.html");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}		
@@ -73,12 +72,17 @@ public class EchoServer {
 			
 		case "/newobjet":
 			try {
+				//System.out.println(contents[1]+" "+contents[2]+" "+contents[3]+" "+contents[4]+" "+contents[5]+" "+contents[6]);
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-			
+			 
+		case "/new_objet_add" :
+			System.out.println(contents[1]+" "+contents[2]+" "+contents[3]+" "+contents[4]+" "+contents[5]+" "+contents[6]+":"+contents[7]);
+			//add new objet
+			break;
 		case "/newindex":
 			try {
 				session.getBasicRemote().sendText("index.html");
@@ -126,42 +130,19 @@ public class EchoServer {
     
     //Verifying user account
     public boolean Verifying(String login, String password){
-    	//System.out.println(login+":"+password);
-    	if(login.equals("toto") && password.equals("toto"))
-    		return true;
-    	return false;
+    	return Application.getInstance().getManager().login(login, password);
+    	
     }
     
     //add new user
     public boolean add_new_user(String nick,String password, String name, String firstName, String email, String phone){
     	User user = new User(nick, password, name, firstName, email, phone);
     	Application.getInstance().getManager().addUser(user);
+    	
     	return true;
     }
     
-    public static String  lire(){
-    	String chaine="";
-		String fichier ="toto.txt";
-		
-		//lecture du fichier texte	
-		try{
-			InputStream ips=new FileInputStream(fichier); 
-			InputStreamReader ipsr=new InputStreamReader(ips);
-			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
-			while ((ligne=br.readLine())!=null){
-				System.out.println(ligne);
-				chaine+=ligne+"\n";
-				System.out.println("heeeeeeey");
-			}
-			br.close(); 
-		}		
-		catch (Exception e){
-			System.out.println(e.toString());
-		}
-		return chaine;
-	
-    }
+   
     
     
     public static void main(String[] args){
