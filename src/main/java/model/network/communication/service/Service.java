@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.network.communication.Communication;
 import net.jxta.endpoint.Message;
+import net.jxta.peer.PeerID;
 
 /**
  * Base service for Communication, handling message and notifying listeners.
@@ -50,6 +51,6 @@ public abstract class Service<D> implements ServiceInterface {
 		this.sender = c;
 	}
 	
-	public abstract void sendMessage(D data);
+	public abstract void sendMessage(D data, PeerID ...ids);
 
 }

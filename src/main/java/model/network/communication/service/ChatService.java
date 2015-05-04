@@ -1,6 +1,7 @@
 package model.network.communication.service;
 
 import net.jxta.endpoint.Message;
+import net.jxta.peer.PeerID;
 
 /**
  * Chat service for communication. Handle all message for Chat service. For discussion between users.
@@ -50,7 +51,7 @@ public class ChatService extends Service<Message>{
 
 
 	@Override
-	public void sendMessage(Message m) {
+	public void sendMessage(Message m, PeerID ...ids) {
 		// TODO Auto-generated method stub
 		
 	}
