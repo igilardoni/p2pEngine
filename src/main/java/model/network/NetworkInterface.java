@@ -17,6 +17,11 @@ public interface NetworkInterface {
 	 */
 	public PeerGroup getGroup(String group);
 	
+	/**
+	 * Get the default group of the network.
+	 * @return the default PeerGroup.
+	 */
+	public PeerGroup getDefaultGroup();
 	
 	/**
 	 * Add a new PeerGroup on the network.

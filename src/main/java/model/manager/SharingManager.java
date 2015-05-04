@@ -64,6 +64,7 @@ public class SharingManager {
 			}
 			
 		});
+		thread.start();
 	}
 	
 	public void stopSharing() {
