@@ -16,9 +16,13 @@ import javax.websocket.server.ServerEndpoint;
 import model.Application;
 import model.user.User;
  
+/* TODO MEDHI CREE D'AUTRES CLASSES TU VA PAS TOUT FOUTRE ICI 
+ * Regarde le controller de l'ancien projet.
+ * */
+
 /** 
  * @ServerEndpoint gives the relative name for the end point
- * This will be accessed via ws://localhost:8080/EchoChamber/echo
+ * This will be accessed via ws://localhost:8080/EchoChamber/echo .
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
@@ -46,13 +50,11 @@ public class EchoServer {
     	switch (contents[0]) {
 		case "/index":
 			if(Verifying(contents[1], contents[2])){
-				System.out.println("recu merci merci");
-	    		try {
+				try {
 	    			//String res=lire();
 	    				//System.out.println("bien recu "+res+" voici");
 					session.getBasicRemote().sendText("index.html");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}		
 	    	}
@@ -63,7 +65,6 @@ public class EchoServer {
 				try {
 					session.getBasicRemote().sendText("Se_connecter.html#tologin");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -74,7 +75,6 @@ public class EchoServer {
 			try {
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -83,7 +83,6 @@ public class EchoServer {
 			try {
 				session.getBasicRemote().sendText("index.html");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -92,7 +91,6 @@ public class EchoServer {
 			try {
 				session.getBasicRemote().sendText("chat.html");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;

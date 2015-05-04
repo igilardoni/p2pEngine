@@ -3,19 +3,30 @@ package model.manager;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
+import model.network.search.Search;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
 import org.jdom2.Element;
+
 import util.StringToElement;
 
+/**
+ * Local manager for Users, items and messages.
+ * @author Julien
+ * @autor Michael
+ *
+ */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
+	
 	private HashMap<String, User> users;	// The string key is the user's public key in hexadecimal
 	private ArrayList<Item> items;			// list of items handled by this manager.
 	private NetworkInterface network;
@@ -35,6 +46,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		this.network = network;
 	}
 
+	
+	public Collection<User> getUsers() {
+		return users.values();
+	}
+	
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function check if this user is more recent
@@ -307,7 +323,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				discovery.flushAdvertisement(u);
 				discovery.publish(u); //"i have this user"
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -324,10 +339,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void publishManager() {
 		publishUsers();
 		publishItems();
-	}
-	
-	public void checkDataResilience() {
-		//TODO
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

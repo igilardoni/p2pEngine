@@ -22,8 +22,8 @@
 		
 </head>
 
-<body>
- <div id="messages">
+<body onload="openSocket();">
+ <div >
 <!-- Menu Barre Haute -->
 	<div class="navbar">
 		<div class="navbar-inner">
@@ -33,7 +33,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>SXP Group</span></a>
+				<a class="brand" href="index.html" id="user_compte"><span>SXP Group</span></a>
 								
 				
 				<div class="nav-no-collapse header-nav">
@@ -41,7 +41,7 @@
 					<!-- Menu compte utilisateur -->
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i> #NomUtilisateur
+								<i class="halflings-icon white user"></i> utilisateur ici
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">

@@ -32,12 +32,51 @@
              * Sends the value of the text input to the server
              */
             
+
+ 
             
             
             	function new_objet(){
-            	
-            		webSocket.send("/new_objet:");
-            
+            		 
+            		var Title = document.getElementById("Title").value;
+                	var Category = document.getElementById("Category").value;
+                	var Country = document.getElementById("Country").value;
+                	var Life_time = document.getElementById("Life_time").value;
+                	var Picture = document.getElementById("Picture").value;
+                	var Description = document.getElementById("Description").value;
+                	var URI = document.getElementById("uri_cam").value;
+                	if(Title == ""){
+                		document.getElementById("Title_label").style.color = "#ff0000";
+                	}else if(Category == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#ff0000";
+                	}else if(Country =""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#ff0000";
+                	}else if(Life_time = ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#ff0000";
+                	}else if(Picture == "" || uri_cam == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#ff0000";               	
+                	}else if(Description == ""){
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#2E1C08";   
+                		document.getElementById("description_label").style.color = "#ff0000";          	
+                	}else{
+                		webSocket.send("/new_objet:");
+                	
+                	}
+
             }
             
             function connexion(){
@@ -152,12 +191,22 @@
             
             function fulltype_picture(text) {
             	
-                if(text == "picture_t1"){
+                if(text == "picture_t2"){
                 	document.getElementById("picture_t2").style.visibility = "hidden";
                 	document.getElementById("picture_t1").style.visibility = "visible";
+                	
+                	var elementStyle = document.getElementById("picture_t3").style;
+                	
+                	elementStyle.position = "relative";
+                	elementStyle.top = elementStyle.top = "-400px";
+                	
                 }else{
                 	document.getElementById("picture_t2").style.visibility = "visible";
                 	document.getElementById("picture_t1").style.visibility = "hidden";
+                	var elementStyle = document.getElementById("picture_t3").style;
+
+                	elementStyle.position = "relative";
+                	elementStyle.top = elementStyle.top = "00px";
                 }
             }
             
@@ -169,10 +218,19 @@
  
             function writeResponse(text){
             
-            	$( "#messages" ).load(text);
-            	
+            	window.location.replace(text);
                 
             }
+           function miseajour() {
+        	   document.getElementById("user_compte").innerHTML = "past words are not identical";
+       		
+           }
+            
+            
+            
+            
+            
+            
             
         
             
