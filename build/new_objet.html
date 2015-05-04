@@ -39,7 +39,7 @@
 					<!-- Menu compte utilisateur -->
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i> #NomUtilisateur
+								<i class="halflings-icon white user"></i><span id="use"></span>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
@@ -232,7 +232,9 @@
 							
 							<div class="form-actions">
 							<input type="submit" class="btn btn-primary" onclick="new_objet();" value="Sign up" /> 
-								<input type="reset" class="btn" onclick="to_register();" value="Cancel" /> </div>
+								<input type="reset" class="btn" onclick="to_register();" value="Cancel" /> 
+								<span id="succ"></span>
+								</div>
 						  </fieldset>
 						</div>   
 

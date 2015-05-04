@@ -15,17 +15,22 @@
                  * Binds functions to the listeners for the websocket.
                  */
                 webSocket.onopen = function(event){
+                	load_user();
                     if(event.data === undefined)
                         return;
                     writeResponse(event.data);
+                    
                 };
  
                 webSocket.onmessage = function(event){
                     writeResponse(event.data);
+                    
                 };
                 webSocket.onclose = function(event){
                     writeResponse("Connection closed");
                 };
+                
+               
             }       
             
             /**
@@ -82,8 +87,10 @@
                 		}else{
                 			media = Picture;
                 		}
-                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Country+":"+Life_time+":"+Description+":"+media);
                 		
+                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Country+":"+Life_time+":"+Description+":"+media);
+                		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
+                    	
                 	}
 
                 	
@@ -159,10 +166,12 @@
             
             
             function redirection(text){
+            	
             	webSocket.send(text);
             }
            
             
+          
             
             
            
@@ -226,16 +235,35 @@
                 webSocket.close();
             }
  
-            function writeResponse(text){
             
-            	window.location.replace(text);
-                
+            function load_user(){
+            	
+            	webSocket.send("/load_use:");
+        	
             }
-           function miseajour() {
-        	   document.getElementById("user_compte").innerHTML = "past words are not identical";
-       		
-           }
+             
+  
+            function writeResponse(text){
+            	var text_tab=text.split(":");
+            	//document.getElementById("use").innerHTML = text;
+            	
+            	
+            	if(text_tab[0] == "index.html"){
+            		window.location.replace(text_tab[0]);
             
+            	}
+            	if(text_tab[0] == "load_user"){
+            		
+            		  document.getElementById("use").innerHTML = text_tab[1];		
+            	}
+            	if(text_tab[0] == "Se_connecter.html#tologin")   {
+            		window.location.replace(text_tab[0]);
+            	}        	
+            	
+            }
+          
+           
+         
             
             
             
