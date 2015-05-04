@@ -53,7 +53,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	/**
 	 * to add an user in this instance of manager
-	 * if user is already in the manager, this function check if this user is more recent
+	 * if user is already in the manager, this function remove old and put User u
 	 * @param u - User to add
 	 */
 	public void addUser(User u){
@@ -67,11 +67,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
 		if(users.containsKey(key)){
-			User existUser = users.get(key);
-			if(existUser.getDate() <= u.getDate()){
-				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
-				return;
-			}
 			users.remove(key);
 			users.put(key, u);
 		}else
@@ -286,6 +281,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public User whoHas(Item item){
 		return users.get(item.getOwner());
 	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
 	
 
 	
@@ -359,10 +358,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(manager2.toString().equals(manager.toString())) {
 			System.out.println("ok !");
 		}
-	}
-
-	public User getCurrentUser() {
-		return currentUser;
 	}
 	
 	

@@ -3,6 +3,7 @@ package model.manager;
 import java.util.ArrayList;
 
 import model.network.NetworkInterface;
+import model.network.communication.Communication;
 import model.network.search.Search;
 import model.user.User;
 
@@ -64,6 +65,7 @@ public class SharingManager {
 			}
 			
 		});
+		thread.start();
 	}
 	
 	public void stopSharing() {
@@ -84,25 +86,41 @@ public class SharingManager {
 	 * @param publicKey The user to check.
 	 */
 	private void checkUserResilience(String publicKey) {
-		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
-		// Wait 3 seconds or "replications" results
-		search.search(publicKey, 3000, this.replications);
-		ArrayList<User> recurrentUser = search.getResults();
-		long maxDate = 0;
-		for (User user : recurrentUser) {
-			if(!user.checkSignature(user.getKeys())){
-				recurrentUser.remove(user);
-			}else{
-				maxDate = Long.compare(maxDate, user.getLastUpdated()) >= 0 ? maxDate : user.getLastUpdated();
+		try {
+			Communication sender = new Communication(network);
+			Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
+			// Wait 3 seconds or "replications" results
+			search.search(publicKey, 3000, this.replications);
+			ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
+			User user = manager.whoIs(publicKey);
+			long maxDate = user.getLastUpdated();
+			for (Search<User>.Result r : results) {
+				if(!r.result.checkSignature(r.result.getKeys())){
+					results.remove(r);
+				}else{
+					if(Long.compare(maxDate, r.result.getLastUpdated()) < 0){
+						// If a result is more recent than mine
+						maxDate = r.result.getLastUpdated();
+						user = r.result;
+						if(!manager.getCurrentUser().equals(user))
+							manager.addUser(user);
+						else{
+							// FATAL ERROR : FAILLE DE SECURITE (QUELQU'UN A REUSSI A MODIFIER MON COMPTE)
+						}
+					}
+				}
 			}
-		}
-		for (User user : recurrentUser) {
-			if(user.getLastUpdated() < maxDate){
-				// TODO Mise a jour du peer qui a envoye ce compte OU envoie d'un arret de diffusion.
+			for (Search<User>.Result r : results) {
+				if(r.result.getLastUpdated() < maxDate){
+					// TODO service "updaterUsers"
+					//sender.sendMessage(lastUserUp.toString(), "updaterUsers", r.peerID);
+				}
 			}
-		}
-		for(int i = 0 ; i < (recurrentUser.size() - this.replications) ; i++){
-			// TODO Envoyer une copie du compte a un peer aleatoire
+			for(int i = 0 ; i < (results.size() - this.replications) ; i++){
+				// TODO Envoyer une copie du compte a un peer aleatoire
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
