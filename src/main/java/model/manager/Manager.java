@@ -46,7 +46,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		super();
 		this.network = network;
 	}
-
 	
 	/**
 	 * Return the user's items' list
@@ -62,8 +61,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return userItems;
 	}
-	
-
 	
 	/**
 	 * Return an XML string containing user's info and his items.
