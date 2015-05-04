@@ -2,6 +2,7 @@ package model.network.communication.service;
 
 import java.util.ArrayList;
 
+import model.network.NetworkInterface;
 import model.network.communication.Communication;
 import net.jxta.endpoint.Message;
 import net.jxta.peer.PeerID;
@@ -49,6 +50,10 @@ public abstract class Service<D> implements ServiceInterface {
 	@Override
 	public void setCommunication(Communication c) {
 		this.sender = c;
+	}
+	
+	public NetworkInterface getNetwork() {
+		return sender.getNetwork();
 	}
 	
 	public abstract void sendMessage(D data, PeerID ...ids);
