@@ -286,7 +286,18 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return currentUser;
 	}
 	
-
+	/**
+	 * Return an Array List which contain all User named nickName (parameter)
+	 * @param nickName
+	 * @return
+	 */
+	public User getNamed(String nickName){
+		for (User user : this.users.values()) {
+			if(user.getNick().equals(nickName))
+				return user;
+		}
+		return null;
+	}
 	
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
@@ -294,7 +305,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param password
 	 */
 	public boolean login(String nickname, String password) {
-		User u = null; // TODO get user on network or local and login.
+		User u = null;
+		if(users.size()>0)
+			u = this.getNamed(nickname);
+		if(u == null){
+			// TODO get user on network or local and login.
+		}
 		// Check password
 		if(!u.isPassword(password))
 			return false;

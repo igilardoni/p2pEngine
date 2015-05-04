@@ -2,8 +2,10 @@ package model.manager;
 
 import java.util.ArrayList;
 
+import net.jxta.peer.PeerID;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
+import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
 import model.user.User;
 
@@ -113,11 +115,15 @@ public class SharingManager {
 			for (Search<User>.Result r : results) {
 				if(r.result.getLastUpdated() < maxDate){
 					// TODO service "updaterUsers"
-					//sender.sendMessage(lastUserUp.toString(), "updaterUsers", r.peerID);
+					sender.sendMessage(user.toString(), "updaterUsers", r.peerID);
 				}
 			}
-			for(int i = 0 ; i < (results.size() - this.replications) ; i++){
-				// TODO Envoyer une copie du compte a un peer aleatoire
+			if((results.size() - this.replications) > 0){
+				RandomPeerFinder finder = new RandomPeerFinder(network);
+				finder.findPeers(3000, (results.size() - this.replications));
+				PeerID[] randomPeers = new PeerID[finder.getResults().size()]; 
+				randomPeers = finder.getResults().toArray(randomPeers);
+				sender.sendMessage(user.toString(), "", randomPeers);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
