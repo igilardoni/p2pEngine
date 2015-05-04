@@ -48,7 +48,7 @@ public class Application {
 		
 		network.addGroup("items");
 		network.addGroup("users");
-		sharingManager = new SharingManager(manager, network, 5, 30);
+		sharingManager = new SharingManager(manager, network, com,  5, 30);
 		sharingManager.startSharing();
 		
 		if(startLocalServer)

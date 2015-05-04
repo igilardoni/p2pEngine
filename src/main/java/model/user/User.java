@@ -19,7 +19,7 @@ import util.secure.Serpent;
  * @author Julien Prudhomme
  *
  */
-public class User extends AbstractAdvertisement{
+public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String nick;			// Friendly user nickname (useless for the system)
 	private String hashPwd;			// PassWord is never saved but the hash of the password have to be saved
 	private String name;			// The family name of the user
@@ -232,7 +232,7 @@ public class User extends AbstractAdvertisement{
 		this.phone = phone == null ? "":phone;
 	}
 	public void setDate(long date){
-		this.date = date;
+		this.date = date == 0 ? System.currentTimeMillis() : date;
 	}
 	public void setKey(AsymKeysImpl key){
 		this.keys = key == null ? new AsymKeysImpl(): key;
@@ -356,12 +356,21 @@ public class User extends AbstractAdvertisement{
 	}
 
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * True if keys are the same, false else
-	 * @param user
-	 * @return
-	 */
-	public boolean equals(User user) {
+	
+	@Override
+	public int compareTo(User u) {
+		if(this.equals(u))
+			return 0;
+		if(!this.getNick().equalsIgnoreCase(u.getNick()))
+			return this.getNick().compareTo(u.getNick());
+		return 0;
+	}
+	
+	@Override
+	public boolean equals(Object u) {
+		if(! (u instanceof User))
+			return false;
+		User user = (User) u;
 		if( (this.keys.getPublicKey() == null || user.keys.getPublicKey() == null)
 				&& (this.keys.getPublicKey() != null || user.keys.getPublicKey() != null))
 			return false;

@@ -217,14 +217,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	}
 	
 	/**
-	 * Return the location of this Item
-	 * @return Locale class (Java)
-	 */
-	public String getZone() {
-		return country;
-	}
-	
-	/**
 	 * Define the Country of this Item
 	 * @param language
 	 * @param country
@@ -270,10 +262,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param date - long based of epoch time
 	 */
 	public void setDate(long date) {
-		if(date == 0)
-			this.date =System.currentTimeMillis();
-		else
-			this.date = date;
+		this.date = date==0 ? System.currentTimeMillis() : date;
 	}
 
 	/**
@@ -422,19 +411,39 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
                 										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	/**
 	 * @return boolean 0 if both are identical, 1 else
 	 */
 	@Override
 	public int compareTo(Item item) {
-		if(this.equals(item))
+		if(this.exactlyEquals(item))
 			return 0;
-		// TODO Make comparison to order Items
-		return 1;
+		if(!this.getOwner().equals(item.getOwner()))
+			return this.getOwner().compareTo(item.getOwner());
+		if(!this.getTitle().equals(item.getTitle()))
+			return this.title.compareTo(item.getTitle());
+		if(this.getDate() != item.getDate())
+			return this.getDate() > item.getDate() ? 1 : -1;
+		if(!this.getCategory().equals(item.getCategory()))
+			return this.getCategory().getStringChoice().compareTo(item.getCategory().getStringChoice());
+		if(!this.getCountry().equals(item.getCountry()))
+			return this.getCountry().compareTo(item.getCountry());
+		if(this.getLifeTime() != item.getLifeTime())
+			return this.getLifeTime() > item.getLifeTime() ? 1 : -1;
+		if(!this.getType().name().equals(item.getType().name()))
+			return this.getType().name().compareTo(item.getType().name());
+		if(!this.getDescription().equals(item.getDescription()))
+			return this.getDescription().compareTo(item.getDescription());
+		return 0;
 	}
 	
-	public boolean equals(Item item){
-		if(!this.getOwner().equals(item.getOwner()) || 
+	public boolean exactlyEquals(Object i){
+		if(!(i instanceof Item))
+			return false;
+		Item item = (Item) i;
+		if(!this.getOwner().equals(item.getOwner()) ||
+				!this.getFriendNick().equals(item.getFriendNick()) ||
 				!this.getTitle().equals(item.getTitle()) ||
 				!this.getCategory().toString().equals(item.getCategory().toString()) ||
 				!this.getDescription().equals(item.getDescription()) ||
@@ -444,6 +453,18 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				this.getDate() != item.getDate() ||
 				this.getLifeTime() != item.getLifeTime() ||
 				!this.getType().toString().equals(item.getType().toString())
+				)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean equals(Object i){
+		if(!(i instanceof Item))
+			return false;
+		Item item = (Item) i;
+		if(!this.getOwner().equals(item.getOwner()) || 
+				!this.getTitle().equals(item.getTitle())
 				)
 			return false;
 		return true;

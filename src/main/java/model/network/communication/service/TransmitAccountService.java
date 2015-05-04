@@ -2,6 +2,7 @@ package model.network.communication.service;
 
 import model.manager.Manager;
 import net.jxta.endpoint.Message;
+import net.jxta.peer.PeerID;
 
 public class TransmitAccountService extends Service<Manager> {
 
@@ -24,7 +25,7 @@ public class TransmitAccountService extends Service<Manager> {
 	/**
 	 * Transmit accounts data to others peers.
 	 */
-	public void sendMessage(Manager m) {
+	public void sendMessage(Manager m, PeerID ...ids) {
 		/* TODO chercher X peer et leur envoyer le manager */
 		Message message = new Message();
 		sender.sendMessage(m.toString(), null); //TODO ajouter la liste des peer a la place de null
