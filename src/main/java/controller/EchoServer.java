@@ -50,8 +50,7 @@ public class EchoServer {
     	switch (contents[0]) {
 		case "/index":
 			if(Verifying(contents[1], contents[2])){
-				System.out.println("recu merci merci");
-	    		try {
+				try {
 	    			//String res=lire();
 	    				//System.out.println("bien recu "+res+" voici");
 					session.getBasicRemote().sendText("index.html");

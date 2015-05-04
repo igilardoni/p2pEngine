@@ -4,99 +4,81 @@
 <meta charset="utf-8">
 <title>Display Webcam Stream</title>
   
-<style>
-#container {
-    margin: 0px auto;
-    width: 300px;
-    height: 175px;
-    border: 10px #333 solid;
-}
-#videoElement {
-    width: 300px;
-    height: 175px;
-    background-color: #666;
-}
-#canvas {
-    width: 300px;
-    height: 175px;
-    
-    background-color: #CCC;
-}
-</style>
 
 </head>
   
 <body>
 
-<video id="video" width="640" height="480" autoplay></video>
-	<input type="submit" onclick="to_register();" value="Sign up" /> 
-								
-<canvas id="canvas" width="640" height="480"></canvas>
-<img id="pict" src="" width="300" height="175" alt="capture" />
-					
+
+<div><video id="video"></video></div>
+<button id="startbutton">Prendre une photo</button>
+<div><canvas id="canvas"></canvas></div>
+
 
 <script type="text/javascript">
 
 
-//Put event listeners into place
-window.addEventListener("DOMContentLoaded", function() {
-	// Grab elements, create settings, etc.
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d"),
-		video = document.getElementById("video"),
-		videoObj = { "video": true },
-		errBack = function(error) {
-			console.log("Video capture error: ", error.code); 
-		};
+(function() {
 
-	// Put video listeners into place
-	if(navigator.getUserMedia) { // Standard
-		navigator.getUserMedia(videoObj, function(stream) {
-			video.src = stream;
-			video.play();
-		}, errBack);
-	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-		navigator.webkitGetUserMedia(videoObj, function(stream){
-			video.src = window.webkitURL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-		navigator.mozGetUserMedia(videoObj, function(stream){
-			video.src = window.URL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-}, false);
+	  var streaming = false,
+	      video        = document.querySelector('#video'),
+	      cover        = document.querySelector('#cover'),
+	      canvas       = document.querySelector('#canvas'),
+	      photo        = document.querySelector('#photo'),
+	      startbutton  = document.querySelector('#startbutton'),
+	      width = 320,
+	      height = 0;
 
-function drawDataURIOnCanvas(strDataURI, canvas) {
-    "use strict";
-    var img = new window.Image();
-    img.addEventListener("load", function () {
-        canvas.getContext("2d").drawImage(img, 0, 0);
-    });
-    img.setAttribute("src", strDataURI);
-   
-}
+	  navigator.getMedia = ( navigator.getUserMedia ||
+	                         navigator.webkitGetUserMedia ||
+	                         navigator.mozGetUserMedia ||
+	                         navigator.msGetUserMedia);
 
-function to_register(){
-	var  uri = canvas.toDataURL("image/jpeg"); // convert canvas to data URI
-	
-	document.getElementById("pict").src = uri
-	   
-	var image  = document.getElementById("pict");
-	 var canvas = document.createElement("canvas");
-	    document.body.appendChild(canvas);
-	 
-    canvas.width  = image.width;
-    canvas.height = image.height;
- 
-    var context = canvas.getContext("2d");
- 
-    context.drawImage(image, 0, 0);
-	
+	  navigator.getMedia(
+	    {
+	      video: true,
+	      audio: false
+	    },
+	    function(stream) {
+	      if (navigator.mozGetUserMedia) {
+	        video.mozSrcObject = stream;
+	      } else {
+	        var vendorURL = window.URL || window.webkitURL;
+	        video.src = vendorURL.createObjectURL(stream);
+	      }
+	      video.play();
+	    },
+	    function(err) {
+	      console.log("An error occured! " + err);
+	    }
+	  );
 
-}
+	  video.addEventListener('canplay', function(ev){
+	    if (!streaming) {
+	      height = video.videoHeight / (video.videoWidth/width);
+	      video.setAttribute('width', width);
+	      video.setAttribute('height', height);
+	      canvas.setAttribute('width', width);
+	      canvas.setAttribute('height', height);
+	      streaming = true;
+	    }
+	  }, false);
+
+	  function takepicture() {
+	    canvas.width = width;
+	    canvas.height = height;
+	    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+	    var data = canvas.toDataURL('image/png');
+	    photo.setAttribute('src', data);
+	  }
+
+	  startbutton.addEventListener('click', function(ev){
+	      takepicture();
+	    ev.preventDefault();
+	  }, false);
+
+	})();
+
 
 </script>
 </body>

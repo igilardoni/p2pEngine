@@ -6,9 +6,12 @@
 	 font-family: "Trebuchet MS","Myriad Pro",Arial,sans-serif;
 }
 body{
-background-image: url(../img/bg-login.jpg);
+background-color: black
 
 }
+
+
+
 #picture_t2 {
     margin: 0px auto;
     width: 200px;
