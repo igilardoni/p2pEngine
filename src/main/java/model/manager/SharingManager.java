@@ -13,7 +13,8 @@ import model.user.User;
  * Manager for sharing ressource (users, items ..) when needed.
  * Also check data resiliance (replication) on the network.
  * @author Julien Prudhomme
- *
+ * @author Michael Dubuis
+ * 
  */
 public class SharingManager {
 	private Manager manager; //local manager
@@ -91,7 +92,6 @@ public class SharingManager {
 	 */
 	private void checkUserResilience(String publicKey) {
 		try {
-			Communication sender = com;
 			Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
 			// Wait 3 seconds or "replications" results
 			search.search(publicKey, 3000, this.replications);
@@ -117,7 +117,7 @@ public class SharingManager {
 			for (Search<User>.Result r : results) {
 				if(r.result.getLastUpdated() < maxDate){
 					// TODO service "updaterUsers"
-					sender.sendMessage(manager.UserItemXMLString(publicKey), "UpdateUser", r.peerID);
+					com.sendMessage(manager.UserItemXMLString(publicKey), "TransmitAccountService", r.peerID);
 				}
 			}
 			if((results.size() - this.replications) > 0){
@@ -125,7 +125,7 @@ public class SharingManager {
 				finder.findPeers(3000, (results.size() - this.replications));
 				PeerID[] randomPeers = new PeerID[finder.getResults().size()]; 
 				randomPeers = finder.getResults().toArray(randomPeers);
-				sender.sendMessage(manager.UserItemXMLString(publicKey), "UpdateUser", randomPeers);
+				com.sendMessage(manager.UserItemXMLString(publicKey), "TransmitAccountService", randomPeers);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

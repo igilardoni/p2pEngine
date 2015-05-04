@@ -356,12 +356,12 @@ public class User extends AbstractAdvertisement{
 	}
 
 	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * True if keys are the same, false else
-	 * @param user
-	 * @return
-	 */
-	public boolean equals(User user) {
+	
+	@Override
+	public boolean equals(Object u) {
+		if(! (u instanceof User))
+			return false;
+		User user = (User) u;
 		if( (this.keys.getPublicKey() == null || user.keys.getPublicKey() == null)
 				&& (this.keys.getPublicKey() != null || user.keys.getPublicKey() != null))
 			return false;

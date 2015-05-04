@@ -23,7 +23,7 @@ import util.StringToElement;
 /**
  * Local manager for Users, items and messages.
  * @author Julien
- * @autor Michael
+ * @autor Michael Dubuis
  *
  */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
@@ -78,7 +78,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		
 		s.append("</Items>");
 		
-		return null;
+		return s.toString();
 	}
 	
 	public Collection<User> getUsers() {
@@ -100,11 +100,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
-		if(users.containsKey(key)){
-			users.remove(key);
-			users.put(key, u);
-		}else
-			users.put(key, u);
+		if(users.containsValue(u)){
+			if(users.get(key).getLastUpdated() == u.getLastUpdated()){
+				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
+				return;
+			}
+		}
+		users.put(key, u);
 	}
 	
 	/**
@@ -131,8 +133,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		if(items.contains(i)){
-			System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
-			return;
+			if(items.get(items.indexOf(i)).getLastUpdated() == i.getLastUpdated()){
+				System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
+				return;
+			}
 		}
 		// End exceptions
 		items.add(i);

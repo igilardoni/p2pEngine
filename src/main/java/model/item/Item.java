@@ -427,13 +427,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	@Override
 	public int compareTo(Item item) {
-		if(this.equals(item))
+		if(this.exactlyEquals(item))
 			return 0;
-		// TODO Make comparison to order Items
-		return 1;
+		return this.title.compareTo(item.getTitle());
 	}
 	
-	public boolean equals(Item item){
+	public boolean exactlyEquals(Object i){
+		if(!(i instanceof Item))
+			return false;
+		Item item = (Item) i;
 		if(!this.getOwner().equals(item.getOwner()) || 
 				!this.getTitle().equals(item.getTitle()) ||
 				!this.getCategory().toString().equals(item.getCategory().toString()) ||
@@ -444,6 +446,18 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 				this.getDate() != item.getDate() ||
 				this.getLifeTime() != item.getLifeTime() ||
 				!this.getType().toString().equals(item.getType().toString())
+				)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public boolean equals(Object i){
+		if(!(i instanceof Item))
+			return false;
+		Item item = (Item) i;
+		if(!this.getOwner().equals(item.getOwner()) || 
+				!this.getTitle().equals(item.getTitle())
 				)
 			return false;
 		return true;
