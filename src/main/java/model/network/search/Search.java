@@ -2,11 +2,14 @@ package model.network.search;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
+import net.jxta.peer.PeerID;
 import model.advertisement.AbstractAdvertisement;
 
 /**
@@ -22,6 +25,18 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	private String attribute;
 	private boolean exact;
 	private ArrayList<T> results = new ArrayList<T>();
+	private ArrayList<Result> resultsWithPeerID = new ArrayList<Result>();
+	
+	public class Result {
+		public String peerID;
+		public T result;
+		
+		protected Result(String peerID, T result) {
+			this.peerID = peerID;
+			this.result = result;
+		}
+		
+	}
 	
 	
 	/**
@@ -80,13 +95,19 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 		return results;
 	}
 	
+	public ArrayList<Result> getResultsWithPeerID() {
+		return this.resultsWithPeerID;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
+		PeerID pid = event.getResponse().getPeerAdvertisement().getPeerID();
 		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 		while(advs.hasMoreElements()) {
 			T adv = (T) advs.nextElement();
 			results.add(adv);
+			resultsWithPeerID.add(new Result(pid.toURI().toString(), adv));
 			notifyListeners(adv);
 		}
 		
