@@ -101,7 +101,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
 		if(users.containsValue(u)){
-			if(users.get(key).getLastUpdated() == u.getLastUpdated()){
+			if(users.get(key).getLastUpdated() >= u.getLastUpdated()){
 				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
 				return;
 			}
@@ -133,12 +133,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		if(items.contains(i)){
-			if(items.get(items.indexOf(i)).getLastUpdated() == i.getLastUpdated()){
+			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
 				System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
 				return;
 			}
 		}
-		// End exceptions
 		items.add(i);
 	}
 	
