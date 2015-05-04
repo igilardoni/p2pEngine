@@ -102,9 +102,9 @@ public class EchoServer {
 			break;
 		case "/load_use":
 			System.out.println("JE SUIS ICI UN NEW LOAD");
-			//String nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			try {
-    			session.getBasicRemote().sendText("load_user:mehdi");
+    			session.getBasicRemote().sendText("load_user:"+nick);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
