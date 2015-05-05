@@ -12,6 +12,7 @@ import model.network.communication.Communication;
 import model.network.communication.Message;
 import model.network.search.Search;
 import model.network.search.Search.Result;
+import model.user.Conversations;
 import model.user.User;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.peer.PeerID;
@@ -22,7 +23,7 @@ import net.jxta.peer.PeerID;
  * @author Michael
  *
  */
-public class UpdateUser extends Service<String>{
+public class UpdateUser extends Service<String> {
 
 	private Manager manager;
 	public UpdateUser(Manager m) {
@@ -74,6 +75,9 @@ public class UpdateUser extends Service<String>{
 			if(!msg.checkSignature(u.getKeys())) continue;
 			manager.addMessage(msg);
 		}
+		
+		manager.addConversations(new Conversations(root.getChild("Conversations")));
+		
 		return true;
 	}
 	
@@ -98,6 +102,7 @@ public class UpdateUser extends Service<String>{
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	public void requestUser(String publicKey) {
 		Search<User> s = new Search<User>(getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
 		s.search(publicKey, 5000, 5);

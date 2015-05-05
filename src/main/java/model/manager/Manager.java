@@ -5,15 +5,19 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
 import model.network.NetworkInterface;
 import model.network.communication.Message;
 import model.network.communication.service.ServiceListener;
+import model.user.Conversations;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
+
 import org.jdom2.Element;
+
 import util.StringToElement;
 
 /**
@@ -28,7 +32,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private ArrayList<Item> items;				// list of items handled by this manager.
 	private NetworkInterface network;
 	private User currentUser;					// User logged
-	private ArrayList<Message> messages;		// Messages for users
+	private ArrayList<Message> messages;		// Messages for users attempting to be received.
+	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
@@ -151,7 +156,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			s.append(m.toString());
 		}
 		s.append("</Messages>");
-		
+		s.append(conversations.get(publicKey).toString());
 		return s.toString();
 	}
 	
@@ -187,6 +192,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		StringBuffer s = new StringBuffer();
 		for(Message m: messages) {
 			s.append(m); 
+		}
+		return s.toString();
+	}
+	
+	private String getReceivedMessagesXML() {
+		StringBuffer s = new StringBuffer();
+		for(Conversations c : conversations.values()) {
+			s.append(c);
 		}
 		return s.toString();
 	}
@@ -246,10 +259,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		users = new HashMap<String, User>();
 		items = new ArrayList<Item>();
 		messages = new ArrayList<Message>();
+		conversations = new HashMap<String, Conversations>();
 		currentUser = null;
 		addKey("users", false);
 		addKey("items", false);
 		addKey("messages", false);
+		addKey("ReceivedMessages", false);
 	}
 	
 	@Override
@@ -257,6 +272,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		addValue("users", getUsersXML());
 		addValue("items", getItemsXML());
 		addValue("messages", getMessagesXML());
+		addValue("ReceivedMessages", getReceivedMessagesXML());
 	}
 
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -473,6 +489,29 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 		return userMessages;
+	}
+	
+	/**
+	 * Get the current user conversations. If the conversations doesn't exist, it will be created.
+	 * @return a Conversations
+	 */
+	public Conversations getCurrentUserConversations() {
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		if(!conversations.containsKey(currentUser.getKeys().getPublicKey().toString(16))) {
+			addConversations(new Conversations(currentUser.getKeys().getPublicKey().toString(16)));
+		}
+		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
+	}
+	
+	/**
+	 * Add an existing conversation to this manager.
+	 * @param c
+	 */
+	public void addConversations(Conversations c) {
+		conversations.put(c.getOwner(), c);
 	}
 	
 	
