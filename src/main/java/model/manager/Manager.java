@@ -59,8 +59,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
-		if(users.containsValue(u)){
-			if(users.get(key).getLastUpdated() >= u.getLastUpdated()){
+		if(users.containsKey(key)){
+			if(users.get(key).equals(u) && users.get(key).getLastUpdated() >= u.getLastUpdated()){
 				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
 				return;
 			}
@@ -441,7 +441,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return null;
 		}
 		for (Item item : items) {
-			if(item.getOwner().equals(currentUser.getKeys().getPublicKey()) && item.getTitle().equals(title))
+			if(item.getOwner().equals(publicKey) && item.getTitle().equals(title))
 				return item;
 		}
 		return null;
@@ -543,11 +543,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public static void main(String[] args) {
 		Manager manager = new Manager(null);
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
+		user1.sign(user1.getKeys());
 		User user2 = new User("user2", "pass2", "name2", "firstname2", "email2", "phone2");
+		user2.sign(user2.getKeys());
 		Item item1 = new Item(user1, "patate", new Category(Category.CATEGORY.Appliances), 
 				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
+		item1.sign(user1.getKeys());
 		Item item2 = new Item(user2, "carotte", new Category(Category.CATEGORY.Appliances), 
 				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
+		item2.sign(user2.getKeys());
 		manager.addUser(user1);
 		manager.addUser(user2);
 		manager.addItem(item1);
