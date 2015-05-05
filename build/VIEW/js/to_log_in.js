@@ -47,11 +47,15 @@
             		var Title = document.getElementById("Title").value;
                 	var Category = document.getElementById("Category").value;
                 	var Country = document.getElementById("Country").value;
+                	var Type_ob = document.getElementById("Type_ob").value;
                 	var Life_time = document.getElementById("Life_time").value;
                 	var Picture = document.getElementById("Picture").value;
                 	var Description = document.getElementById("Description").value;
                 	var URI = document.getElementById("uri_cam").value;
+                	var Contact_item = document.getElementById("Contact_item").value;
+                	 
                 	
+                	 
                 	var media = "";
 ;                		if(Title == ""){
                 		document.getElementById("Title_label").style.color = "#ff0000";
@@ -80,6 +84,30 @@
                 		document.getElementById("Life_time_label").style.color = "#2E1C08";
                 		document.getElementById("picture_label").style.color = "#2E1C08";   
                 		document.getElementById("description_label").style.color = "#ff0000";          	
+                	}else if(Type_ob == ""){
+                		
+                		document.getElementById("type_label").style.color = "#ff0000";                  	
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#2E1C08";   
+                		document.getElementById("description_label").style.color = "#2E1C08";
+                	
+                	
+                	}else if(Contact_item == ""){
+                		
+                		document.getElementById("Contact_label").style.color = "#ff0000";  
+                		document.getElementById("type_label").style.color = "#2E1C08";
+                		document.getElementById("Title_label").style.color = "#2E1C08";
+                		document.getElementById("Category_label").style.color = "#2E1C08";
+                		document.getElementById("Country_label").style.color = "#2E1C08";
+                		document.getElementById("Life_time_label").style.color = "#2E1C08";
+                		document.getElementById("picture_label").style.color = "#2E1C08";   
+                		document.getElementById("description_label").style.color = "#2E1C08";
+                		
+                	
+                	
                 	}else{
                 		if(Picture != ""){
                 			media = Picture;
@@ -89,7 +117,9 @@
                 			media = Picture;
                 		}
                 		
-                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Country+":"+Life_time+":"+Description+":"+media);
+                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
+                		
+                		alert(Title+":"+Category+":"+Description+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
                     	
                 	}
@@ -252,11 +282,24 @@
             
             function zoom(text){
             	
-            	webSocket.send("/zoom:text");
+           alert(text);
+            	webSocket.send("/zoom_item:"+text);
             }
+            
+            
+            function remo(text,r){
+            	//alert(r);
+            	document.getElementById("data_it").deleteRow(r);
+            	webSocket.send("/remove_item:"+text);
+            }
+            
              
+            
+            var cmpt = 0;
   
             function writeResponse(text){
+            	
+            	
             	var text_tab=text.split(":");
             	//document.getElementById("use").innerHTML = text;
             	
@@ -279,6 +322,7 @@
             		window.location.replace(text_tab[0]);
             	}
             	if(text_tab[0] == "load_item"){
+            		cmpt = cmpt +1;
             		var tableau = document.getElementById("data_it");
             		
             		var ligne = tableau.insertRow(-1);
@@ -301,9 +345,12 @@
             		
             		
             		var colonne6 = ligne.insertCell(5);
-            		colonne6.innerHTML += '<a class=\'btn btn-danger\'  onclick=\'zoom("'+text_tab[1]+'");\'><i class=\'halflings-icon white trash\'></i></a>';
+            		colonne6.innerHTML += '<a class=\'btn btn-danger\'  onclick=\'remo("'+text_tab[1]+'","'+cmpt+'");\'><i class=\'halflings-icon white trash\'></i></a>';
 
 
+            	}if(text_tab[0] == "zoom_item_result"){
+            		
+            		document.getElementById("ex_title").innerHTML = text_tab[3];
             	}
             	
             	
