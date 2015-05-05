@@ -15,7 +15,7 @@ import util.secure.Serpent;
 /**
  * This class can be instantiated for contains an user.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
- * @author Michael
+ * @author Michael Dubuis
  * @author Julien Prudhomme
  *
  */

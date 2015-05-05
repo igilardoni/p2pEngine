@@ -428,12 +428,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @return
 	 */
 	public Item getItem(String publicKey, String title){
-		if(publicKey.isEmpty()){
-			System.err.println(this.getAdvertisementName()+".getItem : publicKey is empty !");
+		if(publicKey == null || publicKey.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : publicKey is empty or null !");
 			return null;
 		}
-		if(title.isEmpty()){
-			System.err.println(this.getAdvertisementName()+".getItem : title is empty !");
+		if(title == null || title.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : title is empty or null !");
 			return null;
 		}
 		if(!users.containsKey(publicKey)){
@@ -453,8 +453,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @return
 	 */
 	public Item getItemCurrentUser(String title){
-		if(currentUser == null)
+		if(currentUser == null){
+			System.err.println(this.getAdvertisementName()+".getItemCurrentUser : none logged user !");
 			return null;
+		}
 		return getItem(currentUser.getKeys().getPublicKey().toString(16), title);
 	}
 	
