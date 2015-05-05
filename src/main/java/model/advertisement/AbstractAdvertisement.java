@@ -35,6 +35,7 @@ import net.jxta.id.ID;
  * There is a few abstract method to implements. You can use addKey and addValue method in setKeys and putvalues.
  * This abstract class give an auto signature method.
  * Each time you call a method that will called your putValues method, the lastUpdated field is updated.
+ * @author Julien Prudhomme
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 
@@ -319,6 +320,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	
+	/**
+	 * Get the concatenated value of all the elements (except signature itself) sorted in alpha-order
+	 * Used to generate a hash of the advertisement.
+	 * @return a string that represent all the elements values concatenated
+	 */
 	private String getConcatenedElements() {
 		superPutValues();
 		ArrayList<String> sortedElements = new ArrayList<String>();

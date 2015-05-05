@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
 import model.advertisement.AbstractAdvertisement;
 import model.item.Category;
 import model.item.Item;
@@ -14,14 +13,12 @@ import model.network.communication.Message;
 import model.network.communication.service.ServiceListener;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
-
 import org.jdom2.Element;
-
 import util.StringToElement;
 
 /**
  * Local manager for Users, items and messages.
- * @author Julien
+ * @author Julien Prudhomme
  * @author Michael Dubuis
  *
  */
@@ -110,7 +107,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addMessage(Message m){
 		if(m == null){
-			System.err.println(this.getAdvertisementName()+" : This Message is empty !");
+			System.err.println(this.getAdvertisementName()+" : This Message is null !");
 			return;
 		}
 		String owner = m.getOwner();

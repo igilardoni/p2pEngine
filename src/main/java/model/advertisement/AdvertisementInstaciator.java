@@ -7,7 +7,7 @@ import net.jxta.document.AdvertisementFactory.Instantiator;
 import net.jxta.document.Element;
 
 /**
- * This class is a wrapper to construct an Instantiator for our Advertisement
+ * This class is a wrapper to construct an Instantiator for our Advertisements
  * Once the AdvertisementInstanciator registered to JXTA, JXTA can construct a received
  * advertisement automatically
  * @author Prudhomme Julien
