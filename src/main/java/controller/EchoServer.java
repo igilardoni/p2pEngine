@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -14,7 +15,10 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import model.Application;
+import model.item.Category;
 import model.item.Item;
+import model.item.Item.TYPE;
+import model.manager.Manager;
 import model.user.User;
  
 /* TODO MEDHI CREE D'AUTRES CLASSES TU VA PAS TOUT FOUTRE ICI 
@@ -62,7 +66,6 @@ public class EchoServer {
 			break;
 		case "/register":
 			add_new_user(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6]);
-				System.out.println("un nouveau utilisateur inscrit");
 				try {
 					session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 				} catch (IOException e) {
@@ -81,10 +84,19 @@ public class EchoServer {
 			break;
 			 
 		case "/new_objet_add" :
-			System.out.println(contents[1]+" "+contents[2]+" "+contents[3]+" "+contents[4]+" "+contents[5]+" "+contents[6]+":"+contents[7]);
 			User owner = Application.getInstance().getManager().getCurrentUser();
-			//Item new_item = new Item(owner, title, category, description, image, country, contact, 0, lifeTime, "");
+			
+			Category category = new Category("");
+			
+			Item item = new Item(owner, contents[1], category, contents[6], contents[3], "country","contact", 0, 0, TYPE.WISH);
+			item.sign(owner.getKeys());
+			
+			Application.getInstance().getManager().addItem(item);
+			Manager a = Application.getInstance().getManager();
+			ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
+
 			break;
+	
 		case "/newindex":
 			try {
 				session.getBasicRemote().sendText("index.html");
@@ -108,6 +120,28 @@ public class EchoServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			break;
+			
+		case "/load_item":
+	
+			Manager manager = Application.getInstance().getManager();
+			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+			if(it.size() !=0){
+			for (int i = 0; i < it.size(); i++) {
+				try {
+					session.getBasicRemote().sendText("load_item:"+it.get(i).getTitle()+":"+it.get(i).getCountry()+":"+it.get(i).getDescription());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
+			}
+			}
+			
+			break;
+			
+		case "/zoom":
+			
 			break;
 			
 		default:

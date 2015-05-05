@@ -101,41 +101,141 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						<table class="table table-striped table-bordered bootstrap-datatable " id="data_it">
 						  <thead>
 							  <tr>
 								  <th>Title</th>
-								  <th>Owner</th>
-								  <th>Description</th>
 								  <th>Country</th>
-								  <th>Etat</th>
+								  <th>Description</th>
+								   <th>Option</th>
 							  </tr>
 						  </thead>   
-						  <tbody>
-							<tr>
-								<td>Title</td>
-								<td class="center">Owner</td>
-								<td class="center">Description</td>
-								<td class="center">
-									<span class="label label-success">Active</span>
-								</td>
-								<td class="center">
-									<a class="btn btn-success" href="#">
-										<i class="halflings-icon white zoom-in"></i>  
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="halflings-icon white edit"></i>  
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="halflings-icon white trash"></i> 
-									</a>
-								</td>
-							</tr>
-							
-						
-							
-						  </tbody>
+						 
 					  </table>            
+					</div>
+				</div><!--/span-->
+			
+			</div><!--/row-->
+			
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon edit"></i><span class="break"></span>Form Elements</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<form class="form-horizontal">
+							<fieldset>
+							   <div class="control-group warning">
+								<label class="control-label" for="inputWarning">Title</label>
+								<div class="controls">
+								  <input type="text" id="inputWarning">
+								  <span class="help-inline">Update title</span>
+								</div>
+							  </div>
+							  <div class="control-group">
+								<label class="control-label" for="selectError2" id="Category_label">Category</label>
+								<div class="controls">
+									<select data-placeholder="Your Favorite Football Team" id="Category" name="Category" data-rel="chosen">
+										<option value=""></option>
+										<optgroup label="VEHICULE">
+										  <option>voitures</option>
+										  <option>Motos</option>
+										  <option>Caravaning</option>
+										  <option>Utilitaires</option>
+										  <option>Equipement Auto</option>
+										  <option>Equipement Moto</option>
+										  <option>Equipement Caravaning</option>
+										</optgroup>
+										<optgroup label="IMMOBILIER">
+										  <option>Troc immobilier</option>
+										  <option>Location de vacances</option>
+										</optgroup>
+										<optgroup label="MULTIMEDIA">
+										  <option>Informatique</option>
+										  <option>Consoles & Jeux vidéos</option>
+										  <option>Image et son</option>
+										  <option>Téléphonie</option>
+										</optgroup>
+										<optgroup label="MAISON">
+										  <option>Ameublement</option>
+										  <option>Informatique</option>
+										  <option>Electroménager</option>
+										  <option>Décoration</option>
+										  <option>Bricolage</option>
+										  <option>Jardinage</option>
+										  <option>Vételement</option>
+										  <option>Chaussures</option>
+										</optgroup>
+										<optgroup label="LOISIRS">
+										  <option>DVD / Films</option>
+										  <option>CD / Musique</option>
+										  <option>Livres</option>
+										  <option>Animaux</option>
+										  <option>Vélos</option>
+										  <option>Sport & Hobbies</option>
+										  <option>Instruments de musique</option>
+										  <option>Collection</option>
+										</optgroup>
+								  </select>
+								</div>
+							  </div>
+							  <div class="control-group">
+								<label class="control-label" for="selectError" id="Country_label">Country</label>
+								<div class="controls">
+								  <select id="Country" name="Country" data-rel="chosen">
+									<option>France</option>
+									<option>Belgique</option>
+									<option>Pays-bas</option>
+									<option>Italie</option>
+									<option>Espagne</option>
+								  </select>
+								</div>
+							  </div>
+							  <div class="control-group">
+							  <label class="control-label" for="date01" id="Life_time_label">Life time</label>
+							  <div class="controls">
+								<input type="text" class="input-xlarge datepicker" id="Life_time" name="Life_time" value="02/16/12">
+							  </div>
+							</div>
+							 <div class="control-group">
+								<label class="control-label" for="selectError" id="type_label">Type</label>
+								<div class="controls">
+								  <select id="Type" name="Type" data-rel="chosen">
+									<option>Wish</option>
+									<option>Proposal</option>
+								  </select>
+								</div>
+							  </div>
+							  <div class="control-group"  id="picture_t1">
+							  <label class="control-label" for="fileInput" id="picture_label">Picture</label>
+							  <div class="controls">
+								<input class="input-file uniform_on" id="Picture" name="Picture" type="file">
+							  </div>
+							</div>
+							
+							
+							<div class="control-group hidden-phone" id="picture_t3">
+							  <label class="control-label" for="textarea2" id="description_label">Description</label>
+							  <div class="controls">
+								<textarea class="cleditor" id="Description" name="Description" rows="3"></textarea>
+							  </div>
+							</div>
+							
+							
+							  
+							 
+							  <div class="form-actions">
+								<button type="submit" class="btn btn-primary">Save changes</button>
+								<button class="btn">Cancel</button>
+							  </div>
+							</fieldset>
+						  </form>
+					
 					</div>
 				</div><!--/span-->
 			

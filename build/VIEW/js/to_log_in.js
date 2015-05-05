@@ -16,6 +16,7 @@
                  */
                 webSocket.onopen = function(event){
                 	load_user();
+                	load_item();
                     if(event.data === undefined)
                         return;
                     writeResponse(event.data);
@@ -235,11 +236,23 @@
                 webSocket.close();
             }
  
-            
+            //recuper les info utilisateur
             function load_user(){
             	
             	webSocket.send("/load_use:");
         	
+            }
+            
+            //recuperee les tout les objet de l'user current
+            function load_item(){
+            	
+            	webSocket.send("/load_item:");
+        	
+            }
+            
+            function zoom(text){
+            	
+            	webSocket.send("/zoom:text");
             }
              
   
@@ -258,7 +271,41 @@
             	}
             	if(text_tab[0] == "Se_connecter.html#tologin")   {
             		window.location.replace(text_tab[0]);
-            	}        	
+            	}     
+            	if(text_tab[0] == "new_objet.html"){
+            		window.location.replace(text_tab[0]);
+            	}
+            	if(text_tab[0] == "chat.html"){
+            		window.location.replace(text_tab[0]);
+            	}
+            	if(text_tab[0] == "load_item"){
+            		var tableau = document.getElementById("data_it");
+            		
+            		var ligne = tableau.insertRow(-1);
+
+            		var colonne1 = ligne.insertCell(0);
+            		colonne1.innerHTML += text_tab[1]
+
+            		var colonne2 = ligne.insertCell(1);
+            		colonne2.innerHTML += text_tab[2]
+            		
+            		var colonne3 = ligne.insertCell(2);
+            		colonne3.innerHTML += text_tab[3]
+            		
+            		var colonne4 = ligne.insertCell(3);  	
+            		colonne4.innerHTML += '<a class=\'btn btn-success\'  onclick=\'zoom("'+text_tab[1]+'");\'><i class=\'halflings-icon white zoom-in\'></i></a>';
+            		
+            		
+            		var colonne5 = ligne.insertCell(4);
+            		colonne5.innerHTML += '<a class=\'btn btn-info\'  onclick=\'zoom("'+text_tab[1]+'");\'><i class=\'halflings-icon white edit\'></i></a>';
+            		
+            		
+            		var colonne6 = ligne.insertCell(5);
+            		colonne6.innerHTML += '<a class=\'btn btn-danger\'  onclick=\'zoom("'+text_tab[1]+'");\'><i class=\'halflings-icon white trash\'></i></a>';
+
+
+            	}
+            	
             	
             }
           
