@@ -197,7 +197,6 @@
             
             
             function redirection(text){
-            	
             	webSocket.send(text);
             }
            
@@ -318,7 +317,13 @@
             	if(text_tab[0] == "new_objet.html"){
             		window.location.replace(text_tab[0]);
             	}
+            	if(text_tab[0] == "Search.html"){
+            		window.location.replace(text_tab[0]);
+            	}
             	if(text_tab[0] == "chat.html"){
+            		window.location.replace(text_tab[0]);
+            	}
+            	if(text_tab[0] == "Contrat.html"){
             		window.location.replace(text_tab[0]);
             	}
             	if(text_tab[0] == "load_item"){

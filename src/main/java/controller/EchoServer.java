@@ -82,6 +82,20 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/search":
+			try {
+				System.out.println("RECHEEEEEEERCH");
+				session.getBasicRemote().sendText("Search.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+			
+			
+			
+			
 			 
 		case "/new_objet_add" :
 			User owner = Application.getInstance().getManager().getCurrentUser();
@@ -112,6 +126,17 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+			
+			
+		case "/contrat":
+			try {
+				session.getBasicRemote().sendText("Contrat.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+			
 		case "/load_use":
 			System.out.println("JE SUIS ICI UN NEW LOAD");
 			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
