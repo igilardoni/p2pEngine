@@ -422,6 +422,43 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	/**
+	 * Use to found a item with owner's publicKey and item's title
+	 * @param publicKey
+	 * @param title
+	 * @return
+	 */
+	public Item getItem(String publicKey, String title){
+		if(publicKey.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : publicKey is empty !");
+			return null;
+		}
+		if(title.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : title is empty !");
+			return null;
+		}
+		if(!users.containsKey(publicKey)){
+			System.err.println(this.getAdvertisementName()+".getItem : "+publicKey+"\n\t is unknown !");
+			return null;
+		}
+		for (Item item : items) {
+			if(item.getOwner().equals(currentUser.getKeys().getPublicKey()) && item.getTitle().equals(title))
+				return item;
+		}
+		return null;
+	}
+	
+	/**
+	 * Use to found a specific item possessed by current User with title
+	 * @param title
+	 * @return
+	 */
+	public Item getItemCurrentUser(String title){
+		if(currentUser == null)
+			return null;
+		return getItem(currentUser.getKeys().getPublicKey().toString(16), title);
+	}
+	
+	/**
 	 * Return the user's messages' list
 	 * @param publicKey the user public key
 	 * @return a new list containing user's messages
