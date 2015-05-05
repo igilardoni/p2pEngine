@@ -51,7 +51,7 @@ public class EchoServer {
      */
     @OnMessage
     public void onMessage(String message, Session session){
-    
+    	System.out.println(message+" : heey heeeeey");
     	String[] contents = message.split(":");
     	switch (contents[0]) {
 		case "/index":
@@ -84,32 +84,17 @@ public class EchoServer {
 			break;
 			 
 		case "/new_objet_add" :
-			
-			System.out.println("La longeur est de taille "+contents.length);
-			System.out.println("Je suis ici");
-			System.out.println("1 "+contents[1]);
-			System.out.println("3 "+contents[3]);
-			//System.out.println("image "+item.getImage());
-			System.out.println("5 "+contents[5]);
-			System.out.println("6 "+contents[6]);
-			
-			System.out.println("7 "+contents[7]);
-			System.out.println("8 "+contents[8]);
-			
-			/*
 			User owner = Application.getInstance().getManager().getCurrentUser();
 			
-			Category category = new Category("test");
+			Category category = new Category("");
 			
-			Item item = new Item(owner, contents[1], category, contents[3], contents[4], contents[5],contents[6], 0, 0, TYPE.WISH);
+			Item item = new Item(owner, contents[1], category, contents[6], contents[3], "country","contact", 0, 0, TYPE.WISH);
 			item.sign(owner.getKeys());
-			
-		
 			
 			Application.getInstance().getManager().addItem(item);
 			Manager a = Application.getInstance().getManager();
 			ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
-*/
+
 			break;
 	
 		case "/newindex":
@@ -128,7 +113,7 @@ public class EchoServer {
 			}
 			break;
 		case "/load_use":
-			
+			System.out.println("JE SUIS ICI UN NEW LOAD");
 			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			try {
     			session.getBasicRemote().sendText("load_user:"+nick);
@@ -161,8 +146,7 @@ public class EchoServer {
 			try {
 				session.getBasicRemote().sendText("zoom_item_result:"+
 						item_search.getTitle()+":"+item_search.getCategory()+":"+
-						item_search.getCountry()+":"+item_search.getLifeTime()+":"+
-						item_search.getType()+":"+item_search.getImage()+":"+item_search.getDescription());
+						item_search.getCountry());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

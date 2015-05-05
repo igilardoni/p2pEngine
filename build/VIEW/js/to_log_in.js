@@ -121,7 +121,7 @@
                 		
                 		alert(Title+":"+Category+":"+Description+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
-                    	
+
                 	}
 
                 	
