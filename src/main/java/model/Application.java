@@ -14,6 +14,7 @@ import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
 import model.network.communication.service.TransmitAccountService;
+import model.network.communication.service.UpdateUser;
 import model.user.User;
 
 /**
@@ -42,10 +43,9 @@ public class Application {
 		
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
-		startCommunication();
 		manager = new Manager(network);
+		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
-		
 		network.addGroup("items");
 		network.addGroup("users");
 		sharingManager = new SharingManager(manager, network, com,  5, 30);
@@ -67,7 +67,7 @@ public class Application {
 			e.printStackTrace();
 		}
 		com.addService(new ChatService());
-		com.addService(new TransmitAccountService());
+		com.addService(new UpdateUser(manager));
 	}
 	
 	/**
