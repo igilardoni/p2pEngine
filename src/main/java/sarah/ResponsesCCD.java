@@ -2,6 +2,9 @@ package sarah;
 import java.math.BigInteger;
 
 
+/*
+ * TODO NEED DESCRIPTION
+ */
 public class ResponsesCCD extends Responses {
 
 	public ResponsesCCD(Masks mask, BigInteger challenge, BigInteger response) {
@@ -20,7 +23,7 @@ public class ResponsesCCD extends Responses {
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 

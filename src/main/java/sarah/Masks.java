@@ -2,14 +2,15 @@ package sarah;
 
 import java.math.BigInteger;
 
-
+/*
+ * TODO NEED DESCRIPTION !
+ */
 public class Masks {
 
 	private BigInteger a;
 	private BigInteger aBis;
-	
-	public Masks (BigInteger a, BigInteger aBis)
-	{
+
+	public Masks (BigInteger a, BigInteger aBis) {
 		this.setA(a);
 		this.setaBis(aBis);
 	}

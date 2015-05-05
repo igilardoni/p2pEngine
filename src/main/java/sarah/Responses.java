@@ -5,19 +5,22 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
+/*
+ * TODO NEED DESCRIPTION
+ */
 public abstract class Responses {
-	
+
 	private Masks masks;
 	private BigInteger challenge;
 	private BigInteger response;
-	
+
 	public Responses(Masks mask, BigInteger challenge, BigInteger response)
 	{
 		this.setMasks(mask);
 		this.setChallenge(challenge);
 		this.setResponse(response);
 	}
-	
+
 	public Masks getMasks() {
 		return masks;
 	}
@@ -36,7 +39,7 @@ public abstract class Responses {
 	public void setChallenge(BigInteger challenge) {
 		this.challenge = challenge;
 	}
-	
+
 	public abstract Boolean Verifies(Keys Keys, ResEncrypt res);
-	
+
 }

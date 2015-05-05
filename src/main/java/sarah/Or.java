@@ -3,16 +3,18 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/*
+ * TODO NEED DESCRIPTION
+ */
 public class Or {
 
 	public Receiver receiver;
-	
+
 	public HashMap <Responses,Keys> rK  = new HashMap <Responses,Keys>();
 	public ArrayList <BigInteger> challenges = new ArrayList <BigInteger>(); 
 	private BigInteger a;
 	private byte[] M; 
-	
+
 	public Or (Receiver receiver, HashMap <Responses,Keys> rK, BigInteger a, byte[] M)
 	{
 		this.receiver = receiver;
@@ -20,7 +22,7 @@ public class Or {
 		this.setA(a);
 		this.setM(M);
 	}
-	
+
 	public Boolean Verifies(ResEncrypt resEncrypt, Responses ...responses)
 	{
 		for(Responses res : responses)
@@ -32,13 +34,13 @@ public class Or {
 				return false;
 			}
 		}
-		
+
 		if (!receiver.VerifiesChallenges(getM(), getA(), challenges))
 		{
 			System.out.println("probleme dans les challenges");
 		}
 		return true;
-		
+
 	}
 
 	public BigInteger getA() {

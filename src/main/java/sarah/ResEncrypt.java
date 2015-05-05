@@ -3,11 +3,14 @@ package sarah;
 
 import java.math.BigInteger;
 
+/*
+ * TODO NEED DESCRIPTION
+ */
 public class ResEncrypt {
 	private BigInteger u;
 	private BigInteger v;
 	private byte[] M;
-	
+
 	public ResEncrypt(BigInteger u, BigInteger v, byte[] M)
 	{
 		this.setU(u);
@@ -38,5 +41,5 @@ public class ResEncrypt {
 	public void setM(byte[] m) {
 		M = m;
 	}
-	
+
 }
