@@ -9,6 +9,12 @@ import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 
+/**
+ * Search for advertisement on network.
+ * @author Julien Prudhomme
+ *
+ * @param <T> the type of advertisement, that extend Abstract
+ */
 public class RemoteSearch<T extends Advertisable> implements DiscoveryListener {
 	
 	private DiscoveryService discovery;
@@ -25,13 +31,21 @@ public class RemoteSearch<T extends Advertisable> implements DiscoveryListener {
 		this.discovery = discovery;
 		this.attribute = attribute;
 	}
+	
 
-	public void search(String value) {
+	/**
+	 * Search advertisments on network, according to attribute and value.
+	 * Wait waitTime before the function end.
+	 * @param value
+	 * @param waitTime
+	 */
+	public void search(String value, long waitTime) {
 		
 		results = new ArrayList<T>(); // on recreer / vide la liste
 		
 		//on ajoute les étoiles pour pas rechercher au mot près ..
-		discovery.getRemoteAdvertisements(null, DiscoveryService.ADV, attribute,"*" + value + "*",10, this);
+		discovery.getRemoteAdvertisements(null, DiscoveryService.ADV, attribute,"*" + value + "*",100, this);
+		Thread.sleep(waitTime);
 	}
 	
 	public void addListener(SearchListener l) {

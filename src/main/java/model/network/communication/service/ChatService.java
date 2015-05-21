@@ -10,6 +10,7 @@ import net.jxta.peer.PeerID;
  * @author Julien Prudhomme
  *
  */
+
 public class ChatService extends Service<model.network.communication.Message>{
 
 	@Override
