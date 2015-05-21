@@ -49,14 +49,14 @@ public class ItemTest {
 		
 		item = new Item(owner, friendlyNick, title, category, description, image, country, contact, 0, lifeTime, type);
 		item.setDate(100000);
-		assertFalse(item.isAlive());
+		assertFalse(item.isAlive(System.currentTimeMillis()));
 		
 		item.setDate(0);
 		item.setLifeTime(100000);
-		assertTrue(item.isAlive());
+		assertTrue(item.isAlive(System.currentTimeMillis()));
 		
 		item.setLifeTime(0);
-		assertTrue(item.isAlive());
+		assertTrue(item.isAlive(System.currentTimeMillis()));
 	}
 
 }

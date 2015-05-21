@@ -1,4 +1,4 @@
-package model.network.communication;
+package model.user;
 
 import java.math.BigInteger;
 

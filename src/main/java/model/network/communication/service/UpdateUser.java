@@ -9,10 +9,10 @@ import model.item.Item.TYPE;
 import model.manager.Manager;
 import model.network.Network;
 import model.network.communication.Communication;
-import model.network.communication.Message;
 import model.network.search.Search;
 import model.network.search.Search.Result;
 import model.user.Conversations;
+import model.user.Message;
 import model.user.User;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.peer.PeerID;
@@ -124,7 +124,6 @@ public class UpdateUser extends Service<String> {
 		try {
 			c = new Communication(n);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

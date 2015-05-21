@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import util.VARIABLE;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -48,7 +49,7 @@ public class Application {
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
 		network.addGroup("users");
-		sharingManager = new SharingManager(manager, network, com,  5, 30);
+		sharingManager = new SharingManager(manager, network, com,  VARIABLE.ReplicationsAccount, VARIABLE.CheckTimeAccount);
 		sharingManager.startSharing();
 		
 		if(startLocalServer)
@@ -72,6 +73,7 @@ public class Application {
 	
 	/**
 	 * Start the network and keep instance reference.
+	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
 		network = new Network(9708, ".peerFolder3", "peer name3");
@@ -169,7 +171,6 @@ public class Application {
 		/*try {
 			Thread.sleep(20000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Application.getInstance().close(); */

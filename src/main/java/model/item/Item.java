@@ -4,6 +4,7 @@ import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
+import util.VARIABLE;
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
 import model.user.User;
@@ -306,15 +307,29 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		return this;
 	}
 	
-
 	/**
-	 * If the lifetime is exceeded return false, true else
+	 * If the lifetime is exceeded return false, true else 
 	 * @return
 	 */
-	public boolean isAlive(){
+	public boolean isActive(){
 		if(lifeTime == 0)
 			return true;
 		if((date + lifeTime)>System.currentTimeMillis())
+			return true;
+		return false;
+	}
+	
+	/**
+	 * If the lifetime is exceeded or the ownerLastConnection is older than LifeTimeAfterDisconnected return false, true else
+	 * @param ownerLastConnection
+	 * @return
+	 */
+	public boolean isAlive(long ownerLastConnection){
+		if(lifeTime == 0 &&
+				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
+			return true;
+		if((date + lifeTime)>System.currentTimeMillis() &&
+				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
 			return true;
 		return false;
 	}

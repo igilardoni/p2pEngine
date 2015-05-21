@@ -65,6 +65,7 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		AsymmetricCipherKeyPair cipher1 = KeyPair.generateKeyPair();
 		publicKey = ((ElGamalPublicKeyParameters) cipher1.getPublic()).getY();
 		privateKey = ((ElGamalPrivateKeyParameters)cipher1.getPrivate()).getX();
+		wellGenerated = true;
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,9 +246,11 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		this.g = g;
 	}
 	
-
 	@Override
 	public boolean generate() {
+		ElGamalParameters params;
+		params = GeneratePG();
+		GenerateKeys(params);
 		return wellGenerated;
 	}
 	

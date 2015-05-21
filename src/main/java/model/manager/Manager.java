@@ -7,12 +7,11 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
-import model.item.Category;
 import model.item.Item;
 import model.network.NetworkInterface;
-import model.network.communication.Message;
 import model.network.communication.service.ServiceListener;
 import model.user.Conversations;
+import model.user.Message;
 import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
@@ -314,12 +313,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			if(i.getOwner().equals(userKey))
 				return false;
 		}
-		users.remove(userKey);
 		for (Message m : messages) {
 			if(m.getOwner().equals(userKey))
 				return false;
 		}
-		return true;
+		return users.remove(userKey)!=null;
 	}
 	
 	/**
@@ -359,7 +357,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void cleanItems(){
 		for(int i = 0; i <items.size();i++){
-			if(!items.get(i).isAlive())
+			if(!items.get(i).isAlive(whoHas(items.get(i)).getLastUpdated()
+					))
 				removeItem(items.get(i));
 		}
 	}
@@ -580,6 +579,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
+		/*
 		Manager manager = new Manager(null);
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
 		user1.sign(user1.getKeys());
@@ -600,6 +600,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(manager2.toString().equals(manager.toString())) {
 			System.out.println("ok !");
 		}
+		*/
+		long date = System.currentTimeMillis();
+		System.out.println(date);
 	}
 	
 	

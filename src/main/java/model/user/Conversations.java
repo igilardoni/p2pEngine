@@ -10,7 +10,6 @@ import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.Serpent;
 import model.advertisement.AbstractAdvertisement;
-import model.network.communication.Message;
 
 /**
  * Conversation of an user.
@@ -20,7 +19,6 @@ import model.network.communication.Message;
  *
  */
 public class Conversations extends AbstractAdvertisement{
-	// TODO How add messages when user entrusts his account to someone ? (signature and encryption)
 	/*
 	 * String: to (the messages between the user and to)
 	 * ArrayList<Message> list of the messages (sent to "to" and reveived from "to")
