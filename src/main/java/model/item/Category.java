@@ -81,7 +81,7 @@ public class Category {
 	 * @return
 	 */
 	public String getStringChoice() {
-		return choice.toString();
+		return choice.name();
 	}
 	
 	/**
@@ -91,16 +91,4 @@ public class Category {
 	public void setChoice(CATEGORY choice) {
 		this.choice = choice;
 	}
-	
-	public static void main(String[] args){
-		Category test = new Category(Category.CATEGORY.Baby);
-		System.out.println("test 1 : "+test.getChoice());
-		
-		test = new Category(Category.CATEGORY.Books);
-		System.out.println("test 2 : "+test.getChoice());
-
-		test = new Category(Category.CATEGORY.NC);
-		System.out.println("test 3 : "+test.getChoice());
-	}
-	
 }

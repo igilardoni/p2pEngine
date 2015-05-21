@@ -235,14 +235,25 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addMessage(new Message(m));
 		}
 	}
-	
+
+	/**
+	 * Load all the messages in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	private void loadReceivedMessages(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element m: root.getChildren()) {
+			addConversations(new Conversations(m));
+		}
+	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
-		case "users": 		loadUsers(e); break;
-		case "items": 		loadItems(e); break;
-		case "messages": 	loadMessages(e); break;
+		case "users": 				loadUsers(e); break;
+		case "items": 				loadItems(e); break;
+		case "messages": 			loadMessages(e); break;
+		case "ReceivedMessages":	loadReceivedMessages(e); break;
 		default: return false;
 		}
 		return true;
@@ -539,13 +550,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return currentUser != null;
 	}
 	
-	
-	
 	public void logout() {
 		currentUser.setClearPassword(null);
 		currentUser = null;
 	}
-	
 	
 	private void publishUsers() {
 		DiscoveryService discovery = network.getGroup("users").getDiscoveryService();
