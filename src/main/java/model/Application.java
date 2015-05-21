@@ -68,6 +68,7 @@ public class Application {
 			e.printStackTrace();
 		}
 		com.addService(new ChatService());
+		com.addService(new TransmitAccountService()); // TODO FIXED ERROR BUT NOT NEEDED, RIGHT ?
 		com.addService(new UpdateUser(manager));
 	}
 	
