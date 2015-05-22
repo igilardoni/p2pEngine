@@ -355,7 +355,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		}
 	}
 
-	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	@Override
 	public int compareTo(User u) {
@@ -391,6 +391,19 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		return true;
 	}
 	
+	@Override
+	public User clone(){
+		User u = new User();
+		u.setName(this.getName());
+		u.setDate(this.getDate());
+		u.setEmail(this.getEmail());
+		u.setFirstName(this.getFirstName());
+		u.setKey(this.getKeys());
+		u.setNick(this.getNick());
+		u.setPhone(this.getPhone());
+		u.setHashPwd(this.getHashPwd());
+		return u;
+	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -401,7 +414,8 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		user.encryptPrivateKey("password");
 		
 		user.sign(keys);
-		System.out.println(user.checkSignature(keys));
+		System.out.println("Signature : "+user.checkSignature(user.getKeys()));
 		user.decryptPrivateKey("password");
+		System.out.println("Decryption : "+keys.equals(user.getKeys()));
 	}
 }

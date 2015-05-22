@@ -280,4 +280,20 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		newKey.setPublicKey(this.getPublicKey());
 		return newKey;
 	}
+	
+	@Override
+	public boolean equals(Object k){
+		if(!(k instanceof AsymKeysImpl))
+				return false;
+		AsymKeysImpl key = (AsymKeysImpl)k;
+		if(key.getP().compareTo(this.getP())!=0)
+			return false;
+		if(key.getG().compareTo(this.getG())!=0)
+			return false;
+		if(key.getPrivateKey().compareTo(this.getPrivateKey())!=0)
+			return false;
+		if(key.getPublicKey().compareTo(this.getPublicKey())!=0)
+			return false;
+		return true;
+	}
 }
