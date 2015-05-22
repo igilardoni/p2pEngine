@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -20,7 +21,7 @@ import net.jxta.discovery.DiscoveryService;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import util.VARIABLE;
+import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.network.Network;
 
@@ -570,7 +571,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			u = this.getNamed(nickname);
 		// Search on network
 		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "nick", true);
-		search.search(nickname, VARIABLE.CheckTimeAccount, VARIABLE.ReplicationsAccount);
+		search.search(nickname, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<User> results = search.getResults();
 		if(results.isEmpty() && u==null){
 			System.err.println("Account not found !");
@@ -592,7 +593,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			else
 				results.remove(user);
 		}
-		this.addUser(u);
+		if(this.getNamed(nickname) != null)
+			this.addUser(u);
 		// Check password
 		if(!u.isPassword(password))
 			return false;
@@ -622,7 +624,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	private void publishItems() {
-		// TODO
+		DiscoveryService discovery = network.getGroup("items").getDiscoveryService();
+		for(Item i: items) {
+			try {
+				discovery.flushAdvertisement(i);
+				discovery.publish(i); //"i have this item"
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void publishMessages() {
@@ -641,7 +651,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
-		Network network = new Network(123, VARIABLE.NetworkFolderName, VARIABLE.NetworkPeerName);
+		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");

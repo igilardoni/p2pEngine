@@ -1,6 +1,6 @@
 package util;
 
-public class VARIABLE {
+public class VARIABLES {
 	/* Items */
 	public static final long LifeTimeAfterDisconnected = 2592000000L;
 	public static final long TimeBeforeDeleteAfterLifeTime = 2678400L;

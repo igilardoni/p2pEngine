@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import util.VARIABLE;
-import net.jxta.discovery.DiscoveryEvent;
-import net.jxta.discovery.DiscoveryListener;
-import net.jxta.discovery.DiscoveryService;
 import model.advertisement.AdvertisementInstaciator;
 import model.manager.Manager;
 import model.manager.SharingManager;
@@ -16,7 +12,7 @@ import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
 import model.network.communication.service.TransmitAccountService;
 import model.network.communication.service.UpdateUser;
-import model.user.User;
+import util.VARIABLES;
 
 /**
  * The main class of the software. This class can be instancied only once. (singleton)
@@ -49,7 +45,7 @@ public class Application {
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
 		network.addGroup("users");
-		sharingManager = new SharingManager(manager, network, com,  VARIABLE.ReplicationsAccount, VARIABLE.CheckTimeAccount);
+		sharingManager = new SharingManager(manager, network, com,  VARIABLES.ReplicationsAccount, VARIABLES.CheckTimeAccount);
 		sharingManager.startSharing();
 		
 		if(startLocalServer)

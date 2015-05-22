@@ -4,7 +4,7 @@ import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
-import util.VARIABLE;
+import util.VARIABLES;
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
 import model.user.User;
@@ -326,10 +326,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	public boolean isAlive(long ownerLastConnection){
 		if(lifeTime == 0 &&
-				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
+				ownerLastConnection + VARIABLES.LifeTimeAfterDisconnected > System.currentTimeMillis())
 			return true;
 		if((date + lifeTime)>System.currentTimeMillis() &&
-				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
+				ownerLastConnection + VARIABLES.LifeTimeAfterDisconnected > System.currentTimeMillis())
 			return true;
 		return false;
 	}

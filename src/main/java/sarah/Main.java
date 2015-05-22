@@ -1,4 +1,5 @@
-																																												package sarah;
+package sarah;
+
 import java.math.BigInteger;
 import java.util.HashMap;
 
