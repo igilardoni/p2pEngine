@@ -51,7 +51,6 @@ public class EchoServer {
      */
     @OnMessage
     public void onMessage(String message, Session session){
-    	System.out.println(message+" : heey heeeeey");
     	String[] contents = message.split(":");
     	switch (contents[0]) {
 		case "/index":
@@ -85,7 +84,6 @@ public class EchoServer {
 			
 		case "/search":
 			try {
-				System.out.println("RECHEEEEEEERCH");
 				session.getBasicRemote().sendText("Search.html");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -99,18 +97,35 @@ public class EchoServer {
 			 
 		case "/new_objet_add" :
 			User owner = Application.getInstance().getManager().getCurrentUser();
-			
-			Category category = new Category("");
-			
-			Item item = new Item(owner, contents[1], category, contents[6], contents[3], "country","contact", 0, 0, TYPE.WISH);
+			Category category = new Category(contents[2]);
+			Item item = new Item(owner, contents[1], category, contents[3], contents[5], contents[6],contents[7], 0, 0, TYPE.WISH);
 			item.sign(owner.getKeys());
 			
 			Application.getInstance().getManager().addItem(item);
-			Manager a = Application.getInstance().getManager();
-			ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
-
+			//Manager a = Application.getInstance().getManager();
+			//ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
 			break;
-	
+			
+		case "/new_objet_update" :
+			System.out.println(" title "+contents[1]+" categorie "+contents[2]+" description "+contents[3]+" image_objet "+contents[4]+" country "
+					+contents[5]+" contact "+contents[6]+" life_time "+contents[7]+" type_update "+contents[8]+" date_objet "+contents[9]);
+			
+			User owner_u = Application.getInstance().getManager().getCurrentUser();
+			Category category_u = new Category(contents[2]);
+			Item item_u = new Item(owner_u, contents[1], category_u, contents[3], contents[4], contents[5],contents[6], Long.parseLong(contents[9]), 0, TYPE.WISH);
+			item_u.sign(owner_u.getKeys());
+			
+			Application.getInstance().getManager().addItem(item_u);
+			//Manager a = Application.getInstance().getManager();
+			//ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
+			try {
+				session.getBasicRemote().sendText("update_objet:");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			break;
 		case "/newindex":
 			try {
 				session.getBasicRemote().sendText("index.html");
@@ -138,7 +153,6 @@ public class EchoServer {
 			
 			
 		case "/load_use":
-			System.out.println("JE SUIS ICI UN NEW LOAD");
 			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			try {
     			session.getBasicRemote().sendText("load_user:"+nick);
@@ -166,12 +180,16 @@ public class EchoServer {
 			break;
 			
 		case "/zoom_item":
-			Manager zoom_item = Application.getInstance().getManager();
-			Item item_search = zoom_item.getItemCurrentUser(contents[1]);
+			
+			Manager manager1 = Application.getInstance().getManager();
+			Item item_search = manager1.getItemCurrentUser(contents[1]);
+			
+		
 			try {
 				session.getBasicRemote().sendText("zoom_item_result:"+
-						item_search.getTitle()+":"+item_search.getCategory()+":"+
-						item_search.getCountry());
+						item_search.getTitle()+":"+item_search.getCategory().getStringChoice()+":"+
+						item_search.getCountry()+":"+item_search.getLifeTime()+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
+						+":"+item_search.getDate()+":"+item_search.getContact());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -181,10 +199,18 @@ public class EchoServer {
 			
 			
 		case "/remove_item":
-			Manager remove_item = Application.getInstance().getManager();
-			Item item_remove = remove_item.getItemCurrentUser(contents[1]);
-			remove_item.removeItem(item_remove);
+			System.out.println("JE SUIS DANS REMOVE");
+			Item item_remove = Application.getInstance().getManager().getItemCurrentUser(contents[1]);
+			Application.getInstance().getManager().removeItem(item_remove);
 			
+		
+			Manager manager2 = Application.getInstance().getManager();
+			ArrayList<Item> it2 = manager2.getUserItems(manager2.getCurrentUser().getKeys().getPublicKey().toString(16));
+		
+			System.out.println("IL RESTE RENCORE "+it2.size());
+			
+			
+			break;
 			
 		default:
 			break;
@@ -224,7 +250,15 @@ public class EchoServer {
     public void add_new_user(String nick,String password, String name, String firstName, String email, String phone){
     	User user = new User(nick, password, name, firstName, email, phone);
     	user.sign(user.getKeys());
+    	//user.encryptPrivateKey(password);
     	Application.getInstance().getManager().addUser(user);
+    	
+    	
+    	/*User user = new User(nick, password, name, firstName, email, phone);
+    	AsymKeysImpl keys = user.getKeys();
+    	user.encryptPrivateKey(password);
+    	user.sign(keys);
+    	Application.getInstance().getManager().addUser(user);*/
    }
     
     

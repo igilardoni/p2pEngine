@@ -5,10 +5,7 @@
 	
 	<meta charset="utf-8">
 	<title>Acceuil</title>
-	<meta name="description" content="Bootstrap Metro Dashboard">
-	<meta name="author" content="Dennis Ji">
-	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link id="bootstrap-style" href="./VIEW/index/css/bootstrap.min.css" rel="stylesheet">
@@ -122,7 +119,7 @@
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon edit"></i><span class="break"></span>Form Elements</h2>
+						<h2><i class="halflings-icon edit"></i><span class="break" id="pourteste"></span>Form Elements</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
@@ -130,19 +127,20 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal">
+						<div class="form-horizontal">
 							<fieldset>
+								<div class="im_progile"><img id="image_object_u" alt="" src="sxpLogo.png"></div>
 							   <div class="control-group warning">
-								<label class="control-label" for="inputWarning">Title</label>
+								<label class="control-label" for="inputWarning" id="update_title_err">Title</label>
 								<div class="controls">
-								  <input type="text" id="inputWarning">
+								  <input type="text" id="title_update_for" name="title_update_for" disabled>
 								  <span class="help-inline" id="ex_title"></span>
 								</div>
 							  </div>
 							  <div class="control-group">
-								<label class="control-label" for="selectError2" id="Category_label">Category</label>
+								<label class="control-label" for="selectError2" id="Category_update">Category</label>
 								<div class="controls">
-									<select data-placeholder="Your Favorite Football Team" id="Category" name="Category" data-rel="chosen">
+									<select id="Category_update_select" data-placeholder="Your Favorite Football Team"  name="Category" data-rel="chosen">
 										<option value=""></option>
 										<optgroup label="VEHICULE">
 										  <option>voitures</option>
@@ -186,10 +184,10 @@
 								  </select>
 								</div>
 							  </div>
-							  <div class="control-group">
-								<label class="control-label" for="selectError" id="Country_label">Country</label>
+							  <div class="control-group" >
+								<label class="control-label" for="selectError" id="Country_update">Country</label>
 								<div class="controls">
-								  <select id="Country" name="Country" data-rel="chosen">
+								  <select  id="Country_update_af" name="Country" data-rel="chosen">
 									<option>France</option>
 									<option>Belgique</option>
 									<option>Pays-bas</option>
@@ -201,30 +199,31 @@
 							  <div class="control-group">
 							  <label class="control-label" for="date01" id="Life_time_label">Life time</label>
 							  <div class="controls">
-								<input type="text" class="input-xlarge datepicker" id="Life_time" name="Life_time" value="02/16/12">
+								<input type="text" class="input-xlarge datepicker" id="Life_time_update" name="Life_time" disabled>
 							  </div>
 							</div>
 							 <div class="control-group">
-								<label class="control-label" for="selectError" id="type_label">Type</label>
+								<label class="control-label" for="selectError" id="type_label_update">Type</label>
 								<div class="controls">
-								  <select id="Type" name="Type" data-rel="chosen">
+								  <select id="Type_update" name="Type" data-rel="chosen">
 									<option>Wish</option>
 									<option>Proposal</option>
 								  </select>
 								</div>
 							  </div>
-							  <div class="control-group"  id="picture_t1">
-							  <label class="control-label" for="fileInput" id="picture_label">Picture</label>
+							  
+							  
+							<div class="control-group">
+							  <label class="control-label" for="typeahead" id="Contact_labe_ul" >Contact</label>
 							  <div class="controls">
-								<input class="input-file uniform_on" id="Picture" name="Picture" type="file">
+								<input type="text" class="span6 typeahead" id="Contact_item_upd" name="Contact">		
 							  </div>
 							</div>
-							
 							
 							<div class="control-group hidden-phone" id="picture_t3">
 							  <label class="control-label" for="textarea2" id="description_label">Description</label>
 							  <div class="controls">
-								<textarea class="cleditor" id="Description" name="Description" rows="3"></textarea>
+								<textarea  id="update_desc" name="Description" rows="3" disabled></textarea>
 							  </div>
 							</div>
 							
@@ -233,12 +232,12 @@
 							
 							  
 							 
-							  <div class="form-actions">
-								<button type="submit" class="btn btn-primary">Save changes</button>
+							  <div class="form-actions" id ="gestion_but_aft" style="visibility:hidden">
+								<button type="submit" class="btn btn-primary" onclick="to_update();">Save changes</button>
 								<button class="btn">Cancel</button>
 							  </div>
 							</fieldset>
-						  </form>
+						  </div>
 					
 					</div>
 				</div><!--/span-->
@@ -272,8 +271,7 @@
 	<footer>
 
 		<p>
-			<span style="text-align:left;float:left">&copy; 2013 <a href="http://jiji262.github.io/Bootstrap_Metro_Dashboard/" alt="Bootstrap_Metro_Dashboard">Bootstrap Metro Dashboard</a></span>
-			
+				
 		</p>
 
 	</footer>
