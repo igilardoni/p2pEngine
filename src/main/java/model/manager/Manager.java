@@ -592,7 +592,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			else
 				results.remove(user);
 		}
-		this.addUser(u.clone());
+		this.addUser(u);
 		// Check password
 		if(!u.isPassword(password))
 			return false;
