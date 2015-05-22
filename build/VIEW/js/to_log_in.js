@@ -1,6 +1,7 @@
              
             var webSocket;
-           
+           var date_objet;
+           var image_objet;
             
             function openSocket(){
                 // Ensures only one connection is open at a time
@@ -119,7 +120,7 @@
                 		
                 		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		
-                		alert(Title+":"+Category+":"+Description+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
+                		//alert(Title+":"+Category+":"+Description+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
 
                 	}
@@ -193,6 +194,66 @@
             		webSocket.send("/register:"+nick+":"+passwordsignup+":"+name+":"+firstName+":"+email+":"+phone);
             	}
             
+            }
+            
+            
+            function to_update(){
+            	
+            	var title = document.getElementById("title_update_for").value;
+              	var categorie = document.getElementById("Category_update_select").value;
+              	var country = document.getElementById("Country_update_af").value;
+              	var life_time = document.getElementById("Life_time_update").value;
+              	var type_update = document.getElementById("Type_update").value;
+              	var description = document.getElementById("update_desc").value;
+              	var contact = document.getElementById("Contact_item_upd").value;
+              	
+              	if(title  == ""){
+              		document.getElementById("update_title_err").style.color = "#ff0000";
+              	}else if(categorie  == ""){
+              		document.getElementById("Category_update").style.color = "#ff0000";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              	}else if(country  == ""){
+              		document.getElementById("Country_update").style.color = "#ff0000";
+              		document.getElementById("Category_update").style.color = "#2E1C08";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              		
+              	}else if(life_time  == ""){
+              		document.getElementById("Life_time_label").style.color = "#ff0000";
+              		document.getElementById("Country_update").style.color = "#2E1C08";
+              		document.getElementById("Category_update").style.color = "#2E1C08";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              		
+              	}else if(type_update  == ""){
+              		document.getElementById("type_label_update").style.color = "#ff0000";
+              		document.getElementById("Life_time_label").style.color = "#2E1C08";
+              		document.getElementById("Country_update").style.color = "#2E1C08";
+              		document.getElementById("Category_update").style.color = "#2E1C08";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              	}else if(description  == ""){
+              		document.getElementById("description_label").style.color = "#ff0000";         		
+              		document.getElementById("type_label_update").style.color = "#2E1C08";
+              		document.getElementById("Life_time_label").style.color = "#2E1C08";
+              		document.getElementById("Country_update").style.color = "#2E1C08";
+              		document.getElementById("Category_update").style.color = "#2E1C08";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              	}else if(contact  == ""){
+              		document.getElementById("Contact_labe_ul").style.color = "#ff0000";  
+              		document.getElementById("description_label").style.color = "#2E1C08"; 
+              		document.getElementById("type_label_update").style.color = "#2E1C08";
+              		document.getElementById("Life_time_label").style.color = "#2E1C08";
+              		document.getElementById("Country_update").style.color = "#2E1C08";
+              		document.getElementById("Category_update").style.color = "#2E1C08";
+              		document.getElementById("update_title_err").style.color = "#2E1C08";
+              	}
+              	
+              	else{
+              		
+              		alert("bonjour");
+              		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
+            		
+              		
+              	}
+              
             }
             
             
@@ -281,15 +342,44 @@
             
             function zoom(text){
             	
-           alert(text);
+            
             	webSocket.send("/zoom_item:"+text);
             }
             
             
+            function update(){
+
+        		document.getElementById("gestion_but_aft").style.visibility="visible";
+            	document.getElementById('Life_time_update').disabled=false;      		
+        		document.getElementById("title_update_for").disabled=false;
+        		document.getElementById("update_desc").disabled=false;
+        		document.getElementById("Picture_update").disabled=false;
+            }
+            
+            
+            
+            
+            
             function remo(text,r){
-            	//alert(r);
-            	document.getElementById("data_it").deleteRow(r);
             	webSocket.send("/remove_item:"+text);
+            	
+            	document.getElementById("data_it").deleteRow(r);
+            	document.getElementById("title_update_for").value = "";
+        		document.getElementById("Life_time_update").value = "";
+        		document.getElementById("update_desc").innerHTML = "";
+        		document.getElementById("image_object_u").src = "sxpLogo.png";
+        		
+        		
+        		document.getElementById('Life_time_update').disabled=true;
+        		
+        		document.getElementById("title_update_for").disabled=true;
+        		document.getElementById("update_desc").disabled=true;
+        		document.getElementById("Picture_update").disabled=true;
+        		document.getElementById("gestion_but_after").style.visibility="hidden";
+        		
+        		
+            	
+            	
             }
             
              
@@ -346,7 +436,7 @@
             		
             		
             		var colonne5 = ligne.insertCell(4);
-            		colonne5.innerHTML += '<a class=\'btn btn-info\'  onclick=\'zoom("'+text_tab[1]+'");\'><i class=\'halflings-icon white edit\'></i></a>';
+            		colonne5.innerHTML += '<a class=\'btn btn-info\'  onclick=\'update("'+text_tab[1]+'");\'><i class=\'halflings-icon white edit\'></i></a>';
             		
             		
             		var colonne6 = ligne.insertCell(5);
@@ -354,8 +444,22 @@
 
 
             	}if(text_tab[0] == "zoom_item_result"){
+            
+            		document.getElementById("title_update_for").value = text_tab[1];
+            		document.getElementById("Life_time_update").value = text_tab[4];
+            		document.getElementById("update_desc").innerHTML = text_tab[6];
+            		document.getElementById("image_object_u").src = "data:"+text_tab[7];
+            		document.getElementById("Contact_item_upd").value= text_tab[9];
+            		date_objet = text_tab[8];
+            		image_objet = text_tab[7];
+            	}if(text_tab[0] == "update_objet"){
+            		document.getElementById("pourteste").innerHTML = "objet modifier";
+            		var element = document.getElementById("data_it");
+            		while (element.firstChild) {
+            		  element.removeChild(element.firstChild);
+            		}
             		
-            		document.getElementById("ex_title").innerHTML = text_tab[3];
+            		load_item();
             	}
             	
             	
