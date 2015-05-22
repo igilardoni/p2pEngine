@@ -270,4 +270,14 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		else
 			return false;
 	}
+	
+	@Override
+	public AsymKeysImpl clone(){
+		AsymKeysImpl newKey = new AsymKeysImpl();
+		newKey.setP(this.getP());
+		newKey.setG(this.getG());
+		newKey.setPrivateKey(this.getPrivateKey());
+		newKey.setPublicKey(this.getPublicKey());
+		return newKey;
+	}
 }

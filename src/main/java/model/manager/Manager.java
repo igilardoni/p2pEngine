@@ -18,6 +18,9 @@ import net.jxta.discovery.DiscoveryService;
 import org.jdom2.Element;
 
 import util.StringToElement;
+import util.VARIABLE;
+import util.secure.AsymKeysImpl;
+import model.network.Network;
 
 /**
  * Local manager for Users, items and messages.
@@ -541,6 +544,21 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public boolean registration(User user){
+		if(user == null)
+			return false;
+		AsymKeysImpl originalKey = user.getKeys().clone();
+		user.encryptPrivateKey(user.getClearPwd());
+		user.sign(originalKey);
+		this.addUser(user);
+		return this.login(user.getNick(), user.getClearPwd());
+	}
+	
+	/**
 	 * Retrieve the corresponding user according to nickname and password.
 	 * @param nickname
 	 * @param password
@@ -601,6 +619,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
+		Network network = new Network(123, VARIABLE.NetworkFolderName, VARIABLE.NetworkPeerName);
+		Manager manager = new Manager(network);
+		
+		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
 		/*
 		Manager manager = new Manager(null);
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
@@ -623,8 +645,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			System.out.println("ok !");
 		}
 		*/
-		long date = System.currentTimeMillis();
-		System.out.println(date);
 	}
 	
 	
