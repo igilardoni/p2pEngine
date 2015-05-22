@@ -10,7 +10,7 @@ public class VARIABLES {
 	
 	/* SharingManager */
 	public final static int ReplicationsAccount = 5;
-	public final static int CheckTimeAccount = 30;
+	public final static int CheckTimeAccount = 3000;
 	
 	/* Network */
 	public final static String NetworkFolderName = ".peerFolder";

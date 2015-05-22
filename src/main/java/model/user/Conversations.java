@@ -139,5 +139,13 @@ public class Conversations extends AbstractAdvertisement{
 		}
 		return false;
 	}
-
+	
+	public void addMessage(Message message, AsymKeysImpl key){
+		if(message == null)
+			return;
+		String sender = message.getSender(key).getPublicKey().toString(16);
+		if(messages.containsKey(sender))
+			messages.put(sender, new ArrayList<Message>());
+		messages.get(sender).add(message);
+	}
 }

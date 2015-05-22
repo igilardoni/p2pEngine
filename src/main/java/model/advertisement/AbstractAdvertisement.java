@@ -66,6 +66,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		return this.lastUpdated;
 	}
 	
+	/* FOR TESTS
+	public void setLastUpdated(){
+		this.lastUpdated = System.currentTimeMillis();
+	}
+	*/
+	
 	/**
 	 * Instantiate an empty Advertisement, just setting the appropriate keys.
 	 */

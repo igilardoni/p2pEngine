@@ -420,12 +420,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		}
 	}
 	
+	/**
+	 * Give the good class to the constructor
+	 */
 	public static void register() {
 		Item i = new Item();
 		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
                 										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
-	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	/**
 	 * @return boolean 0 if both are identical, 1 else

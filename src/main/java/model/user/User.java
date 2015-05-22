@@ -417,5 +417,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		System.out.println("Signature : "+user.checkSignature(user.getKeys()));
 		user.decryptPrivateKey("password");
 		System.out.println("Decryption : "+keys.equals(user.getKeys()));
+		
+		System.out.println(">>>Test with different LastUpdate : ");
+		//user.setLastUpdated();
+		//System.out.println("Signature : "+user.checkSignature(user.getKeys()));
 	}
 }
