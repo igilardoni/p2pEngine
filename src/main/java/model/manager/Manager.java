@@ -548,14 +548,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param user
 	 * @return
 	 */
-	public boolean registration(User user){
+	public void registration(User user){
 		if(user == null)
-			return false;
+			return;
 		AsymKeysImpl originalKey = user.getKeys().clone();
 		user.encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);
-		return this.login(user.getNick(), user.getClearPwd());
 	}
 	
 	/**
