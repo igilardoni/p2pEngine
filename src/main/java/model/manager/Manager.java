@@ -5,11 +5,13 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import model.advertisement.AbstractAdvertisement;
 import model.item.Item;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
+import model.network.search.Search;
 import model.user.Conversations;
 import model.user.Message;
 import model.user.User;
@@ -566,18 +568,39 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		User u = null;
 		if(users.size()>0)
 			u = this.getNamed(nickname);
-		if(u == null){
-			// TODO get user on network or local and login.
+		// Search on network
+		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "nick", true);
+		search.search(nickname, VARIABLE.CheckTimeAccount, VARIABLE.ReplicationsAccount);
+		ArrayList<User> results = search.getResults();
+		if(results.isEmpty() && u==null){
+			System.err.println("Account not found !");
+			return false;
 		}
+		long maxUpdate = 0;
+		if(u != null)
+			maxUpdate = u.getLastUpdated();
+		for (User user : results) {
+			if(user.checkSignature(user.getKeys())){
+				results.remove(user);
+				continue;
+			}
+			maxUpdate = user.getLastUpdated() > maxUpdate ? user.getLastUpdated() : maxUpdate;
+		}
+		for(User user : results){
+			if(user.getLastUpdated() == maxUpdate)
+				u = user;
+			else
+				results.remove(user);
+		}
+		this.addUser(u.clone());
 		// Check password
 		if(!u.isPassword(password))
 			return false;
 		// Check privateKey decryption
-		// TODO Not sure if decrypt the private Key now
 		if(!u.decryptPrivateKey(password))
 			return false;
 		currentUser = u;
-		currentUser.setPassWord(password);
+		currentUser.setClearPassword(password);
 		return currentUser != null;
 	}
 	
