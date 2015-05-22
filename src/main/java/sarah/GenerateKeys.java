@@ -21,21 +21,21 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
  */
 public class GenerateKeys {
 	static SecureRandom  random = new SecureRandom();
-
+	
 	private static BigInteger ONE = BigInteger.ONE;
 	private static BigInteger TWO = new BigInteger("2");
 	private BigInteger p = new BigInteger ("124233341635855292420681698148845681014844866056212176632655173602444135581779341928584451946831820357622587249219477577145009300106828967466602146104562163160400103396735672041344557638270362523343149686623705761738910044071399582025053147811261321814632661084042311141045136246602979886564584763268994320823");
 	private boolean pGenerated = false;
 	private BigInteger g = new BigInteger ("57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171");
-
+	
 	private boolean wellGenerated = false;
 	private BigInteger q = null;
 	private BigInteger privateKey = null;
 	private BigInteger publicKey = null;
-
+	
 	private static int pLength = 1024;
 	private static int keyLength = 160;
-
+	
 	private AsymmetricKeyParameter privateKeyAs;
 	private AsymmetricKeyParameter publicKeyAs;
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,14 +52,14 @@ public class GenerateKeys {
 		ElGamalParametersGenerator apg;
 		apg = new ElGamalParametersGenerator();
 		apg.init(1024, 20, random);
-
+        
 		params = apg.generateParameters();
-		p = params.getP();
-		g = params.getG();
-		pGenerated = true;
-		return params;
+        p = params.getP();
+        g = params.getG();
+        pGenerated = true;
+        return params;
 	}
-
+	
 	/**
 	 * This method is used to generate Public Key and Private Key
 	 * @param params
@@ -74,7 +74,7 @@ public class GenerateKeys {
 		publicKey = ((ElGamalPublicKeyParameters) cipher1.getPublic()).getY();
 		privateKey = ((ElGamalPrivateKeyParameters)cipher1.getPrivate()).getX();
 	}
-
+	
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ public class GenerateKeys {
 		this.p = p;
 		this.g = g;
 	}
-
+	
 	/**
 	 * This constructor is used if Keys are already generated.
 	 */
@@ -105,13 +105,13 @@ public class GenerateKeys {
 		else
 			wellGenerated = true;
 	}
-
+	
 	/**
 	 * Empty Constructor.
 	 */
 	public GenerateKeys(){
 	}
-
+	
 	/**
 	 * This constructor is used for generate the public key and private key with possibility of generation p and q.
 	 * @param pgGenerated - true for generate p and q, false else.
@@ -126,7 +126,7 @@ public class GenerateKeys {
 		}
 		GenerateKeys(params);
 	}
-
+	
 	/**
 	 * Used to return the private key.
 	 * @return
@@ -134,7 +134,7 @@ public class GenerateKeys {
 	public BigInteger getPrivateKey(){
 		return privateKey;
 	}
-
+	
 	/**
 	 * Used to return the public key.
 	 * @return
@@ -142,7 +142,7 @@ public class GenerateKeys {
 	public BigInteger getPublicKey(){
 		return publicKey;
 	}
-
+	
 	/**
 	 * Used to return the p (of the public key).
 	 * @return
@@ -150,7 +150,7 @@ public class GenerateKeys {
 	public BigInteger getP(){
 		return p;
 	}
-
+	
 	/**
 	 * Used to return the q (of the public key).
 	 * @return
@@ -158,7 +158,7 @@ public class GenerateKeys {
 	public BigInteger getG(){
 		return g;
 	}
-
+	
 	/**
 	 * @param publicKey
 	 */
@@ -183,12 +183,12 @@ public class GenerateKeys {
 	public void setG(BigInteger g){
 		this.g = g;
 	}
-
+	
 
 	public boolean generate() {
 		return wellGenerated;
 	}
-
+	
 	/**
 	 * Used to verify if publicKey, privateKey, p and g are compatible ! 
 	 * @return true if keys are compatible, false else.

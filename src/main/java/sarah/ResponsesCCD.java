@@ -1,18 +1,29 @@
 package sarah;
 import java.math.BigInteger;
 
-
-/*
- * TODO NEED DESCRIPTION
+/**
+ * The CCD response
+ * @author sarah
+ *
  */
 public class ResponsesCCD extends Responses {
 
+	/**
+	 * Constructor
+	 * @param mask
+	 * @param challenge
+	 * @param response
+	 */
 	public ResponsesCCD(Masks mask, BigInteger challenge, BigInteger response) {
 		super(mask, challenge, response);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
+	/**
+	 * Extends Responses
+	 * Verify if the CCD response is good or not 
+	 */
 	public Boolean Verifies( Keys tKeys, ResEncrypt res) {
 		if (!tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())))
 		{
@@ -23,7 +34,7 @@ public class ResponsesCCD extends Responses {
 		{
 			return false;
 		}
-
+		
 		return true;
 	}
 
