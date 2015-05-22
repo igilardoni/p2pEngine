@@ -294,19 +294,33 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		elements = null;
     	elements  = StringToElement.getElementFromString(m.getUsersXML(), "users");
     	for (Element element : elements.getChildren()) {
-			this.addUser(new User(element));
+			User user = new User(element);
+			if(user.checkSignature(user.getKeys()))
+				this.addUser(user);
 		}
 		// Add all Items
 		elements = null;
 		elements  = StringToElement.getElementFromString(m.getItemsXML(), "items");
 		for (Element element : elements.getChildren()) {
-			this.addItem(new Item(element));
+			Item item = new Item(element);
+			if(item.checkSignature(this.getUser(item.getOwner()).getKeys()))
+				this.addItem(item);
 		}
 		// Add all Messages
 		elements = null;
-		elements  = StringToElement.getElementFromString(m.getItemsXML(), "messages");
+		elements  = StringToElement.getElementFromString(m.getMessagesXML(), "messages");
 		for (Element element : elements.getChildren()) {
-			this.addMessage(new Message(element));
+			Message message = new Message(element);
+			// PAS DE TEST POSSIBLE SI ON EST PAS LE PROPRIETAIRE DU MESSAGE !
+			this.addMessage(message);
+		}
+		// Add all Conversations
+		elements = null;
+		elements  = StringToElement.getElementFromString(m.getReceivedMessagesXML(), "ReceivedMessages");
+		for (Element element : elements.getChildren()) {
+			Conversations conversations = new Conversations(element);
+			// TODO TEST !
+			this.addConversations(conversations);
 		}
 	}
 	
