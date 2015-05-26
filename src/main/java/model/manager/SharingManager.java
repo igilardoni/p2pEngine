@@ -2,6 +2,7 @@ package model.manager;
 
 import java.util.ArrayList;
 
+import util.VARIABLES;
 import net.jxta.peer.PeerID;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
@@ -93,8 +94,8 @@ public class SharingManager {
 	private void checkUserResilience(String publicKey) {
 		try {
 			Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
-			// Wait 3 seconds or "replications" results
-			search.search(publicKey, 3000, this.replications);
+			// Wait "checkTime" seconds or "replications" results
+			search.search(publicKey, this.checkTime, this.replications);
 			ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
 			User user = manager.getUser(publicKey);
 			long maxDate = user.getLastUpdated();

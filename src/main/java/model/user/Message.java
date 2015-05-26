@@ -14,7 +14,7 @@ import util.secure.ElGamal;
  * that class represent a private message between 2 users.
  * The users are represented by their public keys.
  * @author Michael Dubuis
- *
+ * TODO HAVE TO CHANGE "TO" FROM BIGINTEGER TO ASYMKEYSIMPL
  */
 public class Message extends AbstractAdvertisement{
 	private BigInteger to;				// This is the public Key (using as login)

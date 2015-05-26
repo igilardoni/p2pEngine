@@ -2,15 +2,24 @@ package sarah;
 
 import java.math.BigInteger;
 
-/*
- * TODO NEED DESCRIPTION !
+/**
+ * Mask to send in the protocolSigma
+ * @author sarah
+ *
  */
+
 public class Masks {
 
 	private BigInteger a;
 	private BigInteger aBis;
-
-	public Masks (BigInteger a, BigInteger aBis) {
+	
+	/**
+	 * Constructor
+	 * @param a
+	 * @param aBis
+	 */
+	public Masks (BigInteger a, BigInteger aBis)
+	{
 		this.setA(a);
 		this.setaBis(aBis);
 	}

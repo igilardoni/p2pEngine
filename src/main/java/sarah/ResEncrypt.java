@@ -3,14 +3,22 @@ package sarah;
 
 import java.math.BigInteger;
 
-/*
- * TODO NEED DESCRIPTION
+/**
+ * It's the result of encryption 
+ * @author sarah
+ *
  */
 public class ResEncrypt {
 	private BigInteger u;
 	private BigInteger v;
 	private byte[] M;
-
+	
+	/**
+	 * Constructor
+	 * @param u
+	 * @param v
+	 * @param M
+	 */
 	public ResEncrypt(BigInteger u, BigInteger v, byte[] M)
 	{
 		this.setU(u);
@@ -41,5 +49,5 @@ public class ResEncrypt {
 	public void setM(byte[] m) {
 		M = m;
 	}
-
+	
 }

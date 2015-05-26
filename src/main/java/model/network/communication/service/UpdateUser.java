@@ -62,9 +62,10 @@ public class UpdateUser extends Service<String> {
 		User u = new User(root.getChild("User"));
 		if(!u.checkSignature(u.getKeys())) return false;
 		if(!addUserIfMoreRecent(u)) return false; //our user is more recent, doesn't need to update item or user.
-		// TODO NEED UPDATE MESSAGE (MAYBE)
-		if(!u.checkSignature(u.getKeys())) return false;
-		if(!addUserIfMoreRecent(u)) return false; //our user is more recent, doesn't need to update item or user.
+		/* TODO
+		 * if message add to manager from delegate account owner.LastUpdated will not be 
+		 * updated. So we need to check if have message more recent too...
+		 */
 		for(Element e: root.getChild("Items").getChildren()) {
 			Item i = new Item(e);
 			if(!i.checkSignature(u.getKeys())) continue;

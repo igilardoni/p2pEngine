@@ -17,17 +17,15 @@ public class TransmitAccountService extends Service<Manager> {
 	@Override
 	public Manager handleMessage(Message m) {
 		Manager manager = new Manager(new String(m.getMessageElement("content").getBytes(true)), null);
-		//TODO publish des donnees recue
+		//TODO publish new data
 		return manager;
 	}
 
 	@Override
 	/**
-	 * Transmit accounts data to others peers.
+	 * Transmit manager data to peers.
 	 */
 	public void sendMessage(Manager m, PeerID ...ids) {
-		/* TODO chercher X peer et leur envoyer le manager */
-		Message message = new Message();
 		sender.sendMessage(m.toString(),this.getServiceName(), ids);
 	}
 

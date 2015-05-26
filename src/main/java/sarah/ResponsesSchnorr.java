@@ -1,12 +1,19 @@
 package sarah;
 import java.math.BigInteger;
 
-
-/*
- * TODO NEED DESCRIPTION
+/**
+ * The Schnorr response
+ * @author sarah
+ *
  */
 public class ResponsesSchnorr extends Responses{
 
+	/**
+	 * Constructo
+	 * @param mask
+	 * @param challenge
+	 * @param response
+	 */
 	public ResponsesSchnorr(Masks mask, BigInteger challenge,
 			BigInteger response) {
 		super(mask, challenge, response);
@@ -14,9 +21,13 @@ public class ResponsesSchnorr extends Responses{
 	}
 
 	@Override
+	/**
+	 * Extends Responses
+	 * Verify if the Schnorr response is good or not 
+	 */
 	public Boolean Verifies(Keys tKeys, ResEncrypt res) {
 		return (tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())));
 	}
-
+	
 
 }

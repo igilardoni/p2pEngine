@@ -4,7 +4,7 @@ import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
-import util.VARIABLE;
+import util.VARIABLES;
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
 import model.user.User;
@@ -326,10 +326,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	public boolean isAlive(long ownerLastConnection){
 		if(lifeTime == 0 &&
-				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
+				ownerLastConnection + VARIABLES.LifeTimeAfterDisconnected > System.currentTimeMillis())
 			return true;
 		if((date + lifeTime)>System.currentTimeMillis() &&
-				ownerLastConnection + VARIABLE.LifeTimeAfterDisconnected > System.currentTimeMillis())
+				ownerLastConnection + VARIABLES.LifeTimeAfterDisconnected > System.currentTimeMillis())
 			return true;
 		return false;
 	}
@@ -420,12 +420,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		}
 	}
 	
+	/**
+	 * Give the good class to the constructor
+	 */
 	public static void register() {
 		Item i = new Item();
 		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
                 										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
 	}
-	////////////////////////////////////////////////// COMPARABLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	/**
 	 * @return boolean 0 if both are identical, 1 else

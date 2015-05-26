@@ -5,10 +5,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import model.advertisement.AbstractAdvertisement;
 import model.item.Item;
+import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
 import model.network.search.Search;
@@ -20,9 +20,8 @@ import net.jxta.discovery.DiscoveryService;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import util.VARIABLE;
+import util.VARIABLES;
 import util.secure.AsymKeysImpl;
-import model.network.Network;
 
 /**
  * Local manager for Users, items and messages.
@@ -129,7 +128,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		if(!m.checkSignature(users.get(owner).getKeys())){
-			System.err.println(this.getAdvertisementName()+" : Bad Signature");
+			System.err.println(this.getAdvertisementName()+" : Bad Signature for Message");
 			return;
 		}
 		if(messages.contains(m)){
@@ -138,7 +137,37 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				return;
 			}
 		}
+		/* TODO future change (remove comment)
+		if(m.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)))
+			conversations.get(m.getOwner()).addMessage(m, currentUser.getKeys());
+		else
+		*/
 		messages.add(m);
+	}
+	
+	/**
+	 * Add an existing conversation to this manager.
+	 * @param c
+	 */
+	public void addConversations(Conversations c) {
+		if(c == null){
+			System.err.println(this.getAdvertisementName()+" : This Conversation is null !");
+			return;
+		}
+		String owner = c.getOwner();
+		if(owner.isEmpty()){
+			System.err.println(this.getAdvertisementName()+" : No owner found !");
+			return;
+		}
+		if(!users.containsKey(owner)){
+			System.err.println(this.getAdvertisementName()+" : Owner unknown "+owner);
+			return;
+		}
+		if(!c.checkSignature(users.get(owner).getKeys())){
+			System.err.println(this.getAdvertisementName()+" : Bad Signature for Conversation");
+			return;
+		}
+		conversations.put(c.getOwner(), c);
 	}
 
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -316,8 +345,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		elements  = StringToElement.getElementFromString(m.getMessagesXML(), "messages");
 		for (Element element : elements.getChildren()) {
 			Message message = new Message(element);
-			// PAS DE TEST POSSIBLE SI ON EST PAS LE PROPRIETAIRE DU MESSAGE !
-			this.addMessage(message);
+			// NO POSSIBLE TEST IF NOT OWNER ELSE ADD TO CONVERSATION
+			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)))
+				this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
+			else
+				this.addMessage(message);
 		}
 		// Add all Conversations
 		elements = null;
@@ -535,14 +567,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
 	}
 	
-	/**
-	 * Add an existing conversation to this manager.
-	 * @param c
-	 */
-	public void addConversations(Conversations c) {
-		conversations.put(c.getOwner(), c);
-	}
-	
 	
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -570,7 +594,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			u = this.getNamed(nickname);
 		// Search on network
 		Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "nick", true);
-		search.search(nickname, VARIABLE.CheckTimeAccount, VARIABLE.ReplicationsAccount);
+		search.search(nickname, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<User> results = search.getResults();
 		if(results.isEmpty() && u==null){
 			System.err.println("Account not found !");
@@ -592,7 +616,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			else
 				results.remove(user);
 		}
-		this.addUser(u);
+		if(this.getNamed(nickname) != null)
+			this.addUser(u);
 		// Check password
 		if(!u.isPassword(password))
 			return false;
@@ -622,7 +647,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	private void publishItems() {
-		// TODO
+		DiscoveryService discovery = network.getGroup("items").getDiscoveryService();
+		for(Item i: items) {
+			try {
+				discovery.flushAdvertisement(i);
+				discovery.publish(i); //"i have this item"
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private void publishMessages() {
@@ -640,8 +673,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		Network network = new Network(123, VARIABLE.NetworkFolderName, VARIABLE.NetworkPeerName);
+		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");

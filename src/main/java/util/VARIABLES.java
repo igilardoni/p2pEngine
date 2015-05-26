@@ -1,6 +1,6 @@
 package util;
 
-public class VARIABLE {
+public class VARIABLES {
 	/* Items */
 	public static final long LifeTimeAfterDisconnected = 2592000000L;
 	public static final long TimeBeforeDeleteAfterLifeTime = 2678400L;
@@ -10,7 +10,7 @@ public class VARIABLE {
 	
 	/* SharingManager */
 	public final static int ReplicationsAccount = 5;
-	public final static int CheckTimeAccount = 30;
+	public final static int CheckTimeAccount = 3000;
 	
 	/* Network */
 	public final static String NetworkFolderName = ".peerFolder";
