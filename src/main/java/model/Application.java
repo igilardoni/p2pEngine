@@ -40,7 +40,6 @@ public class Application {
 		}
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
-		startNetwork();
 		manager = new Manager(network);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
