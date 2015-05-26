@@ -557,6 +557,17 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	/**
+	 * Get the user conversations. If the conversations doesn't exist, it will be created.
+	 * @param publicKey
+	 * @return
+	 */
+	public Conversations getUserConversations(String publicKey){
+		if(!conversations.containsKey(publicKey))
+			addConversations(new Conversations(publicKey));
+		return conversations.get(publicKey);
+	}
+	
+	/**
 	 * Get the current user conversations. If the conversations doesn't exist, it will be created.
 	 * @return a Conversations
 	 */

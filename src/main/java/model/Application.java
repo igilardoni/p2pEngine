@@ -37,10 +37,13 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		
+		//LocalRecovery.init();
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
-		manager = new Manager(network);
+		/*if(LocalRecovery.managerIsRecovered())
+			manager = new Manager(LocalRecovery.getManagerSaved(),network);
+		else*/
+			manager = new Manager(network);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
@@ -73,7 +76,7 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9708, ".peerFolder3", "peer name3");
+		network = new Network(9708, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.start();
 	}
 	
@@ -136,6 +139,9 @@ public class Application {
 		stopServer();
 		network.stop();
 		sharingManager.stopSharing();
+		
+		LocalRecovery.saveManager(new Manager(manager.completUserXMLString(manager.getCurrentUser().getKeys().getPublicKey().toString(16)), null));
+		
 		File f = new File(".data");
 		FileWriter fw = null;
 		try {

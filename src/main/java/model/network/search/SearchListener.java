@@ -5,6 +5,6 @@ package model.network.search;
  * @author Julien Prudhomme
  *
  */
-public interface SearchListener <T>{
+public interface SearchListener <T> {
 	public void searchEvent(T event);
 }
