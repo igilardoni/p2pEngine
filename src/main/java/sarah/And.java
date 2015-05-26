@@ -1,41 +1,63 @@
 package sarah;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-/*
- * TODO Need description
+/**
+ * This class is for the composability of reponses. This is clause And.
+ * @author sarah
+ *
  */
-public class And {
-	public Receiver receiver;
-	public HashMap <Responses,Keys> rK  = new HashMap <Responses,Keys>();
 
+public class And {
+	
+	public Receiver receiver;
+	public ResEncrypt resEncrypt;
+	public HashMap <Responses,Keys> rK  = new HashMap <Responses,Keys>();
+	public Responses[] responses; 
+	
 	/**
 	 * Constructor
-	 * TODO Need description
-	 * @param receiver
-	 * @param rK
+	 * @param receiver 
+	 * @param rK (HashMap for each response associate with Keys)
+	 * @param resEncrypt 
+	 * @param responses (all responses to need verify)
 	 */
-	public And(Receiver receiver, HashMap <Responses,Keys> rK){
+	
+	public And (Receiver receiver, HashMap <Responses,Keys> rK,  ResEncrypt resEncrypt, Responses ... responses)
+	{
 		this.receiver = receiver;
 		this.rK  = rK;
+		this.resEncrypt= resEncrypt;
+		this.responses = responses;
 	}
 	
 	/**
-	 * TODO Need description
-	 * @param resEncrypt
-	 * @param responses
-	 * @return
+	 * Verify if set of responses is true or not for the receiver 
+	 * @param or 
+	 * if "or" the receiver doesn't verify if challenge it's good
+	 * @return boolean 
 	 */
-	public Boolean verifies(ResEncrypt resEncrypt, Responses ...responses){
-		for(Responses res : responses){
-			if (!receiver.VerifiesChallenge(res.getChallenge(), res.getMasks(), resEncrypt.getM())){
-				System.out.println("the challenge is fabricated");
-				return false;
+	public Boolean Verifies(Boolean or)
+	{
+		for(Responses res : responses)
+		{
+			if (!or)
+			{
+				if (!receiver.VerifiesChallenge(res.getChallenge(), res.getMasks(), resEncrypt.getM()))
+				{
+					System.out.println("the challenge is fabricated");
+					return false;
+				}
 			}
-			if (!receiver.Verifies(res, rK.get(res), resEncrypt)){
+			
+			if (!receiver.Verifies(res, rK.get(res), resEncrypt))
+			{
 				System.out.println("il y a un probleme");
 				return false;
 			}
 		}
+		System.out.println("tout est ok");
 		return true;
+		
 	}
 }
