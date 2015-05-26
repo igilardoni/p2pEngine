@@ -18,6 +18,7 @@ public class VARIABLES {
 	
 	/* Store */
 	public final static String ConfigFilePathWindows = "./SXPConfig.xml";
-	public final static String ConfigFilePathLinux = "/etc/SXPConfig.xml";
-	public final static String ConfigFilPathMacOs = "";
+	public final static String ConfigFilePathLinux = "./SXPConfig.xml";
+	public final static String ConfigFilePathMacOs = "";
+	public final static String ConfigFilePathSolaris = "";
 }
