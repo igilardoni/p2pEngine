@@ -15,4 +15,9 @@ public class VARIABLES {
 	/* Network */
 	public final static String NetworkFolderName = ".peerFolder";
 	public final static String NetworkPeerName = "peer name";
+	
+	/* Store */
+	public final static String ConfigFilePathWindows = "./SXPConfig.xml";
+	public final static String ConfigFilePathLinux = "/etc/SXPConfig.xml";
+	public final static String ConfigFilPathMacOs = "";
 }
