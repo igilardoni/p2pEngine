@@ -110,6 +110,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 		items.add(i);
+		try {
+			this.network.getGroup("items").getDiscoveryService().publish(i);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
