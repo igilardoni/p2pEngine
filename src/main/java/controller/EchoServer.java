@@ -1,10 +1,6 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.websocket.EndpointConfig;
@@ -136,7 +132,7 @@ public class EchoServer {
 			
 		case "/newchat":
 			try {
-				session.getBasicRemote().sendText("chat.html");
+				session.getBasicRemote().sendText("Message.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -152,10 +148,23 @@ public class EchoServer {
 			break;
 			
 			
+		case "/user_compte":
+			try {
+				session.getBasicRemote().sendText("User_compte.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+			
 		case "/load_use":
 			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			String name = Application.getInstance().getManager().getCurrentUser().getName();
+			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
+			String email = Application.getInstance().getManager().getCurrentUser().getEmail();
+			String numbertel = Application.getInstance().getManager().getCurrentUser().getPhone();
 			try {
-    			session.getBasicRemote().sendText("load_user:"+nick);
+    			session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstname+":"+email+":"+numbertel);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -165,7 +174,7 @@ public class EchoServer {
 	
 			Manager manager = Application.getInstance().getManager();
 			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-			if(it.size() !=0){
+			if(!it.isEmpty()){
 			for (int i = 0; i < it.size(); i++) {
 				try {
 					session.getBasicRemote().sendText("load_item:"+it.get(i).getTitle()+":"+it.get(i).getCountry()+":"+it.get(i).getDescription());
@@ -199,7 +208,7 @@ public class EchoServer {
 			
 			
 		case "/remove_item":
-			System.out.println("JE SUIS DANS REMOVE");
+			
 			Item item_remove = Application.getInstance().getManager().getItemCurrentUser(contents[1]);
 			Application.getInstance().getManager().removeItem(item_remove);
 			
@@ -211,6 +220,40 @@ public class EchoServer {
 			
 			
 			break;
+		
+		case "/update_compte_user" :
+			System.out.println(" nick "+contents[1]+" name "+contents[2]+" firstname "+contents[3]+" email "+contents[4]+" passe_update "
+					+contents[5]+" phone "+contents[6]+" passe_verif "+contents[7]);
+			if(Application.getInstance().getManager().getCurrentUser().isPassword(contents[7])){
+				User current = Application.getInstance().getManager().getCurrentUser();
+				current.setNick(contents[1]);
+				current.setName(contents[2]);
+				current.setFirstName(contents[3]);
+				current.setEmail(contents[4]);
+				current.setPassWord(contents[5]);
+				current.setClearPassword(contents[5]);
+				current.setPhone(contents[6]);
+				Application.getInstance().getManager().registration(current);
+				Application.getInstance().getManager().logout();
+				Application.getInstance().getManager().login(contents[1], contents[5]);	
+				try {
+					session.getBasicRemote().sendText("load_update_user:");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}else{
+				try {
+					session.getBasicRemote().sendText("update_user_false:");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+				
+				
+			break;
+			
 			
 		default:
 			break;
@@ -249,9 +292,8 @@ public class EchoServer {
     //add new user
     public void add_new_user(String nick,String password, String name, String firstName, String email, String phone){
     	User user = new User(nick, password, name, firstName, email, phone);
-    	user.sign(user.getKeys());
     	//user.encryptPrivateKey(password);
-    	Application.getInstance().getManager().addUser(user);
+    	Application.getInstance().getManager().registration(user);
     	
     	
     	/*User user = new User(nick, password, name, firstName, email, phone);

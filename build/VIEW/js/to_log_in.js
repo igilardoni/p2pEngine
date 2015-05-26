@@ -2,19 +2,18 @@
             var webSocket;
            var date_objet;
            var image_objet;
+           var user_nick;
             
             function openSocket(){
-                // Ensures only one connection is open at a time
+               
                 if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
-                   writeResponse("WebSocket is already opened.");
+                   writeResponse("WebSocket OK.");
                     return;
                 }
-                // Create a new instance of the websocket
+             
                 webSocket = new WebSocket("ws://localhost:8080/EchoChamber/serv");
                  
-                /**
-                 * Binds functions to the listeners for the websocket.
-                 */
+              
                 webSocket.onopen = function(event){
                 	load_user();
                 	load_item();
@@ -117,6 +116,9 @@
                 		}else{
                 			media = Picture;
                 		}
+                		
+                		//Life_time_v2 = Date.parse(Life_time) - (new Date().getMilliseconds());
+                		//alert(Life_time_v2);
                 		
                 		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		
@@ -258,6 +260,7 @@
             
             
             function redirection(text){
+            
             	webSocket.send(text);
             }
            
@@ -376,14 +379,63 @@
         		document.getElementById("update_desc").disabled=true;
         		document.getElementById("Picture_update").disabled=true;
         		document.getElementById("gestion_but_after").style.visibility="hidden";
-        		
-        		
-            	
-            	
+        		           	
             }
             
-             
             
+            function update_compte(){
+            	
+            	var nick = document.getElementById("nick_compte_input").value;
+              	var name = document.getElementById("name_compte_input").value;
+              	var firstname = document.getElementById("firstname_compte_input").value;
+              	var email = document.getElementById("email_compte_input").value;
+              	var passe_update = document.getElementById("password_input_compte").value;
+              	var phone = document.getElementById("phone_compte_input").value;
+              	var passe_verif = document.getElementById("password_verif").value;
+              	
+              	 if(nick  == ""){
+               		document.getElementById("update_compte_label").style.color = "#ff0000";
+               	}else if(name == ""){
+              		document.getElementById("names_labe_ul").style.color = "#ff0000";
+              		document.getElementById("update_compte_label").style.color = "#2E1C08";
+               		
+               	}else if(firstname == ""){
+               		document.getElementById("firstes_labe_ul").style.color = "#ff0000";
+               		document.getElementById("names_labe_ul").style.color = "#2E1C08";
+              		document.getElementById("update_compte_label").style.color = "#2E1C08";
+               		
+               	}else if(!Test_adresse_email(email)){
+               		document.getElementById("emailes_labe_ul").style.color = "#ff0000";
+               		document.getElementById("firstes_labe_ul").style.color = "#2E1C08";
+               		document.getElementById("names_labe_ul").style.color = "#2E1C08";
+              		document.getElementById("update_compte_label").style.color = "#2E1C08";
+               		
+               	
+            }else if(!validatePwd(passe_update)){
+           		document.getElementById("passwordss_labe_ul").style.color = "#ff0000";
+           		document.getElementById("emailes_labe_ul").style.color = "#2E1C08";
+           		document.getElementById("firstes_labe_ul").style.color = "#2E1C08";
+           		document.getElementById("names_labe_ul").style.color = "#2E1C08";
+          		document.getElementById("update_compte_label").style.color = "#2E1C08";
+           		
+           	
+        }else if(!checknum(phone)){
+        	document.getElementById("iphoe_labe_ul").style.color = "#ff0000";
+       		document.getElementById("passwordss_labe_ul").style.color = "#2E1C08";
+       		document.getElementById("emailes_labe_ul").style.color = "#2E1C08";
+       		document.getElementById("firstes_labe_ul").style.color = "#2E1C08";
+       		document.getElementById("names_labe_ul").style.color = "#2E1C08";
+      		document.getElementById("update_compte_label").style.color = "#2E1C08";
+       		
+	       	}else{
+	       		webSocket.send("/update_compte_user:"+nick+":"+name+":"+firstname+":"+email+":"+passe_update+":"+phone+":"+passe_verif);
+	    			
+	       	}
+       	
+              	
+            }
+            
+           
             var cmpt = 0;
   
             function writeResponse(text){
@@ -398,8 +450,19 @@
             
             	}
             	if(text_tab[0] == "load_user"){
-            		
-            		  document.getElementById("use").innerHTML = text_tab[1];		
+            		 	
+            		  document.getElementById("use").innerHTML = text_tab[1];	
+            		  document.getElementById("nick_compte_input").value = text_tab[1];	
+            		  document.getElementById("name_compte_input").value = text_tab[2];	
+            		  document.getElementById("firstname_compte_input").value = text_tab[3];	
+            		  document.getElementById("email_compte_input").value = text_tab[4];	
+            		  document.getElementById("phone_compte_input").value = text_tab[5];	
+            		 
+            		  
+            		  
+            		  document.getElementById("name_compte_verid").value = text_tab[1];
+            		 
+            		  
             	}
             	if(text_tab[0] == "Se_connecter.html#tologin")   {
             		window.location.replace(text_tab[0]);
@@ -410,13 +473,29 @@
             	if(text_tab[0] == "Search.html"){
             		window.location.replace(text_tab[0]);
             	}
-            	if(text_tab[0] == "chat.html"){
+            	if(text_tab[0] == "Message.html"){
+
             		window.location.replace(text_tab[0]);
+            		
             	}
             	if(text_tab[0] == "Contrat.html"){
             		window.location.replace(text_tab[0]);
             	}
-            	if(text_tab[0] == "load_item"){
+            	if(text_tab[0] == "User_compte.html"){
+            		window.location.replace(text_tab[0]);
+            		
+            	}if(text_tab[0] == "load_update_user"){
+            		document.getElementById("invalide_pass").innerHTML = "Account successfully change";
+            		document.getElementById("invalide_pass").style.color = "#228B22";
+            		load_user();
+            		
+            		
+            	}if(text_tab[0] == "update_user_false"){
+            		
+            		document.getElementById("invalide_pass").innerHTML = "Please verify your password";
+            		document.getElementById("invalide_pass").style.color = "#ff0000";
+            		
+            	}if(text_tab[0] == "load_item"){
             		cmpt = cmpt +1;
             		var tableau = document.getElementById("data_it");
             		
