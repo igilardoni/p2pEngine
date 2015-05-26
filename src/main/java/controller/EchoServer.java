@@ -262,21 +262,6 @@ public class EchoServer {
 			
 			break;
 			
-		case "/log_out":
-			
-			Application.getInstance().getManager().logout();
-		
-				try {
-					session.getBasicRemote().sendText("log_index:");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				
-	
-			}
-				
-				break;
-			
 		default:
 			break;
 		}

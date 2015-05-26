@@ -404,12 +404,6 @@
             	
             }
             
-            function logout(){
-            	
-            	webSocket.send("/log_out:");
-	    		
-            }
-            
             
             function update_compte(){
             	
