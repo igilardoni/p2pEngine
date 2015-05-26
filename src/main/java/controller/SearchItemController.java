@@ -16,6 +16,7 @@ public class SearchItemController implements SearchListener<Item>{
 		Search<Item> s = new Search<Item>(Application.getInstance().getNetwork().getGroup("items").getDiscoveryService(), "title", false);
 		s.addListener(this);
 		s.search(title, 0, 0);
+		System.out.println("recherche en cours: title=" + title);
 	}
 	
 	public void addListener(SearchListener<Item> l) {
@@ -33,6 +34,7 @@ public class SearchItemController implements SearchListener<Item>{
 	 * Receive an Item and filtering it.
 	 */
 	public void searchEvent(Item event) {
+		System.out.println("ok pour searchEvent");
 		itmes.add(event.getTitle());
 		notifyListeners(event);
 	}

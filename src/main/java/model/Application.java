@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
 import model.manager.Manager;
@@ -38,8 +39,9 @@ public class Application {
 			throw new RuntimeException("this class can be instancied only once");
 		}
 		//LocalRecovery.init();
-		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
+		startNetwork();
+		
 		/*if(LocalRecovery.managerIsRecovered())
 			manager = new Manager(LocalRecovery.getManagerSaved(),network);
 		else*/
@@ -77,6 +79,7 @@ public class Application {
 	 */
 	private void startNetwork() {
 		network = new Network(9708, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
+		network.setLogger(Level.OFF);
 		network.start();
 	}
 	

@@ -303,7 +303,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 
 	@Override
 	protected String getAdvertisementName() {
-		return this.getClass().getSimpleName();
+		return this.getClass().getName();
 	}
 
 	@Override
