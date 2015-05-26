@@ -118,11 +118,8 @@
                 		}
                 		
                 		//Life_time_v2 = Date.parse(Life_time) - (new Date().getMilliseconds());
-                		//alert(Life_time_v2);
-                		
                 		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		
-                		//alert(Title+":"+Category+":"+Description+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
                 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
 
                 	}
@@ -250,7 +247,7 @@
               	
               	else{
               		
-              		alert("bonjour");
+              		alert("Bonjour "+date_objet);
               		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
             		
               		
@@ -380,6 +377,31 @@
         		document.getElementById("Picture_update").disabled=true;
         		document.getElementById("gestion_but_after").style.visibility="hidden";
         		           	
+            }
+            
+            function send_message(){
+            	//A completer
+            	var nick = document.getElementById("user_recv").innerHTML;
+            	var message_env = document.getElementById("message_send").innerHTML;
+            	alert(nick+" "+message_env);
+            	
+            	
+            }
+            
+            function to_search(){
+            	
+            	var title_search = document.getElementById("title_search_input").value;
+            	var categorie_search = document.getElementById("Category_search").value;
+            	var country_search = document.getElementById("Country_search").value;
+            	var type_search = document.getElementById("Type_search_").value;
+            	
+            	
+            	webSocket.send("/search_itme:"+title_search);
+	    		
+            	
+            	alert(title_search+" "+categorie_search+" "+country_search+" "+type_search);
+            	
+            	
             }
             
             
@@ -535,10 +557,26 @@
             		document.getElementById("pourteste").innerHTML = "objet modifier";
             		var element = document.getElementById("data_it");
             		while (element.firstChild) {
+            			alert(element.firstChild);
             		  element.removeChild(element.firstChild);
             		}
             		
             		load_item();
+            		var tableau = document.getElementById("data_it");
+            		
+            		var ligne = tableau.insertRow(-1);
+
+            		var colonne1 = ligne.insertCell(0);
+            		colonne1.innerHTML += "Title";
+
+            		var colonne2 = ligne.insertCell(1);
+            		colonne2.innerHTML += "Country";
+            		
+            		var colonne3 = ligne.insertCell(2);
+            		colonne3.innerHTML += "Description";
+            		
+            		var colonne3 = ligne.insertCell(3);
+            		colonne3.innerHTML += "Option";
             	}
             	
             	

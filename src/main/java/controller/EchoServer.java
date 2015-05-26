@@ -15,6 +15,8 @@ import model.item.Category;
 import model.item.Item;
 import model.item.Item.TYPE;
 import model.manager.Manager;
+import model.network.search.Search;
+import model.network.search.SearchListener;
 import model.user.User;
  
 /* TODO MEDHI CREE D'AUTRES CLASSES TU VA PAS TOUT FOUTRE ICI 
@@ -254,12 +256,15 @@ public class EchoServer {
 				
 			break;
 			
+		case "/search_itme":
+			
+		
+			
+			break;
 			
 		default:
 			break;
 		}
-    	
-    	
        
     }
    /* @OnMessage
