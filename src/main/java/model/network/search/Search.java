@@ -11,6 +11,7 @@ import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
+import net.jxta.document.MimeMediaType;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import model.advertisement.AbstractAdvertisement;
@@ -115,7 +116,7 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
 		String pid = "urn:jxta:" + event.getSource().toString().substring(7);
-		System.out.println("type recu : " + event.getResponse().getAdvertisementType());
+		System.out.println("type recu : " + event.getResponse().getDocument(MimeMediaType.XMLUTF8));
 		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 		while(advs.hasMoreElements()) {
 			T adv = (T) advs.nextElement();

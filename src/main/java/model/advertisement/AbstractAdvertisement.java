@@ -21,6 +21,7 @@ import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
 import net.jxta.document.Advertisement;
+import net.jxta.document.Attributable;
 import net.jxta.document.Document;
 import net.jxta.document.MimeMediaType;
 import net.jxta.document.StructuredDocument;
@@ -199,6 +200,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public Document getDocument(MimeMediaType mediatype) {
 		superPutValues();
 		StructuredDocument adv = StructuredDocumentFactory.newStructuredDocument(mediatype, getAdvType());
+		
+		if (adv instanceof Attributable) {
+            ((Attributable) adv).addAttribute("xmlns:jxta", "http://jxta.org");
+        }
+		
 		for (String key : keyValues.keySet()) {
 			net.jxta.document.Element e = adv.createElement(key,keyValues.get(key));
 			adv.appendChild(e);
