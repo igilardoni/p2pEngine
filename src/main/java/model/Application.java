@@ -37,12 +37,12 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		LocalRecovery.init();
+		//LocalRecovery.init();
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
-		if(LocalRecovery.managerIsRecovered())
+		/*if(LocalRecovery.managerIsRecovered())
 			manager = new Manager(LocalRecovery.getManagerSaved(),network);
-		else
+		else*/
 			manager = new Manager(network);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
