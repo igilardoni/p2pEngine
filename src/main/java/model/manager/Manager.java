@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
+import model.item.Category;
 import model.item.Item;
+import model.item.Item.TYPE;
 import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
@@ -103,6 +105,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
 				System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
 				return;
+			}else{
+				items.remove(i);
 			}
 		}
 		items.add(i);
@@ -679,6 +683,20 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Manager manager = new Manager(network);
 		
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
+		Item item1 = new Item(user1, "title", new Category("bu"), "description", "image", "country", "contact", 0, 0, TYPE.PROPOSAL);
+		user1.sign(user1.getKeys());
+		item1.sign(user1.getKeys());
+		
+		manager.addUser(user1);
+		manager.addItem(item1);
+		
+		Item item2 = new Item(item1.toString());
+		item2.setContact("coliquegfl");
+		item2.sign(user1.getKeys());
+		
+		manager.addItem(item2);
+		
+		System.out.println(manager.getItemsXML());
 		/*
 		Manager manager = new Manager(null);
 		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
