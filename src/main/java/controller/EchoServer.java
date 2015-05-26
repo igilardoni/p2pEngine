@@ -48,7 +48,7 @@ public class EchoServer {
      * @throws IOException 
      */
     @OnMessage
-    public void onMessage(String message, Session session){
+    public void onMessage(String message, final Session session){
     	String[] contents = message.split(":");
     	switch (contents[0]) {
 		case "/index":
@@ -258,7 +258,21 @@ public class EchoServer {
 			
 		case "/search_itme":
 			
-		
+			SearchItemController sc = new SearchItemController();
+			sc.addListener(new SearchListener<Item>() {
+
+				@Override
+				public void searchEvent(Item event) {
+					try {
+						session.getBasicRemote().sendText("la tu met ton text avec event");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}
+			});
+			sc.startSearch(contents[1]);
+			
 			
 			break;
 			
