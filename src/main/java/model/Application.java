@@ -37,13 +37,9 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		//LocalRecovery.init();
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
-		/*if(LocalRecovery.managerIsRecovered())
-			manager = new Manager(LocalRecovery.getManagerSaved(),network);
-		else*/
-			manager = new Manager(network);
+		manager = new Manager(network);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
@@ -139,8 +135,6 @@ public class Application {
 		stopServer();
 		network.stop();
 		sharingManager.stopSharing();
-		
-		LocalRecovery.saveManager(new Manager(manager.completUserXMLString(manager.getCurrentUser().getKeys().getPublicKey().toString(16)), null));
 		
 		File f = new File(".data");
 		FileWriter fw = null;
