@@ -72,18 +72,22 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 		
 		long waiting = maxWaitTime;
 		
-		//Wait for maxWaitTime or number of results > waitResult
-		while(waiting > 0 && results.size() < waitResult) {
-			long currentTime = System.currentTimeMillis();
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(maxWaitTime != 0) {
+			while(waiting > 0 && results.size() < waitResult) {
+				long currentTime = System.currentTimeMillis();
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				waiting -= System.currentTimeMillis()-currentTime;
 			}
-			waiting -= System.currentTimeMillis()-currentTime;
 		}
 	}
+		
+		//Wait for maxWaitTime or number of results > waitResult
+
 	
 	/**
 	 * Add a listeners that want to be called when advertisements are reveived.
