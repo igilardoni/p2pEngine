@@ -264,7 +264,7 @@ public class EchoServer {
 				@Override
 				public void searchEvent(Item event) {
 					try {
-						session.getBasicRemote().sendText(event.getTitle());
+						session.getBasicRemote().sendText("result_search_item:"+event.getTitle()+":"+event.getDescription()+":"+event.getCountry());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -279,6 +279,7 @@ public class EchoServer {
 		case "/log_out":
 			
 			Application.getInstance().getManager().logout();
+			
 		
 				try {
 					session.getBasicRemote().sendText("log_index:");

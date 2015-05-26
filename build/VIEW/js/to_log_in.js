@@ -399,7 +399,6 @@
             	webSocket.send("/search_itme:"+title_search);
 	    		
             	
-            	alert(title_search+" "+categorie_search+" "+country_search+" "+type_search);
             	
             	
             }
@@ -584,7 +583,26 @@
             		var colonne3 = ligne.insertCell(3);
             		colonne3.innerHTML += "Option";
             	}
-            	
+            	if(text_tab[0] == "log_index"){
+            		
+            		window.location.replace("index.html");
+            		
+            		
+            	}if(text_tab[0] == "result_search_item"){
+            		
+            		var tableau = document.getElementById("data_it_search");
+            		
+            		var ligne = tableau.insertRow(-1);
+
+            		var colonne1 = ligne.insertCell(0);
+            		colonne1.innerHTML += text_tab[1]
+
+            		var colonne2 = ligne.insertCell(1);
+            		colonne2.innerHTML += text_tab[2]
+            		
+            		var colonne3 = ligne.insertCell(2);
+            		colonne3.innerHTML += text_tab[3]
+            	}
             	
             }
           
