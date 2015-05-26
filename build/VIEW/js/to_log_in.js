@@ -396,6 +396,7 @@
             	var type_search = document.getElementById("Type_search_").value;
             	
             	
+            	
             	webSocket.send("/search_itme:"+title_search);
 	    		
             	

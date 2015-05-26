@@ -257,13 +257,14 @@ public class EchoServer {
 			break;
 			
 		case "/search_itme":
-			
+			System.out.println("JE SUIS LA!");
 			SearchItemController sc = new SearchItemController();
 			sc.addListener(new SearchListener<Item>() {
 
 				@Override
 				public void searchEvent(Item event) {
 					try {
+						
 						session.getBasicRemote().sendText("result_search_item:"+event.getTitle()+":"+event.getDescription()+":"+event.getCountry());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
