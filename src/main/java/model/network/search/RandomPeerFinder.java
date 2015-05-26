@@ -36,7 +36,7 @@ public class RandomPeerFinder implements DiscoveryListener{
 	 */
 	public void findPeers(long timeout, int expectedResults) {
 		results = new ArrayList<PeerID>();
-		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.PEER, null, null, 0, this);
+		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.PEER, null, null, 100, this);
 		
 		long waiting = timeout;
 		
