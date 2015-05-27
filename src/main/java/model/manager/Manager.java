@@ -148,7 +148,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 		/* TODO future change (remove comment)
-		if(m.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)))
+		if(m.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)) || m.getTo().equals(currentUser.getKeys().getPublicKey()))
 			conversations.get(m.getOwner()).addMessage(m, currentUser.getKeys());
 		else
 		*/

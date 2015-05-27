@@ -120,6 +120,14 @@ public class Application {
 		return manager;
 	}
 	
+	/**
+	 * Get the current Communication
+	 * @return
+	 */
+	public Communication getCommunication(){
+		return com;
+	}
+	
 	public void stopServer() {
 		if(server == null) return;
 		try {
