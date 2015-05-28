@@ -2,7 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.item.Item;
+import model.data.item.Item;
 import model.network.search.SearchListener;
 
 public class Search implements SearchListener<Item>{

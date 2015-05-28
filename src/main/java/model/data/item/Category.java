@@ -1,4 +1,4 @@
-package model.item;
+package model.data.item;
 
 /**
  * This class contain a list of category permitted by the application.

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
-import model.manager.Manager;
-import model.manager.SharingManager;
+import model.data.manager.Manager;
+import model.data.manager.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;

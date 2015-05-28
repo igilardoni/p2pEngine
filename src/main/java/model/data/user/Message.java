@@ -1,4 +1,4 @@
-package model.user;
+package model.data.user;
 
 import java.math.BigInteger;
 

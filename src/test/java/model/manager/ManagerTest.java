@@ -3,11 +3,12 @@ package model.manager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import model.item.Category;
-import model.item.Category.CATEGORY;
-import model.item.Item;
+import model.data.item.Category;
+import model.data.item.Item;
+import model.data.item.Category.CATEGORY;
+import model.data.manager.Manager;
+import model.data.user.User;
 import model.network.Network;
-import model.user.User;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
