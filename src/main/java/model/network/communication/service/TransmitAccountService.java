@@ -1,6 +1,6 @@
 package model.network.communication.service;
 
-import model.manager.Manager;
+import model.data.manager.Manager;
 import net.jxta.endpoint.Message;
 import net.jxta.peer.PeerID;
 

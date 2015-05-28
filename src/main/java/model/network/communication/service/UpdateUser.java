@@ -3,17 +3,17 @@ package model.network.communication.service;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import model.item.Category;
-import model.item.Item;
-import model.item.Item.TYPE;
-import model.manager.Manager;
+import model.data.item.Category;
+import model.data.item.Item;
+import model.data.item.Item.TYPE;
+import model.data.manager.Manager;
+import model.data.user.Conversations;
+import model.data.user.Message;
+import model.data.user.User;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.search.Search;
 import model.network.search.Search.Result;
-import model.user.Conversations;
-import model.user.Message;
-import model.user.User;
 import net.jxta.endpoint.ByteArrayMessageElement;
 import net.jxta.peer.PeerID;
 

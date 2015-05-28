@@ -15,14 +15,14 @@ import net.jxta.peer.PeerID;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.Application;
-import model.item.Category;
-import model.item.Item;
-import model.item.Item.TYPE;
-import model.manager.Manager;
+import model.data.item.Category;
+import model.data.item.Item;
+import model.data.item.Item.TYPE;
+import model.data.manager.Manager;
+import model.data.user.Message;
+import model.data.user.User;
 import model.network.search.Search;
 import model.network.search.SearchListener;
-import model.user.Message;
-import model.user.User;
 
 
 /** 

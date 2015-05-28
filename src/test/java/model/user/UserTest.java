@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.math.BigInteger;
 
+import model.data.user.User;
+
 import org.junit.Test;
 
 import util.Hasher;

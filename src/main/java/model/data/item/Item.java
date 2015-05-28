@@ -1,4 +1,4 @@
-package model.item;
+package model.data.item;
 
 import net.jxta.document.AdvertisementFactory;
 
@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import util.VARIABLES;
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
-import model.user.User;
+import model.data.user.User;
 
 /**
  * This class can be instantiated for contains an item.

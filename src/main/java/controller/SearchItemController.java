@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.Application;
-import model.item.Item;
+import model.data.item.Item;
 import model.network.search.Search;
 import model.network.search.SearchListener;
 

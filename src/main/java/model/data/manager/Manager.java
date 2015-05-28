@@ -1,4 +1,4 @@
-package model.manager;
+package model.data.manager;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -7,16 +7,16 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
-import model.item.Category;
-import model.item.Item;
-import model.item.Item.TYPE;
+import model.data.item.Category;
+import model.data.item.Item;
+import model.data.item.Item.TYPE;
+import model.data.user.Conversations;
+import model.data.user.Message;
+import model.data.user.User;
 import model.network.Network;
 import model.network.NetworkInterface;
 import model.network.communication.service.ServiceListener;
 import model.network.search.Search;
-import model.user.Conversations;
-import model.user.Message;
-import model.user.User;
 import net.jxta.discovery.DiscoveryService;
 
 import org.jdom2.Element;

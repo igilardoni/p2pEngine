@@ -1,7 +1,9 @@
 package model.item;
 
 import static org.junit.Assert.*;
-import model.item.Category.CATEGORY;
+import model.data.item.Category;
+import model.data.item.Item;
+import model.data.item.Category.CATEGORY;
 
 import org.junit.Test;
 
