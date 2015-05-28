@@ -6,7 +6,12 @@
 	 font-family: "Trebuchet MS","Myriad Pro",Arial,sans-serif;
 }
 
-
+body{
+	
+	background-color:white;
+	background-image:url(../img/100606135702_47.jpg);
+	
+}
 
 
 #picture_t2 {

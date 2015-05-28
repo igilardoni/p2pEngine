@@ -24,9 +24,6 @@ import model.network.search.SearchListener;
 import model.user.Message;
 import model.user.User;
 
-/* TODO MEDHI CREE D'AUTRES CLASSES TU VA PAS TOUT FOUTRE ICI 
- * Regarde le controller de l'ancien projet.
- * */
 
 /** 
  * @ServerEndpoint gives the relative name for the end point
