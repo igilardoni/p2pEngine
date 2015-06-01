@@ -41,7 +41,6 @@ public class EchoServer {
 	public void onOpen(Session session,EndpointConfig config){
 		//System.out.println(session.getId() + " has opened a connection");
 		System.out.println("Connection Established");
-
 	}
 
 	/**
@@ -56,8 +55,7 @@ public class EchoServer {
 		String[] contents = message.split(":");
 		switch (contents[0]) {
 		case "/index":
-			if(Verifying(contents[2], contents[1])){
-
+			if(login(contents[2], contents[1])){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
@@ -66,7 +64,7 @@ public class EchoServer {
 			}
 			break;
 		case "/register":
-			add_new_user(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6]);
+			addUser(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6]);
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
@@ -91,21 +89,18 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-
-
-
-
-
-
 		case "/new_objet_add" :
-			User owner = Application.getInstance().getManager().getCurrentUser();
-			Category category = new Category(contents[2]);
-			Item item = new Item(owner, contents[1], category, contents[3], contents[5], contents[6],contents[7], 0, 0, TYPE.WISH);
-			item.sign(owner.getKeys());
-
-			Application.getInstance().getManager().addItem(item);
-			//Manager a = Application.getInstance().getManager();
-			//ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
+			/*
+			 * contents[1] : title
+			 * contents[2] : category
+			 * contents[3] : description
+			 * contents[4] : image
+			 * contents[5] : country
+			 * contents[6] : contact
+			 * contents[7] : lifeTime
+			 * contents[8] : type
+			 */
+			addItem(contents[1], contents[2], contents[3], contents[4], contents[5],contents[6], 0L, contents[8]);
 			break;
 
 		case "/new_objet_update" :
@@ -118,8 +113,7 @@ public class EchoServer {
 			item_u.sign(owner_u.getKeys());
 
 			Application.getInstance().getManager().addItem(item_u);
-			//Manager a = Application.getInstance().getManager();
-			//ArrayList<Item> items = a.getUserItems(a.getCurrentUser().getKeys().getPublicKey().toString(16));
+			
 			try {
 				session.getBasicRemote().sendText("update_objet:");
 			} catch (IOException e1) {
@@ -321,6 +315,7 @@ public class EchoServer {
 		}
 
 	}
+	
 	/* @OnMessage
     public void echo(String message, Session session) throws IOException {
     	String[] contents = message.split(":");
@@ -328,10 +323,29 @@ public class EchoServer {
     	if(verif(contents[0], contents[1])){
     		session.getBasicRemote().sendText("Se_connecter.html");		
     	}
-
-
     }
-	 */
+     */
+	
+	private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
+		User owner = Application.getInstance().getManager().getCurrentUser();
+		Category c = new Category(category);
+		Item.TYPE t;
+		//Long l = Long.parseLong(lifeTime);
+		switch(type.toUpperCase()){
+		case "WISH":
+			t = TYPE.WISH;
+			break;
+		case "PROPOSAL":
+			t = TYPE.PROPOSAL;
+			break;
+		default:
+			t = TYPE.WISH;
+		}
+		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
+		item.sign(owner.getKeys());
+		Application.getInstance().getManager().addItem(item);
+	}
+	
 	/**
 	 * The user closes the connection.
 	 * 
@@ -343,23 +357,23 @@ public class EchoServer {
 	}
 
 	//Verifying user account
-	public boolean Verifying(String login, String password){
+	private static boolean login(String login, String password){
 		return Application.getInstance().getManager().login(login, password);
 
 	}
 
-	//add new user
-	public void add_new_user(String nick,String password, String name, String firstName, String email, String phone){
+	/**
+	 * Add NEW User to current Manager
+	 * @param nick
+	 * @param password
+	 * @param name
+	 * @param firstName
+	 * @param email
+	 * @param phone
+	 */
+	private static void addUser(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);
-		//user.encryptPrivateKey(password);
 		Application.getInstance().getManager().registration(user);
-
-
-		/*User user = new User(nick, password, name, firstName, email, phone);
-    	AsymKeysImpl keys = user.getKeys();
-    	user.encryptPrivateKey(password);
-    	user.sign(keys);
-    	Application.getInstance().getManager().addUser(user);*/
 	}
 
 	/**
@@ -423,7 +437,7 @@ public class EchoServer {
 			sendOnTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			Application.getInstance().getManager().addMessage(msg);
 		}else{
-			System.err.println(this.getClass().getName()+" : sendTextPublicKey Account not found");
+			System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
 		}
 		
 		return sendOnTime;
