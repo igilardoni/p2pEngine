@@ -38,10 +38,6 @@ import model.network.search.SearchListener;
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
-	
-	ManagerBridge managerBridge =  new ManagerBridge();
-	MessageSender managerSender =  new MessageSender();
-	
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session.
 	 * The session class allows us to send data to the user.
@@ -63,34 +59,20 @@ public class EchoServer {
 	@OnMessage
 	public void onMessage(String message, final Session session){
 		
-			String[] requet = message.split(":");
+		String[] requet = message.split(":");
 		
 		switch (requet[0]) {
-		/*
-		 * requet[1] : password
-		 * requet[2] : login
-		 */
 		case "/index":
-				if(managerBridge.login(requet[2], requet[1])){
+			if(login(requet[2], requet[1])){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}		
 			}
-			
 			break;
-			/*
-			 * requet[1] : nick
-			 * requet[2] : password
-			 * requet[3] : name
-			 * requet[4] : firstName
-			 * requet[5] : login
-			 * requet[6] : login
-			 * 
-			 */
 		case "/register":
-			managerBridge.registration(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);			
+			addUser(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
@@ -99,16 +81,15 @@ public class EchoServer {
 			}
 			break;
 
-			// just for redirection in new_objet.html
 		case "/newobjet":
 			try {
+				//System.out.println(requet[1]+" "+requet[2]+" "+requet[3]+" "+requet[4]+" "+requet[5]+" "+requet[6]);
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-			
-			// just for redirection in Search.html
+
 		case "/search":
 			try {
 				session.getBasicRemote().sendText("Search.html");
@@ -127,7 +108,18 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
-			addItem(requet[1], requet[2], requet[3], requet[4], requet[5],requet[6], 0L, requet[8]);
+			System.out.println("titlre :"+requet[1]);
+			System.out.println("category :"+requet[2]);
+			System.out.println("description :"+requet[3]);
+			System.out.println("image :"+requet[4]);
+			System.out.println("country :"+requet[5]);
+			System.out.println("contact :"+requet[6]);
+			System.out.println("lifeTime :"+requet[7]);
+			System.out.println("type :"+requet[8]);
+			
+			
+			
+			addItem(requet[1], requet[2], requet[3], requet[4], requet[5],requet[6], 0, requet[8]);
 			break;
 
 		case "/new_objet_update" :
@@ -381,6 +373,19 @@ public class EchoServer {
 
 	}
 
+	/**
+	 * Add NEW User to current Manager
+	 * @param nick
+	 * @param password
+	 * @param name
+	 * @param firstName
+	 * @param email
+	 * @param phone
+	 */
+	private static void addUser(String nick,String password, String name, String firstName, String email, String phone){
+		User user = new User(nick, password, name, firstName, email, phone);
+		Application.getInstance().getManager().registration(user);
+	}
 
 	/**
 	 * Send a message to a nickname
