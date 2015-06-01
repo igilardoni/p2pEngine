@@ -53,7 +53,7 @@ public class ManagerTest {
 		assertEquals(item1_1, manager.getItemCurrentUser(item1_1.getTitle()));
 	}
 	
-	//@Test
+	@Test
 	public void constructor() {
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);

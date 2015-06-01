@@ -2,13 +2,12 @@ package model.data.manager;
 
 import java.util.ArrayList;
 
-import util.VARIABLES;
-import net.jxta.peer.PeerID;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
+import net.jxta.peer.PeerID;
 
 /**
  * Manager for sharing ressource (users, items ..) when needed.

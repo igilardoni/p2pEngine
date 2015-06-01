@@ -694,7 +694,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
