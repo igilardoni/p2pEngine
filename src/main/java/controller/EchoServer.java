@@ -49,6 +49,8 @@ public class EchoServer {
 	 * and allow us to react to it. For now the message is read as a String.
 	 * @throws IOException 
 	 */
+	
+	
 	@OnMessage
 	public void onMessage(String message, final Session session){
 		String[] contents = message.split(":");
@@ -294,6 +296,24 @@ public class EchoServer {
 			}
 
 			break;
+			
+		case "/send_message" :
+			String result="";
+			if(sendTextToNick(contents[1],contents[2]))
+				result="sendt";
+			else
+				result="sendf";
+			
+			try {
+				session.getBasicRemote().sendText("result_sendMessage:"+result);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+
+			}
+			
+			break;
 
 
 		default:
@@ -348,7 +368,8 @@ public class EchoServer {
 	 * @param message - String message
 	 * @param nick - String receiver's nickname
 	 */
-	private void sendTextToNick(String message, String nick){
+	private boolean sendTextToNick(String message, String nick){
+		boolean sendOnTime = false;
 		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "nick", true);
 		search.search(nick, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
@@ -366,10 +387,11 @@ public class EchoServer {
 					msg.sign(from);
 					keyUsed.add(to.getPublicKey().toString(16));
 				}
-				Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", r.peerID);
+				sendOnTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", r.peerID);
 				Application.getInstance().getManager().addMessage(msg);
 			}
 		}
+		return sendOnTime;
 	}
 	
 	/**
@@ -378,7 +400,8 @@ public class EchoServer {
 	 * @param message - String message
 	 * @param publicKey - String(hexa) receiver's publicKey  
 	 */
-	private void sendTextToPublicKey(String message, String publicKey){
+	private boolean sendTextToPublicKey(String message, String publicKey){
+		boolean sendOnTime = false;
 		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
 		search.search(publicKey, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
@@ -397,11 +420,13 @@ public class EchoServer {
 		if(to != null){
 			msg = new Message(to, from, message);
 			msg.sign(from);
-			Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
+			sendOnTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			Application.getInstance().getManager().addMessage(msg);
 		}else{
 			System.err.println(this.getClass().getName()+" : sendTextPublicKey Account not found");
 		}
+		
+		return sendOnTime;
 	}
 
 

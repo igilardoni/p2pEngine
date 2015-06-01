@@ -3,7 +3,7 @@
            var date_objet;
            var image_objet;
            var user_nick;
-            
+           var media;
             function openSocket(){
                
                 if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
@@ -56,8 +56,8 @@
                 	 
                 	
                 	 
-                	var media = "";
-;                		if(Title == ""){
+                	
+              		if(Title == ""){
                 		document.getElementById("Title_label").style.color = "#ff0000";
                 	} else if(Category == ""){
                 		document.getElementById("Title_label").style.color = "#2E1C08";
@@ -109,16 +109,31 @@
                 	
                 	
                 	}else{
-                		if(Picture != ""){
-                			media = Picture;
-                		}else if( URI != ""){
-                			media = URI;
-                		}else{
-                			media = Picture;
-                		}
                 		
-                		//Life_time_v2 = Date.parse(Life_time) - (new Date().getMilliseconds());
-                		webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
+                		if(document.getElementById('optionsRadios2').checked) {
+                			
+                			   var filesSelected = document.getElementById("Picture").files;
+                			   
+                			        var fileToLoad = filesSelected[0];
+
+                			        var fileReader = new FileReader();
+
+                			        fileReader.onload = function(fileLoadedEvent) {
+                			        	media = fileLoadedEvent.target.result; // <--- data: base64
+                			        	webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
+                                		
+                			        }
+                			        fileReader.readAsDataURL(fileToLoad);
+		
+                			} if(document.getElementById('optionsRadios1').checked) {
+                			  //Female radio button is checked
+                				
+                				media = URI;
+                				webSocket.send("/new_objet_add:"+Title+":"+Category+":"+Description+":"+media+":"+Country+":"+Contact_item+":"+Life_time+":"+Type_ob);
+                        		
+                			}
+                		
+                			
                 		
                 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
 
@@ -144,6 +159,8 @@
             	}
             
             }
+            
+            
             function to_register(){
             	
             	var nick = document.getElementById("nick").value;
@@ -247,7 +264,6 @@
               	
               	else{
               		
-              		alert("Bonjour "+date_objet);
               		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
             		
               		
@@ -326,14 +342,15 @@
                 webSocket.close();
             }
  
-            //recuper les info utilisateur
+          
             function load_user(){
             	
             	webSocket.send("/load_use:");
         	
             }
             
-            //recuperee les tout les objet de l'user current
+            
+            
             function load_item(){
             	
             	webSocket.send("/load_item:");
@@ -351,7 +368,7 @@
 
         		document.getElementById("gestion_but_aft").style.visibility="visible";
             	document.getElementById('Life_time_update').disabled=false;      		
-        		document.getElementById("title_update_for").disabled=false;
+        		
         		document.getElementById("update_desc").disabled=false;
         		document.getElementById("Picture_update").disabled=false;
             }
@@ -367,7 +384,7 @@
             	document.getElementById("title_update_for").value = "";
         		document.getElementById("Life_time_update").value = "";
         		document.getElementById("update_desc").innerHTML = "";
-        		document.getElementById("image_object_u").src = "sxpLogo.png";
+        		document.getElementById("image_object_u").src = "VIEW/img/sxpLogo.png";
         		
         		
         		document.getElementById('Life_time_update').disabled=true;
@@ -382,10 +399,11 @@
             function send_message(){
             	//A completer
             	var nick = document.getElementById("user_recv").innerHTML;
-            	var message_env = document.getElementById("message_send").innerHTML;
-            	alert(nick+" "+message_env);
+            	var message_env = document.getElementById("message_send").value;
             	
-            	
+            
+            		webSocket.send("/send_message:"+nick+":"+message_env);
+
             }
             
             function to_search(){
@@ -563,7 +581,7 @@
             		document.getElementById("pourteste").innerHTML = "objet modifier";
             		var element = document.getElementById("data_it");
             		while (element.firstChild) {
-            			alert(element.firstChild);
+            			
             		  element.removeChild(element.firstChild);
             		}
             		
@@ -603,6 +621,13 @@
             		
             		var colonne3 = ligne.insertCell(2);
             		colonne3.innerHTML += text_tab[3]
+            	}if(text_tab[0] == "result_sendMessage"){
+            		if(text_tab[1] == "sendt"){
+            			document.getElementById("bkg").style.backgroundColor="#FF0040";
+            		}else{
+            			
+            			document.getElementById("bkg").style.backgroundColor="#FF0040";
+            		}
             	}
             	
             }
