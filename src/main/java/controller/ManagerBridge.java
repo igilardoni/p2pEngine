@@ -1,5 +1,6 @@
 package controller;
 
+import util.StringDateConverter;
 import controller.controllerInterface.ManagerBridgeInterface;
 import model.Application;
 import model.data.item.Category;
@@ -57,12 +58,12 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	 * @param lifeTime
 	 * @param type
 	 */
-	public void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
+	public void addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return;
 		}
-		User owner = Application.getInstance().getManager().getCurrentUser();
+		Long l = StringDateConverter.getLong(lifeTime) - System.currentTimeMillis();
 		Category c = new Category(category);
 		Item.TYPE t;
 		switch(type.toUpperCase()){
@@ -75,8 +76,8 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		default:
 			t = TYPE.WISH;
 		}
-		Item item = new Item(current, title, c, description, image, country, contact, 0, lifeTime, t);
-		item.sign(owner.getKeys());
+		Item item = new Item(current, title, c, description, image, country, contact, 0, l, t);
+		item.sign(current.getKeys());
 		manager.addItem(item);
 	}
 
@@ -115,7 +116,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 
 	@Override
 	public void updateItem(String title, String category, String description,
-			String image, String country, String contact, long lifeTime,
+			String image, String country, String contact, String lifeTime,
 			String type) {
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".updateItem : No user logged !");
