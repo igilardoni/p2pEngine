@@ -1,4 +1,4 @@
-package controllerInterface;
+package controller.controllerInterface;
 
 public interface ManagerBridgeInterface {
 	public void registration(String nick, String password, String name, String firstName, String email, String phone);
