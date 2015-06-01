@@ -81,13 +81,25 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	}
 
 	@Override
-	public void updateAccount(String nick, String password, String name,
-			String firstName, String email, String phone) {
+	public boolean updateAccount(String nick, String oldPassword, String newPassword,
+			String name, String firstName, String email, String phone){
 		if(current == null){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
+			return false;
 		}
-		// TODO Auto-generated method stub
-		
+		if(current.isPassword(oldPassword)){
+			current.setNick(nick);
+			current.setName(name);
+			current.setFirstName(firstName);
+			current.setEmail(email);
+			current.setPassWord(newPassword);
+			current.setClearPassword(newPassword);
+			current.setPhone(phone);
+			manager.registration(current);
+			manager.logout();
+			return manager.login(nick, newPassword);
+		}
+		return false;
 	}
 
 	@Override
