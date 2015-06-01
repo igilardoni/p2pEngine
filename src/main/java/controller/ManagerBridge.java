@@ -58,7 +58,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	 * @param type
 	 */
 	public void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
-		if(logged()){
+		if(notLogged()){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return;
 		}
@@ -75,7 +75,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		default:
 			t = TYPE.WISH;
 		}
-		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
+		Item item = new Item(current, title, c, description, image, country, contact, 0, lifeTime, t);
 		item.sign(owner.getKeys());
 		manager.addItem(item);
 	}
@@ -104,7 +104,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 
 	@Override
 	public void removeItem(String title) {
-		if(logged()){
+		if(notLogged()){
 			System.err.println(this.getClass().getName()+".removeItem : No user logged !");
 			return;
 		}
@@ -117,14 +117,14 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	public void updateItem(String title, String category, String description,
 			String image, String country, String contact, long lifeTime,
 			String type) {
-		if(logged()){
+		if(notLogged()){
 			System.err.println(this.getClass().getName()+".updateItem : No user logged !");
 			return;
 		}
 		addItem(title, category, description, image, country, contact, lifeTime, type);
 	}
 	
-	private boolean logged(){
-		return manager.getCurrentUser() != null;
+	private boolean notLogged(){
+		return manager.getCurrentUser() == null;
 	}
 }
