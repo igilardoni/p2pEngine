@@ -21,4 +21,5 @@ public class VARIABLES {
 	public final static String ConfigFilePathLinux = "./SXPConfig.xml";
 	public final static String ConfigFilePathMacOs = "";
 	public final static String ConfigFilePathSolaris = "";
+	public static final String ManagerFileName = "SXPManager.xml";
 }

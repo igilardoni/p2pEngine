@@ -31,7 +31,7 @@ import util.secure.AsymKeysImpl;
  * @author Michael Dubuis
  *
  */
-public class Manager extends AbstractAdvertisement implements ServiceListener<Manager> {
+public class Manager extends AbstractAdvertisement implements ServiceListener<Manager>, RecoveryManager {
 	
 	private HashMap<String, User> users;		// The string key is the user's public key in hexadecimal
 	private ArrayList<Item> items;				// list of items handled by this manager.
@@ -693,6 +693,20 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		publishMessages();
 	}
 	
+	
+
+	///////////////////////////////////////////////////// RECOVERY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@Override
+	public void recovery(String path) {
+		if(path == null || path.isEmpty())
+			path = "./"+VARIABLES.ManagerFileName;
+		// TODO Recovery local data
+	}
+
+	@Override
+	public void saving(String path) {
+		// TODO Saving data in local (care to don't delete old data)
+	}
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);

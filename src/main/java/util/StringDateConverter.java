@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class StringDateConverter {
 	public static long getLong(String stringDate){
-		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yy");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
 		Date date;
 		try {
 			date = (Date)formatter.parse(stringDate);
@@ -15,5 +15,9 @@ public class StringDateConverter {
 			e.printStackTrace();
 			return 0L;
 		}
+	}
+	
+	public static void main(String[] args){
+		System.out.println(getLong("01/01/1970"));
 	}
 }

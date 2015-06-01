@@ -74,7 +74,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 			t = TYPE.PROPOSAL;
 			break;
 		default:
-			t = TYPE.WISH;
+			t = TYPE.PROPOSAL;
 		}
 		Item item = new Item(current, title, c, description, image, country, contact, 0, l, t);
 		item.sign(current.getKeys());
