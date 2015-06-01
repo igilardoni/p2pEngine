@@ -1,6 +1,6 @@
 package controller;
 
-import controllerInterface.ManagerBridgeInterface;
+import controller.controllerInterface.ManagerBridgeInterface;
 import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;

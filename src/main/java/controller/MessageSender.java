@@ -2,7 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
-import controllerInterface.MessageSenderInterface;
+import controller.controllerInterface.MessageSenderInterface;
 import model.Application;
 import model.data.manager.Manager;
 import model.data.user.Message;
@@ -88,8 +88,10 @@ public class MessageSender implements MessageSenderInterface {
 	}
 
 	@Override
+	/**
+	 * return an array list with all message from publicKey to currentUser
+	 */
 	public ArrayList<Message> getMessagesfrom(String publicKey) {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.getCurrentUserConversations().getConversation(publicKey);
 	}
 }
