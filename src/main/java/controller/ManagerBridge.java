@@ -23,8 +23,8 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	 * @param password
 	 * @param name
 	 * @param firstName
-	 * @param email
-	 * @param phone
+	 * @param login
+	 * @param login
 	 */
 	public void registration(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);

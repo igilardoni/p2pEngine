@@ -25,12 +25,23 @@ import model.network.search.Search;
 import model.network.search.SearchListener;
 
 
+/**
+* Echo server class intercept messages PREVENTING JS and made the call
+* For functions in the model.
+*
+ */
+
+
 /** 
  * @ServerEndpoint gives the relative name for the end point
  * This will be accessed via ws://localhost:8080/EchoChamber/echo .
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
+	
+	ManagerBridge managerBridge =  new ManagerBridge();
+	MessageSender managerSender =  new MessageSender();
+	
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session.
 	 * The session class allows us to send data to the user.
@@ -49,22 +60,37 @@ public class EchoServer {
 	 * @throws IOException 
 	 */
 	
-	
 	@OnMessage
 	public void onMessage(String message, final Session session){
-		String[] contents = message.split(":");
-		switch (contents[0]) {
+		
+			String[] requet = message.split(":");
+		
+		switch (requet[0]) {
+		/*
+		 * requet[1] : password
+		 * requet[2] : login
+		 */
 		case "/index":
-			if(login(contents[2], contents[1])){
+				if(managerBridge.login(requet[2], requet[1])){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}		
 			}
+			
 			break;
+			/*
+			 * requet[1] : nick
+			 * requet[2] : password
+			 * requet[3] : name
+			 * requet[4] : firstName
+			 * requet[5] : login
+			 * requet[6] : login
+			 * 
+			 */
 		case "/register":
-			addUser(contents[1],contents[2], contents[3], contents[4], contents[5], contents[6]);
+			managerBridge.registration(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);			
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
@@ -73,15 +99,16 @@ public class EchoServer {
 			}
 			break;
 
+			// just for redirection in new_objet.html
 		case "/newobjet":
 			try {
-				//System.out.println(contents[1]+" "+contents[2]+" "+contents[3]+" "+contents[4]+" "+contents[5]+" "+contents[6]);
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-
+			
+			// just for redirection in Search.html
 		case "/search":
 			try {
 				session.getBasicRemote().sendText("Search.html");
@@ -91,25 +118,25 @@ public class EchoServer {
 			break;
 		case "/new_objet_add" :
 			/*
-			 * contents[1] : title
-			 * contents[2] : category
-			 * contents[3] : description
-			 * contents[4] : image
-			 * contents[5] : country
-			 * contents[6] : contact
-			 * contents[7] : lifeTime
-			 * contents[8] : type
+			 * requet[1] : title
+			 * requet[2] : category
+			 * requet[3] : description
+			 * requet[4] : image
+			 * requet[5] : country
+			 * requet[6] : contact
+			 * requet[7] : lifeTime
+			 * requet[8] : type
 			 */
-			addItem(contents[1], contents[2], contents[3], contents[4], contents[5],contents[6], 0L, contents[8]);
+			addItem(requet[1], requet[2], requet[3], requet[4], requet[5],requet[6], 0L, requet[8]);
 			break;
 
 		case "/new_objet_update" :
-			System.out.println(" title "+contents[1]+" categorie "+contents[2]+" description "+contents[3]+" image_objet "+contents[4]+" country "
-					+contents[5]+" contact "+contents[6]+" life_time "+contents[7]+" type_update "+contents[8]+" date_objet "+contents[9]);
+			System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+" country "
+					+requet[5]+" contact "+requet[6]+" life_time "+requet[7]+" type_update "+requet[8]+" date_objet "+requet[9]);
 
 			User owner_u = Application.getInstance().getManager().getCurrentUser();
-			Category category_u = new Category(contents[2]);
-			Item item_u = new Item(owner_u, contents[1], category_u, contents[3], contents[4], contents[5],contents[6], Long.parseLong(contents[9]), 0, TYPE.WISH);
+			Category category_u = new Category(requet[2]);
+			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
 			item_u.sign(owner_u.getKeys());
 
 			Application.getInstance().getManager().addItem(item_u);
@@ -191,7 +218,7 @@ public class EchoServer {
 		case "/zoom_item":
 
 			Manager manager1 = Application.getInstance().getManager();
-			Item item_search = manager1.getItemCurrentUser(contents[1]);
+			Item item_search = manager1.getItemCurrentUser(requet[1]);
 
 
 			try {
@@ -209,7 +236,7 @@ public class EchoServer {
 
 		case "/remove_item":
 
-			Item item_remove = Application.getInstance().getManager().getItemCurrentUser(contents[1]);
+			Item item_remove = Application.getInstance().getManager().getItemCurrentUser(requet[1]);
 			Application.getInstance().getManager().removeItem(item_remove);
 
 
@@ -222,20 +249,20 @@ public class EchoServer {
 			break;
 
 		case "/update_compte_user" :
-			System.out.println(" nick "+contents[1]+" name "+contents[2]+" firstname "+contents[3]+" email "+contents[4]+" passe_update "
-					+contents[5]+" phone "+contents[6]+" passe_verif "+contents[7]);
-			if(Application.getInstance().getManager().getCurrentUser().isPassword(contents[7])){
+			System.out.println(" nick "+requet[1]+" name "+requet[2]+" firstname "+requet[3]+" email "+requet[4]+" passe_update "
+					+requet[5]+" phone "+requet[6]+" passe_verif "+requet[7]);
+			if(Application.getInstance().getManager().getCurrentUser().isPassword(requet[7])){
 				User current = Application.getInstance().getManager().getCurrentUser();
-				current.setNick(contents[1]);
-				current.setName(contents[2]);
-				current.setFirstName(contents[3]);
-				current.setEmail(contents[4]);
-				current.setPassWord(contents[5]);
-				current.setClearPassword(contents[5]);
-				current.setPhone(contents[6]);
+				current.setNick(requet[1]);
+				current.setName(requet[2]);
+				current.setFirstName(requet[3]);
+				current.setEmail(requet[4]);
+				current.setPassWord(requet[5]);
+				current.setClearPassword(requet[5]);
+				current.setPhone(requet[6]);
 				Application.getInstance().getManager().registration(current);
 				Application.getInstance().getManager().logout();
-				Application.getInstance().getManager().login(contents[1], contents[5]);	
+				Application.getInstance().getManager().login(requet[1], requet[5]);	
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
@@ -270,7 +297,7 @@ public class EchoServer {
 					}	
 				}
 			});
-			sc.startSearch(contents[1]);
+			sc.startSearch(requet[1]);
 
 
 			break;
@@ -293,7 +320,7 @@ public class EchoServer {
 			
 		case "/send_message" :
 			String result="";
-			if(sendTextToNick(contents[1],contents[2]))
+			if(sendTextToNick(requet[1],requet[2]))
 				result="sendt";
 			else
 				result="sendf";
@@ -316,15 +343,7 @@ public class EchoServer {
 
 	}
 	
-	/* @OnMessage
-    public void echo(String message, Session session) throws IOException {
-    	String[] contents = message.split(":");
-    	System.out.println(contents[0]+" "+contents[1]);
-    	if(verif(contents[0], contents[1])){
-    		session.getBasicRemote().sendText("Se_connecter.html");		
-    	}
-    }
-     */
+	
 	
 	private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
 		User owner = Application.getInstance().getManager().getCurrentUser();
@@ -362,19 +381,6 @@ public class EchoServer {
 
 	}
 
-	/**
-	 * Add NEW User to current Manager
-	 * @param nick
-	 * @param password
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param phone
-	 */
-	private static void addUser(String nick,String password, String name, String firstName, String email, String phone){
-		User user = new User(nick, password, name, firstName, email, phone);
-		Application.getInstance().getManager().registration(user);
-	}
 
 	/**
 	 * Send a message to a nickname
