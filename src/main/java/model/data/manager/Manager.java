@@ -78,6 +78,18 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		users.put(key, u);
 	}
 	
+	public void addUser(User u, boolean publish) {
+		addUser(u);
+		if(publish) {
+			try {
+				this.network.getGroup("users").getDiscoveryService().publish(u);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * to add a item in this instance of manager
 	 * if owner of the item isn't registered in this instance of manger, function will fail
@@ -110,11 +122,20 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 		items.add(i);
-		try {
-			this.network.getGroup("items").getDiscoveryService().publish(i);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	}
+	
+	public void addItem(Item i, boolean publish) {
+		addItem(i);
+		if(publish) {
+			try {
+				this.network.getGroup("items").getDiscoveryService().publish(i);
+				this.network.getGroup("items").getDiscoveryService().remotePublish(i);
+				System.out.println("item publié :");
+				System.out.println(i);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

@@ -99,6 +99,7 @@ public class EchoServer {
 			break;
 		case "/new_objet_add" :
 			/*
+			 * sinon tu peux crée des variables
 			 * requet[1] : title
 			 * requet[2] : category
 			 * requet[3] : description
@@ -336,7 +337,7 @@ public class EchoServer {
 	}
 	
 	
-	
+	/* Voila ca c'est un style de controlleur stu veux .. */
 	private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
 		User owner = Application.getInstance().getManager().getCurrentUser();
 		Category c = new Category(category);
@@ -354,7 +355,7 @@ public class EchoServer {
 		}
 		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
 		item.sign(owner.getKeys());
-		Application.getInstance().getManager().addItem(item);
+		Application.getInstance().getManager().addItem(item, true);
 	}
 	
 	/**
