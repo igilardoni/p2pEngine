@@ -58,7 +58,6 @@ public class RandomPeerFinder implements DiscoveryListener{
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
 		String founded = "urn:jxta:" + event.getSource().toString().substring(7);
-		System.out.println(founded);
 		try {
 			results.add((PeerID) IDFactory.fromURI(new URI(founded)));
 		} catch (URISyntaxException e) {

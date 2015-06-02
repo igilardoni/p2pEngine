@@ -75,7 +75,7 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9700 + new Random().nextInt(100), "testFolder" + new Random().nextInt(1000), "julien");
+		network = new Network(9700 + new Random().nextInt(100), VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
 		network.start();
 	}
