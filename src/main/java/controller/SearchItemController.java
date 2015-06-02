@@ -35,8 +35,13 @@ public class SearchItemController implements SearchListener<Item>{
 	 */
 	public void searchEvent(Item event) {
 		System.out.println("ok pour searchEvent");
-		itmes.add(event.getTitle());
-		notifyListeners(event);
+		if(event != null) {
+			if(event instanceof Item) {
+				System.out.println("ok bitch");
+				itmes.add(event.getTitle());
+				notifyListeners(event);
+			}
+		}
 	}
 	
 }

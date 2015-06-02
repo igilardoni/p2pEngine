@@ -138,7 +138,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			try {
 				this.network.getGroup("items").getDiscoveryService().publish(i);
 				this.network.getGroup("items").getDiscoveryService().remotePublish(i);
-				System.out.println("item publi� :");
+				System.out.println("item publie :");
 				System.out.println(i);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

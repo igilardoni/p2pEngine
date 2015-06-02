@@ -339,6 +339,7 @@ public class EchoServer {
 		}
 		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
 		item.sign(owner.getKeys());
+		System.out.println("en cours ...");
 		Application.getInstance().getManager().addItem(item, true);
 	}
 	
