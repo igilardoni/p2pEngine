@@ -60,8 +60,11 @@ public class SharingManager {
 			public void run() {
 				while(continueThread) {
 						checkDataResilience();
+						RandomPeerFinder f = new RandomPeerFinder(network);
+						f.findPeers(3000, 5);
+						System.out.println(f.getResults().size());
 					try {
-						Thread.sleep(checkTime);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
