@@ -38,6 +38,8 @@ import model.network.search.SearchListener;
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
+	ManagerBridge managerB =  new ManagerBridge();
+	
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session.
 	 * The session class allows us to send data to the user.
@@ -109,18 +111,26 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
-			System.out.println("titlre :"+requet[1]);
-			System.out.println("category :"+requet[2]);
-			System.out.println("description :"+requet[3]);
-			System.out.println("image :"+requet[4]);
-			System.out.println("country :"+requet[5]);
-			System.out.println("contact :"+requet[6]);
-			System.out.println("lifeTime :"+requet[7]);
-			System.out.println("type :"+requet[8]);
+	
 			
 			
 			
-			addItem(requet[1], requet[2], requet[3], requet[4], requet[5],requet[6], 0, requet[8]);
+			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
+			
+			//private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
+				
+			
+			//--------------------------------------------------------------------//
+			
+			/*User owner_u = Application.getInstance().getManager().getCurrentUser();
+			Category category_u = new Category(requet[2]);
+			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
+			item_u.sign(owner_u.getKeys());
+			
+			Application.getInstance().getManager().addItem(item_u);
+		
+			*/
+			
 			break;
 
 		case "/new_objet_update" :

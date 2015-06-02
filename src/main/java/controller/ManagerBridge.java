@@ -57,6 +57,10 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	
 	@Override
 	public void addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
+		
+		System.out.println(" title "+title+" categorie "+category+" description "+description+" image_objet "+image+" country "
+				+country+" contact "+contact+" life_time "+lifeTime+" type_update "+type);
+		
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return;
