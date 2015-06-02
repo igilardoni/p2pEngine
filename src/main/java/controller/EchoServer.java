@@ -12,6 +12,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import net.jxta.peer.PeerID;
+import util.DateConverter;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.Application;
@@ -65,7 +66,7 @@ public class EchoServer {
 		
 		switch (requet[0]) {
 		case "/index":
-			if(login(requet[2], requet[1])){
+			if(managerB.login(requet[2], requet[1])){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
@@ -74,7 +75,8 @@ public class EchoServer {
 			}
 			break;
 		case "/register":
-			addUser(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);
+			
+			managerB.registration(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
@@ -83,9 +85,9 @@ public class EchoServer {
 			}
 			break;
 
+		//Just for redirection
 		case "/newobjet":
 			try {
-				//System.out.println(requet[1]+" "+requet[2]+" "+requet[3]+" "+requet[4]+" "+requet[5]+" "+requet[6]);
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -134,10 +136,23 @@ public class EchoServer {
 			break;
 
 		case "/new_objet_update" :
-			System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+" country "
-					+requet[5]+" contact "+requet[6]+" life_time "+requet[7]+" type_update "+requet[8]+" date_objet "+requet[9]);
+			
+			System.out.println("JE SUIS LAAAAAAAAAAAAAA");
+			System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+":"+requet[5]+""+" country "
+				+requet[6]+" contact "+requet[7]+" life_time "+requet[8]+" type_update "+requet[9]+" date_objet "+requet[10]);
 
-			User owner_u = Application.getInstance().getManager().getCurrentUser();
+		
+			
+			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
+			
+			try {
+				session.getBasicRemote().sendText("update_objet:");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			/*User owner_u = Application.getInstance().getManager().getCurrentUser();
 			Category category_u = new Category(requet[2]);
 			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
 			item_u.sign(owner_u.getKeys());
@@ -151,6 +166,11 @@ public class EchoServer {
 				e1.printStackTrace();
 			}
 
+			
+			
+			*/
+			
+			
 			break;
 		case "/newindex":
 			try {
@@ -222,12 +242,22 @@ public class EchoServer {
 
 			Manager manager1 = Application.getInstance().getManager();
 			Item item_search = manager1.getItemCurrentUser(requet[1]);
+			
+			System.out.println("Titre "+item_search.getTitle());
+			System.out.println("Categorrie "+item_search.getCategory().toString());	
+			System.out.println("Country "+item_search.getCountry());
+			System.out.println("LifeTime "+item_search.getLifeTime());
+			System.out.println("Type "+item_search.getType());
+			System.out.println("Description "+item_search.getDescription());
+			//System.out.println("Imge "+item_search.getImage());
+			System.out.println("Date "+item_search.getDate());
+			System.out.println("Contact "+item_search.getContact());
 
-
+			Long enddingDate = item_search.getLifeTime() + item_search.getDate();
 			try {
 				session.getBasicRemote().sendText("zoom_item_result:"+
 						item_search.getTitle()+":"+item_search.getCategory().getStringChoice()+":"+
-						item_search.getCountry()+":"+item_search.getLifeTime()+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
+						item_search.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
 						+":"+item_search.getDate()+":"+item_search.getContact());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
