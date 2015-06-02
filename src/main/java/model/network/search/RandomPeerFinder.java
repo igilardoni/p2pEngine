@@ -36,7 +36,7 @@ public class RandomPeerFinder implements DiscoveryListener{
 	 */
 	public void findPeers(long timeout, int expectedResults) {
 		results = new ArrayList<PeerID>();
-		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.PEER, null, null, 100, this);
+		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.PEER, null, null, 1, this);
 		
 		long waiting = timeout;
 		
@@ -58,6 +58,7 @@ public class RandomPeerFinder implements DiscoveryListener{
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
 		String founded = "urn:jxta:" + event.getSource().toString().substring(7);
+		System.out.println(founded);
 		try {
 			results.add((PeerID) IDFactory.fromURI(new URI(founded)));
 		} catch (URISyntaxException e) {

@@ -76,7 +76,6 @@ public class Network implements NetworkInterface {
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
-		defaultGroup.getRendezVousService().startRendezVous();
 		defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
 		
 	}
