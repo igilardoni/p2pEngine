@@ -1,5 +1,6 @@
 package model.data.manager;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			try {
 				this.network.getGroup("items").getDiscoveryService().publish(i);
 				this.network.getGroup("items").getDiscoveryService().remotePublish(i);
-				System.out.println("item publié :");
+				System.out.println("item publiï¿½ :");
 				System.out.println(i);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -617,8 +618,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @return
 	 */
 	public void registration(User user){
-		if(user == null)
+		if(user == null){
+			System.err.println(Manager.class.getName()+".registration : can't register null user");
 			return;
+		}
+		if(user.getKeys() == null || !user.getKeys().isCompatible()){
+			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
+			return;
+		}
 		AsymKeysImpl originalKey = user.getKeys().clone();
 		user.encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
@@ -722,6 +729,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(path == null || path.isEmpty())
 			path = "./"+VARIABLES.ManagerFileName;
 		// TODO Recovery local data
+		File managerFile = new File(path);
 	}
 
 	@Override
