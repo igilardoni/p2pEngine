@@ -74,7 +74,7 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9750, "testFolder", "julien");
+		network = new Network(9755, "testFolder3", "julien3");
 		network.setLogger(Level.INFO);
 		network.start();
 	}
