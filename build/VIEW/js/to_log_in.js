@@ -223,6 +223,7 @@
               	var description = document.getElementById("update_desc").value;
               	var contact = document.getElementById("Contact_item_upd").value;
               	
+              	
               	if(title  == ""){
               		document.getElementById("update_title_err").style.color = "#ff0000";
               	}else if(categorie  == ""){
@@ -263,7 +264,7 @@
               	}
               	
               	else{
-              		
+              	 	
               		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
             		
               		
@@ -339,6 +340,8 @@
             
             
             function closeSocket(){
+            	
+            	
                 webSocket.close();
             }
  
@@ -576,7 +579,7 @@
             		document.getElementById("image_object_u").src = text_tab[7]+":"+text_tab[8];
             		document.getElementById("Contact_item_upd").value= text_tab[10];
             		date_objet = text_tab[9];
-            		image_objet = text_tab[7]+":"+text_tab[7];
+            		image_objet = text_tab[7]+":"+text_tab[8];
             	}if(text_tab[0] == "update_objet"){
             		document.getElementById("pourteste").innerHTML = "objet modifier";
             		var element = document.getElementById("data_it");
@@ -604,9 +607,8 @@
             	}
             	if(text_tab[0] == "log_index"){
             		
-            		window.location.replace("index.html");
-            		
-            		
+            		window.location.replace("Se_connecter.html");
+            		        		
             	}if(text_tab[0] == "result_search_item"){
             		
             		var tableau = document.getElementById("data_it_search");

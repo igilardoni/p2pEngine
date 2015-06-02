@@ -136,10 +136,23 @@ public class EchoServer {
 			break;
 
 		case "/new_objet_update" :
-			//System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+" country "
-				//	+requet[5]+" contact "+requet[6]+" life_time "+requet[7]+" type_update "+requet[8]+" date_objet "+requet[9]);
+			
+			System.out.println("JE SUIS LAAAAAAAAAAAAAA");
+			System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+":"+requet[5]+""+" country "
+				+requet[6]+" contact "+requet[7]+" life_time "+requet[8]+" type_update "+requet[9]+" date_objet "+requet[10]);
 
-			User owner_u = Application.getInstance().getManager().getCurrentUser();
+		
+			
+			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
+			
+			try {
+				session.getBasicRemote().sendText("update_objet:");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			/*User owner_u = Application.getInstance().getManager().getCurrentUser();
 			Category category_u = new Category(requet[2]);
 			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
 			item_u.sign(owner_u.getKeys());
@@ -153,6 +166,11 @@ public class EchoServer {
 				e1.printStackTrace();
 			}
 
+			
+			
+			*/
+			
+			
 			break;
 		case "/newindex":
 			try {
