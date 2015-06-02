@@ -369,7 +369,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 
 	@Override
 	protected String getAdvertisementName() {
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 
 	@Override

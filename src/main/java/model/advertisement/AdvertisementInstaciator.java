@@ -44,7 +44,6 @@ public class AdvertisementInstaciator implements Instantiator{
 	@Override
 	public Advertisement newInstance(Element root) {
 		try {
-			advClass.getConstructor(Element.class).newInstance(root);
 			return advClass.getConstructor(Element.class).newInstance(root);
 		} catch (Exception e) {
 			e.printStackTrace();
