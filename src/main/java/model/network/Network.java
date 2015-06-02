@@ -43,7 +43,7 @@ public class Network implements NetworkInterface {
 	public Network(int port, String folder, String peerName) {
 		File configFile = new File("." + System.getProperty("file.separator") + folder); /* Used by the networkManager */
 		networkManager = networkManagerSetup(configFile, port, peerName);
-		networkManager.setConfigPersistent(true);
+		networkManager.setConfigPersistent(false);
 	}
 
 	@Override
