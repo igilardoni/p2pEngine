@@ -259,8 +259,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	public static void register() {
 		User u = new User();
-		AdvertisementFactory.registerAdvertisementInstance(u.getAdvType(),
-                										   new AdvertisementInstaciator(u.getClass(), u.getAdvType()));
+		AdvertisementFactory.registerAdvertisementInstance(u.getAdvType(), new AdvertisementInstaciator(u));
 	}
 	
 	/**

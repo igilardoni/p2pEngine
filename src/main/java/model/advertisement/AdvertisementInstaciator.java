@@ -18,9 +18,9 @@ public class AdvertisementInstaciator implements Instantiator{
 	private Class<? extends Advertisement> advClass;
 	private String advType;
 	
-	public AdvertisementInstaciator(Class<? extends Advertisement> advClass, String advType) {
-		this.advClass = advClass;
-		this.advType = advType;
+	public AdvertisementInstaciator(AbstractAdvertisement advClass) {
+		this.advClass = advClass.getClass();
+		this.advType = advClass.getAdvType();
 	}
 	
 	@Override

@@ -39,8 +39,8 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
+		startNetwork();
 		manager = new Manager(network);
 		manager.recovery(VARIABLES.ManagerFileName);
 		startCommunication();
