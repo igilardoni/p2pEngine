@@ -5,8 +5,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 
+import org.bouncycastle.crypto.engines.ElGamalEngine;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
+
+import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
+import util.secure.ElGamalEncrypt;
 
 /**
  * this class simulate the sender but in the end all users have this class
@@ -18,15 +23,12 @@ import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
 public class Sender extends Fabric{
 	
 	SecureRandom  random = new SecureRandom();
+
 	
-	private Keys publicKeys = new Keys();
-	
-	
-	private BigInteger privateKey;
-	private AsymmetricKeyParameter privateKeyAs;
+	AsymKeysImpl keys;
+	ElGamalEncrypt encrypt;
 	
 	private HashMap<Masks,BigInteger> eph = new HashMap<Masks, BigInteger>();
-	private ElGamalEngineEx e = new ElGamalEngineEx();
 
 	/**
 	 * Constructor
@@ -34,28 +36,11 @@ public class Sender extends Fabric{
 	 * @param publicKeys
 	 * @param privateKeyAs
 	 */
-	public Sender (Keys publicKeys,AsymmetricKeyParameter privateKeyAs)
+	public Sender (AsymKeysImpl keys)
 	{
-		this.publicKeys = publicKeys;
-		this.privateKeyAs = privateKeyAs;
-		this.privateKey = ((ElGamalPrivateKeyParameters) privateKeyAs).getX();
+		this.keys = keys; 
 	}
 	
-	/**
-	 * Constructor
-	 * All Keys are generated
-	 */
-	public Sender(){
-		
-		GenerateKeys gK = new GenerateKeys(false);
-		publicKeys.setG(gK.getG());
-		publicKeys.setP(gK.getP());
-		publicKeys.setPublicKey(gK.getPublicKey());
-		
-		privateKey = gK.getPrivateKey();
-		privateKeyAs = gK.getPrivateKeyAs();
-        
-    }
 	
 	/**
 	 * Create mask to need send for the Shnorr 
@@ -64,8 +49,8 @@ public class Sender extends Fabric{
 	public Masks SendMasksSchnorr() {
 			
 		BigInteger s, a;
-		s = Utils.rand(1024, publicKeys.getP());
-		a = publicKeys.getG().modPow(s,publicKeys.getP());
+		s = Utils.rand(1024, keys.getP());
+		a = keys.getG().modPow(s,keys.getP());
 		
 		Masks mask = new Masks(a,null);
 		eph.put(mask, s);
@@ -79,7 +64,7 @@ public class Sender extends Fabric{
 	 */
 	private BigInteger ResponseSchnorr(BigInteger challenge,Masks mask)
 	{
-		BigInteger response = (privateKey.multiply(challenge)).add(eph.get(mask));
+		BigInteger response = (keys.getPrivateKey().multiply(challenge)).add(eph.get(mask));
 		return response;
 	}
 	
@@ -112,7 +97,7 @@ public class Sender extends Fabric{
 	 * Create mask to need send for the CCE 
 	 * @return Masks
 	 */
-	private Masks SendMasksCCE(Keys tKeys) {
+	private Masks SendMasksCCE(AsymKeysImpl tKeys) {
 		
 		BigInteger s, a, aBis;
 		s = Utils.rand(1024, tKeys.getP());
@@ -132,7 +117,7 @@ public class Sender extends Fabric{
 	 */
 	private BigInteger ResponseCCE(BigInteger challenge, Masks mask) {
 		
-		BigInteger k = e.getK();
+		BigInteger k = encrypt.getK();
 		BigInteger response = (k.multiply(challenge)).add(eph.get(mask));
 		return response;
 	}
@@ -141,7 +126,7 @@ public class Sender extends Fabric{
 	 * Create responseCCE will send 
 	 * @return response in bigInteger
 	 */
-	public ResponsesCCE SendResponseCCE(byte[] message, Keys tKeys)
+	public ResponsesCCE SendResponseCCE(byte[] message, AsymKeysImpl tKeys)
 	{
 		Masks mask = this.SendMasksCCE(tKeys);
 		BigInteger challenge = this.SendChallenge(mask, message);
@@ -154,7 +139,7 @@ public class Sender extends Fabric{
 	 * Create responseCCE will send, with challenge fixed
 	 * @return response in bigInteger
 	 */
-	public ResponsesCCE SendResponseCCE(byte[] message, Keys tKeys, BigInteger challenge)
+	public ResponsesCCE SendResponseCCE(byte[] message, AsymKeysImpl tKeys, BigInteger challenge)
 	{
 		Masks mask = this.SendMasksCCE(tKeys);
 		BigInteger response = this.ResponseCCE(challenge, mask);
@@ -197,20 +182,16 @@ public class Sender extends Fabric{
 	 * @param tKeys
 	 * @return resEncrypt (result of encryption)
 	 */
-	public  ResEncrypt Encryption(byte[] input, AsymmetricKeyParameter tpublicKeyAs, Keys tKeys)
+	public  ResEncrypt Encryption(byte[] input, AsymKeysImpl tKeys)
 	{
-		e.init(true, tpublicKeyAs);
-		
-        byte[] cipherText = e.processBlock(input, 0, input.length) ;
-        BigInteger M = new BigInteger (input); //a voir
-        BigInteger u = tKeys.getG().modPow(e.getK(),tKeys.getP());
-        BigInteger v = (tKeys.getPublicKey().modPow(e.getK(), tKeys.getP()).multiply(M));
-        ResEncrypt res = new ResEncrypt(u,v,input);
+		ElGamal elGamal = new ElGamal(tKeys);
+		encrypt  = elGamal.encryptForContract(input);
+        ResEncrypt res = new ResEncrypt(encrypt.getU(),encrypt.getV(),input);
         
         return res;
 	}
 	
-	public Keys getPublicKeys() {
-		return publicKeys;
+	public AsymKeysImpl getKeys() {
+		return keys;
 	}
 }

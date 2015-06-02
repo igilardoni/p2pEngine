@@ -2,6 +2,8 @@ package sarah;
 
 import java.math.BigInteger;
 
+import util.secure.AsymKeysImpl;
+
 /**
  * this class is used for the PCS and especially for the OR
  * it's a fabric for challenge, Mask and Response good for the different check
@@ -16,9 +18,9 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return
 	 */
-	private BigInteger FabricChallenge(Keys publicKeys)
+	private BigInteger FabricChallenge(AsymKeysImpl keys)
 	{
-		BigInteger c = Utils.rand(160, publicKeys.getP());
+		BigInteger c = Utils.rand(160, keys.getP());
 		return c;
 	}
 	
@@ -27,9 +29,9 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return
 	 */
-	private BigInteger FabricResponse(Keys publicKeys)
+	private BigInteger FabricResponse(AsymKeysImpl keys)
 	{
-		BigInteger r = Utils.rand(160, publicKeys.getP());
+		BigInteger r = Utils.rand(160, keys.getP());
 		return r;
 	}
 	
@@ -40,10 +42,10 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return mask
 	 */
-	private Masks FabricMaskSchnorr(BigInteger c, BigInteger r,Keys publicKeys)
+	private Masks FabricMaskSchnorr(BigInteger c, BigInteger r,AsymKeysImpl keys)
 	{
-		BigInteger gPowr = publicKeys.getG().modPow(r, publicKeys.getP());
-		BigInteger modInv = publicKeys.getPublicKey().modPow(c,  publicKeys.getP()).modInverse(publicKeys.getP());
+		BigInteger gPowr = keys.getG().modPow(r, keys.getP());
+		BigInteger modInv = keys.getPublicKey().modPow(c,  keys.getP()).modInverse(keys.getP());
 		BigInteger a = gPowr.multiply(modInv);
 		Masks mask = new Masks(a,null);		
 		return mask;
@@ -54,11 +56,11 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return responseSchnorr
 	 */
-	public ResponsesSchnorr SendResponseSchnorrFabric(Keys publicKeys)
+	public ResponsesSchnorr SendResponseSchnorrFabric(AsymKeysImpl keys)
 	{
-		BigInteger challenge = this.FabricChallenge( publicKeys);
-		BigInteger response = this.FabricResponse(publicKeys);
-		Masks mask = this.FabricMaskSchnorr(challenge, response,publicKeys);
+		BigInteger challenge = this.FabricChallenge( keys);
+		BigInteger response = this.FabricResponse(keys);
+		Masks mask = this.FabricMaskSchnorr(challenge, response,keys);
 		return new ResponsesSchnorr(mask,challenge,response);
 	}
 	
@@ -70,7 +72,7 @@ public class Fabric {
 	 * @param keys
 	 * @return
 	 */
-	private Masks FabricMaskCCE(BigInteger c, BigInteger r, ResEncrypt res, Keys keys)
+	private Masks FabricMaskCCE(BigInteger c, BigInteger r, ResEncrypt res, AsymKeysImpl keys)
 	{
 		BigInteger gPowr = keys.getG().modPow(r, keys.getP());
 		BigInteger modInv = res.getU().modPow(c,  keys.getP()).modInverse(keys.getP());
@@ -92,11 +94,11 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return responseCCE
 	 */
-	public ResponsesCCE SendResponseCCEFabric(ResEncrypt res,Keys publicKeys)
+	public ResponsesCCE SendResponseCCEFabric(ResEncrypt res,AsymKeysImpl keys)
 	{
-		BigInteger challenge = this.FabricChallenge( publicKeys);
-		BigInteger response = this.FabricResponse(publicKeys);
-		Masks mask = this.FabricMaskCCE(challenge, response,res,publicKeys);
+		BigInteger challenge = this.FabricChallenge( keys);
+		BigInteger response = this.FabricResponse(keys);
+		Masks mask = this.FabricMaskCCE(challenge, response,res,keys);
 		return new ResponsesCCE(mask,challenge,response);
 	}
 }

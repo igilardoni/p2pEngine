@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import util.secure.AsymKeysImpl;
+
 /**
  * It's response to need to send in the protocol
  * it's abstract, for the different response in the protocol
@@ -48,6 +50,6 @@ public abstract class Responses {
 	 * @param res
 	 * @return
 	 */
-	public abstract Boolean Verifies(Keys Keys, ResEncrypt res);
+	public abstract Boolean Verifies(AsymKeysImpl Keys, ResEncrypt res);
 	
 }

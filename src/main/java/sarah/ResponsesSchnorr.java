@@ -1,6 +1,8 @@
 package sarah;
 import java.math.BigInteger;
 
+import util.secure.AsymKeysImpl;
+
 /**
  * The Schnorr response
  * @author sarah
@@ -25,7 +27,7 @@ public class ResponsesSchnorr extends Responses{
 	 * Extends Responses
 	 * Verify if the Schnorr response is good or not 
 	 */
-	public Boolean Verifies(Keys tKeys, ResEncrypt res) {
+	public Boolean Verifies(AsymKeysImpl tKeys, ResEncrypt res) {
 		return (tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())));
 	}
 	
