@@ -42,6 +42,7 @@ public class Application {
 		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
 		manager = new Manager(network);
+		manager.recovery(VARIABLES.ManagerFileName);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
