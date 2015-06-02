@@ -1,6 +1,8 @@
 package model.data.manager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,7 +22,12 @@ import model.network.communication.service.ServiceListener;
 import model.network.search.Search;
 import net.jxta.discovery.DiscoveryService;
 
+import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import util.StringToElement;
 import util.VARIABLES;
@@ -102,7 +109,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		String owner = i.getOwner();
-		if(owner.isEmpty()){
+		if(owner == null || owner.isEmpty()){
 			System.err.println(this.getAdvertisementName()+" : No owner found !");
 			return;
 		}
@@ -221,7 +228,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			s.append(m.toString());
 		}
 		s.append("</Messages>");
-		s.append(conversations.get(publicKey).toString());
+		//s.append(conversations.get(publicKey).toString());
 		return s.toString();
 	}
 	
@@ -590,8 +597,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @return
 	 */
 	public Conversations getUserConversations(String publicKey){
-		if(!conversations.containsKey(publicKey))
-			addConversations(new Conversations(publicKey));
+		/*if(!conversations.containsKey(publicKey))
+			addConversations(new Conversations(publicKey));*/
 		return conversations.get(publicKey);
 	}
 	
@@ -679,6 +686,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	
 	public void logout() {
+		this.saving(VARIABLES.ManagerFileName);
 		currentUser.setClearPassword(null);
 		currentUser = null;
 	}
@@ -728,56 +736,143 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void recovery(String path) {
 		if(path == null || path.isEmpty())
 			path = "./"+VARIABLES.ManagerFileName;
-		// TODO Recovery local data
-		File managerFile = new File(path);
+		SAXBuilder builder = new SAXBuilder();
+		File xmlFile = new File(path);
+		try {
+			Document document = (Document) builder.build(xmlFile);
+			Element root = document.getRootElement();
+			Element usersElement = root.getChild("users");
+			for (Element e : usersElement.getChildren()) {
+				addUser(new User(e));
+			}
+			Element itemsElement = root.getChild("items");
+			for (Element e : itemsElement.getChildren()) {
+				addItem(new Item(e));
+			}
+			Element messagesElement = root.getChild("messages");
+			for (Element e : messagesElement.getChildren()) {
+				addMessage(new Message(e));
+			}
+			Element conversationsElement = root.getChild("ReceivedMessages");
+			for (Element e : conversationsElement.getChildren()) {
+				addConversations(new Conversations(e));
+			}
+		} catch (FileNotFoundException e1){
+			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" doesn't exist");
+		} catch (IOException e2) {
+			System.err.println(Manager.class.getName()+".recovery : "+e2.toString());
+		} catch (JDOMException e3) {
+			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" is empty");
+		}
 	}
 
 	@Override
 	public void saving(String path) {
-		// TODO Saving data in local (care to don't delete old data)
+		Manager manager = new Manager(null);
+		manager.recovery(path);
+		
+		if(path == null || path.isEmpty())
+			path = "./"+VARIABLES.ManagerFileName; 
+		// Element Root
+		Element root = new Element(Manager.class.getName());
+		// Saving current user's Keys decrypted
+		AsymKeysImpl clearKeys = this.getCurrentUser().getKeys().clone();
+		this.getCurrentUser().encryptPrivateKey(currentUser.getClearPwd());
+		this.getCurrentUser().sign(clearKeys);
+		// ArrayList are used for adding data in local file.
+		ArrayList<User> users = new ArrayList<User>();
+		ArrayList<Item> items = this.getUserItems(clearKeys.getPublicKey().toString(16));
+		ArrayList<Message> messages = this.getUserMessages(clearKeys.getPublicKey().toString(16));
+		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
+		
+		Conversations converC = this.getUserConversations(clearKeys.getPublicKey().toString(16));
+		if(converC!=null) conversations.add(converC);
+		
+		// Element users
+		users.add(currentUser);
+		Element usersElement = new Element("users");
+		usersElement.addContent(this.getCurrentUser().getRootElement());
+		for (User user : manager.getUsers()){
+			if(!user.getKeys().getPublicKey().equals(currentUser.getKeys().getPublicKey())){
+				usersElement.addContent(user.getRootElement());
+				users.add(user);
+				for (Item i : this.getUserItems(user.getKeys().getPublicKey().toString(16))) {
+					if(!items.contains(i))
+						items.add(i);
+				}
+				for (Item i : manager.getUserItems(user.getKeys().getPublicKey().toString(16))) {
+					if(!items.contains(i))
+						items.add(i);
+				}
+				for (Message m : this.getUserMessages(user.getKeys().getPublicKey().toString(16))) {
+					if(!messages.contains(m))
+						messages.add(m);
+				}
+				for (Message m : manager.getUserMessages(user.getKeys().getPublicKey().toString(16))) {
+					if(!messages.contains(m))
+						messages.add(m);
+				}
+				Conversations c;
+				c = this.getUserConversations(user.getKeys().getPublicKey().toString(16));
+				if(c != null && !conversations.contains(c))
+					conversations.add(c);
+				c = manager.getUserConversations(user.getKeys().getPublicKey().toString(16));
+				if(c != null && !conversations.contains(c))
+					conversations.add(c);
+			}
+		}
+		// Element items
+		Element itemsElement = new Element("items");
+		for (Item i : items) {
+			itemsElement.addContent(i.getRootElement());
+		}
+		// Element messages
+		Element messagesElement = new Element("messages");
+		for (Message m : messages) {
+			messagesElement.addContent(m.getRootElement());
+		}
+		// Element ReceivedMessages
+		Element conversationsElement = new Element("ReceivedMessages");
+		for (Conversations c : conversations) {
+			conversationsElement.addContent(c.getRootElement());
+		}
+		// Adding all elements in root element
+		root.addContent(usersElement);
+		root.addContent(itemsElement);
+		root.addContent(messagesElement);
+		root.addContent(conversationsElement);
+		// Writing in file
+		Document doc = new Document(root);
+		XMLOutputter xmlOutput = new XMLOutputter();
+		xmlOutput.setFormat(Format.getPrettyFormat());
+		try {
+			xmlOutput.output(doc, new FileWriter(path));
+		} catch (IOException e) {
+			System.err.println(Manager.class.getName()+".saving : "+e.toString());
+		}
+		// Decrypt current user's private key
+		currentUser.decryptPrivateKey(currentUser.getClearPwd());
 	}
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
-		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
-		Item item1 = new Item(user1, "title", new Category("bu"), "description", "image", "country", "contact", 0, 0, TYPE.PROPOSAL);
-		user1.sign(user1.getKeys());
-		item1.sign(user1.getKeys());
+		User user = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
+		manager.registration(user);
+		user.decryptPrivateKey("pass2");
+		manager.currentUser = user;
 		
-		manager.addUser(user1);
-		manager.addItem(item1);
+		Item item = new Item(manager.currentUser, "title", new Category("category"), "description", "image", "country", "contact", 0L, 0L, TYPE.WISH);
+		item.sign(manager.currentUser.getKeys());
+		manager.addItem(item);
 		
-		Item item2 = new Item(item1.toString());
-		item2.setContact("coliquegfl");
-		item2.sign(user1.getKeys());
+		manager.saving("");
 		
-		manager.addItem(item2);
+		Manager manager2 = new Manager(null);
+		manager2.recovery("");
 		
-		System.out.println(manager.getItemsXML());
-		/*
-		Manager manager = new Manager(null);
-		User user1 = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
-		user1.sign(user1.getKeys());
-		User user2 = new User("user2", "pass2", "name2", "firstname2", "email2", "phone2");
-		user2.sign(user2.getKeys());
-		Item item1 = new Item(user1, "patate", new Category(Category.CATEGORY.Appliances), 
-				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
-		item1.sign(user1.getKeys());
-		Item item2 = new Item(user2, "carotte", new Category(Category.CATEGORY.Appliances), 
-				"osef", null, "france", "???", 145L, 1000L, Item.TYPE.WISH);
-		item2.sign(user2.getKeys());
-		manager.addUser(user1);
-		manager.addUser(user2);
-		manager.addItem(item1);
-		manager.addItem(item2);
-		
-		Manager manager2 = new Manager(manager.toString(), null);
-		if(manager2.toString().equals(manager.toString())) {
-			System.out.println("ok !");
-		}
-		*/
+		System.out.println(manager2.toString());
 	}
 	
 	
