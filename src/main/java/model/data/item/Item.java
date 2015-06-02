@@ -110,6 +110,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(Element i) {
 		super(i);
 	}
+	
+	public Item(net.jxta.document.Element e) {
+		super(e);
+	}
 
 	/**
 	 * Return the owner of this Item
