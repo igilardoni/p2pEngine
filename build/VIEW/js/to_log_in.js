@@ -573,10 +573,10 @@
             		document.getElementById("title_update_for").value = text_tab[1];
             		document.getElementById("Life_time_update").value = text_tab[4];
             		document.getElementById("update_desc").innerHTML = text_tab[6];
-            		document.getElementById("image_object_u").src = "data:"+text_tab[7];
-            		document.getElementById("Contact_item_upd").value= text_tab[9];
-            		date_objet = text_tab[8];
-            		image_objet = text_tab[7];
+            		document.getElementById("image_object_u").src = text_tab[7]+":"+text_tab[8];
+            		document.getElementById("Contact_item_upd").value= text_tab[10];
+            		date_objet = text_tab[9];
+            		image_objet = text_tab[7]+":"+text_tab[7];
             	}if(text_tab[0] == "update_objet"){
             		document.getElementById("pourteste").innerHTML = "objet modifier";
             		var element = document.getElementById("data_it");
