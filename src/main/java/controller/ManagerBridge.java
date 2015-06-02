@@ -10,26 +10,24 @@ import model.data.manager.Manager;
 import model.data.user.User;
 
 public class ManagerBridge implements ManagerBridgeInterface{
-	private Manager manager;
 	private User current;
 	
 	public ManagerBridge(){
-		manager = Application.getInstance().getManager();
 	}
 	
 	@Override
 	public void registration(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);
-		manager.registration(user);
+		Application.getInstance().getManager().registration(user);
 	}
 	
 	@Override
 	public boolean login(String login, String password){
-		if(manager.getCurrentUser()!=null)
-			manager.logout();
-		boolean logged = manager.login(login, password);
+		if(Application.getInstance().getManager().getCurrentUser()!=null)
+			Application.getInstance().getManager().logout();
+		boolean logged = Application.getInstance().getManager().login(login, password);
 		if(logged)
-			current = manager.getCurrentUser();
+			current = Application.getInstance().getManager().getCurrentUser();
 		return logged;
 	}
 
@@ -48,9 +46,9 @@ public class ManagerBridge implements ManagerBridgeInterface{
 			current.setPassWord(newPassword);
 			current.setClearPassword(newPassword);
 			current.setPhone(phone);
-			manager.registration(current);
-			manager.logout();
-			return manager.login(nick, newPassword);
+			Application.getInstance().getManager().registration(current);
+			Application.getInstance().getManager().logout();
+			return Application.getInstance().getManager().login(nick, newPassword);
 		}
 		return false;
 	}
@@ -79,9 +77,10 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		default:
 			t = TYPE.PROPOSAL;
 		}
-		Item item = new Item(current, title, c, description, image, country, contact, 0, l, t);
-		item.sign(current.getKeys());
-		manager.addItem(item);
+		System.out.println(Application.getInstance().getManager().getCurrentUser().getKeys().toString());
+		Item item = new Item(Application.getInstance().getManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
+		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
+		Application.getInstance().getManager().addItem(item);
 	}
 
 	@Override
@@ -90,9 +89,9 @@ public class ManagerBridge implements ManagerBridgeInterface{
 			System.err.println(this.getClass().getName()+".removeItem : No user logged !");
 			return;
 		}
-		Item item  = manager.getItem(current.getKeys().getPublicKey().toString(16), title);
+		Item item  = Application.getInstance().getManager().getItem(Application.getInstance().getManager().getCurrentUser().getKeys().getPublicKey().toString(16), title);
 		if(item != null)
-			manager.removeItem(item);
+			Application.getInstance().getManager().removeItem(item);
 	}
 
 	@Override
@@ -107,6 +106,6 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	}
 	
 	private boolean notLogged(){
-		return manager.getCurrentUser() == null;
+		return Application.getInstance().getManager().getCurrentUser() == null;
 	}
 }

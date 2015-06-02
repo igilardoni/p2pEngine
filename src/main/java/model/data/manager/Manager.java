@@ -1,5 +1,6 @@
 package model.data.manager;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -728,6 +729,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(path == null || path.isEmpty())
 			path = "./"+VARIABLES.ManagerFileName;
 		// TODO Recovery local data
+		File managerFile = new File(path);
 	}
 
 	@Override
