@@ -174,7 +174,7 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Application(false);
+		new Application(true);
 		Network n = Application.getInstance().getNetwork();
 
 		/*try {
