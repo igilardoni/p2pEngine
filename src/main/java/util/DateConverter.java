@@ -13,7 +13,7 @@ public class DateConverter {
 	 * @return
 	 */
 	public static long getLong(String stringDate){
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         formatter.setTimeZone(TimeZone.getDefault());
 		Date date;
 		try {
@@ -43,7 +43,7 @@ public class DateConverter {
 	}
 	
 	public static void main(String[] args){
-		System.out.println(getLong("03/01/2012"));
-		System.out.println(getLong("3/1/2012"));
+		System.out.println(getLong("2015-06-02"));
+		System.out.println(System.currentTimeMillis());
 	}
 }

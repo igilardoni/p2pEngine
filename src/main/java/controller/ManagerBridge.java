@@ -25,6 +25,8 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	
 	@Override
 	public boolean login(String login, String password){
+		if(manager.getCurrentUser()!=null)
+			manager.logout();
 		boolean logged = manager.login(login, password);
 		if(logged)
 			current = manager.getCurrentUser();

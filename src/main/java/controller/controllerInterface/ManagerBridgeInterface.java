@@ -11,7 +11,6 @@ public interface ManagerBridgeInterface {
 	 * @param login
 	 */
 	public void registration(String nick, String password, String name, String firstName, String email, String phone);
-
 	/**
 	 * Return true if, only if, login exists and password is good
 	 * @param login
@@ -19,7 +18,6 @@ public interface ManagerBridgeInterface {
 	 * @return
 	 */
 	public boolean login(String nick, String password);
-	
 	/**
 	 * Update the current account
 	 * @param nick
