@@ -73,8 +73,8 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9708, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
-		network.setLogger(Level.OFF);
+		network = new Network(9750, "testFolder", "julien");
+		network.setLogger(Level.INFO);
 		network.start();
 	}
 	
