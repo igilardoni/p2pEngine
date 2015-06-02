@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
@@ -73,7 +74,7 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9755, "testFolder3", "julien3");
+		network = new Network(9700 + new Random().nextInt(100), "testFolder" + new Random().nextInt(1000), "julien");
 		network.setLogger(Level.INFO);
 		network.start();
 	}
@@ -172,7 +173,7 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Application(true);
+		new Application(false);
 		Network n = Application.getInstance().getNetwork();
 
 		/*try {
