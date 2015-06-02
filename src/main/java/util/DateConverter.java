@@ -27,11 +27,23 @@ public class DateConverter {
 	
 	/**
 	 * get long time (based on epoch date) before this date. Negative if date is passed.
-	 * @param stringDate
+	 * @param stringDate well formatted (yyyy-MM-dd)
 	 * @return
 	 */
 	public static long getLongBefore(String stringDate){
 		return getLong(stringDate) - getCurrentTime();
+	}
+	
+	/**
+	 * get string format date (yyyy-MM-dd)
+	 * @param longDate
+	 * @return
+	 */
+	public static String getString(long longDate){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setTimeZone(TimeZone.getDefault());
+		Date date = new Date(longDate);
+		return formatter.format(date).toString();
 	}
 	
 	/**
@@ -43,7 +55,7 @@ public class DateConverter {
 	}
 	
 	public static void main(String[] args){
-		System.out.println(getLong("2015-06-02"));
-		System.out.println(System.currentTimeMillis());
+		System.out.println(getString(getLong("2015-06-02")));
+		System.out.println(getString(System.currentTimeMillis()));
 	}
 }
