@@ -117,6 +117,7 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	public void discoveryEvent(DiscoveryEvent event) {
 		String pid = "urn:jxta:" + event.getSource().toString().substring(7);
 		System.out.println("type recu : " + event.getResponse().getDocument(MimeMediaType.XMLUTF8));
+		
 		Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 		while(advs.hasMoreElements()) {
 			T adv = (T) advs.nextElement();
