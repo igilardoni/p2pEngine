@@ -1,4 +1,4 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -14,14 +14,14 @@ public class Utils {
 	/**
 	 * random value
 	 * @param bitLength
-	 * @param p
+	 * @param object
 	 * @return
 	 */
-	static public BigInteger rand (int bitLength, BigInteger p)
+	static public BigInteger rand (int bitLength, BigInteger object)
 	{
 		BigInteger s;
 		s = new BigInteger(bitLength,random);
-		while(s.compareTo(BigInteger.ONE)<=0 && s.compareTo(p)>= 0)
+		while(s.compareTo(BigInteger.ONE)<=0 && s.compareTo(object)>= 0)
 			s = new BigInteger(bitLength,random);
 		
 		return s;

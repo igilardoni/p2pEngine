@@ -1,4 +1,4 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.engines.ElGamalEngine;
 import org.bouncycastle.crypto.generators.ElGamalKeyPairGenerator;
 import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
@@ -13,6 +14,9 @@ import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
 import org.bouncycastle.crypto.params.ElGamalParameters;
 import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
 import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+
+import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
 
 /**
  * this class simulate the arbiter but in the end all users have this class
@@ -25,27 +29,16 @@ public class Trent {
 	SecureRandom  random = new SecureRandom();
 	int keyLength = 1024;
 	
-	public Keys publicKeys = new Keys();
-	private BigInteger privateKey;
-	
-	private AsymmetricKeyParameter publicKeyAs;
-	private AsymmetricKeyParameter privateKeyAs;
+	AsymKeysImpl keys;
 	private HashMap<Masks,BigInteger> eph = new HashMap<Masks, BigInteger>();
-	private ElGamalEngineEx e = new ElGamalEngineEx();
+	private ElGamalEngine e = new ElGamalEngine();
 	
 	/**
 	 * Constructor
 	 */
-	public  Trent(){
+	public  Trent(AsymKeysImpl keys){
 			
-		GenerateKeys gK = new GenerateKeys(false);
-		publicKeys.setG(gK.getG());
-		publicKeys.setP(gK.getP());
-		publicKeys.setPublicKey(gK.getPublicKey());
-		
-		privateKey = gK.getPrivateKey();
-		privateKeyAs = gK.getPrivateKeyAs();
-		publicKeyAs = gK.getPublicKeyAs();
+		this.keys = keys;
 	
 	 }
 
@@ -57,12 +50,12 @@ public class Trent {
 	private Masks SendMasks(ResEncrypt res)
 	{
 		BigInteger s;
-		s = Utils.rand(160, publicKeys.getP());
+		s = Utils.rand(160, keys.getP());
 		
 		BigInteger a, aBis;
 		
-		a = publicKeys.getG().modPow(s, publicKeys.getP());
-		aBis = res.getU().modPow(s, publicKeys.getP());
+		a = keys.getG().modPow(s, keys.getP());
+		aBis = res.getU().modPow(s, keys.getP());
 		
 		Masks masks = new Masks(a,aBis);
 		eph.put(masks, s);
@@ -106,7 +99,7 @@ public class Trent {
 	 */
 	private BigInteger SendAnswer(BigInteger challenge, Masks mask)
 	{
-		BigInteger r = (privateKey.multiply(challenge)).add(eph.get(mask));
+		BigInteger r = (keys.getPrivateKey().multiply(challenge)).add(eph.get(mask));
 		return r;	
 	}
 
@@ -131,25 +124,13 @@ public class Trent {
 	 */
 	public  byte[] decryption (byte[]cipherText)
 	{
-		e.init(false, privateKeyAs);
-		
-        byte[] output = e.processBlock(cipherText, 0, cipherText.length) ;
-        return output;
+		ElGamal elGamal = new ElGamal (keys);
+        return elGamal.decryptWithPrivateKey(cipherText);
 	}
 
 	
-	public Keys getPublicKeys() {
-		return publicKeys;
-	}
-
-
-	public AsymmetricKeyParameter getPublicKeyAs() {
-		return publicKeyAs;
-	}
-
-
-	public void setPublicKeyAs(AsymmetricKeyParameter publicKeyAs) {
-		this.publicKeyAs = publicKeyAs;
+	public AsymKeysImpl getKey() {
+		return keys;
 	}
 
 }

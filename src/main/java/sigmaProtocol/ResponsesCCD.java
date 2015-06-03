@@ -1,5 +1,7 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
+
+import util.secure.AsymKeysImpl;
 
 /**
  * The CCD response
@@ -24,7 +26,7 @@ public class ResponsesCCD extends Responses {
 	 * Extends Responses
 	 * Verify if the CCD response is good or not 
 	 */
-	public Boolean Verifies( Keys tKeys, ResEncrypt res) {
+	public Boolean Verifies( AsymKeysImpl tKeys, ResEncrypt res) {
 		if (!tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())))
 		{
 			return false;

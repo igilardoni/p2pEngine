@@ -1,9 +1,11 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import util.secure.AsymKeysImpl;
 
 /**
  * this class simulate the receiver but in the end all users have this class
@@ -20,7 +22,7 @@ public class Receiver {
 	 * @param res
 	 * @return Boolean
 	 */
-	public Boolean Verifies (Responses response, Keys tKeys, ResEncrypt res)
+	public Boolean Verifies (Responses response, AsymKeysImpl tKeys, ResEncrypt res)
 	{
 		return response.Verifies(tKeys, res);
 	}
@@ -33,7 +35,7 @@ public class Receiver {
 	 * @param responses
 	 * @return
 	 */
-	public Boolean Verifies(Boolean or, HashMap <Responses,Keys> rK,ResEncrypt resEncrypt, Responses ... responses)
+	public Boolean Verifies(Boolean or, HashMap <Responses,AsymKeysImpl> rK,ResEncrypt resEncrypt, Responses ... responses)
 	{
 		And and = new And(this, rK, resEncrypt, responses);
 		return and.Verifies(or);

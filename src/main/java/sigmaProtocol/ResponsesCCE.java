@@ -1,5 +1,7 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
+
+import util.secure.AsymKeysImpl;
 
 /**
  * The CCE response
@@ -24,7 +26,7 @@ public class ResponsesCCE extends Responses {
 	 * Extends Responses
 	 * Verify if the CCE response is good or not 
 	 */
-	public Boolean Verifies(Keys tKeys, ResEncrypt res) {
+	public Boolean Verifies(AsymKeysImpl tKeys, ResEncrypt res) {
 		
 		BigInteger gPowr = tKeys.getG().modPow(getResponse(),tKeys.getP());
 		BigInteger uPowc = res.getU().modPow(getChallenge(), tKeys.getP());

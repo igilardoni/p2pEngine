@@ -1,6 +1,8 @@
-package sarah;
+package sigmaProtocol;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import util.secure.AsymKeysImpl;
 
 /**
  * This class is for the composability of reponses. This is clause And.
@@ -12,7 +14,7 @@ public class And {
 	
 	public Receiver receiver;
 	public ResEncrypt resEncrypt;
-	public HashMap <Responses,Keys> rK  = new HashMap <Responses,Keys>();
+	public HashMap <Responses,AsymKeysImpl> rK  = new HashMap <Responses,AsymKeysImpl>();
 	public Responses[] responses; 
 	
 	/**
@@ -23,7 +25,7 @@ public class And {
 	 * @param responses (all responses to need verify)
 	 */
 	
-	public And (Receiver receiver, HashMap <Responses,Keys> rK,  ResEncrypt resEncrypt, Responses ... responses)
+	public And (Receiver receiver, HashMap <Responses,AsymKeysImpl> rK,  ResEncrypt resEncrypt, Responses ... responses)
 	{
 		this.receiver = receiver;
 		this.rK  = rK;
