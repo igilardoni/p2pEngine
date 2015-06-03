@@ -176,6 +176,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
+		System.out.println(n.getBootStrapIp());
 
 		/*try {
 			Thread.sleep(20000);

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import util.IpChecker;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
@@ -119,7 +120,12 @@ public class Network implements NetworkInterface {
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-         /*configurator.setTcpPublicAddress(IpChecker.getIp(), false); TODO set public adress to make Jxta works on internet */
+         try {
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
@@ -163,5 +169,25 @@ public class Network implements NetworkInterface {
         adv.setDescription("...");
         return adv;
     }
+	
+	public void addRendezVous(String adress) {
+		try {
+			networkManager.getConfigurator().addRdvSeedingURI(adress);
+			networkManager.waitForRendezvousConnection(5000);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String getBootStrapIp() {
+		try {
+			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }
