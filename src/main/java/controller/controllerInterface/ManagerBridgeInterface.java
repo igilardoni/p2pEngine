@@ -2,6 +2,9 @@ package controller.controllerInterface;
 
 import java.util.ArrayList;
 
+import model.data.item.Item;
+import model.data.user.User;
+
 public interface ManagerBridgeInterface {
 	/**
 	 * Add NEW User to current Manager
@@ -66,12 +69,19 @@ public interface ManagerBridgeInterface {
 	public void updateItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
 
 	/**
-	 * load all informations of current user (return String)
+	 * Get the currentUser, null if no user logged
+	 * @return User currentUser
 	 */
-	//public String load_use();
-
+	public User getCurrentUser();
 	/**
-	 * load all items of current user
+	 * Get user's items
+	 * @param publicKey of the user
+	 * @return ArrayList<Item> user's (who has publicKey) items 
 	 */
-	//public ArrayList<String> load_items();
+	public ArrayList<Item> getUserItems(String publicKey);
+	/**
+	 * Get current user's items
+	 * @return ArrayList<Item> current user's items 
+	 */
+	public ArrayList<Item> getCurrentUserItem();
 }

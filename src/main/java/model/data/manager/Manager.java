@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
 import model.data.deal.Deal;
+import model.data.favorites.Favorites;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
@@ -48,7 +49,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private User currentUser;					// User logged
 	private ArrayList<Message> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
-	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods
+	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods (setters, add, XML, ...)
+	private HashMap<String, Favorites> favorites;	// TODO add methods (setters, add, XML, ...)
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
@@ -619,6 +621,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
 	}
 	
+	/**
+	 * Get the current user's deals. If doesn't exist, return null;
+	 * @return ArrayList<Deal>
+	 */
 	public ArrayList<Deal> getUserDeals(String publicKey){
 		if(deals.containsKey(publicKey))
 			return deals.get(publicKey);
@@ -637,7 +643,32 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!deals.containsKey(publicKey))
 			deals.put(publicKey, new ArrayList<Deal>());
-		return deals.get(publicKey);
+		return getUserDeals(publicKey);
+	}
+	
+	/**
+	 * Get the current user's favorites. If doesn't exist, return null;
+	 * @return Favorites
+	 */
+	public Favorites getUserFavorites(String publicKey){
+		if(!favorites.containsKey(publicKey))
+			return null;
+		return favorites.get(publicKey);
+	}
+	
+	/**
+	 * Get the current user's favorites. If doesn't exist, it will be created
+	 * @return Favorites
+	 */
+	public Favorites getFavoritesCurrentUser(){
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!favorites.containsKey(publicKey))
+			favorites.put(publicKey, new Favorites());
+		return getUserFavorites(publicKey);
 	}
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**

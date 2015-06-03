@@ -10,8 +10,8 @@ import model.data.user.User;
 
 import org.jdom2.Element;
 
-import sarah.Or;
 import util.StringToElement;
+import util.secure.AVProtocol.Proof;
 
 /**
  * This class can be instantiated for contains an agreement.
@@ -28,7 +28,7 @@ public class Deal extends AbstractAdvertisement {
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private HashMap<String, String> rules = new HashMap<String, String>();
 	private ArrayList<Claus> clauses = new ArrayList<Claus>();
-	//private HashMap<String, Or> proofs = new HashMap<String, Or>(); // TODO Change when change protocol Sarah
+	private HashMap<String, Proof> proofs = new HashMap<String, Proof>(); // TODO Change when change protocol Sarah
 	// TODO add proofs of signature and signatures
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
