@@ -77,6 +77,7 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9700 + new Random().nextInt(100), VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
+		//network.addRendezVous("tcp://139.124.5.128:9740");
 		network.start();
 	}
 	

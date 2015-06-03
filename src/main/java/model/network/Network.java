@@ -3,7 +3,10 @@ package model.network;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +77,7 @@ public class Network implements NetworkInterface {
 	public void start() {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			networkManager.waitForRendezvousConnection(5000);
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
@@ -117,11 +121,14 @@ public class Network implements NetworkInterface {
 		/* Configuration settings */
 		 configurator.setTcpPort(port);
          configurator.setTcpEnabled(true);
+         configurator.setHttpEnabled(true);
+         configurator.setHttpPort(port+1);
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
          try {
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -173,7 +180,6 @@ public class Network implements NetworkInterface {
 	public void addRendezVous(String adress) {
 		try {
 			networkManager.getConfigurator().addRdvSeedingURI(adress);
-			networkManager.waitForRendezvousConnection(5000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,7 +188,7 @@ public class Network implements NetworkInterface {
 	
 	public String getBootStrapIp() {
 		try {
-			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();
+			return "http://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getHttpPort();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
