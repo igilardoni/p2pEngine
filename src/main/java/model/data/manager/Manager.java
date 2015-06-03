@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import model.advertisement.AbstractAdvertisement;
+import model.data.deal.Deal;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
@@ -47,6 +48,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private User currentUser;					// User logged
 	private ArrayList<Message> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
+	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods
 	
 	/**
 	 * Create a manager based on a String that is XML formated.
@@ -180,7 +182,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(m.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)) || m.getTo().equals(currentUser.getKeys().getPublicKey()))
 			conversations.get(m.getOwner()).addMessage(m, currentUser.getKeys());
 		else
-		*/
+		*/	
 		messages.add(m);
 	}
 	
@@ -617,7 +619,26 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
 	}
 	
+	public ArrayList<Deal> getUserDeals(String publicKey){
+		if(deals.containsKey(publicKey))
+			return deals.get(publicKey);
+		return null;
+	}
 	
+	/**
+	 * Get the current user's deals. If doesn't exist, it will be created
+	 * @return ArrayList<Deal>
+	 */
+	public ArrayList<Deal> getDealsCurrentUser(){
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!deals.containsKey(publicKey))
+			deals.put(publicKey, new ArrayList<Deal>());
+		return deals.get(publicKey);
+	}
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * 
