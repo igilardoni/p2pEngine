@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
@@ -38,9 +39,10 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
+		startNetwork();
 		manager = new Manager(network);
+		manager.recovery(VARIABLES.ManagerFileName);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
@@ -73,8 +75,9 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9750, "testFolder", "julien");
+		network = new Network(9700 + new Random().nextInt(100), VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
+		network.addRendezVous("tcp://139.124.5.128");
 		network.start();
 	}
 	
@@ -174,6 +177,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
+		System.out.println(n.getBootStrapIp());
 
 		/*try {
 			Thread.sleep(20000);

@@ -34,6 +34,8 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	@Override
 	public boolean updateAccount(String nick, String oldPassword, String newPassword,
 			String name, String firstName, String email, String phone){
+		
+	
 		if(Application.getInstance().getManager().getCurrentUser() == null){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return false;
@@ -78,7 +80,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		System.out.println(Application.getInstance().getManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
 		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
-		Application.getInstance().getManager().addItem(item);
+		Application.getInstance().getManager().addItem(item, true);
 	}
 
 	@Override

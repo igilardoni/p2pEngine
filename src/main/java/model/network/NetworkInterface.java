@@ -47,4 +47,10 @@ public interface NetworkInterface {
 	 * @return true if the network is running, otherwise false.
 	 */
 	public boolean isStarted();
+	
+	/**
+	 * Get a valid bootrapable Ip adress
+	 * @return a public Ip adresse
+	 */
+	public String getBootStrapIp();
 }

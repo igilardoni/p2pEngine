@@ -103,7 +103,6 @@ public class EchoServer {
 			break;
 		case "/new_objet_add" :
 			/*
-			 * sinon tu peux crée des variables
 			 * requet[1] : title
 			 * requet[2] : category
 			 * requet[3] : description
@@ -113,36 +112,20 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
-	
-			
-			
-			
 			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
-			
-			//private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
-				
-			
-			//--------------------------------------------------------------------//
-			
-			/*User owner_u = Application.getInstance().getManager().getCurrentUser();
-			Category category_u = new Category(requet[2]);
-			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
-			item_u.sign(owner_u.getKeys());
-			
-			Application.getInstance().getManager().addItem(item_u);
-		
-			*/
-			
 			break;
 
-		case "/new_objet_update" :
-			
-			System.out.println("JE SUIS LAAAAAAAAAAAAAA");
-			System.out.println(" title "+requet[1]+" categorie "+requet[2]+" description "+requet[3]+" image_objet "+requet[4]+":"+requet[5]+""+" country "
-				+requet[6]+" contact "+requet[7]+" life_time "+requet[8]+" type_update "+requet[9]+" date_objet "+requet[10]);
-
-		
-			
+			case "/new_objet_update" :
+				/*
+				 * requet[1] : title
+				 * requet[2] : category
+				 * requet[3] : description
+				 * requet[4] : image
+				 * requet[5] : country
+				 * requet[6] : contact
+				 * requet[7] : lifeTime
+				 * requet[8] : type
+				 */
 			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
 			
 			try {
@@ -152,27 +135,10 @@ public class EchoServer {
 				e1.printStackTrace();
 			}
 			
-			/*User owner_u = Application.getInstance().getManager().getCurrentUser();
-			Category category_u = new Category(requet[2]);
-			Item item_u = new Item(owner_u, requet[1], category_u, requet[3], requet[4], requet[5],requet[6], Long.parseLong(requet[9]), 0, TYPE.WISH);
-			item_u.sign(owner_u.getKeys());
-
-			Application.getInstance().getManager().addItem(item_u);
-			
-			try {
-				session.getBasicRemote().sendText("update_objet:");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			
-			
-			*/
-			
-			
 			break;
-		case "/newindex":
+			
+			//Just for redirection
+			case "/newindex":
 			try {
 				session.getBasicRemote().sendText("index.html");
 			} catch (IOException e) {
@@ -180,7 +146,8 @@ public class EchoServer {
 			}
 			break;
 
-		case "/newchat":
+			//Just for redirection
+			case "/newchat":
 			try {
 				session.getBasicRemote().sendText("Message.html");
 			} catch (IOException e) {
@@ -188,7 +155,7 @@ public class EchoServer {
 			}
 			break;
 
-
+			//Just for redirection
 		case "/contrat":
 			try {
 				session.getBasicRemote().sendText("Contrat.html");
@@ -197,7 +164,7 @@ public class EchoServer {
 			}
 			break;
 
-
+			//Just for redirection
 		case "/user_compte":
 			try {
 				session.getBasicRemote().sendText("User_compte.html");
@@ -206,7 +173,7 @@ public class EchoServer {
 			}
 			break;
 
-
+			//case load all information of usercurrent
 		case "/load_use":
 			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			String name = Application.getInstance().getManager().getCurrentUser().getName();
@@ -219,7 +186,7 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-
+			//case load item of user curren
 		case "/load_item":
 
 			Manager manager = Application.getInstance().getManager();
@@ -238,20 +205,11 @@ public class EchoServer {
 
 			break;
 
+			//Return current object
 		case "/zoom_item":
 
 			Manager manager1 = Application.getInstance().getManager();
 			Item item_search = manager1.getItemCurrentUser(requet[1]);
-			
-			System.out.println("Titre "+item_search.getTitle());
-			System.out.println("Categorrie "+item_search.getCategory().toString());	
-			System.out.println("Country "+item_search.getCountry());
-			System.out.println("LifeTime "+item_search.getLifeTime());
-			System.out.println("Type "+item_search.getType());
-			System.out.println("Description "+item_search.getDescription());
-			//System.out.println("Imge "+item_search.getImage());
-			System.out.println("Date "+item_search.getDate());
-			System.out.println("Contact "+item_search.getContact());
 
 			Long enddingDate = item_search.getLifeTime() + item_search.getDate();
 			try {
@@ -266,36 +224,22 @@ public class EchoServer {
 
 			break;
 
-
+			/*
+			 * 	Return current object
+			 * 	requet[1] : title
+			 */
+			
 		case "/remove_item":
 
-			Item item_remove = Application.getInstance().getManager().getItemCurrentUser(requet[1]);
-			Application.getInstance().getManager().removeItem(item_remove);
-
-
-			Manager manager2 = Application.getInstance().getManager();
-			ArrayList<Item> it2 = manager2.getUserItems(manager2.getCurrentUser().getKeys().getPublicKey().toString(16));
-
-			System.out.println("IL RESTE RENCORE "+it2.size());
+		
+			managerB.removeItem(requet[1]);
 
 
 			break;
 
 		case "/update_compte_user" :
-			System.out.println(" nick "+requet[1]+" name "+requet[2]+" firstname "+requet[3]+" email "+requet[4]+" passe_update "
-					+requet[5]+" phone "+requet[6]+" passe_verif "+requet[7]);
-			if(Application.getInstance().getManager().getCurrentUser().isPassword(requet[7])){
-				User current = Application.getInstance().getManager().getCurrentUser();
-				current.setNick(requet[1]);
-				current.setName(requet[2]);
-				current.setFirstName(requet[3]);
-				current.setEmail(requet[4]);
-				current.setPassWord(requet[5]);
-				current.setClearPassword(requet[5]);
-				current.setPhone(requet[6]);
-				Application.getInstance().getManager().registration(current);
-				Application.getInstance().getManager().logout();
-				Application.getInstance().getManager().login(requet[1], requet[5]);	
+		
+			if(managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], requet[6])){
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
@@ -395,6 +339,7 @@ public class EchoServer {
 		}
 		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
 		item.sign(owner.getKeys());
+		System.out.println("en cours ...");
 		Application.getInstance().getManager().addItem(item, true);
 	}
 	

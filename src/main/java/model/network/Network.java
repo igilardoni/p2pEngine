@@ -3,11 +3,15 @@ package model.network;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import util.IpChecker;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
@@ -43,7 +47,7 @@ public class Network implements NetworkInterface {
 	public Network(int port, String folder, String peerName) {
 		File configFile = new File("." + System.getProperty("file.separator") + folder); /* Used by the networkManager */
 		networkManager = networkManagerSetup(configFile, port, peerName);
-		networkManager.setConfigPersistent(true);
+		networkManager.setConfigPersistent(false);
 	}
 
 	@Override
@@ -73,10 +77,12 @@ public class Network implements NetworkInterface {
 	public void start() {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			networkManager.waitForRendezvousConnection(5000);
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
 		defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
+		
 	}
 	
 	@Override
@@ -115,10 +121,18 @@ public class Network implements NetworkInterface {
 		/* Configuration settings */
 		 configurator.setTcpPort(port);
          configurator.setTcpEnabled(true);
+         configurator.setHttpEnabled(true);
+         configurator.setHttpPort(port+1);
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-         /*configurator.setTcpPublicAddress(IpChecker.getIp(), false); TODO set public adress to make Jxta works on internet */
+         try {
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
@@ -162,5 +176,24 @@ public class Network implements NetworkInterface {
         adv.setDescription("...");
         return adv;
     }
+	
+	public void addRendezVous(String adress) {
+		try {
+			networkManager.getConfigurator().addRdvSeedingURI(adress);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String getBootStrapIp() {
+		try {
+			return "http://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getHttpPort();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

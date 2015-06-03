@@ -1,5 +1,7 @@
 package controller.controllerInterface;
 
+import java.util.ArrayList;
+
 public interface ManagerBridgeInterface {
 	/**
 	 * Add NEW User to current Manager
@@ -62,4 +64,14 @@ public interface ManagerBridgeInterface {
 	 * @param type
 	 */
 	public void updateItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
+
+	/**
+	 * load all informations of current user (return String)
+	 */
+	//public String load_use();
+
+	/**
+	 * load all items of current user
+	 */
+	//public ArrayList<String> load_items();
 }
