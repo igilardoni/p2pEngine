@@ -117,7 +117,6 @@ public class Network implements NetworkInterface {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
 		/* Configuration settings */
 		 configurator.setTcpPort(port);
          configurator.setTcpEnabled(true);
@@ -178,8 +177,9 @@ public class Network implements NetworkInterface {
     }
 	
 	public void addRendezVous(String adress) {
+		URI theSeed = URI.create(adress);
 		try {
-			networkManager.getConfigurator().addRdvSeedingURI(adress);
+			networkManager.getConfigurator().addSeedRendezvous(theSeed);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -188,7 +188,7 @@ public class Network implements NetworkInterface {
 	
 	public String getBootStrapIp() {
 		try {
-			return "http://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getHttpPort();
+			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

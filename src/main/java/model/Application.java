@@ -1,8 +1,11 @@
 package model;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -77,7 +80,7 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9700 + new Random().nextInt(100), VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		network.addRendezVous("tcp://139.124.5.128");
+		network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
@@ -177,6 +180,15 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
+		if(Desktop.isDesktopSupported())
+		{
+		  try {
+			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/Se_connecter.html"));
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 		System.out.println(n.getBootStrapIp());
 
 		/*try {
