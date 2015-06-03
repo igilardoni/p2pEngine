@@ -1,4 +1,4 @@
-package sarah;
+package sigmaProtocol;
 import java.math.BigInteger;
 
 import util.secure.AsymKeysImpl;

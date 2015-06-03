@@ -1,4 +1,4 @@
-package sarah;
+package sigmaProtocol;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

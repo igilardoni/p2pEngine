@@ -1,4 +1,4 @@
-package sarah;
+package sigmaProtocol;
 import java.util.ArrayList;
 import java.util.HashMap;
 
