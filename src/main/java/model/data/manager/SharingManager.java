@@ -25,7 +25,7 @@ public class SharingManager {
 	private Thread thread = null;
 	private Communication com = null;
 	
-	
+	// TODO add verify Favorites
 	/**
 	 * Create a new Sharing manager.
 	 * The sharing manager will automaticelly check if the datas (users accounts) are
