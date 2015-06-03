@@ -660,7 +660,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Get the current user's favorites. If doesn't exist, it will be created
 	 * @return Favorites
 	 */
-	public Favorites getFavoritesCurrentUser(){
+	/*public Favorites getFavoritesCurrentUser(){
 		if(currentUser == null) {
 			System.err.println("no user logged");
 			return null;
@@ -669,7 +669,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		if(!favorites.containsKey(publicKey))
 			favorites.put(publicKey, new Favorites());
 		return getUserFavorites(publicKey);
-	}
+	}*/
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * 
