@@ -88,6 +88,7 @@ public class Network implements NetworkInterface {
 	public void start() {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			System.out.println(defaultGroup.getPeerGroupName());
 			networkManager.waitForRendezvousConnection(5000);
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
@@ -156,6 +157,8 @@ public class Network implements NetworkInterface {
          configurator.setTcpEndPort(-1);
          configurator.setTcpStartPort(-1);
          configurator.setName("SXPeerGroup");
+         configurator.setDescription("SXP default peer group");
+         configurator.setPrincipal("SXP peer group");
 		
 		return manager;
 	}
