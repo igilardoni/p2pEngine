@@ -40,13 +40,12 @@ public class Deal extends AbstractAdvertisement {
 	public Deal(String title, User user){
 		super();
 		setState(0);
+		setTitle(title);
 		addSignatory(user);
-		setKeys();
 	}
 	
 	public Deal(String XML){
 		super(XML);
-		setKeys();
 	}
 	
 	public Deal(Element i) {
