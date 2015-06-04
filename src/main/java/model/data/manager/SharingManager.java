@@ -2,6 +2,7 @@ package model.data.manager;
 
 import java.util.ArrayList;
 
+import model.data.item.Item;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
@@ -63,6 +64,10 @@ public class SharingManager {
 						RandomPeerFinder f = new RandomPeerFinder(network);
 						f.findPeers(3000, 5);
 						System.out.println(f.getResults().size());
+						Search<Item> s = new Search<Item>(network.getGroup("items").getDiscoveryService(), 
+								"title", false);
+						s.search("patate", 1000, 1);
+						if(s.getResults().size() > 0 ) System.out.println("ON A ENFIN TROUVE");
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
