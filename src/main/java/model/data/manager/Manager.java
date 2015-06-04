@@ -51,21 +51,209 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
 	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods (setters, add, XML, ...)
 	private HashMap<String, Favorites> favorites;	// TODO add methods (setters, add, XML, ...)
-	
+
+	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Create a manager based on a String that is XML formated.
 	 * @param XML
+	 * @param network
 	 */
 	public Manager(String XML, NetworkInterface network) {
 		super(XML);
 		this.network = network;
 	}
-
+	/**
+	 * Create an empty manager
+	 * @param network
+	 */
 	public Manager(NetworkInterface network) {
 		super();
 		this.network = network;
 	}
-	
+	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public Collection<User> getUsers() {
+		return users.values();
+	}
+	/**
+	 * Return the user with this key
+	 * @param key - String format
+	 * @return
+	 */
+	public User getUser(String key){
+		return users.get(key);
+	}
+	/**
+	 * Return the user with this key
+	 * @param key - BigInteger format
+	 * @return
+	 */
+	public User getUser(BigInteger key){
+		return users.get(key.toString(16));
+	}
+	/**
+	 * Get the current User. If no user logged, return null.
+	 * @return
+	 */
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	/**
+	 * Return user who has this item
+	 * @param item
+	 * @return
+	 */
+	public User whoHas(Item item){
+		return users.get(item.getOwner());
+	}
+	/**
+	 * Return an Array List which contain all User named nickName (parameter)
+	 * @param nickName
+	 * @return
+	 */
+	public User getNamed(String nickName){
+		for (User user : this.users.values()) {
+			if(user.getNick().equals(nickName))
+				return user;
+		}
+		return null;
+	}
+	/**
+	 * Return the user's items' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's items
+	 */
+	public ArrayList<Item> getUserItems(String publicKey) {
+		ArrayList<Item> userItems = new ArrayList<Item>();
+		for(Item i: items) {
+			if(i.getOwner().equals(publicKey)) {
+				userItems.add(i);
+			}
+		}
+		return userItems;
+	}
+	/**
+	 * Use to found a item with owner's publicKey and item's title
+	 * @param publicKey
+	 * @param title
+	 * @return
+	 */
+	public Item getItem(String publicKey, String title){
+		if(publicKey == null || publicKey.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : publicKey is empty or null !");
+			return null;
+		}
+		if(title == null || title.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : title is empty or null !");
+			return null;
+		}
+		if(!users.containsKey(publicKey)){
+			System.err.println(this.getAdvertisementName()+".getItem : "+publicKey+"\n\t is unknown !");
+			return null;
+		}
+		for (Item item : items) {
+			if(item.getOwner().equals(publicKey) && item.getTitle().equals(title))
+				return item;
+		}
+		return null;
+	}
+	/**
+	 * Use to found a specific item possessed by current User with title
+	 * @param title
+	 * @return
+	 */
+	public Item getItemCurrentUser(String title){
+		if(currentUser == null){
+			System.err.println(this.getAdvertisementName()+".getItemCurrentUser : none logged user !");
+			return null;
+		}
+		return getItem(currentUser.getKeys().getPublicKey().toString(16), title);
+	}
+	/**
+	 * Return the user's messages' list
+	 * @param publicKey the user public key
+	 * @return a new list containing user's messages
+	 */
+	public ArrayList<Message> getUserMessages(String publicKey) {
+		ArrayList<Message> userMessages = new ArrayList<Message>();
+		for(Message m : messages){
+			if(m.getOwner().equals(publicKey)) {
+				userMessages.add(m);
+			}
+		}
+		return userMessages;
+	}
+	/**
+	 * Get the user conversations. If the conversations doesn't exist, it will be created.
+	 * @param publicKey
+	 * @return
+	 */
+	public Conversations getUserConversations(String publicKey){
+		/*if(!conversations.containsKey(publicKey))
+			addConversations(new Conversations(publicKey));*/
+		return conversations.get(publicKey);
+	}
+	/**
+	 * Get the current user conversations. If the conversations doesn't exist, it will be created.
+	 * @return a Conversations
+	 */
+	public Conversations getCurrentUserConversations() {
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		if(!conversations.containsKey(currentUser.getKeys().getPublicKey().toString(16))) {
+			addConversations(new Conversations(currentUser.getKeys().getPublicKey().toString(16)));
+		}
+		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
+	}
+	/**
+	 * Get the current user's deals. If doesn't exist, return null;
+	 * @return ArrayList<Deal>
+	 */
+	public ArrayList<Deal> getUserDeals(String publicKey){
+		if(deals.containsKey(publicKey))
+			return deals.get(publicKey);
+		return null;
+	}
+	/**
+	 * Get the current user's deals. If doesn't exist, it will be created
+	 * @return ArrayList<Deal>
+	 */
+	public ArrayList<Deal> getDealsCurrentUser(){
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!deals.containsKey(publicKey))
+			deals.put(publicKey, new ArrayList<Deal>());
+		return getUserDeals(publicKey);
+	}
+	/**
+	 * Get the current user's favorites. If doesn't exist, return null;
+	 * @return Favorites
+	 */
+	public Favorites getUserFavorites(String publicKey){
+		if(!favorites.containsKey(publicKey))
+			return null;
+		return favorites.get(publicKey);
+	}
+	/**
+	 * Get the current user's favorites. If doesn't exist, it will return null.
+	 * @return Favorites
+	 */
+	public Favorites getFavoritesCurrentUser(){
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return null;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!favorites.containsKey(publicKey))
+			favorites.put(publicKey, null);
+		return getUserFavorites(publicKey);
+	}
+	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	///////////////////////////////////////////////////// ADDER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function remove old and put User u
@@ -73,35 +261,33 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addUser(User u){
 		if(u == null){
-			System.err.println(this.getAdvertisementName()+" : This User is empty !");
+			printError("addUser","This User is empty !");
 			return;
 		}
 		if(!u.checkSignature(u.getKeys())){
-			System.err.println(this.getAdvertisementName()+" : Bad Signature for "+u.getNick());
+			printError("addUser","Bad Signature for "+u.getNick());
 			return;
 		}
 		String key = u.getKeys().getPublicKey().toString(16);
 		if(users.containsKey(key)){
 			if(users.get(key).equals(u) && users.get(key).getLastUpdated() >= u.getLastUpdated()){
-				System.err.println(this.getAdvertisementName()+" : User "+u.getNick()+" is already registred !");
+				printError("addUser","User "+u.getNick()+" is already registred !");
 				return;
 			}
 		}
 		users.put(key, u);
+		deals.put(key, new ArrayList<Deal>());
 	}
-	
 	public void addUser(User u, boolean publish) {
 		addUser(u);
 		if(publish) {
 			try {
 				this.network.getGroup("users").getDiscoveryService().publish(u);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				printError("addUser",e.toString());
 			}
 		}
 	}
-	
 	/**
 	 * to add a item in this instance of manager
 	 * if owner of the item isn't registered in this instance of manger, function will fail
@@ -109,25 +295,25 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addItem(Item i){
 		if(i == null){
-			System.err.println(this.getAdvertisementName()+" : This Item is empty !");
+			printError("addItem","This Item is empty !");
 			return;
 		}
 		String owner = i.getOwner();
 		if(owner == null || owner.isEmpty()){
-			System.err.println(this.getAdvertisementName()+" : No owner found !");
+			printError("addItem","No owner found !");
 			return;
 		}
 		if(!users.containsKey(owner)){
-			System.err.println(this.getAdvertisementName()+" : Owner unknown for "+i.getTitle());
+			printError("addItem","Owner unknown for "+i.getTitle());
 			return;
 		}
 		if(!i.checkSignature(users.get(owner).getKeys())){
-			System.err.println(this.getAdvertisementName()+" : Bad Signature for "+i.getTitle());
+			printError("addItem","Bad Signature for "+i.getTitle());
 			return;
 		}
 		if(items.contains(i)){
 			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
-				System.err.println(this.getAdvertisementName()+" : Item "+i.getTitle()+" is already registred !");
+				printError("addItem","Item "+i.getTitle()+" is already registred !");
 				return;
 			}else{
 				items.remove(i);
@@ -135,7 +321,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		items.add(i);
 	}
-	
 	public void addItem(Item i, boolean publish) {
 		addItem(i);
 		if(publish) {
@@ -145,12 +330,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				System.out.println("item publie :");
 				System.out.println(i);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				printError("addItem",e.toString());
 			}
 		}
 	}
-	
 	/**
 	 * to add a message
 	 * if receiver of the message isn't registered in this instance of manger, function will fail
@@ -158,25 +341,25 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addMessage(Message m){
 		if(m == null){
-			System.err.println(this.getAdvertisementName()+" : This Message is null !");
+			printError("addMessage","This Message is null !");
 			return;
 		}
 		String owner = m.getOwner();
 		if(owner.isEmpty()){
-			System.err.println(this.getAdvertisementName()+" : No owner found !");
+			printError("addMessage","No owner found !");
 			return;
 		}
 		if(!users.containsKey(owner)){
-			System.err.println(this.getAdvertisementName()+" : Owner unknown "+owner);
+			printError("addMessage","Owner unknown "+owner);
 			return;
 		}
 		if(!m.checkSignature(users.get(owner).getKeys())){
-			System.err.println(this.getAdvertisementName()+" : Bad Signature for Message");
+			printError("addMessage","Bad Signature for Message");
 			return;
 		}
 		if(messages.contains(m)){
 			if(messages.get(messages.indexOf(m)).getLastUpdated() >= m.getLastUpdated()){
-				System.err.println(this.getAdvertisementName()+" : This message is already registred !");
+				printError("addMessage","This message is already registred !");
 				return;
 			}
 		}
@@ -187,32 +370,170 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		*/	
 		messages.add(m);
 	}
-	
 	/**
 	 * Add an existing conversation to this manager.
 	 * @param c
 	 */
 	public void addConversations(Conversations c) {
 		if(c == null){
-			System.err.println(this.getAdvertisementName()+" : This Conversation is null !");
+			printError("addConversations","This Conversation is null !");
 			return;
 		}
 		String owner = c.getOwner();
 		if(owner.isEmpty()){
-			System.err.println(this.getAdvertisementName()+" : No owner found !");
+			printError("addConversations","No owner found !");
 			return;
 		}
 		if(!users.containsKey(owner)){
-			System.err.println(this.getAdvertisementName()+" : Owner unknown "+owner);
+			printError("addConversations","Owner unknown "+owner);
 			return;
 		}
 		if(!c.checkSignature(users.get(owner).getKeys())){
-			System.err.println(this.getAdvertisementName()+" : Bad Signature for Conversation");
+			printError("addConversations","Bad Signature for Conversation");
 			return;
 		}
 		conversations.put(c.getOwner(), c);
 	}
-
+	/**
+	 * Add Favorites to the owner of the Favorites. If the user isn't in the manager, abort.
+	 * @param f
+	 */
+	public void addFavorites(Favorites f){
+		if(f == null){
+			printError("addFavorites","This Favorites is null !");
+			return;
+		}
+		String owner = f.getOwner();
+		if(owner.isEmpty()){
+			printError("addFavorites","No owner found !");
+			return;
+		}
+		if(!users.containsKey(owner)){
+			printError("addFavorites","Owner unknown "+owner);
+			return;
+		}
+		if(!f.checkSignature(users.get(owner).getKeys())){
+			printError("addFavorites","Bad Signature for Favorite");
+			return;
+		}
+		favorites.put(f.getOwner(), f);
+	}
+	/**
+	 * Add an item to current user's Favorites
+	 * @param item
+	 */
+	public void addFavoritesItem(Item item){
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!favorites.containsKey(publicKey)){
+			Favorites f = new Favorites(publicKey);
+			f.sign(currentUser.getKeys());
+			addFavorites(f);
+		}
+		if(item == null){
+			printError("addFavoritesItem","This Item is null !");
+			return;
+		}
+		favorites.get(publicKey).addItem(item);
+		favorites.get(publicKey).sign(currentUser.getKeys());
+	}
+	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Create a new empty Deal for the current User
+	 * @param title
+	 */
+	public void newDeal(String title){
+		if(currentUser == null){
+			printError("newDeal", "No user logged");
+			return;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(!deals.containsKey(publicKey))
+			deals.put(publicKey, new ArrayList<Deal>());
+		Deal deal = new Deal(title, currentUser);
+		deals.get(publicKey).add(deal);
+	}
+	/**
+	 * Add Deal to the user's publicKey. If deal is empty, it will abort.
+	 * If the publicKey isn't an user's publicKey known, it will abort.
+	 * @param publicKey
+	 * @param deal
+	 */
+	public void addDeal(String publicKey, Deal deal){
+		if(deal == null){
+			printError("addDeal", "deal is empty");
+			return;
+		}
+		if(!users.containsKey(publicKey)){
+			printError("addDeal", "user is unknow");
+			return;
+		}
+		if(!deals.containsKey(publicKey))
+			deals.put(publicKey, new ArrayList<Deal>());
+		deals.get(publicKey).add(deal);
+	}
+	/////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Remove an user if he haven't item and message !
+	 * @param user
+	 * @return
+	 */
+	public boolean removeUserIfEmpty(User user){
+		String userKey = user.getKeys().getPublicKey().toString(16);
+		if(!users.containsKey(userKey))
+			return false;
+		for (Item i : items) {
+			if(i.getOwner().equals(userKey))
+				return false;
+		}
+		for (Message m : messages) {
+			if(m.getOwner().equals(userKey))
+				return false;
+		}
+		return users.remove(userKey)!=null;
+	}
+	/**
+	 * Remove an user.
+	 * If this user have items, they will be deleted.
+	 * If this user have messages, they will be deleted.
+	 * @param user
+	 * @return
+	 */
+	public boolean removeUser(User user){
+		String userKey = user.getKeys().getPublicKey().toString(16);
+		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
+			return false;
+		boolean valid = true;
+		for (Item i : items) {
+			if(i.getOwner().equals(userKey))
+				valid &= items.remove(i);
+		}
+		for(Message m : messages){
+			if(m.getOwner().equals(user.getKeys().getPublicKey()))
+				valid &= messages.remove(m);
+		}
+		return (valid &= (users.remove(userKey)!=null));
+	}
+	/**
+	 * Remove an item from the Manager
+	 * @param item
+	 * @return
+	 */
+	public boolean removeItem(Item item){
+		return items.remove(item);
+	}
+	/**
+	 * Remove a message from the Manager
+	 * @param msg
+	 * @return
+	 */
+	public boolean removeMessage(Message msg){
+		return messages.remove(msg);
+	}
+	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	private static boolean printError(String method, String error){
+		System.err.println("ERROR : "+Manager.class.getName()+"."+method+" : "+error);
+		return false;
+	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Return an XML string containing user's info and his items and his messages.
@@ -235,7 +556,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		//s.append(conversations.get(publicKey).toString());
 		return s.toString();
 	}
-	
 	/**
 	 * Get an XML string representing all the users that are saved on this device.
 	 * @return A string, XML formated
@@ -247,7 +567,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return s.toString();
 	}
-	
 	/**
 	 * Get an XML string representing all the items that are saved on this device.
 	 * @return A string, XML formated
@@ -259,7 +578,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return s.toString();
 	}
-	
 	/**
 	 * Get an XML string representing all the messages that are saved on this device.
 	 * @return A string, XML formated
@@ -271,7 +589,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return s.toString();
 	}
-	
 	private String getReceivedMessagesXML() {
 		StringBuffer s = new StringBuffer();
 		for(Conversations c : conversations.values()) {
@@ -279,7 +596,17 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return s.toString();
 	}
-	
+	/**
+	 * Get an XML string representing all the favorites that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	private String getFavoritesXML(){
+		StringBuffer s = new StringBuffer();
+		for(Favorites f : favorites.values()) {
+			s.append(f);
+		}
+		return s.toString();
+	}
 	/**
 	 * Load all the users in this element
 	 * @param e an element that contains users in XML format.
@@ -290,7 +617,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addUser(new User(u));
 		}
 	}
-	
 	/**
 	 * Load all the items in this element
 	 * @param e an element that contains items in XML format.
@@ -301,7 +627,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addItem(new Item(i));
 		}
 	}
-	
 	/**
 	 * Load all the messages in this element
 	 * @param e an element that contains messages in XML format.
@@ -312,7 +637,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addMessage(new Message(m));
 		}
 	}
-
 	/**
 	 * Load all the messages in this element
 	 * @param e an element that contains messages in XML format.
@@ -335,12 +659,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return true;
 	}
-
 	@Override
 	protected String getAdvertisementName() {
 		return Manager.class.getSimpleName();
 	}
-
 	@Override
 	protected void setKeys() {
 		users = new HashMap<String, User>();
@@ -348,20 +670,22 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		messages = new ArrayList<Message>();
 		conversations = new HashMap<String, Conversations>();
 		currentUser = null;
+		favorites = new HashMap<String, Favorites>();
+		deals = new HashMap<String, ArrayList<Deal>>();
 		addKey("users", false);
 		addKey("items", false);
 		addKey("messages", false);
 		addKey("ReceivedMessages", false);
+		addKey("favorites", false);
 	}
-	
 	@Override
 	protected void putValues() {
 		addValue("users", getUsersXML());
 		addValue("items", getItemsXML());
 		addValue("messages", getMessagesXML());
 		addValue("ReceivedMessages", getReceivedMessagesXML());
+		addValue("favorites", getFavoritesXML());
 	}
-
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	public void messageEvent(Manager m) {
@@ -403,60 +727,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			this.addConversations(conversations);
 		}
 	}
-	
-	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * Remove an user if he haven't item and message !
-	 * @param user
-	 * @return
-	 */
-	public boolean removeUserIfEmpty(User user){
-		String userKey = user.getKeys().getPublicKey().toString(16);
-		if(!users.containsKey(userKey))
-			return false;
-		for (Item i : items) {
-			if(i.getOwner().equals(userKey))
-				return false;
-		}
-		for (Message m : messages) {
-			if(m.getOwner().equals(userKey))
-				return false;
-		}
-		return users.remove(userKey)!=null;
-	}
-	
-	/**
-	 * Remove an user.
-	 * If this user have items, they will be deleted.
-	 * If this user have messages, they will be deleted.
-	 * @param user
-	 * @return
-	 */
-	public boolean removeUser(User user){
-		String userKey = user.getKeys().getPublicKey().toString(16);
-		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
-			return false;
-		boolean valid = true;
-		for (Item i : items) {
-			if(i.getOwner().equals(userKey))
-				valid &= items.remove(i);
-		}
-		for(Message m : messages){
-			if(m.getOwner().equals(user.getKeys().getPublicKey()))
-				valid &= messages.remove(m);
-		}
-		return (valid &= (users.remove(userKey)!=null));
-	}
-	
-	/**
-	 * Remove an item from the Manager
-	 * @param item
-	 * @return
-	 */
-	public boolean removeItem(Item item){
-		return items.remove(item);
-	}
-	
+	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	/**
 	 * to remove all items with lifeTime is over
 	 */
@@ -467,212 +739,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				removeItem(items.get(i));
 		}
 	}
-	
-	/**
-	 * Remove a message from the Manager
-	 * @param msg
-	 * @return
-	 */
-	public boolean removeMessage(Message msg){
-		return messages.remove(msg);
-	}
-	
-	///////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public Collection<User> getUsers() {
-		return users.values();
-	}
-	
-	/**
-	 * Return the user with this key
-	 * @param key - String format
-	 * @return
-	 */
-	public User getUser(String key){
-		return users.get(key);
-	}
-	
-	/**
-	 * Return the user with this key
-	 * @param key - BigInteger format
-	 * @return
-	 */
-	public User getUser(BigInteger key){
-		return users.get(key.toString(16));
-	}
-	
-	/**
-	 * Return user who has this item
-	 * @param item
-	 * @return
-	 */
-	public User whoHas(Item item){
-		return users.get(item.getOwner());
-	}
-
-	public User getCurrentUser() {
-		return currentUser;
-	}
-	
-	/**
-	 * Return an Array List which contain all User named nickName (parameter)
-	 * @param nickName
-	 * @return
-	 */
-	public User getNamed(String nickName){
-		for (User user : this.users.values()) {
-			if(user.getNick().equals(nickName))
-				return user;
-		}
-		return null;
-	}
-	
-	/**
-	 * Return the user's items' list
-	 * @param publicKey the user public key
-	 * @return a new list containing user's items
-	 */
-	public ArrayList<Item> getUserItems(String publicKey) {
-		ArrayList<Item> userItems = new ArrayList<Item>();
-		for(Item i: items) {
-			if(i.getOwner().equals(publicKey)) {
-				userItems.add(i);
-			}
-		}
-		return userItems;
-	}
-	
-	/**
-	 * Use to found a item with owner's publicKey and item's title
-	 * @param publicKey
-	 * @param title
-	 * @return
-	 */
-	public Item getItem(String publicKey, String title){
-		if(publicKey == null || publicKey.isEmpty()){
-			System.err.println(this.getAdvertisementName()+".getItem : publicKey is empty or null !");
-			return null;
-		}
-		if(title == null || title.isEmpty()){
-			System.err.println(this.getAdvertisementName()+".getItem : title is empty or null !");
-			return null;
-		}
-		if(!users.containsKey(publicKey)){
-			System.err.println(this.getAdvertisementName()+".getItem : "+publicKey+"\n\t is unknown !");
-			return null;
-		}
-		for (Item item : items) {
-			if(item.getOwner().equals(publicKey) && item.getTitle().equals(title))
-				return item;
-		}
-		return null;
-	}
-	
-	/**
-	 * Use to found a specific item possessed by current User with title
-	 * @param title
-	 * @return
-	 */
-	public Item getItemCurrentUser(String title){
-		if(currentUser == null){
-			System.err.println(this.getAdvertisementName()+".getItemCurrentUser : none logged user !");
-			return null;
-		}
-		return getItem(currentUser.getKeys().getPublicKey().toString(16), title);
-	}
-	
-	/**
-	 * Return the user's messages' list
-	 * @param publicKey the user public key
-	 * @return a new list containing user's messages
-	 */
-	public ArrayList<Message> getUserMessages(String publicKey) {
-		ArrayList<Message> userMessages = new ArrayList<Message>();
-		for(Message m : messages){
-			if(m.getOwner().equals(publicKey)) {
-				userMessages.add(m);
-			}
-		}
-		return userMessages;
-	}
-	
-	/**
-	 * Get the user conversations. If the conversations doesn't exist, it will be created.
-	 * @param publicKey
-	 * @return
-	 */
-	public Conversations getUserConversations(String publicKey){
-		/*if(!conversations.containsKey(publicKey))
-			addConversations(new Conversations(publicKey));*/
-		return conversations.get(publicKey);
-	}
-	
-	/**
-	 * Get the current user conversations. If the conversations doesn't exist, it will be created.
-	 * @return a Conversations
-	 */
-	public Conversations getCurrentUserConversations() {
-		if(currentUser == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		if(!conversations.containsKey(currentUser.getKeys().getPublicKey().toString(16))) {
-			addConversations(new Conversations(currentUser.getKeys().getPublicKey().toString(16)));
-		}
-		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
-	}
-	
-	/**
-	 * Get the current user's deals. If doesn't exist, return null;
-	 * @return ArrayList<Deal>
-	 */
-	public ArrayList<Deal> getUserDeals(String publicKey){
-		if(deals.containsKey(publicKey))
-			return deals.get(publicKey);
-		return null;
-	}
-	
-	/**
-	 * Get the current user's deals. If doesn't exist, it will be created
-	 * @return ArrayList<Deal>
-	 */
-	public ArrayList<Deal> getDealsCurrentUser(){
-		if(currentUser == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
-		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Deal>());
-		return getUserDeals(publicKey);
-	}
-	
-	/**
-	 * Get the current user's favorites. If doesn't exist, return null;
-	 * @return Favorites
-	 */
-	public Favorites getUserFavorites(String publicKey){
-		if(!favorites.containsKey(publicKey))
-			return null;
-		return favorites.get(publicKey);
-	}
-	
-	/**
-	 * Get the current user's favorites. If doesn't exist, it will be created
-	 * @return Favorites
-	 */
-	public Favorites getFavoritesCurrentUser(){
-		if(currentUser == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
-		if(!favorites.containsKey(publicKey))
-			favorites.put(publicKey, new Favorites(publicKey));
-		return getUserFavorites(publicKey);
-	}
 	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * 
+	 * Registry an user in the manager
 	 * @param user
 	 * @return
 	 */
@@ -689,8 +758,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		user.encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);
-	}
-	
+	}	
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
 	 * @param nickname
@@ -736,13 +804,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		currentUser.setClearPassword(password);
 		return currentUser != null;
 	}
-	
+	/**
+	 * Log out the current User.
+	 */
 	public void logout() {
 		this.saving(VARIABLES.ManagerFileName);
 		currentUser.setClearPassword(null);
 		currentUser = null;
 	}
-	
+	/////////////////////////////////////////////////// PUBLISHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private void publishUsers() {
 		DiscoveryService discovery = network.getGroup("users").getDiscoveryService();
 		for(User u: users.values()) {
@@ -754,7 +824,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 	}
-	
 	private void publishItems() {
 		DiscoveryService discovery = network.getGroup("items").getDiscoveryService();
 		for(Item i: items) {
@@ -766,11 +835,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 	}
-	
 	private void publishMessages() {
 		// TODO
 	}
-	
 	/**
 	 * Publish (advertise) users and item on network. Also check data resilience and send data to other
 	 * peers if needed.
@@ -780,9 +847,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		publishItems();
 		publishMessages();
 	}
-	
-	
-
 	///////////////////////////////////////////////////// RECOVERY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	public void recovery(String path) {
@@ -809,17 +873,22 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			for (Element e : conversationsElement.getChildren()) {
 				addConversations(new Conversations(e));
 			}
+			Element favoritesElement = root.getChild("favorites");
+			for (Element e : favoritesElement.getChildren()) {
+				addFavorites(new Favorites(e));
+			}
 		} catch (FileNotFoundException e1){
 			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" doesn't exist");
 		} catch (IOException e2) {
 			System.err.println(Manager.class.getName()+".recovery : "+e2.toString());
 		} catch (JDOMException e3) {
-			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" is empty");
+			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" is empty or bad formatted");
+			xmlFile.delete();
 		}
 	}
-
 	@Override
 	public void saving(String path) {
+		// Recovery all local data in a new Manager
 		Manager manager = new Manager(null);
 		manager.recovery(path);
 		
@@ -836,9 +905,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		ArrayList<Item> items = this.getUserItems(clearKeys.getPublicKey().toString(16));
 		ArrayList<Message> messages = this.getUserMessages(clearKeys.getPublicKey().toString(16));
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
+		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
+		HashMap<String,ArrayList<Deal>> deals = new HashMap<String,ArrayList<Deal>>();
 		
 		Conversations converC = this.getUserConversations(clearKeys.getPublicKey().toString(16));
 		if(converC!=null) conversations.add(converC);
+		ArrayList<Deal> arrayDeals = this.getDealsCurrentUser();
+		if(arrayDeals!=null) deals.put(this.getCurrentUser().getKeys().getPublicKey().toString(16), arrayDeals);
+		Favorites favoC = this.getFavoritesCurrentUser();
+		if(favoC!=null) favorites.add(favoC);
 		
 		// Element users
 		users.add(currentUser);
@@ -846,31 +921,49 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		usersElement.addContent(this.getCurrentUser().getRootElement());
 		for (User user : manager.getUsers()){
 			if(!user.getKeys().getPublicKey().equals(currentUser.getKeys().getPublicKey())){
+				String userKey =  user.getKeys().getPublicKey().toString(16);
 				usersElement.addContent(user.getRootElement());
 				users.add(user);
-				for (Item i : this.getUserItems(user.getKeys().getPublicKey().toString(16))) {
+				for (Item i : this.getUserItems(userKey)) {
 					if(!items.contains(i))
 						items.add(i);
 				}
-				for (Item i : manager.getUserItems(user.getKeys().getPublicKey().toString(16))) {
+				for (Item i : manager.getUserItems(userKey)) {
 					if(!items.contains(i))
 						items.add(i);
 				}
-				for (Message m : this.getUserMessages(user.getKeys().getPublicKey().toString(16))) {
+				for (Message m : this.getUserMessages(userKey)) {
 					if(!messages.contains(m))
 						messages.add(m);
 				}
-				for (Message m : manager.getUserMessages(user.getKeys().getPublicKey().toString(16))) {
+				for (Message m : manager.getUserMessages(userKey)) {
 					if(!messages.contains(m))
 						messages.add(m);
 				}
 				Conversations c;
-				c = this.getUserConversations(user.getKeys().getPublicKey().toString(16));
+				c = this.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
 					conversations.add(c);
-				c = manager.getUserConversations(user.getKeys().getPublicKey().toString(16));
+				c = manager.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
 					conversations.add(c);
+				Favorites f;
+				f = this.getUserFavorites(userKey);
+				if(f != null && !favorites.contains(f))
+					favorites.add(f);
+				f = manager.getUserFavorites(userKey);
+				if(f != null && !favorites.contains(f))
+					favorites.add(f);
+				if(!deals.containsKey(userKey))
+					deals.put(userKey, new ArrayList<Deal>());
+				for (Deal d : this.getUserDeals(userKey)){
+					if(!deals.get(userKey).contains(d))
+						deals.get(userKey).add(d);
+				}
+				for (Deal d : manager.getUserDeals(userKey)){
+					if(!deals.get(userKey).contains(d))
+						deals.get(userKey).add(d);
+				}
 			}
 		}
 		// Element items
@@ -888,11 +981,31 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Conversations c : conversations) {
 			conversationsElement.addContent(c.getRootElement());
 		}
+		// Element Favorites
+		Element favoritesElement = new Element("favorites");
+		for (Favorites f : favorites) {
+			favoritesElement.addContent(f.getRootElement());
+		}
+		// Element Deals
+		Element dealsElement = new Element("deals");
+		for (User u : users) {
+			String userKey = u.getKeys().getPublicKey().toString(16);
+			for(Deal d : deals.get(userKey)){
+				Element dealElement = new Element("deal");
+				Element ownerElement = new Element("owner");
+				ownerElement.addContent(userKey);
+				dealElement.addContent(ownerElement);
+				dealElement.addContent(d.getRootElement());
+				dealsElement.addContent(dealElement);
+			}
+		}
 		// Adding all elements in root element
 		root.addContent(usersElement);
 		root.addContent(itemsElement);
 		root.addContent(messagesElement);
 		root.addContent(conversationsElement);
+		root.addContent(favoritesElement);
+		root.addContent(dealsElement);
 		// Writing in file
 		Document doc = new Document(root);
 		XMLOutputter xmlOutput = new XMLOutputter();
@@ -900,7 +1013,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		try {
 			xmlOutput.output(doc, new FileWriter(path));
 		} catch (IOException e) {
-			System.err.println(Manager.class.getName()+".saving : "+e.toString());
+			printError("saving", "saving : "+e.toString());
 		}
 		// Decrypt current user's private key
 		currentUser.decryptPrivateKey(currentUser.getClearPwd());

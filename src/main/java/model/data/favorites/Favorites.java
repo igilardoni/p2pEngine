@@ -21,10 +21,6 @@ public class Favorites extends AbstractAdvertisement{
 	private ArrayList<Item> items;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public Favorites(String owner){
-		super();
-		this.setOwner(owner);
-	}
 	public Favorites(User owner){
 		super();
 		if(owner == null){
@@ -36,6 +32,12 @@ public class Favorites extends AbstractAdvertisement{
 			return;
 		}
 		this.setOwner(owner.getKeys().getPublicKey().toString(16));
+	}
+	public Favorites(Element e){
+		super(e);
+	}
+	public Favorites(String XML){
+		super(XML);
 	}
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public String getOwner(){
@@ -102,7 +104,7 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
-		System.err.println(Deal.class.getName()+"."+method+" : "+error);
+		System.err.println("ERROR : "+Deal.class.getName()+"."+method+" : "+error);
 		return false;
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -143,5 +145,16 @@ public class Favorites extends AbstractAdvertisement{
 		case "items":	this.loadItems(e);		break;
 		}
 		return false;
+	}
+	
+	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@Override
+	public boolean equals(Object f){
+		if(!(f instanceof Favorites))
+			return false;
+		Favorites favorites = (Favorites) f;
+		if(!this.getOwner().equals(favorites.getOwner()))
+			return false;
+		return true;
 	}
 }
