@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import model.advertisement.AbstractAdvertisement;
 import model.data.deal.Deal;
@@ -207,13 +208,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return conversations.get(currentUser.getKeys().getPublicKey().toString(16));
 	}
 	/**
-	 * Get the current user's deals. If doesn't exist, return null;
+	 * Get the current user's deals. If doesn't exist, return create new ArrayList;
 	 * @return ArrayList<Deal>
 	 */
 	public ArrayList<Deal> getUserDeals(String publicKey){
-		if(deals.containsKey(publicKey))
-			return deals.get(publicKey);
-		return null;
+		if(!deals.containsKey(publicKey))
+			deals.put(publicKey, new ArrayList<Deal>());
+		return deals.get(publicKey);
 	}
 	/**
 	 * Get the current user's deals. If doesn't exist, it will be created
@@ -252,8 +253,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			favorites.put(publicKey, null);
 		return getUserFavorites(publicKey);
 	}
-	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	///////////////////////////////////////////////////// ADDER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function remove old and put User u
@@ -436,7 +436,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		favorites.get(publicKey).addItem(item);
 		favorites.get(publicKey).sign(currentUser.getKeys());
 	}
-	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Create a new empty Deal for the current User
 	 * @param title
@@ -530,6 +529,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return messages.remove(msg);
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	private static void printInfo(String method, String info){
+		System.out.println("INFO : "+Manager.class.getName()+"."+method+" : "+info);
+	}
 	private static boolean printError(String method, String error){
 		System.err.println("ERROR : "+Manager.class.getName()+"."+method+" : "+error);
 		return false;
@@ -608,6 +610,26 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return s.toString();
 	}
 	/**
+	 * Get an XML string representing all the deals that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	private String getDealsXML(){
+		StringBuffer s = new StringBuffer();
+		for(Entry<String, ArrayList<Deal>> entry : this.deals.entrySet()) {
+			String owner = entry.getKey();
+			ArrayList<Deal> deals = entry.getValue();
+			for (Deal d : deals) {
+				s.append("<deal>");
+				s.append("<owner>");
+				s.append(owner);
+				s.append("</owner>");
+				s.append(d);
+				s.append("</deal>");
+			}
+		}
+		return s.toString();
+	}
+	/**
 	 * Load all the users in this element
 	 * @param e an element that contains users in XML format.
 	 */
@@ -647,6 +669,28 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addConversations(new Conversations(m));
 		}
 	}
+	/**
+	 * Load all the favorites in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	private void loadFavorites(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element f: root.getChildren()){
+			addFavorites(new Favorites(f));
+		}
+	}
+	/**
+	 * Load all the deals in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	private void loadDeals(Element e){
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element d: root.getChildren()){
+			String owner = d.getChildText("owner");
+			Element deal = d.getChild("deal");
+			addDeal(owner, new Deal(deal));
+		}
+	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected boolean handleElement(Element e) {
@@ -655,13 +699,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		case "items": 				loadItems(e); break;
 		case "messages": 			loadMessages(e); break;
 		case "ReceivedMessages":	loadReceivedMessages(e); break;
+		case "favorites":			loadFavorites(e); break;
+		case "deals":				loadDeals(e); break;
 		default: return false;
 		}
 		return true;
 	}
 	@Override
 	protected String getAdvertisementName() {
-		return Manager.class.getSimpleName();
+		return Manager.class.getName();
 	}
 	@Override
 	protected void setKeys() {
@@ -677,6 +723,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		addKey("messages", false);
 		addKey("ReceivedMessages", false);
 		addKey("favorites", false);
+		addKey("deals", false);
 	}
 	@Override
 	protected void putValues() {
@@ -685,6 +732,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		addValue("messages", getMessagesXML());
 		addValue("ReceivedMessages", getReceivedMessagesXML());
 		addValue("favorites", getFavoritesXML());
+		addValue("deals", getDealsXML());
 	}
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
@@ -727,8 +775,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			this.addConversations(conversations);
 		}
 	}
-	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	////////////////////////////////////////////////////// UTIL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to remove all items with lifeTime is over
 	 */
@@ -739,7 +786,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				removeItem(items.get(i));
 		}
 	}
-	////////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	///////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Registry an user in the manager
 	 * @param user
@@ -773,7 +820,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		search.search(nickname, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<User> results = search.getResults();
 		if(results.isEmpty() && u==null){
-			System.err.println("Account not found !");
+			printError("login", "Account not found !");
 			return false;
 		}
 		long maxUpdate = 0;
@@ -808,8 +855,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Log out the current User.
 	 */
 	public void logout() {
-		this.saving(VARIABLES.ManagerFileName);
+		AsymKeysImpl clearKey = currentUser.getKeys().clone();
+		String clearPassword = currentUser.getClearPwd();
 		currentUser.setClearPassword(null);
+		currentUser.sign(clearKey);
+		currentUser.encryptPrivateKey(clearPassword);
+		this.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;
 	}
 	/////////////////////////////////////////////////// PUBLISHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -854,6 +905,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			path = "./"+VARIABLES.ManagerFileName;
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File(path);
+		boolean recovered = true;
 		try {
 			Document document = (Document) builder.build(xmlFile);
 			Element root = document.getRootElement();
@@ -877,13 +929,28 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			for (Element e : favoritesElement.getChildren()) {
 				addFavorites(new Favorites(e));
 			}
-		} catch (FileNotFoundException e1){
-			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" doesn't exist");
-		} catch (IOException e2) {
-			System.err.println(Manager.class.getName()+".recovery : "+e2.toString());
-		} catch (JDOMException e3) {
-			System.err.println(Manager.class.getName()+".recovery : File \""+path+"\" is empty or bad formatted");
+			Element dealsElement = root.getChild("deals");
+			for	(Element e : dealsElement.getChildren()){
+				String owner = e.getChild("owner").getText();
+				//String owner = e.getChildText("owner");
+				if(!deals.containsKey(owner) && users.containsKey(owner))
+					deals.put(owner, new ArrayList<Deal>());
+				if(e.getChild(Deal.class.getName())!=null)
+					addDeal(owner, new Deal(e.getChild(Deal.class.getName())));
+			}
+		} catch (FileNotFoundException e){
+			recovered = printError("recovery", "File \""+path+"\" doesn't exist");
+		} catch (IOException e) {
+			recovered = printError("recovery", "IOException\n\t"+e.toString());
+		} catch (JDOMException e) {
+			recovered = printError("recovery", "JDOMException\n\tFile \""+path+"\" is empty");
 			xmlFile.delete();
+		} catch (Exception e){
+			recovered = printError("recovery", "Unknown error\n\t"+e.toString());
+			e.printStackTrace();
+		} finally{
+			if(recovered)
+				printInfo("recovery", "Local data recovered");
 		}
 	}
 	@Override
@@ -924,6 +991,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				String userKey =  user.getKeys().getPublicKey().toString(16);
 				usersElement.addContent(user.getRootElement());
 				users.add(user);
+				// Filling ArrayList items
 				for (Item i : this.getUserItems(userKey)) {
 					if(!items.contains(i))
 						items.add(i);
@@ -932,6 +1000,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 					if(!items.contains(i))
 						items.add(i);
 				}
+				// Filling ArrayList messages
 				for (Message m : this.getUserMessages(userKey)) {
 					if(!messages.contains(m))
 						messages.add(m);
@@ -940,6 +1009,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 					if(!messages.contains(m))
 						messages.add(m);
 				}
+				// Filling ArrayList conversations
 				Conversations c;
 				c = this.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
@@ -947,6 +1017,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				c = manager.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
 					conversations.add(c);
+				// Filling ArrayList favorites
 				Favorites f;
 				f = this.getUserFavorites(userKey);
 				if(f != null && !favorites.contains(f))
@@ -954,6 +1025,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				f = manager.getUserFavorites(userKey);
 				if(f != null && !favorites.contains(f))
 					favorites.add(f);
+				// Filling ArrayList deals
 				if(!deals.containsKey(userKey))
 					deals.put(userKey, new ArrayList<Deal>());
 				for (Deal d : this.getUserDeals(userKey)){
@@ -991,8 +1063,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (User u : users) {
 			String userKey = u.getKeys().getPublicKey().toString(16);
 			for(Deal d : deals.get(userKey)){
-				Element dealElement = new Element("deal");
 				Element ownerElement = new Element("owner");
+				Element dealElement = new Element("deal");
 				ownerElement.addContent(userKey);
 				dealElement.addContent(ownerElement);
 				dealElement.addContent(d.getRootElement());
@@ -1023,21 +1095,36 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
-		User user = new User("user1", "pass2", "name1", "firstname1", "email1", "phone1");
-		manager.registration(user);
-		user.decryptPrivateKey("pass2");
-		manager.currentUser = user;
+		User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
+		manager.registration(user1);
+		user1.decryptPrivateKey("123456789");
+		manager.currentUser = user1;
 		
-		Item item = new Item(manager.currentUser, "title", new Category("category"), "description", "image", "country", "contact", 0L, 0L, TYPE.WISH);
-		item.sign(manager.currentUser.getKeys());
-		manager.addItem(item);
+		Item item1 = new Item(manager.currentUser, "Eldoran's Soul", new Category("category"), "useless things", "", "hell", "phone me", 0L, 0L, TYPE.PROPOSAL);
+		item1.sign(manager.currentUser.getKeys());
+		manager.addItem(item1);
+		
+		User user2 = new User("Lulu", "666", "Satan", "Lucifer", "Lulu666@hell.ff", "666");
+		user2.sign(user2.getKeys());
+		
+		Item item2 = new Item(user2, "Porsche 911", new Category("Vehicles"), "Beautyful car", "", "In front of your Home", "praying", 0L, 0L, TYPE.PROPOSAL);
+		item2.sign(user2.getKeys());
+		
+		Deal deal = new Deal("Good deal", user1);
+		deal.addSignatory(user2);
+		deal.addItem(item1);
+		deal.addItem(item2);
+		deal.addTransferRule(item1.getItemKey(), user2.getKeys().getPublicKey().toString(16));
+		deal.addTransferRule(item2.getItemKey(), user1.getKeys().getPublicKey().toString(16));
+		deal.sign(user1.getKeys()); 
+		
+		manager.addDeal(user1.getKeys().getPublicKey().toString(16), deal);
 		
 		manager.saving("");
 		
-		Manager manager2 = new Manager(null);
-		manager2.recovery("");
+		//Manager manager2 = new Manager(manager.toString(), null);
+		//manager2.recovery("");
 		
-		System.out.println(manager2.toString());
 	}
 	
 	
