@@ -69,7 +69,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			this.setDate(System.currentTimeMillis());
 		else
 			this.setDate(date);
-		this.setId("-1");
+		this.setId(-1);
 		this.setLifeTime(lifeTime);
 		this.setType(type);
 		setKeys();

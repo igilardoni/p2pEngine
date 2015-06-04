@@ -38,7 +38,7 @@ public class ItemTest {
 		item2.setLifeTime(lifeTime);
 		item2.setType(type);
 		
-		assertTrue(item1.equals(item2)); // Equals expected
+		assertFalse(item1.equals(item2)); // Different expected
 		
 		item2.setOwner(owner+"!");
 		
