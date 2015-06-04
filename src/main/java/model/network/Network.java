@@ -66,19 +66,12 @@ public class Network implements NetworkInterface {
 	public void addGroup(String name) {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup group = null;
-		
-		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null,
-          DiscoveryService.GROUP, "Name", name, 1, null);
-		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		/*Enumeration<Advertisement> advs = defaultGroup.getDiscoveryService()
-				.getLocalAdvertisements(DiscoveryService.GROUP, arg1, arg2) */
 		
 		try {
 			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
@@ -162,6 +155,7 @@ public class Network implements NetworkInterface {
 		}
          configurator.setTcpEndPort(-1);
          configurator.setTcpStartPort(-1);
+         configurator.setName("SXPeerGroup");
 		
 		return manager;
 	}
