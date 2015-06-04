@@ -66,6 +66,7 @@ public class Network implements NetworkInterface {
 		try {
 			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
 			group = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
+			getDefaultGroup().getDiscoveryService().remotePublish(group.getPeerGroupAdvertisement());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
