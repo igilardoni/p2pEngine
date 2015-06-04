@@ -77,9 +77,9 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
+		network = new Network(9800, VARIABLES.NetworkFolderName + "2", VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		
+		network.addRendezVous("tcp://139.124.5.161:9800");
 		network.start();
 	}
 	
