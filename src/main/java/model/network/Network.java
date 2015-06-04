@@ -7,11 +7,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import util.IpChecker;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
@@ -63,6 +66,20 @@ public class Network implements NetworkInterface {
 	public void addGroup(String name) {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup group = null;
+		
+		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null,
+          DiscoveryService.GROUP, "Name", name, 1, null);
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		/*Enumeration<Advertisement> advs = defaultGroup.getDiscoveryService()
+				.getLocalAdvertisements(DiscoveryService.GROUP, arg1, arg2) */
+		
 		try {
 			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
 			group = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
