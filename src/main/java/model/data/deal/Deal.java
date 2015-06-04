@@ -24,11 +24,11 @@ public class Deal extends AbstractAdvertisement {
 	
 	private String title;			// Title of deal
 	private int state = 0;			// State of deal (draft at start)
-	private ArrayList<String> signatories = new ArrayList<String>();
-	private ArrayList<Item> items = new ArrayList<Item>();
-	private HashMap<String, String> rules = new HashMap<String, String>();
-	private ArrayList<Claus> clauses = new ArrayList<Claus>();
-	private HashMap<String, Proof> proofs = new HashMap<String, Proof>(); // TODO Change when change protocol Sarah
+	private ArrayList<String> signatories;
+	private ArrayList<Item> items;
+	private HashMap<String, String> rules;
+	private ArrayList<Claus> clauses;
+	private HashMap<String, Proof> proofs; // TODO Change when change protocol Sarah
 	// TODO add proofs of signature and signatures
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -67,13 +67,13 @@ public class Deal extends AbstractAdvertisement {
 		return items;
 	}
 	public String getRecipientOf(Item item){
-		String itemKey = getItemKey(item);
+		String itemKey = item.getItemKey();
 		return rules.containsKey(itemKey)?rules.get(itemKey):null;
 	}
 	public ArrayList<Item> getItemsReceivedBy(String publicKey){
 		ArrayList<Item> is = new ArrayList<Item>();
 		for (Item item : items) {
-			String itemKey = getItemKey(item);
+			String itemKey = item.getItemKey();
 			if(rules.containsKey(itemKey) && rules.get(itemKey).equals(publicKey))
 				is.add(item);
 		}
@@ -166,6 +166,29 @@ public class Deal extends AbstractAdvertisement {
 			return signatories.add(owner) && items.add(item);
 		return items.add(item);
 	}
+	public boolean addTransferRule(String itemKey, String publicKey){
+		if(!isDraft())
+			return printError("addTransferRule", "This Deal isn't a draft");
+		if(itemKey == null || itemKey.isEmpty())
+			return printError("addTransferRule", "itemKey is null or empty");
+		if(publicKey == null || publicKey.isEmpty())
+			return printError("", "publicKey is null or empty");
+		if(!signatories.contains(publicKey))
+			if(!addSignatory(publicKey))
+				return printError("addTransferRule", "Impossible to add publicKey");
+		boolean error = true;
+		for (Item item : items)
+			if(item.getItemKey().equals(itemKey)){
+				error = false;
+				break;
+			}
+		if(error) return printError("addTransferRule", "item not found !");
+		if(rules.containsKey(itemKey)){
+			printError("addTransferRule", "Rule for Item deleted");
+			rules.remove(itemKey);
+		}
+		return rules.put(itemKey, publicKey) != null;
+	}
 	public boolean addTransferRule(Item item, String publicKey){
 		if(!isDraft())
 			return printError("addTransferRule", "This Deal isn't a draft");
@@ -177,7 +200,7 @@ public class Deal extends AbstractAdvertisement {
 		if(!items.contains(item))
 			if(!addItem(item))
 				return printError("addTransferRule", "Impossible to add Item");
-		String itemKey = getItemKey(item);
+		String itemKey = item.getItemKey();
 		if(rules.containsKey(itemKey)){
 			printError("addTransferRule", "Rule for Item "+item.getTitle()+" deleted");
 			rules.remove(itemKey);
@@ -193,10 +216,6 @@ public class Deal extends AbstractAdvertisement {
 			return printError("addTransferRule", "User haven't publicKey");
 		return addTransferRule(item, user.getKeys().getPublicKey().toString(16));
 	}
-	private void addTransferRule(String itemKey, String receiver){
-		if(!(itemKey.isEmpty() || receiver.isEmpty()))
-			rules.put(itemKey, receiver);
-	}
 	public boolean addClaus(Claus layout){
 		if(layout == null)
 			return printError("addLayout", "Layout empty");
@@ -208,7 +227,7 @@ public class Deal extends AbstractAdvertisement {
 			return printError("removeSignatory", "publicKey empty");
 		for (Item item : items) {
 			if(item.getOwner().equals(publicKey)){
-				String itemKey = getItemKey(item);
+				String itemKey = item.getItemKey();
 				rules.remove(itemKey);
 				items.remove(item);
 			}
@@ -235,8 +254,19 @@ public class Deal extends AbstractAdvertisement {
 			return printError("removeItem", "Item haven't owner");
 		if(item.getTitle() == null || item.getTitle().isEmpty())
 			return printError("removeItem", "Item haven't title");
-		String itemKey = getItemKey(item);
+		String itemKey = item.getItemKey();
 		return rules.remove(itemKey)!=null && items.remove(item);
+	}
+	public boolean removeItem(String itemKey){
+		if(itemKey==null || itemKey.isEmpty())
+			return printError("removeItem", "ItemKey null or empty");
+		if(rules.containsKey(itemKey))
+			rules.remove(itemKey);
+		for (Item item : items) {
+			if(item.getItemKey().equals(itemKey))
+				return removeItem(item);
+		}
+		return false;
 	}
 	public boolean removeRule(Item item, String publicKey){
 		if(item == null)
@@ -247,7 +277,7 @@ public class Deal extends AbstractAdvertisement {
 			return printError("removeRule", "Item haven't title");
 		if(publicKey == null || publicKey.isEmpty())
 			return printError("removeRule", "publicKey null or empty");
-		String itemKey = getItemKey(item);
+		String itemKey = item.getItemKey();
 		return rules.remove(itemKey)!=null;
 	}
 	public boolean removeRule(Item item, User user){
@@ -264,9 +294,6 @@ public class Deal extends AbstractAdvertisement {
 		return clauses.remove(claus);
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	private static String getItemKey(Item item){
-		return item.getTitle()+":"+item.getOwner();			// TODO CHANGE IF ITEM CHANGE
-	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
 		System.err.println(Deal.class.getName()+"."+method+" : "+error);
@@ -356,6 +383,11 @@ public class Deal extends AbstractAdvertisement {
 	}
 	@Override
 	protected void setKeys() {
+		signatories = new ArrayList<String>();
+		items = new ArrayList<Item>();
+		rules = new HashMap<String, String>();
+		clauses = new ArrayList<Claus>();
+		proofs = new HashMap<String, Proof>();
 		this.addKey("title", 			false);
 		this.addKey("state", 			false);
 		this.addKey("signatories", 		false);
