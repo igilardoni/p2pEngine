@@ -88,7 +88,7 @@ public class Network implements NetworkInterface {
 	public void start() {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
-			System.out.println(defaultGroup.getPeerGroupName());
+			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			networkManager.waitForRendezvousConnection(5000);
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
