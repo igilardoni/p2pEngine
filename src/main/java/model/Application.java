@@ -9,8 +9,12 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
+import model.data.item.Category;
+import model.data.item.Category.CATEGORY;
+import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.manager.SharingManager;
+import model.data.user.User;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
@@ -188,6 +192,14 @@ public class Application {
 			e.printStackTrace();
 		}
 		}
+		
+		User u = new User("test", "test", "test", "test", "test", "test");
+		u.sign(u.getKeys());
+		Manager m = Application.getInstance().getManager();
+		m.addUser(u);
+		Item i = new Item(u, "orange", new Category(CATEGORY.Appliances), "test", "test", "test", "test", 0, 0, Item.TYPE.WISH);
+		i.sign(u.getKeys());
+		m.addItem(i, true);
 		System.out.println(n.getBootStrapIp());
 
 		/*try {
