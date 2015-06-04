@@ -13,6 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import util.IpChecker;
+import model.network.search.Search.Result;
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory;
@@ -25,6 +28,7 @@ import net.jxta.pipe.PipeService;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.ModuleImplAdvertisement;
+import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
 
 
@@ -72,6 +76,21 @@ public class Network implements NetworkInterface {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
+				"Name", name, 1, new DiscoveryListener() {
+					
+					@Override
+					public void discoveryEvent(DiscoveryEvent event) {
+						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
+						while(advs.hasMoreElements()) {
+							System.out.println("groupe trouvé");
+							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
+							System.out.println("nom du groupe : " + adv.getName());
+						}
+						
+					}
+				});
 		
 		try {
 			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
