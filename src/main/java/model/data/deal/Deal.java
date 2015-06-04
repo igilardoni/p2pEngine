@@ -2,7 +2,8 @@ package model.data.deal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import model.advertisement.AbstractAdvertisement;
 import model.data.item.Item;
@@ -143,6 +144,8 @@ public class Deal extends AbstractAdvertisement {
 			return printError("addSignatory", "This Deal isn't a draft");
 		if(publicKey == null || publicKey.isEmpty())
 			return printError("addSignatory", "publicKey Empty !");
+		if(signatories.contains(publicKey))
+			return true;
 		return signatories.add(publicKey);
 	}
 	public boolean addSignatory(User user){
@@ -162,7 +165,7 @@ public class Deal extends AbstractAdvertisement {
 		if(item.getOwner() == null || item.getOwner().isEmpty())
 			return printError("addItem", "Item "+item.getTitle()+" doesn't have Owner");
 		String owner = item.getOwner();
-		if(signatories.contains(owner))
+		if(!signatories.contains(owner))
 			return signatories.add(owner) && items.add(item);
 		return items.add(item);
 	}
@@ -176,13 +179,12 @@ public class Deal extends AbstractAdvertisement {
 		if(!signatories.contains(publicKey))
 			if(!addSignatory(publicKey))
 				return printError("addTransferRule", "Impossible to add publicKey");
-		boolean error = true;
+		boolean ok = false;
 		for (Item item : items)
 			if(item.getItemKey().equals(itemKey)){
-				error = false;
-				break;
+				ok = true;
 			}
-		if(error) return printError("addTransferRule", "item not found !");
+		if(!ok) return printError("addTransferRule", "item not found !");
 		if(rules.containsKey(itemKey)){
 			printError("addTransferRule", "Rule for Item deleted");
 			rules.remove(itemKey);
@@ -232,7 +234,8 @@ public class Deal extends AbstractAdvertisement {
 				items.remove(item);
 			}
 		}
-		for(Iterator<String> itemKey = rules.keySet().iterator(); itemKey.hasNext();){
+		for(Entry<String, String> entry : rules.entrySet()) {
+		    String itemKey = entry.getKey();
 			if(rules.get(itemKey).equals(publicKey))
 				rules.remove(itemKey);
 		}
@@ -301,7 +304,20 @@ public class Deal extends AbstractAdvertisement {
 	}
 	
 	public String toPrint(){
-		return "";
+		StringBuffer s = new StringBuffer();
+		s.append("Signatories :\n");
+		for (String signatorie : signatories) {
+			s.append("\t- "+signatorie+"\n");
+		}
+		s.append("Transfer :\n");
+		for (Item item : items) {
+			s.append("\t- "+item.getTitle()+" ("+item.getItemKey()+")"+"\n\t\tfrom ");
+			s.append(item.getOwner());
+			s.append(" \n\t\tto ");
+			s.append(rules.get(item.getItemKey()));
+			s.append("\n");
+		}
+		return s.toString();
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private String signatoriesXML(){
@@ -322,13 +338,15 @@ public class Deal extends AbstractAdvertisement {
 	}
 	private String rulesXML(){
 		StringBuffer s = new StringBuffer();
-		for(Iterator<String> itemKey = rules.keySet().iterator(); itemKey.hasNext();){
+		for(Entry<String, String> entry : rules.entrySet()) {
+		    String itemKey = entry.getKey();
+		    String rule = entry.getKey();
 			s.append("<rule>");
 			s.append("<itemKey>");
 			s.append(itemKey);
 			s.append("</itemKey>");
 			s.append("<receiver>");
-			s.append(rules.get(itemKey));
+			s.append(rule);
 			s.append("</receiver>");
 			s.append("</rule>");
 		}
@@ -379,7 +397,7 @@ public class Deal extends AbstractAdvertisement {
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected String getAdvertisementName() {
-		return Deal.class.getSimpleName();
+		return Deal.class.getName();
 	}
 	@Override
 	protected void setKeys() {
