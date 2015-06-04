@@ -134,8 +134,12 @@ public class Network implements NetworkInterface {
 		}*/
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
-			configurator.setTcpPublicAddress(InetAddress.getLocalHost().getHostAddress(), false);
+		//	configurator.setTcpPublicAddress(InetAddress.getLocalHost().getHostAddress(), false);
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
          configurator.setTcpEndPort(-1);
