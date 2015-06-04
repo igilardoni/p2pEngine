@@ -44,7 +44,7 @@ public class Application {
 		AdvertisementInstaciator.RegisterAllAdv();
 		startNetwork();
 		manager = new Manager(network);
-		manager.recovery(VARIABLES.ManagerFileName);
+		manager.recovery(VARIABLES.ManagerFilePath);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
@@ -79,7 +79,7 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9800, VARIABLES.NetworkFolderName + "2", VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		network.addRendezVous("tcp://85.171.121.182:9800");
+		//network.addRendezVous("tcp://139.124.5.161:9800");
 		network.start();
 	}
 	
