@@ -121,7 +121,7 @@ public class Network implements NetworkInterface {
 		 configurator.setTcpPort(port);
          configurator.setTcpEnabled(true);
          configurator.setHttpEnabled(true);
-         configurator.setHttpPort(port+1);
+         configurator.setHttpPort(port+5);
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
