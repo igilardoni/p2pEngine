@@ -125,15 +125,16 @@ public class Network implements NetworkInterface {
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-         try {
+        /* try {
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			configurator.setTcpPublicAddress(InetAddress.getLocalHost().getHostAddress(), false);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

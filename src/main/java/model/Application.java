@@ -78,9 +78,9 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9700 + new Random().nextInt(100), VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
+		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		network.addRendezVous("tcp://85.171.121.182:9800");
+		//network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
