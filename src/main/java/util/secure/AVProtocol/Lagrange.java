@@ -5,6 +5,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * use for resolve message
+ * @author sarah
+ *
+ */
 public class Lagrange {
 
 	 /*public static BigInteger inter(BigInteger [] xin, BigInteger [] yin, BigInteger x)
@@ -32,22 +37,40 @@ public class Lagrange {
 		 return L;
 	 }*/
 
-	public static BigInteger inter(BigInteger [] xin, BigInteger [] yin, BigInteger x)
+	/**
+	 * lagrange formula
+	 * @param xin
+	 * @param yin
+	 * @param x
+	 * @return
+	 */
+	public static BigInteger inter(BigDecimal [] xin, BigDecimal [] yin, BigDecimal x)
 	 {
 		int n = xin.length;
  
-		BigInteger L = BigInteger.ZERO;
+		BigDecimal L = BigDecimal.ZERO;
 		
 		for (int i =0; i< n ; i++)
 			L = L.add(CalculL(  xin,   yin,  x,  n,  i));
 		
-		return L;		
+		BigInteger result = L.toBigInteger();
+		return result;		
 	 }
 	
-	public static BigInteger CalculL(BigInteger [] xin, BigInteger [] yin, BigInteger x, int n, int j){
+	/**
+	 * Lagrnage polynom
+	 * problem with BigInteger and divisor 
+	 * @param xin
+	 * @param yin
+	 * @param x
+	 * @param n
+	 * @param j
+	 * @return
+	 */
+	public static BigDecimal CalculL(BigDecimal [] xin, BigDecimal [] yin, BigDecimal x, int n, int j){
 		
-		BigInteger G = BigInteger.ONE;
-		BigInteger D = BigInteger.ONE;
+		BigDecimal G = BigDecimal.ONE;
+		BigDecimal D = BigDecimal.ONE;
 		
 		for (int i = 0 ; i< n; i++)
 			if (j!=i)
@@ -57,7 +80,7 @@ public class Lagrange {
 			if (j!=i)
 				D = D.multiply(xin[j].subtract(xin[i]));
 		
-		BigInteger tp = (yin[j]).multiply(G);
-		return tp.divide(D);
+		BigDecimal tp = (yin[j]).multiply(G);
+		return tp.divide(D,100, BigDecimal.ROUND_HALF_DOWN);
 	}
 }

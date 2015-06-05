@@ -45,19 +45,25 @@ public class Receiver {
 		return true;
 	}
 	
-	public BigInteger Reconstruction (TTP ttp)
+	/** 
+	 * reconstruction message with interpolation Lagrange formula
+	 * @param ttp
+	 * @param Dkeys, dealer keys
+	 * @return
+	 */
+	public BigInteger Reconstruction (TTP ttp, AsymKeysImpl Dkeys)
 	{
-		BigInteger [] x = new BigInteger [ttp.getK()];
-		BigInteger [] mi = new BigInteger [ttp.getK()];;
+		BigDecimal [] x = new BigDecimal [ttp.getK()];
+		BigDecimal [] mi = new BigDecimal [ttp.getK()];
 		
 		for (int i = 0 ; i< ttp.getParticipants().size(); i++)
 		{
 			ParticipantEx Pi = ttp.getParticipant(i);
-			x[i] = Pi.getX();
-			mi[i] = new BigInteger (Pi.getMiD());
+			x[i] = new BigDecimal(Pi.getX());
+			mi[i] = new BigDecimal (new BigInteger (Pi.getMiD()));
 		}
 		
-		return Lagrange.inter( x, mi, BigInteger.ZERO);
+		return Lagrange.inter( x, mi, BigDecimal.ZERO).mod(Dkeys.getP());
 	}
 	
 }

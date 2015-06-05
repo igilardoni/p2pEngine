@@ -7,6 +7,11 @@ import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalEncrypt;
 
+/**
+ * person begin the protocol
+ * @author sarah
+ *
+ */
 public class Dealer {
 
 	private AsymKeysImpl keys ;
