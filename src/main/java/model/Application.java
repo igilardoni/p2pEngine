@@ -83,7 +83,7 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9800, VARIABLES.NetworkFolderName + "2", VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		
+		network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
