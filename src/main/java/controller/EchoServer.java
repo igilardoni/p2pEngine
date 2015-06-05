@@ -238,8 +238,29 @@ public class EchoServer {
 			break;
 
 		case "/update_compte_user" :
+			System.out.println(" nick "+requet[1]+" name "+requet[2]+" firstname "+requet[3]+" email "+requet[4]+" passe_update "
+					+requet[5]+" phone "+requet[6]+" passe_verif "+requet[7]);
 		
-			if(managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], requet[6])){
+			
+		/*	public boolean updateAccount(String nick, String oldPassword, String newPassword,
+					String name, String firstName, String email, String phone){
+			
+				managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], phone);
+			*/
+			
+			
+			if(Application.getInstance().getManager().getCurrentUser().isPassword(requet[7])){
+				User current = Application.getInstance().getManager().getCurrentUser();
+				current.setNick(requet[1]);
+				current.setName(requet[2]);
+				current.setFirstName(requet[3]);
+				current.setEmail(requet[4]);
+				current.setPassWord(requet[5]);
+				current.setClearPassword(requet[5]);
+				current.setPhone(requet[6]);
+				Application.getInstance().getManager().registration(current);
+				Application.getInstance().getManager().logout();
+				Application.getInstance().getManager().login(requet[1], requet[5]);	
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
