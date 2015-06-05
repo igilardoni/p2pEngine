@@ -12,6 +12,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import net.jxta.peer.PeerID;
+import sun.text.normalizer.CharTrie.FriendAgent;
 import util.DateConverter;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
@@ -27,9 +28,9 @@ import model.network.search.SearchListener;
 
 
 /**
-* Echo server class intercept messages PREVENTING JS and made the call
-* For functions in the model.
-*
+ * Echo server class intercept messages PREVENTING JS and made the call
+ * For functions in the model.
+ *
  */
 
 
@@ -40,7 +41,7 @@ import model.network.search.SearchListener;
 @ServerEndpoint("/serv") 
 public class EchoServer {
 	ManagerBridge managerB =  new ManagerBridge();
-	
+
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session.
 	 * The session class allows us to send data to the user.
@@ -58,15 +59,37 @@ public class EchoServer {
 	 * and allow us to react to it. For now the message is read as a String.
 	 * @throws IOException 
 	 */
-	
 	@OnMessage
 	public void onMessage(String message, final Session session){
+		Manager manager = Application.getInstance().getManager();
 		
 		String[] requet = message.split(":");
+		String query = requet[0];
+		/* Variable for User */
+		String nick;
+		String password;
+		String name;
+		String firstName;
+		String email;
+		String phone;
+		String newPassword;
+		String oldPassword;
+		/* Variables for Item */
+		String title;
+		String category;
+		String description;
+		String image;
+		String country;
+		String contact;
+		String lifeTime;
+		String type;
+		String itemKey;
 		
-		switch (requet[0]) {
-		case "/index":
-			if(managerB.login(requet[2], requet[1])){
+		switch (query) {
+		case "/index": // Login query
+			nick = requet[2];
+			password = requet[1];
+			if(managerB.login(nick, password)){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
@@ -74,273 +97,196 @@ public class EchoServer {
 				}		
 			}
 			break;
-		case "/register":
-			
-			managerB.registration(requet[1],requet[2], requet[3], requet[4], requet[5], requet[6]);
+		case "/log_out": // Logout query
+			Application.getInstance().getManager().logout();
+			try {
+				session.getBasicRemote().sendText("log_index:");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/register": // Registration query
+			nick = requet[1];
+			password = requet[2];
+			name = requet[3];
+			firstName = requet[4];
+			email = requet[5];
+			phone = requet[6];
+			managerB.registration(nick, password, name, firstName, email, phone);
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
 				e.printStackTrace();
-
 			}
 			break;
-
-		//Just for redirection
-		case "/newobjet":
-			try {
-				session.getBasicRemote().sendText("new_objet.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-
-		case "/search":
-			try {
-				session.getBasicRemote().sendText("Search.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/new_objet_add" :
-			/*
-			 * requet[1] : title
-			 * requet[2] : category
-			 * requet[3] : description
-			 * requet[4] : image
-			 * requet[5] : country
-			 * requet[6] : contact
-			 * requet[7] : lifeTime
-			 * requet[8] : type
-			 */
-			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
-			break;
-
-			case "/new_objet_update" :
-				/*
-				 * requet[1] : title
-				 * requet[2] : category
-				 * requet[3] : description
-				 * requet[4] : image
-				 * requet[5] : country
-				 * requet[6] : contact
-				 * requet[7] : lifeTime
-				 * requet[8] : type
-				 */
-			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
-			
-			try {
-				session.getBasicRemote().sendText("update_objet:");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			break;
-			
-			//Just for redirection
-			case "/newindex":
-			try {
-				session.getBasicRemote().sendText("index.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-
-			//Just for redirection
-			case "/newchat":
-			try {
-				session.getBasicRemote().sendText("Message.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-
-			//Just for redirection
-		case "/contrat":
-			try {
-				session.getBasicRemote().sendText("Contrat.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-
-			//Just for redirection
-		case "/user_compte":
-			try {
-				session.getBasicRemote().sendText("User_compte.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-
-			//case load all information of usercurrent
-		case "/load_use":
-			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
-			String name = Application.getInstance().getManager().getCurrentUser().getName();
-			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
-			String email = Application.getInstance().getManager().getCurrentUser().getEmail();
-			String numbertel = Application.getInstance().getManager().getCurrentUser().getPhone();
-			try {
-				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstname+":"+email+":"+numbertel);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-			//case load item of user curren
-		case "/load_item":
-
-			Manager manager = Application.getInstance().getManager();
-			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-			if(!it.isEmpty()){
-				for (int i = 0; i < it.size(); i++) {
-					try {
-						session.getBasicRemote().sendText("load_item:"+it.get(i).getTitle()+":"+it.get(i).getCountry()+":"+it.get(i).getDescription());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-			}
-
-			break;
-
-			//Return current object
-		case "/zoom_item":
-
-			Manager manager1 = Application.getInstance().getManager();
-			Item item_search = manager1.getItemCurrentUser(requet[1]);
-
-			Long enddingDate = item_search.getLifeTime() + item_search.getDate();
-			try {
-				session.getBasicRemote().sendText("zoom_item_result:"+
-						item_search.getTitle()+":"+item_search.getCategory().getStringChoice()+":"+
-						item_search.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
-						+":"+item_search.getDate()+":"+item_search.getContact());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			break;
-
-			/*
-			 * 	Return current object
-			 * 	requet[1] : title
-			 */
-			
-		case "/remove_item":
-
-		
-			managerB.removeItem(requet[1]);
-
-
-			break;
-
-		case "/update_compte_user" :
-		
-			if(managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], requet[6])){
+		case "/update_compte_user": // Update current user query
+			nick = requet[1];
+			name = requet[2];
+			firstName = requet[3];
+			email = requet[4];
+			phone = requet[5];
+			newPassword = requet[5];
+			oldPassword = requet[7];
+			if(managerB.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 			}else{
 				try {
 					session.getBasicRemote().sendText("update_user_false:");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
-
+			break;
+		case "/new_objet_add" : // Add item query
+			title = 		requet[1];
+			category = 		requet[2];
+			description = 	requet[3];
+			image = 		requet[4]+":"+requet[5];
+			country = 		requet[6];
+			contact = 		requet[7];
+			lifeTime = 		requet[8];
+			type = 			requet[9];
+			managerB.addItem(title, category, description, image, country, contact, lifeTime, type);
 			break;
 
-		case "/search_itme":
-			System.out.println("JE SUIS LA!");
+		case "/new_objet_update" : // Update Item query
+			title = 		requet[1];
+			category = 		requet[2];
+			description = 	requet[3];
+			image = 		requet[4]+":"+requet[5];
+			country = 		requet[6];
+			contact = 		requet[7];
+			lifeTime = 		requet[8];
+			type = 			requet[9];
+			managerB.updateItem(title, category, description, image, country, contact, lifeTime, type);
+			try {
+				session.getBasicRemote().sendText("update_objet:"); // ????
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		
+		///////////////////////////////////////////////// REDIRECTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/search": // "Search" redirection query
+			try {
+				session.getBasicRemote().sendText("Search.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/newindex": // "Index" redirection query
+			try {
+				session.getBasicRemote().sendText("index.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/newobjet": // "New Object" redirection query
+			try {
+				session.getBasicRemote().sendText("new_objet.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/newchat": // "Chat" redirection query
+			try {
+				session.getBasicRemote().sendText("Message.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/contrat": // "Deal" redirection query
+			try {
+				session.getBasicRemote().sendText("Contrat.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/user_compte": // "Account" redirection query
+			try {
+				session.getBasicRemote().sendText("User_compte.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		//////////////////////////////////////////////////// LOADERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/load_use": // Load the current user and return to Javascript
+			nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			name = Application.getInstance().getManager().getCurrentUser().getName();
+			firstName = Application.getInstance().getManager().getCurrentUser().getFirstName();
+			email = Application.getInstance().getManager().getCurrentUser().getEmail();
+			phone = Application.getInstance().getManager().getCurrentUser().getPhone();
+			try {
+				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstName+":"+email+":"+phone);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/load_item": // Load the current user's items and return to Javascript
+			ArrayList<Item> items = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+			if(!items.isEmpty()){
+				for (int i = 0; i < items.size(); i++) {
+					try {
+						session.getBasicRemote().sendText("load_item:"+items.get(i).getTitle()+":"+items.get(i).getCountry()+":"+items.get(i).getDescription());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			break;
+		case "/zoom_item": // Load item's data and return to Javascript
+			itemKey = requet[1];
+			Item item = manager.getItemCurrentUser(itemKey);
+			Long enddingDate = item.getLifeTime() + item.getDate();
+			try {
+				session.getBasicRemote().sendText("zoom_item_result:"+
+						item.getTitle()+":"+item.getCategory().getStringChoice()+":"+
+						item.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item.getType()+":"+item.getDescription()+":"+item.getImage()
+						+":"+item.getDate()+":"+item.getContact());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		//////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/remove_item":  // Remove item query
+			itemKey = requet[1];
+			managerB.removeItem(itemKey);
+			break;
+		////////////////////////////////////////////////// COMMUNICATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/search_itme": // Search an item in network
+			title = requet[1];
 			SearchItemController sc = new SearchItemController();
 			sc.addListener(new SearchListener<Item>() {
-
 				@Override
 				public void searchEvent(Item event) {
 					try {
-						System.out.println("ok!!!!!");
 						session.getBasicRemote().sendText("result_search_item:"+event.getTitle()+":"+event.getDescription()+":"+event.getCountry());
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	
 				}
 			});
-			sc.startSearch(requet[1]);
-
-
+			sc.startSearch(title);
 			break;
-
-		case "/log_out":
-
-			Application.getInstance().getManager().logout();
-
-
-			try {
-				session.getBasicRemote().sendText("log_index:");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-
-
-			}
-
-			break;
-			
-		case "/send_message" :
-			String result="";
-			if(sendTextToNick(requet[1],requet[2]))
-				result="sendt";
-			else
-				result="sendf";
-			
+		case "/send_message": // Send a message to a nick's user
+			String msg = requet[1];
+			nick = requet[2];
+			String result=sendTextToNick(msg, nick)?"sendt":"sendf";
 			try {
 				session.getBasicRemote().sendText("result_sendMessage:"+result);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-
-
 			}
-			
-			break;
-
-
-		default:
-			break;
-		}
-
-	}
-	
-	
-	/* Voila ca c'est un style de controlleur stu veux .. */
-	private static void addItem(String title, String category, String description, String image, String country, String contact, long lifeTime, String type ){
-		User owner = Application.getInstance().getManager().getCurrentUser();
-		Category c = new Category(category);
-		Item.TYPE t;
-		//Long l = Long.parseLong(lifeTime);
-		switch(type.toUpperCase()){
-		case "WISH":
-			t = TYPE.WISH;
-			break;
-		case "PROPOSAL":
-			t = TYPE.PROPOSAL;
 			break;
 		default:
-			t = TYPE.WISH;
+			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+query+" is an unknow query");
+			break;
 		}
-		Item item = new Item(owner, title, c, description, image, country, contact, 0, lifeTime, t);
-		item.sign(owner.getKeys());
-		System.out.println("en cours ...");
-		Application.getInstance().getManager().addItem(item, true);
 	}
 	
 	/**
@@ -351,26 +297,6 @@ public class EchoServer {
 	@OnClose
 	public void onClose(Session session){
 		System.out.println("Session has ended");
-	}
-
-	//Verifying user account
-	private static boolean login(String login, String password){
-		return Application.getInstance().getManager().login(login, password);
-
-	}
-
-	/**
-	 * Add NEW User to current Manager
-	 * @param nick
-	 * @param password
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param phone
-	 */
-	private static void addUser(String nick,String password, String name, String firstName, String email, String phone){
-		User user = new User(nick, password, name, firstName, email, phone);
-		Application.getInstance().getManager().registration(user);
 	}
 
 	/**
@@ -404,7 +330,7 @@ public class EchoServer {
 		}
 		return sendOnTime;
 	}
-	
+
 	/**
 	 * Send a message to a publicKey
 	 * Used when known publicKey
@@ -436,13 +362,7 @@ public class EchoServer {
 		}else{
 			System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
 		}
-		
+
 		return sendOnTime;
 	}
-
-
-	public static void main(String[] args){
-
-	}
-
 }
