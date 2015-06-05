@@ -50,8 +50,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private User currentUser;					// User logged
 	private ArrayList<Message> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
-	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods (setters, add, XML, ...)
-	private HashMap<String, Favorites> favorites;	// TODO add methods (setters, add, XML, ...)
+	private HashMap<String, ArrayList<Deal>> deals;
+	private HashMap<String, Favorites> favorites;
 
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -76,12 +76,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return users.values();
 	}
 	/**
-	 * Return the user with this key
-	 * @param key - String format
+	 * Return the user with this publicKey
+	 * @param publicKey - String format
 	 * @return
 	 */
-	public User getUser(String key){
-		return users.get(key);
+	public User getUser(String publicKey){
+		return users.get(publicKey);
 	}
 	/**
 	 * Return the user with this key
@@ -545,17 +545,27 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public String completUserXMLString(String publicKey) {
 		StringBuffer s = new StringBuffer();
 		s.append(this.getUser(publicKey).toString());
-		s.append("<Items>");
+		s.append("<items>");
 		for(Item i : getUserItems(publicKey)) {
 			s.append(i.toString());
 		}
-		s.append("</Items>");
-		s.append("<Messages>");
+		s.append("</items>");
+		s.append("<messages>");
 		for(Message m : getUserMessages(publicKey)){
 			s.append(m.toString());
 		}
-		s.append("</Messages>");
-		//s.append(conversations.get(publicKey).toString());
+		s.append("</messages>");
+		s.append("<ReceivedMessages>");
+		s.append(conversations.get(publicKey).toString());
+		s.append("</ReceivedMessages>");
+		s.append("<favorites>");
+		s.append(favorites.get(publicKey).toString());
+		s.append("</favorites>");
+		s.append("<deals>");
+		for(Deal d : getUserDeals(publicKey)){
+			s.append(d.toString());
+		}
+		s.append("</deals>");
 		return s.toString();
 	}
 	/**
@@ -687,7 +697,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
 		for(Element d: root.getChildren()){
 			String owner = d.getChildText("owner");
-			Element deal = d.getChild("deal");
+			Element deal = d.getChild("Deal");
 			addDeal(owner, new Deal(deal));
 		}
 	}
@@ -760,9 +770,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		elements  = StringToElement.getElementFromString(m.getMessagesXML(), "messages");
 		for (Element element : elements.getChildren()) {
 			Message message = new Message(element);
-			// NO POSSIBLE TEST IF NOT OWNER ELSE ADD TO CONVERSATION
-			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)))
-				this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
+			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16))){
+				if(message.checkSignature(message.getSender(currentUser.getKeys()))) // If owner, check signature
+					this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
+				else
+					printError("messageEvent", "Bad Signature for Message");
+			}
 			else
 				this.addMessage(message);
 		}
@@ -773,6 +786,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			Conversations conversations = new Conversations(element);
 			// TODO TEST !
 			this.addConversations(conversations);
+		}
+		// Add all Favorites
+		elements = null;
+		elements  = StringToElement.getElementFromString(m.getFavoritesXML(), "favorites");
+		for (Element element : elements.getChildren()) {
+			Favorites favorites = new Favorites(element);
+			if(favorites.checkSignature(this.getUser(favorites.getOwner()).getKeys()))
+				this.addFavorites(favorites);
 		}
 	}
 	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -936,7 +957,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				if(!deals.containsKey(owner) && users.containsKey(owner))
 					deals.put(owner, new ArrayList<Deal>());
 				if(e.getChild(Deal.class.getName())!=null)
-					addDeal(owner, new Deal(e.getChild(Deal.class.getName())));
+					addDeal(owner, new Deal(e.getChild("Deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = printError("recovery", "File \""+path+"\" doesn't exist");
