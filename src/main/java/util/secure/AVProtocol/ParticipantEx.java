@@ -3,6 +3,7 @@ package util.secure.AVProtocol;
 import java.math.BigInteger;
 
 import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
 import util.secure.ElGamalEncrypt;
 
 /**
@@ -17,9 +18,10 @@ public class ParticipantEx {
 	private AsymKeysImpl keys ;
 	private BigInteger x;
 	private int number ;
-	private ElGamalEncrypt Mi;
+	private byte[] Mi;
+	private byte [] miD;
 	
-	public ParticipantEx (AsymKeysImpl keys, int number, ElGamalEncrypt Mi)
+	public ParticipantEx (AsymKeysImpl keys, int number, byte[] Mi)
 	{
 		this.setKeys(keys);
 		this.setNumber(number);
@@ -42,11 +44,11 @@ public class ParticipantEx {
 		this.number = number;
 	}
 
-	public ElGamalEncrypt getMi() {
+	public byte[] getMi() {
 		return Mi;
 	}
 
-	public void setMi(ElGamalEncrypt mi) {
+	public void setMi(byte[] mi) {
 		Mi = mi;
 	}
 
@@ -56,5 +58,19 @@ public class ParticipantEx {
 
 	public void setX(BigInteger x) {
 		this.x = x;
+	}
+	
+	public void decryptMi ()
+	{
+		ElGamal elGamal = new ElGamal (keys);
+		setMiD(elGamal.decryptWithPrivateKey(Mi));
+	}
+
+	public byte [] getMiD() {
+		return miD;
+	}
+
+	public void setMiD(byte [] miD) {
+		this.miD = miD;
 	}
 }
