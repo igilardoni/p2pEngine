@@ -923,7 +923,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	@Override
 	public void recovery(String path) {
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName;
+			path = VARIABLES.ManagerFilePath;
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File(path);
 		boolean recovered = true;
@@ -981,7 +981,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		manager.recovery(path);
 		
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName; 
+			path = VARIABLES.ManagerFilePath; 
 		// Element Root
 		Element root = new Element(Manager.class.getName());
 		// Saving current user's Keys decrypted

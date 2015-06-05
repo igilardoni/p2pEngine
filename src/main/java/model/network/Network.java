@@ -83,7 +83,7 @@ public class Network implements NetworkInterface {
 					public void discoveryEvent(DiscoveryEvent event) {
 						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 						while(advs.hasMoreElements()) {
-							System.out.println("groupe trouvé");
+							System.out.println("groupe trouvï¿½");
 							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
 							System.out.println("nom du groupe : " + adv.getName());
 							try {
@@ -128,7 +128,7 @@ public class Network implements NetworkInterface {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			System.out.println("waiting for rendez vous.");
-			if(networkManager.waitForRendezvousConnection(60000)) {
+			if(networkManager.waitForRendezvousConnection(5000)) {
 				System.out.println("rendez vous found");
 			}
 			else {
