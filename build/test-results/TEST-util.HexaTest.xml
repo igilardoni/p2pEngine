@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="util.HexaTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2015-06-01T11:33:39" hostname="ElMEHDI-PC" time="0.008">
+  <properties/>
+  <testcase name="stringToHex" classname="util.HexaTest" time="0.001"/>
+  <testcase name="hexStringToBytes" classname="util.HexaTest" time="0.001"/>
+  <testcase name="hexToString" classname="util.HexaTest" time="0.0"/>
+  <testcase name="bytesToString" classname="util.HexaTest" time="0.001"/>
+  <testcase name="bytesToHexUpperCase" classname="util.HexaTest" time="0.001"/>
+  <testcase name="bytesToHex" classname="util.HexaTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

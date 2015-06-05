@@ -110,6 +110,185 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+
+
+		//Just for redirection
+		case "/newobjet":
+			try {
+				session.getBasicRemote().sendText("new_objet.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case "/search":
+			try {
+				session.getBasicRemote().sendText("Search.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/new_objet_add" :
+			/*
+			 * requet[1] : title
+			 * requet[2] : category
+			 * requet[3] : description
+			 * requet[4] : image
+			 * requet[5] : country
+			 * requet[6] : contact
+			 * requet[7] : lifeTime
+			 * requet[8] : type
+			 */
+			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
+			break;
+
+			case "/new_objet_update" :
+				/*
+				 * requet[1] : title
+				 * requet[2] : category
+				 * requet[3] : description
+				 * requet[4] : image
+				 * requet[5] : country
+				 * requet[6] : contact
+				 * requet[7] : lifeTime
+				 * requet[8] : type
+				 */
+			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
+			
+			try {
+				session.getBasicRemote().sendText("update_objet:");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			break;
+			
+			//Just for redirection
+			case "/newindex":
+			try {
+				session.getBasicRemote().sendText("index.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			//Just for redirection
+			case "/newchat":
+			try {
+				session.getBasicRemote().sendText("Message.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			//Just for redirection
+		case "/contrat":
+			try {
+				session.getBasicRemote().sendText("Contrat.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			//Just for redirection
+		case "/user_compte":
+			try {
+				session.getBasicRemote().sendText("User_compte.html");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+			//case load all information of usercurrent
+		case "/load_use":
+			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			String name = Application.getInstance().getManager().getCurrentUser().getName();
+			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
+			String email = Application.getInstance().getManager().getCurrentUser().getEmail();
+			String numbertel = Application.getInstance().getManager().getCurrentUser().getPhone();
+			try {
+				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstname+":"+email+":"+numbertel);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+			//case load item of user curren
+		case "/load_item":
+
+			Manager manager = Application.getInstance().getManager();
+			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+			if(!it.isEmpty()){
+				for (int i = 0; i < it.size(); i++) {
+					try {
+						session.getBasicRemote().sendText("load_item:"+it.get(i).getTitle()+":"+it.get(i).getCountry()+":"+it.get(i).getDescription());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			}
+
+			break;
+
+			//Return current object
+		case "/zoom_item":
+
+			Manager manager1 = Application.getInstance().getManager();
+			Item item_search = manager1.getItemCurrentUser(requet[1]);
+
+			Long enddingDate = item_search.getLifeTime() + item_search.getDate();
+			try {
+				session.getBasicRemote().sendText("zoom_item_result:"+
+						item_search.getTitle()+":"+item_search.getCategory().getStringChoice()+":"+
+						item_search.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
+						+":"+item_search.getDate()+":"+item_search.getContact());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			break;
+
+			/*
+			 * 	Return current object
+			 * 	requet[1] : title
+			 */
+			
+		case "/remove_item":
+
+		
+			managerB.removeItem(requet[1]);
+
+
+			break;
+
+		case "/update_compte_user" :
+			System.out.println(" nick "+requet[1]+" name "+requet[2]+" firstname "+requet[3]+" email "+requet[4]+" passe_update "
+					+requet[5]+" phone "+requet[6]+" passe_verif "+requet[7]);
+		
+			
+		/*	public boolean updateAccount(String nick, String oldPassword, String newPassword,
+					String name, String firstName, String email, String phone){
+			
+				managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], phone);
+			*/
+			
+			
+			if(Application.getInstance().getManager().getCurrentUser().isPassword(requet[7])){
+				User current = Application.getInstance().getManager().getCurrentUser();
+				current.setNick(requet[1]);
+				current.setName(requet[2]);
+				current.setFirstName(requet[3]);
+				current.setEmail(requet[4]);
+				current.setPassWord(requet[5]);
+				current.setClearPassword(requet[5]);
+				current.setPhone(requet[6]);
+				Application.getInstance().getManager().registration(current);
+				Application.getInstance().getManager().logout();
+				Application.getInstance().getManager().login(requet[1], requet[5]);	
+
 		case "/update_compte_user": // Update current user query
 			nick = requet[1];
 			name = requet[2];
