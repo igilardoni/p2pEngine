@@ -417,6 +417,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			return true;
 		case "keyId":
 			setId(val);
+			return true;
 		case "friendNick":
 			setFriendlyNick(val);
 			return true;
