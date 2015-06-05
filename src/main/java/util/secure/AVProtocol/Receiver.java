@@ -45,7 +45,7 @@ public class Receiver {
 		return true;
 	}
 	
-	public BigDecimal Reconstruction (TTP ttp)
+	public BigInteger Reconstruction (TTP ttp)
 	{
 		BigInteger [] x = new BigInteger [ttp.getK()];
 		BigInteger [] mi = new BigInteger [ttp.getK()];;
