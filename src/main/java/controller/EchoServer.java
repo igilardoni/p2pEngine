@@ -10,6 +10,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.apache.derby.tools.sysinfo;
+
 import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
@@ -139,7 +141,7 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
-			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
+			managerBridge.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
 			break;
 
 			case "/new_objet_update" :
@@ -153,7 +155,7 @@ public class EchoServer {
 				 * requet[7] : lifeTime
 				 * requet[8] : type
 				 */
-			managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
+				managerBridge.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
 			
 			try {
 				session.getBasicRemote().sendText("update_objet:");
@@ -202,10 +204,10 @@ public class EchoServer {
 
 			//case load all information of usercurrent
 		case "/load_use":
-			String nick = Application.getInstance().getManager().getCurrentUser().getNick();
-			String name = Application.getInstance().getManager().getCurrentUser().getName();
+			 nick = Application.getInstance().getManager().getCurrentUser().getNick();
+			 name = Application.getInstance().getManager().getCurrentUser().getName();
 			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
-			String email = Application.getInstance().getManager().getCurrentUser().getEmail();
+			 email = Application.getInstance().getManager().getCurrentUser().getEmail();
 			String numbertel = Application.getInstance().getManager().getCurrentUser().getPhone();
 			try {
 				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstname+":"+email+":"+numbertel);
@@ -216,7 +218,7 @@ public class EchoServer {
 			//case load item of user curren
 		case "/load_item":
 
-			Manager manager = Application.getInstance().getManager();
+			 manager = Application.getInstance().getManager();
 			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
 			if(!it.isEmpty()){
 				for (int i = 0; i < it.size(); i++) {
@@ -259,35 +261,11 @@ public class EchoServer {
 		case "/remove_item":
 
 		
-			managerB.removeItem(requet[1]);
+			managerBridge.removeItem(requet[1]);
 
 
 			break;
 
-		case "/update_compte_user" :
-			System.out.println(" nick "+requet[1]+" name "+requet[2]+" firstname "+requet[3]+" email "+requet[4]+" passe_update "
-					+requet[5]+" phone "+requet[6]+" passe_verif "+requet[7]);
-		
-			
-		/*	public boolean updateAccount(String nick, String oldPassword, String newPassword,
-					String name, String firstName, String email, String phone){
-			
-				managerB.updateAccount(requet[1], requet[7], requet[5], requet[2], requet[3], requet[4], phone);
-			*/
-			
-			
-			if(Application.getInstance().getManager().getCurrentUser().isPassword(requet[7])){
-				User current = Application.getInstance().getManager().getCurrentUser();
-				current.setNick(requet[1]);
-				current.setName(requet[2]);
-				current.setFirstName(requet[3]);
-				current.setEmail(requet[4]);
-				current.setPassWord(requet[5]);
-				current.setClearPassword(requet[5]);
-				current.setPhone(requet[6]);
-				Application.getInstance().getManager().registration(current);
-				Application.getInstance().getManager().logout();
-				Application.getInstance().getManager().login(requet[1], requet[5]);	
 
 		case "/update_compte_user": // Update current user query
 			nick = requet[1];
@@ -298,12 +276,14 @@ public class EchoServer {
 			newPassword = requet[5];
 			oldPassword = requet[7];
 			if(managerBridge.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
+				System.out.println("Update true");
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}	
 			}else{
+				System.out.println("Update False");
 				try {
 					session.getBasicRemote().sendText("update_user_false:");
 				} catch (IOException e) {
@@ -311,7 +291,7 @@ public class EchoServer {
 				}
 			}
 			break;
-		case "/new_objet_add" : // Add item query
+		/*case "/new_objet_add" : // Add item query
 			title = 		requet[1];
 			category = 		requet[2];
 			description = 	requet[3];
@@ -322,8 +302,8 @@ public class EchoServer {
 			type = 			requet[9];
 			managerBridge.addItem(title, category, description, image, country, contact, lifeTime, type);
 			break;
-
-		case "/new_objet_update" : // Update Item query
+		 */
+		/*case "/new_objet_update" : // Update Item query
 			title = 		requet[1];
 			category = 		requet[2];
 			description = 	requet[3];
@@ -339,9 +319,9 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-		
+		*/
 		///////////////////////////////////////////////// REDIRECTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-		case "/search": // "Search" redirection query
+		/*case "/search": // "Search" redirection query
 			try {
 				session.getBasicRemote().sendText("Search.html");
 			} catch (IOException e) {
@@ -383,6 +363,7 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+			*/
 		//////////////////////////////////////////////////// LOADERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		case "/load_categories":
 			ArrayList<String> categories = Category.getAllCategorie();
@@ -399,7 +380,7 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-		case "/load_use": // Load the current user and return to Javascript
+		/*case "/load_use": // Load the current user and return to Javascript
 			nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			name = Application.getInstance().getManager().getCurrentUser().getName();
 			firstName = Application.getInstance().getManager().getCurrentUser().getFirstName();
@@ -442,6 +423,7 @@ public class EchoServer {
 			itemKey = requet[1];
 			managerBridge.removeItem(itemKey);
 			break;
+			*/
 		////////////////////////////////////////////////// COMMUNICATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		case "/search_itme": // Search an item in network
 			title = requet[1];
