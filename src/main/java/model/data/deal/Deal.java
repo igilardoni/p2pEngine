@@ -2,7 +2,6 @@ package model.data.deal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import model.advertisement.AbstractAdvertisement;
@@ -12,7 +11,7 @@ import model.data.user.User;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import util.secure.AVProtocol.Proof;
+import util.secure.AVProtocol.Delta;
 
 /**
  * This class can be instantiated for contains an agreement.
@@ -29,7 +28,7 @@ public class Deal extends AbstractAdvertisement {
 	private ArrayList<Item> items;
 	private HashMap<String, String> rules;
 	private ArrayList<Claus> clauses;
-	private HashMap<String, Proof> proofs; // TODO Change when change protocol Sarah
+	private HashMap<String, Delta> proofs; // TODO Change when change protocol Sarah
 	// TODO add proofs of signature and signatures
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -406,7 +405,7 @@ public class Deal extends AbstractAdvertisement {
 		items = new ArrayList<Item>();
 		rules = new HashMap<String, String>();
 		clauses = new ArrayList<Claus>();
-		proofs = new HashMap<String, Proof>();
+		proofs = new HashMap<String, Delta>();
 		this.addKey("title", 			false);
 		this.addKey("state", 			false);
 		this.addKey("signatories", 		false);

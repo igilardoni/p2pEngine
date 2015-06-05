@@ -2,13 +2,18 @@ package model.data.favorites;
 
 import java.util.ArrayList;
 
+import model.advertisement.AbstractAdvertisement;
+import model.data.deal.Deal;
+import model.data.item.Category;
+import model.data.item.Category.CATEGORY;
+import model.data.item.Item;
+import model.data.item.Item.TYPE;
+import model.data.user.User;
+
 import org.jdom2.Element;
 
 import util.StringToElement;
-import model.advertisement.AbstractAdvertisement;
-import model.data.deal.Deal;
-import model.data.item.Item;
-import model.data.user.User;
+import util.secure.Serpent;
 
 /**
  * This class can be instantiated for contains item favorite.
@@ -19,6 +24,7 @@ import model.data.user.User;
 public class Favorites extends AbstractAdvertisement{
 	private String owner;
 	private ArrayList<Item> items;
+	private ArrayList<byte[]> itemsCrypted;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public Favorites(User owner){
@@ -52,6 +58,13 @@ public class Favorites extends AbstractAdvertisement{
 				return item;
 		}
 		return null;
+	}
+	public ArrayList<String> getItemsKey(){
+		ArrayList<String> itemKeys = new ArrayList<String>();
+		for (Item item : items) {
+			itemKeys.add(item.getItemKey());
+		}
+		return itemKeys;
 	}
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public void setOwner(String publicKey){
@@ -102,6 +115,29 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return null;
 	}
+	public void encrypt(String password){
+		if(password==null || password.isEmpty()){
+			printError("encrypt", "password null or empty");
+			return;
+		}
+		Serpent s = new Serpent(password);
+		for (Item i : items) {
+			items.remove(i);
+			itemsCrypted.add(s.encrypt(i.toString().getBytes()));
+		}
+	}
+	public void decrypt(String password){
+		if(password==null || password.isEmpty()){
+			printError("encrypt", "password null or empty");
+			return;
+		}
+		Serpent s = new Serpent(password);
+		for(byte[] b : itemsCrypted){
+			itemsCrypted.remove(b);
+			Item i = new Item(new String(s.decrypt(b)));
+			items.add(i);
+		}
+	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
 		System.err.println("ERROR : "+Deal.class.getName()+"."+method+" : "+error);
@@ -129,6 +165,7 @@ public class Favorites extends AbstractAdvertisement{
 	@Override
 	protected void setKeys() {
 		items = new ArrayList<Item>();
+		itemsCrypted = new ArrayList<byte[]>();
 		this.addKey("owner", false);
 		this.addKey("items", false);
 	}
@@ -156,5 +193,19 @@ public class Favorites extends AbstractAdvertisement{
 		if(!this.getOwner().equals(favorites.getOwner()))
 			return false;
 		return true;
+	}
+	
+	public static void main(String[] args){
+		User user = new User("nick", "passWord", "name", "firstName", "email", "phone");
+		Item item1 = new Item(user, "title", new Category(CATEGORY.Appliances), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
+		System.out.println(item1);
+		item1.sign(user.getKeys());
+		System.out.println(item1.checkSignature(user.getKeys()));
+		Serpent s = new Serpent(user.getClearPwd());
+		byte[] crypt = s.encrypt(item1.toString().getBytes());
+		byte[] decrypt = s.decrypt(crypt);
+		Item item2 = new Item(new String(decrypt));
+		System.out.println(item2);
+		System.out.println(item2.checkSignature(user.getKeys()));
 	}
 }
