@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
+<div id="imgTest"></div>
+<script type='text/javascript'>
+function encodeImageFileAsURL(){
+
+    var filesSelected = document.getElementById("inputFileToLoad").files;
+   
+        var fileToLoad = filesSelected[0];
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function(fileLoadedEvent) {
+            var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+
+            alert(srcData);
+        }
+        fileReader.readAsDataURL(fileToLoad);
+    
+}
+</script>
+</body>
+</html>

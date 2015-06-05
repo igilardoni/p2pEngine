@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import util.DateConverter;
 import controller.controllerInterface.ManagerBridgeInterface;
 import model.Application;
@@ -80,7 +82,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		System.out.println(Application.getInstance().getManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
 		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
-		Application.getInstance().getManager().addItem(item);
+		Application.getInstance().getManager().addItem(item, true);
 	}
 
 	@Override
@@ -107,5 +109,24 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	
 	private boolean notLogged(){
 		return Application.getInstance().getManager().getCurrentUser() == null;
+	}
+
+	@Override
+	public User getCurrentUser() {
+		return Application.getInstance().getManager().getCurrentUser();
+	}
+
+	@Override
+	public ArrayList<Item> getUserItems(String publicKey) {
+		if(publicKey == null){
+			System.err.println("public key empty");
+			return null;
+		}
+		return Application.getInstance().getManager().getUserItems(publicKey);
+	}
+
+	@Override
+	public ArrayList<Item> getCurrentUserItem() {
+		return getUserItems(getCurrentUser().getKeys().getPublicKey().toString(16));
 	}
 }

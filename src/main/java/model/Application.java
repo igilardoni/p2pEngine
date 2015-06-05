@@ -1,13 +1,20 @@
 package model;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
+import model.data.item.Category;
+import model.data.item.Category.CATEGORY;
+import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.manager.SharingManager;
+import model.data.user.User;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
@@ -38,9 +45,10 @@ public class Application {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
 		}
-		startNetwork();
 		AdvertisementInstaciator.RegisterAllAdv();
+		startNetwork();
 		manager = new Manager(network);
+		manager.recovery(VARIABLES.ManagerFilePath);
 		startCommunication();
 		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
@@ -73,8 +81,9 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9750, "testFolder", "julien");
+		network = new Network(9800, VARIABLES.NetworkFolderName + "2", VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
+		network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
@@ -174,6 +183,24 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
+		if(Desktop.isDesktopSupported())
+		{
+		  try {
+			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/Se_connecter.html"));
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		
+		/*User u = new User("test", "test", "test", "test", "test", "test");
+		u.sign(u.getKeys());
+		Manager m = Application.getInstance().getManager();
+		m.addUser(u);
+		Item i = new Item(u, "orange", new Category(CATEGORY.Appliances), "test", "test", "test", "test", 0, 0, Item.TYPE.WISH);
+		i.sign(u.getKeys());
+		m.addItem(i, true);*/
+		System.out.println(n.getBootStrapIp());
 
 		/*try {
 			Thread.sleep(20000);

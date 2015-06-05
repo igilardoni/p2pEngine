@@ -3,21 +3,35 @@ package model.network;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.derby.tools.sysinfo;
+
+import util.IpChecker;
+import model.network.search.Search.Result;
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.peergroup.PeerGroupFactory;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
 import net.jxta.pipe.PipeService;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.ModuleImplAdvertisement;
+import net.jxta.protocol.PeerGroupAdvertisement;
 import net.jxta.protocol.PipeAdvertisement;
 
 
@@ -30,6 +44,7 @@ public class Network implements NetworkInterface {
 	private NetworkManager networkManager;
 	private HashMap<String, PeerGroup> peergroups = new HashMap<String, PeerGroup> ();
 	private PeerGroup defaultGroup;
+	private PeerGroup temp = null;
 	
 	
 	/**
@@ -43,7 +58,7 @@ public class Network implements NetworkInterface {
 	public Network(int port, String folder, String peerName) {
 		File configFile = new File("." + System.getProperty("file.separator") + folder); /* Used by the networkManager */
 		networkManager = networkManagerSetup(configFile, port, peerName);
-		networkManager.setConfigPersistent(true);
+		networkManager.setConfigPersistent(false);
 	}
 
 	@Override
@@ -56,27 +71,75 @@ public class Network implements NetworkInterface {
 	}
 
 	@Override
-	public void addGroup(String name) {
+	public void addGroup(final String name) {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup group = null;
+		temp = null;
+		
+		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
+				"Name", name, 1, new DiscoveryListener() {
+					
+					@Override
+					public void discoveryEvent(DiscoveryEvent event) {
+						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
+						while(advs.hasMoreElements()) {
+							System.out.println("groupe trouv�");
+							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
+							System.out.println("nom du groupe : " + adv.getName());
+							try {
+								//temp = defaultGroup.newGroup(adv);
+								temp = defaultGroup.newGroup(adv);
+								System.out.println("group joinded");
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+					}
+				});
+		
 		try {
-			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
-			group = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
-		} catch (Exception e) {
-			e.printStackTrace();
+			Thread.sleep(10000);
+			System.out.println("waiting for group ...");
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		group.startApp(new String[0]);
-		peergroups.put(name, group);
+		
+		if(temp == null) {
+			try {
+				System.out.println("creating new group ..");
+				mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
+				temp = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
+				getDefaultGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//temp.startApp(new String[0]);
+		peergroups.put(name, temp);
 	}
 
 	@Override
 	public void start() {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
+			System.out.println("waiting for rendez vous.");
+			if(networkManager.waitForRendezvousConnection(5000)) {
+				System.out.println("rendez vous found");
+			}
+			else {
+				System.out.println("no rendez vous ...");
+			}
+			
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
 		defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
+		
 	}
 	
 	@Override
@@ -111,21 +174,36 @@ public class Network implements NetworkInterface {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
 		/* Configuration settings */
 		 configurator.setTcpPort(port);
          configurator.setTcpEnabled(true);
+         configurator.setHttpEnabled(true);
+         configurator.setHttpPort(port+5);
          configurator.setTcpIncoming(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-         /*configurator.setTcpPublicAddress(IpChecker.getIp(), false); TODO set public adress to make Jxta works on internet */
+        /* try {
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			configurator.setTcpPublicAddress(InetAddress.getLocalHost().getHostAddress(), false);
+		//  configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
          configurator.setTcpEndPort(-1);
          configurator.setTcpStartPort(-1);
+         configurator.setName("SXPeerGroup");
+         configurator.setDescription("SXP default peer group");
+         configurator.setPrincipal("SXP peer group");
 		
 		return manager;
 	}
@@ -162,5 +240,26 @@ public class Network implements NetworkInterface {
         adv.setDescription("...");
         return adv;
     }
+	
+	public void addRendezVous(String adress) {
+		URI theSeed = URI.create(adress);
+		try {
+			networkManager.getConfigurator().addSeedRendezvous(theSeed);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		networkManager.setUseDefaultSeeds(false);
+	}
+	
+	public String getBootStrapIp() {
+		try {
+			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

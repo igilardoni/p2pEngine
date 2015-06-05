@@ -1,17 +1,19 @@
 package model.data.item;
 
+import model.advertisement.AbstractAdvertisement;
+import model.advertisement.AdvertisementInstaciator;
+import model.data.user.User;
 import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
 import util.VARIABLES;
-import model.advertisement.AbstractAdvertisement;
-import model.advertisement.AdvertisementInstaciator;
-import model.data.user.User;
 
 /**
  * This class can be instantiated for contains an item.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
+ * @author Michael Dubuis
+ * @author Julien Prudhomme
  */
 public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	
@@ -24,6 +26,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	};
 	
 	private String owner;			// Owner of the object
+	private String keyId;			// ID of the object
 	private String friendlyNick;	// Friendly-user Pseudo of owner
 	private String title;			// Title of the object
 	private Category category;		// Category of the object
@@ -38,6 +41,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	/**
 	 * Constructor of Item
 	 * @param owner
+	 * @param id - if negative long, it will generated random long
 	 * @param title
 	 * @param category
 	 * @param description
@@ -48,10 +52,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param lifeTime
 	 * @param type
 	 */
-	public Item(String owner, String friendlyNick, String title,
-			Category category, String description, String image,
-			String country, String contact, long date,
-			long lifeTime,TYPE type){
+	public Item(String owner, String friendlyNick,
+			String title, Category category, String description, 
+			String image, String country, String contact, 
+			long date, long lifeTime,TYPE type){
 		super();
 		this.setOwner(owner);
 		this.setFriendlyNick(friendlyNick);
@@ -65,6 +69,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			this.setDate(System.currentTimeMillis());
 		else
 			this.setDate(date);
+		this.setId(-1);
 		this.setLifeTime(lifeTime);
 		this.setType(type);
 		setKeys();
@@ -85,7 +90,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param lifeTime
 	 * @param type
 	 */
-	public Item(User owner,String title,
+	public Item(User owner, String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
 		this(owner.getKeys().getPublicKey().toString(16),owner.getNick(),title, 
@@ -110,6 +115,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(Element i) {
 		super(i);
 	}
+	
+	public Item(net.jxta.document.Element e) {
+		super(e);
+	}
 
 	/**
 	 * Return the owner of this Item
@@ -125,6 +134,22 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+	
+	public String getKeyId(){
+		return keyId;
+	}
+	
+	private void setId(long id){
+		long rand;
+		if(id<=0)
+			rand = 1 + (int)(Math.random() * ((Long.MAX_VALUE - 1) + 1));
+		else
+			rand = id;
+		this.keyId = this.getOwner()+":"+String.valueOf(rand);
+	}
+	private void setId(String keyId){
+		this.keyId = keyId;
 	}
 	
 	/**
@@ -333,10 +358,20 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			return true;
 		return false;
 	}
+	
+	/**
+	 * Get an unique id for this item
+	 * TODO have to change
+	 * @return
+	 */
+	public String getItemKey(){
+		return this.getKeyId();
+	}
 	 
 	@Override
 	protected void setKeys() {
 		this.addKey("owner", true);
+		this.addKey("keyId", true);
 		this.addKey("friendNick", false);
 		this.addKey("title", true);
 		this.addKey("category",true);
@@ -355,6 +390,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	@Override
 	protected void putValues() {
 		addValue("owner", this.getOwner());
+		addValue("keyId", this.getKeyId());
 		addValue("friendNick", this.getFriendNick());
 		addValue("title", this.getTitle());
 		addValue("category", category.getStringChoice());
@@ -379,6 +415,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		case "owner":
 			setOwner(val);
 			return true;
+		case "keyId":
+			setId(val);
 		case "friendNick":
 			setFriendlyNick(val);
 			return true;
@@ -426,8 +464,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public static void register() {
 		Item i = new Item();
 		System.out.println(i.getAdvType());
-		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(),
-                										   new AdvertisementInstaciator(i.getClass(), i.getAdvType()));
+		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(), new AdvertisementInstaciator(i));
 	}
 	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -461,6 +498,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		if(!(i instanceof Item))
 			return false;
 		Item item = (Item) i;
+		if(!this.getItemKey().equals(item.getItemKey()))
+			return false;
 		if(!this.getOwner().equals(item.getOwner()) ||
 				!this.getFriendNick().equals(item.getFriendNick()) ||
 				!this.getTitle().equals(item.getTitle()) ||
@@ -482,9 +521,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		if(!(i instanceof Item))
 			return false;
 		Item item = (Item) i;
-		if(!this.getOwner().equals(item.getOwner()) || 
-				!this.getTitle().equals(item.getTitle())
-				)
+		if(!this.getItemKey().equals(item.getItemKey()))
 			return false;
 		return true;
 	}

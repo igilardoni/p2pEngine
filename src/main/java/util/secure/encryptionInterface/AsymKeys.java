@@ -1,5 +1,7 @@
 package util.secure.encryptionInterface;
 
+import java.math.BigInteger;
+
 /**
  * Interface for asymetric encryption.
  * @author Julien Prudhomme
@@ -22,6 +24,7 @@ public interface AsymKeys<K> {
 	 */
 	public K getPublicKey();
 	
+	
 	/**
 	 * Get the privateKey
 	 * @return
@@ -32,11 +35,11 @@ public interface AsymKeys<K> {
 	 * Get G of the publicKey
 	 * @return
 	 */
-	public K getG();
+	public BigInteger getG();
 	
 	/**
 	 * Get P of the publicKey
 	 * @return
 	 */
-	public K getP();
+	public BigInteger getP();
 }

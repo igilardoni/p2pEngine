@@ -23,6 +23,7 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger>, Signature<by
 	
 	private AsymKeysImpl keys;
 	
+	
 	/**
 	 * Constructor
 	 * @param keys
@@ -104,9 +105,22 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger>, Signature<by
 		e.init(true, pubKey);
         return e.processBlock(data, 0, data.length) ;
 	}
+	
+	public ElGamalEncrypt encryptForContract(byte[] data) {
+		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());
+		ElGamalPublicKeyParameters pubKey = new ElGamalPublicKeyParameters(keys.getPublicKey(), params);
+		
+		ElGamalEngine e = new ElGamalEngine();
+		e.init(true, pubKey);
+		byte[] m = e.processBlock(data, 0, data.length);
+		BigInteger k = e.getK();
+        BigInteger u = keys.getG().modPow(k,keys.getP());
+        BigInteger v = (keys.getPublicKey().modPow(e.getK(), keys.getP()).multiply(new BigInteger(data)));
+        return new ElGamalEncrypt (u,v,k, m) ;
+	}
 
 	@Override
-	public byte[] decryptWithPrivateKey(byte[] data) {
+	public  byte[] decryptWithPrivateKey(byte[] data) {
 		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());
 		ElGamalPrivateKeyParameters privKey = new ElGamalPrivateKeyParameters(keys.getPrivateKey(), params);
 		
