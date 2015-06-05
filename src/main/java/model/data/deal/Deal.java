@@ -305,7 +305,7 @@ public class Deal extends AbstractAdvertisement {
 	
 	public String toPrint(){
 		StringBuffer s = new StringBuffer();
-		s.append("Signatories :\n");
+		s.append("Signatories ("+signatories.size()+") :\n");
 		for (String signatorie : signatories) {
 			s.append("\t- "+signatorie+"\n");
 		}
@@ -380,7 +380,8 @@ public class Deal extends AbstractAdvertisement {
 				continue;
 			String itemKey = itemKeyElement.getText();
 			String receiver = receiverElement.getText();
-			addTransferRule(itemKey, receiver);
+			if(!rules.containsKey(itemKey))
+				rules.put(itemKey, receiver);
 		}
 	}
 	private void loadClauses(Element e){

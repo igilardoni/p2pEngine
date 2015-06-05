@@ -1095,11 +1095,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
-		User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
+		/*User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
 		manager.registration(user1);
 		user1.decryptPrivateKey("123456789");
 		manager.currentUser = user1;
-		
 		Item item1 = new Item(manager.currentUser, "Eldoran's Soul", new Category("category"), "useless things", "", "hell", "phone me", 0L, 0L, TYPE.PROPOSAL);
 		item1.sign(manager.currentUser.getKeys());
 		manager.addItem(item1);
@@ -1120,11 +1119,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		
 		manager.addDeal(user1.getKeys().getPublicKey().toString(16), deal);
 		
-		manager.saving("");
+		manager.saving("");*/
 		
-		//Manager manager2 = new Manager(manager.toString(), null);
-		//manager2.recovery("");
-		
+		manager.recovery("");
+		for (User user : manager.getUsers()) {
+			for (Deal deal : manager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
+				System.out.println(deal.toPrint());
+			}
+		}
 	}
 	
 	
