@@ -354,6 +354,7 @@ function update_compte(){
 		document.getElementById("names_labe_ul").style.color = "#2E1C08";
 		document.getElementById("update_compte_label").style.color = "#2E1C08";
 	}else{
+		alert(nick+" "+name+" "+name+" "+firstname+" "+passe_update+" "+phone+" "+passe_verif);
 		webSocket.send("/update_compte_user:"+nick+":"+name+":"+firstname+":"+email+":"+passe_update+":"+phone+":"+passe_verif);
 	}
 }

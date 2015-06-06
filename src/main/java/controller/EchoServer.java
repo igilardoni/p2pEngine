@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import javax.websocket.EndpointConfig;
@@ -12,18 +11,13 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 
-import org.apache.derby.tools.sysinfo;
-
-
 import net.jxta.peer.PeerID;
-import sun.text.normalizer.CharTrie.FriendAgent;
 import util.DateConverter;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.manager.Manager;
 import model.data.user.Message;
 import model.data.user.User;
@@ -283,13 +277,13 @@ public class EchoServer {
 			firstName = requet[3];
 			email = requet[4];
 			phone = requet[5];
-			newPassword = requet[5];
+			newPassword = requet[6];
 			oldPassword = requet[7];
 
+			System.out.println(nick+" "+name+" "+firstName+" "+email+" "+phone+" "+newPassword+" "+oldPassword+" ");
+			
 			if(managerB.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
-				System.out.println("Update true");
-
-			if(managerB.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
+				System.out.println("TRUEEE UPDATE");
 				try {
 					session.getBasicRemote().sendText("load_update_user:");
 				} catch (IOException e) {
@@ -303,7 +297,7 @@ public class EchoServer {
 					e.printStackTrace();
 				}
 			}
-			}
+			
 			break;
 		/*case "/new_objet_add" : // Add item token
 			title = 		requet[1];

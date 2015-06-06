@@ -82,7 +82,7 @@ public class MessageSender implements MessageSenderInterface {
 			sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			Application.getInstance().getManager().addMessage(msg);
 		}else{
-			System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
+			//System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
 		}
 		return sendOneTime;
 	}
