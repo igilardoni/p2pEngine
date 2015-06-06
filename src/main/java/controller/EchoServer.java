@@ -68,7 +68,7 @@ public class EchoServer {
 		Manager manager = Application.getInstance().getManager();
 		
 		String[] requet = message.split(":");
-		String query = requet[0];
+		String token = requet[0];
 		/* Variable for User */
 		String nick;
 		String password;
@@ -80,7 +80,7 @@ public class EchoServer {
 		String oldPassword;
 		/* Variables for Item */
 		String title;
-		String category;
+		/*String category;
 		String description;
 		String image;
 		String country;
@@ -88,9 +88,9 @@ public class EchoServer {
 		String lifeTime;
 		String type;
 		String itemKey;
-		
-		switch (query) {
-		case "/index": // Login query
+		*/
+		switch (token) {
+		case "/index": // user Login
 			nick = requet[2];
 			password = requet[1];
 			if(managerB.login(nick, password)){
@@ -101,7 +101,7 @@ public class EchoServer {
 				}		
 			}
 			break;
-		case "/log_out": // Logout query
+		case "/log_out": // user logout
 			Application.getInstance().getManager().logout();
 			try {
 				session.getBasicRemote().sendText("log_index:");
@@ -109,7 +109,7 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-		case "/register": // Registration query
+		case "/register": // user registration
 			nick = requet[1];
 			password = requet[2];
 			name = requet[3];
@@ -124,8 +124,8 @@ public class EchoServer {
 			}
 			break;
 
-		//Just for redirection
-		case "/newobjet":
+		
+		case "/newobjet": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
@@ -133,14 +133,14 @@ public class EchoServer {
 			}
 			break;
 
-		case "/search":
+		case "/search": //Just for redirection 
 			try {
 				session.getBasicRemote().sendText("Search.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/new_objet_add" :
+		case "/new_objet_add" : //add new object
 			/*
 			 * requet[1] : title
 			 * requet[2] : category
@@ -154,7 +154,7 @@ public class EchoServer {
 			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
 			break;
 
-			case "/new_objet_update" :
+			case "/new_objet_update" : // modifying an object
 				/*
 				 * requet[1] : title
 				 * requet[2] : category
@@ -176,8 +176,8 @@ public class EchoServer {
 			
 			break;
 			
-			//Just for redirection
-			case "/newindex":
+			 
+			case "/newindex": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("index.html");
 			} catch (IOException e) {
@@ -185,8 +185,8 @@ public class EchoServer {
 			}
 			break;
 
-			//Just for redirection
-			case "/newchat":
+			
+			case "/newchat": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("Message.html");
 			} catch (IOException e) {
@@ -194,8 +194,8 @@ public class EchoServer {
 			}
 			break;
 
-			//Just for redirection
-		case "/contrat":
+			
+		case "/contrat": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("Contrat.html");
 			} catch (IOException e) {
@@ -203,8 +203,8 @@ public class EchoServer {
 			}
 			break;
 
-			//Just for redirection
-		case "/user_compte":
+			
+		case "/user_compte": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("User_compte.html");
 			} catch (IOException e) {
@@ -225,7 +225,7 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-			//case load item of user curren
+			//case load item of usercurrent
 		case "/load_item":
 
 			 manager = Application.getInstance().getManager();
@@ -244,8 +244,8 @@ public class EchoServer {
 
 			break;
 
-			//Return current object
-		case "/zoom_item":
+			
+		case "/zoom_item": //Return current object
 
 			Manager manager1 = Application.getInstance().getManager();
 			Item item_search = manager1.getItemCurrentUser(requet[1]);
@@ -268,7 +268,7 @@ public class EchoServer {
 			 * 	requet[1] : title
 			 */
 			
-		case "/remove_item":
+		case "/remove_item": //  remove objetc
 
 		
 			managerB.removeItem(requet[1]);
@@ -277,7 +277,7 @@ public class EchoServer {
 			break;
 
 
-		case "/update_compte_user": // Update current user query
+		case "/update_compte_user": // Update current user token
 			nick = requet[1];
 			name = requet[2];
 			firstName = requet[3];
@@ -305,7 +305,7 @@ public class EchoServer {
 			}
 			}
 			break;
-		/*case "/new_objet_add" : // Add item query
+		/*case "/new_objet_add" : // Add item token
 			title = 		requet[1];
 			category = 		requet[2];
 			description = 	requet[3];
@@ -317,7 +317,7 @@ public class EchoServer {
 			managerB.addItem(title, category, description, image, country, contact, lifeTime, type);
 			break;
 		 */
-		/*case "/new_objet_update" : // Update Item query
+		/*case "/new_objet_update" : // Update Item token
 			title = 		requet[1];
 			category = 		requet[2];
 			description = 	requet[3];
@@ -335,42 +335,42 @@ public class EchoServer {
 			break;
 		*/
 		///////////////////////////////////////////////// REDIRECTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-		/*case "/search": // "Search" redirection query
+		/*case "/search": // "Search" redirection token
 			try {
 				session.getBasicRemote().sendText("Search.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/newindex": // "Index" redirection query
+		case "/newindex": // "Index" redirection token
 			try {
 				session.getBasicRemote().sendText("index.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/newobjet": // "New Object" redirection query
+		case "/newobjet": // "New Object" redirection token
 			try {
 				session.getBasicRemote().sendText("new_objet.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/newchat": // "Chat" redirection query
+		case "/newchat": // "Chat" redirection token
 			try {
 				session.getBasicRemote().sendText("Message.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/contrat": // "Deal" redirection query
+		case "/contrat": // "Deal" redirection token
 			try {
 				session.getBasicRemote().sendText("Contrat.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		case "/user_compte": // "Account" redirection query
+		case "/user_compte": // "Account" redirection token
 			try {
 				session.getBasicRemote().sendText("User_compte.html");
 			} catch (IOException e) {
@@ -437,7 +437,7 @@ public class EchoServer {
 			break;
 			
 		//////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-		case "/remove_item":  // Remove item query
+		case "/remove_item":  // Remove item token
 			itemKey = requet[1];
 			managerB.removeItem(itemKey);
 			break;
@@ -469,7 +469,7 @@ public class EchoServer {
 			}
 			break;
 		default:
-			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+query+" is an unknow query");
+			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
 			break;
 		}
 	}

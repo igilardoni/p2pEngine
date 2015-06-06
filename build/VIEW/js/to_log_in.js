@@ -5,6 +5,8 @@ var image_objet;
 var user_nick;
 var media;
 var cmpt = 0;
+
+//fonction principal qui gére la connexion avec le serveur
 function openSocket(){
 	if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
 		writeResponse("WebSocket OK.");
@@ -24,7 +26,9 @@ function openSocket(){
 	webSocket.onclose = function(event){
 		writeResponse("Connection closed");
 	};
-}       
+} 
+
+// new_objet permet d'ajouter un nouveau objet dans la liste
 function new_objet(){
 	var Title = document.getElementById("Title").value;
 	var Category = document.getElementById("Category").value;
@@ -98,6 +102,7 @@ function new_objet(){
 		document.getElementById("succ").innerHTML = "your object was sent successfully";          	
 	}
 }
+// verification du login et du mot de passe
 function connexion(){
 	var password = document.getElementById("password").value;
 	var nickname = document.getElementById("username").value;
@@ -113,6 +118,7 @@ function connexion(){
 		webSocket.send("/index:"+password+":"+nickname);
 	}
 }
+//inscription noveau utilisateur
 function to_register(){
 	var nick = document.getElementById("nick").value;
 	var name = document.getElementById("name").value;
@@ -159,6 +165,7 @@ function to_register(){
 		webSocket.send("/register:"+nick+":"+passwordsignup+":"+name+":"+firstName+":"+email+":"+phone);
 	}
 }
+//modification d'un objet
 function to_update(){
 	var title = document.getElementById("title_update_for").value;
 	var categorie = document.getElementById("Category_update_select").value;
@@ -207,9 +214,11 @@ function to_update(){
 		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
 	}
 }
+//fonction qui gére tout les redirection entre page
 function redirection(text){
 	webSocket.send(text);
 }
+//verification mel
 function Test_adresse_email(email){
 	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
 
@@ -219,6 +228,7 @@ function Test_adresse_email(email){
 		return(false);
 	}
 }
+//verification password
 function validatePwd(password) {
 	if(password.length < 8){
 		return false;
@@ -226,6 +236,7 @@ function validatePwd(password) {
 		return true;
 	}
 }
+//verification format tel
 function checknum(num){
 	var valide = /^0[1-6]\d{8}$/;
 	if(valide.test(num)){
@@ -234,6 +245,7 @@ function checknum(num){
 		return false;
 	}
 }
+//convert image to URI (c'est elementStyle qui contient le resultat)
 function fulltype_picture(text) {
 	if(text == "picture_t2"){
 		document.getElementById("picture_t2").style.visibility = "hidden";
@@ -249,24 +261,30 @@ function fulltype_picture(text) {
 		elementStyle.top = elementStyle.top = "00px";
 	}
 }
+//fermuture de la socket
 function closeSocket(){
 	webSocket.close();
 }
+//load_user charge tout les information de l'utilisateur 
 function load_user(){
 	webSocket.send("/load_use:");
 }
+//load_item charge tout les objet de l'utilisateur 
 function load_item(){
 	webSocket.send("/load_item:");
 }
+//pour afficher les information cacher
 function zoom(text){
 	webSocket.send("/zoom_item:"+text);
 }
+//pour activer la modification
 function update(){
 	document.getElementById("gestion_but_aft").style.visibility="visible";
 	document.getElementById('Life_time_update').disabled=false;      		
 	document.getElementById("update_desc").disabled=false;
 	document.getElementById("Picture_update").disabled=false;
 }
+//pour supprimer un objet
 function remo(text,r){
 	webSocket.send("/remove_item:"+text);
 	document.getElementById("data_it").deleteRow(r);
@@ -286,6 +304,7 @@ function send_message(){
 	var message_env = document.getElementById("message_send").value;
 	webSocket.send("/send_message:"+nick+":"+message_env);
 }
+//fonction par encore fini, pour la recherche dans le réseau
 function to_search(){
 	var title_search = document.getElementById("title_search_input").value;
 	var categorie_search = document.getElementById("Category_search").value;
@@ -293,9 +312,11 @@ function to_search(){
 	var type_search = document.getElementById("Type_search_").value;
 	webSocket.send("/search_itme:"+title_search);
 }
+//deconnexion
 function logout(){
 	webSocket.send("/log_out:");
 }
+//modification des information perso
 function update_compte(){
 	var nick = document.getElementById("nick_compte_input").value;
 	var name = document.getElementById("name_compte_input").value;
@@ -336,9 +357,11 @@ function update_compte(){
 		webSocket.send("/update_compte_user:"+nick+":"+name+":"+firstname+":"+email+":"+passe_update+":"+phone+":"+passe_verif);
 	}
 }
+//charge tout les categorie dans la liste
 function loadCategories(){
 	webSocket.send("/load_categories");
 }
+//fonction qui recoi tout les message du serveur ( c'est la ou on peu gérer l'affichage dans l'HTML)
 function writeResponse(text){
 	var text_tab=text.split(":");
 	// Redirection
