@@ -30,6 +30,7 @@ function openSocket(){
 
 // new_objet permet d'ajouter un nouveau objet dans la liste
 function new_objet(){
+	
 	var Title = document.getElementById("Title").value;
 	var Category = document.getElementById("Category").value;
 	var Country = document.getElementById("Country").value;
@@ -39,7 +40,7 @@ function new_objet(){
 	var Description = document.getElementById("Description").value;
 	var URI = document.getElementById("uri_cam").value;
 	var Contact_item = document.getElementById("Contact_item").value;
-
+	alert(Title);
 	if(Title == ""){
 		document.getElementById("Title_label").style.color = "#ff0000";
 	} else if(Category == ""){
@@ -218,49 +219,7 @@ function to_update(){
 function redirection(text){
 	webSocket.send(text);
 }
-//verification mel
-function Test_adresse_email(email){
-	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
 
-	if(reg.test(email)){
-		return(true);
-	}else{
-		return(false);
-	}
-}
-//verification password
-function validatePwd(password) {
-	if(password.length < 8){
-		return false;
-	}else{
-		return true;
-	}
-}
-//verification format tel
-function checknum(num){
-	var valide = /^0[1-6]\d{8}$/;
-	if(valide.test(num)){
-		return true;
-	}else{
-		return false;
-	}
-}
-//convert image to URI (c'est elementStyle qui contient le resultat)
-function fulltype_picture(text) {
-	if(text == "picture_t2"){
-		document.getElementById("picture_t2").style.visibility = "hidden";
-		document.getElementById("picture_t1").style.visibility = "visible";
-		var elementStyle = document.getElementById("picture_t3").style;
-		elementStyle.position = "relative";
-		elementStyle.top = elementStyle.top = "-400px";
-	}else{
-		document.getElementById("picture_t2").style.visibility = "visible";
-		document.getElementById("picture_t1").style.visibility = "hidden";
-		var elementStyle = document.getElementById("picture_t3").style;
-		elementStyle.position = "relative";
-		elementStyle.top = elementStyle.top = "00px";
-	}
-}
 //fermuture de la socket
 function closeSocket(){
 	webSocket.close();
