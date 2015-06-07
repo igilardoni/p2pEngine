@@ -145,6 +145,7 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
+			// Tu réalises que j'avais mis des variables pour que ce soit lisible et que tu es juste revenu en arrière... ça n'a vraiment aucun intérêt !!!
 			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
 			break;
 
@@ -159,6 +160,7 @@ public class EchoServer {
 				 * requet[7] : lifeTime
 				 * requet[8] : type
 				 */
+				// idem que le commentaire du dessus !!!
 				managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
 			
 			try {
@@ -207,7 +209,7 @@ public class EchoServer {
 			break;
 
 			//case load all information of usercurrent
-		case "/load_use":
+		case "/load_use": // C'est pareil, j'ai fait une fonction propre dans le manager Bridge !
 			 nick = Application.getInstance().getManager().getCurrentUser().getNick();
 			 name = Application.getInstance().getManager().getCurrentUser().getName();
 			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
@@ -221,7 +223,7 @@ public class EchoServer {
 			break;
 			//case load item of usercurrent
 		case "/load_item":
-
+			// Même chose il y a une fonction dans le ManagerBridge... en plus, j'avais modifié pour que ce soit propre mais tu as décidé d'annuler l'intégralité de mon travail !!!!!!!!!!!!!!!!!!!!
 			 manager = Application.getInstance().getManager();
 			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
 			if(!it.isEmpty()){
@@ -240,7 +242,7 @@ public class EchoServer {
 
 			
 		case "/zoom_item": //Return current object
-
+			// ENCORE UNE FOIS, j'avais fait ça proprement en utilisant ManagerBridge !!!!
 			Manager manager1 = Application.getInstance().getManager();
 			Item item_search = manager1.getItemCurrentUser(requet[1]);
 
@@ -483,6 +485,8 @@ public class EchoServer {
 	 * Used when unknown publicKey but have nickname
 	 * @param message - String message
 	 * @param nick - String receiver's nickname
+	 * @deprecated
+	 * TODO A SUPPRIMER !!!!! J'avais fait ça proprement et j'avais supprimer cette fonction, tu m'expliques pourquoi elle est revenu ???????????????,??
 	 */
 	private boolean sendTextToNick(String message, String nick){
 		boolean sendOnTime = false;
