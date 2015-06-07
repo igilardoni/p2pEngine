@@ -64,6 +64,11 @@ public class ManagerTest {
 		/* C'est normal que ça ne fonctionne pas...
 		 * il faut que les users soient ajouté avant les items...
 		 * ce n'est pas le cas puisque les items sortent avant les users !!! */
+		/* Solution trouvée :
+		 * Lors de l'ajout de setKeys, on peut rajouter un paramètre définissant l'order
+		 * quand on créera l'arbre JDOM de sortie dans la méthode toString
+		 * -> addContent(index, Child);
+		 */
 		// assertEquals(manager1.toString(), manager2.toString());
 	}
 	
