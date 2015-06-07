@@ -11,6 +11,7 @@ import model.data.user.User;
 import org.jdom2.Element;
 
 import util.StringToElement;
+import util.secure.ElGamalSign;
 import util.secure.AVProtocol.Delta;
 
 /**
@@ -22,14 +23,14 @@ import util.secure.AVProtocol.Delta;
 public class Deal extends AbstractAdvertisement {
 	private static final String[] stringState = {"draft", "waiting", "signed", "to sign"};
 	
-	private String title;			// Title of deal
-	private int state = 0;			// State of deal (draft at start)
-	private ArrayList<String> signatories;
-	private ArrayList<Item> items;
-	private HashMap<String, String> rules;
-	private ArrayList<Claus> clauses;
-	private HashMap<String, Delta> proofs; // TODO Change when change protocol Sarah
-	// TODO add proofs of signature and signatures
+	private String title;								// Title of deal
+	private int state = 0;								// State of deal (draft at start)
+	private ArrayList<String> signatories;				// All participants publicKey
+	private ArrayList<Item> items;						// All items of this deal 
+	private HashMap<String, String> rules;				// All exchange rule
+	private ArrayList<Claus> clauses;					// all clauses
+	private HashMap<String, Delta> proofs = null;		// All proof of signature (null at start)
+	private HashMap<String, ElGamalSign> signatures;	// All signature of participants
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**

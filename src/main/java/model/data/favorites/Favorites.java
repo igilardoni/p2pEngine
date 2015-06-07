@@ -12,6 +12,7 @@ import model.data.user.User;
 
 import org.jdom2.Element;
 
+import util.Hexa;
 import util.StringToElement;
 import util.secure.Serpent;
 
@@ -79,6 +80,8 @@ public class Favorites extends AbstractAdvertisement{
 			return printError("addItem", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
 			return printError("addItem", "Item haven't owner");
+		if(items == null)
+			items = new ArrayList<Item>();
 		if(items.contains(item)){
 			if(items.get(items.indexOf(item)).getLastUpdated() < item.getLastUpdated())
 				return items.remove(item) && items.add(item);
@@ -120,28 +123,39 @@ public class Favorites extends AbstractAdvertisement{
 			printError("encrypt", "password null or empty");
 			return;
 		}
+		itemsCrypted = new ArrayList<byte[]>();
 		Serpent s = new Serpent(password);
 		for (Item i : items) {
-			items.remove(i);
 			itemsCrypted.add(s.encrypt(i.toString().getBytes()));
 		}
+		items = null;
+		printInfo("encrypt", "Favorites items encrypted");
 	}
 	public void decrypt(String password){
 		if(password==null || password.isEmpty()){
 			printError("encrypt", "password null or empty");
 			return;
 		}
+		items = new ArrayList<Item>();
 		Serpent s = new Serpent(password);
+		if(password == null || password.isEmpty()){
+			printError("decrypt", "password null or empty");
+			return;
+		}
 		for(byte[] b : itemsCrypted){
-			itemsCrypted.remove(b);
 			Item i = new Item(new String(s.decrypt(b)));
 			items.add(i);
 		}
+		itemsCrypted = null;
+		printInfo("decrypt", "Favorites items decrypted");
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
 		System.err.println("ERROR : "+Deal.class.getName()+"."+method+" : "+error);
 		return false;
+	}
+	private static void printInfo(String method, String info){
+		System.out.println("INFO : "+Deal.class.getName()+"."+method+" : "+info);
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private String itemsXML(){
@@ -151,10 +165,29 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return s.toString();
 	}
+	private String itemsCryptedXML(){
+		StringBuffer s = new StringBuffer();
+		for(byte[] b : itemsCrypted){
+			s.append("<item>");
+			s.append(Hexa.bytesToHex(b));
+			s.append("</item>");
+		}
+		return s.toString();
+	}
 	private void loadItems(Element e){
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		items = new ArrayList<Item>();
 		for(Element i: root.getChildren()) {
 			addItem(new Item(i));
+		}
+	}
+	private void loadItemsCrypted(Element e){
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		if(itemsCrypted == null)
+			itemsCrypted = new ArrayList<byte[]>();
+		for(Element b : root.getChildren()) {
+			byte[] itemByte = Hexa.hexToBytes(b.getValue());
+			itemsCrypted.add(itemByte);
 		}
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -164,24 +197,28 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	@Override
 	protected void setKeys() {
-		items = new ArrayList<Item>();
-		itemsCrypted = new ArrayList<byte[]>();
+		items = null;
+		itemsCrypted = null;
 		this.addKey("owner", false);
+		this.addKey("itemsCrypted", false);
 		this.addKey("items", false);
 	}
 	@Override
 	protected void putValues() {
 		this.addValue("owner", this.getOwner());
-		this.addValue("items", this.itemsXML());
+		this.addValue("itemsCrypted", itemsCrypted==null?"":this.itemsCryptedXML());
+		this.addValue("items", items==null?"":this.itemsXML());
 	}
 	@Override
 	protected boolean handleElement(Element e) {
 		String val = e.getText();
 		switch(e.getName()) {
-		case "owner":	this.setOwner(val);		break;
-		case "items":	this.loadItems(e);		break;
+		case "owner":			this.setOwner(val);			break;
+		case "items":			this.loadItems(e);			break;
+		case "itemsCrypted":	this.loadItemsCrypted(e);	break;
+		default: return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -193,19 +230,5 @@ public class Favorites extends AbstractAdvertisement{
 		if(!this.getOwner().equals(favorites.getOwner()))
 			return false;
 		return true;
-	}
-	
-	public static void main(String[] args){
-		User user = new User("nick", "passWord", "name", "firstName", "email", "phone");
-		Item item1 = new Item(user, "title", new Category(CATEGORY.Appliances), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
-		System.out.println(item1);
-		item1.sign(user.getKeys());
-		System.out.println(item1.checkSignature(user.getKeys()));
-		Serpent s = new Serpent(user.getClearPwd());
-		byte[] crypt = s.encrypt(item1.toString().getBytes());
-		byte[] decrypt = s.decrypt(crypt);
-		Item item2 = new Item(new String(decrypt));
-		System.out.println(item2);
-		System.out.println(item2.checkSignature(user.getKeys()));
 	}
 }

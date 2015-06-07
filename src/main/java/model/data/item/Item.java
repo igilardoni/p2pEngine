@@ -2,11 +2,13 @@ package model.data.item;
 
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
+import model.data.item.Category.CATEGORY;
 import model.data.user.User;
 import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
+import util.Hasher;
 import util.VARIABLES;
 
 /**
@@ -32,16 +34,16 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	private Category category;		// Category of the object
 	private String description;		// Big description of the object
 	private String image;			// Image of the object (convert with Base64)
-	private String country;			// Country of the object (TODO add city and more if needed)
+	private String country;			// Country of the object
 	private String contact;			// Description of method for contact the owner
 	private long date;				// Date of post/update
 	private long lifeTime;			// LifeTime of the object (at the end of this, the object is delete)
 	private TYPE type;				// Proposal/Wish
 	
 	/**
-	 * Constructor of Item
+	 * Constructor of Item.
+	 * This constructor will generated an Id based on hashed random number and owner concatenation.
 	 * @param owner
-	 * @param id - if negative long, it will generated random long
 	 * @param title
 	 * @param category
 	 * @param description
@@ -143,10 +145,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	private void setId(long id){
 		long rand;
 		if(id<=0)
-			rand = 1 + (int)(Math.random() * ((Long.MAX_VALUE - 1) + 1));
+			rand = 1 + (long)(Math.random() * ((Long.MAX_VALUE - 1) + 1));
 		else
 			rand = id;
-		this.keyId = this.getOwner()+":"+String.valueOf(rand);
+		this.keyId = Hasher.SHA256(this.getOwner()+":"+String.valueOf(rand));
 	}
 	private void setId(String keyId){
 		this.keyId = keyId;
@@ -525,5 +527,16 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		if(!this.getItemKey().equals(item.getItemKey()))
 			return false;
 		return true;
+	}
+
+
+
+	public static void main(String[] arg){
+		Item item1 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
+		Item item2 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
+		Item item1Copy = new Item(item1.toString());
+		System.out.println(item1.getItemKey());
+		System.out.println(item1Copy.getItemKey());
+		System.out.println(item2.getItemKey());
 	}
 }
