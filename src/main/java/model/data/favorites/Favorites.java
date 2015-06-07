@@ -89,6 +89,15 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return items.add(item);
 	}
+	public boolean addItemCrypted(byte[] b){
+		if(b == null)
+			return printError("addItemCrypted", "ItemByte empty");
+		if(itemsCrypted == null)
+			itemsCrypted = new ArrayList<byte[]>();
+		if(itemsCrypted.contains(b))
+			return printError("addItemCrypted", "Crypted item already registed");
+		return itemsCrypted.add(b);
+	}
 	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeItem(Item item){
 		if(item == null)
