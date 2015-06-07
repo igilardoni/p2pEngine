@@ -128,7 +128,7 @@ function to_register(){
 	var passwordsignup = document.getElementById("passwordsignup").value;
 	var passwordsignup_confirm = document.getElementById("passwordsignup_confirm").value;
 	var phone = document.getElementById("phone").value;
-
+	
 	if(nick == ""){
 		document.getElementById("label_nick").innerHTML = " Please enter your nickname"; 
 		document.getElementById("label_nick").style.color = "#ff0000";
@@ -163,6 +163,7 @@ function to_register(){
 		document.getElementById("label_pw2").innerHTML = "Please confirm your password ";
 		document.getElementById("label_pw2").style.color = "#2E1C08";
 	}else {
+		
 		webSocket.send("/register:"+nick+":"+passwordsignup+":"+name+":"+firstName+":"+email+":"+phone);
 	}
 }
@@ -215,6 +216,54 @@ function to_update(){
 		webSocket.send("/new_objet_update:"+title+":"+categorie+":"+description+":"+image_objet+":"+country+":"+contact+":"+life_time+":"+type_update+":"+date_objet);
 	}
 }
+
+//verification mel
+function Test_adresse_email(email){
+	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+
+	if(reg.test(email)){
+		return(true);
+	}else{
+		return(false);
+	}
+}
+//verification password
+function validatePwd(password) {
+	if(password.length < 8){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+//verification format tel
+function checknum(num){
+	var valide = /^0[1-6]\d{8}$/;
+	if(valide.test(num)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+//convert image to URI (c'est elementStyle qui contient le resultat)
+function fulltype_picture(text) {
+	if(text == "picture_t2"){
+		document.getElementById("picture_t2").style.visibility = "hidden";
+		document.getElementById("picture_t1").style.visibility = "visible";
+		var elementStyle = document.getElementById("picture_t3").style;
+		elementStyle.position = "relative";
+		elementStyle.top = elementStyle.top = "-400px";
+	}else{
+		document.getElementById("picture_t2").style.visibility = "visible";
+		document.getElementById("picture_t1").style.visibility = "hidden";
+		var elementStyle = document.getElementById("picture_t3").style;
+		elementStyle.position = "relative";
+		elementStyle.top = elementStyle.top = "00px";
+	}
+}
+
+
 //fonction qui gére tout les redirection entre page
 function redirection(text){
 	webSocket.send(text);
