@@ -320,6 +320,7 @@ function load_item(){
 	webSocket.send("/load_item:");
 }
 
+//load_favories charge tout les favories de l'utilisateur current
 function load_favories(){
 	
 	webSocket.send("/load_favories:");
@@ -461,6 +462,7 @@ function writeResponse(text){
 		document.getElementById("invalide_pass").style.color = "#ff0000";
 	}if( text_tab[0] == "addToFavoriesOK"){
 		
+		
 	
 	}if(text_tab[0] == "load_item"){
 		cmpt = cmpt +1;
@@ -519,8 +521,8 @@ function writeResponse(text){
 		colonne3.innerHTML += text_tab[3]
 		
 		//permet d'ajouter l'objet (titre) dans la liste favories
-		var colonne3 = ligne.insertCell(3);
-		colonne3.innerHTML += '<a onclick=\'addToFavories("'text_tab[1]'");\'><img id=\'image_object_u\' src=\'VIEW/img/favorites-add-icon.jpg\' width=\'40\'></a>';
+		var colonne4 = ligne.insertCell(3);
+		colonne4.innerHTML += '<a onclick=\'addToFavories("'+text_tab[1]+'");\'><img id=\'image_object_u\' src=\'VIEW/img/favorites-add-icon.jpg\' width=\'40\'></a>';
 		
 	}if(text_tab[0] == "result_sendMessage"){
 		if(text_tab[1] == "sendt"){
@@ -528,5 +530,19 @@ function writeResponse(text){
 		}else{
 			document.getElementById("bkg").style.backgroundColor="#FF0040";
 		}
+	}if(text_tab[0] == "LoadALLFavories"){
+		
+		var tableau = document.getElementById("Dataloadfavories");
+		
+		var ligne = tableau.insertRow(-1);
+		
+		
+		var colonne1 = ligne.insertCell(0);
+		colonne1.innerHTML += text_tab[1]
+		
+		var colonne2 = ligne.insertCell(1);
+		colonne2.innerHTML += text_tab[2]
+		
+		
 	}
 }

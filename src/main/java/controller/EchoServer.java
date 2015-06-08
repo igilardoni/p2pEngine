@@ -468,12 +468,36 @@ public class EchoServer {
 		case "/addToFavories" :
 			
 			//ICI LA FONCTION QUI AJOUTE L'OBJET DANS LA LISTE FAVORIES!!!!!!!!!!
+			title = requet[1];
 			
 			try {
 				session.getBasicRemote().sendText("addToFavoriesOK:");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+		case "/load_favories":
+			
+			//ICI LA FONCTION QUI CHARGE LES OBJETS FAVORIES (TITRE ET OWNER) ET LES ENVOI UN PAR UN
+			// ca peu etre une boucle qui balance objet par objet JS recupere et l'ajoute dans un <table>
+			
+			//Exemple
+			 manager = Application.getInstance().getManager();
+				ArrayList<Item> it2 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+				if(!it2.isEmpty()){
+					for (int i = 0; i < it2.size(); i++) {
+						try {
+							session.getBasicRemote().sendText("LoadALLFavories:"+it2.get(i).getTitle()+":"+it2.get(i).getCountry()+":"+it2.get(i).getDescription());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}
+
+			
+			
 			
 		default:
 			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
