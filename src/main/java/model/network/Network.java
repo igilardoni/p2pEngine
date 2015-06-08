@@ -70,12 +70,6 @@ public class Network implements NetworkInterface {
 	public void addGroup(String name) {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup group = null;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
 				"Name", name, 1, new DiscoveryListener() {
@@ -93,6 +87,13 @@ public class Network implements NetworkInterface {
 				});
 		
 		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
 			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
 			group = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
 			getDefaultGroup().getDiscoveryService().remotePublish(group.getPeerGroupAdvertisement());
@@ -108,7 +109,7 @@ public class Network implements NetworkInterface {
 		try {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
-			networkManager.waitForRendezvousConnection(5000);
+			networkManager.waitForRendezvousConnection(60000);
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
