@@ -9,6 +9,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import util.IpChecker;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -105,9 +107,9 @@ public class Network implements NetworkInterface {
 				e.printStackTrace();
 			}
 		
-		temp.startApp(new String[0]);
-		peergroups.put(name, temp);
+			temp.startApp(new String[0]);
 		}
+		peergroups.put(name, temp);
 	}
 
 	@Override
@@ -178,7 +180,7 @@ public class Network implements NetworkInterface {
 		}*/
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
-			configurator.setTcpPublicAddress(InetAddress.getLocalHost().getHostAddress(), false);
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		//  configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
