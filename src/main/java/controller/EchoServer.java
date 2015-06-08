@@ -528,8 +528,24 @@ public class EchoServer {
 		break;
 		
 		case "/creatContrat" :
-			
+			String object= requet[1];
+			String owner= requet[2];
+			String montant= requet[3];
+			String name_per= requet[4];
+			String taxe= requet[5];
+			String descriptionCon= requet[6];
+			String clause= requet[7];
+			String mode= requet[8];
 			// ICI LA FONCTION QUI CREE UN CONRTAT ET GENERE UN PDF
+			
+			System.out.println(""+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
+			
+			try {
+				session.getBasicRemote().sendText("ContratOK:"+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			break;
 		
