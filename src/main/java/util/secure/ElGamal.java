@@ -112,11 +112,11 @@ public class ElGamal implements AsymEncryption<byte[], BigInteger>, Signature<by
 		
 		ElGamalEngine e = new ElGamalEngine();
 		e.init(true, pubKey);
-		e.processBlock(data, 0, data.length);
+		byte[] m = e.processBlock(data, 0, data.length);
 		BigInteger k = e.getK();
         BigInteger u = keys.getG().modPow(k,keys.getP());
         BigInteger v = (keys.getPublicKey().modPow(e.getK(), keys.getP()).multiply(new BigInteger(data)));
-        return new ElGamalEncrypt (u,v,k) ;
+        return new ElGamalEncrypt (u,v,k, m) ;
 	}
 
 	@Override

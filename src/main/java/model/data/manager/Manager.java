@@ -13,9 +13,7 @@ import java.util.Map.Entry;
 import model.advertisement.AbstractAdvertisement;
 import model.data.deal.Deal;
 import model.data.favorites.Favorites;
-import model.data.item.Category;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.user.Conversations;
 import model.data.user.Message;
 import model.data.user.User;
@@ -50,8 +48,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private User currentUser;					// User logged
 	private ArrayList<Message> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
-	private HashMap<String, ArrayList<Deal>> deals; // TODO add methods (setters, add, XML, ...)
-	private HashMap<String, Favorites> favorites;	// TODO add methods (setters, add, XML, ...)
+	private HashMap<String, ArrayList<Deal>> deals;
+	private HashMap<String, Favorites> favorites;
 
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -76,12 +74,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return users.values();
 	}
 	/**
-	 * Return the user with this key
-	 * @param key - String format
+	 * Return the user with this publicKey
+	 * @param publicKey - String format
 	 * @return
 	 */
-	public User getUser(String key){
-		return users.get(key);
+	public User getUser(String publicKey){
+		return users.get(publicKey);
 	}
 	/**
 	 * Return the user with this key
@@ -137,6 +135,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param publicKey
 	 * @param title
 	 * @return
+	 * @deprecated
 	 */
 	public Item getItem(String publicKey, String title){
 		if(publicKey == null || publicKey.isEmpty()){
@@ -161,6 +160,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Use to found a specific item possessed by current User with title
 	 * @param title
 	 * @return
+	 * @deprecated
 	 */
 	public Item getItemCurrentUser(String title){
 		if(currentUser == null){
@@ -545,17 +545,27 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public String completUserXMLString(String publicKey) {
 		StringBuffer s = new StringBuffer();
 		s.append(this.getUser(publicKey).toString());
-		s.append("<Items>");
+		s.append("<items>");
 		for(Item i : getUserItems(publicKey)) {
 			s.append(i.toString());
 		}
-		s.append("</Items>");
-		s.append("<Messages>");
+		s.append("</items>");
+		s.append("<messages>");
 		for(Message m : getUserMessages(publicKey)){
 			s.append(m.toString());
 		}
-		s.append("</Messages>");
-		//s.append(conversations.get(publicKey).toString());
+		s.append("</messages>");
+		s.append("<ReceivedMessages>");
+		s.append(conversations.get(publicKey).toString());
+		s.append("</ReceivedMessages>");
+		s.append("<favorites>");
+		s.append(favorites.get(publicKey).toString());
+		s.append("</favorites>");
+		s.append("<deals>");
+		for(Deal d : getUserDeals(publicKey)){
+			s.append(d.toString());
+		}
+		s.append("</deals>");
 		return s.toString();
 	}
 	/**
@@ -687,7 +697,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
 		for(Element d: root.getChildren()){
 			String owner = d.getChildText("owner");
-			Element deal = d.getChild("deal");
+			Element deal = d.getChild("Deal");
 			addDeal(owner, new Deal(deal));
 		}
 	}
@@ -760,9 +770,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		elements  = StringToElement.getElementFromString(m.getMessagesXML(), "messages");
 		for (Element element : elements.getChildren()) {
 			Message message = new Message(element);
-			// NO POSSIBLE TEST IF NOT OWNER ELSE ADD TO CONVERSATION
-			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)))
-				this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
+			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16))){
+				if(message.checkSignature(message.getSender(currentUser.getKeys()))) // If owner, check signature
+					this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
+				else
+					printError("messageEvent", "Bad Signature for Message");
+			}
 			else
 				this.addMessage(message);
 		}
@@ -773,6 +786,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			Conversations conversations = new Conversations(element);
 			// TODO TEST !
 			this.addConversations(conversations);
+		}
+		// Add all Favorites
+		elements = null;
+		elements  = StringToElement.getElementFromString(m.getFavoritesXML(), "favorites");
+		for (Element element : elements.getChildren()) {
+			Favorites favorites = new Favorites(element);
+			if(favorites.checkSignature(this.getUser(favorites.getOwner()).getKeys()))
+				this.addFavorites(favorites);
 		}
 	}
 	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -812,6 +833,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param password
 	 */
 	public boolean login(String nickname, String password) {
+		// TODO This method have to change if nickName can be same on different account !
 		User u = null;
 		if(users.size()>0)
 			u = this.getNamed(nickname);
@@ -902,7 +924,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	@Override
 	public void recovery(String path) {
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName;
+			path = VARIABLES.ManagerFilePath;
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File(path);
 		boolean recovered = true;
@@ -936,7 +958,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				if(!deals.containsKey(owner) && users.containsKey(owner))
 					deals.put(owner, new ArrayList<Deal>());
 				if(e.getChild(Deal.class.getName())!=null)
-					addDeal(owner, new Deal(e.getChild(Deal.class.getName())));
+					addDeal(owner, new Deal(e.getChild("Deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = printError("recovery", "File \""+path+"\" doesn't exist");
@@ -960,7 +982,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		manager.recovery(path);
 		
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName; 
+			path = VARIABLES.ManagerFilePath; 
 		// Element Root
 		Element root = new Element(Manager.class.getName());
 		// Saving current user's Keys decrypted
@@ -1095,11 +1117,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		Manager manager = new Manager(network);
 		
-		User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
+		/*User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
 		manager.registration(user1);
 		user1.decryptPrivateKey("123456789");
 		manager.currentUser = user1;
-		
 		Item item1 = new Item(manager.currentUser, "Eldoran's Soul", new Category("category"), "useless things", "", "hell", "phone me", 0L, 0L, TYPE.PROPOSAL);
 		item1.sign(manager.currentUser.getKeys());
 		manager.addItem(item1);
@@ -1120,11 +1141,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		
 		manager.addDeal(user1.getKeys().getPublicKey().toString(16), deal);
 		
-		manager.saving("");
+		manager.saving("");*/
 		
-		//Manager manager2 = new Manager(manager.toString(), null);
-		//manager2.recovery("");
-		
+		manager.recovery("");
+		for (User user : manager.getUsers()) {
+			for (Deal deal : manager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
+				System.out.println(deal.toPrint());
+			}
+		}
 	}
 	
 	

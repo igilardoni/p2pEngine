@@ -1,4 +1,4 @@
-package model.user;
+package model.data.user;
 
 import static org.junit.Assert.*;
 
@@ -43,7 +43,7 @@ public class UserTest {
 	public void constructors(){
 		User user1,user2,user3;
 		
-		// Three type of constructor
+		// Two type of constructor
 		user1 = new User(nick, password, name, firstName, email, phone);
 		user1.setKey(key);
 		user2 = new User(user1.toString());

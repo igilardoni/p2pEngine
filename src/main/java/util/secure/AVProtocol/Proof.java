@@ -2,6 +2,7 @@ package util.secure.AVProtocol;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Proof ZeroKnowledge to send
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Proof {
 
-	private ArrayList <BigInteger> listMi = new ArrayList<BigInteger>();
+	private HashMap <ParticipantEx, BigInteger> MapMi = new HashMap<ParticipantEx, BigInteger>();
 	private ArrayList <BigInteger> listAj = new ArrayList<BigInteger>();
 	private BigInteger M;
 
@@ -23,10 +24,10 @@ public class Proof {
 	 * @param ListMi
 	 * @param ListAj
 	 */
-	public Proof (BigInteger M, ArrayList<BigInteger> ListMi, ArrayList<BigInteger> ListAj)
+	public Proof (BigInteger M, HashMap<ParticipantEx, BigInteger> MapMi, ArrayList<BigInteger> ListAj)
 	{
 		this.M = M;
-		this.listMi = ListMi;
+		this.MapMi = MapMi;
 		this.listAj = ListAj;
 	}
 	
@@ -36,12 +37,12 @@ public class Proof {
 	 * @param ListMi
 	 * @param ListAj
 	 */
-	public Proof (BigInteger m, BigInteger g, BigInteger p, ArrayList<BigInteger> mi, ArrayList<BigInteger> aj)
+	public Proof (BigInteger m, BigInteger g, BigInteger p, ArrayList<BigInteger> mi, ArrayList<BigInteger> aj, TTP TTP)
 	{
 		M = g.modPow(m, p);
 		
-		for (BigInteger Mi : mi)
-			addMi(g.modPow(Mi, p));
+		for (int i =0; i<mi.size(); i++)
+			addMi(TTP.getParticipant(i),g.modPow(mi.get(i), p));
 		
 		for (BigInteger Aj : aj)
 			addAj(g.modPow(Aj, p));
@@ -58,6 +59,20 @@ public class Proof {
 		M = g.modPow(m, p);
 	}
 	
+	/**
+	 * 
+	 * @param m
+	 * @param p
+	 * @param g
+	 */
+	public Proof (BigInteger m, BigInteger p, BigInteger g, ArrayList<BigInteger> aj)
+	{
+		M = g.modPow(m, p);
+		
+		for (BigInteger Aj : aj)
+			addAj(g.modPow(Aj, p));
+	}
+	
 	public BigInteger getM()
 	{
 		return M;
@@ -68,7 +83,7 @@ public class Proof {
 		this.M = M;
 	}
 	
-	public void setGM(BigInteger m, BigInteger p, BigInteger g)
+	public void setM(BigInteger m, BigInteger p, BigInteger g)
 	{
 		M = g.modPow(m, p);
 	}
@@ -88,19 +103,19 @@ public class Proof {
 		listAj.add(Aj);
 	}
 	
-	public ArrayList<BigInteger> getListMi()
+	public HashMap<ParticipantEx, BigInteger> getMapMi()
 	{
-		return listMi;
+		return MapMi;
 	}
 	
-	public BigInteger getMi(int i)
+	public BigInteger getMapMi(ParticipantEx Pi)
 	{
-		return listMi.get(i);
+		return MapMi.get(Pi);
 	}
 	
-	public void addMi(BigInteger Mi)
+	public void addMi(ParticipantEx Pi, BigInteger Mi)
 	{
-		listMi.add(Mi);
+		MapMi.put(Pi, Mi);
 	}
 	
 }

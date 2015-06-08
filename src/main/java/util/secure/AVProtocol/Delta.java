@@ -1,5 +1,10 @@
 package util.secure.AVProtocol;
 
+/**
+ * all to send in step 1
+ * @author sarah
+ *
+ */
 public class Delta {
 
 	private Proof proof;

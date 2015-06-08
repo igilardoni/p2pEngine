@@ -1,5 +1,7 @@
 package model.data.item;
 
+import java.util.ArrayList;
+
 /**
  * This class contain a list of category permitted by the application.
  * This class can be instantiated for contain the category of an item.
@@ -90,5 +92,13 @@ public class Category {
 	 */
 	public void setChoice(CATEGORY choice) {
 		this.choice = choice;
+	}
+	
+	public static ArrayList<String> getAllCategorie(){
+		ArrayList<String> all = new ArrayList<String>();
+		for (CATEGORY c : CATEGORY.values()) {
+			all.add(c.toString());
+		}
+		return all;
 	}
 }

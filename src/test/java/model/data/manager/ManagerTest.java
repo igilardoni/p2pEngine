@@ -1,4 +1,4 @@
-package model.manager;
+package model.data.manager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,7 +39,7 @@ public class ManagerTest {
 		network.start();
 	}
 	
-	//@Test
+	@Test
 	public void getItem(){
 		Manager manager = new Manager(network);
 		manager.addUser(user1);
@@ -47,15 +47,11 @@ public class ManagerTest {
 		manager.addItem(item1_2);
 		
 		assertEquals(item1_1, manager.getItem(user1.getKeys().getPublicKey().toString(16), item1_1.getTitle()));
-		
-		manager.login("user1", "pwd1");
-		
-		assertEquals(item1_1, manager.getItemCurrentUser(item1_1.getTitle()));
 	}
 	
 	@Test
 	public void constructor() {
-		/*Manager manager1 = new Manager(network);
+		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
 		manager1.addItem(item1_1);
 		manager1.addItem(item1_2);
@@ -65,11 +61,18 @@ public class ManagerTest {
 		
 		Manager manager2 = new Manager(manager1.toString(), network);
 		
-		//assertTrue(manager1.toString().equals(manager2.toString())); * surement a cause des noms de variables pourris :D*/
-		assertEquals(true, true);
+		/* C'est normal que ça ne fonctionne pas...
+		 * il faut que les users soient ajouté avant les items...
+		 * ce n'est pas le cas puisque les items sortent avant les users !!! */
+		/* Solution trouvée :
+		 * Lors de l'ajout de setKeys, on peut rajouter un paramètre définissant l'order
+		 * quand on créera l'arbre JDOM de sortie dans la méthode toString
+		 * -> addContent(index, Child);
+		 */
+		// assertEquals(manager1.toString(), manager2.toString());
 	}
 	
-	//@Test
+	@Test
 	public void messageEvent(){
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
@@ -83,7 +86,7 @@ public class ManagerTest {
 		assertTrue(manager1.toString().equals(manager2.toString()));
 	}
 	
-	//@Test
+	@Test
 	public void delete(){
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
@@ -97,7 +100,7 @@ public class ManagerTest {
 		assertTrue(manager1.removeUser(user1));
 	}
 	
-	//@Test
+	@Test
 	public void clearItems(){
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
@@ -118,10 +121,5 @@ public class ManagerTest {
 		manager1.cleanItems();
 		
 		assertTrue(manager1.toString().equals(manager2.toString()));
-	}
-	
-	@Test
-	public void login(){
-		assertEquals(true, true);
 	}
 }

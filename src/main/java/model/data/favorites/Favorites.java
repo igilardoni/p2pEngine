@@ -2,13 +2,19 @@ package model.data.favorites;
 
 import java.util.ArrayList;
 
-import org.jdom2.Element;
-
-import util.StringToElement;
 import model.advertisement.AbstractAdvertisement;
 import model.data.deal.Deal;
+import model.data.item.Category;
+import model.data.item.Category.CATEGORY;
 import model.data.item.Item;
+import model.data.item.Item.TYPE;
 import model.data.user.User;
+
+import org.jdom2.Element;
+
+import util.Hexa;
+import util.StringToElement;
+import util.secure.Serpent;
 
 /**
  * This class can be instantiated for contains item favorite.
@@ -19,6 +25,7 @@ import model.data.user.User;
 public class Favorites extends AbstractAdvertisement{
 	private String owner;
 	private ArrayList<Item> items;
+	private ArrayList<byte[]> itemsCrypted;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public Favorites(User owner){
@@ -53,6 +60,13 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return null;
 	}
+	public ArrayList<String> getItemsKey(){
+		ArrayList<String> itemKeys = new ArrayList<String>();
+		for (Item item : items) {
+			itemKeys.add(item.getItemKey());
+		}
+		return itemKeys;
+	}
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public void setOwner(String publicKey){
 		if(publicKey == null || publicKey.isEmpty()){
@@ -66,12 +80,23 @@ public class Favorites extends AbstractAdvertisement{
 			return printError("addItem", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
 			return printError("addItem", "Item haven't owner");
+		if(items == null)
+			items = new ArrayList<Item>();
 		if(items.contains(item)){
 			if(items.get(items.indexOf(item)).getLastUpdated() < item.getLastUpdated())
 				return items.remove(item) && items.add(item);
 			return printError("addItem", "Item more recent already registed");
 		}
 		return items.add(item);
+	}
+	public boolean addItemCrypted(byte[] b){
+		if(b == null)
+			return printError("addItemCrypted", "ItemByte empty");
+		if(itemsCrypted == null)
+			itemsCrypted = new ArrayList<byte[]>();
+		if(itemsCrypted.contains(b))
+			return printError("addItemCrypted", "Crypted item already registed");
+		return itemsCrypted.add(b);
 	}
 	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeItem(Item item){
@@ -102,10 +127,44 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return null;
 	}
+	public void encrypt(String password){
+		if(password==null || password.isEmpty()){
+			printError("encrypt", "password null or empty");
+			return;
+		}
+		itemsCrypted = new ArrayList<byte[]>();
+		Serpent s = new Serpent(password);
+		for (Item i : items) {
+			itemsCrypted.add(s.encrypt(i.toString().getBytes()));
+		}
+		items = null;
+		printInfo("encrypt", "Favorites items encrypted");
+	}
+	public void decrypt(String password){
+		if(password==null || password.isEmpty()){
+			printError("encrypt", "password null or empty");
+			return;
+		}
+		items = new ArrayList<Item>();
+		Serpent s = new Serpent(password);
+		if(password == null || password.isEmpty()){
+			printError("decrypt", "password null or empty");
+			return;
+		}
+		for(byte[] b : itemsCrypted){
+			Item i = new Item(new String(s.decrypt(b)));
+			items.add(i);
+		}
+		itemsCrypted = null;
+		printInfo("decrypt", "Favorites items decrypted");
+	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
 		System.err.println("ERROR : "+Deal.class.getName()+"."+method+" : "+error);
 		return false;
+	}
+	private static void printInfo(String method, String info){
+		System.out.println("INFO : "+Deal.class.getName()+"."+method+" : "+info);
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private String itemsXML(){
@@ -115,10 +174,29 @@ public class Favorites extends AbstractAdvertisement{
 		}
 		return s.toString();
 	}
+	private String itemsCryptedXML(){
+		StringBuffer s = new StringBuffer();
+		for(byte[] b : itemsCrypted){
+			s.append("<item>");
+			s.append(Hexa.bytesToHex(b));
+			s.append("</item>");
+		}
+		return s.toString();
+	}
 	private void loadItems(Element e){
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		items = new ArrayList<Item>();
 		for(Element i: root.getChildren()) {
 			addItem(new Item(i));
+		}
+	}
+	private void loadItemsCrypted(Element e){
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		if(itemsCrypted == null)
+			itemsCrypted = new ArrayList<byte[]>();
+		for(Element b : root.getChildren()) {
+			byte[] itemByte = Hexa.hexToBytes(b.getValue());
+			itemsCrypted.add(itemByte);
 		}
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -128,23 +206,28 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	@Override
 	protected void setKeys() {
-		items = new ArrayList<Item>();
+		items = null;
+		itemsCrypted = null;
 		this.addKey("owner", false);
+		this.addKey("itemsCrypted", false);
 		this.addKey("items", false);
 	}
 	@Override
 	protected void putValues() {
 		this.addValue("owner", this.getOwner());
-		this.addValue("items", this.itemsXML());
+		this.addValue("itemsCrypted", itemsCrypted==null?"":this.itemsCryptedXML());
+		this.addValue("items", items==null?"":this.itemsXML());
 	}
 	@Override
 	protected boolean handleElement(Element e) {
 		String val = e.getText();
 		switch(e.getName()) {
-		case "owner":	this.setOwner(val);		break;
-		case "items":	this.loadItems(e);		break;
+		case "owner":			this.setOwner(val);			break;
+		case "items":			this.loadItems(e);			break;
+		case "itemsCrypted":	this.loadItemsCrypted(e);	break;
+		default: return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/////////////////////////////////////////////////// OVERRIDE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

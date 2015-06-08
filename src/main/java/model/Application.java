@@ -83,7 +83,7 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9800, VARIABLES.NetworkFolderName + "2", VARIABLES.NetworkPeerName);
 		network.setLogger(Level.INFO);
-		
+		network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
@@ -193,13 +193,13 @@ public class Application {
 		}
 		}
 		
-		User u = new User("test", "test", "test", "test", "test", "test");
+		/*User u = new User("test", "test", "test", "test", "test", "test");
 		u.sign(u.getKeys());
 		Manager m = Application.getInstance().getManager();
 		m.addUser(u);
 		Item i = new Item(u, "orange", new Category(CATEGORY.Appliances), "test", "test", "test", "test", 0, 0, Item.TYPE.WISH);
 		i.sign(u.getKeys());
-		m.addItem(i, true);
+		m.addItem(i, true);*/
 		System.out.println(n.getBootStrapIp());
 
 		/*try {

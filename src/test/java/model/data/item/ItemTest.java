@@ -1,4 +1,4 @@
-package model.item;
+package model.data.item;
 
 import static org.junit.Assert.*;
 import model.data.item.Category;
@@ -40,9 +40,9 @@ public class ItemTest {
 		
 		assertFalse(item1.equals(item2)); // Different expected
 		
-		item2.setOwner(owner+"!");
+		item2 = new Item(item1.toString());
 		
-		assertFalse(item1.equals(item2)); // Different expected
+		assertTrue(item1.equals(item2)); // Equals expected
 	}
 	
 	@Test
