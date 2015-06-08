@@ -65,8 +65,13 @@ public class Network implements NetworkInterface {
 
 	public void createDefaultGroup() {
 		try {
-			defaultGroup = networkManager.getNetPeerGroup().newGroup(this.generatePeerGroupID("SXP group"));
+			defaultGroup = networkManager.getNetPeerGroup().newGroup(this.generatePeerGroupID("SXP group"),
+					networkManager.getNetPeerGroup().getAllPurposePeerGroupImplAdvertisement(), "SXP group", "SXP group");
+			System.out.println("default group generated");
 		} catch (PeerGroupException e) {
+			System.err.println("impossible de créer le groupe par défault");
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
