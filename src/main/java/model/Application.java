@@ -81,10 +81,10 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9800, VARIABLES.NetworkFolderName + "3", VARIABLES.NetworkPeerName + "568");
+		network = new Network(9800, VARIABLES.NetworkFolderName + "5", VARIABLES.NetworkPeerName + "5658");
 		//network.setLogger(Level.INFO);
 		network.setLogger(Level.OFF);
-		//network.addRendezVous("tcp://85.171.121.182:9800");
+		network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
