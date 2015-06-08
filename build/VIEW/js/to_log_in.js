@@ -16,6 +16,7 @@ function openSocket(){
 	webSocket.onopen = function(event){
 		load_user();
 		load_item();
+		load_favories();
 		if(event.data === undefined)
 			return;
 		writeResponse(event.data);
@@ -217,6 +218,8 @@ function to_update(){
 	}
 }
 
+
+
 //verification mel
 function Test_adresse_email(email){
 	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
@@ -316,6 +319,13 @@ function load_user(){
 function load_item(){
 	webSocket.send("/load_item:");
 }
+
+function load_favories(){
+	
+	webSocket.send("/load_favories:");
+	
+}
+
 //pour afficher les information cacher
 function zoom(text){
 	webSocket.send("/zoom_item:"+text);
@@ -340,6 +350,13 @@ function remo(text,r){
 	document.getElementById("update_desc").disabled=true;
 	document.getElementById("Picture_update").disabled=true;
 	document.getElementById("gestion_but_after").style.visibility="hidden";
+}
+
+//permet de recupere le titre d'objet et l'ajouter dans la liste favories
+function addToFavories(title){
+	
+	webSocket.send("/addToFavories:"+title);	
+	
 }
 function send_message(){
 	//A completer
@@ -442,6 +459,9 @@ function writeResponse(text){
 	}if(text_tab[0] == "update_user_false"){
 		document.getElementById("invalide_pass").innerHTML = "Please verify your password";
 		document.getElementById("invalide_pass").style.color = "#ff0000";
+	}if( text_tab[0] == "addToFavoriesOK"){
+		
+	
 	}if(text_tab[0] == "load_item"){
 		cmpt = cmpt +1;
 		var tableau = document.getElementById("data_it");
@@ -488,12 +508,20 @@ function writeResponse(text){
 	}if(text_tab[0] == "result_search_item"){
 		var tableau = document.getElementById("data_it_search");
 		var ligne = tableau.insertRow(-1);
+		
 		var colonne1 = ligne.insertCell(0);
 		colonne1.innerHTML += text_tab[1]
+		
 		var colonne2 = ligne.insertCell(1);
 		colonne2.innerHTML += text_tab[2]
+		
 		var colonne3 = ligne.insertCell(2);
 		colonne3.innerHTML += text_tab[3]
+		
+		//permet d'ajouter l'objet (titre) dans la liste favories
+		var colonne3 = ligne.insertCell(3);
+		colonne3.innerHTML += '<a onclick=\'addToFavories("'text_tab[1]'");\'><img id=\'image_object_u\' src=\'VIEW/img/favorites-add-icon.jpg\' width=\'40\'></a>';
+		
 	}if(text_tab[0] == "result_sendMessage"){
 		if(text_tab[1] == "sendt"){
 			document.getElementById("bkg").style.backgroundColor="#FF0040";

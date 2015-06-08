@@ -464,6 +464,17 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+			
+		case "/addToFavories" :
+			
+			//ICI LA FONCTION QUI AJOUTE L'OBJET DANS LA LISTE FAVORIES!!!!!!!!!!
+			
+			try {
+				session.getBasicRemote().sendText("addToFavoriesOK:");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		default:
 			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
 			break;
