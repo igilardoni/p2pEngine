@@ -12,8 +12,6 @@ import model.data.manager.Manager;
 import model.data.user.User;
 
 public class ManagerBridge implements ManagerBridgeInterface{
-	private User current;
-	
 	public ManagerBridge(){
 	}
 	
@@ -27,10 +25,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	public boolean login(String login, String password){
 		if(Application.getInstance().getManager().getCurrentUser()!=null)
 			Application.getInstance().getManager().logout();
-		boolean logged = Application.getInstance().getManager().login(login, password);
-		if(logged)
-			current = Application.getInstance().getManager().getCurrentUser();
-		return logged;
+		return Application.getInstance().getManager().login(login, password);
 	}
 
 	@Override
@@ -59,8 +54,6 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	
 	@Override
 	public void addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
-		
-	
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return;
@@ -128,5 +121,20 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	@Override
 	public ArrayList<Item> getCurrentUserItem() {
 		return getUserItems(getCurrentUser().getKeys().getPublicKey().toString(16));
+	}
+
+	@Override
+	public void addFavoriteItem(Item item) {
+		Application.getInstance().getManager().getFavoritesCurrentUser().addItem(item);
+	}
+
+	@Override
+	public void removeFavoriteItem(String itemKey) {
+		Application.getInstance().getManager().getFavoritesCurrentUser().removeItem(itemKey);
+	}
+
+	@Override
+	public ArrayList<Item> getFavoriteItems() {
+		return Application.getInstance().getManager().getFavoritesCurrentUser().getItems();
 	}
 }
