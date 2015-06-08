@@ -170,7 +170,7 @@
 							  <div class="control-group">
 								<label class="control-label" for="selectError3">Objetc</label>
 								<div class="controls">
-								  <select id="selectError3">
+								  <select id="selectObject">
 									<option>Objetc 1</option>
 									<option>Objetc 2</option>
 									<option>Objetc 3</option>
@@ -179,22 +179,19 @@
 								  </select>
 								</div>
 							  </div>
-							  <div class="control-group">
-								<label class="control-label" for="selectError">Owner</label>
+							  
+							   <div class="control-group">
+								<label class="control-label" for="selectError3">Objetc</label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
+								  <select id="SelectOwner">
 									<option>Owner 1</option>
 									<option>Owner 2</option>
 									<option>Owner 3</option>
 									<option>Owner 4</option>
 									<option>Owner 5</option>
 								  </select>
-								
-							   
 								</div>
-								
 							  </div>
-							  
 							  
 							  
 							  <div class="control-group">
@@ -209,55 +206,55 @@
 							
 							
 							<div class="control-group">
-							  <label class="control-label" for="typeahead" id="names_labe_ul" >Montant de la taxe :</label>
+							  <label class="control-label" for="typeahead" id="names_labe_contrat" >Montant de la taxe :</label>
 							  <div class="controls">
-								<input type="text" class="span6 typeahead" id="name_compte_input" >		
+								<input type="text" class="span6 typeahead" id="Montancontrat" >		
 							  </div>
 							</div>
 						
 							<div class="control-group">
-							  <label class="control-label" for="typeahead" id="names_labe_ul" >Personne qui devra payer la taxe:</label>
+							  <label class="control-label" for="typeahead" id="names_labe_contrat" >Personne qui devra payer la taxe:</label>
 							  <div class="controls">
-								<input type="text" class="span6 typeahead" id="name_compte_input" >		
+								<input type="text" class="span6 typeahead" id="namecontrat" >		
 							  </div>
 							</div>
 							
 
 
 							<div class="control-group">
-							  <label class="control-label" for="typeahead" id="names_labe_ul" >Taxe dûe à:</label>
+							  <label class="control-label" for="typeahead" id="names_labe_contrat" >Taxe dûe à:</label>
 							  <div class="controls">
-								<input type="text" class="span6 typeahead" id="name_compte_input" >		
+								<input type="text" class="span6 typeahead" id="taxcontrat" >		
 							  </div>
 							</div>
 							
 							
 							
-							<div class="control-group hidden-phone" id="picture_t3">
-							  <label class="control-label" for="textarea2" id="description_label">Description de la clause taxation:</label>
+							<div class="control-group hidden-phone" id="Description_t3">
+							  <label class="control-label" for="textarea2" id="description_contrat">Description de la clause taxation:</label>
 							  <div class="controls">
-								<textarea  id="update_desc" name="Description" rows="3"></textarea>
+								<textarea  id="Descripticont" name="Descripticont" rows="3"></textarea>
 							  </div>
 							</div>
 							
 
 							
-							<div class="control-group hidden-phone" id="picture_t3">
-							  <label class="control-label" for="textarea2" id="description_label">Clause de rupture</label>
+							<div class="control-group hidden-phone" id="Clause_contrat">
+							  <label class="control-label" for="textarea2" id="Clause_cont">Clause de rupture</label>
 							  <div class="controls">
-								<textarea  id="update_desc" name="Description" rows="3"></textarea>
+								<textarea  id="Claucontti" name="Clause_contti" rows="3"></textarea>
 							  </div>
 							</div>
 							
-							<div class="control-group hidden-phone" id="picture_t3">
+							<div class="control-group hidden-phone" id="Mode_contrat">
 							  <label class="control-label" for="textarea2" id="description_label">Mode de résolution</label>
 							  <div class="controls">
-								<textarea  id="update_desc" name="Description" rows="3"></textarea>
+								<textarea  id="updadesc" name="mode_resx" rows="3"></textarea>
 							  </div>
 							</div>
 							
 								<div class="form-actions">
-							<input type="submit" class="btn btn-primary" onclick="update_compte();" value="Generate PDF" /> 
+								<input type="submit" class="btn btn-primary" onclick="generateContrat();" value="Generate PDF" /> 
 								<span id="succ"></span>
 								</div>
 							

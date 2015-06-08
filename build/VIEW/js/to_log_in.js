@@ -303,6 +303,25 @@ function fulltype_picture(text) {
 }
 
 
+function generateContrat(){
+	
+
+	var object = document.getElementById("selectObject").value;
+	var owner = document.getElementById("SelectOwner").value;
+	var montant = document.getElementById("Montancontrat").value;
+
+	var name = document.getElementById("namecontrat").value;
+ 
+ 	var taxe = document.getElementById("taxcontrat").value;
+	var description = document.getElementById("Descripticont").value;
+	var clause = document.getElementById("Claucontti").value;
+	var mode = document.getElementById("updadesc").value;
+
+	webSocket.send("/creatContrat:");
+	
+	
+}
+
 //fonction qui gére tout les redirection entre page
 function redirection(text){
 	webSocket.send(text);
@@ -564,11 +583,11 @@ function writeResponse(text){
 		var colonne2 = ligne.insertCell(1);
 		colonne2.innerHTML += text_tab[2]
 		
-		var colonne1 = ligne.insertCell(2);
-		colonne1.innerHTML += text_tab[3]
+		var colonne3 = ligne.insertCell(2);
+		colonne3.innerHTML += text_tab[3]
 		
-		var colonne2 = ligne.insertCell(3);
-		colonne2.innerHTML += text_tab[4]
+		var colonne4 = ligne.insertCell(3);
+		colonne4.innerHTML += text_tab[4]
 		
 		
 	}

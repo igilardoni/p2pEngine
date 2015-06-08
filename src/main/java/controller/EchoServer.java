@@ -527,6 +527,12 @@ public class EchoServer {
 			
 		break;
 		
+		case "/creatContrat" :
+			
+			// ICI LA FONCTION QUI CREE UN CONRTAT ET GENERE UN PDF
+			
+			break;
+		
 		
 		default:
 			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
