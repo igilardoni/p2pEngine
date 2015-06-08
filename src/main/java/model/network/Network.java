@@ -63,6 +63,16 @@ public class Network implements NetworkInterface {
 		return defaultGroup;
 	}
 
+	public void createDefaultGroup() {
+		try {
+			defaultGroup = networkManager.getNetPeerGroup().newGroup(this.generatePeerGroupID("SXP group"));
+		} catch (PeerGroupException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public void addGroup(final String name) {
 		ModuleImplAdvertisement mAdv = null;
@@ -115,7 +125,8 @@ public class Network implements NetworkInterface {
 	@Override
 	public void start() {
 		try {
-			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			createDefaultGroup();
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			System.out.println("waiting for rendez vous.");
 			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
