@@ -18,6 +18,7 @@ import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
+import net.jxta.peergroup.NetPeerGroupFactory;
 import net.jxta.peergroup.PeerGroup;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
@@ -71,6 +72,7 @@ public class Network implements NetworkInterface {
 			defaultGroup = netpeerGroup.newGroup(this.generatePeerGroupID("SXP group"),
 					madv, "SXP group", "SXP group");
 			System.out.println("default group generated");
+			defaultGroup.startApp(new String[0]);
 		} catch (PeerGroupException e) {
 			System.err.println("impossible de créer le groupe par défault");
 			e.printStackTrace();
@@ -85,49 +87,18 @@ public class Network implements NetworkInterface {
 	public void addGroup(final String name) {
 		ModuleImplAdvertisement mAdv = null;
 		temp = null;
-		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
-				"Name", name, 1, new DiscoveryListener() {
-					
-					@Override
-					public void discoveryEvent(DiscoveryEvent event) {
-						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
-						while(advs.hasMoreElements()) {
-							System.out.println("groupe trouvï¿½");
-							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
-							System.out.println("nom du groupe : " + adv.getName());
-							try {
-								//temp = defaultGroup.newGroup(adv);
-								temp = defaultGroup.newGroup(adv);
-								System.out.println("group joinded");
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						
-					}
-				});
+		System.out.println("creating new group ..");
 		try {
-			Thread.sleep(10000);
-			System.out.println("waiting for group ...");
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		if(temp == null) {
-			try {
-				System.out.println("creating new group ..");
-				mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
-				temp = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
-				getDefaultGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
+			mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement();
+			temp = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
+			getDefaultGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
 			temp.startApp(new String[0]);
-		}
-		peergroups.put(name, temp);
+			peergroups.put(name, temp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /* Getting the advertisement of implemented modules */
+		
 	}
 
 	@Override
@@ -216,6 +187,8 @@ public class Network implements NetworkInterface {
          configurator.setName("SXPeerGroup");
          configurator.setDescription("SXP default peer group");
          configurator.setPrincipal("SXP peer group");
+         
+         configurator.setPeerID(IDFactory.newPeerID(PeerGroupID.defaultNetPeerGroupID, peerName.getBytes()));
 		
 		return manager;
 	}
