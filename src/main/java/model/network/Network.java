@@ -116,6 +116,7 @@ public class Network implements NetworkInterface {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			System.out.println("waiting for rendez vous.");
+			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
 			if(networkManager.waitForRendezvousConnection(5000)) {
 				System.out.println("rendez vous found");
 			}
@@ -125,7 +126,6 @@ public class Network implements NetworkInterface {
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}
-		defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
 		
 	}
 	
