@@ -71,6 +71,7 @@ public class Network implements NetworkInterface {
 			System.out.println(madv.toString());
 			defaultGroup = netpeerGroup.newGroup(this.generatePeerGroupID("SXP group"),
 					madv, "SXP group", "SXP group");
+			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000);
 			System.out.println("default group generated");
 			defaultGroup.startApp(new String[0]);
 		} catch (PeerGroupException e) {
