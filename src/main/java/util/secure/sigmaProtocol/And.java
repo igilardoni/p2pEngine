@@ -1,4 +1,4 @@
-package sigmaProtocol;
+package util.secure.sigmaProtocol;
 import java.util.ArrayList;
 import java.util.HashMap;
 

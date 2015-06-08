@@ -1,4 +1,4 @@
-package sigmaProtocol;
+package util.secure.sigmaProtocol;
 
 import java.math.BigInteger;
 
