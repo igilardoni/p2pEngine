@@ -11,9 +11,8 @@ import model.data.user.User;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import util.secure.AsymKeysImpl;
 import util.secure.ElGamalSign;
-import util.secure.AVProtocol.*;
+import util.secure.AVProtocol.Delta;
 
 /**
  * This class can be instantiated for contains an agreement.
@@ -325,11 +324,22 @@ public class Deal extends AbstractAdvertisement {
 		return s.toString();
 	}
 	/////////////////////////////////////////////////// AVPROTOCOL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public void lauchProtocol(AsymKeysImpl dealerKeys){
+	/*public void lauchProtocol(AsymKeysImpl dealerKeys){
 		// TODO thread maybe
-		// Dealer dealer = new Dealer(dealerKeys);
-		// Need Sarah elucidation
-	}
+		Dealer dealer = new Dealer(dealerKeys);
+		TTP ttp = new TTP(VARIABLES.AVProtocolN, VARIABLES.AVProtocolK);
+		ArrayList<BigInteger> aj = new ArrayList<BigInteger>();
+		for (int i = 0 ; i < VARIABLES.AVProtocolK; i++) {
+			// Add to aj new random BigInteger
+		}
+		for (int i = 0; i < VARIABLES.AVProtocolN; i++) {
+			// Search TTP in network;
+			ParticipantEx p = new ParticipantEx(dealerKeys, i, null); // TODO change null with random BigInteger
+			p.setMi(dealer.createMi(new BigInteger(this.toString()), p, aj).toByteArray());
+			ttp.addParticipant(p);
+		}
+		this.state = 1;
+	}*/
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private String signatoriesXML(){
 		StringBuffer s = new StringBuffer();

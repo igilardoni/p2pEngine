@@ -3,10 +3,12 @@ package model.data.manager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import util.VARIABLES;
 import model.data.item.Item;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
+import model.network.search.ItemSearcher;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
 import model.network.search.Search.Result;
@@ -103,6 +105,20 @@ public class SharingManager {
 	}
 	
 	/**
+	 * Update user's (who have this publicKey) Favorites.
+	 * @param publicKey
+	 */
+	public void checkLifeFavorites(String publicKey){
+		ItemSearcher searcher = new ItemSearcher(network);
+		for(String itemKey : manager.getUserFavorites(publicKey).getItemsKey()){
+			Item i = searcher.search(itemKey);
+			manager.getUserFavorites(publicKey).updateItem(itemKey, i);
+		}
+		if(manager.getCurrentUser().getKeys().getPublicKey().toString(16).equals(publicKey))
+			manager.getUserFavorites(publicKey).sign(manager.getCurrentUser().getKeys());
+	}
+	
+	/**
 	 *  Check user data replication on the network.
 	 * @param publicKey The user to check.
 	 */
@@ -164,7 +180,7 @@ public class SharingManager {
 				Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
 				while(advs.hasMoreElements()) {
 					PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
-					System.out.println("Groupe trouvé :" + adv.getName());
+					System.out.println("Groupe trouvï¿½ :" + adv.getName());
 				}
 			}
 			

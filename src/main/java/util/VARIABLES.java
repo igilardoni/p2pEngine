@@ -11,6 +11,7 @@ public class VARIABLES {
 	/* SharingManager */
 	public final static int ReplicationsAccount = 5;
 	public final static int CheckTimeAccount = 3000;
+	public static final long MaxTimeSearch = 30000L;
 	
 	/* Network */
 	public final static String NetworkFolderName = ".peerFolder";
@@ -23,4 +24,8 @@ public class VARIABLES {
 	public final static String ConfigFilePathSolaris = "";
 	public static final String ManagerFileName = "SXPManager.xml";
 	public static final String ManagerFilePath = "./"+ManagerFileName;
+	
+	/* AVProtocol */
+	public static final int AVProtocolN = 10;
+	public static final int AVProtocolK = 5;
 }

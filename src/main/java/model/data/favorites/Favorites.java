@@ -98,6 +98,14 @@ public class Favorites extends AbstractAdvertisement{
 			return printError("addItemCrypted", "Crypted item already registed");
 		return itemsCrypted.add(b);
 	}
+	public void updateItem(String itemKey, Item item) {
+		if(itemKey == null || itemKey.isEmpty()){
+			printError("updateItem", "itemKey is null or empty");
+			return;
+		}
+		this.removeItem(itemKey);
+		this.addItem(item);
+	}
 	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeItem(Item item){
 		if(item == null)
