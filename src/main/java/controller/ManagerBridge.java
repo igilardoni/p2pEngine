@@ -33,8 +33,6 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		return logged;
 	}
 
-	// a verifier ya un probleme avec la modification des informations utilisateur!!!
-	// Ouais, ben il va falloir que tu trouves pourquoi, je touche plus à cette partie !
 	@Override
 	public boolean updateAccount(String nick, String oldPassword, String newPassword,
 			String name, String firstName, String email, String phone){
@@ -44,15 +42,15 @@ public class ManagerBridge implements ManagerBridgeInterface{
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
 			return false;
 		}
-		if(current.isPassword(oldPassword)){
-			current.setNick(nick);
-			current.setName(name);
-			current.setFirstName(firstName);
-			current.setEmail(email);
-			current.setPassWord(newPassword);
-			current.setClearPassword(newPassword);
-			current.setPhone(phone);
-			Application.getInstance().getManager().registration(current);
+		if(Application.getInstance().getManager().getCurrentUser().isPassword(oldPassword)){
+			Application.getInstance().getManager().getCurrentUser().setNick(nick);
+			Application.getInstance().getManager().getCurrentUser().setName(name);
+			Application.getInstance().getManager().getCurrentUser().setFirstName(firstName);
+			Application.getInstance().getManager().getCurrentUser().setEmail(email);
+			Application.getInstance().getManager().getCurrentUser().setPassWord(newPassword);
+			Application.getInstance().getManager().getCurrentUser().setClearPassword(newPassword);
+			Application.getInstance().getManager().getCurrentUser().setPhone(phone);
+			Application.getInstance().getManager().getCurrentUser().sign(Application.getInstance().getManager().getCurrentUser().getKeys());
 			Application.getInstance().getManager().logout();
 			return Application.getInstance().getManager().login(nick, newPassword);
 		}
