@@ -40,6 +40,7 @@ import model.network.search.SearchListener;
 @ServerEndpoint("/serv") 
 public class EchoServer {
 	ManagerBridge managerB =  new ManagerBridge();
+	MessageSender messageSender = new MessageSender();
 
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session.
@@ -146,7 +147,6 @@ public class EchoServer {
 			 * requet[7] : lifeTime
 			 * requet[8] : type
 			 */
-			// Tu réalises que j'avais mis des variables pour que ce soit lisible et que tu es juste revenu en arrière... ça n'a vraiment aucun intérêt !!!
 			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
 			break;
 
@@ -161,7 +161,6 @@ public class EchoServer {
 				 * requet[7] : lifeTime
 				 * requet[8] : type
 				 */
-				// idem que le commentaire du dessus !!!
 				managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
 			
 			try {
@@ -279,8 +278,8 @@ public class EchoServer {
 			name = requet[2];
 			firstName = requet[3];
 			email = requet[4];
-			phone = requet[5];
-			newPassword = requet[6];
+			phone = requet[6];
+			newPassword = requet[5];
 			oldPassword = requet[7];
 
 			System.out.println(nick+" "+name+" "+firstName+" "+email+" "+phone+" "+newPassword+" "+oldPassword+" ");
@@ -458,7 +457,7 @@ public class EchoServer {
 		case "/send_message": // Send a message to a nick's user
 			String msg = requet[1];
 			nick = requet[2];
-			String result=sendTextToNick(msg, nick)?"sendt":"sendf";
+			String result = messageSender.sendMessageToNick(msg, nick)?"sendt":"sendf";
 			try {
 				session.getBasicRemote().sendText("result_sendMessage:"+result);
 			} catch (IOException e) {
@@ -479,74 +478,5 @@ public class EchoServer {
 	@OnClose
 	public void onClose(Session session){
 		System.out.println("Session has ended");
-	}
-
-	/**
-	 * Send a message to a nickname
-	 * Used when unknown publicKey but have nickname
-	 * @param message - String message
-	 * @param nick - String receiver's nickname
-	 * @deprecated
-	 * TODO A SUPPRIMER !!!!! J'avais fait ça proprement et j'avais supprimer cette fonction, tu m'expliques pourquoi elle est revenu ???????????????,??
-	 */
-	private boolean sendTextToNick(String message, String nick){
-		boolean sendOnTime = false;
-		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "nick", true);
-		search.search(nick, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
-		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
-		AsymKeysImpl to;
-		AsymKeysImpl from = Application.getInstance().getManager().getCurrentUser().getKeys();
-		ArrayList<String> keyUsed = new ArrayList<String>();
-		Message msg = null;
-		for (Search<User>.Result r : results) {
-			if(!r.result.checkSignature(r.result.getKeys())){
-				results.remove(r);
-			}else{
-				to = r.result.getKeys();
-				if(!keyUsed.contains(to.getPublicKey().toString(16))){
-					msg = new Message(to, from, message);
-					msg.sign(from);
-					keyUsed.add(to.getPublicKey().toString(16));
-				}
-				sendOnTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", r.peerID);
-				Application.getInstance().getManager().addMessage(msg);
-			}
-		}
-		return sendOnTime;
-	}
-
-	/**
-	 * Send a message to a publicKey
-	 * Used when known publicKey
-	 * @param message - String message
-	 * @param publicKey - String(hexa) receiver's publicKey  
-	 */
-	private boolean sendTextToPublicKey(String message, String publicKey){
-		boolean sendOnTime = false;
-		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
-		search.search(publicKey, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
-		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
-		ArrayList<PeerID> ids = new ArrayList<PeerID>();
-		AsymKeysImpl to = null;
-		AsymKeysImpl from = Application.getInstance().getManager().getCurrentUser().getKeys();
-		Message msg = null;
-		for (Search<User>.Result r : results) {
-			if(!r.result.checkSignature(r.result.getKeys())){
-				results.remove(r);
-			}else{
-				ids.add(r.peerID);
-				to = r.result.getKeys();
-			}
-		}
-		if(to != null){
-			msg = new Message(to, from, message);
-			msg.sign(from);
-			sendOnTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
-			Application.getInstance().getManager().addMessage(msg);
-		}else{
-			System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
-		}
-
-		return sendOnTime;
 	}
 }
