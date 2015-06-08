@@ -17,11 +17,11 @@ public class Utils {
 	 * @param object
 	 * @return
 	 */
-	static public BigInteger rand (int bitLength, BigInteger object)
+	static public BigInteger rand (int bitLength, BigInteger p)
 	{
 		BigInteger s;
 		s = new BigInteger(bitLength,random);
-		while(s.compareTo(BigInteger.ONE)<=0 && s.compareTo(object)>= 0)
+		while(s.compareTo(BigInteger.ONE)<=0 && s.compareTo(p)>= 0)
 			s = new BigInteger(bitLength,random);
 		
 		return s;

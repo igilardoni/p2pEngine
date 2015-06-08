@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalEncrypt;
+import util.secure.AVProtocol.ParticipantEx;
 
 /**
  * person begin the protocol
@@ -34,7 +35,7 @@ public class Dealer {
 	 * @param p
 	 * @return
 	 */
-	public BigInteger createMi (BigInteger m, ParticipantEx Pi , ArrayList <BigInteger>aj, BigInteger p)
+	public BigInteger createMi (BigInteger m, ParticipantEx Pi , ArrayList <BigInteger>aj)
 	{
 		BigInteger Mi = BigInteger.ZERO;
 		BigInteger powX = BigInteger.ONE;
@@ -45,7 +46,7 @@ public class Dealer {
 			Mi = Mi.add((aj.get(i-1)).multiply(powX));
 		}
 		Mi = Mi.add(m);
-		return Mi.mod(p);
+		return Mi.mod(keys.getP());
 	}
 	
 	/**
@@ -75,7 +76,7 @@ public class Dealer {
 		
 		for (int i =0; i< TTP.getN(); i++)
 		{
-			BigInteger Mi = createMi(m, TTP.getParticipant(i), aj, keys.getP());
+			BigInteger Mi = createMi(m, TTP.getParticipant(i), aj);
 			EncryptForPartExI(i, Mi, TTP);
 			proof.addMi(TTP.getParticipant(i), Mi);
 		}
@@ -94,5 +95,6 @@ public class Dealer {
 		ElGamal elGamal = new ElGamal(receiver.getKeys());
 		return elGamal.encryptWithPublicKey(M.toByteArray());
 	}
+	
 
 }

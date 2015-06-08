@@ -21,11 +21,11 @@ public class ParticipantEx {
 	private byte[] Mi;
 	private byte [] miD;
 	
-	public ParticipantEx (AsymKeysImpl keys, int number, byte[] Mi)
+	public ParticipantEx (AsymKeysImpl keys, int number, BigInteger x)
 	{
 		this.setKeys(keys);
 		this.setNumber(number);
-		this.setMi(Mi);
+		this.setX(x);
 	}
 
 	public AsymKeysImpl getKeys() {

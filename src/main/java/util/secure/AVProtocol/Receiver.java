@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import util.secure.AsymKeysImpl;
+import util.secure.ElGamal;
 
 public class Receiver {
 	
@@ -64,6 +65,19 @@ public class Receiver {
 		}
 		
 		return Lagrange.inter( x, mi, BigDecimal.ZERO).mod(Dkeys.getP());
+	}
+	
+	/**
+	 * encrypt for dealer in the end of protocol
+	 * @param i
+	 * @param M
+	 * @param receiver
+	 * @return
+	 */
+	public byte[] EncryptForReceiverI(int i, BigInteger M, AsymKeysImpl Dkeys )
+	{
+		ElGamal elGamal = new ElGamal(Dkeys);
+		return elGamal.encryptWithPublicKey(M.toByteArray());
 	}
 	
 }

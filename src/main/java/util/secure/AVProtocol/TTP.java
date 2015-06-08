@@ -15,6 +15,12 @@ public class TTP {
 	private int k ;
 	private ArrayList<ParticipantEx> Participants = new ArrayList <ParticipantEx>();
 	
+	public TTP (int n, int k)
+	{
+		setN(n);
+		setK(k);
+	}
+	
 	public int getN() {
 		return n;
 	}
