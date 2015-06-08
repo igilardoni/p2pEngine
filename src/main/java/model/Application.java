@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
@@ -81,10 +82,11 @@ public class Application {
 	 * TODO keep reference ?
 	 */
 	private void startNetwork() {
-		network = new Network(9800, VARIABLES.NetworkFolderName + "5", VARIABLES.NetworkPeerName + "5658");
+		Random r = new Random();
+		network = new Network(9800, VARIABLES.NetworkFolderName + r.nextInt(1000), VARIABLES.NetworkPeerName + r.nextInt(1000));
 		//network.setLogger(Level.INFO);
-		network.setLogger(Level.OFF);
-		network.addRendezVous("tcp://85.171.121.182:9800");
+		network.setLogger(Level.INFO);
+		//network.addRendezVous("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	
