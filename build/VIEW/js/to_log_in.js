@@ -30,6 +30,28 @@ function openSocket(){
 	};
 } 
 
+//fonction pour generer PDF 
+function TOPDF(object,owner,montant,name_per,taxe,descriptionC,clause,mode) {
+	var doc = new jsPDF();
+	
+	doc.text(50, 20, 'Contrat provisoire '+object);
+
+	doc.text(20, 40, 'Mme / M . '+owner);
+	doc.text(20, 50, montant);
+	doc.text(20, 60, name_per);
+	doc.text(20, 70, taxe);
+	doc.text(20, 80, descriptionC);
+	doc.text(20, 90, clause);
+	doc.text(20, 100, mode);
+	doc.addPage();
+	
+	doc.text(20, 100, 'Test');
+	
+	// Output as Data URI
+	doc.output('datauri');
+}
+
+
 // new_objet permet d'ajouter un nouveau objet dans la liste
 function new_objet(){
 	
@@ -317,7 +339,8 @@ function generateContrat(){
 	var clause = document.getElementById("Claucontti").value;
 	var mode = document.getElementById("updadesc").value;
 
-	webSocket.send("/creatContrat:");
+	
+	webSocket.send("/creatContrat:"+object+":"+owner+":"+montant+":"+name+":"+taxe+":"+description+":"+clause+":"+mode);
 	
 	
 }
@@ -590,5 +613,8 @@ function writeResponse(text){
 		colonne4.innerHTML += text_tab[4]
 		
 		
+	}if(text_tab[0] == "ContratOK"){
+		
+		TOPDF(text_tab[1],text_tab[2],text_tab[3],text_tab[4],text_tab[5],text_tab[6],text_tab[7],text_tab[8]);
 	}
 }
