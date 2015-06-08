@@ -76,7 +76,7 @@ public class EchoServer {
 		String oldPassword;
 		/* Variables for Item */
 		String title;
-		/*String category;
+		String category;
 		String description;
 		String image;
 		String country;
@@ -84,7 +84,7 @@ public class EchoServer {
 		String lifeTime;
 		String type;
 		String itemKey;
-		*/
+		
 		switch (token) {
 		case "/index": // user Login
 			nick = requet[2];
@@ -466,10 +466,15 @@ public class EchoServer {
 			break;
 			
 		case "/addToFavories" :
-			
-			//ICI LA FONCTION QUI AJOUTE L'OBJET DANS LA LISTE FAVORIES!!!!!!!!!!
+			/*
+			 * Il existe une fonction dans le ManagerBridge pour ça.
+			 * Il faut juste lui passer un Item (trouvé sur le réseau)
+			 * ATTENTION : Le référencement d'un objet dans les Favoris
+			 * se fait par l'identifiant unique d'un objet : item.getItemKey()
+			 */
 			title = requet[1];
-			
+			Item item = new Item(); // TODO Search Objet ou objet passé en paramètre !
+			managerB.addFavoriteItem(item);
 			try {
 				session.getBasicRemote().sendText("addToFavoriesOK:");
 			} catch (IOException e) {
@@ -477,17 +482,18 @@ public class EchoServer {
 			}
 			
 		case "/load_favories":
-			
-			//ICI LA FONCTION QUI CHARGE LES OBJETS FAVORIES (TITRE ET OWNER) ET LES ENVOI UN PAR UN
-			// ca peu etre une boucle qui balance objet par objet JS recupere et l'ajoute dans un <table>
-			
-			//Exemple
-			 manager = Application.getInstance().getManager();
-				ArrayList<Item> it2 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-				if(!it2.isEmpty()){
-					for (int i = 0; i < it2.size(); i++) {
+				/*
+				 * J'ai ajouté une fonction au ManagerBridge pour ça.
+				 * TODO >>>>>>>>ATTENTION<<<<<<<<
+				 * il FAUT que tu conserves les ItemKey,
+				 * à la prochaine release, je change
+				 * le système de référencement des objets ! 
+				 */
+				ArrayList<Item> favoriteItems = managerB.getFavoriteItems();
+				if(!favoriteItems.isEmpty()){
+					for (int i = 0; i < favoriteItems.size(); i++) {
 						try {
-							session.getBasicRemote().sendText("LoadALLFavories:"+it2.get(i).getTitle()+":"+it2.get(i).getCountry()+":"+it2.get(i).getDescription());
+							session.getBasicRemote().sendText("LoadALLFavories:"+favoriteItems.get(i).getTitle()+":"+favoriteItems.get(i).getCountry()+":"+favoriteItems.get(i).getDescription());
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
