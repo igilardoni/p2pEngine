@@ -1,6 +1,7 @@
 package model.data.manager;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import model.data.item.Item;
 import model.data.user.User;
@@ -8,7 +9,13 @@ import model.network.NetworkInterface;
 import model.network.communication.Communication;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
+import model.network.search.Search.Result;
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.Advertisement;
 import net.jxta.peer.PeerID;
+import net.jxta.protocol.PeerGroupAdvertisement;
 
 /**
  * Manager for sharing ressource (users, items ..) when needed.
@@ -64,10 +71,11 @@ public class SharingManager {
 						RandomPeerFinder f = new RandomPeerFinder(network);
 						f.findPeers(3000, 5);
 						System.out.println(f.getResults().size());
-						Search<Item> s = new Search<Item>(network.getGroup("items").getDiscoveryService(), 
-								"title", false);
-						s.search("patate", 1000, 1);
-						if(s.getResults().size() > 0 ) System.out.println("ON A ENFIN TROUVE");
+						testGroup();
+						
+						
+						
+						
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
@@ -144,6 +152,23 @@ public class SharingManager {
 		for(User u: manager.getUsers()) {
 			checkUserResilience(u.getKeys().getPublicKey().toString(16));
 		}
+	}
+	
+	public void testGroup() {
+		System.out.println("Search for existing group ...");
+		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
+				"Name", null, 1, new DiscoveryListener() {
+
+			@Override
+			public void discoveryEvent(DiscoveryEvent event) {
+				Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
+				while(advs.hasMoreElements()) {
+					PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
+					System.out.println("Groupe trouvé :" + adv.getName());
+				}
+			}
+			
+		});
 	}
 	
 }
