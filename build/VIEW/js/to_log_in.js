@@ -17,6 +17,7 @@ function openSocket(){
 		load_user();
 		load_item();
 		load_favories();
+		load_contrat();
 		if(event.data === undefined)
 			return;
 		writeResponse(event.data);
@@ -326,6 +327,11 @@ function load_favories(){
 	webSocket.send("/load_favories:");
 	
 }
+//load_contrat charge tout les contrat 
+function load_contrat(){
+	
+	webSocket.send("/load_contrat:");
+}
 
 //pour afficher les information cacher
 function zoom(text){
@@ -542,6 +548,27 @@ function writeResponse(text){
 		
 		var colonne2 = ligne.insertCell(1);
 		colonne2.innerHTML += text_tab[2]
+		
+		
+	}if(text_tab[0] == "loadAllcontrat"){
+		
+		
+		var tableau = document.getElementById("dataContratLoad");
+		
+		var ligne = tableau.insertRow(-1);
+		
+		
+		var colonne1 = ligne.insertCell(0);
+		colonne1.innerHTML += text_tab[1]
+		
+		var colonne2 = ligne.insertCell(1);
+		colonne2.innerHTML += text_tab[2]
+		
+		var colonne1 = ligne.insertCell(2);
+		colonne1.innerHTML += text_tab[3]
+		
+		var colonne2 = ligne.insertCell(3);
+		colonne2.innerHTML += text_tab[4]
 		
 		
 	}

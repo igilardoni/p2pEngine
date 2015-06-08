@@ -505,6 +505,29 @@ public class EchoServer {
 			
 			
 			
+		case "/load_contrat":
+			//de la meme manier que  load_favories ici faut mettre en place une fonction qui charge tout les contrat
+			// et les envoi un par un , JS intercepte et affiche dans le tableau
+			
+			//exemple
+			 manager = Application.getInstance().getManager();
+				ArrayList<Item> it3 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+				if(!it3.isEmpty()){
+					for (int i = 0; i < it3.size(); i++) {
+						try {
+							session.getBasicRemote().sendText("loadAllcontrat:"+it3.get(i).getTitle()+":"+it3.get(i).getCountry()+":"+it3.get(i).getDescription());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}
+			
+			
+		break;
+		
+		
 		default:
 			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
 			break;
