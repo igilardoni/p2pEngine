@@ -71,9 +71,9 @@ public class Network implements NetworkInterface {
 			System.out.println(madv.toString());
 			defaultGroup = netpeerGroup.newGroup(this.generatePeerGroupID("SXP group"),
 					madv, "SXP group", "SXP group");
-			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000);
 			System.out.println("default group generated");
 			defaultGroup.startApp(new String[0]);
+			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000);
 		} catch (PeerGroupException e) {
 			System.err.println("impossible de créer le groupe par défault");
 			e.printStackTrace();
@@ -94,6 +94,7 @@ public class Network implements NetworkInterface {
 			temp = defaultGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
 			getDefaultGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
 			temp.startApp(new String[0]);
+			temp.getRendezVousService().setAutoStart(true, 60);
 			peergroups.put(name, temp);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -106,10 +107,12 @@ public class Network implements NetworkInterface {
 	public void start() {
 		try {
 			networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
+			networkManager.getNetPeerGroup()
+				.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
 			createDefaultGroup();
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			System.out.println("waiting for rendez vous.");
-			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000); /* Switching to RendezVousMode if needed. Check every 60s */
+			
 			if(networkManager.waitForRendezvousConnection(10000)) {
 				System.out.println("rendez vous found");
 			}
