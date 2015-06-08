@@ -40,7 +40,7 @@ public class TTP {
 	}
 	
 	public void setParticipants(ArrayList<ParticipantEx> Participants) {
-		Participants = Participants;
+		this.Participants = Participants;
 	}
 	
 	public void addParticipant(ParticipantEx Participant) {

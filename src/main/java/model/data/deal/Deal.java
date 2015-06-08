@@ -11,8 +11,9 @@ import model.data.user.User;
 import org.jdom2.Element;
 
 import util.StringToElement;
+import util.secure.AsymKeysImpl;
 import util.secure.ElGamalSign;
-import util.secure.AVProtocol.Delta;
+import util.secure.AVProtocol.*;
 
 /**
  * This class can be instantiated for contains an agreement.
@@ -297,6 +298,10 @@ public class Deal extends AbstractAdvertisement {
 		return clauses.remove(claus);
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	@Override
+	public Deal clone(){
+		return new Deal(this.toString());
+	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
 		System.err.println(Deal.class.getName()+"."+method+" : "+error);
@@ -318,6 +323,12 @@ public class Deal extends AbstractAdvertisement {
 			s.append("\n");
 		}
 		return s.toString();
+	}
+	/////////////////////////////////////////////////// AVPROTOCOL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public void lauchProtocol(AsymKeysImpl dealerKeys){
+		// TODO thread maybe
+		// Dealer dealer = new Dealer(dealerKeys);
+		// Need Sarah elucidation
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private String signatoriesXML(){

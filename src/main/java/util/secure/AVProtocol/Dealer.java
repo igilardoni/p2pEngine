@@ -16,6 +16,16 @@ public class Dealer {
 
 	private AsymKeysImpl keys ;
 	
+	public Dealer(AsymKeysImpl key){
+		if(!key.isCompatible())
+			try {
+				throw new Exception("Incompatible key !");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		this.keys = key;
+	}
+	
 	/**
 	 * create message i destinate to external participant i in the conflict
 	 * @param m
