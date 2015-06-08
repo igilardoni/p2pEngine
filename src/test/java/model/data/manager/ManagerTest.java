@@ -3,6 +3,9 @@ package model.data.manager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Category.CATEGORY;
@@ -10,8 +13,11 @@ import model.data.manager.Manager;
 import model.data.user.User;
 import model.network.Network;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import util.FileHelper;
 
 public class ManagerTest {
 	private static User user1, user2;
@@ -121,5 +127,11 @@ public class ManagerTest {
 		manager1.cleanItems();
 		
 		assertTrue(manager1.toString().equals(manager2.toString()));
+	}
+	
+	@AfterClass
+	public static void close(){
+		FileHelper fh = new FileHelper();
+		fh.delete(new File(".peerFolderTest"));
 	}
 }
