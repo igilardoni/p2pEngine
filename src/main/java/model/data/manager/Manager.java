@@ -13,9 +13,7 @@ import java.util.Map.Entry;
 import model.advertisement.AbstractAdvertisement;
 import model.data.deal.Deal;
 import model.data.favorites.Favorites;
-import model.data.item.Category;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.user.Conversations;
 import model.data.user.Message;
 import model.data.user.User;
@@ -137,6 +135,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param publicKey
 	 * @param title
 	 * @return
+	 * @deprecated
 	 */
 	public Item getItem(String publicKey, String title){
 		if(publicKey == null || publicKey.isEmpty()){
@@ -161,6 +160,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Use to found a specific item possessed by current User with title
 	 * @param title
 	 * @return
+	 * @deprecated
 	 */
 	public Item getItemCurrentUser(String title){
 		if(currentUser == null){
@@ -833,6 +833,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param password
 	 */
 	public boolean login(String nickname, String password) {
+		// TODO This method have to change if nickName can be same on different account !
 		User u = null;
 		if(users.size()>0)
 			u = this.getNamed(nickname);
@@ -923,7 +924,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	@Override
 	public void recovery(String path) {
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName;
+			path = VARIABLES.ManagerFilePath;
 		SAXBuilder builder = new SAXBuilder();
 		File xmlFile = new File(path);
 		boolean recovered = true;
@@ -981,7 +982,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		manager.recovery(path);
 		
 		if(path == null || path.isEmpty())
-			path = "./"+VARIABLES.ManagerFileName; 
+			path = VARIABLES.ManagerFilePath; 
 		// Element Root
 		Element root = new Element(Manager.class.getName());
 		// Saving current user's Keys decrypted

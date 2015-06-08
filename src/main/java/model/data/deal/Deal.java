@@ -2,7 +2,6 @@ package model.data.deal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import model.advertisement.AbstractAdvertisement;
@@ -12,7 +11,8 @@ import model.data.user.User;
 import org.jdom2.Element;
 
 import util.StringToElement;
-import util.secure.AVProtocol.Proof;
+import util.secure.ElGamalSign;
+import util.secure.AVProtocol.Delta;
 
 /**
  * This class can be instantiated for contains an agreement.
@@ -23,14 +23,14 @@ import util.secure.AVProtocol.Proof;
 public class Deal extends AbstractAdvertisement {
 	private static final String[] stringState = {"draft", "waiting", "signed", "to sign"};
 	
-	private String title;			// Title of deal
-	private int state = 0;			// State of deal (draft at start)
-	private ArrayList<String> signatories;
-	private ArrayList<Item> items;
-	private HashMap<String, String> rules;
-	private ArrayList<Claus> clauses;
-	private HashMap<String, Proof> proofs; // TODO Change when change protocol Sarah
-	// TODO add proofs of signature and signatures
+	private String title;								// Title of deal
+	private int state = 0;								// State of deal (draft at start)
+	private ArrayList<String> signatories;				// All participants publicKey
+	private ArrayList<Item> items;						// All items of this deal 
+	private HashMap<String, String> rules;				// All exchange rule
+	private ArrayList<Claus> clauses;					// all clauses
+	private HashMap<String, Delta> proofs = null;		// All proof of signature (null at start)
+	private HashMap<String, ElGamalSign> signatures;	// All signature of participants
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -406,7 +406,7 @@ public class Deal extends AbstractAdvertisement {
 		items = new ArrayList<Item>();
 		rules = new HashMap<String, String>();
 		clauses = new ArrayList<Claus>();
-		proofs = new HashMap<String, Proof>();
+		proofs = new HashMap<String, Delta>();
 		this.addKey("title", 			false);
 		this.addKey("state", 			false);
 		this.addKey("signatories", 		false);

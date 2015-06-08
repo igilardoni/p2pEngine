@@ -75,8 +75,37 @@ public class Network implements NetworkInterface {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup group = null;
 		temp = null;
+		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
+				"Name", name, 1, new DiscoveryListener() {
+					
+					@Override
+					public void discoveryEvent(DiscoveryEvent event) {
+						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
+						while(advs.hasMoreElements()) {
+							System.out.println("groupe trouv�");
+							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
+							System.out.println("nom du groupe : " + adv.getName());
+							try {
+								//temp = defaultGroup.newGroup(adv);
+								temp = defaultGroup.newGroup(adv);
+								System.out.println("group joinded");
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+					}
+				});
+		try {
+			Thread.sleep(10000);
+			System.out.println("waiting for group ...");
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		
+		if(temp == null) {
 			try {
 				System.out.println("creating new group ..");
 				mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
@@ -88,6 +117,7 @@ public class Network implements NetworkInterface {
 		
 		temp.startApp(new String[0]);
 		peergroups.put(name, temp);
+		}
 	}
 
 	@Override
@@ -96,13 +126,12 @@ public class Network implements NetworkInterface {
 			defaultGroup = networkManager.startNetwork(); /* Starting the network and JXTA's infrastructure. */
 			System.out.println("GroupName : " + defaultGroup.getPeerGroupName());
 			System.out.println("waiting for rendez vous.");
-			if(networkManager.waitForRendezvousConnection(60000)) {
+			if(networkManager.waitForRendezvousConnection(5000)) {
 				System.out.println("rendez vous found");
 			}
 			else {
 				System.out.println("no rendez vous ...");
 			}
-			
 		} catch (PeerGroupException | IOException e) {
 			e.printStackTrace();
 		}

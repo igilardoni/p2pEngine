@@ -33,6 +33,8 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		return logged;
 	}
 
+	// a verifier ya un probleme avec la modification des informations utilisateur!!!
+	// Ouais, ben il va falloir que tu trouves pourquoi, je touche plus à cette partie !
 	@Override
 	public boolean updateAccount(String nick, String oldPassword, String newPassword,
 			String name, String firstName, String email, String phone){
