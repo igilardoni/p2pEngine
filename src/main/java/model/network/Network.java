@@ -185,6 +185,8 @@ public class Network implements NetworkInterface {
          configurator.setHttpEnabled(true);
          configurator.setHttpPort(port+5);
          configurator.setTcpIncoming(true);
+         configurator.setHttpIncoming(true);
+         configurator.setHttpOutgoing(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
         /* try {
@@ -197,6 +199,8 @@ public class Network implements NetworkInterface {
          try {
 			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+			configurator.setHttpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
 		//  configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
