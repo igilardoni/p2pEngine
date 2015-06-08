@@ -246,6 +246,41 @@ function checknum(num){
 	}
 }
 
+//ajout d'un nouveau objet dans le contrat
+function addElement() {
+	
+
+	  var ni = document.getElementById('addE');
+
+	  var numi = document.getElementById('theValue');
+
+	  var num = (document.getElementById('theValue').value -1)+ 2;
+
+	  numi.value = num;
+
+	  var newdiv = document.createElement('div');
+
+	  var divIdName = 'my'+num+'Div';
+
+	  newdiv.setAttribute('id',divIdName);
+
+	  newdiv.innerHTML = '<div class=\'control-group\'><label class=\'control-label\' for=\'selectError3\'>Objetc</label> <div class=\'controls\'><select id=\'selectError3\' data-rel=\'chosen\'><option>Owner 1</option><option>Owner 1</option></select></div></div>    <div class=\'control-group\'><label class=\'control-label\' for=\'selectError\'>Owner</label> <div class=\'controls\'><select id=\'selectError\' data-rel=\'chosen\'><option>Owner 1</option><option>Owner 1</option></select></div></div>';
+
+	  ni.appendChild(newdiv);
+
+	}
+
+//suppression d'un nouveau objet dans le contrat
+function removeElement(divNum) {
+
+	  var d = document.getElementById('addE');
+
+	  var olddiv = document.getElementById(divNum);
+
+	  d.removeChild(olddiv);
+
+	}
+
 //convert image to URI (c'est elementStyle qui contient le resultat)
 function fulltype_picture(text) {
 	if(text == "picture_t2"){
