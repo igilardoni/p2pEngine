@@ -22,6 +22,7 @@ public class Group {
 	}
 	
 	private PeerGroupID generatePeerGroupID(String peerGroupName) {
+		System.out.println(PeerGroupID.defaultNetPeerGroupID);
 		return IDFactory.newPeerGroupID(PeerGroupID.defaultNetPeerGroupID, peerGroupName.getBytes());
 	}
 	

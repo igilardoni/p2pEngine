@@ -12,14 +12,11 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import net.jxta.peer.PeerID;
-import sun.text.normalizer.CharTrie.FriendAgent;
 import util.DateConverter;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.Application;
-import model.data.item.Category;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.manager.Manager;
 import model.data.user.Message;
 import model.data.user.User;

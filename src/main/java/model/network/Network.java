@@ -76,38 +76,7 @@ public class Network implements NetworkInterface {
 		PeerGroup group = null;
 		temp = null;
 		
-		defaultGroup.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
-				"Name", name, 1, new DiscoveryListener() {
-					
-					@Override
-					public void discoveryEvent(DiscoveryEvent event) {
-						Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
-						while(advs.hasMoreElements()) {
-							System.out.println("groupe trouvé");
-							PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
-							System.out.println("nom du groupe : " + adv.getName());
-							try {
-								//temp = defaultGroup.newGroup(adv);
-								temp = defaultGroup.newGroup(adv);
-								System.out.println("group joinded");
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						
-					}
-				});
 		
-		try {
-			Thread.sleep(10000);
-			System.out.println("waiting for group ...");
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		if(temp == null) {
 			try {
 				System.out.println("creating new group ..");
 				mAdv = defaultGroup.getAllPurposePeerGroupImplAdvertisement(); /* Getting the advertisement of implemented modules */
@@ -116,9 +85,8 @@ public class Network implements NetworkInterface {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 		
-		//temp.startApp(new String[0]);
+		temp.startApp(new String[0]);
 		peergroups.put(name, temp);
 	}
 
