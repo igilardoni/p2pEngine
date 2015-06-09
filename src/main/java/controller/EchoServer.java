@@ -36,6 +36,11 @@ import model.network.search.SearchListener;
 /** 
  * @ServerEndpoint gives the relative name for the end point
  * This will be accessed via ws://localhost:8080/EchoChamber/echo .
+ * TODO Arrêter d'utiliser manager mais uniquement ManagerBridge
+ * TODO Prévoir le changement d'indexation sur identifiant unique (itemKey)
+ * TODO managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
+ * 			ça, ça ne doit jamais exister ! crée des variables avec des noms compréhensible (par exemple comme je l'avais fait)
+ * TODO corriger les fautes dans les noms /search_itme -> /search_item
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
@@ -466,7 +471,7 @@ public class EchoServer {
 			break;
 			
 		case "/addToFavories" :
-			/*
+			/* TODO
 			 * Il existe une fonction dans le ManagerBridge pour ça.
 			 * Il faut juste lui passer un Item (trouvé sur le réseau)
 			 * ATTENTION : Le référencement d'un objet dans les Favoris
@@ -508,7 +513,9 @@ public class EchoServer {
 		case "/load_contrat":
 			//de la meme manier que  load_favories ici faut mettre en place une fonction qui charge tout les contrat
 			// et les envoi un par un , JS intercepte et affiche dans le tableau
-			
+			// Les contrats ne sont pas fini dans le modèle... intégration impossible
+			// TODO Les clauses vont être nombreuses et comporteront plusieurs champs... cette possibilité doit être prise en compte.
+			// TODO JE COMPRENDS PAS CETTE HISTOIRE DES CLAUSES!!!!!! tu veux dire quoi?!
 			//exemple
 			 manager = Application.getInstance().getManager();
 				ArrayList<Item> it3 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
@@ -528,6 +535,12 @@ public class EchoServer {
 		break;
 		
 		case "/creatContrat" :
+			// TODO Ca va pas être aussi simple... De la même manière clauses nombreuses, comportant plusieurs champs.
+			//TODO C'EST DEJA FAIT!!!! de la meme maniere JE COMPRENDS PAS CE QUE TU VEUX DIRE!!!!
+			// Une clause de contrat, ça peut être la clause de payement de la TVA, la clause de rupture, la clause d'assurance...
+			// bref, c'est les articles du contrat. C'est donc un titre, un paragraphe de texte mais aussi des champs comme
+			// le montant de la TVA, la personne payant la TVA, ...
+			// Il faut donc que cela soit TRES modulable...
 			String object= requet[1];
 			String owner= requet[2];
 			String montant= requet[3];
