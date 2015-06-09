@@ -878,10 +878,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
-		String clearPassword = currentUser.getClearPwd();
-		currentUser.setClearPassword(null);
-		currentUser.sign(clearKey);
+		String clearPassword = new String(currentUser.getClearPwd());
+		System.out.println("\tCOMPATIBLE : "+currentUser.getKeys().isCompatible());
 		currentUser.encryptPrivateKey(clearPassword);
+		currentUser.sign(clearKey);
+		System.out.println("\tSIGNATURE : "+currentUser.checkSignature(currentUser.getKeys()));
+		currentUser.setClearPassword(null);
 		this.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;
 	}
@@ -977,6 +979,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	@Override
 	public void saving(String path) {
+		String currentPublicKey = this.getCurrentUser().getKeys().getPublicKey().toString(16);
 		// Recovery all local data in a new Manager
 		Manager manager = new Manager(null);
 		manager.recovery(path);
@@ -985,34 +988,30 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			path = VARIABLES.ManagerFilePath; 
 		// Element Root
 		Element root = new Element(Manager.class.getName());
-		// Saving current user's Keys decrypted
-		AsymKeysImpl clearKeys = this.getCurrentUser().getKeys().clone();
-		this.getCurrentUser().encryptPrivateKey(currentUser.getClearPwd());
-		this.getCurrentUser().sign(clearKeys);
 		// ArrayList are used for adding data in local file.
 		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<Item> items = this.getUserItems(clearKeys.getPublicKey().toString(16));
-		ArrayList<Message> messages = this.getUserMessages(clearKeys.getPublicKey().toString(16));
+		ArrayList<Item> items = this.getUserItems(currentPublicKey);
+		ArrayList<Message> messages = this.getUserMessages(currentPublicKey);
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
 		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
 		HashMap<String,ArrayList<Deal>> deals = new HashMap<String,ArrayList<Deal>>();
 		
-		Conversations converC = this.getUserConversations(clearKeys.getPublicKey().toString(16));
+		Conversations converC = this.getUserConversations(currentPublicKey);
 		if(converC!=null) conversations.add(converC);
-		ArrayList<Deal> arrayDeals = this.getDealsCurrentUser();
-		if(arrayDeals!=null) deals.put(this.getCurrentUser().getKeys().getPublicKey().toString(16), arrayDeals);
+		ArrayList<Deal> arrayDealsC = this.getDealsCurrentUser();
+		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
 		Favorites favoC = this.getFavoritesCurrentUser();
 		if(favoC!=null) favorites.add(favoC);
 		
 		// Element users
-		users.add(currentUser);
+		users.add(this.getCurrentUser());
 		Element usersElement = new Element("users");
 		usersElement.addContent(this.getCurrentUser().getRootElement());
 		for (User user : manager.getUsers()){
-			if(!user.getKeys().getPublicKey().equals(currentUser.getKeys().getPublicKey())){
-				String userKey =  user.getKeys().getPublicKey().toString(16);
-				usersElement.addContent(user.getRootElement());
-				users.add(user);
+			String userKey =  user.getKeys().getPublicKey().toString(16);
+				if(!user.getKeys().getPublicKey().toString(16).equals(currentPublicKey)){
+					usersElement.addContent(user.getRootElement());
+					users.add(user);
 				// Filling ArrayList items
 				for (Item i : this.getUserItems(userKey)) {
 					if(!items.contains(i))
@@ -1110,7 +1109,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("saving", "saving : "+e.toString());
 		}
 		// Decrypt current user's private key
-		currentUser.decryptPrivateKey(currentUser.getClearPwd());
+		// currentUser.decryptPrivateKey(currentUser.getClearPwd());
 	}
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
