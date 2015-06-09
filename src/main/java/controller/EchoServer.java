@@ -537,6 +537,10 @@ public class EchoServer {
 		case "/creatContrat" :
 			// TODO Ca va pas être aussi simple... De la même manière clauses nombreuses, comportant plusieurs champs.
 			//TODO C'EST DEJA FAIT!!!! de la meme maniere JE COMPRENDS PAS CE QUE TU VEUX DIRE!!!!
+			// Une clause de contrat, ça peut être la clause de payement de la TVA, la clause de rupture, la clause d'assurance...
+			// bref, c'est les articles du contrat. C'est donc un titre, un paragraphe de texte mais aussi des champs comme
+			// le montant de la TVA, la personne payant la TVA, ...
+			// Il faut donc que cela soit TRES modulable...
 			String object= requet[1];
 			String owner= requet[2];
 			String montant= requet[3];
