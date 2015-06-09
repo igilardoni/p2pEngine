@@ -10,20 +10,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-
-
-import net.jxta.peer.PeerID;
-import util.DateConverter;
-import util.VARIABLES;
-import util.secure.AsymKeysImpl;
 import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.manager.Manager;
-import model.data.user.Message;
 import model.data.user.User;
-import model.network.search.Search;
 import model.network.search.SearchListener;
+import util.DateConverter;
 
 
 /**
@@ -36,15 +29,11 @@ import model.network.search.SearchListener;
 /** 
  * @ServerEndpoint gives the relative name for the end point
  * This will be accessed via ws://localhost:8080/EchoChamber/echo .
- * TODO Arrêter d'utiliser manager mais uniquement ManagerBridge
  * TODO Prévoir le changement d'indexation sur identifiant unique (itemKey)
- * TODO managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
- * 			ça, ça ne doit jamais exister ! crée des variables avec des noms compréhensible (par exemple comme je l'avais fait)
- * TODO corriger les fautes dans les noms /search_itme -> /search_item
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
-	ManagerBridge managerB =  new ManagerBridge();
+	ManagerBridge managerBridge =  new ManagerBridge();
 	MessageSender messageSender = new MessageSender();
 
 	/**
@@ -55,8 +44,7 @@ public class EchoServer {
 	 */
 	@OnOpen
 	public void onOpen(Session session,EndpointConfig config){
-		//System.out.println(session.getId() + " has opened a connection");
-		System.out.println("Connection Established");
+		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
 	}
 
 	/**
@@ -67,7 +55,7 @@ public class EchoServer {
 	@OnMessage
 	public void onMessage(String message, final Session session){
 		Manager manager = Application.getInstance().getManager();
-		
+
 		String[] requet = message.split(":");
 		String token = requet[0];
 		/* Variable for User */
@@ -88,13 +76,13 @@ public class EchoServer {
 		String contact;
 		String lifeTime;
 		String type;
-		String itemKey;
-		
+		String itemKey; // TODO use it
+
 		switch (token) {
 		case "/index": // user Login
 			nick = requet[2];
 			password = requet[1];
-			if(managerB.login(nick, password)){
+			if(managerBridge.login(nick, password)){
 				try {
 					session.getBasicRemote().sendText("index.html:");
 				} catch (IOException e) {
@@ -117,15 +105,14 @@ public class EchoServer {
 			firstName = requet[4];
 			email = requet[5];
 			phone = requet[6];
-			managerB.registration(nick, password, name, firstName, email, phone);
+			managerBridge.registration(nick, password, name, firstName, email, phone);
 			try {
 				session.getBasicRemote().sendText("Se_connecter.html#tologin:");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-
-		
+		///////////////////////////////////////////////// REDIRECTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		case "/newobjet": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("new_objet.html");
@@ -133,7 +120,6 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-
 		case "/search": //Just for redirection 
 			try {
 				session.getBasicRemote().sendText("Search.html");
@@ -141,61 +127,20 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-		case "/new_objet_add" : //add new object
-			/*
-			 * requet[1] : title
-			 * requet[2] : category
-			 * requet[3] : description
-			 * requet[4] : image
-			 * requet[5] : country
-			 * requet[6] : contact
-			 * requet[7] : lifeTime
-			 * requet[8] : type
-			 */
-			managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
-			break;
-
-			case "/new_objet_update" : // modifying an object
-				/*
-				 * requet[1] : title
-				 * requet[2] : category
-				 * requet[3] : description
-				 * requet[4] : image
-				 * requet[5] : country
-				 * requet[6] : contact
-				 * requet[7] : lifeTime
-				 * requet[8] : type
-				 */
-				managerB.updateItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6], requet[7], requet[8], requet[9]);
-			
-			try {
-				session.getBasicRemote().sendText("update_objet:");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			break;
-			
-			 
-			case "/newindex": //Just for redirection
+		case "/newindex": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("index.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-
-			
-			case "/newchat": //Just for redirection
+		case "/newchat": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("Message.html");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-
-			
 		case "/contrat": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("Contrat.html");
@@ -203,8 +148,6 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-
-			
 		case "/user_compte": //Just for redirection
 			try {
 				session.getBasicRemote().sendText("User_compte.html");
@@ -212,42 +155,113 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
+		//////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/new_objet_add" : //add new object
+			title = 			requet[1];
+			category = 			requet[2];
+			description = 		requet[3];
+			image = 			requet[4]+":"+requet[5];
+			country = 			requet[6];
+			contact = 			requet[7];
+			lifeTime = 			requet[8];
+			type = 				requet[9];
+			managerBridge.addItem(title, category, description, image, country, contact, lifeTime, type);
+			break;
 
-			//case load all information of usercurrent
-		case "/load_use": // C'est pareil, j'ai fait une fonction propre dans le manager Bridge !
-			 nick = Application.getInstance().getManager().getCurrentUser().getNick();
-			 name = Application.getInstance().getManager().getCurrentUser().getName();
-			String firstname = Application.getInstance().getManager().getCurrentUser().getFirstName();
-			 email = Application.getInstance().getManager().getCurrentUser().getEmail();
-			String numbertel = Application.getInstance().getManager().getCurrentUser().getPhone();
+		case "/new_objet_update" : // modifying an object
+			title = 			requet[1];
+			category = 			requet[2];
+			description = 		requet[3];
+			image = 			requet[4]+":"+requet[5];
+			country = 			requet[6];
+			contact = 			requet[7];
+			lifeTime = 			requet[8];
+			type = 				requet[9];
+			managerBridge.updateItem(title, category, description, image, country, contact, lifeTime, type);
 			try {
-				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstname+":"+email+":"+numbertel);
+				session.getBasicRemote().sendText("update_objet:");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-			//case load item of usercurrent
-		case "/load_item":
-			// Même chose il y a une fonction dans le ManagerBridge... en plus, j'avais modifié pour que ce soit propre mais tu as décidé d'annuler l'intégralité de mon travail !!!!!!!!!!!!!!!!!!!!
-			 manager = Application.getInstance().getManager();
-			ArrayList<Item> it = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-			if(!it.isEmpty()){
-				for (int i = 0; i < it.size(); i++) {
-					try {
-						session.getBasicRemote().sendText("load_item:"+it.get(i).getTitle()+":"+it.get(i).getCountry()+":"+it.get(i).getDescription());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
+		case "/addToFavories" :
+			title = requet[1];
+			Item item = new Item(); // TODO Search Objet ou objet passé en paramètre !
+			managerBridge.addFavoriteItem(item);
+			try {
+				session.getBasicRemote().sendText("addToFavoriesOK:");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		case "/update_compte_user": // Update current user token
+			nick = requet[1];
+			name = requet[2];
+			firstName = requet[3];
+			email = requet[4];
+			phone = requet[6];
+			newPassword = requet[5];
+			oldPassword = requet[7];
+			if(managerBridge.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
+				System.out.println("INFO : "+EchoServer.class.getName()+" : Account updated");
+				try {
+					session.getBasicRemote().sendText("load_update_user:");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}	
+			}else{
+				System.out.println("INFO : "+EchoServer.class.getName()+" : Account update fail");
+				try {
+					session.getBasicRemote().sendText("update_user_false:");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-
 			break;
-
-			
+		case "/creatContrat" :
+			String object = 		requet[1];
+			String owner = 			requet[2];
+			String montant = 		requet[3];
+			String name_per = 		requet[4];
+			String taxe = 			requet[5];
+			String descriptionCon = requet[6];
+			String clause = 		requet[7];
+			String mode = 			requet[8];
+			// ICI LA FONCTION QUI CREE UN CONRTAT ET GENERE UN PDF
+			System.out.println(""+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
+			try {
+				session.getBasicRemote().sendText("ContratOK:"+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		//////////////////////////////////////////////////// LOADERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		case "/load_use": // Load current user
+			User user = managerBridge.getCurrentUser();
+			nick = user.getNick();
+			name = user.getName();
+			firstName = user.getFirstName();
+			email = user.getEmail();
+			phone = user.getPhone();
+			try {
+				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstName+":"+email+":"+phone);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		case "/load_item": // Load items of current user
+			ArrayList<Item> items = managerBridge.getCurrentUserItem();
+			if(!items.isEmpty()){
+				for (int i = 0; i < items.size(); i++) {
+					try {
+						session.getBasicRemote().sendText("load_item:"+items.get(i).getTitle()+":"+items.get(i).getCountry()+":"+items.get(i).getDescription());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			break;
 		case "/zoom_item": //Return current object
-			// ENCORE UNE FOIS, j'avais fait ça proprement en utilisant ManagerBridge !!!!
+			// TODO Need clean
 			Manager manager1 = Application.getInstance().getManager();
 			Item item_search = manager1.getItemCurrentUser(requet[1]);
 
@@ -258,129 +272,9 @@ public class EchoServer {
 						item_search.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item_search.getType()+":"+item_search.getDescription()+":"+item_search.getImage()
 						+":"+item_search.getDate()+":"+item_search.getContact());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			break;
-
-			/*
-			 * 	Return current object
-			 * 	requet[1] : title
-			 */
-			
-		case "/remove_item": //  remove objetc
-
-		
-			managerB.removeItem(requet[1]);
-
-
-			break;
-
-
-		case "/update_compte_user": // Update current user token
-			nick = requet[1];
-			name = requet[2];
-			firstName = requet[3];
-			email = requet[4];
-			phone = requet[6];
-			newPassword = requet[5];
-			oldPassword = requet[7];
-
-			System.out.println(nick+" "+name+" "+firstName+" "+email+" "+phone+" "+newPassword+" "+oldPassword+" ");
-			
-			if(managerB.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone)){
-				System.out.println("TRUEEE UPDATE");
-				try {
-					session.getBasicRemote().sendText("load_update_user:");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}	
-			}else{
-				System.out.println("Update False");
-				try {
-					session.getBasicRemote().sendText("update_user_false:");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			break;
-		/*case "/new_objet_add" : // Add item token
-			title = 		requet[1];
-			category = 		requet[2];
-			description = 	requet[3];
-			image = 		requet[4]+":"+requet[5];
-			country = 		requet[6];
-			contact = 		requet[7];
-			lifeTime = 		requet[8];
-			type = 			requet[9];
-			managerB.addItem(title, category, description, image, country, contact, lifeTime, type);
-			break;
-		 */
-		/*case "/new_objet_update" : // Update Item token
-			title = 		requet[1];
-			category = 		requet[2];
-			description = 	requet[3];
-			image = 		requet[4]+":"+requet[5];
-			country = 		requet[6];
-			contact = 		requet[7];
-			lifeTime = 		requet[8];
-			type = 			requet[9];
-			managerB.updateItem(title, category, description, image, country, contact, lifeTime, type);
-			try {
-				session.getBasicRemote().sendText("update_objet:"); // ????
-			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			break;
-		*/
-		///////////////////////////////////////////////// REDIRECTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-		/*case "/search": // "Search" redirection token
-			try {
-				session.getBasicRemote().sendText("Search.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/newindex": // "Index" redirection token
-			try {
-				session.getBasicRemote().sendText("index.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/newobjet": // "New Object" redirection token
-			try {
-				session.getBasicRemote().sendText("new_objet.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/newchat": // "Chat" redirection token
-			try {
-				session.getBasicRemote().sendText("Message.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/contrat": // "Deal" redirection token
-			try {
-				session.getBasicRemote().sendText("Contrat.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/user_compte": // "Account" redirection token
-			try {
-				session.getBasicRemote().sendText("User_compte.html");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-			*/
-		//////////////////////////////////////////////////// LOADERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
 		case "/load_categories":
 			ArrayList<String> categories = Category.getAllCategorie();
 			StringBuffer s = new StringBuffer();
@@ -396,53 +290,45 @@ public class EchoServer {
 				e.printStackTrace();
 			}
 			break;
-		/*case "/load_use": // Load the current user and return to Javascript
-=======
-		case "/load_use": // Load the current user and return to Javascript
->>>>>>> branch 'master' of https://github.com/pja35/p2pEngine.git
-			nick = Application.getInstance().getManager().getCurrentUser().getNick();
-			name = Application.getInstance().getManager().getCurrentUser().getName();
-			firstName = Application.getInstance().getManager().getCurrentUser().getFirstName();
-			email = Application.getInstance().getManager().getCurrentUser().getEmail();
-			phone = Application.getInstance().getManager().getCurrentUser().getPhone();
-			try {
-				session.getBasicRemote().sendText("load_user:"+nick+":"+name+":"+firstName+":"+email+":"+phone);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-		case "/load_item": // Load the current user's items and return to Javascript
-			ArrayList<Item> items = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-			if(!items.isEmpty()){
-				for (int i = 0; i < items.size(); i++) {
+		case "/load_favories":
+			/*
+			 * J'ai ajouté une fonction au ManagerBridge pour ça.
+			 * TODO >>>>>>>>ATTENTION<<<<<<<<
+			 * il FAUT que tu conserves les ItemKey,
+			 * à la prochaine release, je change
+			 * le système de référencement des objets ! 
+			 */
+			ArrayList<Item> favoriteItems = managerBridge.getFavoriteItems();
+			if(!favoriteItems.isEmpty()){
+				for (int i = 0; i < favoriteItems.size(); i++) {
 					try {
-						session.getBasicRemote().sendText("load_item:"+items.get(i).getTitle()+":"+items.get(i).getCountry()+":"+items.get(i).getDescription());
+						session.getBasicRemote().sendText("LoadALLFavories:"+favoriteItems.get(i).getTitle()+":"+favoriteItems.get(i).getCountry()+":"+favoriteItems.get(i).getDescription());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		case "/load_contrat": // TODO load_contrat
+			//de la meme manier que  load_favories ici faut mettre en place une fonction qui charge tout les contrat
+			// et les envoi un par un , JS intercepte et affiche dans le tableau
+			//exemple
+			manager = Application.getInstance().getManager();
+			ArrayList<Item> it3 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
+			if(!it3.isEmpty()){
+				for (int i = 0; i < it3.size(); i++) {
+					try {
+						session.getBasicRemote().sendText("loadAllcontrat:"+it3.get(i).getTitle()+":"+it3.get(i).getCountry()+":"+it3.get(i).getDescription());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 			break;
-		case "/zoom_item": // Load item's data and return to Javascript
-			itemKey = requet[1];
-			Item item = manager.getItemCurrentUser(itemKey);
-			Long enddingDate = item.getLifeTime() + item.getDate();
-			try {
-				session.getBasicRemote().sendText("zoom_item_result:"+
-						item.getTitle()+":"+item.getCategory().getStringChoice()+":"+
-						item.getCountry()+":"+DateConverter.getString(enddingDate)+":"+item.getType()+":"+item.getDescription()+":"+item.getImage()
-						+":"+item.getDate()+":"+item.getContact());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			break;
-			
 		//////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-		case "/remove_item":  // Remove item token
-			itemKey = requet[1];
-			managerB.removeItem(itemKey);
+		case "/remove_item": //  remove item
+			title = requet[1];
+			managerBridge.removeItem(title);
 			break;
-			*/
 		////////////////////////////////////////////////// COMMUNICATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		case "/search_itme": // Search an item in network
 			title = requet[1];
@@ -470,112 +356,18 @@ public class EchoServer {
 			}
 			break;
 			
-		case "/addToFavories" :
-			/* TODO
-			 * Il existe une fonction dans le ManagerBridge pour ça.
-			 * Il faut juste lui passer un Item (trouvé sur le réseau)
-			 * ATTENTION : Le référencement d'un objet dans les Favoris
-			 * se fait par l'identifiant unique d'un objet : item.getItemKey()
-			 */
-			title = requet[1];
-			Item item = new Item(); // TODO Search Objet ou objet passé en paramètre !
-			managerB.addFavoriteItem(item);
-			try {
-				session.getBasicRemote().sendText("addToFavoriesOK:");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		case "/load_favories":
-				/*
-				 * J'ai ajouté une fonction au ManagerBridge pour ça.
-				 * TODO >>>>>>>>ATTENTION<<<<<<<<
-				 * il FAUT que tu conserves les ItemKey,
-				 * à la prochaine release, je change
-				 * le système de référencement des objets ! 
-				 */
-				ArrayList<Item> favoriteItems = managerB.getFavoriteItems();
-				if(!favoriteItems.isEmpty()){
-					for (int i = 0; i < favoriteItems.size(); i++) {
-						try {
-							session.getBasicRemote().sendText("LoadALLFavories:"+favoriteItems.get(i).getTitle()+":"+favoriteItems.get(i).getCountry()+":"+favoriteItems.get(i).getDescription());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-				}
-
-			
-			
-			
-		case "/load_contrat":
-			//de la meme manier que  load_favories ici faut mettre en place une fonction qui charge tout les contrat
-			// et les envoi un par un , JS intercepte et affiche dans le tableau
-			// Les contrats ne sont pas fini dans le modèle... intégration impossible
-			// TODO Les clauses vont être nombreuses et comporteront plusieurs champs... cette possibilité doit être prise en compte.
-			// TODO JE COMPRENDS PAS CETTE HISTOIRE DES CLAUSES!!!!!! tu veux dire quoi?!
-			//exemple
-			 manager = Application.getInstance().getManager();
-				ArrayList<Item> it3 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
-				if(!it3.isEmpty()){
-					for (int i = 0; i < it3.size(); i++) {
-						try {
-							session.getBasicRemote().sendText("loadAllcontrat:"+it3.get(i).getTitle()+":"+it3.get(i).getCountry()+":"+it3.get(i).getDescription());
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-				}
-			
-			
-		break;
-		
-		case "/creatContrat" :
-			// TODO Ca va pas être aussi simple... De la même manière clauses nombreuses, comportant plusieurs champs.
-			//TODO C'EST DEJA FAIT!!!! de la meme maniere JE COMPRENDS PAS CE QUE TU VEUX DIRE!!!!
-			// Une clause de contrat, ça peut être la clause de payement de la TVA, la clause de rupture, la clause d'assurance...
-			// bref, c'est les articles du contrat. C'est donc un titre, un paragraphe de texte mais aussi des champs comme
-			// le montant de la TVA, la personne payant la TVA, ...
-			// Il faut donc que cela soit TRES modulable...
-			String object= requet[1];
-			String owner= requet[2];
-			String montant= requet[3];
-			String name_per= requet[4];
-			String taxe= requet[5];
-			String descriptionCon= requet[6];
-			String clause= requet[7];
-			String mode= requet[8];
-			// ICI LA FONCTION QUI CREE UN CONRTAT ET GENERE UN PDF
-			
-			System.out.println(""+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
-			
-			try {
-				session.getBasicRemote().sendText("ContratOK:"+object+":"+owner+":"+montant+":"+name_per+":"+taxe+":"+descriptionCon+":"+clause+":"+mode);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			break;
-		
-		
 		default:
 			System.err.println("WARNING : "+EchoServer.class.getName()+".onMessage : "+token+" is an unknow token");
 			break;
 		}
 	}
-	
+
 	/**
 	 * The user closes the connection.
-	 * 
 	 * Note: you can't send messages to the client from this method
 	 */
 	@OnClose
 	public void onClose(Session session){
-		System.out.println("Session has ended");
+		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Session has ended");
 	}
 }
