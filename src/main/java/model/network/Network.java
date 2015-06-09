@@ -60,11 +60,16 @@ public class Network implements NetworkInterface {
 		return this.peergroups.get(group);
 	}
 	
+	@Override
 	public PeerGroup getDefaultGroup() {
 		return defaultGroup;
 	}
 
-	public void createDefaultGroup() {
+	
+	/**
+	 * Create our default PeerGroup.
+	 */
+	private void createDefaultGroup() {
 		try {
 			PeerGroup netpeerGroup = networkManager.getNetPeerGroup();
 			ModuleImplAdvertisement madv = netpeerGroup.getAllPurposePeerGroupImplAdvertisement();
@@ -230,7 +235,8 @@ public class Network implements NetworkInterface {
         return adv;
     }
 	
-	public void addRendezVous(String adress) {
+	@Override
+	public void boot(String adress) {
 		URI theSeed = URI.create(adress);
 		try {
 			networkManager.getConfigurator().addSeedRendezvous(theSeed);
@@ -241,6 +247,7 @@ public class Network implements NetworkInterface {
 		networkManager.setUseDefaultSeeds(false);
 	}
 	
+	@Override
 	public String getBootStrapIp() {
 		try {
 			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();

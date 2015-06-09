@@ -53,4 +53,10 @@ public interface NetworkInterface {
 	 * @return a public Ip adresse
 	 */
 	public String getBootStrapIp();
+	
+	/**
+	 * Boot on an existing network.
+	 * @param adress
+	 */
+	public void boot(String adress);
 }
