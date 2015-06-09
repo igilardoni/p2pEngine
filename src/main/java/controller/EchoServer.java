@@ -36,7 +36,6 @@ import model.network.search.SearchListener;
 /** 
  * @ServerEndpoint gives the relative name for the end point
  * This will be accessed via ws://localhost:8080/EchoChamber/echo .
- * TODO Remettre les fonctions au propre (par exemple comme je l'avais fait -_-' )
  * TODO Arrêter d'utiliser manager mais uniquement ManagerBridge
  * TODO Prévoir le changement d'indexation sur identifiant unique (itemKey)
  * TODO managerB.addItem(requet[1], requet[2], requet[3], requet[4]+":"+requet[5], requet[6],requet[7], requet[8], requet[9]);
@@ -516,6 +515,7 @@ public class EchoServer {
 			// et les envoi un par un , JS intercepte et affiche dans le tableau
 			// Les contrats ne sont pas fini dans le modèle... intégration impossible
 			// TODO Les clauses vont être nombreuses et comporteront plusieurs champs... cette possibilité doit être prise en compte.
+			// TODO JE COMPRENDS PAS CETTE HISTOIRE DES CLAUSES!!!!!! tu veux dire quoi?!
 			//exemple
 			 manager = Application.getInstance().getManager();
 				ArrayList<Item> it3 = manager.getUserItems(manager.getCurrentUser().getKeys().getPublicKey().toString(16));
@@ -536,6 +536,7 @@ public class EchoServer {
 		
 		case "/creatContrat" :
 			// TODO Ca va pas être aussi simple... De la même manière clauses nombreuses, comportant plusieurs champs.
+			//TODO C'EST DEJA FAIT!!!! de la meme maniere JE COMPRENDS PAS CE QUE TU VEUX DIRE!!!!
 			String object= requet[1];
 			String owner= requet[2];
 			String montant= requet[3];
