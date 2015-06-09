@@ -80,7 +80,7 @@ public class Network implements NetworkInterface {
 			defaultGroup.startApp(new String[0]);
 			defaultGroup.getRendezVousService().setAutoStart(true, 60*1000);
 		} catch (PeerGroupException e) {
-			System.err.println("impossible de créer le groupe par défault");
+			System.err.println("impossible to create default group");
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
