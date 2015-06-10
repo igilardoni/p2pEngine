@@ -1,9 +1,9 @@
 package model.data.favorites;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
 import model.data.item.Category;
 import model.data.item.Category.CATEGORY;
 import model.data.item.Item;
@@ -33,8 +33,8 @@ public class FavoritesTest {
 		item1.sign(userOwnerItems.getKeys());
 		item2.sign(userOwnerItems.getKeys());
 		Serpent s = new Serpent(pwd);
-		item1Crypted = s.encrypt(item1.toString().getBytes());
-		item2Crypted = s.encrypt(item2.toString().getBytes());
+		item1Crypted = s.encrypt(item1.getItemKey().getBytes());
+		item2Crypted = s.encrypt(item2.getItemKey().getBytes());
 	}
 	
 	@Test
@@ -48,10 +48,10 @@ public class FavoritesTest {
 		Favorites f3 = new Favorites(f1.toString());
 		
 		assertEquals(f1,f2);
-		assertEquals(f1.getItems(), f2.getItems());
+		assertEquals(f1.getItemsKey(), f2.getItemsKey());
 		
 		assertEquals(f1,f3);
-		assertEquals(f1.getItems(), f3.getItems());
+		assertEquals(f1.getItemsKey(), f3.getItemsKey());
 	}
 	
 	@Test
@@ -63,19 +63,19 @@ public class FavoritesTest {
 		f2.encrypt(pwd);
 		f2.decrypt(pwd);
 		
-		assertEquals(f1.getItems(), f2.getItems());
+		assertEquals(f1.getItemsKey(), f2.getItemsKey());
 		
 		f2.encrypt(pwd);
-		assertNull(f2.getItems());
+		assertNull(f2.getItemsKey());
 		
 		Favorites f3 = new Favorites(userOwnerFavorites);
 		f3.addItemCrypted(item1Crypted);
 		f3.addItemCrypted(item2Crypted);
 		f3.decrypt(pwd);
 		
-		assertNotNull(f3.getItems());
+		assertNotNull(f3.getItemsKey());
 		
-		assertEquals(f1.getItems(), f3.getItems());
+		assertEquals(f1.getItemsKey(), f3.getItemsKey());
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class FavoritesTest {
 		f1.decrypt(pwd);
 		f2.decrypt(pwd);
 		
-		assertEquals(f1.getItems(), f2.getItems());
+		assertEquals(f1.getItemsKey(), f2.getItemsKey());
 	}
 	
 	@Test

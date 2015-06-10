@@ -10,12 +10,8 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
-import model.data.item.Category;
-import model.data.item.Category.CATEGORY;
-import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.manager.SharingManager;
-import model.data.user.User;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;

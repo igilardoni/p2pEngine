@@ -3,11 +3,7 @@ package model.data.favorites;
 import java.util.ArrayList;
 
 import model.advertisement.AbstractAdvertisement;
-import model.data.deal.Deal;
-import model.data.item.Category;
-import model.data.item.Category.CATEGORY;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.user.User;
 
 import org.jdom2.Element;
@@ -24,8 +20,8 @@ import util.secure.Serpent;
  */
 public class Favorites extends AbstractAdvertisement{
 	private String owner;
-	private ArrayList<Item> items;
-	private ArrayList<byte[]> itemsCrypted;
+	private ArrayList<String> itemsKey;
+	private ArrayList<byte[]> itemsKeyCrypted;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public Favorites(User owner){
@@ -50,22 +46,8 @@ public class Favorites extends AbstractAdvertisement{
 	public String getOwner(){
 		return owner;
 	}
-	public ArrayList<Item> getItems(){
-		return items;
-	}
-	public Item getItem(String itemKey){
-		for (Item item : items) {
-			if(item.getItemKey().equals(itemKey))
-				return item;
-		}
-		return null;
-	}
 	public ArrayList<String> getItemsKey(){
-		ArrayList<String> itemKeys = new ArrayList<String>();
-		for (Item item : items) {
-			itemKeys.add(item.getItemKey());
-		}
-		return itemKeys;
+		return itemsKey;
 	}
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public void setOwner(String publicKey){
@@ -80,72 +62,48 @@ public class Favorites extends AbstractAdvertisement{
 			return printError("addItem", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
 			return printError("addItem", "Item haven't owner");
-		if(items == null)
-			items = new ArrayList<Item>();
-		if(items.contains(item)){
-			if(items.get(items.indexOf(item)).getLastUpdated() < item.getLastUpdated())
-				return items.remove(item) && items.add(item);
-			return printError("addItem", "Item more recent already registed");
-		}
-		return items.add(item);
+		if(itemsKey == null)
+			itemsKey = new ArrayList<String>();
+		return itemsKey.add(item.getItemKey());
+	}
+	private boolean addItem(String itemKey){
+		if(itemKey == null || itemKey.isEmpty())
+			return printError("addItem", "itemKey is null or empty");
+		return itemsKey.add(itemKey);
 	}
 	public boolean addItemCrypted(byte[] b){
 		if(b == null)
 			return printError("addItemCrypted", "ItemByte empty");
-		if(itemsCrypted == null)
-			itemsCrypted = new ArrayList<byte[]>();
-		if(itemsCrypted.contains(b))
+		if(itemsKeyCrypted == null)
+			itemsKeyCrypted = new ArrayList<byte[]>();
+		if(itemsKeyCrypted.contains(b))
 			return printError("addItemCrypted", "Crypted item already registed");
-		return itemsCrypted.add(b);
-	}
-	public void updateItem(String itemKey, Item item) {
-		if(itemKey == null || itemKey.isEmpty()){
-			printError("updateItem", "itemKey is null or empty");
-			return;
-		}
-		this.removeItem(itemKey);
-		this.addItem(item);
+		return itemsKeyCrypted.add(b);
 	}
 	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeItem(Item item){
 		if(item == null)
 			return printError("removeItem", "Item empty");
-		return items.remove(item);
+		String itemKey = item.getItemKey();
+		return itemsKey.remove(itemKey);
 	}
 	public boolean removeItem(String itemKey){
 		if(itemKey == null || itemKey.isEmpty())
 			return printError("removeItem", "itemKey null or empty");
-		for (Item item : items) {
-			if(item.getItemKey().equals(itemKey))
-				return removeItem(item);
-		}
-		return true;
+		return itemsKey.remove(itemKey);
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public Item getAndRemoveItem(String itemKey){
-		if(itemKey == null || itemKey.isEmpty()){
-			printError("getAndRemoveItem", "itemKey null or empty");
-			return null;
-		}
-		for (Item item : items) {
-			if(item.getItemKey().equals(itemKey)){
-				removeItem(item);
-				return item;
-			}
-		}
-		return null;
-	}
 	public void encrypt(String password){
 		if(password==null || password.isEmpty()){
 			printError("encrypt", "password null or empty");
 			return;
 		}
-		itemsCrypted = new ArrayList<byte[]>();
+		itemsKeyCrypted = new ArrayList<byte[]>();
 		Serpent s = new Serpent(password);
-		for (Item i : items) {
-			itemsCrypted.add(s.encrypt(i.toString().getBytes()));
+		for (String i : itemsKey) {
+			itemsKeyCrypted.add(s.encrypt(i.getBytes()));
 		}
-		items = null;
+		itemsKey = null;
 		printInfo("encrypt", "Favorites items encrypted");
 	}
 	public void decrypt(String password){
@@ -153,58 +111,62 @@ public class Favorites extends AbstractAdvertisement{
 			printError("encrypt", "password null or empty");
 			return;
 		}
-		items = new ArrayList<Item>();
+		itemsKey = new ArrayList<String>();
 		Serpent s = new Serpent(password);
 		if(password == null || password.isEmpty()){
 			printError("decrypt", "password null or empty");
 			return;
 		}
-		for(byte[] b : itemsCrypted){
-			Item i = new Item(new String(s.decrypt(b)));
-			items.add(i);
+		for(byte[] b : itemsKeyCrypted){
+			String i = new String(s.decrypt(b));
+			itemsKey.add(i);
 		}
-		itemsCrypted = null;
+		itemsKeyCrypted = null;
 		printInfo("decrypt", "Favorites items decrypted");
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
-		System.err.println("ERROR : "+Deal.class.getName()+"."+method+" : "+error);
+		System.err.println("ERROR : "+Favorites.class.getName()+"."+method+" : "+error);
 		return false;
 	}
 	private static void printInfo(String method, String info){
-		System.out.println("INFO : "+Deal.class.getName()+"."+method+" : "+info);
+		System.out.println("INFO : "+Favorites.class.getName()+"."+method+" : "+info);
 	}
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	private String itemsXML(){
+	private String itemsKeyXML(){
 		StringBuffer s = new StringBuffer();
-		for(Item i: items) {
-			s.append(i); 
+		for(String i: itemsKey) {
+			s.append("<itemKey>");
+			s.append(i);
+			s.append("</itemKey>");
 		}
 		return s.toString();
 	}
-	private String itemsCryptedXML(){
+	private String itemsKeyCryptedXML(){
 		StringBuffer s = new StringBuffer();
-		for(byte[] b : itemsCrypted){
-			s.append("<item>");
+		for(byte[] b : itemsKeyCrypted){
+			s.append("<itemKey>");
 			s.append(Hexa.bytesToHex(b));
-			s.append("</item>");
+			s.append("</itemKey>");
 		}
 		return s.toString();
 	}
-	private void loadItems(Element e){
+	private void loadItemsKey(Element e){
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		items = new ArrayList<Item>();
+		if(itemsKey == null)
+			itemsKey = new ArrayList<String>();
 		for(Element i: root.getChildren()) {
-			addItem(new Item(i));
+			String itemKey = new String(i.getValue());
+			addItem(itemKey);
 		}
 	}
-	private void loadItemsCrypted(Element e){
+	private void loadItemsKeyCrypted(Element e){
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		if(itemsCrypted == null)
-			itemsCrypted = new ArrayList<byte[]>();
+		if(itemsKeyCrypted == null)
+			itemsKeyCrypted = new ArrayList<byte[]>();
 		for(Element b : root.getChildren()) {
 			byte[] itemByte = Hexa.hexToBytes(b.getValue());
-			itemsCrypted.add(itemByte);
+			itemsKeyCrypted.add(itemByte);
 		}
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -214,25 +176,25 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	@Override
 	protected void setKeys() {
-		items = null;
-		itemsCrypted = null;
+		itemsKey = null;
+		itemsKeyCrypted = null;
 		this.addKey("owner", false);
-		this.addKey("itemsCrypted", false);
-		this.addKey("items", false);
+		this.addKey("itemsKeyCrypted", false);
+		this.addKey("itemsKey", false);
 	}
 	@Override
 	protected void putValues() {
 		this.addValue("owner", this.getOwner());
-		this.addValue("itemsCrypted", itemsCrypted==null?"":this.itemsCryptedXML());
-		this.addValue("items", items==null?"":this.itemsXML());
+		this.addValue("itemsKeyCrypted", itemsKeyCrypted==null?"":this.itemsKeyCryptedXML());
+		this.addValue("itemsKey", itemsKey==null?"":this.itemsKeyXML());
 	}
 	@Override
 	protected boolean handleElement(Element e) {
 		String val = e.getText();
 		switch(e.getName()) {
 		case "owner":			this.setOwner(val);			break;
-		case "items":			this.loadItems(e);			break;
-		case "itemsCrypted":	this.loadItemsCrypted(e);	break;
+		case "itemsKey":		this.loadItemsKey(e);			break;
+		case "itemsKeyCrypted":	this.loadItemsKeyCrypted(e);	break;
 		default: return false;
 		}
 		return true;
