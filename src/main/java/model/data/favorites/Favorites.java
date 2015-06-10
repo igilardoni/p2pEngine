@@ -178,9 +178,9 @@ public class Favorites extends AbstractAdvertisement{
 	protected void setKeys() {
 		itemsKey = null;
 		itemsKeyCrypted = null;
-		this.addKey("owner", false);
-		this.addKey("itemsKeyCrypted", false);
-		this.addKey("itemsKey", false);
+		this.addKey("owner", false, false);
+		this.addKey("itemsKeyCrypted", false, true);
+		this.addKey("itemsKey", false, true);
 	}
 	@Override
 	protected void putValues() {

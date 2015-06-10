@@ -157,12 +157,12 @@ public class Message extends AbstractAdvertisement{
 	@Override
 	protected void setKeys() {
 		from = new AsymKeysImpl();
-		this.addKey("to", true);
-		this.addKey("senderPublic", false);
-		this.addKey("senderP", false);
-		this.addKey("senderG", false);
-		this.addKey("msg", false);
-		this.addKey("date", true);
+		this.addKey("to", true, false);
+		this.addKey("senderPublic", false, false);
+		this.addKey("senderP", false, false);
+		this.addKey("senderG", false, false);
+		this.addKey("msg", false, false);
+		this.addKey("date", true, false);
 	}
 
 	@Override

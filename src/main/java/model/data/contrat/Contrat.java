@@ -427,12 +427,12 @@ public class Contrat extends AbstractAdvertisement {
 		rules = new HashMap<String, String>();
 		clauses = new ArrayList<Claus>();
 		proofs = new HashMap<String, Delta>();
-		this.addKey("title", 			false);
-		this.addKey("state", 			false);
-		this.addKey("signatories", 		false);
-		this.addKey("items", 			false);
-		this.addKey("rules", 			false);
-		this.addKey("clauses", 			false);
+		this.addKey("title", 			false, true);
+		this.addKey("state", 			false, true);
+		this.addKey("signatories", 		false, true);
+		this.addKey("items", 			false, true);
+		this.addKey("rules", 			false, true);
+		this.addKey("clauses", 			false, true);
 	}
 	@Override
 	protected void putValues() {

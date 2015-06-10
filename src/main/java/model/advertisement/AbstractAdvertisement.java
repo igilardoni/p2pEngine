@@ -49,7 +49,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	protected HashMap<String, Boolean> keyCanBeUpdated = new HashMap<String, Boolean>();
 	
 	/*
-	 * An array list that contains the indexes for this advertisement. Indexes ar used by JXTA for
+	 * An array list that contains the indexes for this advertisement. Indexes are used by JXTA for
 	 * advertisements publication and search.
 	 */
 	protected ArrayList<String> indexes = new ArrayList<String>();
@@ -80,8 +80,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	public AbstractAdvertisement() {
 		super();
-		addKey("signature", false);
-		addKey("lastUpdated", false);
+		addKey("signature", false, true);
+		addKey("lastUpdated", false, true);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 	}
 	
@@ -145,11 +145,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * @param key the new key
 	 * @param isIndexed true if the key should be indexed for Jxta.
 	 */
-	protected void addKey(String key, boolean isIndexed) {
+	protected void addKey(String key, boolean isIndexed, boolean canBeUpdated) {
 		keyValues.put(key, null);
 		if(isIndexed) {
 			indexes.add(key);
 		}
+		keyCanBeUpdated.put(key, canBeUpdated);
 	}
 	
 	protected void addValue(String key, String value) {

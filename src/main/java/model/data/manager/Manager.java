@@ -728,12 +728,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		currentUser = null;
 		favorites = new HashMap<String, Favorites>();
 		deals = new HashMap<String, ArrayList<Contrat>>();
-		addKey("users", false);
-		addKey("items", false);
-		addKey("messages", false);
-		addKey("ReceivedMessages", false);
-		addKey("favorites", false);
-		addKey("deals", false);
+		addKey("users", false, true);
+		addKey("items", false, true);
+		addKey("messages", false, true);
+		addKey("ReceivedMessages", false, true);
+		addKey("favorites", false, true);
+		addKey("deals", false, true);
 	}
 	@Override
 	protected void putValues() {

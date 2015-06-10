@@ -45,8 +45,8 @@ public class Conversations extends AbstractAdvertisement{
 
 	@Override
 	protected void setKeys() {
-		addKey("owner", false);
-		addKey("cypher", false);
+		addKey("owner", false, false);
+		addKey("cypher", false, true);
 	}
 
 	@Override

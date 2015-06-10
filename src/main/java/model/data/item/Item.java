@@ -372,18 +372,18 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 
 	@Override
 	protected void setKeys() {
-		this.addKey("owner", true);
-		this.addKey("keyId", true);
-		this.addKey("friendNick", false);
-		this.addKey("title", true);
-		this.addKey("category",true);
-		this.addKey("description",false);
-		this.addKey("image",false);
-		this.addKey("country",true);
-		this.addKey("contact",false);
-		this.addKey("date",true);
-		this.addKey("lifeTime",false);
-		this.addKey("type", true);
+		this.addKey("owner", true, false);
+		this.addKey("keyId", true, false);
+		this.addKey("friendNick", false, true);
+		this.addKey("title", true, true);
+		this.addKey("category",true, true);
+		this.addKey("description",false, true);
+		this.addKey("image",false, true);
+		this.addKey("country",true, true);
+		this.addKey("contact",false, true);
+		this.addKey("date",true, false);
+		this.addKey("lifeTime",false, true);
+		this.addKey("type", true, true);
 	}
 	
 	/**

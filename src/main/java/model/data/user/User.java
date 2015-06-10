@@ -269,17 +269,17 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	protected void setKeys() {
 		this.keys = new AsymKeysImpl();
 		clearPassword = null;
-		this.addKey("nick", true);
-		this.addKey("hashPwd", false);
-		this.addKey("name", false);
-		this.addKey("firstName", false);
-		this.addKey("email", false);
-		this.addKey("phone", false);
-		this.addKey("date", false);
-		this.addKey("privateKey", false);
-		this.addKey("publicKey", true);
-		this.addKey("p", false);
-		this.addKey("g", false);
+		this.addKey("nick", true, true);
+		this.addKey("hashPwd", false, true);
+		this.addKey("name", false, true);
+		this.addKey("firstName", false, true);
+		this.addKey("email", false, true);
+		this.addKey("phone", false, true);
+		this.addKey("date", false, false);
+		this.addKey("privateKey", false, false);
+		this.addKey("publicKey", true, false);
+		this.addKey("p", false, false);
+		this.addKey("g", false, false);
 	}
 
 	/**
