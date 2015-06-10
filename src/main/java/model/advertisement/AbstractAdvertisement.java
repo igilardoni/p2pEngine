@@ -380,13 +380,22 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	
 
+	public boolean checkUpdateMessage(Element root) {
+		return !(
+					root.getChild("lastUpdated")  == null ||
+					root.getChild("signature")    == null || //signature of update message
+					root.getChild("newSignature") == null ||
+					root.getChild("asymKeys")     == null
+				);
+				
+	}
 	
 	/**
 	 * Update the Advertisement if lastUpdated is superior and if the signature is correct.
 	 * @param root
 	 */
 	public void update(Element root) {
-		
+		if(!checkUpdateMessage(root)) return; //Update message incorrect
 	}
 
 }

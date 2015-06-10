@@ -10,6 +10,9 @@ import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
 import org.bouncycastle.crypto.params.ElGamalParameters;
 import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
 import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+import org.jdom2.Element;
+
+import util.StringToElement;
 
 /**
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
@@ -168,6 +171,14 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 			wellGenerated = true;
 	}
 	
+	public AsymKeysImpl(String xml) {
+		Element root = StringToElement.getElementFromString(xml, "keys");
+		this.privateKey = new BigInteger(root.getChild("privateKey").getValue(), 16);
+		this.publicKey = new BigInteger(root.getChild("publicKey").getValue(), 16);
+		this.g = new BigInteger(root.getChild("g").getValue(), 16);
+		this.p = new BigInteger(root.getChild("p").getValue(), 16);
+	}
+	
 	/**
 	 * Empty Constructor.
 	 */
@@ -295,5 +306,15 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		if(key.getPublicKey().compareTo(this.getPublicKey())!=0)
 			return false;
 		return true;
+	}
+	
+	public String toString() {
+		StringBuffer s = new StringBuffer();
+		s.append("<privateKey>" + privateKey.toString(16) + "</privateKey>");
+		s.append("<publicKey>" + publicKey.toString(16)+ "</publicKey>");
+		s.append("<p>" + p.toString(16) + "</p>");
+		s.append("<g>" + g.toString(16) + "</g>");
+		
+		return s.toString();
 	}
 }
