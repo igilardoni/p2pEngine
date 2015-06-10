@@ -3,15 +3,11 @@ package model.data.manager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import util.VARIABLES;
-import model.data.item.Item;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
-import model.network.search.ItemSearcher;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
-import model.network.search.Search.Result;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;

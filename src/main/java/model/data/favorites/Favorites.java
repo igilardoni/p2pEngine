@@ -3,11 +3,7 @@ package model.data.favorites;
 import java.util.ArrayList;
 
 import model.advertisement.AbstractAdvertisement;
-import model.data.contrat.Contrat;
-import model.data.item.Category;
-import model.data.item.Category.CATEGORY;
 import model.data.item.Item;
-import model.data.item.Item.TYPE;
 import model.data.user.User;
 
 import org.jdom2.Element;

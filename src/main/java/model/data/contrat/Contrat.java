@@ -18,7 +18,6 @@ import util.secure.AVProtocol.Delta;
  * This class can be instantiated for contains an agreement.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
  * @author Michael Dubuis
- *
  */
 public class Contrat extends AbstractAdvertisement {
 	private static final String[] stringState = {"draft", "waiting", "signed", "to sign"};

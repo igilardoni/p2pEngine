@@ -2,14 +2,13 @@ package controller;
 
 import java.util.ArrayList;
 
-import util.DateConverter;
-import controller.controllerInterface.ManagerBridgeInterface;
 import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
-import model.data.manager.Manager;
 import model.data.user.User;
+import util.DateConverter;
+import controller.controllerInterface.ManagerBridgeInterface;
 
 public class ManagerBridge implements ManagerBridgeInterface{
 	public ManagerBridge(){
