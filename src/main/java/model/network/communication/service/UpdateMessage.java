@@ -6,7 +6,7 @@ import org.jdom2.Element;
 
 import util.StringToElement;
 import util.secure.AsymKeysImpl;
-import util.secure.encryptionInterface.AsymKeys;
+import util.secure.ElGamalSign;
 import model.advertisement.AbstractAdvertisement;
 
 /**
@@ -16,12 +16,21 @@ import model.advertisement.AbstractAdvertisement;
  */
 public class UpdateMessage extends AbstractAdvertisement{
 	
-	private String newSignature; //the new signature of the updated object
-	private AsymKeys keys; //the keys of updateMessage emitter.
+	private ElGamalSign newSignature; //the new signature of the updated object
+	private AsymKeysImpl keys; //the keys of updateMessage emitter.
 	private String id; //id of object to update
 	private String type; //type of update(item, user ..)
-	private HashMap<String, String> keysToUpdate; //the others keys to be updated
-
+	private Element keysToUpdate;
+	
+	
+	/**
+	 * Create an emptyUpdateMessage
+	 * @param objectUpdated
+	 * @param emmitterKeys
+	 */
+	public UpdateMessage(AbstractAdvertisement old, AbstractAdvertisement updated, AsymKeysImpl emmitterKeys) {
+		
+	}
 	
 	public UpdateMessage() {
 		super();
@@ -52,15 +61,15 @@ public class UpdateMessage extends AbstractAdvertisement{
 
 	private String getKeysToUpdateXML() {
 		StringBuffer s = new StringBuffer();
-		for(String key : keysToUpdate.keySet()) {
-			s.append("<" + key + ">" + keysToUpdate.get(key) + "</" + key + ">");
+		for(Element e : keysToUpdate.getChildren()) {
+			s.append("<" + e.getName() + ">" + e.getValue() + "</" + e.getName() + ">");
 		}
 		return s.toString();
 	}
 	
 	@Override
 	protected void putValues() {
-		addValue("newSignature", newSignature);
+		addValue("newSignature", newSignature.toString());
 		addValue("keys", keys.toString());
 		addValue("id", id);
 		addValue("type", type);
@@ -68,21 +77,44 @@ public class UpdateMessage extends AbstractAdvertisement{
 	}
 
 	private void setKeysToUpdate(String xml) {
-		Element root = StringToElement.getElementFromString(xml, "update");
-		for(Element e : root.getChildren()) {
-			keysToUpdate.put(e.getName(), e.getValue());
-		}
+		keysToUpdate = StringToElement.getElementFromString(xml, "update");
 	}
 	
 	@Override
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
-		case "newSignature": newSignature = e.getValue(); return true;
+		case "newSignature": newSignature = new ElGamalSign(e.getValue()); return true;
 		case "id" : id = e.getValue(); return true;
 		case "type"	: type = e.getValue(); return true;
 		case "keysToUpdate" : setKeysToUpdate(e.getValue());
 		case "keys" : keys = new AsymKeysImpl(e.getValue()); return true;
 		default: return false;
 		}
+	}
+	
+	public ElGamalSign getNewSignature() {
+		return newSignature;
+	}
+	
+	public AsymKeysImpl getKeys() {
+		return keys;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public Element getKeysToUpdate() {
+		return keysToUpdate;
+	}
+	
+	public void addKeyToUpdate(String key, String value) {
+		Element newElem = new Element(key);
+		newElem.addContent(value);
+		keysToUpdate.addContent(newElem);
 	}
 }
