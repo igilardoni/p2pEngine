@@ -105,20 +105,6 @@ public class SharingManager {
 	}
 	
 	/**
-	 * Update user's (who have this publicKey) Favorites.
-	 * @param publicKey
-	 */
-	public void checkLifeFavorites(String publicKey){
-		ItemSearcher searcher = new ItemSearcher(network);
-		for(String itemKey : manager.getUserFavorites(publicKey).getItemsKey()){
-			Item i = searcher.search(itemKey);
-			manager.getUserFavorites(publicKey).updateItem(itemKey, i);
-		}
-		if(manager.getCurrentUser().getKeys().getPublicKey().toString(16).equals(publicKey))
-			manager.getUserFavorites(publicKey).sign(manager.getCurrentUser().getKeys());
-	}
-	
-	/**
 	 *  Check user data replication on the network.
 	 * @param publicKey The user to check.
 	 */

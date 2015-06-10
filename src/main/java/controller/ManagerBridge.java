@@ -134,7 +134,7 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	}
 
 	@Override
-	public ArrayList<Item> getFavoriteItems() {
-		return Application.getInstance().getManager().getFavoritesCurrentUser().getItems();
+	public ArrayList<String> getFavoriteItemsKey() {
+		return Application.getInstance().getManager().getFavoritesCurrentUser().getItemsKey();
 	}
 }

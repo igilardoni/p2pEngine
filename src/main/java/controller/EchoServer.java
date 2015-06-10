@@ -15,6 +15,7 @@ import model.data.item.Category;
 import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.user.User;
+import model.network.search.ItemSearcher;
 import model.network.search.SearchListener;
 import util.DateConverter;
 
@@ -298,11 +299,13 @@ public class EchoServer {
 			 * à la prochaine release, je change
 			 * le système de référencement des objets ! 
 			 */
-			ArrayList<Item> favoriteItems = managerBridge.getFavoriteItems();
-			if(!favoriteItems.isEmpty()){
-				for (int i = 0; i < favoriteItems.size(); i++) {
+			ArrayList<String> favoriteItemsKey = managerBridge.getFavoriteItemsKey();
+			if(!favoriteItemsKey.isEmpty()){
+				for (int i = 0; i < favoriteItemsKey.size(); i++) {
 					try {
-						session.getBasicRemote().sendText("LoadALLFavories:"+favoriteItems.get(i).getTitle()+":"+favoriteItems.get(i).getCountry()+":"+favoriteItems.get(i).getDescription());
+						ItemSearcher itemSeacher = new ItemSearcher(Application.getInstance().getNetwork());
+						Item favoriteItem = itemSeacher.search(favoriteItemsKey.get(i));
+						session.getBasicRemote().sendText("LoadALLFavories:"+favoriteItem.getTitle()+":"+favoriteItem.getCountry()+":"+favoriteItem.getDescription());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
