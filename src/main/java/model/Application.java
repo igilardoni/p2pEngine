@@ -83,7 +83,7 @@ public class Application {
 	 */
 	private void startNetwork() {
 		Random r = new Random();
-		network = new Network(9800, VARIABLES.NetworkFolderName + r.nextInt(1000), VARIABLES.NetworkPeerName + r.nextInt(1000));
+		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		//network.setLogger(Level.INFO);
 		network.setLogger(Level.INFO);
 		network.boot("tcp://85.171.121.182:9800");

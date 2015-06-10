@@ -46,6 +46,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	protected HashMap<String, String> keyValues = new HashMap<String, String> ();
 	
+	protected HashMap<String, Boolean> keyCanBeUpdated = new HashMap<String, Boolean>();
+	
 	/*
 	 * An array list that contains the indexes for this advertisement. Indexes ar used by JXTA for
 	 * advertisements publication and search.
@@ -373,6 +375,17 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		if(signature == null) return false;
 		ElGamal crypter = new ElGamal(keys);
 		return crypter.verifySignature(getConcatenedElements().getBytes(), signature);
+	}
+	
+	
+
+	
+	/**
+	 * Update the Advertisement if lastUpdated is superior and if the signature is correct.
+	 * @param root
+	 */
+	public void update(Element root) {
+		
 	}
 
 }

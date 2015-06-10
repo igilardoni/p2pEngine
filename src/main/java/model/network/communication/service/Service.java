@@ -10,7 +10,7 @@ import net.jxta.peer.PeerID;
 /**
  * Base service for Communication, handling message and notifying listeners.
  * @author Julien Prudhomme
- *
+ * @param D Data to pafnaif
  */
 public abstract class Service<D> implements ServiceInterface {
 

@@ -53,7 +53,7 @@ public class UpdateUser extends Service<String> {
 			if(u2.getLastUpdated() > u.getLastUpdated()) return false;
 			manager.removeUser(u2);
 		}
-		manager.addUser(u);
+		manager.addUser(u, true);
 		return true;
 		
 	}

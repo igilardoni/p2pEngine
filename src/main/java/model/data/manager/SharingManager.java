@@ -70,14 +70,6 @@ public class SharingManager {
 			public void run() {
 				while(continueThread) {
 						checkDataResilience();
-						RandomPeerFinder f = new RandomPeerFinder(network);
-						f.findPeers(3000, 5);
-						System.out.println(f.getResults().size());
-						testGroup();
-						
-						
-						
-						
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
@@ -173,7 +165,7 @@ public class SharingManager {
 	public void testGroup() {
 		System.out.println("Search for existing group ...");
 		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
-				"Name", null, 1, new DiscoveryListener() {
+				"Name", null, 10, new DiscoveryListener() {
 
 			@Override
 			public void discoveryEvent(DiscoveryEvent event) {

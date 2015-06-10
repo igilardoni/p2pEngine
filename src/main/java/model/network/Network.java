@@ -197,7 +197,7 @@ public class Network implements NetworkInterface {
          configurator.setDescription("SXP default peer group");
          configurator.setPrincipal("SXP peer group");
          
-         configurator.setPeerID(IDFactory.newPeerID(PeerGroupID.defaultNetPeerGroupID, peerName.getBytes()));
+       //  configurator.setPeerID(IDFactory.newPeerID(PeerGroupID.defaultNetPeerGroupID, peerName.getBytes()));
 		
 		return manager;
 	}
