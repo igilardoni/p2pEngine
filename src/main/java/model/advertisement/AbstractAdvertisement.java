@@ -3,6 +3,7 @@ package model.advertisement;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,8 @@ import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
+import model.network.communication.Communication;
+import model.network.communication.service.update.UpdateMessage;
 import net.jxta.document.Advertisement;
 import net.jxta.document.Attributable;
 import net.jxta.document.Document;
@@ -40,6 +43,8 @@ import net.jxta.id.ID;
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 
+	protected AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
+	
 	/*
 	 * An hashMap that usually contain the key and value of this advertisement content, 
 	 * for generating an XML file for JXTA or for saving datas.
@@ -391,11 +396,39 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	/**
-	 * Update the Advertisement if lastUpdated is superior and if the signature is correct.
+	 * Update the Advertisement if lastUpdated in the root element is superior and if the signature is correct.
 	 * @param root
 	 */
-	public void update(Element root) {
+	public void receiveUpdateMessage(Element root) {
+		
 		if(!checkUpdateMessage(root)) return; //Update message incorrect
+	}
+	
+	/**
+	 * Throw an update message to the network.
+	 * @param com
+	 */
+	public void throwUpdate(Communication com, AsymKeysImpl emmitter) {
+		old = this.clone(); //keeping current object state for future update computation.
+		UpdateMessage update = new UpdateMessage(this, emmitter);
+	}
+	
+	/**
+	 * Clone the Abstract advertisement (only with declared fields in setKeys)
+	 * For example, for the User class that extends abstractAdvertisement, 
+	 * user.clone() is the same result that new User(user.toString())
+	 */
+	public AbstractAdvertisement clone() {
+		try {
+			return this.getClass().getConstructor(String.class).newInstance(this.toString());
+			//we retrieve the right AbstractAdvertisement child that invoke this method
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

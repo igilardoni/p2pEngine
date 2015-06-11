@@ -1,6 +1,4 @@
-package model.network.communication.service;
-
-import java.util.HashMap;
+package model.network.communication.service.update;
 
 import org.jdom2.Element;
 
@@ -23,12 +21,14 @@ public class UpdateMessage extends AbstractAdvertisement{
 	private Element keysToUpdate;
 	
 	
+	private AbstractAdvertisement adv;
+	
 	/**
-	 * Create an emptyUpdateMessage
-	 * @param objectUpdated
-	 * @param emmitterKeys
+	 * Create the right update message according to the updated object. Compute with the older version of the object.
+	 * @param objectUpdated The object that had some change since the last update.
+	 * @param emmitterKeys the encryption keys of the object's owner (for exemple current user asym keys.)
 	 */
-	public UpdateMessage(AbstractAdvertisement old, AbstractAdvertisement updated, AsymKeysImpl emmitterKeys) {
+	public UpdateMessage(AbstractAdvertisement updatedObject, AsymKeysImpl emmitterKeys) {
 		
 	}
 	
@@ -117,4 +117,13 @@ public class UpdateMessage extends AbstractAdvertisement{
 		newElem.addContent(value);
 		keysToUpdate.addContent(newElem);
 	}
+	
+	/**
+	 * Just some input tests
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		
+	}
+	
 }
