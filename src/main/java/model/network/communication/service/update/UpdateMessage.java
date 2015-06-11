@@ -1,5 +1,7 @@
 package model.network.communication.service.update;
 
+import java.util.HashMap;
+
 import org.jdom2.Element;
 
 import util.StringToElement;
@@ -29,6 +31,12 @@ public class UpdateMessage extends AbstractAdvertisement{
 	 * @param emmitterKeys the encryption keys of the object's owner (for exemple current user asym keys.)
 	 */
 	public UpdateMessage(AbstractAdvertisement updatedObject, AsymKeysImpl emmitterKeys) {
+		if(updatedObject.getOld() == null) return;
+		
+		
+		this.newSignature = updatedObject.sign(emmitterKeys);
+		this.id = updatedObject.getId();
+		
 		
 	}
 	
@@ -112,7 +120,7 @@ public class UpdateMessage extends AbstractAdvertisement{
 		return keysToUpdate;
 	}
 	
-	public void addKeyToUpdate(String key, String value) {
+	private void addKeyToUpdate(String key, String value) {
 		Element newElem = new Element(key);
 		newElem.addContent(value);
 		keysToUpdate.addContent(newElem);

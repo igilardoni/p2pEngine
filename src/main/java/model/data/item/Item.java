@@ -28,7 +28,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	};
 	
 	private String owner;			// Owner of the object
-	private String keyId;			// ID of the object
 	private String friendlyNick;	// Friendly-user Pseudo of owner
 	private String title;			// Title of the object
 	private Category category;		// Category of the object
@@ -71,7 +70,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			this.setDate(System.currentTimeMillis());
 		else
 			this.setDate(date);
-		this.setId(-1);
 		this.setLifeTime(lifeTime);
 		this.setType(type);
 		setKeys();
@@ -138,11 +136,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		this.owner = owner;
 	}
 	
-	public String getKeyId(){
-		return keyId;
-	}
-	
-	private void setId(long id){
+	/*private void setId(long id){
 		long rand;
 		if(id<=0)
 			rand = 1 + (long)(Math.random() * ((Long.MAX_VALUE - 1) + 1));
@@ -152,7 +146,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	}
 	private void setId(String keyId){
 		this.keyId = keyId;
-	}
+	} */
 	
 	/**
 	 * Define the owner of this Item (with User Object in parameter)
@@ -367,7 +361,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @return
 	 */
 	public String getItemKey(){
-		return this.getKeyId();
+		return this.getId();
 	}
 	 
 	@Override
@@ -392,7 +386,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	@Override
 	protected void putValues() {
 		addValue("owner", this.getOwner());
-		addValue("keyId", this.getKeyId());
+		addValue("keyId", this.getId());
 		addValue("friendNick", this.getFriendNick());
 		addValue("title", this.getTitle());
 		addValue("category", category.getStringChoice());
@@ -416,9 +410,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		switch(e.getName()){
 		case "owner":
 			setOwner(val);
-			return true;
-		case "keyId":
-			setId(val);
 			return true;
 		case "friendNick":
 			setFriendlyNick(val);

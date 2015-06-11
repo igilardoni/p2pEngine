@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 import org.jdom2.Element;
 import org.jdom2.IllegalDataException;
@@ -43,7 +45,7 @@ import net.jxta.id.ID;
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 
-	protected AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
+	private AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
 	
 	/*
 	 * An hashMap that usually contain the key and value of this advertisement content, 
@@ -63,6 +65,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * The Elgamal signature of this object.
 	 */
 	private ElGamalSign signature; 
+	
+	private String keyId;			// ID of the object
 	
 	
 	/*
@@ -88,6 +92,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addKey("signature", false, true);
 		addKey("lastUpdated", false, true);
 		setKeys(); //setting the default keys and indexes for this advertisement.
+		setId();
 	}
 	
 	/**
@@ -239,6 +244,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	private void superPutValues() {
 		addValue("signature", signature == null ? null:signature.toString());
 		addValue("lastUpdated", Long.toString(lastUpdated));
+		addValue("keyId", keyId);
 		putValues();
 	}
 	
@@ -310,6 +316,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		switch(e.getName()) {
 		case "signature": setSignature(e.getValue()); return true;
 		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
+		case "keyId": keyId = e.getValue(); return true;
 		default: return handleElement(e);
 		}
 	}
@@ -365,11 +372,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * generate and save this advertisement signature.
 	 * @param keys - The AsymKeysImp that contain a private key.
 	 */
-	public void sign(AsymKeysImpl keys) {
+	public ElGamalSign sign(AsymKeysImpl keys) {
 		ElGamal crypter = new ElGamal(keys);
 		lastUpdated = System.currentTimeMillis();
 		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
 		if(signature == null) System.err.println(this.getAdvertisementName()+" : Signature null");
+		return signature;
 	}
 	
 	/**
@@ -411,6 +419,33 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void throwUpdate(Communication com, AsymKeysImpl emmitter) {
 		old = this.clone(); //keeping current object state for future update computation.
 		UpdateMessage update = new UpdateMessage(this, emmitter);
+	}
+	
+	public AbstractAdvertisement getOld() {
+		return old;
+	}
+	
+	/**
+	 * Get the hashmap of the updatable keys.
+	 * @return
+	 */
+	public HashMap<String, String> getUpdatableKeys() {
+		superPutValues();
+		HashMap<String, String> updatable = new HashMap<String, String>();
+		for(String key : this.keyValues.keySet()) {
+			if(keyCanBeUpdated.get(key)) {
+				updatable.put(key, keyValues.get(key));
+			}
+		}
+		return updatable;
+	}
+	
+	public String getId() {
+		return keyId;
+	}
+	
+	private void setId() {
+		keyId = this.getAdvType() + ":" + UUID.randomUUID() + UUID.randomUUID();
 	}
 	
 	/**
