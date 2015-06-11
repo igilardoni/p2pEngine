@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import model.advertisement.AbstractAdvertisement;
-import model.data.deal.Deal;
+import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
 import model.data.item.Item;
 import model.data.user.Conversations;
@@ -48,7 +48,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private User currentUser;					// User logged
 	private ArrayList<Message> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
-	private HashMap<String, ArrayList<Deal>> deals;
+	private HashMap<String, ArrayList<Contrat>> deals;
 	private HashMap<String, Favorites> favorites;
 
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -211,23 +211,23 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Get the current user's deals. If doesn't exist, return create new ArrayList;
 	 * @return ArrayList<Deal>
 	 */
-	public ArrayList<Deal> getUserDeals(String publicKey){
+	public ArrayList<Contrat> getUserDeals(String publicKey){
 		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Deal>());
+			deals.put(publicKey, new ArrayList<Contrat>());
 		return deals.get(publicKey);
 	}
 	/**
 	 * Get the current user's deals. If doesn't exist, it will be created
 	 * @return ArrayList<Deal>
 	 */
-	public ArrayList<Deal> getDealsCurrentUser(){
+	public ArrayList<Contrat> getDealsCurrentUser(){
 		if(currentUser == null) {
 			System.err.println("no user logged");
 			return null;
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Deal>());
+			deals.put(publicKey, new ArrayList<Contrat>());
 		return getUserDeals(publicKey);
 	}
 	/**
@@ -276,7 +276,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 		}
 		users.put(key, u);
-		deals.put(key, new ArrayList<Deal>());
+		deals.put(key, new ArrayList<Contrat>());
 	}
 	public void addUser(User u, boolean publish) {
 		addUser(u);
@@ -447,8 +447,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Deal>());
-		Deal deal = new Deal(title, currentUser);
+			deals.put(publicKey, new ArrayList<Contrat>());
+		Contrat deal = new Contrat(title, currentUser);
 		deals.get(publicKey).add(deal);
 	}
 	/**
@@ -457,7 +457,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param publicKey
 	 * @param deal
 	 */
-	public void addDeal(String publicKey, Deal deal){
+	public void addDeal(String publicKey, Contrat deal){
 		if(deal == null){
 			printError("addDeal", "deal is empty");
 			return;
@@ -467,7 +467,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			return;
 		}
 		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Deal>());
+			deals.put(publicKey, new ArrayList<Contrat>());
 		deals.get(publicKey).add(deal);
 	}
 	/////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -562,7 +562,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		s.append(favorites.get(publicKey).toString());
 		s.append("</favorites>");
 		s.append("<deals>");
-		for(Deal d : getUserDeals(publicKey)){
+		for(Contrat d : getUserDeals(publicKey)){
 			s.append(d.toString());
 		}
 		s.append("</deals>");
@@ -625,10 +625,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	private String getDealsXML(){
 		StringBuffer s = new StringBuffer();
-		for(Entry<String, ArrayList<Deal>> entry : this.deals.entrySet()) {
+		for(Entry<String, ArrayList<Contrat>> entry : this.deals.entrySet()) {
 			String owner = entry.getKey();
-			ArrayList<Deal> deals = entry.getValue();
-			for (Deal d : deals) {
+			ArrayList<Contrat> deals = entry.getValue();
+			for (Contrat d : deals) {
 				s.append("<deal>");
 				s.append("<owner>");
 				s.append(owner);
@@ -698,7 +698,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for(Element d: root.getChildren()){
 			String owner = d.getChildText("owner");
 			Element deal = d.getChild("Deal");
-			addDeal(owner, new Deal(deal));
+			addDeal(owner, new Contrat(deal));
 		}
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -727,13 +727,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		conversations = new HashMap<String, Conversations>();
 		currentUser = null;
 		favorites = new HashMap<String, Favorites>();
-		deals = new HashMap<String, ArrayList<Deal>>();
-		addKey("users", false);
-		addKey("items", false);
-		addKey("messages", false);
-		addKey("ReceivedMessages", false);
-		addKey("favorites", false);
-		addKey("deals", false);
+		deals = new HashMap<String, ArrayList<Contrat>>();
+		addKey("users", false, true);
+		addKey("items", false, true);
+		addKey("messages", false, true);
+		addKey("ReceivedMessages", false, true);
+		addKey("favorites", false, true);
+		addKey("deals", false, true);
 	}
 	@Override
 	protected void putValues() {
@@ -878,10 +878,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
-		String clearPassword = currentUser.getClearPwd();
-		currentUser.setClearPassword(null);
-		currentUser.sign(clearKey);
+		String clearPassword = new String(currentUser.getClearPwd());
+		System.out.println("\tCOMPATIBLE : "+currentUser.getKeys().isCompatible());
 		currentUser.encryptPrivateKey(clearPassword);
+		currentUser.sign(clearKey);
+		System.out.println("\tSIGNATURE : "+currentUser.checkSignature(currentUser.getKeys()));
+		currentUser.setClearPassword(null);
 		this.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;
 	}
@@ -956,9 +958,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				String owner = e.getChild("owner").getText();
 				//String owner = e.getChildText("owner");
 				if(!deals.containsKey(owner) && users.containsKey(owner))
-					deals.put(owner, new ArrayList<Deal>());
-				if(e.getChild(Deal.class.getName())!=null)
-					addDeal(owner, new Deal(e.getChild("Deal")));
+					deals.put(owner, new ArrayList<Contrat>());
+				if(e.getChild(Contrat.class.getName())!=null)
+					addDeal(owner, new Contrat(e.getChild("Deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = printError("recovery", "File \""+path+"\" doesn't exist");
@@ -977,6 +979,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	@Override
 	public void saving(String path) {
+		String currentPublicKey = this.getCurrentUser().getKeys().getPublicKey().toString(16);
 		// Recovery all local data in a new Manager
 		Manager manager = new Manager(null);
 		manager.recovery(path);
@@ -985,34 +988,30 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			path = VARIABLES.ManagerFilePath; 
 		// Element Root
 		Element root = new Element(Manager.class.getName());
-		// Saving current user's Keys decrypted
-		AsymKeysImpl clearKeys = this.getCurrentUser().getKeys().clone();
-		this.getCurrentUser().encryptPrivateKey(currentUser.getClearPwd());
-		this.getCurrentUser().sign(clearKeys);
 		// ArrayList are used for adding data in local file.
 		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<Item> items = this.getUserItems(clearKeys.getPublicKey().toString(16));
-		ArrayList<Message> messages = this.getUserMessages(clearKeys.getPublicKey().toString(16));
+		ArrayList<Item> items = this.getUserItems(currentPublicKey);
+		ArrayList<Message> messages = this.getUserMessages(currentPublicKey);
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
 		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
-		HashMap<String,ArrayList<Deal>> deals = new HashMap<String,ArrayList<Deal>>();
+		HashMap<String,ArrayList<Contrat>> deals = new HashMap<String,ArrayList<Contrat>>();
 		
-		Conversations converC = this.getUserConversations(clearKeys.getPublicKey().toString(16));
+		Conversations converC = this.getUserConversations(currentPublicKey);
 		if(converC!=null) conversations.add(converC);
-		ArrayList<Deal> arrayDeals = this.getDealsCurrentUser();
-		if(arrayDeals!=null) deals.put(this.getCurrentUser().getKeys().getPublicKey().toString(16), arrayDeals);
+		ArrayList<Contrat> arrayDealsC = this.getDealsCurrentUser();
+		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
 		Favorites favoC = this.getFavoritesCurrentUser();
 		if(favoC!=null) favorites.add(favoC);
 		
 		// Element users
-		users.add(currentUser);
+		users.add(this.getCurrentUser());
 		Element usersElement = new Element("users");
 		usersElement.addContent(this.getCurrentUser().getRootElement());
 		for (User user : manager.getUsers()){
-			if(!user.getKeys().getPublicKey().equals(currentUser.getKeys().getPublicKey())){
-				String userKey =  user.getKeys().getPublicKey().toString(16);
-				usersElement.addContent(user.getRootElement());
-				users.add(user);
+			String userKey =  user.getKeys().getPublicKey().toString(16);
+				if(!user.getKeys().getPublicKey().toString(16).equals(currentPublicKey)){
+					usersElement.addContent(user.getRootElement());
+					users.add(user);
 				// Filling ArrayList items
 				for (Item i : this.getUserItems(userKey)) {
 					if(!items.contains(i))
@@ -1049,12 +1048,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 					favorites.add(f);
 				// Filling ArrayList deals
 				if(!deals.containsKey(userKey))
-					deals.put(userKey, new ArrayList<Deal>());
-				for (Deal d : this.getUserDeals(userKey)){
+					deals.put(userKey, new ArrayList<Contrat>());
+				for (Contrat d : this.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}
-				for (Deal d : manager.getUserDeals(userKey)){
+				for (Contrat d : manager.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}
@@ -1084,7 +1083,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Element dealsElement = new Element("deals");
 		for (User u : users) {
 			String userKey = u.getKeys().getPublicKey().toString(16);
-			for(Deal d : deals.get(userKey)){
+			for(Contrat d : deals.get(userKey)){
 				Element ownerElement = new Element("owner");
 				Element dealElement = new Element("deal");
 				ownerElement.addContent(userKey);
@@ -1110,7 +1109,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("saving", "saving : "+e.toString());
 		}
 		// Decrypt current user's private key
-		currentUser.decryptPrivateKey(currentUser.getClearPwd());
+		// currentUser.decryptPrivateKey(currentUser.getClearPwd());
 	}
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static void main(String[] args) {
@@ -1145,7 +1144,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		
 		manager.recovery("");
 		for (User user : manager.getUsers()) {
-			for (Deal deal : manager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
+			for (Contrat deal : manager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
 				System.out.println(deal.toPrint());
 			}
 		}

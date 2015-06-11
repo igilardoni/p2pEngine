@@ -2,6 +2,10 @@ package util.secure;
 
 import java.math.BigInteger;
 
+import org.jdom2.Element;
+
+import util.StringToElement;
+
 /**
  * An ElGamal signature
  * @author Julien Prudhomme
@@ -19,6 +23,12 @@ public class ElGamalSign {
 	public ElGamalSign(BigInteger r, BigInteger s) {
 		this.r = r;
 		this.s = s;
+	}
+	
+	public ElGamalSign(String xml) {
+		Element root = StringToElement.getElementFromString(xml, "sign");
+		r = new BigInteger(root.getChild("signR").getValue(), 16);
+		s = new BigInteger(root.getChild("signS").getValue(), 16);
 	}
 	
 	public BigInteger getR() {

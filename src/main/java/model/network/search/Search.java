@@ -4,9 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Map;
-import java.util.Set;
 
+import model.advertisement.AbstractAdvertisement;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -14,7 +13,6 @@ import net.jxta.document.Advertisement;
 import net.jxta.document.MimeMediaType;
 import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
-import model.advertisement.AbstractAdvertisement;
 
 /**
  * Search an advertisement on the network.

@@ -3,15 +3,11 @@ package model.data.manager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import util.VARIABLES;
-import model.data.item.Item;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
-import model.network.search.ItemSearcher;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
-import model.network.search.Search.Result;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -70,14 +66,6 @@ public class SharingManager {
 			public void run() {
 				while(continueThread) {
 						checkDataResilience();
-						RandomPeerFinder f = new RandomPeerFinder(network);
-						f.findPeers(3000, 5);
-						System.out.println(f.getResults().size());
-						testGroup();
-						
-						
-						
-						
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
@@ -102,20 +90,6 @@ public class SharingManager {
 			}
 		}
 		thread = null;
-	}
-	
-	/**
-	 * Update user's (who have this publicKey) Favorites.
-	 * @param publicKey
-	 */
-	public void checkLifeFavorites(String publicKey){
-		ItemSearcher searcher = new ItemSearcher(network);
-		for(String itemKey : manager.getUserFavorites(publicKey).getItemsKey()){
-			Item i = searcher.search(itemKey);
-			manager.getUserFavorites(publicKey).updateItem(itemKey, i);
-		}
-		if(manager.getCurrentUser().getKeys().getPublicKey().toString(16).equals(publicKey))
-			manager.getUserFavorites(publicKey).sign(manager.getCurrentUser().getKeys());
 	}
 	
 	/**
@@ -173,7 +147,7 @@ public class SharingManager {
 	public void testGroup() {
 		System.out.println("Search for existing group ...");
 		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
-				"Name", null, 1, new DiscoveryListener() {
+				"Name", null, 10, new DiscoveryListener() {
 
 			@Override
 			public void discoveryEvent(DiscoveryEvent event) {

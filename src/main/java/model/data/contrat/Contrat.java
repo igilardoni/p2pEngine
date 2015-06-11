@@ -1,4 +1,4 @@
-package model.data.deal;
+package model.data.contrat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +18,8 @@ import util.secure.AVProtocol.Delta;
  * This class can be instantiated for contains an agreement.
  * This class extends AbstractAdvertisement and can be used like an advertisement.
  * @author Michael Dubuis
- *
  */
-public class Deal extends AbstractAdvertisement {
+public class Contrat extends AbstractAdvertisement {
 	private static final String[] stringState = {"draft", "waiting", "signed", "to sign"};
 	
 	private String title;								// Title of deal
@@ -38,23 +37,23 @@ public class Deal extends AbstractAdvertisement {
 	 * @param title
 	 * @param user
 	 */
-	public Deal(String title, User user){
+	public Contrat(String title, User user){
 		super();
 		setState(0);
 		setTitle(title);
 		addSignatory(user);
 	}
 	
-	public Deal(String XML){
+	public Contrat(String XML){
 		super(XML);
 	}
 	
-	public Deal(Element i) {
+	public Contrat(Element i) {
 		super(i);
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public Deal(net.jxta.document.Element e) {
+	public Contrat(net.jxta.document.Element e) {
 		super(e);
 	}
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -298,12 +297,12 @@ public class Deal extends AbstractAdvertisement {
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
-	public Deal clone(){
-		return new Deal(this.toString());
+	public Contrat clone(){
+		return new Contrat(this.toString());
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean printError(String method, String error){
-		System.err.println(Deal.class.getName()+"."+method+" : "+error);
+		System.err.println(Contrat.class.getName()+"."+method+" : "+error);
 		return false;
 	}
 	
@@ -419,7 +418,7 @@ public class Deal extends AbstractAdvertisement {
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected String getAdvertisementName() {
-		return Deal.class.getName();
+		return Contrat.class.getName();
 	}
 	@Override
 	protected void setKeys() {
@@ -428,12 +427,12 @@ public class Deal extends AbstractAdvertisement {
 		rules = new HashMap<String, String>();
 		clauses = new ArrayList<Claus>();
 		proofs = new HashMap<String, Delta>();
-		this.addKey("title", 			false);
-		this.addKey("state", 			false);
-		this.addKey("signatories", 		false);
-		this.addKey("items", 			false);
-		this.addKey("rules", 			false);
-		this.addKey("clauses", 			false);
+		this.addKey("title", 			false, true);
+		this.addKey("state", 			false, true);
+		this.addKey("signatories", 		false, true);
+		this.addKey("items", 			false, true);
+		this.addKey("rules", 			false, true);
+		this.addKey("clauses", 			false, true);
 	}
 	@Override
 	protected void putValues() {

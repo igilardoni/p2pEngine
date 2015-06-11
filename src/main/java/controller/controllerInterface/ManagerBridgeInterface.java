@@ -81,7 +81,7 @@ public interface ManagerBridgeInterface {
 	 * Return all item in current user's favorites
 	 * @return
 	 */
-	public ArrayList<Item> getFavoriteItems();
+	public ArrayList<String> getFavoriteItemsKey();
 	//////////////////////////////////////////////////// USERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	
 	/**
 	 * Get the currentUser, null if no user logged

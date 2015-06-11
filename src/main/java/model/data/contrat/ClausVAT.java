@@ -1,4 +1,4 @@
-package model.data.deal;
+package model.data.contrat;
 
 import org.jdom2.Element;
 

@@ -10,12 +10,8 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
-import model.data.item.Category;
-import model.data.item.Category.CATEGORY;
-import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.manager.SharingManager;
-import model.data.user.User;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
@@ -83,7 +79,7 @@ public class Application {
 	 */
 	private void startNetwork() {
 		Random r = new Random();
-		network = new Network(9800, VARIABLES.NetworkFolderName + r.nextInt(1000), VARIABLES.NetworkPeerName + r.nextInt(1000));
+		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		//network.setLogger(Level.INFO);
 		network.setLogger(Level.INFO);
 		//network.boot("tcp://85.171.121.182:9800");
