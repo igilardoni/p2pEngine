@@ -1,7 +1,7 @@
 package model.data.manager;
 
 /**
- * TODO inserer une description ici 
+ * This interface can be implemented for save and recover Local Data
  */
 public interface RecoveryManager {
 	public void recovery(String path);
