@@ -367,7 +367,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	@Override
 	protected void setKeys() {
 		this.addKey("owner", true, false);
-		this.addKey("keyId", true, false);
 		this.addKey("friendNick", false, true);
 		this.addKey("title", true, true);
 		this.addKey("category",true, true);
@@ -386,7 +385,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	@Override
 	protected void putValues() {
 		addValue("owner", this.getOwner());
-		addValue("keyId", this.getId());
 		addValue("friendNick", this.getFriendNick());
 		addValue("title", this.getTitle());
 		addValue("category", category.getStringChoice());

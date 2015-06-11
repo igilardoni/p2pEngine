@@ -8,6 +8,7 @@ import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamalSign;
 import model.advertisement.AbstractAdvertisement;
+import model.data.user.User;
 
 /**
  * Create an update message for peers, update message extends AbstractAdvertisment for signature and xml only.
@@ -20,7 +21,7 @@ public class UpdateMessage extends AbstractAdvertisement{
 	private AsymKeysImpl keys; //the keys of updateMessage emitter.
 	private String id; //id of object to update
 	private String type; //type of update(item, user ..)
-	private Element keysToUpdate;
+	private Element keysToUpdate = new Element("root");
 	
 	
 	private AbstractAdvertisement adv;
@@ -33,11 +34,21 @@ public class UpdateMessage extends AbstractAdvertisement{
 	public UpdateMessage(AbstractAdvertisement updatedObject, AsymKeysImpl emmitterKeys) {
 		if(updatedObject.getOld() == null) return;
 		
+		HashMap<String, String> updated = updatedObject.getUpdatableKeys();
+		HashMap<String, String> old = updatedObject.getOld().getUpdatableKeys();
 		
 		this.newSignature = updatedObject.sign(emmitterKeys);
 		this.id = updatedObject.getId();
+		this.type = updatedObject.getAdvType();
+		this.keys = emmitterKeys;
 		
-		
+		for(String key : updated.keySet()) {
+			String newValue = updated.get(key);
+			String oldValue = old.get(key);
+			if(!newValue.equals(oldValue)) {
+				this.addKeyToUpdate(key, newValue);
+			}
+		}
 	}
 	
 	public UpdateMessage() {
@@ -55,7 +66,7 @@ public class UpdateMessage extends AbstractAdvertisement{
 	
 	@Override
 	protected String getAdvertisementName() {
-		return UpdateMessage.class.getSimpleName();
+		return this.getClass().getSimpleName();
 	}
 
 	@Override
@@ -131,7 +142,12 @@ public class UpdateMessage extends AbstractAdvertisement{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+		User u = new User("TestNick", "testPassword", "testName", "testFirstName", "testEmail", "testPhone");
+		u.sign(u.getKeys());
+		u.throwUpdate(null, u.getKeys());
+		u.setName("nameChanged");
+		u.setNick("new nick");
+		u.throwUpdate(null, u.getKeys());
 	}
 	
 }

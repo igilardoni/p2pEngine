@@ -91,6 +91,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		super();
 		addKey("signature", false, true);
 		addKey("lastUpdated", false, true);
+		addKey("keyId", true, false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 		setId();
 	}
@@ -419,6 +420,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void throwUpdate(Communication com, AsymKeysImpl emmitter) {
 		old = this.clone(); //keeping current object state for future update computation.
 		UpdateMessage update = new UpdateMessage(this, emmitter);
+		System.out.println(update);
+		
 	}
 	
 	public AbstractAdvertisement getOld() {
