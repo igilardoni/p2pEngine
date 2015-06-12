@@ -82,7 +82,7 @@ public class Application {
 		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		//network.setLogger(Level.INFO);
 		network.setLogger(Level.INFO);
-		network.boot("tcp://85.171.121.182:9800");
+		//network.boot("tcp://85.171.121.182:9800");
 		network.start();
 	}
 	

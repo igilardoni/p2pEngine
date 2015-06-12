@@ -1,4 +1,6 @@
-package model.network.communication.service;
+package model.network.communication.service.update;
+
+import java.util.HashMap;
 
 import org.jdom2.Element;
 
@@ -6,6 +8,7 @@ import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamalSign;
 import model.advertisement.AbstractAdvertisement;
+import model.data.user.User;
 
 /**
  * Create an update message for peers, update message extends AbstractAdvertisment for signature and xml only.
@@ -18,16 +21,34 @@ public class UpdateMessage extends AbstractAdvertisement{
 	private AsymKeysImpl keys; //the keys of updateMessage emitter.
 	private String id; //id of object to update
 	private String type; //type of update(item, user ..)
-	private Element keysToUpdate;
+	private Element keysToUpdate = new Element("root");
 	
+	
+	private AbstractAdvertisement adv;
 	
 	/**
-	 * Create an emptyUpdateMessage
-	 * @param objectUpdated
-	 * @param emmitterKeys
+	 * Create the right update message according to the updated object. Compute with the older version of the object.
+	 * @param objectUpdated The object that had some change since the last update.
+	 * @param emmitterKeys the encryption keys of the object's owner (for exemple current user asym keys.)
 	 */
-	public UpdateMessage(AbstractAdvertisement old, AbstractAdvertisement updated, AsymKeysImpl emmitterKeys) {
+	public UpdateMessage(AbstractAdvertisement updatedObject, AsymKeysImpl emmitterKeys) {
+		if(updatedObject.getOld() == null) return;
 		
+		HashMap<String, String> updated = updatedObject.getUpdatableKeys();
+		HashMap<String, String> old = updatedObject.getOld().getUpdatableKeys();
+		
+		this.newSignature = updatedObject.sign(emmitterKeys);
+		this.id = updatedObject.getId();
+		this.type = updatedObject.getAdvType();
+		this.keys = emmitterKeys;
+		
+		for(String key : updated.keySet()) {
+			String newValue = updated.get(key);
+			String oldValue = old.get(key);
+			if(!newValue.equals(oldValue)) {
+				this.addKeyToUpdate(key, newValue);
+			}
+		}
 	}
 	
 	public UpdateMessage() {
@@ -45,7 +66,7 @@ public class UpdateMessage extends AbstractAdvertisement{
 	
 	@Override
 	protected String getAdvertisementName() {
-		return UpdateMessage.class.getSimpleName();
+		return this.getClass().getSimpleName();
 	}
 
 	@Override
@@ -110,9 +131,23 @@ public class UpdateMessage extends AbstractAdvertisement{
 		return keysToUpdate;
 	}
 	
-	public void addKeyToUpdate(String key, String value) {
+	private void addKeyToUpdate(String key, String value) {
 		Element newElem = new Element(key);
 		newElem.addContent(value);
 		keysToUpdate.addContent(newElem);
 	}
+	
+	/**
+	 * Just some input tests
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		User u = new User("TestNick", "testPassword", "testName", "testFirstName", "testEmail", "testPhone");
+		u.sign(u.getKeys());
+		u.throwUpdate(null, u.getKeys());
+		u.setName("nameChanged");
+		u.setNick("new nick");
+		u.throwUpdate(null, u.getKeys());
+	}
+	
 }

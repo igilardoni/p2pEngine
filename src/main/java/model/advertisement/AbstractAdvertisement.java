@@ -3,11 +3,14 @@ package model.advertisement;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 import org.jdom2.Element;
 import org.jdom2.IllegalDataException;
@@ -20,6 +23,8 @@ import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
+import model.network.communication.Communication;
+import model.network.communication.service.update.UpdateMessage;
 import net.jxta.document.Advertisement;
 import net.jxta.document.Attributable;
 import net.jxta.document.Document;
@@ -40,6 +45,8 @@ import net.jxta.id.ID;
  */
 public abstract class AbstractAdvertisement extends Advertisement{
 
+	private AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
+	
 	/*
 	 * An hashMap that usually contain the key and value of this advertisement content, 
 	 * for generating an XML file for JXTA or for saving datas.
@@ -58,6 +65,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * The Elgamal signature of this object.
 	 */
 	private ElGamalSign signature; 
+	
+	private String keyId;			// ID of the object
 	
 	
 	/*
@@ -82,7 +91,9 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		super();
 		addKey("signature", false, true);
 		addKey("lastUpdated", false, true);
+		addKey("keyId", true, false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
+		setId();
 	}
 	
 	/**
@@ -234,6 +245,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	private void superPutValues() {
 		addValue("signature", signature == null ? null:signature.toString());
 		addValue("lastUpdated", Long.toString(lastUpdated));
+		addValue("keyId", keyId);
 		putValues();
 	}
 	
@@ -305,6 +317,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		switch(e.getName()) {
 		case "signature": setSignature(e.getValue()); return true;
 		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
+		case "keyId": keyId = e.getValue(); return true;
 		default: return handleElement(e);
 		}
 	}
@@ -360,11 +373,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * generate and save this advertisement signature.
 	 * @param keys - The AsymKeysImp that contain a private key.
 	 */
-	public void sign(AsymKeysImpl keys) {
+	public ElGamalSign sign(AsymKeysImpl keys) {
 		ElGamal crypter = new ElGamal(keys);
 		lastUpdated = System.currentTimeMillis();
 		signature = crypter.getMessageSignature(getConcatenedElements().getBytes());
 		if(signature == null) System.err.println(this.getAdvertisementName()+" : Signature null");
+		return signature;
 	}
 	
 	/**
@@ -391,11 +405,68 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	/**
-	 * Update the Advertisement if lastUpdated is superior and if the signature is correct.
+	 * Update the Advertisement if lastUpdated in the root element is superior and if the signature is correct.
 	 * @param root
 	 */
-	public void update(Element root) {
+	public void receiveUpdateMessage(Element root) {
+		
 		if(!checkUpdateMessage(root)) return; //Update message incorrect
+	}
+	
+	/**
+	 * Throw an update message to the network.
+	 * @param com
+	 */
+	public void throwUpdate(Communication com, AsymKeysImpl emmitter) {
+		old = this.clone(); //keeping current object state for future update computation.
+		UpdateMessage update = new UpdateMessage(this, emmitter);
+		System.out.println(update);
+		
+	}
+	
+	public AbstractAdvertisement getOld() {
+		return old;
+	}
+	
+	/**
+	 * Get the hashmap of the updatable keys.
+	 * @return
+	 */
+	public HashMap<String, String> getUpdatableKeys() {
+		superPutValues();
+		HashMap<String, String> updatable = new HashMap<String, String>();
+		for(String key : this.keyValues.keySet()) {
+			if(keyCanBeUpdated.get(key)) {
+				updatable.put(key, keyValues.get(key));
+			}
+		}
+		return updatable;
+	}
+	
+	public String getId() {
+		return keyId;
+	}
+	
+	private void setId() {
+		keyId = this.getAdvType() + ":" + UUID.randomUUID() + UUID.randomUUID();
+	}
+	
+	/**
+	 * Clone the Abstract advertisement (only with declared fields in setKeys)
+	 * For example, for the User class that extends abstractAdvertisement, 
+	 * user.clone() is the same result that new User(user.toString())
+	 */
+	public AbstractAdvertisement clone() {
+		try {
+			return this.getClass().getConstructor(String.class).newInstance(this.toString());
+			//we retrieve the right AbstractAdvertisement child that invoke this method
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
