@@ -116,7 +116,7 @@ function accountUpdated(content){
 		includeHeader();
 		includeMenu();
 		includeHome();
-	}else
+	}else{
 		if(content.message == "wrong password")
 			$("#oldpassword").css("color", "#FF0000");
 		if(content.message == "not the same password"){
