@@ -78,7 +78,7 @@ public class ManagerTest {
 		// assertEquals(manager1.toString(), manager2.toString());
 	}
 	
-	@Test
+	/* TODO @Test */
 	public void messageEvent(){
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
@@ -106,7 +106,7 @@ public class ManagerTest {
 		assertTrue(manager1.removeUser(user1));
 	}
 	
-	@Test
+	/* TODO @Test */
 	public void clearItems(){
 		Manager manager1 = new Manager(network);
 		manager1.addUser(user1);
