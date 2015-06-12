@@ -4,15 +4,12 @@
  */
 function includeLogin(){
 	$("#content").empty();
-	$("#content").load("./include/login.html");
-	$("#username").val("Eldoran");
-	$("footer").append("<p>test</p>");
-	
+	$("#content").append(getLoginForm());
 }
 
 function includeRegistration(){
 	$("#content").empty();
-	$("#content").load("./include/registration.html");
+	$("#content").append(getRegistrationForm());
 }
 
 function includeHome(){
@@ -22,16 +19,19 @@ function includeHome(){
 
 function includeSearch(){
 	$("#content").empty();
+	// TODO
 	// $("#content").load("./include/search.html");
 }
 
 function includeContrat(){
 	$("#content").empty();
+	// TODO
 	// $("#content").load("./include/contrat.html");
 }
 
 function includeWebmail(){
 	$("#content").empty();
+	// TODO
 	// $("#content").load("./include/webmail.html");
 }
 
@@ -46,9 +46,13 @@ function removeMenu(){
 
 function includeHeader(){
 	$("header").empty();
-	$("header").load("./include/header.html");
+	$("header").append(getHeader());
 }
 
 function removeHeader(){
 	$("header").empty();
+}
+
+function includeAccount(){
+	// TODO
 }
