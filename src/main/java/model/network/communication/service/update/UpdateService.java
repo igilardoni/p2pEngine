@@ -2,6 +2,7 @@ package model.network.communication.service.update;
 
 import net.jxta.endpoint.Message;
 import net.jxta.peer.PeerID;
+import model.data.user.User;
 import model.network.communication.service.Service;
 
 public class UpdateService extends Service<UpdateMessage>{
@@ -17,15 +18,39 @@ public class UpdateService extends Service<UpdateMessage>{
 
 	@Override
 	public void sendMessage(UpdateMessage data, PeerID... ids) {
-		// TODO Auto-generated method stub
+		switch(data.getType()) {
+		case "User": break;
+		case "Item": break;
+		default:     break;
+		}
+		
+		sender.sendMessage(data.toString(), this.getClass().getSimpleName(), null);
 		
 	}
 
+	
+	private UpdateMessage handleUser(UpdateMessage m) {
+		
+		
+		return m;
+	}
+	
+	private UpdateMessage handleItem(UpdateMessage m) {
+		
+		
+		
+		return m;
+	}
 
 	@Override
 	public UpdateMessage handleMessage(Message m) {
-		// TODO Auto-generated method stub
-		return null;
+		String content = new String(m.getMessageElement("content").getBytes(true));
+		UpdateMessage update = new UpdateMessage(content);
+		switch(update.getType()) {
+		case "User":   return handleUser(update);
+		case "Item": return handleItem(update);
+		default: return null;
+		}
 	}
 
 }

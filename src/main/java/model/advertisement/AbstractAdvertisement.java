@@ -33,6 +33,7 @@ import net.jxta.document.StructuredDocument;
 import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
+import net.jxta.peer.PeerID;
 
 
 /**
@@ -417,9 +418,11 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * Throw an update message to the network.
 	 * @param com
 	 */
+	@SuppressWarnings("unchecked")
 	public void throwUpdate(Communication com, AsymKeysImpl emmitter) {
-		old = this.clone(); //keeping current object state for future update computation.
 		UpdateMessage update = new UpdateMessage(this, emmitter);
+		com.getService("updateService").sendMessage(update, (PeerID[])null);
+		old = this.clone(); //keeping current object state for future update computation.
 		System.out.println(update);
 		
 	}

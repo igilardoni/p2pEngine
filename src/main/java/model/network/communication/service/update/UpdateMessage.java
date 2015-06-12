@@ -32,10 +32,14 @@ public class UpdateMessage extends AbstractAdvertisement{
 	 * @param emmitterKeys the encryption keys of the object's owner (for exemple current user asym keys.)
 	 */
 	public UpdateMessage(AbstractAdvertisement updatedObject, AsymKeysImpl emmitterKeys) {
-		if(updatedObject.getOld() == null) return;
 		
 		HashMap<String, String> updated = updatedObject.getUpdatableKeys();
-		HashMap<String, String> old = updatedObject.getOld().getUpdatableKeys();
+		HashMap<String, String> old;
+		if(updatedObject.getOld() == null) {
+			old = updated;
+		} else {
+			old = updatedObject.getOld().getUpdatableKeys();
+		}
 		
 		this.newSignature = updatedObject.sign(emmitterKeys);
 		this.id = updatedObject.getId();
@@ -43,12 +47,20 @@ public class UpdateMessage extends AbstractAdvertisement{
 		this.keys = emmitterKeys;
 		
 		for(String key : updated.keySet()) {
+			if(ignoredKey(key)) continue;
 			String newValue = updated.get(key);
 			String oldValue = old.get(key);
 			if(!newValue.equals(oldValue)) {
 				this.addKeyToUpdate(key, newValue);
 			}
 		}
+	}
+	
+	private boolean ignoredKey(String key) {
+		return 
+				key.equals("signature") ||
+				key.equals("keyId")     ||
+				key.equals("lastUpdated");
 	}
 	
 	public UpdateMessage() {
