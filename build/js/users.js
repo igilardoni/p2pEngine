@@ -32,7 +32,7 @@ function register(){
 	var passwordConfirm = $("#passwordConfirm").val();
 	var username = $("#username").val();
 	var name = $("#name").val();
-	var firstname = $("#firstName").val();
+	var firstname = $("#firstname").val();
 	var email = $("#email").val();
 	var phone = $("#phone").val();
 	// TODO Fields verification
@@ -114,6 +114,27 @@ function registration(content){
 function accountUpdated(content){
 	if(content.ok = "ok"){
 		includeHeader();
+		includeMenu();
 		includeHome();
+	}else
+		if(content.message == "wrong password")
+			$("#oldpassword").css("color", "#FF0000");
+		if(content.message == "not the same password"){
+			$("password").css("color", "#FF0000");
+			$("passwordConfirm").css("color", "#FF0000");
+		}
 	}
+}
+
+// Display account
+function account(content){
+	includeHeader();
+	includeMenu();
+	includeAccount();
+	$("#id").val(content.id);
+	$("#username").val(content.username);
+	$("#name").val(content.name);
+	$("#firstname").val(content.firstname);
+	$("#email").val(content.email);
+	$("#phone").val(content.phone);
 }
