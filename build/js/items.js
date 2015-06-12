@@ -80,6 +80,12 @@ function loadItems(){
 	var data = {"query":"loadItems", "content":content};
 	webSocket.send(JSON.stringify(data));
 }
+
+function loadCategories(){
+	var content = {};
+	var data = {"query":"loadCategories", "content":content};
+	webSocket.send(JSON.stringify(data));
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

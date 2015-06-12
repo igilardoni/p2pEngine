@@ -32,6 +32,16 @@ var formRegistration = [
 		{label:"Confirm password : ", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 
+var formItemAdd = [
+		{label:"Title : ", element:"input", attributes:{type:"text", name:"title", id:"title"}},
+		{label:"Type : ", element:"select", attributes:{name:"type", id:"type"}},
+		{label:"Category : ", element:"select", attributes:{name:"category", id:"category"}},
+		{label:"Description : ", element:"textarea", attributes:{name:"description", id:"description"}},
+		{label:"Image : ", elment:"img", attributes:{name:"image", id:"image", src:""}},
+		{label:"Contry : ", element:"select", attributes:{name:"country", id:"country"}},
+		{label:"Contact : ", element:"textarea", attributes:{name:"contact", id:"contact"}}
+];
+
 var buttonRegistration = [
 		{"class":"button", type:"submit", onclick:"register();", value:"Registration"},
 		{"class":"button", type:"submit", onclick:"includeLogin();", value:"Already registered"}
@@ -46,6 +56,45 @@ var tableItem = [
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    			GENERATORS											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function getHome(){
+	var content = document.createElement("div");
+	content.setAttribute("id", "content");
+	var div = document.createElement("div");
+	div.setAttribute("id", "items");
+	div.appendChild(getTableItem(itemList));
+	content.appendChild(div);
+	div.appendChild(getItemAddForm());
+	content.appendChild(div);
+	return content;
+}
+
+function getItemFormWithoutButton(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "itemForm");
+	for ( var i = 0 ; i < formItemAdd.length; i++) {
+		var p = document.createElement("p");
+		var element = document.createElement(formItemAdd[i].element);
+		var label = document.createElement("label");
+		label.appendChild(document.createTextNode(formItemAdd[i].label))
+		label.setAttribute("for", formItemAdd[i].attributes.name);
+		label.setAttribute("id", "label_"+formItemAdd[i].attributes.name);
+		p.appendChild(label);
+		$.each(formItemAdd[i].attributes, function(key, value){
+			element.setAttribute(key, value);
+		});
+		p.appendChild(element);
+		div.appendChild(p);
+	}
+	loadCategories();
+	return div;
+}
+
+function getItemAddForm(){
+	var div = getItemFormWithoutButton();
+	// add buttons
+	return div;
+}
+
 function getLoginForm(){
 	var div = document.createElement("div");
 	div.setAttribute("id", "login");
@@ -144,13 +193,14 @@ function dropMenuOff(){
 
 function getTableItem(id){
 	var table = document.createElement("table");
+	table.setAttribute("id", id);
 	for( var i = 0 ; i < tableItem.length; i++){
 		var th = document.createElement("th");
 		$.each(tableItem[i].attributes, function(key, value){
 			th.setAttribute(key, value);
 		});
 		th.appendChild(document.createTextNode(tableItem[i].text));
-		table.appendChild(p);
+		table.appendChild(th);
 	}
 	return table;
 }

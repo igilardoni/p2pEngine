@@ -3,18 +3,24 @@
  * @author Michael DUBUIS
  */
 function includeLogin(){
+	removeHeader();
+	removeMenu();
 	$("#content").empty();
 	$("#content").append(getLoginForm());
 }
 
 function includeRegistration(){
+	removeHeader();
+	removeMenu();
 	$("#content").empty();
 	$("#content").append(getRegistrationForm());
 }
 
 function includeHome(){
+	includeHeader();
+	includeMenu();
 	$("#content").empty();
-	$("#content").load("./include/home.html");
+	$("#content").replaceWith(getHome());
 }
 
 function includeSearch(){
@@ -54,5 +60,5 @@ function removeHeader(){
 }
 
 function includeAccount(){
-	// TODO
+	
 }
