@@ -4,3 +4,10 @@
 .classpath
 .project
 /.settings/
+/build/classes/
+/build/reports/
+/build/test-results/
+/build/tmp/
+/build/libs/
+*~
+/.peerFolder*/
