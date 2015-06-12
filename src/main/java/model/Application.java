@@ -185,7 +185,7 @@ public class Application {
 		if(Desktop.isDesktopSupported())
 		{
 		  try {
-			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/Se_connecter.html"));
+			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/index.html"));
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

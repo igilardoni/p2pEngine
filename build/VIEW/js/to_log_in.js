@@ -6,7 +6,7 @@ var user_nick;
 var media;
 var cmpt = 0;
 
-//fonction principal qui gére la connexion avec le serveur
+//fonction principal qui gï¿½re la connexion avec le serveur
 function openSocket(){
 	if(webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED){
 		writeResponse("WebSocket OK.");
@@ -28,7 +28,7 @@ function openSocket(){
 	webSocket.onclose = function(event){
 		writeResponse("Connection closed");
 	};
-} 
+}
 
 //fonction pour generer PDF 
 function TOPDF(object,owner,montant,name_per,taxe,descriptionC,clause,mode) {
@@ -345,7 +345,7 @@ function generateContrat(){
 	
 }
 
-//fonction qui gére tout les redirection entre page
+//fonction qui gï¿½re tout les redirection entre page
 function redirection(text){
 	webSocket.send(text);
 }
@@ -413,7 +413,7 @@ function send_message(){
 	var message_env = document.getElementById("message_send").value;
 	webSocket.send("/send_message:"+nick+":"+message_env);
 }
-//fonction par encore fini, pour la recherche dans le réseau
+//fonction par encore fini, pour la recherche dans le rï¿½seau
 function to_search(){
 	var title_search = document.getElementById("title_search_input").value;
 	var categorie_search = document.getElementById("Category_search").value;
@@ -471,7 +471,7 @@ function update_compte(){
 function loadCategories(){
 	webSocket.send("/load_categories");
 }
-//fonction qui recoi tout les message du serveur ( c'est la ou on peu gérer l'affichage dans l'HTML)
+//fonction qui recoi tout les message du serveur ( c'est la ou on peu gï¿½rer l'affichage dans l'HTML)
 function writeResponse(text){
 	var text_tab=text.split(":");
 	// Redirection
