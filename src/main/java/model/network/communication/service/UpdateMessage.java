@@ -1,7 +1,5 @@
 package model.network.communication.service;
 
-import java.util.HashMap;
-
 import org.jdom2.Element;
 
 import util.StringToElement;
