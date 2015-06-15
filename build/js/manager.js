@@ -19,14 +19,14 @@ function includeRegistration(){
 function includeHome(){
 	includeHeader();
 	includeMenu();
-	$("#content").empty();
 	$("#content").replaceWith(getHome());
 }
 
 function includeSearch(){
-	$("#content").empty();
-	// TODO
-	// $("#content").load("./include/search.html");
+	includeHeader();
+	includeMenu();
+	$("#content").replaceWith(getSearchItem());
+	loadItemSearchField();
 }
 
 function includeContrat(){
@@ -43,7 +43,7 @@ function includeWebmail(){
 
 function includeMenu(){
 	$("nav").empty();
-	$("nav").load("./include/menu.html");
+	$("nav").append(getMenu());
 }
 
 function removeMenu(){

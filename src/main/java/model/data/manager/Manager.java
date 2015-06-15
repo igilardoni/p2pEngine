@@ -131,6 +131,22 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return userItems;
 	}
 	/**
+	 * Use to found a item with itemKey
+	 * @param itemKey
+	 * @return
+	 */
+	public Item getItem(String itemKey){
+		if(itemKey == null || itemKey.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : itemKey is empty or null !");
+			return null;
+		}
+		for (Item item : items) {
+			if(item.getItemKey().equals(itemKey))
+				return item;
+		}
+		return null;
+	}
+	/**
 	 * Use to found a item with owner's publicKey and item's title
 	 * @param publicKey
 	 * @param title
@@ -333,6 +349,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				printError("addItem",e.toString());
 			}
 		}
+	}
+	public void updateItem(String itemKey, Item item){
+		removeItem(getItem(itemKey));
+		addItem(item);
 	}
 	/**
 	 * to add a message

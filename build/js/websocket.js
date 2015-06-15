@@ -30,6 +30,11 @@ function serverReply(data){
 	case "login":			login(data.content); break;
 	case "logout":			logout(data.content); break;
 	case "itemRemoved":		itemRemoved(data.content); break;
+	case "itemsLoaded":		itemsLoaded(data.content); break;
+	case "itemUpdated":		itemUpdated(data.content); break;
+	case "itemAdded":		itemAdded(data.content); break;
+	case "itemLoaded":		itemLoaded(data.content); break;
+	case "categoryLoaded":	categoryLoaded(data.content); break;
 	
 	case "displayHome":		displayHome(data.content); break;
 	case "displayItem":		displayItem(data.content); break;

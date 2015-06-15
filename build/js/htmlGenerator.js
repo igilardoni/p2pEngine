@@ -5,11 +5,11 @@
  * 								    			VARIABLES											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
-		{type:"button",		onclick:"includeHome();",		value:"Home"},
-		{type:"button",		onclick:"includeSearch()",		value:"Search object"},
-		{type:"button",		onclick:"includeContrat();", 	value:"Contrat object" },
-		{type:"button",		onclick:"includeWebmail();", 	value:"Messages" },
-		{type:"button",		onclick:"includeFavorites();",	value:"Favorites" }
+		{type:"button",		onclick:"includeHome();loadItems();",		value:"Home"},
+		{type:"button",		onclick:"includeSearch()",					value:"Search object"},
+		{type:"button",		onclick:"includeContrat();", 				value:"Contrat object" },
+		{type:"button",		onclick:"includeWebmail();", 				value:"Messages" },
+		{type:"button",		onclick:"includeFavorites();",				value:"Favorites" }
 ];
 		
 var formLogin = [
@@ -35,10 +35,11 @@ var formRegistration = [
 var formItemAdd = [
 		{label:"Title : ", element:"input", attributes:{type:"text", name:"title", id:"title"}},
 		{label:"Type : ", element:"select", attributes:{name:"type", id:"type"}},
+		{label:"Life Time :", element:"input", attributes:{type:"text", name:"lifetime", id:"lifetime"}},
 		{label:"Category : ", element:"select", attributes:{name:"category", id:"category"}},
 		{label:"Description : ", element:"textarea", attributes:{name:"description", id:"description"}},
 		{label:"Image : ", elment:"img", attributes:{name:"image", id:"image", src:""}},
-		{label:"Contry : ", element:"select", attributes:{name:"country", id:"country"}},
+		{label:"Contry : ", element:"input", attributes:{type:"text", name:"country", id:"country"}},
 		{label:"Contact : ", element:"textarea", attributes:{name:"contact", id:"contact"}}
 ];
 
@@ -48,13 +49,21 @@ var buttonRegistration = [
 ];
 
 var tableItem = [
-		{text:"Unique ID", attributes:{}},
 		{text:"Title", attributes:{}},
 		{text:"Description", attributes:{}},
 		{text:"Actions", attributes:{}},
 ];
+
+var formSearchItem = [
+		{label:"Search : ", element:"input", attributes:{type:"text", name:"search", id:"search"}},
+		{label:"Field to search : ", element:"select", attributes:{name:"field", id:"field"}}
+];
+
+var buttonSearchItem = [
+		{"class":"button", type:"button", onclick:"searchItem();", value:"Search"}
+];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 								    			GENERATORS											   *
+ * 								    		PAGE GENERATORS											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getHome(){
 	var content = document.createElement("div");
@@ -68,9 +77,17 @@ function getHome(){
 	return content;
 }
 
+function getSearchItem(){
+	var content = document.createElement("div");
+	content.setAttribute("id", "content");
+	content.appendChild(getItemSearchForm());
+	content.appendChild(getTableItem(itemSearchList));
+	return content;
+} 
+
 function getItemFormWithoutButton(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "itemForm");
+	div.setAttribute("id", itemForm);
 	for ( var i = 0 ; i < formItemAdd.length; i++) {
 		var p = document.createElement("p");
 		var element = document.createElement(formItemAdd[i].element);
@@ -91,7 +108,42 @@ function getItemFormWithoutButton(){
 
 function getItemAddForm(){
 	var div = getItemFormWithoutButton();
-	// add buttons
+	var addButton = document.createElement("input");
+	addButton.setAttribute("type", "submit");
+	addButton.setAttribute("class", "button");
+	addButton.setAttribute("id", "addButton");
+	addButton.setAttribute("onclick", "addItem();");
+	addButton.setAttribute("value", "Add");
+	div.appendChild(addButton);
+	return div;
+}
+
+function getItemSearchForm(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "search");
+	for ( var i = 0 ; i < formSearchItem.length; i++) {
+		var p = document.createElement("p");
+		var element = document.createElement(formSearchItem[i].element);
+		var label = document.createElement("label");
+		label.appendChild(document.createTextNode(formSearchItem[i].label))
+		label.setAttribute("for", formSearchItem[i].attributes.name);
+		label.setAttribute("id", "label_"+formSearchItem[i].attributes.name);
+		p.appendChild(label);
+		$.each(formSearchItem[i].attributes, function(key, value){
+			element.setAttribute(key, value);
+		});
+		p.appendChild(element);
+		div.appendChild(p);
+	}
+	for( var i = 0 ; i < buttonSearchItem.length; i++){
+		var p = document.createElement("p");
+		var input = document.createElement("input");
+		$.each(buttonSearchItem[i], function(key, value){
+			input.setAttribute(key, value);
+		});
+		p.appendChild(input);
+		div.appendChild(p);
+	}
 	return div;
 }
 
@@ -222,21 +274,23 @@ function getHeader(){
 	var li2 = document.createElement("li");
 	li2.setAttribute("class", "drop");
 	li2.setAttribute("style", "display:none;")
-	var a2 = document.createElement("a");
-	a2.appendChild(document.createTextNode("Profile"));
-	a2.setAttribute("href", "#");
-	a2.setAttribute("onclick", "loadAccount();");
-	li2.appendChild(a2);
+	var input1 = document.createElement("input");
+	input1.setAttribute("type", "button");
+	input1.setAttribute("value", "Profile");
+	input1.setAttribute("class", "headerButton");
+	input1.setAttribute("onclick", "loadAccount();");
+	li2.appendChild(input1);
 	ul.appendChild(li2);
 
 	var li3 = document.createElement("li");
 	li3.setAttribute("class", "drop");
 	li3.setAttribute("style", "display:none;")
-	var a3 = document.createElement("a");
-	a3.appendChild(document.createTextNode("Logout"));
-	a3.setAttribute("href", "#");
-	a3.setAttribute("onclick", "signOut();");
-	li3.appendChild(a3);
+	var input2 = document.createElement("input");
+	input2.setAttribute("type", "button");
+	input2.setAttribute("value", "Logout");
+	input2.setAttribute("class", "headerButton");
+	input2.setAttribute("onclick", "signOut();");
+	li3.appendChild(input2);
 	ul.appendChild(li3);
 	
 	divMenu.appendChild(ul);
