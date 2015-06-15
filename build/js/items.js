@@ -2,7 +2,9 @@
  * JavaScript for managing items
  * @author Michael DUBUIS
  */
-var itemList = "#itemList";
+var itemList = "itemList";
+var itemSearchList = "itemSearchList";
+var itemForm = "itemForm";
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -21,6 +23,7 @@ function addItem(){
 	var content = {
 			"title":title,
 			"category":category,
+			"contact":contact,
 			"country":country,
 			"date":date,
 			"description":description,
@@ -40,8 +43,7 @@ function removeItem(itemKey){
 }
 
 // Ask to the model to update item's itemKey
-function updateItem(){
-	var itemKey = $("#itemKey");
+function updateItem(itemKey){
 	var title = $("#title").val();
 	var category = $("#category").val();
 	var contact = $("#contact").val();
@@ -56,6 +58,7 @@ function updateItem(){
 			"itemKey":itemKey,
 			"title":title,
 			"category":category,
+			"contact":contact,
 			"country":country,
 			"date":date,
 			"description":description,
@@ -81,48 +84,108 @@ function loadItems(){
 	webSocket.send(JSON.stringify(data));
 }
 
+function editItem(itemKey){
+	var content = {
+			"itemKey":itemKey
+	};
+	var data = {"query":"loadItem", "content":content};
+	webSocket.send(JSON.stringify(data));
+}
+
 function loadCategories(){
 	var content = {};
 	var data = {"query":"loadCategories", "content":content};
+	webSocket.send(JSON.stringify(data));
+}
+
+function loadItemSearchField(){
+	var content = {};
+	var date = {"query":"loadItemSearchField", "content":content};
 	webSocket.send(JSON.stringify(data));
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function itemRemoved(content){
-	$(itemList+" #"+content.itemKey).remove();
+	$("#"+content.itemKey).detach();
+	$("#"+itemForm).replaceWith(getItemAddForm());
 }
 
-function newRowItem(content){
-	var row = document.createElement("tr");
-	
+function itemUpdated(content){
+	$("#"+content.itemKey).replaceWith(newRowItem(content));
+	$("#"+itemForm).replaceWith(getItemAddForm());
+}
+
+function itemsLoaded(content){
+	$("#"+itemList).append(newRowItem(content));
+}
+
+function itemAdded(content){
+	$("#"+itemList).append(newRowItem(content));
+	$("#"+itemForm).replaceWith(getItemAddForm());
+}
+
+function itemLoaded(content){
+	$.each(content, function(key, value){
+		$("#"+itemForm+" #"+key).val(value);
+	});
+	$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");
+	$("#addButton").attr("value", "Update Item");
+}
+
+function categoryLoaded(content){
+	var option = document.createElement("option");
+	option.appendChild(document.createTextNode(content.category));
+	$("#category").append(option);
+}
+
+function itemSearchFieldLoaded(content){
+	var option = document.createElement("option");
+	option.appendChild(document.createTextNode(content.field));
+	$("#field").append(option);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-var tableItemSearch = "#itemSearch";
-
-function newRowItem(id, title, description){
+function newRowItem(content){
 	var row = document.createElement("tr");
+	row.setAttribute("id", content.itemKey);
+	// Title cell
 	var cell1 = document.createElement("td");
-	var cell2 = document.createElement("td");
-	var cell3 = document.createElement("td");
-	
-	var cellText1 = document.createTextNode(id);
-	cell1.appendChild(cellText1);
-	var cellText2 = document.createTextNode(title);
-	cell2.appendChild(cellText2);
-	var cellText3 = document.createTextNode(description);
-	cell3.appendChild(cellText3);
-	
+	cell1.appendChild(document.createTextNode(content.title));
 	row.appendChild(cell1);
+	// Description cell
+	var cell2 = document.createElement("td");
+	cell2.appendChild(document.createTextNode(content.description));
 	row.appendChild(cell2);
+	// Buttons Cell
+	var cell3 = document.createElement("td");
+	// Edit Button
+	var removeButton = document.createElement("input");
+	removeButton.setAttribute("class", "buttonEdit");
+	removeButton.setAttribute("type", "button");
+	removeButton.setAttribute("onclick", "editItem('"+content.itemKey+"');");
+	removeButton.setAttribute("value", "Edit");
+	cell3.appendChild(removeButton);
+	// Remove Button
+	var removeButton = document.createElement("input");
+	removeButton.setAttribute("class", "buttonRemove");
+	removeButton.setAttribute("type", "button");
+	removeButton.setAttribute("onclick", "removeItem('"+content.itemKey+"');");
+	removeButton.setAttribute("value", "Remove");
+	cell3.appendChild(removeButton);
 	row.appendChild(cell3);
-	
 	return row;
 }
 
-function clearRowItemSearch(){
-	$(tableItemSearch).empty();
+// TODO A SUPPRIMER OU A VOIR !
+function updateSeachField(){
+	if($("#field").val == "category"){
+		var select = document.createElement("select");
+		select.setAttribute("name", "category");
+		select.setAttribute("id", "category");
+		$("#search").replaceWith(select);
+		loadCategories();
+		$("#category").attr("id", "search");
+	}
 }

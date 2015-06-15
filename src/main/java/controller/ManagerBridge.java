@@ -26,7 +26,12 @@ public class ManagerBridge implements ManagerBridgeInterface{
 			Application.getInstance().getManager().logout();
 		return Application.getInstance().getManager().login(login, password);
 	}
-
+	
+	@Override
+	public void logout(){
+		Application.getInstance().getManager().logout();
+	}
+	
 	@Override
 	public boolean updateAccount(String nick, String oldPassword, String newPassword,
 			String name, String firstName, String email, String phone){
@@ -52,10 +57,10 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	}
 	
 	@Override
-	public void addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
+	public String addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".addItem : No user logged !");
-			return;
+			return null;
 		}
 		Long l = DateConverter.getLongBefore(lifeTime);
 		l = l>0?l:0L;
@@ -75,28 +80,39 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		Item item = new Item(Application.getInstance().getManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
 		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
 		Application.getInstance().getManager().addItem(item, true);
+		return item.getItemKey();
 	}
 
 	@Override
-	public void removeItem(String title) {
+	public void removeItem(String itemKey) {
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".removeItem : No user logged !");
 			return;
 		}
-		Item item  = Application.getInstance().getManager().getItem(Application.getInstance().getManager().getCurrentUser().getKeys().getPublicKey().toString(16), title);
+		Item item  = Application.getInstance().getManager().getItem(itemKey);
 		if(item != null)
 			Application.getInstance().getManager().removeItem(item);
 	}
 
 	@Override
-	public void updateItem(String title, String category, String description,
-			String image, String country, String contact, String lifeTime,
-			String type) {
+	public void updateItem(String itemKey, String title, String category,
+			String description, String image, String country,
+			String contact, String lifeTime, String type) {
 		if(notLogged()){
 			System.err.println(this.getClass().getName()+".updateItem : No user logged !");
 			return;
 		}
-		addItem(title, category, description, image, country, contact, lifeTime, type);
+		Item item = new Item(Application.getInstance().getManager().getItem(itemKey).toString());
+		item.setTitle(title);
+		item.setCategory(new Category(category));
+		item.setDescription(description);
+		item.setImage(image);
+		item.setCountry(country);
+		item.setContact(contact);
+		item.setLifeTime(Long.parseLong(lifeTime));
+		item.setType(type.toUpperCase()=="WISH"?TYPE.WISH:TYPE.PROPOSAL);
+		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
+		Application.getInstance().getManager().updateItem(itemKey, item);
 	}
 	
 	private boolean notLogged(){
@@ -118,8 +134,13 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	}
 
 	@Override
-	public ArrayList<Item> getCurrentUserItem() {
+	public ArrayList<Item> getCurrentUserItems() {
 		return getUserItems(getCurrentUser().getKeys().getPublicKey().toString(16));
+	}
+	
+	@Override
+	public Item getCurrentUserItem(String itemKey){
+		return Application.getInstance().getManager().getItem(itemKey);
 	}
 
 	@Override

@@ -67,7 +67,14 @@ public class EchoServer {
 			}
 			switch((String) jsonObject.get("query")){
 			case "signIn" : signIn(jsonObject.get("content").toString(), session); break;
+			case "signOut" : signOut(jsonObject.get("content").toString(), session); break;
 			case "register" : register(jsonObject.get("content").toString(), session); break;
+			case "addItem" : addItem(jsonObject.get("content").toString(), session); break;
+			case "loadItems" : loadItems(jsonObject.get("content").toString(), session); break;
+			case "loadItem" : loadItem(jsonObject.get("content").toString(), session); break;
+			case "updateItem" : updateItem(jsonObject.get("content").toString(), session); break;
+			case "removeItem" : removeItem(jsonObject.get("content").toString(), session); break;
+			case "loadCategories" : loadCategories(jsonObject.get("content").toString(), session); break;
 			default:
 				System.out.println("unknown : "+((String) jsonObject.get("query")));
 			}
@@ -79,24 +86,6 @@ public class EchoServer {
 			e.printStackTrace();
 		}
 	}
-	
-	private void register(String s, Session session) throws JSONException, IOException {
-		JSONObject content = getJSON(s);
-		String nick = content.getString("username");
-		String password = content.getString("password");
-		String name = content.getString("name");
-		String firstName = content.getString("firstname");
-		String email = content.getString("email");
-		String phone = content.getString("phone");
-		managerBridge.registration(nick, password, name, firstName, email, phone);
-		
-		JSONObject data = new JSONObject();
-		data.put("query", "registration");
-		content.put("ok", "ok");
-		data.put("content", content);
-		session.getBasicRemote().sendText(data.toString());
-	}
-
 	private JSONObject getJSON(String string){
 		try {
 			return new JSONObject(string);
@@ -107,8 +96,8 @@ public class EchoServer {
 	}
 	
 	private void signIn(String s, Session session) throws JSONException, IOException, EncodeException {
-		JSONObject jsonObject = getJSON(s);
-		if(managerBridge.login((String) jsonObject.getString("username"), (String) jsonObject.getString("password"))){
+		JSONObject c = getJSON(s);
+		if(managerBridge.login((String) c.getString("username"), (String) c.getString("password"))){
 			JSONObject data = new JSONObject();
 			data.put("query", "login");
 			JSONObject content = new JSONObject();
@@ -123,11 +112,146 @@ public class EchoServer {
 			content.put("ok", "no");
 			content.put("message", "unknown account");
 			data.put("content", content);
-			System.out.println(data.toString());
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+	
+	private void signOut(String s, Session session) throws JSONException, IOException{
+		String username = managerBridge.getCurrentUser().getNick();
+		managerBridge.logout();
+		JSONObject data = new JSONObject();
+		data.put("query", "logout");
+		JSONObject content = new JSONObject();
+		content.put("username", username);
+		data.put("content", content);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void register(String s, Session session) throws JSONException, IOException {
+		JSONObject c = getJSON(s);
+		String nick = c.getString("username");
+		String password = c.getString("password");
+		String name = c.getString("name");
+		String firstName = c.getString("firstname");
+		String email = c.getString("email");
+		String phone = c.getString("phone");
+		managerBridge.registration(nick, password, name, firstName, email, phone);
+		
+		JSONObject data = new JSONObject();
+		data.put("query", "registration");
+		c.put("ok", "ok");
+		data.put("content", c);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void addItem(String s, Session session) throws JSONException, IOException{
+		JSONObject c = getJSON(s);
+		String category = c.getString("category");
+		String contact = c.getString("contact");
+		String country = c.getString("country");
+		String description = c.getString("description");
+		String image = c.getString("image");
+		String lifeTime = c.getString("lifetime");
+		String title = c.getString("title");
+		String type = c.getString("type");
+		String itemKey = managerBridge.addItem(title, category, description, image, country, contact, lifeTime, type);
+		// Answer
+		if(itemKey == null || itemKey.isEmpty()){
+			// Send error message
+		}else{
+			JSONObject data = new JSONObject();
+			data.put("query", "itemAdded");
+			JSONObject content = new JSONObject();
+			content.put("itemKey", itemKey);
+			content.put("title", title);
+			content.put("description", description);
+			data.put("content", content);
 			session.getBasicRemote().sendText(data.toString());
 		}
 	}
 
+	private void loadItems(String s, Session session) throws JSONException, IOException{
+		ArrayList<Item> items = managerBridge.getCurrentUserItems();
+		if(items == null || items.isEmpty()) return;
+		for (Item item : items) {
+			JSONObject data = new JSONObject();
+			data.put("query", "itemsLoaded");
+			JSONObject content = new JSONObject();
+			content.put("itemKey", item.getItemKey());
+			content.put("title", item.getTitle());
+			content.put("description", item.getDescription());
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+	
+	private void loadItem(String s, Session session) throws JSONException, IOException{
+		JSONObject c = getJSON(s);
+		String itemKey = c.getString("itemKey");
+		Item item = managerBridge.getCurrentUserItem(itemKey);
+		JSONObject data = new JSONObject();
+		data.put("query", "itemLoaded");
+		JSONObject content = new JSONObject();
+		content.put("itemKey", itemKey);
+		content.put("title", item.getTitle());
+		content.put("description", item.getDescription());
+		content.put("category", item.getCategory().getStringChoice());
+		content.put("contact", item.getContact());
+		content.put("country", item.getCountry());
+		content.put("image", item.getImage());
+		content.put("lifetime", item.getLifeTime());
+		content.put("type", item.getType());
+		data.put("content", content);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void updateItem(String s, Session session) throws JSONException, IOException{
+		JSONObject c = getJSON(s);
+		String itemKey = c.getString("itemKey");
+		String category = c.getString("category");
+		String contact = c.getString("contact");
+		String country = c.getString("country");
+		String description = c.getString("description");
+		String image = c.getString("image");
+		String lifeTime = c.getString("lifetime");
+		String title = c.getString("title");
+		String type = c.getString("type");
+		managerBridge.updateItem(itemKey, title, category, description, image, country, contact, lifeTime, type);
+
+		JSONObject data = new JSONObject();
+		data.put("query", "itemUpdated");
+		JSONObject content = new JSONObject();
+		content.put("itemKey", itemKey);
+		content.put("title", title);
+		content.put("description", description);
+		data.put("content", content);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void removeItem(String s, Session session) throws JSONException, IOException{
+		JSONObject c = getJSON(s);
+		String itemKey = c.getString("itemKey");
+		managerBridge.removeItem(itemKey);
+		JSONObject data = new JSONObject();
+		data.put("query", "itemRemoved");
+		JSONObject content = new JSONObject();
+		content.put("itemKey", itemKey);
+		data.put("content", content);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void loadCategories(String s, Session session) throws JSONException, IOException{
+		ArrayList<String> listCat = Category.getAllCategorie();
+		for (String string : listCat) {
+			JSONObject data = new JSONObject();
+			data.put("query", "categoryLoaded");
+			JSONObject content = new JSONObject();
+			content.put("category", string);
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+	
 	/**
 	 * The user closes the connection.
 	 * Note: you can't send messages to the client from this method

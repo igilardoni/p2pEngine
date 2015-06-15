@@ -23,7 +23,10 @@ public interface ManagerBridgeInterface {
 	 * @return
 	 */
 	public boolean login(String nick, String password);
-	
+	/**
+	 * Logout the current user
+	 */
+	public void logout();
 	//////////////////////////////////////////////////// ITEMS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Add an current user's item in the manager 
@@ -36,7 +39,7 @@ public interface ManagerBridgeInterface {
 	 * @param lifeTime
 	 * @param type
 	 */
-	public void addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
+	public String addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
 	/**
 	 * Remove item with title for the current User
 	 * @param title
@@ -54,7 +57,7 @@ public interface ManagerBridgeInterface {
 	 * @param lifeTime
 	 * @param type
 	 */
-	public void updateItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
+	public void updateItem(String itemKey, String title, String category, String description, String image, String country, String contact, String lifeTime, String type );
 	/**
 	 * Get user's items
 	 * @param publicKey of the user
@@ -65,7 +68,13 @@ public interface ManagerBridgeInterface {
 	 * Get current user's items
 	 * @return ArrayList<Item> current user's items 
 	 */
-	public ArrayList<Item> getCurrentUserItem();
+	public ArrayList<Item> getCurrentUserItems();
+	/**
+	 * Get current user's item's itemKey
+	 * @param itemKey
+	 * @return
+	 */
+	public Item getCurrentUserItem(String itemKey);
 	////////////////////////////////////////////////// FAVORITES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Use to add an item in current user's Favorites
