@@ -151,7 +151,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		else throw new IllegalArgumentException("Key " + key + " inconnue");
 	}
 	
-	
 	/**
 	 * Add a new key for this advertisement.
 	 * @param key the new key

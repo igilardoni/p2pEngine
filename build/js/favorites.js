@@ -2,6 +2,7 @@
  * JavaScript for managing favorites
  * @author Michael DUBUIS
  */
+var favoritesList = "favoritesList";
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,3 +36,6 @@ function loadItemsFavorites(){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function favoritesItemsLoaded(content){
+	$("#"+favoritesList).append(newRowItem(content));
+}
