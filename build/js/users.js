@@ -49,7 +49,7 @@ function register(){
 }
 
 // Ask to the model to update current account
-function updaterAccount(){
+function updateAccount(){
 	var oldPassword = $("#oldpassword").val();
 	var password = $("#password").val();
 	var passwordConfirm = $("#passwordConfirm").val();
@@ -57,7 +57,7 @@ function updaterAccount(){
 	var name = $("#name").val();
 	var firstname = $("#firstname").val();
 	var email = $("#email").val();
-	var phone = $("#pĥone").val();
+	var phone = $("#phone").val();
 	// TODO Fields verification
 	var content = {
 			"oldpassword":oldPassword,
@@ -127,11 +127,8 @@ function accountUpdated(content){
 }
 
 // Display account
-function account(content){
-	includeHeader();
-	includeMenu();
-	includeAccount();
-	$("#id").val(content.id);
+function accountLoaded(content){
+	//$("#id").val(content.id);
 	$("#username").val(content.username);
 	$("#name").val(content.name);
 	$("#firstname").val(content.firstname);

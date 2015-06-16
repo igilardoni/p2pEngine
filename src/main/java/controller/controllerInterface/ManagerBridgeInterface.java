@@ -75,6 +75,11 @@ public interface ManagerBridgeInterface {
 	 * @return
 	 */
 	public Item getCurrentUserItem(String itemKey);
+	/**
+	 * Get Searchable fields for Item
+	 * @return
+	 */
+	public ArrayList<String> getItemSearchableFields();
 	////////////////////////////////////////////////// FAVORITES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Use to add an item in current user's Favorites

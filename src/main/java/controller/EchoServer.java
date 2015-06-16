@@ -11,17 +11,13 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
-import model.data.manager.Manager;
+import model.data.item.Item.TYPE;
 import model.data.user.User;
-import model.network.search.ItemSearcher;
-import model.network.search.SearchListener;
-import util.DateConverter;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 
 /**
@@ -33,8 +29,7 @@ import util.DateConverter;
 
 /** 
  * @ServerEndpoint gives the relative name for the end point
- * This will be accessed via ws://localhost:8080/EchoChamber/echo .
- * TODO Prévoir le changement d'indexation sur identifiant unique (itemKey)
+ * This will be accessed via ws://localhost:8080/EchoChamber/echo.
  */
 @ServerEndpoint("/serv") 
 public class EchoServer {
@@ -51,7 +46,16 @@ public class EchoServer {
 	public void onOpen(Session session,EndpointConfig config){
 		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
 	}
-
+	
+	/**
+	 * The user closes the connection.
+	 * Note: you can't send messages to the client from this method
+	 */
+	@OnClose
+	public void onClose(Session session){
+		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Session has ended");
+	}
+	
 	/**
 	 * When a user sends a message to the server, this method will intercept the message
 	 * and allow us to react to it. For now the message is read as a String.
@@ -66,15 +70,25 @@ public class EchoServer {
 				return;
 			}
 			switch((String) jsonObject.get("query")){
+			// User
 			case "signIn" : signIn(jsonObject.get("content").toString(), session); break;
 			case "signOut" : signOut(jsonObject.get("content").toString(), session); break;
 			case "register" : register(jsonObject.get("content").toString(), session); break;
+			case "loadAccount" : loadAccount(jsonObject.get("content").toString(), session); break;
+			case "updateAccount" : updateAccount(jsonObject.get("content").toString(), session); break;
+			// Item
 			case "addItem" : addItem(jsonObject.get("content").toString(), session); break;
 			case "loadItems" : loadItems(jsonObject.get("content").toString(), session); break;
 			case "loadItem" : loadItem(jsonObject.get("content").toString(), session); break;
 			case "updateItem" : updateItem(jsonObject.get("content").toString(), session); break;
 			case "removeItem" : removeItem(jsonObject.get("content").toString(), session); break;
 			case "loadCategories" : loadCategories(jsonObject.get("content").toString(), session); break;
+			case "loadType" : loadType(jsonObject.get("content").toString(), session); break;
+			case "loadItemSearchField" : loadItemSearchField(jsonObject.get("content").toString(), session); break;
+			case "loadItemSearchFieldCategory" : loadItemSearchFieldCategory(jsonObject.get("content").toString(), session); break;
+			case "loadItemSearchFieldType" : loadItemSearchFieldType(jsonObject.get("content").toString(), session); break;
+			// Favorites
+			case "loadItemsFavorites" : loadItemsFavorites(jsonObject.get("content").toString(), session); break;
 			default:
 				System.out.println("unknown : "+((String) jsonObject.get("query")));
 			}
@@ -86,6 +100,7 @@ public class EchoServer {
 			e.printStackTrace();
 		}
 	}
+	
 	private JSONObject getJSON(String string){
 		try {
 			return new JSONObject(string);
@@ -142,6 +157,42 @@ public class EchoServer {
 		c.put("ok", "ok");
 		data.put("content", c);
 		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void loadAccount(String s, Session session) throws JSONException, IOException{
+		User user = managerBridge.getCurrentUser();
+		JSONObject data = new JSONObject();
+		data.put("query", "accountLoaded");
+		JSONObject content = new JSONObject();
+		content.put("username", user.getNick());
+		content.put("name", user.getName());
+		content.put("firstname", user.getFirstName());
+		content.put("phone", user.getPhone());
+		content.put("email", user.getEmail());
+		data.put("content", content);
+		session.getBasicRemote().sendText(data.toString());
+	}
+	
+	private void updateAccount(String s, Session session) throws JSONException, IOException{
+		JSONObject c = getJSON(s);
+		String nick = c.getString("username");
+		String oldPassword = c.getString("oldpassword");
+		String newPassword = c.getString("password");
+		String name = c.getString("name");
+		String firstName = c.getString("firstname");
+		String email = c.getString("email");
+		String phone = c.getString("phone");
+		boolean ok = managerBridge.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone);
+		if(!ok){
+			// Send error message
+		}else{
+			JSONObject data = new JSONObject();
+			data.put("query", "accountUpdated");
+			JSONObject content = new JSONObject();
+			content.put("ok", "ok");
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
 	}
 	
 	private void addItem(String s, Session session) throws JSONException, IOException{
@@ -251,13 +302,66 @@ public class EchoServer {
 			session.getBasicRemote().sendText(data.toString());
 		}
 	}
+
+	private void loadType(String s, Session session) throws JSONException, IOException{
+		Item.TYPE[] types = Item.TYPE.values();
+		for (Item.TYPE type : types) {
+			JSONObject data = new JSONObject();
+			data.put("query", "typeLoaded");
+			JSONObject content = new JSONObject();
+			content.put("type", type.toString());
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
 	
-	/**
-	 * The user closes the connection.
-	 * Note: you can't send messages to the client from this method
-	 */
-	@OnClose
-	public void onClose(Session session){
-		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Session has ended");
+	private void loadItemSearchField(String s, Session session) throws JSONException, IOException{
+		ArrayList<String> fields = managerBridge.getItemSearchableFields();
+		for (String field : fields) {
+			JSONObject data = new JSONObject();
+			data.put("query", "itemSearchFieldLoaded");
+			JSONObject content = new JSONObject();
+			content.put("field", field);
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+
+	private void loadItemSearchFieldCategory(String s, Session session) throws JSONException, IOException{
+		ArrayList<String> categories = Category.getAllCategorie();
+		for (String c : categories) {
+			JSONObject data = new JSONObject();
+			data.put("query", "itemSearchFieldCategoryLoaded");
+			JSONObject content = new JSONObject();
+			content.put("option", c);
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+
+	private void loadItemSearchFieldType(String s, Session session) throws JSONException, IOException{
+		Item.TYPE[] types = Item.TYPE.values();
+		for (Item.TYPE t : types) {
+			JSONObject data = new JSONObject();
+			data.put("query", "itemSearchFieldTypeLoaded");
+			JSONObject content = new JSONObject();
+			content.put("option", t.toString());
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
+	}
+
+	private void loadItemsFavorites(String s, Session session) throws JSONException, IOException{
+		ArrayList<Item> favorites = managerBridge.getFavoriteItems();
+		for (Item item : favorites) {
+			JSONObject data = new JSONObject();
+			data.put("query", "favoritesItemsLoaded");
+			JSONObject content = new JSONObject();
+			content.put("itemKey", item.getItemKey());
+			content.put("title", item.getTitle());
+			content.put("description", item.getDescription());
+			data.put("content", content);
+			session.getBasicRemote().sendText(data.toString());
+		}
 	}
 }

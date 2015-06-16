@@ -25,21 +25,40 @@ function openSocket(){
 function serverReply(data){
 	data = JSON.parse(data);
 	switch(data.query){
-	case "registration":	registration(data.content); break;
-	case "accountUpdated":	accountUpdated(data.content); break;
-	case "login":			login(data.content); break;
-	case "logout":			logout(data.content); break;
-	case "itemRemoved":		itemRemoved(data.content); break;
-	case "itemsLoaded":		itemsLoaded(data.content); break;
-	case "itemUpdated":		itemUpdated(data.content); break;
-	case "itemAdded":		itemAdded(data.content); break;
-	case "itemLoaded":		itemLoaded(data.content); break;
-	case "categoryLoaded":	categoryLoaded(data.content); break;
+	case "registration":					registration(data.content); break;
+	case "accountUpdated":					accountUpdated(data.content); break;
+	case "accountLoaded":					accountLoaded(data.content); break;
+	case "login":							login(data.content); break;
+	case "logout":							logout(data.content); break;
 	
-	case "displayHome":		displayHome(data.content); break;
-	case "displayItem":		displayItem(data.content); break;
-	case "displayAccount":	displayAccount(data.content); break;
-	case "displayContrat":	displayContrat(data.content); break;
-	default: alert(data.query+" unknow !");
+	case "itemRemoved":						itemRemoved(data.content); break;
+	case "itemsLoaded":						itemsLoaded(data.content); break;
+	case "itemUpdated":						itemUpdated(data.content); break;
+	case "itemAdded":						itemAdded(data.content); break;
+	case "itemLoaded":						itemLoaded(data.content); break;
+	case "categoryLoaded":					categoryLoaded(data.content); break;
+	case "typeLoaded":						typeLoaded(data.content); break;
+	case "itemSearchFieldLoaded":			itemSearchFieldLoaded(data.content); break;
+	case "itemSearchFieldCategoryLoaded":	itemSearchFieldsLoaded(data.content); break;
+	case "itemSearchFieldTypeLoaded":		itemSearchFieldsLoaded(data.content); break;
+	
+	case "favoritesItemsLoaded":			favoritesItemsLoaded(data.content); break;
+	
+	case "displayHome":						displayHome(data.content); break;
+	case "displayItem":						displayItem(data.content); break;
+	case "displayAccount":					displayAccount(data.content); break;
+	case "displayContrat":					displayContrat(data.content); break;
+	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
+}
+
+function sendQueryEmpty(query){
+	var content = {};
+	var data = {"query":query, "content":content};
+	webSocket.send(JSON.stringify(data));
+}
+
+function sendQuery(query, content){
+	var data = {"query":query, "content":content};
+	webSocket.send(JSON.stringify(data));
 }

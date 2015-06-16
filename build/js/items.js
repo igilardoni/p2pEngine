@@ -8,7 +8,9 @@ var itemForm = "itemForm";
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// Ask to the model to add a new item
+/**
+ * Ask to the model to add a new item
+ */
 function addItem(){
 	var title = $("#title").val();
 	var category = $("#category").val();
@@ -31,18 +33,20 @@ function addItem(){
 			"lifetime":lifetime,
 			"type":type
 	};
-	var data = {"query":"addItem", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQuery("addItem", content);
 }
-
-// Ask to the model to remove item's itemKey
+/**
+ * Ask to the model to remove item's itemKey
+ * @param itemKey
+ */
 function removeItem(itemKey){
 	var content = {"itemKey":itemKey};
-	var data = {"query":"removeItem", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQuery("removeItem", content);
 }
-
-// Ask to the model to update item's itemKey
+/**
+ * Ask to the model to update item's itemKey
+ * @param itemKey
+ */
 function updateItem(itemKey){
 	var title = $("#title").val();
 	var category = $("#category").val();
@@ -66,42 +70,63 @@ function updateItem(itemKey){
 			"lifetime":lifetime,
 			"type":type
 	};
-	var data = {"query":"updateItem", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQuery("updateItem", content);
 }
-
-// Ask to the model data of item's itemKey
+/**
+ * Ask to the model data of item's itemKey
+ * @param itemKey
+ */
 function loadItem(itemKey){
-	var content = {"itemKey":itemKey};
-	var data = {"query":"loadItem", "content":content};
-	webSocket.send(JSON.stringify(data));
+	var content = {
+			"itemKey":itemKey
+			};
+	sendQuery("loadItem", content);
 }
-
-// Ask to the model to send all data items (for the current user)
+/**
+ * Ask to the model to send all data items (for the current user)
+ */
 function loadItems(){
-	var content = {};
-	var data = {"query":"loadItems", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQueryEmpty("loadItems");
 }
-
+/**
+ * Ask to the model to send item's itemKey
+ * @param itemKey
+ */
 function editItem(itemKey){
 	var content = {
 			"itemKey":itemKey
 	};
-	var data = {"query":"loadItem", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQuery("loadItem", content);
 }
-
+/**
+ * Ask to the model to send item's category
+ */
 function loadCategories(){
-	var content = {};
-	var data = {"query":"loadCategories", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQueryEmpty("loadCategories");
 }
-
+/**
+ * Ask to the model to send item's type
+ */
+function loadType(){
+	sendQueryEmpty("loadType");
+}
+/**
+ * Ask to the model to send item's searchable field
+ */
 function loadItemSearchField(){
-	var content = {};
-	var date = {"query":"loadItemSearchField", "content":content};
-	webSocket.send(JSON.stringify(data));
+	sendQueryEmpty("loadItemSearchField");
+}
+/**
+ * Ask to the model to send item's category for searching
+ */
+function loadItemSearchFieldCategory(){
+	sendQueryEmpty("loadItemSearchFieldCategory");
+}
+/**
+ * Ask to the model to send item's type for searching
+ */
+function loadItemSearchFieldType(){
+	sendQueryEmpty("loadItemSearchFieldType");
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
@@ -139,14 +164,147 @@ function categoryLoaded(content){
 	$("#category").append(option);
 }
 
+function typeLoaded(content){
+	var option = document.createElement("option");
+	option.appendChild(document.createTextNode(content.type));
+	$("#type").append(option);
+}
+
 function itemSearchFieldLoaded(content){
 	var option = document.createElement("option");
 	option.appendChild(document.createTextNode(content.field));
 	$("#field").append(option);
 }
+
+function itemSearchFieldsLoaded(content){
+	var option = document.createElement("option");
+	option.appendChild(document.createTextNode(content.option));
+	$("#searchField").append(option);
+}
+
+function updateSearchField(){
+	var field = $("#field").val();
+	switch(field){
+	case "category":
+		var select = document.createElement("select");
+		select.setAttribute("id", "searchField");
+		select.setAttribute("name", "searchField");
+		$("#searchField").replaceWith(select);
+		loadItemSearchFieldCategory();
+		break;
+	case "type":
+		var select = document.createElement("select");
+		select.setAttribute("id", "searchField");
+		select.setAttribute("name", "searchField");
+		$("#searchField").replaceWith(select);
+		loadItemSearchFieldType();
+		break;
+	default:
+		var input = document.createElement("input");
+		input.setAttribute("id", "searchField");
+		input.setAttribute("name", "searchField");
+		input.setAttribute("type", "text");
+		$("#searchField").replaceWith(input);
+	}
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/**
+ * Get a form for add/update item, without button
+ * @returns Element "div"
+ */
+function getItemFormWithoutButton(){
+	var div = document.createElement("div");
+	div.setAttribute("id", itemForm);
+	for ( var i = 0 ; i < formItemAdd.length; i++) {
+		var p = document.createElement("p");
+		var element = document.createElement(formItemAdd[i].element);
+		var label = document.createElement("label");
+		label.appendChild(document.createTextNode(formItemAdd[i].label))
+		label.setAttribute("for", formItemAdd[i].attributes.name);
+		label.setAttribute("id", "label_"+formItemAdd[i].attributes.name);
+		p.appendChild(label);
+		$.each(formItemAdd[i].attributes, function(key, value){
+			element.setAttribute(key, value);
+		});
+		p.appendChild(element);
+		div.appendChild(p);
+	}
+	loadCategories();
+	loadType();
+	return div;
+}
+/**
+ * Get a form for add item (with buttons "Add" and "Cancel")
+ * @returns Element "div"
+ */
+function getItemAddForm(){
+	var div = getItemFormWithoutButton();
+	for( var i = 0 ; i < buttonItemAdd.length; i++){
+		var input = document.createElement("input");
+		$.each(buttonItemAdd[i], function(key, value){
+			input.setAttribute(key, value);
+		});
+		div.appendChild(input);
+	}
+	return div;
+}
+/**
+ * Get a form for search item with button "Search"
+ * @returns Element "div"
+ */
+function getItemSearchForm(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "search");
+	for ( var i = 0 ; i < formSearchItem.length; i++) {
+		var p = document.createElement("p");
+		var element = document.createElement(formSearchItem[i].element);
+		var label = document.createElement("label");
+		label.appendChild(document.createTextNode(formSearchItem[i].label))
+		label.setAttribute("for", formSearchItem[i].attributes.name);
+		label.setAttribute("id", "label_"+formSearchItem[i].attributes.name);
+		p.appendChild(label);
+		$.each(formSearchItem[i].attributes, function(key, value){
+			element.setAttribute(key, value);
+		});
+		p.appendChild(element);
+		div.appendChild(p);
+	}
+	for( var i = 0 ; i < buttonSearchItem.length; i++){
+		var p = document.createElement("p");
+		var input = document.createElement("input");
+		$.each(buttonSearchItem[i], function(key, value){
+			input.setAttribute(key, value);
+		});
+		p.appendChild(input);
+		div.appendChild(p);
+	}
+	return div;
+}
+/**
+ * Get a table for display item list
+ * @param id - put this id to the table
+ * @returns Element "table"
+ */
+function getTableItem(id){
+	var table = document.createElement("table");
+	table.setAttribute("id", id);
+	for( var i = 0 ; i < tableItem.length; i++){
+		var th = document.createElement("th");
+		$.each(tableItem[i].attributes, function(key, value){
+			th.setAttribute(key, value);
+		});
+		th.appendChild(document.createTextNode(tableItem[i].text));
+		table.appendChild(th);
+	}
+	return table;
+}
+/**
+ * Get a row for an item
+ * @param content JSONObject (title, description and itemKey)
+ * @returns Element "tr"
+ */
 function newRowItem(content){
 	var row = document.createElement("tr");
 	row.setAttribute("id", content.itemKey);
@@ -177,15 +335,9 @@ function newRowItem(content){
 	row.appendChild(cell3);
 	return row;
 }
-
-// TODO A SUPPRIMER OU A VOIR !
-function updateSeachField(){
-	if($("#field").val == "category"){
-		var select = document.createElement("select");
-		select.setAttribute("name", "category");
-		select.setAttribute("id", "category");
-		$("#search").replaceWith(select);
-		loadCategories();
-		$("#category").attr("id", "search");
-	}
+/**
+ * Erase form with id "itemForm"
+ */
+function cancelItem(){
+	$("#"+itemForm).replaceWith(getItemAddForm());
 }

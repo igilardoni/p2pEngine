@@ -60,5 +60,16 @@ function removeHeader(){
 }
 
 function includeAccount(){
-	
+	$("#content").empty();
+	$("#content").append(getUpdateAccountForm());
+}
+
+function includeFavorites(){
+	$("aside").empty();
+	$("aside").append(getFavoritesDisplay());
+	loadItemsFavorites();
+}
+
+function removeFavorites(){
+	$("aside").empty();
 }

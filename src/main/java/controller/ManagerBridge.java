@@ -7,6 +7,7 @@ import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
 import model.data.user.User;
+import model.network.search.ItemSearcher;
 import util.DateConverter;
 import controller.controllerInterface.ManagerBridgeInterface;
 
@@ -142,7 +143,15 @@ public class ManagerBridge implements ManagerBridgeInterface{
 	public Item getCurrentUserItem(String itemKey){
 		return Application.getInstance().getManager().getItem(itemKey);
 	}
-
+	
+	public ArrayList<String> getItemSearchableFields(){
+		ArrayList<String> fields = new ArrayList<String>();
+		for(String s : (new Item()).getIndexFields()){
+			fields.add(s);
+		}
+		return fields;
+	}
+	
 	@Override
 	public void addFavoriteItem(Item item) {
 		Application.getInstance().getManager().getFavoritesCurrentUser().addItem(item);
@@ -155,6 +164,18 @@ public class ManagerBridge implements ManagerBridgeInterface{
 
 	@Override
 	public ArrayList<String> getFavoriteItemsKey() {
-		return Application.getInstance().getManager().getFavoritesCurrentUser().getItemsKey();
+		ArrayList<String> items =  Application.getInstance().getManager().getFavoritesCurrentUser().getItemsKey();
+		return items==null?(new ArrayList<String>()):items;
+	}
+	
+	public ArrayList<Item> getFavoriteItems(){
+		ArrayList<Item> items = new ArrayList<Item>();
+		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
+		for(String itemKey : getFavoriteItemsKey()){
+			Item i = itemSearcher.search(itemKey);
+			if(i!=null)
+				items.add(i);
+		}
+		return items;
 	}
 }
