@@ -9,37 +9,58 @@ import model.data.item.Item.TYPE;
 import model.data.user.User;
 import model.network.search.ItemSearcher;
 import util.DateConverter;
-import controller.controllerInterface.ManagerBridgeInterface;
 
-public class ManagerBridge implements ManagerBridgeInterface{
-	public ManagerBridge(){
+public class ManagerBridge{
+	private ManagerBridge(){
 	}
-	
-	@Override
-	public void registration(String nick,String password, String name, String firstName, String email, String phone){
+	//////////////////////////////////////////////////// USERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Add NEW User to current Manager
+	 * @param nick
+	 * @param password
+	 * @param name
+	 * @param firstName
+	 * @param login
+	 * @param login
+	 */
+	public static void registration(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);
 		Application.getInstance().getManager().registration(user);
 	}
-	
-	@Override
-	public boolean login(String login, String password){
+	/**
+	 * Return true if, only if, login exists and password is good
+	 * @param login
+	 * @param password
+	 * @return
+	 */
+	public static boolean login(String login, String password){
 		if(Application.getInstance().getManager().getCurrentUser()!=null)
 			Application.getInstance().getManager().logout();
 		return Application.getInstance().getManager().login(login, password);
 	}
-	
-	@Override
-	public void logout(){
+	/**
+	 * Logout the current user
+	 */
+	public static void logout(){
 		Application.getInstance().getManager().logout();
 	}
-	
-	@Override
-	public boolean updateAccount(String nick, String oldPassword, String newPassword,
+	/**
+	 * Update the current account
+	 * @param nick
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param name
+	 * @param firstName
+	 * @param email
+	 * @param phone
+	 * @return
+	 */
+	public static boolean updateAccount(String nick, String oldPassword, String newPassword,
 			String name, String firstName, String email, String phone){
 		
 	
 		if(Application.getInstance().getManager().getCurrentUser() == null){
-			System.err.println(this.getClass().getName()+".addItem : No user logged !");
+			System.err.println(ManagerBridge.class.getName()+".addItem : No user logged !");
 			return false;
 		}
 		if(Application.getInstance().getManager().getCurrentUser().isPassword(oldPassword)){
@@ -56,11 +77,28 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		}
 		return false;
 	}
-	
-	@Override
-	public String addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
+	/**
+	 * Get the currentUser, null if no user logged
+	 * @return User currentUser
+	 */
+	public static User getCurrentUser() {
+		return Application.getInstance().getManager().getCurrentUser();
+	}
+	//////////////////////////////////////////////////// ITEMS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	
+	/**
+	 * Add an current user's item in the manager 
+	 * @param title
+	 * @param category
+	 * @param description
+	 * @param image
+	 * @param country
+	 * @param contact
+	 * @param lifeTime
+	 * @param type
+	 */
+	public static String addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
 		if(notLogged()){
-			System.err.println(this.getClass().getName()+".addItem : No user logged !");
+			System.err.println(ManagerBridge.class.getName()+".addItem : No user logged !");
 			return null;
 		}
 		Long l = DateConverter.getLongBefore(lifeTime);
@@ -83,24 +121,36 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		Application.getInstance().getManager().addItem(item, true);
 		return item.getItemKey();
 	}
-
-	@Override
-	public void removeItem(String itemKey) {
+	/**
+	 * Remove item with title for the current User
+	 * @param title
+	 */
+	public static void removeItem(String itemKey) {
 		if(notLogged()){
-			System.err.println(this.getClass().getName()+".removeItem : No user logged !");
+			System.err.println(ManagerBridge.class.getName()+".removeItem : No user logged !");
 			return;
 		}
 		Item item  = Application.getInstance().getManager().getItem(itemKey);
 		if(item != null)
 			Application.getInstance().getManager().removeItem(item);
 	}
-
-	@Override
-	public void updateItem(String itemKey, String title, String category,
+	/**
+	 * Update item with title for the current user
+	 * Care, the title can't be changed !
+	 * @param title
+	 * @param category
+	 * @param description
+	 * @param image
+	 * @param country
+	 * @param contact
+	 * @param lifeTime
+	 * @param type
+	 */
+	public static void updateItem(String itemKey, String title, String category,
 			String description, String image, String country,
 			String contact, String lifeTime, String type) {
 		if(notLogged()){
-			System.err.println(this.getClass().getName()+".updateItem : No user logged !");
+			System.err.println(ManagerBridge.class.getName()+".updateItem : No user logged !");
 			return;
 		}
 		Item item = new Item(Application.getInstance().getManager().getItem(itemKey).toString());
@@ -115,60 +165,72 @@ public class ManagerBridge implements ManagerBridgeInterface{
 		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
 		Application.getInstance().getManager().updateItem(itemKey, item);
 	}
-	
-	private boolean notLogged(){
-		return Application.getInstance().getManager().getCurrentUser() == null;
-	}
-
-	@Override
-	public User getCurrentUser() {
-		return Application.getInstance().getManager().getCurrentUser();
-	}
-
-	@Override
-	public ArrayList<Item> getUserItems(String publicKey) {
+	/**
+	 * Get user's items
+	 * @param publicKey of the user
+	 * @return ArrayList<Item> user's (who has publicKey) items 
+	 */
+	public static ArrayList<Item> getUserItems(String publicKey) {
 		if(publicKey == null){
 			System.err.println("public key empty");
 			return null;
 		}
 		return Application.getInstance().getManager().getUserItems(publicKey);
 	}
-
-	@Override
-	public ArrayList<Item> getCurrentUserItems() {
+	/**
+	 * Get current user's items
+	 * @return ArrayList<Item> current user's items 
+	 */
+	public static ArrayList<Item> getCurrentUserItems() {
 		return getUserItems(getCurrentUser().getKeys().getPublicKey().toString(16));
 	}
-	
-	@Override
-	public Item getCurrentUserItem(String itemKey){
+	/**
+	 * Get current user's item's itemKey
+	 * @param itemKey
+	 * @return
+	 */
+	public static Item getCurrentUserItem(String itemKey){
 		return Application.getInstance().getManager().getItem(itemKey);
 	}
-	
-	public ArrayList<String> getItemSearchableFields(){
+	/**
+	 * Get Searchable fields for Item
+	 * @return
+	 */
+	public static ArrayList<String> getItemSearchableFields(){
 		ArrayList<String> fields = new ArrayList<String>();
 		for(String s : (new Item()).getIndexFields()){
 			fields.add(s);
 		}
 		return fields;
 	}
-	
-	@Override
-	public void addFavoriteItem(Item item) {
+	////////////////////////////////////////////////// FAVORITES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Use to add an item in current user's Favorites
+	 * @param item
+	 */
+	public static void addFavoriteItem(Item item) {
 		Application.getInstance().getManager().getFavoritesCurrentUser().addItem(item);
 	}
-
-	@Override
-	public void removeFavoriteItem(String itemKey) {
+	/**
+	 * Remove an item in current user's Favorite.
+	 * @param itemKey - can be given with item.getItemKey()
+	 */
+	public static void removeFavoriteItem(String itemKey) {
 		Application.getInstance().getManager().getFavoritesCurrentUser().removeItem(itemKey);
 	}
-
-	@Override
-	public ArrayList<String> getFavoriteItemsKey() {
+	/**
+	 * Return all item in current user's favorites
+	 * @return
+	 */
+	public static ArrayList<String> getFavoriteItemsKey() {
 		ArrayList<String> items =  Application.getInstance().getManager().getFavoritesCurrentUser().getItemsKey();
 		return items==null?(new ArrayList<String>()):items;
 	}
-	
-	public ArrayList<Item> getFavoriteItems(){
+	/**
+	 * Search on network all items' itemKey in Favorites
+	 * @return
+	 */
+	public static ArrayList<Item> getFavoriteItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
 		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
 		for(String itemKey : getFavoriteItemsKey()){
@@ -177,5 +239,9 @@ public class ManagerBridge implements ManagerBridgeInterface{
 				items.add(i);
 		}
 		return items;
+	}
+	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	private static boolean notLogged(){
+		return Application.getInstance().getManager().getCurrentUser() == null;
 	}
 }
