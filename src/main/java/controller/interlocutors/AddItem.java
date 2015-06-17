@@ -18,21 +18,25 @@ public class AddItem extends AbstractInterlocutor {
 	public void sender(String msg, Session session) throws JSONException,
 			IOException {
 		JSONObject c = getJSON(msg);
-		String nick = c.getString("username");
-		String oldPassword = c.getString("oldpassword");
-		String newPassword = c.getString("password");
-		String name = c.getString("name");
-		String firstName = c.getString("firstname");
-		String email = c.getString("email");
-		String phone = c.getString("phone");
-		boolean ok = ManagerBridge.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone);
-		if(!ok){
+		String category = c.getString("category");
+		String contact = c.getString("contact");
+		String country = c.getString("country");
+		String description = c.getString("description");
+		String image = c.getString("image");
+		String lifeTime = c.getString("lifetime");
+		String title = c.getString("title");
+		String type = c.getString("type");
+		String itemKey = ManagerBridge.addItem(title, category, description, image, country, contact, lifeTime, type);
+		// Answer
+		if(itemKey == null || itemKey.isEmpty()){
 			// Send error message
 		}else{
 			JSONObject data = new JSONObject();
-			data.put("query", "accountUpdated");
+			data.put("query", "itemAdded");
 			JSONObject content = new JSONObject();
-			content.put("ok", "ok");
+			content.put("itemKey", itemKey);
+			content.put("title", title);
+			content.put("description", description);
 			data.put("content", content);
 			session.getBasicRemote().sendText(data.toString());
 		}

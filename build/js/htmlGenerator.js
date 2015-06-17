@@ -73,7 +73,7 @@ var buttonSearchItem = [
  * 								    		PAGE GENERATORS											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getHome(){
-	var content = document.createElement("div");
+	var content = document.createElement("section");
 	content.setAttribute("id", "content");
 	var div = document.createElement("div");
 	div.setAttribute("id", "items");
@@ -85,7 +85,7 @@ function getHome(){
 }
 
 function getSearchItem(){
-	var content = document.createElement("div");
+	var content = document.createElement("section");
 	content.setAttribute("id", "content");
 	content.appendChild(getItemSearchForm());
 	content.appendChild(getTableItem(itemSearchList));
