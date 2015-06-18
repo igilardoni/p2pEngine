@@ -1,0 +1,21 @@
+header {
+	height : 70px;
+}
+
+.dropDownMenu {
+	float : right;
+	position : absolute;
+	right : 10px;
+	top : 10px;
+}
+
+.dropDownMenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.dropDownMenu input {
+	width : 100%;
+	text-align : center;
+}

@@ -1,0 +1,12 @@
+section {
+	border : 2px;
+	border-color : black;
+	border-style: solid;
+	margin-left : 15%;
+	margin-right : 15%;
+	width : 70%;
+	overflow : auto;
+	overlow-y: scroll;
+	height : 100%;
+	min-height: 100%;
+}
