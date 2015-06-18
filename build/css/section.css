@@ -1,9 +1,8 @@
 section {
-	border : 2px;
-	border-color : black;
-	border-style: solid;
 	margin-left : 15%;
 	margin-right : 15%;
+	padding-bottom : 20px;
+	padding-top : 20px;
 	width : 70%;
 	overflow : auto;
 	overlow-y: scroll;
