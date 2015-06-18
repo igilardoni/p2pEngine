@@ -19,8 +19,8 @@ var formLogin = [
 		{label:"Password : ", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 var buttonLogin = [
-		{"class":"button", type:"submit", onclick:"signIn();", value:"Sign In"},
-		{"class":"button", type:"button", onclick:"includeRegistration();", value:"Registration"}
+		{"class":"button", id:"loginButton", type:"submit", onclick:"signIn();", value:"Sign In"},
+		{"class":"button", id:"registrationButton", type:"button", onclick:"includeRegistration();", value:"Registration"}
 ];
 	// Registration
 var formRegistration = [
