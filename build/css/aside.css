@@ -1,0 +1,7 @@
+aside {
+	position : absolute;
+	top : 80;
+	right : 0;
+	overflow : auto;
+	width : 15%;
+}

@@ -1,0 +1,52 @@
+nav {
+	left : 0;
+	position : absolute; 
+	height : 100%; 
+	width : 15%;
+	
+}
+nav ul {
+	list-style: none;
+	margin: 10%;
+	padding: 0;
+}
+
+nav li {
+	cursor : pointer;
+	width : 80%;
+	text-align : center;
+	margin-bot : 10px;
+	margin-top : 10px;
+	
+	background: #a6a6a6;
+	background-image: -webkit-linear-gradient(top, #a6a6a6, #3a3b3b);
+	background-image: -moz-linear-gradient(top, #a6a6a6, #3a3b3b);
+	background-image: -ms-linear-gradient(top, #a6a6a6, #3a3b3b);
+	background-image: -o-linear-gradient(top, #a6a6a6, #3a3b3b);
+	background-image: linear-gradient(to bottom, #a6a6a6, #3a3b3b);
+	-webkit-border-radius: 15;
+	-moz-border-radius: 15;
+	border-radius: 15px;
+	text-shadow: 1px 1px 3px #666666;
+	-webkit-box-shadow: 0px 1px 3px #666666;
+	-moz-box-shadow: 0px 1px 3px #666666;
+	box-shadow: 0px 1px 3px #666666;
+	font-family: Arial;
+	color: #fcfcfc;
+	padding: 4px 20px 6px 20px;
+	text-decoration: none;
+}
+
+nav li a:before {
+	width: 1em;
+	text-align: center;
+	font-size: 1.7em;
+	margin: 0 0.5em 0 -1em;
+	pointer-events: none;
+}
+
+nav li.homeButton a:before { content : '\2302'; }
+nav li.searchButton a:before { content : '\2315'; }
+nav li.contratButton a:before { content : '\270D'; }
+nav li.messageButton a:before { content : '\2709'; }
+nav li.favoritesButton a:before { content : '\2606'; }

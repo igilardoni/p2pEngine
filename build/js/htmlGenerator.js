@@ -7,11 +7,11 @@
  * 								    			VARIABLES											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
-		{type:"button",		onclick:"includeHome();loadItems();",				value:"Home"},
-		{type:"button",		onclick:"includeSearch();",							value:"Search object"},
-		{type:"button",		onclick:"includeContrat();", 						value:"Contrat object" },
-		{type:"button",		onclick:"includeWebmail();", 						value:"Messages" },
-		{type:"button",		onclick:"switchFavorites();",						value:"Favorites", 			id:"favoritesButton"}
+		{text:"Home",			attributes:{onclick:"includeHome();loadItems();","class":"homeButton"}},
+		{text:"Search object",	attributes:{onclick:"includeSearch();",			"class":"searchButton"}},
+		{text:"Contrat object", attributes:{onclick:"includeContrat();", 		"class":"contratButton"}},
+		{text:"Messages",		attributes:{onclick:"includeWebmail();", 		"class":"messageButton"}},
+		{text:"Favorites", 		attributes:{onclick:"switchFavorites();",		"class":"favoritesButton"}}
 ];
 	// Login
 var formLogin = [
@@ -267,11 +267,12 @@ function getMenu(){
 	var ul = document.createElement("ul");
 	for ( var i = 0 ; i < menu.length; i++) {
 		var li = document.createElement("li");
-		var input = document.createElement("input");
-		$.each(menu[i], function(key, value){
-			input.setAttribute(key, value);
+		var a = document.createElement("a");
+		$.each(menu[i].attributes, function(key, value){
+			li.setAttribute(key, value);
 		});
-		li.appendChild(input);
+		a.appendChild(document.createTextNode(menu[i].text));
+		li.appendChild(a);
 		ul.appendChild(li);
 	}
 	return ul;
