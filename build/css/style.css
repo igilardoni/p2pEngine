@@ -5,10 +5,14 @@
 @import url("header.css");
 @import url("section.css");
 @import url("aside.css");
+@import url("registration.css");
+@import url("accountUpdate.css");
+@import url("footer.css");
 
 /** BODY **/
 html {
 	height : 100%;
+	overflow : hidden;
 }
 
 body {
@@ -20,7 +24,8 @@ body {
 	background : -ms-linear-gradient(right, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
 	background : linear-gradient(to left, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
 	filter : progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 );
-	
+	margin : 0px;
+	padding : 0px;
 }
 
 header {

@@ -3,12 +3,12 @@
   <users>
     <model.data.user.User>
       <date>1434362451964</date>
-      <signature>&lt;signR&gt;51bb78681e1109f5be9af7ac49f5dd786890acd46722c7b8b43c3958f786720c253e388e91c64be8707218cc2bea10acda585f89018e78512cd8b1e328e90124f0f6db8fcc0ce9114557ce09d72fee441d8209dab3f79aff063376f147f43a7afe2bf29ffe8b247e7893fc1398a7135ca10f775834bf8eb8eeaf6ee3a911e26e&lt;/signR&gt;&lt;signS&gt;478093b4255d536b8f2fccfcfade911b2de67bd5453c702a0a1e769f5a8512d5f0a1405e2152f4887067d5cf465c911bd2a6f47c6b872ede2ba7e26d10406f830474e76bea2226da3852ca6b7f7639b136f43d6e9aa510a6a5d215223bf451e3bbdd2a77f5db6658f5088ab10b47fda5b70a508898dd1231a90a7a54e26f45f4df178d933169e6732b36233147e06138e79eb35b38d5563077ad15706a4d86d72930fd00f9fa32b6d271ad12805aba736e8998b5213a615da0fe695d05bd6896cade1338786e3f8e162c10ec7678305f96f77a3ae04ed5c8e153399a0e2e64c7c7d89442e112e39b70ba2b29fdf04371ba67776f925cfc08e1e28d77aa60e757&lt;/signS&gt;</signature>
+      <signature>&lt;signR&gt;19a95b0e0f9be6fac92a8479320522ff244ace5cc17fcd69e50b0573c4b25ce029b5be1c846d77db5ae2f33b09e6b2ab51b259a5425dcd7bc0d89607082125ed4bc0fa7c1d6cdd814abe086cda240c83b58f5d78f1dce4f072d42bb5ad0282c7ac2618b06c5995e23356385741f596fa4bb1981190b9b4aa0c1a2ecf6960d2bb&lt;/signR&gt;&lt;signS&gt;11f61f1034fa7d2e1e7f971dcfce2ac0f1f76e910883800858ac6b498aa20cfd673d994541eebdd1874fca5923cec1d6970ff707e1e9ef9fdfd5703ef207c6fd6e6eca495b90143f2d2106bec441357cf5edb1c91cb4875224d47107967c55a28fe387410c49e3a1a7f564e0502a598af6289e083dcd8f69953dec70bac094e68a8f8d47dcbc829797dffe325bb9d981d2ae6edeecfe6437de3bea02d6f66f0e5755ab0b30c0915397ce7d759aa048083b543e93ad50e65853cd7660b1e3e10b6a6892e0048596d728e0dc7c8037df5512b665b42c3a26a4bde2a9e3b1a3531dc49b5ad1165a4f2f4a379cef740dcbd5e6075ad18c2504a38654b2c2aa1e46c3&lt;/signS&gt;</signature>
       <g>526c8072d4e606f1c8bf9f016f972ada069c114a063a232b4326f59ca589a21632f715bf18c90591cfe73beef9ef060b6e63645a1bc8265116a0be4de30d3cf77866352d06ccefa6aa6b5cde3c9f3692e4161dae57f39db764e2d04e6da83716c615d238cd63312bcf72a228e2ad6ab0502080d97f5e927d7a7cdba3dfa6e46b</g>
       <publicKey>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</publicKey>
       <nick>Eldoran</nick>
       <p>b0ea05cb9e2fdb5c46fde7970a2b297dd91d4e56f136cde3d40a8fc3d672883daa07adaee3f6a2f6b669dad6aba95ee9f247d47c6d4d321c2785364f0792cd1fff10d0566f29e8cba7dfa92971c73f3881e45b500ce1a9121e9c991038a4d462d74791ea76f984076355906f5dec2409a31ec995affe25aff2458067572a49b7</p>
-      <lastUpdated>1434632948965</lastUpdated>
+      <lastUpdated>1434987616436</lastUpdated>
       <firstName>Michaël</firstName>
       <privateKey>50333cace749ab65e699ac18cbca9b0de206fbcbfbd5dd2d8f9e40155f85aa01af612b7e2aa5b488c4f1b713df8900c977782b0df351974e582ad2d147ac16451d1e544b0ac2affc516479a100c284b1ad94c8458d30a31a4a97fe735b756a3e667970e2233f83bdc61eafd532815af8640e66b5a437a51c6fcb0c020c1345021617cbab4b0923befb9ec0d0a93adc640f</privateKey>
       <phone>+336 64 96 87 65</phone>
@@ -51,6 +51,40 @@ Téléphone : 06.64.96.87.65</contact>
       <contact>06.64.96.87.65</contact>
       <lifeTime>46957336143</lifeTime>
       <category>Appliances</category>
+    </model.data.item.Item>
+    <model.data.item.Item>
+      <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
+      <date>1434973607503</date>
+      <image />
+      <country>FRANCE</country>
+      <signature>&lt;signR&gt;a5959766cf206fbf174487cbdc0efab22e4c7f0ed7a864eebf1b54e9c47fb21855bff7991736c597bb36590d2cd371cf27b5c4e7a026086a3b4bf1e5f719188a96c1d93811d6e3e9398e6384b380c28288257360afb1c3d3437c1c04fb1370bb340798b6ed7a5f2ee63f39cd2b7a3d5db5f6d976d18177b91ef43b19f330af0e&lt;/signR&gt;&lt;signS&gt;36607da84aace70917dad408c9642cf2ab1142a59146ad13dcfe45036cfe2c0fcdecfc7c7e9b6858b9121f11dba231ca6d8bae28d6ed614c1e559fc444529896afc155153c9d9717f1157331bcd83184772703b29feef1115ee958b5c83f213f8a4743ca7f06ebef49d86e79f2e3565cd0584bd04fa047e41affa97a816cf6bc73e746df6b2c07f1c398ce8cba9fb5473c853fd7523ff0a6539c7dfdaf72e963aa442c16056af41594a9da418d666db7d886188f2c6e7923f9e28778b5550654dbcc68896246cb20b1b2e6ebcf459d5a094346e3edec1c36c5f3f3e47fa25e93958569a865d504d99072a9d3204ad67af49b15ff6cb75130886bda0cc2efdeae&lt;/signS&gt;</signature>
+      <keyId>32d43b898df5a41f54a0561b9aef9a90a1175713f5df0c2c1ac70bade6f71440</keyId>
+      <friendNick>Eldoran</friendNick>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+      <title>Texte en latin</title>
+      <type>PROPOSAL</type>
+      <lastUpdated>1434985715639</lastUpdated>
+      <contact>Deus</contact>
+      <lifeTime>789885145475</lifeTime>
+      <category>Appliances</category>
+    </model.data.item.Item>
+    <model.data.item.Item>
+      <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
+      <date>1434985687796</date>
+      <image />
+      <country>FRANCE</country>
+      <signature>&lt;signR&gt;5045cf9fc1de7454defb92b321a99ce3991260864538359c8cd16e80ae88c943698c93b8a5fcf363e7a5893c1d32a92c29cdd893a0468c0f13615e34f3aaeb73b098207dc93ed0f592497bf86dafc5ecf660fe4a9a56dfc1f439ec1ba3c28ed169eebac466c14371eff6716e6ec89a988cec3bbcaa5fe5c682fa723b22e6106c&lt;/signR&gt;&lt;signS&gt;c4c899e2091b164bafbee83355aa1d6bff5dec139646ab8082ad5015b931aa6af2f0da4412eae49b62f6e6e7e0c91649853c5560250a9a2aaeedcf5e1c19e090a1568d6a31b75915544415cf397923f57d9ea528fbe6cd8cc12e0e6a39b4e8ea6cb3fb9440a63854029291f5eb9b7f54413c1362550e0624209c6ec44153232d6deb169c71cd1e2c11d5d04c25d3a104de1fb693aba5493e1196774618c3b1ed37cfd8c2f6bd733d2090fd8bcbcd7f31aa6421b7965f33250f0f97f78b40c87bf5f3c164778088cf1644bbf91bc811af87739093c8e5df9d156fc3e1694369dc90d08e2aa99b06adaa9dc3abc7fcccff4502feaf39314fb38e8030eb028005&lt;/signS&gt;</signature>
+      <keyId>a83fd12684555680165894dbcaab88f2879b8cf33beee46f7cab45a122a9a8dd</keyId>
+      <friendNick>Eldoran</friendNick>
+      <description>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</description>
+      <title>Et voici un petit objet parce que j'en ai marre d'écrire du code et qu'il faut bien que je fasse des tests inutiles</title>
+      <type>PROPOSAL</type>
+      <lastUpdated>1434985805664</lastUpdated>
+      <contact>bla bla</contact>
+      <lifeTime>46511512205</lifeTime>
+      <category>NC</category>
     </model.data.item.Item>
   </items>
   <messages />

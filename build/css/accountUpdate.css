@@ -1,6 +1,6 @@
-#login {
+#accountUpdate {
 	background : white;
-	
+	float : top;
 	text-align : center;
 	width : 30%;
 	margin-left : 35%;
@@ -12,7 +12,7 @@
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 }
 
-#login h1 {
+#accountUpdate h1 {
 	border : 5px solid transparent;
 	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
 	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
@@ -27,7 +27,7 @@
 	font-weight : bold;
 }
 
-#login label {
+#accountUpdate label {
 	color : #416c75;
 	display : block;
 	margin-left:10px;
@@ -36,17 +36,17 @@
 }
 
 /* INPUT */
-#login input[type=text]{
+#accountUpdate input[type=text]{
 	width : 90%;
 	height : 25px;
 }
-#login input[type=password]{
+#accountUpdate input[type=password]{
 	width : 90%;
 	height : 25px;
 }
 
-/* LOGIN BUTTON */
-#login #loginButton {
+/* REGISTRATION BUTTON */
+#accountUpdate #registrationButton {
 	margin-left : 50%;
 	height : 50px;
 	width : auto;
@@ -61,8 +61,8 @@
 	-moz-box-shadow: 0px 1px 3px #666666;
 }
 
-/* REGISTRATION */
-#login p:last-child  {
+/* BACK AND SIGN IN */
+#accountUpdate p:last-child  {
 	margin : 0px;
 	border-bottom-right-radius : 15px;
 	border-bottom-left-radius : 15px;
@@ -70,7 +70,7 @@
 	background-color: #7aacb6;
 	background-image: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,240,240,.5) 20px, rgba(255,255,255,.5) 40px);
 }
-#login #registrationButton {
+#accountUpdate #loginButton {
 	color : #3b93b4;
 	font-weight : bold;
 	height : 30px;
@@ -78,12 +78,12 @@
 	margin-right : 20px;
 	margin-bottom : 20px;
 }
-#login p:last-child:before {
+#accountUpdate p:last-child:before {
 	/* This is just for print "not a member yet ?" */
 	color : #525252;
 	width: 1em;
 	text-align: center;
 	margin: 0 0.5em 0 -1em;
 	pointer-events: none;
-	content : "Not a member yet ? "
+	content : "Already Registred ? "
 }
