@@ -1,4 +1,8 @@
-section {
+#content {
+	position : absolute;
+	width : 100%;
+	left : 0;
+	top : 12%;
 	margin-left : 12%;
 	margin-right : 23%;
 	padding-bottom : 20px;
@@ -47,6 +51,10 @@ section:empty {
 	height : 200px;
 	padding-bottom : 15px;
 	vertical-align : top;
+}
+#itemList tbody tr {
+	display : table;
+	width : 100%;
 }
 #itemList .rowTitle {
 	width : 15%;

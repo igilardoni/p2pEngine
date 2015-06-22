@@ -2,41 +2,48 @@
  * JavaScript for include or remove fragments
  * @author Michael DUBUIS
  */
+function emptyContent(){
+	$("#content").empty();
+	$("#contentStart").empty();
+}
+
 function includeLogin(){
 	removeHeader();
 	removeMenu();
-	$("#content").empty();
-	$("#content").append(getLoginForm());
+	emptyContent();
+	$("#contentStart").append(getLoginForm());
 }
 
 function includeRegistration(){
 	removeHeader();
 	removeMenu();
-	$("#content").empty();
-	$("#content").append(getRegistrationForm());
+	emptyContent();
+	$("#contentStart").append(getRegistrationForm());
 }
 
 function includeHome(){
 	includeHeader();
 	includeMenu();
+	emptyContent();
 	$("#content").replaceWith(getHome());
 }
 
 function includeSearch(){
 	includeHeader();
 	includeMenu();
+	emptyContent();
 	$("#content").replaceWith(getSearchItem());
 	loadItemSearchField();
 }
 
 function includeContrat(){
-	$("#content").empty();
+	emptyContent();
 	// TODO
 	// $("#content").load("./include/contrat.html");
 }
 
 function includeWebmail(){
-	$("#content").empty();
+	emptyContent();
 	// TODO
 	// $("#content").load("./include/webmail.html");
 }
@@ -60,7 +67,7 @@ function removeHeader(){
 }
 
 function includeAccount(){
-	$("#content").empty();
+	emptyContent();
 	$("#content").append(getUpdateAccountForm());
 }
 
