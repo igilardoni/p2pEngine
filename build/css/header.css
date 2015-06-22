@@ -1,0 +1,30 @@
+header {
+	height : 70px;
+	background-color : black;
+	color : white;
+	margin-top : 0px;
+	margin-left : 0px;
+	margin-right : 0px;
+}
+
+header:empty {
+	display : none;
+}
+
+.dropDownMenu {
+	float : right;
+	position : absolute;
+	right : 10px;
+	top : 10px;
+}
+
+.dropDownMenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.dropDownMenu input {
+	width : 100%;
+	text-align : center;
+}

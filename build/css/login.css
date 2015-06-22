@@ -1,0 +1,89 @@
+#login {
+	background : white;
+	
+	text-align : center;
+	width : 30%;
+	margin-left : 35%;
+	padding-top : 30px;
+	padding-bottom : 0px;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+}
+
+#login h1 {
+	border : 5px solid transparent;
+	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
+	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
+	border-image : linear-gradient(to right, #FFFFFF 0%, #5aafcf 100%);
+	border-image-slice : 1;
+	border-top : none;
+	border-left : none;
+	border-right : none;
+	padding-bottom : 20px;
+	margin-bottom : 30px;
+	color : #3b93b4;
+	font-weight : bold;
+}
+
+#login label {
+	color : #416c75;
+	display : block;
+	margin-left:10px;
+	width : 200px;
+	text-align : left;
+}
+
+/* INPUT */
+#login input[type=text]{
+	width : 90%;
+	height : 25px;
+}
+#login input[type=password]{
+	width : 90%;
+	height : 25px;
+}
+
+/* LOGIN BUTTON */
+#login #loginButton {
+	margin-left : 50%;
+	height : 50px;
+	width : auto;
+	font-weight : bold;
+	font-size : 15pt;
+	color : white;
+	background-color : #416c75;
+	border-radius : 10px;
+	border : 1px solid white;
+	box-shadow: 1px 1px 3px #666666;
+	-webkit-box-shadow: 0px 1px 3px #666666;
+	-moz-box-shadow: 0px 1px 3px #666666;
+}
+
+/* REGISTRATION */
+#login p:last-child  {
+	margin : 0px;
+	border-bottom-right-radius : 15px;
+	border-bottom-left-radius : 15px;
+	text-align : right;
+	background-color: #7aacb6;
+	background-image: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,240,240,.5) 20px, rgba(255,255,255,.5) 40px);
+}
+#login #registrationButton {
+	color : #3b93b4;
+	font-weight : bold;
+	height : 30px;
+	margin-top : 20px;
+	margin-right : 20px;
+	margin-bottom : 20px;
+}
+#login p:last-child:before {
+	/* This is just for print "not a member yet ?" */
+	color : #525252;
+	width: 1em;
+	text-align: center;
+	margin: 0 0.5em 0 -1em;
+	pointer-events: none;
+	content : "Not a member yet ? "
+}

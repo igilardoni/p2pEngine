@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import model.data.item.Item;
 import model.data.user.User;
 
+/**
+ * 
+ * @author michael
+ * @deprecated
+ */
 public interface ManagerBridgeInterface {
 	/**
 	 * Add NEW User to current Manager

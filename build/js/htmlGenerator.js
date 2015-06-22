@@ -7,11 +7,11 @@
  * 								    			VARIABLES											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
-		{type:"button",		onclick:"includeHome();loadItems();",				value:"Home"},
-		{type:"button",		onclick:"includeSearch();",							value:"Search object"},
-		{type:"button",		onclick:"includeContrat();", 						value:"Contrat object" },
-		{type:"button",		onclick:"includeWebmail();", 						value:"Messages" },
-		{type:"button",		onclick:"switchFavorites();",						value:"Favorites", 			id:"favoritesButton"}
+		{text:"Home",			attributes:{onclick:"includeHome();loadItems();","class":"homeButton"}},
+		{text:"Search object",	attributes:{onclick:"includeSearch();",			"class":"searchButton"}},
+		{text:"Contrat object", attributes:{onclick:"includeContrat();", 		"class":"contratButton"}},
+		{text:"Messages",		attributes:{onclick:"includeWebmail();", 		"class":"messageButton"}},
+		{text:"Favorites", 		attributes:{onclick:"switchFavorites();",		"class":"favoritesButton"}}
 ];
 	// Login
 var formLogin = [
@@ -19,8 +19,8 @@ var formLogin = [
 		{label:"Password : ", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 var buttonLogin = [
-		{"class":"button", type:"submit", onclick:"signIn();", value:"Sign In"},
-		{"class":"button", type:"button", onclick:"includeRegistration();", value:"Registration"}
+		{"class":"button", id:"loginButton", type:"submit", onclick:"signIn();", value:"Sign In"},
+		{"class":"button", id:"registrationButton", type:"button", onclick:"includeRegistration();", value:"Registration"}
 ];
 	// Registration
 var formRegistration = [
@@ -33,12 +33,23 @@ var formRegistration = [
 		{label:"Confirm password : ", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 var buttonRegistration = [
-		{"class":"button", type:"submit", onclick:"register();", value:"Registration"},
-		{"class":"button", type:"button", onclick:"includeLogin();", value:"Already registered"}
+		{"class":"button", id:"registrationButton", type:"submit", onclick:"register();", value:"Registration"},
+		{"class":"button", id:"loginButton", type:"button", onclick:"includeLogin();", value:"Go and log in"}
 ];
 var buttonUpdateAccount = [
 		{"class":"button", type:"submit", onclick:"updateAccount();", value:"Update Account"},
 		{"class":"button", type:"button", onclick:"includeHome();", value:"Cancel"}
+];
+	// Account Update
+var formUpdateAccount = [
+		{label:"Username : ", attributes:{type:"text", name:"username", id:"username", required:"required", placeholder:"AliceWonderland"}},
+		{label:"Old Password : ", attributes:{type:"password", name:"oldpassword", id:"oldpassword", required:"required", placeholder:"ex : p4$Sw0r6!"}},
+		{label:"Name : ", attributes:{type:"text", name:"name", id:"name", required:"required", placeholder:"Liddel"}},
+		{label:"First name : ", attributes:{type:"text", name:"firstname", id:"firstname", required:"required", placeholder:"Alice"}},
+		{label:"Email : ", attributes:{type:"text", name:"email", id:"email", required:"required", placeholder:"Alice@wonderland.com"}},
+		{label:"Phone : ", attributes:{type:"text", name:"phone", id:"phone", required:"required", placeholder:"+336 05 04 03 02"}},
+		{label:"Password : ", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}},
+		{label:"Confirm password : ", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 	// Item add
 var formItemAdd = [
@@ -53,13 +64,13 @@ var formItemAdd = [
 ];
 var buttonItemAdd = [
 		{"class":"button", type:"submit", onclick:"addItem();", value:"Add", id:"addButton"},
-		{"class":"button", type:"button", onclick:"cancelItem();", value:"Cancel"}
+		{"class":"button", type:"button", onclick:"cancelItem();", value:"Cancel", id:"cancelButton"}
 ];
 	// Item Display (for search list, items list, ...)
 var tableItem = [
-		{text:"Title", attributes:{}},
-		{text:"Description", attributes:{}},
-		{text:"Actions", attributes:{}}
+		{text:"Title", attributes:{"class":"rowTitle"}},
+		{text:"Description", attributes:{"class":"rowDescription"}},
+		{text:"Actions", attributes:{"class":"rowActions"}}
 ];
 	// Item Search
 var formSearchItem = [
@@ -73,7 +84,7 @@ var buttonSearchItem = [
  * 								    		PAGE GENERATORS											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getHome(){
-	var content = document.createElement("div");
+	var content = document.createElement("section");
 	content.setAttribute("id", "content");
 	var div = document.createElement("div");
 	div.setAttribute("id", "items");
@@ -85,7 +96,7 @@ function getHome(){
 }
 
 function getSearchItem(){
-	var content = document.createElement("div");
+	var content = document.createElement("section");
 	content.setAttribute("id", "content");
 	content.appendChild(getItemSearchForm());
 	content.appendChild(getTableItem(itemSearchList));
@@ -170,39 +181,24 @@ function getRegistrationForm(){
 
 function getUpdateAccountForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "registration");
+	div.setAttribute("id", "accountUpdate");
 	var h1 = document.createElement("h1");
 	h1.appendChild(document.createTextNode("Account"));
 	div.appendChild(h1);
-	for ( var i = 0 ; i < formRegistration.length; i++) {
+	for ( var i = 0 ; i < formUpdateAccount.length; i++) {
 		var p = document.createElement("p");
 		var input = document.createElement("input");
 		var label = document.createElement("label");
-		label.appendChild(document.createTextNode(formRegistration[i].label))
-		label.setAttribute("for", formRegistration[i].attributes.name);
-		label.setAttribute("id", "label_"+formRegistration[i].attributes.name);
+		label.appendChild(document.createTextNode(formUpdateAccount[i].label))
+		label.setAttribute("for", formUpdateAccount[i].attributes.name);
+		label.setAttribute("id", "label_"+formUpdateAccount[i].attributes.name);
 		p.appendChild(label);
-		$.each(formRegistration[i].attributes, function(key, value){
+		$.each(formUpdateAccount[i].attributes, function(key, value){
 			input.setAttribute(key, value);
 		});
 		p.appendChild(input);
 		div.appendChild(p);
 	}
-	var p = document.createElement("p");
-	var input = document.createElement("input");
-	var label = document.createElement("label");
-	label.appendChild(document.createTextNode("Old password : "));
-	label.setAttribute("for", "oldpassword");
-	label.setAttribute("id", "label_oldpassword");
-	input.setAttribute("id", "label_oldpassword");
-	input.setAttribute("type","password");
-	input.setAttribute("name","oldpassword");
-	input.setAttribute("id","oldpassword");
-	input.setAttribute("required","required");
-	input.setAttribute("placeholder","ex : p4$Sw0r6!");
-	p.appendChild(label);
-	p.appendChild(input);
-	$(p).insertAfter($(div).find("#username"));
 	for( var i = 0 ; i < buttonUpdateAccount.length; i++){
 		var p = document.createElement("p");
 		var input = document.createElement("input");
@@ -267,11 +263,12 @@ function getMenu(){
 	var ul = document.createElement("ul");
 	for ( var i = 0 ; i < menu.length; i++) {
 		var li = document.createElement("li");
-		var input = document.createElement("input");
-		$.each(menu[i], function(key, value){
-			input.setAttribute(key, value);
+		var a = document.createElement("a");
+		$.each(menu[i].attributes, function(key, value){
+			li.setAttribute(key, value);
 		});
-		li.appendChild(input);
+		a.appendChild(document.createTextNode(menu[i].text));
+		li.appendChild(a);
 		ul.appendChild(li);
 	}
 	return ul;
