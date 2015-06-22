@@ -33,12 +33,23 @@ var formRegistration = [
 		{label:"Confirm password : ", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 var buttonRegistration = [
-		{"class":"button", type:"submit", onclick:"register();", value:"Registration"},
-		{"class":"button", type:"button", onclick:"includeLogin();", value:"Already registered"}
+		{"class":"button", id:"registrationButton", type:"submit", onclick:"register();", value:"Registration"},
+		{"class":"button", id:"loginButton", type:"button", onclick:"includeLogin();", value:"Go and log in"}
 ];
 var buttonUpdateAccount = [
 		{"class":"button", type:"submit", onclick:"updateAccount();", value:"Update Account"},
 		{"class":"button", type:"button", onclick:"includeHome();", value:"Cancel"}
+];
+	// Account Update
+var formUpdateAccount = [
+		{label:"Username : ", attributes:{type:"text", name:"username", id:"username", required:"required", placeholder:"AliceWonderland"}},
+		{label:"Old Password : ", attributes:{type:"password", name:"oldpassword", id:"oldpassword", required:"required", placeholder:"ex : p4$Sw0r6!"}},
+		{label:"Name : ", attributes:{type:"text", name:"name", id:"name", required:"required", placeholder:"Liddel"}},
+		{label:"First name : ", attributes:{type:"text", name:"firstname", id:"firstname", required:"required", placeholder:"Alice"}},
+		{label:"Email : ", attributes:{type:"text", name:"email", id:"email", required:"required", placeholder:"Alice@wonderland.com"}},
+		{label:"Phone : ", attributes:{type:"text", name:"phone", id:"phone", required:"required", placeholder:"+336 05 04 03 02"}},
+		{label:"Password : ", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}},
+		{label:"Confirm password : ", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}}
 ];
 	// Item add
 var formItemAdd = [
@@ -53,13 +64,13 @@ var formItemAdd = [
 ];
 var buttonItemAdd = [
 		{"class":"button", type:"submit", onclick:"addItem();", value:"Add", id:"addButton"},
-		{"class":"button", type:"button", onclick:"cancelItem();", value:"Cancel"}
+		{"class":"button", type:"button", onclick:"cancelItem();", value:"Cancel", id:"cancelButton"}
 ];
 	// Item Display (for search list, items list, ...)
 var tableItem = [
-		{text:"Title", attributes:{}},
-		{text:"Description", attributes:{}},
-		{text:"Actions", attributes:{}}
+		{text:"Title", attributes:{"class":"rowTitle"}},
+		{text:"Description", attributes:{"class":"rowDescription"}},
+		{text:"Actions", attributes:{"class":"rowActions"}}
 ];
 	// Item Search
 var formSearchItem = [
@@ -170,39 +181,24 @@ function getRegistrationForm(){
 
 function getUpdateAccountForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "registration");
+	div.setAttribute("id", "accountUpdate");
 	var h1 = document.createElement("h1");
 	h1.appendChild(document.createTextNode("Account"));
 	div.appendChild(h1);
-	for ( var i = 0 ; i < formRegistration.length; i++) {
+	for ( var i = 0 ; i < formUpdateAccount.length; i++) {
 		var p = document.createElement("p");
 		var input = document.createElement("input");
 		var label = document.createElement("label");
-		label.appendChild(document.createTextNode(formRegistration[i].label))
-		label.setAttribute("for", formRegistration[i].attributes.name);
-		label.setAttribute("id", "label_"+formRegistration[i].attributes.name);
+		label.appendChild(document.createTextNode(formUpdateAccount[i].label))
+		label.setAttribute("for", formUpdateAccount[i].attributes.name);
+		label.setAttribute("id", "label_"+formUpdateAccount[i].attributes.name);
 		p.appendChild(label);
-		$.each(formRegistration[i].attributes, function(key, value){
+		$.each(formUpdateAccount[i].attributes, function(key, value){
 			input.setAttribute(key, value);
 		});
 		p.appendChild(input);
 		div.appendChild(p);
 	}
-	var p = document.createElement("p");
-	var input = document.createElement("input");
-	var label = document.createElement("label");
-	label.appendChild(document.createTextNode("Old password : "));
-	label.setAttribute("for", "oldpassword");
-	label.setAttribute("id", "label_oldpassword");
-	input.setAttribute("id", "label_oldpassword");
-	input.setAttribute("type","password");
-	input.setAttribute("name","oldpassword");
-	input.setAttribute("id","oldpassword");
-	input.setAttribute("required","required");
-	input.setAttribute("placeholder","ex : p4$Sw0r6!");
-	p.appendChild(label);
-	p.appendChild(input);
-	$(p).insertAfter($(div).find("#username"));
 	for( var i = 0 ; i < buttonUpdateAccount.length; i++){
 		var p = document.createElement("p");
 		var input = document.createElement("input");

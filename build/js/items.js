@@ -155,7 +155,7 @@ function itemLoaded(content){
 		$("#"+itemForm+" #"+key).val(value);
 	});
 	$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");
-	$("#addButton").attr("value", "Update Item");
+	$("#addButton").val("Update Item");
 }
 
 function categoryLoaded(content){
@@ -242,11 +242,11 @@ function getItemFormWithoutButton(){
 function getItemAddForm(){
 	var div = getItemFormWithoutButton();
 	for( var i = 0 ; i < buttonItemAdd.length; i++){
-		var input = document.createElement("input");
+		var a = document.createElement("a");
 		$.each(buttonItemAdd[i], function(key, value){
-			input.setAttribute(key, value);
+			a.setAttribute(key, value);
 		});
-		div.appendChild(input);
+		div.appendChild(a);
 	}
 	return div;
 }
@@ -290,14 +290,18 @@ function getItemSearchForm(){
 function getTableItem(id){
 	var table = document.createElement("table");
 	table.setAttribute("id", id);
+	var theader = document.createElement("thead");
+	var tr = document.createElement("tr");
 	for( var i = 0 ; i < tableItem.length; i++){
 		var th = document.createElement("th");
 		$.each(tableItem[i].attributes, function(key, value){
 			th.setAttribute(key, value);
 		});
 		th.appendChild(document.createTextNode(tableItem[i].text));
-		table.appendChild(th);
+		tr.appendChild(th);
 	}
+	theader.appendChild(tr);
+	table.appendChild(theader);
 	return table;
 }
 /**
@@ -310,27 +314,28 @@ function newRowItem(content){
 	row.setAttribute("id", content.itemKey);
 	// Title cell
 	var cell1 = document.createElement("td");
+	cell1.setAttribute("class", "rowTitle");
 	cell1.appendChild(document.createTextNode(content.title));
 	row.appendChild(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
+	cell2.setAttribute("class", "rowDescription");
 	cell2.appendChild(document.createTextNode(content.description));
 	row.appendChild(cell2);
 	// Buttons Cell
 	var cell3 = document.createElement("td");
+	cell3.setAttribute("class", "rowActions");
 	// Edit Button
-	var removeButton = document.createElement("input");
+	var removeButton = document.createElement("a");
 	removeButton.setAttribute("class", "buttonEdit");
-	removeButton.setAttribute("type", "button");
 	removeButton.setAttribute("onclick", "editItem('"+content.itemKey+"');");
-	removeButton.setAttribute("value", "Edit");
+	//removeButton.appendChild(document.createTextNode("Edit"));
 	cell3.appendChild(removeButton);
 	// Remove Button
-	var removeButton = document.createElement("input");
+	var removeButton = document.createElement("a");
 	removeButton.setAttribute("class", "buttonRemove");
-	removeButton.setAttribute("type", "button");
 	removeButton.setAttribute("onclick", "removeItem('"+content.itemKey+"');");
-	removeButton.setAttribute("value", "Remove");
+	//removeButton.appendChild(document.createTextNode("Remove"));
 	cell3.appendChild(removeButton);
 	row.appendChild(cell3);
 	return row;
