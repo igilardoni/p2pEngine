@@ -23,34 +23,53 @@ var emptyForm = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * * *  MENU * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
-    		{element:"ul", attributes:{}, inside:[
-     			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();loadItems();"}, inside:[
-                    	{element:"a", attributes:{}, inside:[
-                            {element:"text", value:"Home"}
-                        ]}
-     			]},
-    			{element:"li", attributes:{"class":"searchButton", onclick:"includeSearch();"}, inside:[
-    				{element:"a", attributes:{}, inside:[
-    					{element:"text", value:"Search Object"}
-                	]}
-    			]},
-    			{element:"li", attributes:{"class":"contratButton", onclick:"includeContrat();"}, inside:[
-    				{element:"a", attributes:{}, inside:[
-    					{element:"text", value:"Contrats"}
-    	        	]}
-    			]},
-    			{element:"li", attributes:{"class":"messageButton", onclick:"includeWebmail();"}, inside:[
-    				{element:"a", attributes:{}, inside:[
-    					{element:"text", value:"Messages"}
-    	        	]}
-    			]},
-    			{element:"li", attributes:{"class":"favoritesButton", onclick:"switchFavorites();"}, inside:[
-    				{element:"a", attributes:{}, inside:[
-    					{element:"text", value:"Favorites"}
-    	        	]}
-    			]},
-     		]}
-    ];
+		{element:"ul", attributes:{}, inside:[
+			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();loadItems();"}, inside:[
+	            	{element:"a", attributes:{}, inside:[
+	                    {element:"text", value:"Home"}
+	                ]}
+			]},
+			{element:"li", attributes:{"class":"searchButton", onclick:"includeSearch();"}, inside:[
+				{element:"a", attributes:{}, inside:[
+					{element:"text", value:"Search Object"}
+	        	]}
+			]},
+			{element:"li", attributes:{"class":"contratButton", onclick:"includeContrat();"}, inside:[
+				{element:"a", attributes:{}, inside:[
+					{element:"text", value:"Contrats"}
+	        	]}
+			]},
+			{element:"li", attributes:{"class":"messageButton", onclick:"includeWebmail();"}, inside:[
+				{element:"a", attributes:{}, inside:[
+					{element:"text", value:"Messages"}
+	        	]}
+			]},
+			{element:"li", attributes:{"class":"favoritesButton", onclick:"switchFavorites();"}, inside:[
+				{element:"a", attributes:{}, inside:[
+					{element:"text", value:"Favorites"}
+	        	]}
+			]}
+		]}
+];
+/* * * * * * * * * * * * * * * * * * * * * * * HEADER* * * * * * * * * * * * * * * * * * * * * * * * * */
+var header = [
+		{element:"div", attributes:{}, inside:[
+        	{element:"text", value:"Secure eXchange Protocol Manager"}
+    	]},
+    	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
+			{element:"ul", attributes:{"class":"menu", onmouseover:"dropMenuOn();", onmouseout:"dropMenuOff();"}, inside:[
+				{element:"li", attributes:{}, inside:[
+					{element:"text", value:"Account Setting"}
+				]},
+				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+					{element:"input", attributes:{type:"button", value:"Profile", "class":"headerButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
+				]},
+				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+					{element:"input", attributes:{type:"button", value:"Logout", "class":"headerButton", onclick:"signOut();"}, inside:[]}
+				]}
+			]}
+		]}
+];
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
 var loginForm = [
 		{element:"h1", attributes:{}, inside:[
@@ -322,10 +341,6 @@ function getHome(){
 }
 
 function getSearchItem(){
-	/*var content = document.createElement("section");
-	content.setAttribute("id", "content");
-	content.appendChild(getItemSearchForm());
-	return content;*/
 	var content = document.createElement("div");
 	content.setAttribute("id", "content");
 	var div = document.createElement("div");
@@ -385,42 +400,9 @@ function dropMenuOff(){
 
 function getHeader(){
 	var div = document.createElement("div");
-	div.appendChild(document.createTextNode("Secure eXchange Protocol Manager"));
-	var divMenu = document.createElement("div");
-	divMenu.setAttribute("class", "dropDownMenu");
-	var ul = document.createElement("ul");
-	ul.setAttribute("class", "menu");
-	ul.setAttribute("onmouseover", "dropMenuOn();");
-	ul.setAttribute("onmouseout", "dropMenuOff();");
-	
-	var li1 = document.createElement("li");
-	li1.appendChild(document.createTextNode("Account Setting"));
-	ul.appendChild(li1);
-	
-	var li2 = document.createElement("li");
-	li2.setAttribute("class", "drop");
-	li2.setAttribute("style", "display:none;")
-	var input1 = document.createElement("input");
-	input1.setAttribute("type", "button");
-	input1.setAttribute("value", "Profile");
-	input1.setAttribute("class", "headerButton");
-	input1.setAttribute("onclick", "includeAccount();loadAccount();");
-	li2.appendChild(input1);
-	ul.appendChild(li2);
-
-	var li3 = document.createElement("li");
-	li3.setAttribute("class", "drop");
-	li3.setAttribute("style", "display:none;")
-	var input2 = document.createElement("input");
-	input2.setAttribute("type", "button");
-	input2.setAttribute("value", "Logout");
-	input2.setAttribute("class", "headerButton");
-	input2.setAttribute("onclick", "signOut();");
-	li3.appendChild(input2);
-	ul.appendChild(li3);
-	
-	divMenu.appendChild(ul);
-	div.appendChild(divMenu);
+	for ( var i = 0 ; i < header.length ; i++ ) {
+		div.appendChild(getElement(header[i]));
+	}
 	return div;
 }
 
