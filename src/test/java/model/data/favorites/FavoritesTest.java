@@ -27,8 +27,8 @@ public class FavoritesTest {
 		userOwnerItems = new User("nick", "passWord", "name", "firstName", "email", "phone");
 		userOwnerFavorites = new User("nick", "passWord", "name", "firstName", "email", "phone");
 		pwd = userOwnerFavorites.getClearPwd();
-		item1 = new Item(userOwnerItems, "title1", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, Item.TYPE.PROPOSAL);
-		item2 = new Item(userOwnerItems, "title2", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, Item.TYPE.PROPOSAL);
+		item1 = new Item(userOwnerItems, "title1", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, Item.TYPE.OFFER);
+		item2 = new Item(userOwnerItems, "title2", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, Item.TYPE.OFFER);
 		item1.sign(userOwnerItems.getKeys());
 		item2.sign(userOwnerItems.getKeys());
 		Serpent s = new Serpent(pwd);

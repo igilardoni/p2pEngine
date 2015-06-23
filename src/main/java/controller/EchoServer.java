@@ -99,6 +99,11 @@ public class EchoServer {
 				System.err.println("content null");
 				return;
 			}
+			if(!interlocutors.containsKey(jsonObject.getString("query"))){
+				System.err.println(jsonObject.getString("query")+" is an unknow query");
+				System.err.println(jsonObject.getString("content"));
+				return;
+			}
 			interlocutors.get(jsonObject.getString("query")).sender(jsonObject.getString("content"), session);
 		} catch (JSONException e) {
 			e.printStackTrace();
