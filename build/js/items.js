@@ -128,6 +128,14 @@ function loadItemSearchFieldCategory(){
 function loadItemSearchFieldType(){
 	sendQueryEmpty("loadItemSearchFieldType");
 }
+function searchItem(){
+	if($("#search").val()!=""){
+		var content = "{"+$("#search").val()+"}";
+		sendQuery("searchItem", content);
+	}else{
+		alert("Impossible to launch an empty search !")
+	}
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -154,8 +162,11 @@ function itemLoaded(content){
 	$.each(content, function(key, value){
 		$("#"+itemForm+" #"+key).val(value);
 	});
+	$("#itemForm").find("h1").empty();
+	$("#itemForm").find("h1").append("Item : "+content.itemKey);
 	$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");
-	$("#addButton").val("Update Item");
+	$("#addButton").empty();
+	$("#addButton").append("Update Item");
 }
 
 function categoryLoaded(content){
@@ -210,76 +221,32 @@ function updateSearchField(){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/**
- * Get a form for add/update item, without button
- * @returns Element "div"
- */
-function getItemFormWithoutButton(){
-	var div = document.createElement("div");
-	div.setAttribute("id", itemForm);
-	for ( var i = 0 ; i < formItemAdd.length; i++) {
-		var p = document.createElement("p");
-		var element = document.createElement(formItemAdd[i].element);
-		var label = document.createElement("label");
-		label.appendChild(document.createTextNode(formItemAdd[i].label))
-		label.setAttribute("for", formItemAdd[i].attributes.name);
-		label.setAttribute("id", "label_"+formItemAdd[i].attributes.name);
-		p.appendChild(label);
-		$.each(formItemAdd[i].attributes, function(key, value){
-			element.setAttribute(key, value);
-		});
-		p.appendChild(element);
-		div.appendChild(p);
+function addSearch(){
+	var field = $("#field").val();
+	var searchField = $("#searchField").val();
+	var search = $("#search").val();
+	if(search == ""){
+		$("#search").val(field+":'"+searchField+"'");
+	}else{
+		$("#search").val(search+", "+field+":'"+searchField+"'");
 	}
-	loadCategories();
-	loadType();
-	return div;
+	$("#searchField").val("");
+}
+function resetSearch(){
+	$("#search").val("");
 }
 /**
  * Get a form for add item (with buttons "Add" and "Cancel")
  * @returns Element "div"
  */
 function getItemAddForm(){
-	var div = getItemFormWithoutButton();
-	for( var i = 0 ; i < buttonItemAdd.length; i++){
-		var a = document.createElement("a");
-		$.each(buttonItemAdd[i], function(key, value){
-			a.setAttribute(key, value);
-		});
-		div.appendChild(a);
-	}
-	return div;
-}
-/**
- * Get a form for search item with button "Search"
- * @returns Element "div"
- */
-function getItemSearchForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "search");
-	for ( var i = 0 ; i < formSearchItem.length; i++) {
-		var p = document.createElement("p");
-		var element = document.createElement(formSearchItem[i].element);
-		var label = document.createElement("label");
-		label.appendChild(document.createTextNode(formSearchItem[i].label))
-		label.setAttribute("for", formSearchItem[i].attributes.name);
-		label.setAttribute("id", "label_"+formSearchItem[i].attributes.name);
-		p.appendChild(label);
-		$.each(formSearchItem[i].attributes, function(key, value){
-			element.setAttribute(key, value);
-		});
-		p.appendChild(element);
-		div.appendChild(p);
+	div.setAttribute("id", itemForm);
+	for ( var i = 0 ; i < itemAddForm.length ; i++ ) {
+		div.appendChild(getElement(itemAddForm[i]));
 	}
-	for( var i = 0 ; i < buttonSearchItem.length; i++){
-		var p = document.createElement("p");
-		var input = document.createElement("input");
-		$.each(buttonSearchItem[i], function(key, value){
-			input.setAttribute(key, value);
-		});
-		p.appendChild(input);
-		div.appendChild(p);
-	}
+	loadCategories();
+	loadType();
 	return div;
 }
 /**
@@ -312,6 +279,7 @@ function getTableItem(id){
 function newRowItem(content){
 	var row = document.createElement("tr");
 	row.setAttribute("id", content.itemKey);
+	row.setAttribute("onclick", "editItem('"+content.itemKey+"');")
 	// Title cell
 	var cell1 = document.createElement("td");
 	cell1.setAttribute("class", "rowTitle");
@@ -326,11 +294,11 @@ function newRowItem(content){
 	var cell3 = document.createElement("td");
 	cell3.setAttribute("class", "rowActions");
 	// Edit Button
-	var removeButton = document.createElement("a");
+	/*var removeButton = document.createElement("a");
 	removeButton.setAttribute("class", "buttonEdit");
 	removeButton.setAttribute("onclick", "editItem('"+content.itemKey+"');");
 	//removeButton.appendChild(document.createTextNode("Edit"));
-	cell3.appendChild(removeButton);
+	cell3.appendChild(removeButton);*/
 	// Remove Button
 	var removeButton = document.createElement("a");
 	removeButton.setAttribute("class", "buttonRemove");

@@ -134,7 +134,7 @@ public class UpdateUser extends Service<String> {
 		c.addService(uu);
 		User u = new User("nickname", "password", "nom", "prenom", "mail@mail.mail", "0650507224");
 		u.sign(u.getKeys());
-		Item i = new Item(u, "patate", new Category(Category.CATEGORY.Appliances), "description", "une image", "france", "contact", 0, 0, TYPE.WISH);
+		Item i = new Item(u, "patate", new Category(Category.CATEGORY.Appliances), "description", "une image", "france", "contact", 0, 0, TYPE.DEMAND);
 		i.sign(u.getKeys());
 		Message msg = new Message(u.getKeys(), u.getKeys(), "Salut");
 		msg.sign(u.getKeys());

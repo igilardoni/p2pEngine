@@ -29,16 +29,16 @@ public class ManagerTest {
 	public static void init(){
 		user1 = new User("user1", "pwd1", "name1", "firstName1", "email1", "phone1");
 		user1.sign(user1.getKeys());
-		item1_1 = new Item(user1, "title11", new Category(CATEGORY.Baby), "description1", "", "country1", "contact1", 0, 1000000, Item.TYPE.PROPOSAL);
+		item1_1 = new Item(user1, "title11", new Category(CATEGORY.Baby), "description1", "", "country1", "contact1", 0, 1000000, Item.TYPE.OFFER);
 		item1_1.sign(user1.getKeys());
-		item1_2 = new Item(user1, "title12", new Category(CATEGORY.Appliances), "description2", "", "country2", "contact2", 0, 500000, Item.TYPE.PROPOSAL);
+		item1_2 = new Item(user1, "title12", new Category(CATEGORY.Appliances), "description2", "", "country2", "contact2", 0, 500000, Item.TYPE.OFFER);
 		item1_2.sign(user1.getKeys());
 		
 		user2 = new User("user2", "pwd2", "name2", "firstName2", "email2", "phone2");
 		user2.sign(user2.getKeys());
-		item2_1 = new Item(user2, "title21", new Category(CATEGORY.Baby), "description1", "", "country1", "contact1", 0, 1000000, Item.TYPE.PROPOSAL);
+		item2_1 = new Item(user2, "title21", new Category(CATEGORY.Baby), "description1", "", "country1", "contact1", 0, 1000000, Item.TYPE.OFFER);
 		item2_1.sign(user2.getKeys());
-		item2_2 = new Item(user2, "title22", new Category(CATEGORY.Appliances), "description2", "", "country2", "contact2", 0, 1, Item.TYPE.PROPOSAL);
+		item2_2 = new Item(user2, "title22", new Category(CATEGORY.Appliances), "description2", "", "country2", "contact2", 0, 1, Item.TYPE.OFFER);
 		item2_2.sign(user2.getKeys());
 		
 		network = new Network(9708, ".peerFolderTest", "peerNameTest");

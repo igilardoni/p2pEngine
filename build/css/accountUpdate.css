@@ -79,11 +79,11 @@
 	margin-bottom : 20px;
 }
 #accountUpdate p:last-child:before {
-	/* This is just for print "not a member yet ?" */
+	/* This is just for print "Cancel" */
 	color : #525252;
 	width: 1em;
 	text-align: center;
 	margin: 0 0.5em 0 -1em;
 	pointer-events: none;
-	content : "Already Registred ? "
+	content : "Cancel "
 }

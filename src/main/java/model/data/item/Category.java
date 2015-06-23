@@ -45,7 +45,7 @@ public class Category {
 		PersonalCaring,
 		Teaching,
 		Transport,
-		NC
+		NA
 	}; 
 	
 	private CATEGORY choice;
@@ -67,7 +67,7 @@ public class Category {
 				return;
 			}
 		}
-		this.choice = CATEGORY.NC;
+		this.choice = CATEGORY.NA;
 	}
 	
 	/**

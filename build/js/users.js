@@ -128,7 +128,6 @@ function accountUpdated(content){
 
 // Display account
 function accountLoaded(content){
-	//$("#id").val(content.id);
 	$("#username").val(content.username);
 	$("#name").val(content.name);
 	$("#firstname").val(content.firstname);

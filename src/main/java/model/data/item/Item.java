@@ -23,8 +23,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * TYPE is the list of exchange type permitted.
 	 */
 	public static enum TYPE{
-		WISH,						// If object is needed
-		PROPOSAL					// If object is proposed
+		OFFER,					// If object is proposed
+		DEMAND						// If object is needed
 	};
 	
 	private String owner;			// Owner of the object
@@ -448,10 +448,10 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			setLifeTime(Long.parseLong(val));
 			return true;
 		case "type":
-			if(val.toLowerCase().equals(TYPE.PROPOSAL.toString().toLowerCase()))
-				setType(TYPE.PROPOSAL);
-			else if(val.toLowerCase().equals(TYPE.WISH.toString().toLowerCase()))
-				setType(TYPE.WISH);
+			if(val.toLowerCase().equals(TYPE.OFFER.toString().toLowerCase()))
+				setType(TYPE.OFFER);
+			else if(val.toLowerCase().equals(TYPE.DEMAND.toString().toLowerCase()))
+				setType(TYPE.DEMAND);
 			else {
 				return false;
 			}
@@ -532,8 +532,8 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 
 
 	public static void main(String[] arg){
-		Item item1 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
-		Item item2 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NC), "description", "image", "country", "contact", 0L, 0L, TYPE.PROPOSAL);
+		Item item1 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
+		Item item2 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
 		Item item1Copy = new Item(item1.toString());
 		System.out.println(item1.getItemKey());
 		System.out.println(item1Copy.getItemKey());

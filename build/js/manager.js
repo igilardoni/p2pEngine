@@ -10,6 +10,8 @@ function emptyContent(){
 function includeLogin(){
 	removeHeader();
 	removeMenu();
+	removeFavorites();
+	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getLoginForm());
 }
@@ -17,6 +19,8 @@ function includeLogin(){
 function includeRegistration(){
 	removeHeader();
 	removeMenu();
+	removeFavorites();
+	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getRegistrationForm());
 }
@@ -50,7 +54,7 @@ function includeWebmail(){
 
 function includeMenu(){
 	$("nav").empty();
-	$("nav").append(getMenu());
+	$("nav").replaceWith(getMenu());
 }
 
 function removeMenu(){
@@ -79,4 +83,12 @@ function includeFavorites(){
 
 function removeFavorites(){
 	$("aside").empty();
+}
+
+function includeFooter(){
+	
+}
+
+function removeFooter(){
+	$("footer").empty();
 }

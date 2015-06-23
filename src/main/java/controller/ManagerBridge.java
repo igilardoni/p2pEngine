@@ -107,13 +107,13 @@ public class ManagerBridge{
 		Item.TYPE t;
 		switch(type.toUpperCase()){
 		case "WISH":
-			t = TYPE.WISH;
+			t = TYPE.DEMAND;
 			break;
 		case "PROPOSAL":
-			t = TYPE.PROPOSAL;
+			t = TYPE.OFFER;
 			break;
 		default:
-			t = TYPE.PROPOSAL;
+			t = TYPE.OFFER;
 		}
 		System.out.println(Application.getInstance().getManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
@@ -161,7 +161,7 @@ public class ManagerBridge{
 		item.setCountry(country);
 		item.setContact(contact);
 		item.setLifeTime(Long.parseLong(lifeTime));
-		item.setType(type.toUpperCase()=="WISH"?TYPE.WISH:TYPE.PROPOSAL);
+		item.setType(type.toUpperCase()=="WISH"?TYPE.DEMAND:TYPE.OFFER);
 		item.sign(Application.getInstance().getManager().getCurrentUser().getKeys());
 		Application.getInstance().getManager().updateItem(itemKey, item);
 	}

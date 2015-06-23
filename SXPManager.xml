@@ -3,12 +3,12 @@
   <users>
     <model.data.user.User>
       <date>1434362451964</date>
-      <signature>&lt;signR&gt;19a95b0e0f9be6fac92a8479320522ff244ace5cc17fcd69e50b0573c4b25ce029b5be1c846d77db5ae2f33b09e6b2ab51b259a5425dcd7bc0d89607082125ed4bc0fa7c1d6cdd814abe086cda240c83b58f5d78f1dce4f072d42bb5ad0282c7ac2618b06c5995e23356385741f596fa4bb1981190b9b4aa0c1a2ecf6960d2bb&lt;/signR&gt;&lt;signS&gt;11f61f1034fa7d2e1e7f971dcfce2ac0f1f76e910883800858ac6b498aa20cfd673d994541eebdd1874fca5923cec1d6970ff707e1e9ef9fdfd5703ef207c6fd6e6eca495b90143f2d2106bec441357cf5edb1c91cb4875224d47107967c55a28fe387410c49e3a1a7f564e0502a598af6289e083dcd8f69953dec70bac094e68a8f8d47dcbc829797dffe325bb9d981d2ae6edeecfe6437de3bea02d6f66f0e5755ab0b30c0915397ce7d759aa048083b543e93ad50e65853cd7660b1e3e10b6a6892e0048596d728e0dc7c8037df5512b665b42c3a26a4bde2a9e3b1a3531dc49b5ad1165a4f2f4a379cef740dcbd5e6075ad18c2504a38654b2c2aa1e46c3&lt;/signS&gt;</signature>
+      <signature>&lt;signR&gt;14351464e9e191ba33011f0c59506d43b62d48806750230a5c705a255f82fce7e97317e4a874d2868939ad12d05e81706639832538930c2c980f97ad4388d759196e11a4164559e4dd03d3c85e2cda1af744f6647d7f59e1345fe626e625f77f5832aa75f6cde1b336116252f8dc10410c6be993db6b5efe50711ea4e92b70bc&lt;/signR&gt;&lt;signS&gt;404c43164eecbab995d7f59f1ab80d838b6e249ff5f237827aad4b36bb8af27147c2cad2b03acacbcf051be29d39632efd2a0da012abd4a12a75889b6c49d042cc94a733f142277beebf97b892d49e95b454516b96442a902270554079489aa95e1c33ba3ef3ee6964ebeb371c63ada81f3cfd6d1d59064762d8519e077a3a57010f1f0fd46b52d415fc6fa83913c30a17676944709130f0080240352a36d2cb8aa98aba54a76c6f06baa466206483653e62c252e0ade24968c4ee8a496338db89a91d5d75273faab776509cee4ecad3d0b48f065479f7f3f569c6a9629bcf0a6080b4d6822481b5e0e69febf3ddccb2fc051f18ebd5bc915f9159abde125075&lt;/signS&gt;</signature>
       <g>526c8072d4e606f1c8bf9f016f972ada069c114a063a232b4326f59ca589a21632f715bf18c90591cfe73beef9ef060b6e63645a1bc8265116a0be4de30d3cf77866352d06ccefa6aa6b5cde3c9f3692e4161dae57f39db764e2d04e6da83716c615d238cd63312bcf72a228e2ad6ab0502080d97f5e927d7a7cdba3dfa6e46b</g>
       <publicKey>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</publicKey>
       <nick>Eldoran</nick>
       <p>b0ea05cb9e2fdb5c46fde7970a2b297dd91d4e56f136cde3d40a8fc3d672883daa07adaee3f6a2f6b669dad6aba95ee9f247d47c6d4d321c2785364f0792cd1fff10d0566f29e8cba7dfa92971c73f3881e45b500ce1a9121e9c991038a4d462d74791ea76f984076355906f5dec2409a31ec995affe25aff2458067572a49b7</p>
-      <lastUpdated>1434987616436</lastUpdated>
+      <lastUpdated>1435067921416</lastUpdated>
       <firstName>Michaël</firstName>
       <privateKey>50333cace749ab65e699ac18cbca9b0de206fbcbfbd5dd2d8f9e40155f85aa01af612b7e2aa5b488c4f1b713df8900c977782b0df351974e582ad2d147ac16451d1e544b0ac2affc516479a100c284b1ad94c8458d30a31a4a97fe735b756a3e667970e2233f83bdc61eafd532815af8640e66b5a437a51c6fcb0c020c1345021617cbab4b0923befb9ec0d0a93adc640f</privateKey>
       <phone>+336 64 96 87 65</phone>
@@ -20,71 +20,39 @@
   <items>
     <model.data.item.Item>
       <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
-      <date>1434457071507</date>
+      <date>1435059973702</date>
       <image />
       <country>FRANCE - Marseille</country>
-      <signature>&lt;signR&gt;46b633ac8689e8250564c16e34cb7410b4c52f2480b87490f11abf47bb0a7ff474db75ab17cff2a6a853e889c28d5f8b4c803e4cc911b65cadfc189e17eb9a72afd4b3ce440833cd59ebc211fa9ebd3e1ed311fa20f031a6301e63c3d4c6a0f3c35d0f65c852cee658e584c601c701760c3901f09fc4a402caf0d635788b7679&lt;/signR&gt;&lt;signS&gt;2b24e7720cc034bc356ea8ad95542479150941651f0bb926933b89a047a135ce965008456356995d5d1ba131fc53f306d99f0ba023a6a52cafc7279070de609ae349783b247c6e76dbf83e69e12a1602ea04a55f10484f14d65f92c5ef39f016cbffef6a5ab10a173e6aebf11a20c13359c90a106a2c81f737f3290400450bf2a6d39738b7572c8132e25f4dbd785ee9e9e7c4919354ebd243ef9ba523b3f2003fe7ce0f982de430d0921042ddbf60c898ef386d35d721cd7771cd0d42f56665f9407d17be4294f02436d60c37b32d89f3f28f1ced50b91d130c21b88ee4ceaca89e025bd0151e065f24f7a178d0c414c4b9d0c353359c89b0bdae22c798db87&lt;/signS&gt;</signature>
-      <keyId>c25069a9aad755bb875297773fda175b194fd64c33802f2a247aad4cb1bdcb7d</keyId>
+      <signature>&lt;signR&gt;883b677b58cca8c23e8afe32276a7c5014a212b1753b1b4085880ad578ccd353fbf83fef6570f4e75415dcfe3f16bc032fdc6a2244ac613833441ca6642b606720d054da5b3dbe502bede4d8594f86a89f1c1dd9b2049030e13f2e18feb3fe18a810e126997bbb558e5acc428739c68d18885dbc364b933aaffbfed90079e100&lt;/signR&gt;&lt;signS&gt;e0bf50cd750595630f9146583400ef66e3c247fb9dce891b46b0904f0db86e45834e40cd4ed0b61189220eccd49802e6489da4f256ad52f53f84014044a9ebfd555e9eb475ddb759b862bf1ef9edbc3c6dfb9b9cc04064571428a8447161ce68209ffee1fabe1a7895cfca1c100230905f9afece498423f1ec3d90b32c85814a9c1c188f6b0550720f1094ef85d23c385672892918376fab99bb43c3a79a9b547716a0e69c15b76970cf2701625f987fac2cbeb31d4692c06f4a2110845ab1315d550fb3f2ebb6ad8785ee5bb2dee07c7ac045117cecca401561da6146404702bfdb664167e844840b44c3e0de4c8d37c53e904e70304dcef0939b927cdcc14&lt;/signS&gt;</signature>
+      <keyId>b51e04e6bad85a51669c1dd085c34a771360558e4791918fbf4a7e22f503510a</keyId>
       <friendNick>Eldoran</friendNick>
-      <description>Je voudrais 500g de viande en échange de mes 5kg de patates. J'en ai marre de manger des féculents !</description>
-      <title>Patates (5kg)</title>
-      <type>PROPOSAL</type>
-      <lastUpdated>1434457071509</lastUpdated>
-      <contact>Message SXP
-OU
-Téléphone : 06.64.96.87.65</contact>
-      <lifeTime>2697792128494</lifeTime>
+      <description>My potatoes are great</description>
+      <title>Potatoes</title>
+      <type>OFFER</type>
+      <lastUpdated>1435059973702</lastUpdated>
+      <contact>Please call me : 06.96.64.87.65</contact>
+      <lifeTime>46437226299</lifeTime>
       <category>FoodAndBeverages</category>
     </model.data.item.Item>
     <model.data.item.Item>
       <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
-      <date>1434539863859</date>
+      <date>1435060116511</date>
       <image />
       <country>FRANCE</country>
-      <signature>&lt;signR&gt;65a05d95f4fb0d9eff50262aac221b62be750dbe43a2e3c3d197eea1905b3489f69cd44c22b5be361d9c0e35dd1b7bd59fa0a24336705f8e92fbc05e25b62ed270cc665f614c173036d389969796c4b2d8150b1ea591d905fa111d20c8740505e14e711b1cb1552ce14250af6906f7416e541c74aaac464b58b8a60a6b124c72&lt;/signR&gt;&lt;signS&gt;26fe80d93849d178902240d14d537db82ae93e4789bce23e3197d385c38eaa218ed7bc95837298fabe7ed44a1a382c28f998444ccfc25b958b0b1b671212a2a432863cf93f13bbc731bcc6a16952a20f2bb7fc5c87bd3039bcbf094f266cd5a13da1a8bc12537d016edc808e5fe22ec01d145bca0819bb38a9db34f82dc82bc5d5f6984e77b21892026f67528426994ab1a428cfa1b177468cd5450615a71d44de7719ee4e32051489b78b333ea8eac873e262574043e63c04441496f819fc41f7e619c6505bb5d58504a89b44694583d0dd99f0b4556e3c107a45e52e0c45059fc3f4cf2996a1f44aaa534b7da9df05c205747ddb9c1bbde810d4f273e258af&lt;/signS&gt;</signature>
-      <keyId>0876a8fbe047683d93fe652005bc7b136362ea859bd2177bc83253c7f31b1453</keyId>
+      <signature>&lt;signR&gt;2c904de2ec116134f6b7cb23fbfc273a14913326ab747d874599a63d3a977aaf815ae855d0ab4e1f78a5cfcb8e46038e47d659b3fb7d04943859fc2021ccaf59930de62b067e50d4bd310063cc4032660d301cf18076a0ac25a1c20797061934d33c243880a3ef508f81d3be3866f4456352c21815ffc92e49d02106c2dd3df9&lt;/signR&gt;&lt;signS&gt;5852eeeebab7fd5806698c9685724e1f922d94f4ec35cc7529242338e436ae785e2e4ef3b53b79cfc698c269961d928e18b4306534fbc1eb4b56bf79a4e2aa1448ac0ed5b13a1f8deac6571c066a29a675f6a5789174eca19e91959a46c25a6775dc6ed5aaaffd3d5a064ff0c9c147b580e351c98834c8970aac8b3ad7b4be84f466e9bdb414e8134f5e1c103971a9dc2570c508d36aae2f510e89062954eea891feb3d8741ca29930c685b9aee9f3a5beb262a45716769a98795c03244b6c4dc584ede35d576fb8274a114c207eb023fa6c569034bf1556335dab49fbb5cf7551a4b089c511f2589b4bf6ac0dafb9151a20dd582b37c1a36fef9e8325dfb863&lt;/signS&gt;</signature>
+      <keyId>b8ecffdada75f77c98f5ab723630b3a3040ca9a1895125cb40ba9f58c9260d1d</keyId>
       <friendNick>Eldoran</friendNick>
-      <description>Je voudrais deux moutons vivants en échanges de mes 50kg de carottes</description>
-      <title>Carottes (50kg)</title>
-      <type>PROPOSAL</type>
-      <lastUpdated>1434539863860</lastUpdated>
-      <contact>06.64.96.87.65</contact>
-      <lifeTime>46957336143</lifeTime>
-      <category>Appliances</category>
-    </model.data.item.Item>
-    <model.data.item.Item>
-      <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
-      <date>1434973607503</date>
-      <image />
-      <country>FRANCE</country>
-      <signature>&lt;signR&gt;a5959766cf206fbf174487cbdc0efab22e4c7f0ed7a864eebf1b54e9c47fb21855bff7991736c597bb36590d2cd371cf27b5c4e7a026086a3b4bf1e5f719188a96c1d93811d6e3e9398e6384b380c28288257360afb1c3d3437c1c04fb1370bb340798b6ed7a5f2ee63f39cd2b7a3d5db5f6d976d18177b91ef43b19f330af0e&lt;/signR&gt;&lt;signS&gt;36607da84aace70917dad408c9642cf2ab1142a59146ad13dcfe45036cfe2c0fcdecfc7c7e9b6858b9121f11dba231ca6d8bae28d6ed614c1e559fc444529896afc155153c9d9717f1157331bcd83184772703b29feef1115ee958b5c83f213f8a4743ca7f06ebef49d86e79f2e3565cd0584bd04fa047e41affa97a816cf6bc73e746df6b2c07f1c398ce8cba9fb5473c853fd7523ff0a6539c7dfdaf72e963aa442c16056af41594a9da418d666db7d886188f2c6e7923f9e28778b5550654dbcc68896246cb20b1b2e6ebcf459d5a094346e3edec1c36c5f3f3e47fa25e93958569a865d504d99072a9d3204ad67af49b15ff6cb75130886bda0cc2efdeae&lt;/signS&gt;</signature>
-      <keyId>32d43b898df5a41f54a0561b9aef9a90a1175713f5df0c2c1ac70bade6f71440</keyId>
-      <friendNick>Eldoran</friendNick>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
-      <title>Texte en latin</title>
-      <type>PROPOSAL</type>
-      <lastUpdated>1434985715639</lastUpdated>
-      <contact>Deus</contact>
-      <lifeTime>789885145475</lifeTime>
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</description>
+      <title>Lorem ipsum</title>
+      <type>OFFER</type>
+      <lastUpdated>1435060294473</lastUpdated>
+      <contact>orare Deum</contact>
+      <lifeTime>142773083489</lifeTime>
       <category>Appliances</category>
-    </model.data.item.Item>
-    <model.data.item.Item>
-      <owner>7515958f2b383569c3e175026dff8680699a5b7bd7c1434228824510f3e2a6e92ad6cc3a09705ba204214f3ee5f00cfb72e7d66495be0d2937d1a7c39fbb471a84dbf404aafaec171a65da49653990f6045b99d6116b7eea7b6fe1e37bb900c7688afd150f511fc93cd27f551f1af66470e181b097fe52dfd63dc74f9715fda7</owner>
-      <date>1434985687796</date>
-      <image />
-      <country>FRANCE</country>
-      <signature>&lt;signR&gt;5045cf9fc1de7454defb92b321a99ce3991260864538359c8cd16e80ae88c943698c93b8a5fcf363e7a5893c1d32a92c29cdd893a0468c0f13615e34f3aaeb73b098207dc93ed0f592497bf86dafc5ecf660fe4a9a56dfc1f439ec1ba3c28ed169eebac466c14371eff6716e6ec89a988cec3bbcaa5fe5c682fa723b22e6106c&lt;/signR&gt;&lt;signS&gt;c4c899e2091b164bafbee83355aa1d6bff5dec139646ab8082ad5015b931aa6af2f0da4412eae49b62f6e6e7e0c91649853c5560250a9a2aaeedcf5e1c19e090a1568d6a31b75915544415cf397923f57d9ea528fbe6cd8cc12e0e6a39b4e8ea6cb3fb9440a63854029291f5eb9b7f54413c1362550e0624209c6ec44153232d6deb169c71cd1e2c11d5d04c25d3a104de1fb693aba5493e1196774618c3b1ed37cfd8c2f6bd733d2090fd8bcbcd7f31aa6421b7965f33250f0f97f78b40c87bf5f3c164778088cf1644bbf91bc811af87739093c8e5df9d156fc3e1694369dc90d08e2aa99b06adaa9dc3abc7fcccff4502feaf39314fb38e8030eb028005&lt;/signS&gt;</signature>
-      <keyId>a83fd12684555680165894dbcaab88f2879b8cf33beee46f7cab45a122a9a8dd</keyId>
-      <friendNick>Eldoran</friendNick>
-      <description>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</description>
-      <title>Et voici un petit objet parce que j'en ai marre d'écrire du code et qu'il faut bien que je fasse des tests inutiles</title>
-      <type>PROPOSAL</type>
-      <lastUpdated>1434985805664</lastUpdated>
-      <contact>bla bla</contact>
-      <lifeTime>46511512205</lifeTime>
-      <category>NC</category>
     </model.data.item.Item>
   </items>
   <messages />
