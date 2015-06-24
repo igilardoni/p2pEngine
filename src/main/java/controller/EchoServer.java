@@ -14,15 +14,19 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import controller.interlocutors.AbstractInterlocutor;
+import controller.interlocutors.AddFavorites;
 import controller.interlocutors.AddItem;
 import controller.interlocutors.LoadAccount;
 import controller.interlocutors.LoadCategories;
+import controller.interlocutors.LoadConversation;
 import controller.interlocutors.LoadItem;
 import controller.interlocutors.LoadItemSearchField;
 import controller.interlocutors.LoadItemSearchFieldCategory;
 import controller.interlocutors.LoadItemSearchFieldType;
 import controller.interlocutors.LoadItems;
 import controller.interlocutors.LoadItemsFavorites;
+import controller.interlocutors.LoadMessage;
+import controller.interlocutors.LoadMessages;
 import controller.interlocutors.LoadType;
 import controller.interlocutors.Register;
 import controller.interlocutors.RemoveItem;
@@ -75,6 +79,11 @@ public class EchoServer {
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
 		
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
+		interlocutors.put("addFavorites", new AddFavorites());
+		
+		interlocutors.put("loadMessages", new LoadMessages());
+		interlocutors.put("loadConversation", new LoadConversation());
+		interlocutors.put("loadMessage", new LoadMessage());
 	}
 	
 	/**

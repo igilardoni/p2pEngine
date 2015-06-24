@@ -6,6 +6,8 @@ import model.Application;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
+import model.data.user.Conversations;
+import model.data.user.Message;
 import model.data.user.User;
 import model.network.search.ItemSearcher;
 import util.DateConverter;
@@ -209,7 +211,7 @@ public class ManagerBridge{
 	 * @param item
 	 */
 	public static void addFavoriteItem(Item item) {
-		Application.getInstance().getManager().getFavoritesCurrentUser().addItem(item);
+		Application.getInstance().getManager().addFavoritesItem(item);
 	}
 	/**
 	 * Remove an item in current user's Favorite.
@@ -237,8 +239,35 @@ public class ManagerBridge{
 			Item i = itemSearcher.search(itemKey);
 			if(i!=null)
 				items.add(i);
+			else{
+				Item iLocal = Application.getInstance().getManager().getItem(itemKey);
+				if(iLocal!=null) items.add(iLocal);
+			}
 		}
 		return items;
+	}
+	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public static ArrayList<Message> getMessages(){
+		return Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
+	}
+	public static ArrayList<Message> getConversation(){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		Conversations conversation = Application.getInstance().getManager().getCurrentUserConversations();
+		conversation.unLock(getCurrentUser());
+		for(String key : conversation.getSenders()){
+			messages.addAll(conversation.getConversation(key));
+		}
+		return messages;
+	}
+	public static Message getMessage(String id){
+		ArrayList<Message> messages = new ArrayList<Message>();
+		messages.addAll(getMessages());
+		messages.addAll(getConversation());
+		for (Message message : messages) {
+			if(message.getID().equals(id))
+				return message;
+		}
+		return null;
 	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){
