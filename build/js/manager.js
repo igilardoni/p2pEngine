@@ -43,13 +43,11 @@ function includeSearch(){
 function includeContrat(){
 	emptyContent();
 	// TODO
-	// $("#content").load("./include/contrat.html");
 }
 
 function includeWebmail(){
 	emptyContent();
-	// TODO
-	// $("#content").load("./include/webmail.html");
+	$("#content").replaceWith(getWebmail());
 }
 
 function includeMenu(){

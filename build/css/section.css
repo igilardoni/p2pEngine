@@ -59,7 +59,10 @@ section:empty {
 }
 #itemForm textarea {
 	width : 50%;
-	height : 120px;
+	min-height : 120px;
+	-moz-box-sizing: border-box;
+    box-sizing: border-box;
+    resize: auto;
 }
 #itemForm input[type=text] {
 	width : 50%;

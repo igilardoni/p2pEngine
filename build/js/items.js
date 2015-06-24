@@ -288,7 +288,10 @@ function newRowItem(content){
 	// Description cell
 	var cell2 = document.createElement("td");
 	cell2.setAttribute("class", "rowDescription");
-	cell2.appendChild(document.createTextNode(content.description));
+	if(content.description.length > 400)
+		cell2.appendChild(document.createTextNode(content.description.substring(0, 400)+" [...]"));
+	else
+		cell2.appendChild(document.createTextNode(content.description));
 	row.appendChild(cell2);
 	// Buttons Cell
 	var cell3 = document.createElement("td");
@@ -305,6 +308,13 @@ function newRowItem(content){
 	removeButton.setAttribute("onclick", "removeItem('"+content.itemKey+"');");
 	//removeButton.appendChild(document.createTextNode("Remove"));
 	cell3.appendChild(removeButton);
+	row.appendChild(cell3);
+	// Add to favorites Button
+	var favoritesButton = document.createElement("a");
+	favoritesButton.setAttribute("class", "buttonAddFavorites");
+	favoritesButton.setAttribute("onclick", "addFavorites('"+content.itemKey+"');");
+	//removeButton.appendChild(document.createTextNode("Remove"));
+	cell3.appendChild(favoritesButton);
 	row.appendChild(cell3);
 	return row;
 }

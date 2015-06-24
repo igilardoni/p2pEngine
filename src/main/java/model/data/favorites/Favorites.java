@@ -176,8 +176,7 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	@Override
 	protected void setKeys() {
-		itemsKey = null;
-		itemsKeyCrypted = null;
+		itemsKey = new ArrayList<String>();
 		this.addKey("owner", false, false);
 		this.addKey("itemsKeyCrypted", false, true);
 		this.addKey("itemsKey", false, true);

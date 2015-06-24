@@ -310,6 +310,45 @@ var searchForm = [
 			]}
       	]}
 ];
+/* * * * * * * * * * * * * * * * * * * * * MESSAGES FORM * * * * * * * * * * * * * * * * * * * * * * * */
+var webmailForm = [
+		{element:"div", attributes:{id:"webmail"}, inside:[
+			{element:"div", attributes:{id:"webmailMenu"}, inside:[
+				{element:"ul", attributes:{}, inside:[
+					{element:"li", attributes:{id:"unread", onclick:"loadMessages();"}, inside:[
+						{element:"a", attributes:{}, inside:[
+							{element:"text", value:"Unreaded"}
+						]}
+					]},
+					{element:"li", attributes:{id:"conversation", onclick:"loadConversation();"}, inside:[
+  						{element:"a", attributes:{}, inside:[
+  							{element:"text", value:"Archives"}
+  						]}
+  					]},
+				]}
+			]},{element:"div", attributes:{id:"webmailDisplay"}, inside:[
+				{element:"table", attributes:{id:"messagesList"}, inside:[
+					{element:"thead", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"th", attributes:{"class":"rowDate"}, inside:[
+								{element:"text", value:"Date"}
+							]},
+							{element:"th", attributes:{"class":"rowSubject"}, inside:[
+								{element:"text", value:"Subject"}
+							]},
+							{element:"th", attributes:{"class":"rowFrom"}, inside:[
+								{element:"text", value:"From"}
+							]},
+							{element:"th", attributes:{"class":"rowActions"}, inside:[]}
+						]}
+					]}
+				]},
+				{element:"div", attributes:{id:"messageDisplay"}, inside:[
+					{element:"text", value:"My super message !!!!"}
+				]}
+			]}
+		]}
+];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * PAGE GENERATORS * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -319,6 +358,11 @@ function getElement(json) {
 		return text;
 	}
 	var element = document.createElement(json.element);
+	if(json.element == "textarea"){
+		element.setAttribute("onkeyup", "textAreaAdjust(this);");
+		element.setAttribute("onfocus", "textAreaAdjust(this);");
+		element.setAttribute("onscroll", "textAreaAdjust(this);");
+	}
 	$.each(json.attributes, function(key, value){
 		element.setAttribute(key, value);
 	});
@@ -326,6 +370,11 @@ function getElement(json) {
 		element.appendChild(getElement(json.inside[i]));
 	}
 	return element;
+}
+
+function textAreaAdjust(o) {
+    o.style.height = "1px";
+    o.style.height = (20+o.scrollHeight)+"px";
 }
 
 function getHome(){
@@ -396,6 +445,15 @@ function dropMenuOn(){
 }
 function dropMenuOff(){
 	$(".drop").hide();
+}
+
+function getWebmail(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "content");
+	for( var i = 0 ; i < webmailForm.length ; i++ ) {
+		div.appendChild(getElement(webmailForm[i]));
+	}
+	return div;
 }
 
 function getHeader(){
