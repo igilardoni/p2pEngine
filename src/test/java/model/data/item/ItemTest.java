@@ -11,13 +11,13 @@ public class ItemTest {
 	private static String owner = "owner";
 	private static String friendlyNick = "friendlyNick";
 	private static String title = "title";
-	private static Category category = new Category(CATEGORY.NC);
+	private static Category category = new Category(CATEGORY.NA);
 	private static String description = "description";
 	private static String image = "";
 	private static String country = "country";
 	private static String contact = "contact";
 	private static long lifeTime = 1;
-	private static Item.TYPE type = Item.TYPE.PROPOSAL;
+	private static Item.TYPE type = Item.TYPE.OFFER;
 	
 	@Test
 	public void equals() {

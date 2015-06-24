@@ -122,6 +122,14 @@ public class Conversations extends AbstractAdvertisement{
 		return messages.get(to);
 	}
 	
+	public ArrayList<String> getSenders(){
+		if(password == null) return null; //content locked
+		ArrayList<String> senders = new ArrayList<String>();
+		for (String sender : messages.keySet()) {
+			senders.add(sender);
+		}
+		return senders;
+	}
 	
 	public String getOwner() {
 		return owner;

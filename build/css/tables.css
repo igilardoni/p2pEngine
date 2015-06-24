@@ -1,0 +1,90 @@
+table {
+	background-color : white;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	
+	padding-bottom : 10px;
+	width:50%;
+	margin-left : 1%;
+	margin-right : 1%;
+	display : block;
+	width : 98%;
+	border-collapse:collapse;
+	valign : top;
+}
+table thead {
+	color : white;
+	background-color : #416c75;
+	width : 100%;
+	border-top-right-radius : 15px;
+	border-top-left-radius : 15px;
+	padding-top : 5px;
+	display : table;
+}
+table tbody tr:nth-child(2n) {
+	background-color: #7aacb6;
+	border-color : #7aacb6;
+}
+table tbody {
+	display : block;
+	overflow-y : scroll;
+	height : 200px;
+	padding-bottom : 15px;
+	vertical-align : top;
+}
+table tbody tr {
+	cursor : pointer;
+	display : table;
+	width : 100%;
+}
+table .rowTitle {
+	width : 15%;
+	text-align : center;
+}
+table .rowDescription {
+	text-align : left;
+}
+table .rowActions {
+	text-align : center;
+	width : 8%;
+}
+/************************************************* BUTTONS **************************************************/
+.buttonEdit, .buttonRemove, .buttonAddFavorites {
+	cursor : pointer;
+	padding : 2px;
+	height : 28px;
+	width : 28px;
+	margin : 5px;
+	overflow : hidden;
+	display : inline-block;
+	font-size : 1.4em;
+	font-weight: bold;
+	color : white;
+	text-align : center;
+	
+	background: #416c75;
+	background-image: -webkit-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -moz-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -ms-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -o-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: linear-gradient(to bottom, #416c75, #3a3b3b);
+	-webkit-border-radius: 15;
+	-moz-border-radius: 15;
+	border-radius: 15px;
+	text-shadow: 1px 1px 3px #666666;
+	-webkit-box-shadow: 0px 1px 3px #666666;
+	-moz-box-shadow: 0px 1px 3px #666666;
+	box-shadow: 0px 1px 3px #666666;
+}
+
+.buttonAddFavorites:before {
+	content: "\2606";
+}
+.buttonEdit:before {
+	content: "\270D";
+}
+.buttonRemove:before {
+	content: "\2612";
+}

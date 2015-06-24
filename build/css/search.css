@@ -1,0 +1,89 @@
+#searchForm {
+	padding : 1%;
+	text-align : left;
+	
+	background-color : white;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	overflow-y : auto;
+	margin-left : 1%;
+	margin-right : 1%;
+	margin-bottom : 1%;
+}
+#searchForm h1 {
+	text-align : center;
+	display : block;
+	content : "Items";
+	border : 5px solid transparent;
+	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
+	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
+	border-image : linear-gradient(to right, #FFFFFF 0%, #5aafcf 100%);
+	border-image-slice : 1;
+	border-top : none;
+	border-left : none;
+	border-right : none;
+	padding-bottom : 20px;
+	margin-bottom : 30px;
+	color : #3b93b4;
+	font-weight : bold;
+	font-size : 1.2em;
+}
+#searchForm label {
+	text-align : right;
+	padding-right : 10px;
+	display : inline-block;
+	vertical-align : top;
+	width : 8%;
+	color : #416c75;
+}
+#search {
+	width : 85%;
+}
+#searchField {
+	margin-left : 10px;
+	width : 50%;
+	margin-right : 20px;
+}
+.buttonsContainer {
+	text-align : center;
+}
+#addFieldButton {
+	
+}
+#searchButton {
+	margin-left : 10px;
+	margin-right : 10px;
+}
+#resetButton {
+	margin-left : 10px;
+	margin-right : 10px;
+}
+#searchForm a {
+	cursor : pointer;
+	padding : 2px;
+	padding-top : 2px;
+	padding-bottom : 2px;
+	padding-left : 8px;
+	padding-right : 8px;
+	overflow : hidden;
+	font-size : 1em;
+	font-weight: bold;
+	color : white;
+	text-align : center;
+	
+	background: #416c75;
+	background-image: -webkit-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -moz-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -ms-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: -o-linear-gradient(top, #416c75, #3a3b3b);
+	background-image: linear-gradient(to bottom, #416c75, #3a3b3b);
+	-webkit-border-radius: 15;
+	-moz-border-radius: 15;
+	border-radius: 15px;
+	text-shadow: 1px 1px 3px #666666;
+	-webkit-box-shadow: 0px 1px 3px #666666;
+	-moz-box-shadow: 0px 1px 3px #666666;
+	box-shadow: 0px 1px 3px #666666;
+}

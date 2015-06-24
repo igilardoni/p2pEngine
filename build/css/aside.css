@@ -1,0 +1,48 @@
+aside {
+	position : absolute;
+	top : 12%;
+	right : 0;
+	overflow : auto;
+	width : 21%;
+	
+	animation: popup 0.5s ease-in-out 1;
+	padding-top : 20px;
+	padding-right : 1%;
+	padding-left : 1%;
+}
+aside:empty {
+	display : none;
+	animation: none;
+}
+@keyframes popup {
+  0% {
+    transform: translateX(100%);
+  }	
+  100% {
+    transform: translateX(0%);
+  }
+}
+/* TABLE */
+#favoritesList {
+	width : 100%;
+	display : block;
+	background-color : white;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	min-height : 100px;
+}
+#favoritesList thead {
+	display : table;
+	width : 100%;
+}
+#favoritesList .rowTitle {
+	width : 15%;
+}
+#favoritesList .rowDescription {
+	width : 60%;
+}
+#favoritesList .rowActions {
+	width : 15%;
+}
