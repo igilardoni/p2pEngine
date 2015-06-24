@@ -20,7 +20,7 @@ import util.secure.Serpent;
  */
 public class Favorites extends AbstractAdvertisement{
 	private String owner;
-	private ArrayList<String> itemsKey;
+	private ArrayList<String> itemsKey = new ArrayList<String>();
 	private boolean crypted = false;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

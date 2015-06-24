@@ -444,8 +444,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addFavoritesItem(Item item){
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(publicKey == null || publicKey.isEmpty()){
+			printError("addFavoritesItem", "Not user logged or PublicKey empty !");
+			return;
+		}
 		if(!favorites.containsKey(publicKey)){
-			Favorites f = new Favorites(publicKey);
+			Favorites f = new Favorites(currentUser);
 			f.sign(currentUser.getKeys());
 			addFavorites(f);
 		}
@@ -453,7 +457,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("addFavoritesItem","This Item is null !");
 			return;
 		}
-		favorites.get(publicKey).addItem(item);
+		int i = 0;
+		for(String s : favorites.keySet()){
+			System.out.println(i+" : "+s);
+			i++;
+		}
+		favorites.get(publicKey).addItem(item); // TODO Je comprends pas l'erreur !!!
 		favorites.get(publicKey).sign(currentUser.getKeys());
 	}
 	/**
