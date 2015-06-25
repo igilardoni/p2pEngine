@@ -266,7 +266,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!favorites.containsKey(publicKey))
-			favorites.put(publicKey, null);
+			favorites.put(publicKey, new Favorites(currentUser));
 		return getUserFavorites(publicKey);
 	}
 	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -323,9 +323,16 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("addItem","Owner unknown for "+i.getTitle());
 			return;
 		}
-		if(!i.checkSignature(users.get(owner).getKeys())){
-			printError("addItem","Bad Signature for "+i.getTitle());
-			return;
+		if(owner.equals(currentUser)){
+			if(!i.checkSignature(currentUser.getKeys())){
+				printError("addItem","Bad Signature for "+i.getTitle());
+				return;
+			}
+		}else{
+			if(!i.checkSignature(users.get(owner).getKeys())){
+				printError("addItem","Bad Signature for "+i.getTitle());
+				return;
+			}
 		}
 		if(items.contains(i)){
 			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
@@ -457,12 +464,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("addFavoritesItem","This Item is null !");
 			return;
 		}
-		int i = 0;
-		for(String s : favorites.keySet()){
-			System.out.println(i+" : "+s);
-			i++;
-		}
-		favorites.get(publicKey).addItem(item); // TODO Je comprends pas l'erreur !!!
+		favorites.get(publicKey).addItem(item);
 		favorites.get(publicKey).sign(currentUser.getKeys());
 	}
 	/**
@@ -908,10 +910,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
 		String clearPassword = new String(currentUser.getClearPwd());
-		System.out.println("\tCOMPATIBLE : "+currentUser.getKeys().isCompatible());
 		currentUser.encryptPrivateKey(clearPassword);
 		currentUser.sign(clearKey);
-		System.out.println("\tSIGNATURE : "+currentUser.checkSignature(currentUser.getKeys()));
 		currentUser.setClearPassword(null);
 		this.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;

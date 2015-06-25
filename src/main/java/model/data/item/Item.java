@@ -521,11 +521,16 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 
 
 	public static void main(String[] arg){
-		Item item1 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
-		Item item2 = new Item("test", "friendlyNick", "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
+		User user = new User("nick", "passWord", "name", "firstName", "email", "phone");
+		
+		Item item1 = new Item(user, "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
+		Item item2 = new Item(user, "title", new Category(CATEGORY.NA), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
 		Item item1Copy = new Item(item1.toString());
 		System.out.println(item1.getItemKey());
 		System.out.println(item1Copy.getItemKey());
 		System.out.println(item2.getItemKey());
+		
+		item1.sign(user.getKeys());
+		System.out.println(item1.checkSignature(user.getKeys()));
 	}
 }
