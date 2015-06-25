@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.Application;
 import model.data.item.Category;
@@ -204,6 +205,20 @@ public class ManagerBridge{
 			fields.add(s);
 		}
 		return fields;
+	}
+	/**
+	 * Can be used for sort current user's items with itemKey as key
+	 * CAREFUL very resource intensive
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	private static HashMap<String, Item> getCurrentUserClassedItems(){
+		HashMap<String, Item> hashmap = new HashMap<String, Item>();
+		for(Item i : getCurrentUserItems()){
+			String key = i.getItemKey();
+			hashmap.put(key, i);
+		}
+		return hashmap;
 	}
 	////////////////////////////////////////////////// FAVORITES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
