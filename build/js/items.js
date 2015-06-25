@@ -140,7 +140,7 @@ function searchItem(){
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function itemRemoved(content){
-	$("#"+content.itemKey).detach();
+	$("#"+itemList+" #"+content.itemKey).detach();
 	$("#"+itemForm).replaceWith(getItemAddForm());
 }
 
@@ -279,15 +279,16 @@ function getTableItem(id){
 function newRowItem(content){
 	var row = document.createElement("tr");
 	row.setAttribute("id", content.itemKey);
-	row.setAttribute("onclick", "editItem('"+content.itemKey+"');")
 	// Title cell
 	var cell1 = document.createElement("td");
 	cell1.setAttribute("class", "rowTitle");
+	cell1.setAttribute("onclick", "editItem('"+content.itemKey+"');");
 	cell1.appendChild(document.createTextNode(content.title));
 	row.appendChild(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
 	cell2.setAttribute("class", "rowDescription");
+	cell2.setAttribute("onclick", "editItem('"+content.itemKey+"');");
 	if(content.description.length > 400)
 		cell2.appendChild(document.createTextNode(content.description.substring(0, 400)+" [...]"));
 	else
@@ -312,7 +313,7 @@ function newRowItem(content){
 	// Add to favorites Button
 	var favoritesButton = document.createElement("a");
 	favoritesButton.setAttribute("class", "buttonAddFavorites");
-	favoritesButton.setAttribute("onclick", "addFavorites('"+content.itemKey+"');");
+	favoritesButton.setAttribute("onclick", "addItemFavorites('"+content.itemKey+"');");
 	//removeButton.appendChild(document.createTextNode("Remove"));
 	cell3.appendChild(favoritesButton);
 	row.appendChild(cell3);

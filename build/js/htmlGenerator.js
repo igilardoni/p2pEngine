@@ -26,7 +26,7 @@ var menu = [
 		{element:"ul", attributes:{}, inside:[
 			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();loadItems();"}, inside:[
 	            	{element:"a", attributes:{}, inside:[
-	                    {element:"text", value:"Home"}
+	                    {element:"text", value:"My objects"}
 	                ]}
 			]},
 			{element:"li", attributes:{"class":"searchButton", onclick:"includeSearch();"}, inside:[
@@ -315,6 +315,11 @@ var webmailForm = [
 		{element:"div", attributes:{id:"webmail"}, inside:[
 			{element:"div", attributes:{id:"webmailMenu"}, inside:[
 				{element:"ul", attributes:{}, inside:[
+					{element:"li", attributes:{id:"unread", onclick:"newMessage();"}, inside:[
+						{element:"a", attributes:{}, inside:[
+							{element:"text", value:"Write"}
+						]}
+					]},
 					{element:"li", attributes:{id:"unread", onclick:"loadMessages();"}, inside:[
 						{element:"a", attributes:{}, inside:[
 							{element:"text", value:"Unreaded"}
@@ -326,7 +331,8 @@ var webmailForm = [
   						]}
   					]},
 				]}
-			]},{element:"div", attributes:{id:"webmailDisplay"}, inside:[
+			]},
+			{element:"div", attributes:{id:"webmailDisplay"}, inside:[
 				{element:"table", attributes:{id:"messagesList"}, inside:[
 					{element:"thead", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
@@ -347,6 +353,29 @@ var webmailForm = [
 					{element:"text", value:"My super message !!!!"}
 				]}
 			]}
+		]}
+];
+var writeMessage = [
+		{element:"ul", attributes:{"class":"newMessageHeader"}, inside:[
+			{element:"li", attributes:{onclick:"sendMessage();"}, inside:[
+				{element:"a", attributes:{}, inside:[
+					{element:"text", value:"Send"}
+				]}
+			]},
+			{element:"li", attributes:{}, inside:[
+				{element:"p", attributes:{}, inside:[
+					{element:"label", attributes:{}, inside:[
+						{element:"text", value:"Receiver : "}
+					]},
+					{element:"input", attributes:{}, inside:[]}
+				]}
+			]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{}, inside:[
+				{element:"text", value:"Message : "}
+			]},
+			{element:"textarea", attributes:{id:"message", name:"message"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -403,7 +432,12 @@ function getSearchItem(){
 } 
 
 function getFavoritesDisplay(){
-	return getTableItem(favoritesList);
+	var div = document.createElement("div");
+	div.appendChild(getTableItem(favoritesList));
+	var loading = document.createElement("div");
+	loading.setAttribute("id", "loading");
+	div.appendChild(loading);
+	return div;
 }
 
 function switchFavorites(){

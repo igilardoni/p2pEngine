@@ -54,12 +54,11 @@ table .rowActions {
 .buttonEdit, .buttonRemove, .buttonAddFavorites {
 	cursor : pointer;
 	padding : 2px;
-	height : 28px;
-	width : 28px;
 	margin : 5px;
 	overflow : hidden;
+	width : 25%;
 	display : inline-block;
-	font-size : 1.4em;
+	font-size : 1em;
 	font-weight: bold;
 	color : white;
 	text-align : center;
@@ -80,11 +79,20 @@ table .rowActions {
 }
 
 .buttonAddFavorites:before {
+	display: block;
+	padding-top: 12.5%; 	/* initial ratio of 1:1*/
+	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
 	content: "\2606";
 }
 .buttonEdit:before {
+	display: block;
+	padding-top: 12.5%; 	/* initial ratio of 1:1*/
+	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
 	content: "\270D";
 }
 .buttonRemove:before {
+	display: block;
+	padding-top: 12.5%; 	/* initial ratio of 1:1*/
+	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
 	content: "\2612";
 }

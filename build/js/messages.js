@@ -38,6 +38,20 @@ function messageLoaded(content) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function newMessage(){
+	$("#"+"messageDisplay").empty();
+	$("#"+"messageDisplay").replaceWith(getNewMessageForm());
+}
+
+function getNewMessageForm(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "messageDisplay");
+	for ( var i = 0 ; i < writeMessage.length ; i++ ) {
+		div.appendChild(getElement(writeMessage[i]));
+	}
+	return div;
+}
+
 function newRowMessage(content){
 	var row = document.createElement("tr");
 	row.setAttribute("id", content.itemKey);

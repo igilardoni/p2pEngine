@@ -14,7 +14,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import controller.interlocutors.AbstractInterlocutor;
-import controller.interlocutors.AddFavorites;
+import controller.interlocutors.AddItemFavorites;
 import controller.interlocutors.AddItem;
 import controller.interlocutors.LoadAccount;
 import controller.interlocutors.LoadCategories;
@@ -30,6 +30,7 @@ import controller.interlocutors.LoadMessages;
 import controller.interlocutors.LoadType;
 import controller.interlocutors.Register;
 import controller.interlocutors.RemoveItem;
+import controller.interlocutors.RemoveItemFavorites;
 import controller.interlocutors.SignIn;
 import controller.interlocutors.SignOut;
 import controller.interlocutors.UpdateAccount;
@@ -79,7 +80,8 @@ public class EchoServer {
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
 		
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
-		interlocutors.put("addFavorites", new AddFavorites());
+		interlocutors.put("addItemFavorites", new AddItemFavorites());
+		interlocutors.put("removeItemFavorites", new RemoveItemFavorites());
 		
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());
@@ -108,9 +110,10 @@ public class EchoServer {
 				System.err.println("content null");
 				return;
 			}
+			System.out.println("INFO : "+EchoServer.class.getName()+" Query input -> "+jsonObject.getString("query"));
+			System.out.println("\t"+jsonObject.getString("content"));
 			if(!interlocutors.containsKey(jsonObject.getString("query"))){
-				System.err.println(jsonObject.getString("query")+" is an unknow query");
-				System.err.println(jsonObject.getString("content"));
+				System.err.println("\t"+jsonObject.getString("query")+" is an unknow query");
 				return;
 			}
 			interlocutors.get(jsonObject.getString("query")).sender(jsonObject.getString("content"), session);

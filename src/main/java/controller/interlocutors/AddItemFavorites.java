@@ -13,9 +13,9 @@ import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
 
-public class AddFavorites extends AbstractInterlocutor {
+public class AddItemFavorites extends AbstractInterlocutor {
 
-	public AddFavorites() {
+	public AddItemFavorites() {
 	}
 
 	@Override

@@ -24,6 +24,7 @@ function openSocket(){
 //Distributes to the proper function
 function serverReply(data){
 	data = JSON.parse(data);
+	console.log("Input query : "+data.query);
 	switch(data.query){
 	case "registration":					registration(data.content); break;
 	case "accountUpdated":					accountUpdated(data.content); break;
@@ -42,7 +43,10 @@ function serverReply(data){
 	case "itemSearchFieldCategoryLoaded":	itemSearchFieldsLoaded(data.content); break;
 	case "itemSearchFieldTypeLoaded":		itemSearchFieldsLoaded(data.content); break;
 	
+	case "favoritesItemsLoadingStart":		favoritesItemsLoadingStart(data.content); break;
 	case "favoritesItemsLoaded":			favoritesItemsLoaded(data.content); break;
+	case "favoritesItemsLoadingEnd":		favoritesItemsLoadingEnd(data.content); break;
+	case "itemFavoritesRemoved":			itemFavoritesRemoved(data.content); break;
 	
 	case "displayHome":						displayHome(data.content); break;
 	case "displayItem":						displayItem(data.content); break;
@@ -53,12 +57,14 @@ function serverReply(data){
 }
 
 function sendQueryEmpty(query){
+	console.log("Output query : "+query);
 	var content = {};
 	var data = {"query":query, "content":content};
 	webSocket.send(JSON.stringify(data));
 }
 
 function sendQuery(query, content){
+	console.log("Output query : "+query);
 	var data = {"query":query, "content":content};
 	webSocket.send(JSON.stringify(data));
 }

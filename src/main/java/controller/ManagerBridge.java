@@ -251,12 +251,12 @@ public class ManagerBridge{
 		ArrayList<Item> items = new ArrayList<Item>();
 		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
 		for(String itemKey : getFavoriteItemsKey()){
-			Item i = itemSearcher.search(itemKey);
-			if(i!=null)
-				items.add(i);
+			Item iLocal = Application.getInstance().getManager().getItem(itemKey);
+			if(iLocal!=null) items.add(iLocal);
 			else{
-				Item iLocal = Application.getInstance().getManager().getItem(itemKey);
-				if(iLocal!=null) items.add(iLocal);
+				Item i = itemSearcher.search(itemKey);
+				if(i!=null)
+					items.add(i);
 			}
 		}
 		return items;
