@@ -59,9 +59,9 @@ public class EchoServer {
 	 * successful.
 	 */
 	@OnOpen
-	public void onOpen(Session session,EndpointConfig config){
+	public void onOpen(Session session, EndpointConfig config){
 		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
-
+		
 		interlocutors.put("signIn", new SignIn());
 		interlocutors.put("signOut", new SignOut());
 		interlocutors.put("register", new Register());
@@ -116,10 +116,14 @@ public class EchoServer {
 				System.err.println("\t"+jsonObject.getString("query")+" is an unknow query");
 				return;
 			}
-			interlocutors.get(jsonObject.getString("query")).sender(jsonObject.getString("content"), session);
+			AbstractInterlocutor absI = interlocutors.get(jsonObject.getString("query")).getClass().newInstance();
+			absI.init(jsonObject.getString("content"), session);
+			absI.start();
 		} catch (JSONException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}

@@ -15,27 +15,53 @@ public class LoadItem extends AbstractInterlocutor {
 
 	public LoadItem() {
 	}
+	
+	public static String content;
+	
+	@Override
+	public void init(String content, Session session){
+		this.content = content;
+		AbstractInterlocutor.com = session.getAsyncRemote();
+	}
+	
+	@Override
+	public void reset(){
+		this.content = null;
+	}
+	
+	@Override
+	public boolean isInitialized(){
+		return this.content != null && this.com != null;
+	}
 
 	@Override
-	public void sender(String msg, Session session) throws JSONException,
-			IOException {
-		JSONObject c = getJSON(msg);
-		String itemKey = c.getString("itemKey");
-		Item item = ManagerBridge.getCurrentUserItem(itemKey);
-		JSONObject data = new JSONObject();
-		data.put("query", "itemLoaded");
-		JSONObject content = new JSONObject();
-		content.put("itemKey", itemKey);
-		content.put("title", item.getTitle());
-		content.put("description", item.getDescription());
-		content.put("category", item.getCategory().getStringChoice());
-		content.put("contact", item.getContact());
-		content.put("country", item.getCountry());
-		content.put("image", item.getImage());
-		content.put("lifetime", item.getLifeTime());
-		content.put("type", item.getType());
-		data.put("content", content);
-		session.getBasicRemote().sendText(data.toString());
+	public void run() {
+		if(!isInitialized()) return;
+		try {
+			JSONObject c = getJSON(content);
+			String itemKey;
+			itemKey = c.getString("itemKey");
+			
+			Item item = ManagerBridge.getCurrentUserItem(itemKey);
+			JSONObject data = new JSONObject();
+			data.put("query", "itemLoaded");
+			JSONObject content = new JSONObject();
+			content.put("itemKey", itemKey);
+			content.put("title", item.getTitle());
+			content.put("description", item.getDescription());
+			content.put("category", item.getCategory().getStringChoice());
+			content.put("contact", item.getContact());
+			content.put("country", item.getCountry());
+			content.put("image", item.getImage());
+			content.put("lifetime", item.getLifeTime());
+			content.put("type", item.getType());
+			data.put("content", content);
+			com.sendText(data.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
+			this.reset();
+		}
 	}
 
 }
