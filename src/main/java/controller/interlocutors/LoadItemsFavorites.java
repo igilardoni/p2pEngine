@@ -16,41 +16,74 @@ public class LoadItemsFavorites extends AbstractInterlocutor {
 
 	public LoadItemsFavorites() {
 	}
+	
+	public static String content;
+	
+	@Override
+	public void init(String content, Session session){
+		this.content = content;
+		AbstractInterlocutor.com = session.getAsyncRemote();
+	}
+	
+	@Override
+	public void reset(){
+		this.content = null;
+	}
+	
+	@Override
+	public boolean isInitialized(){
+		return this.content != null && this.com != null;
+	}
 
 	@Override
-	public void sender(String msg, Session session) throws JSONException,
-			IOException {
-		ArrayList<Item> favorites = ManagerBridge.getFavoriteItems();
-		// to say to Javascript that Model start to found favorites' items
-		sendStart(session);
-		for (Item item : favorites) {
-			JSONObject data = new JSONObject();
-			data.put("query", "favoritesItemsLoaded");
-			JSONObject content = new JSONObject();
-			content.put("itemKey", item.getItemKey());
-			content.put("title", item.getTitle());
-			content.put("description", item.getDescription());
-			data.put("content", content);
-			session.getAsyncRemote().sendText(data.toString());
+	public void run() {
+		if(!isInitialized()) return;
+		try {
+			ArrayList<Item> favorites = ManagerBridge.getFavoriteItems();
+			// to say to Javascript that Model start to found favorites' items
+			sendStart();
+		
+			for (Item item : favorites) {
+				JSONObject data = new JSONObject();
+				data.put("query", "favoritesItemsLoaded");
+				JSONObject content = new JSONObject();
+				content.put("itemKey", item.getItemKey());
+				content.put("title", item.getTitle());
+				content.put("description", item.getDescription());
+				data.put("content", content);
+				com.sendText(data.toString());
+			}
+			// to say to Javascript that Model finish to found favorites' items
+			sendEnd();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
+			this.reset();
 		}
-		// to say to Javascript that Model finish to found favorites' items
-		sendEnd(session);
 	}
 	
-	private void sendStart(Session session) throws JSONException, IOException{
-		JSONObject data = new JSONObject();
-		data.put("query", "favoritesItemsLoadingStart");
-		JSONObject content = new JSONObject();
-		data.put("content", content);
-		session.getAsyncRemote().sendText(data.toString());
+	private void sendStart() {
+		try{
+			JSONObject data = new JSONObject();
+			data.put("query", "favoritesItemsLoadingStart");
+			JSONObject content = new JSONObject();
+			data.put("content", content);
+			com.sendText(data.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void sendEnd(Session session) throws JSONException, IOException{
-		JSONObject data = new JSONObject();
-		data.put("query", "favoritesItemsLoadingEnd");
-		JSONObject content = new JSONObject();
-		data.put("content", content);
-		session.getBasicRemote().sendText(data.toString());
+	private void sendEnd() {
+		try{
+			JSONObject data = new JSONObject();
+			data.put("query", "favoritesItemsLoadingEnd");
+			JSONObject content = new JSONObject();
+			data.put("content", content);
+			com.sendText(data.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

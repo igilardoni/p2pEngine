@@ -5,6 +5,7 @@
  * @author Michael DUBUIS
  */
 var webSocket;
+var websocket2;
 var serverAdress = "ws://localhost:8080/EchoChamber/serv";
 
 // open a socket to communicate with the server
