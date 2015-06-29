@@ -15,21 +15,46 @@ public class LoadAccount extends AbstractInterlocutor {
 
 	public LoadAccount() {
 	}
+	
+	public static String content;
+	
+	@Override
+	public void init(String content, Session session){
+		this.content = content;
+		AbstractInterlocutor.com = session.getAsyncRemote();
+	}
+	
+	@Override
+	public void reset(){
+		this.content = null;
+	}
+	
+	@Override
+	public boolean isInitialized(){
+		return this.content != null && this.com != null;
+	}
 
 	@Override
-	public void sender(String msg, Session session) throws JSONException,
-			IOException {
-		User user = ManagerBridge.getCurrentUser();
-		JSONObject data = new JSONObject();
-		data.put("query", "accountLoaded");
-		JSONObject content = new JSONObject();
-		content.put("username", user.getNick());
-		content.put("name", user.getName());
-		content.put("firstname", user.getFirstName());
-		content.put("phone", user.getPhone());
-		content.put("email", user.getEmail());
-		data.put("content", content);
-		session.getBasicRemote().sendText(data.toString());
+	public void run() {
+		if(!isInitialized()) return;
+		try {
+			User user = ManagerBridge.getCurrentUser();
+			JSONObject data = new JSONObject();
+			data.put("query", "accountLoaded");
+			
+			JSONObject content = new JSONObject();
+			content.put("username", user.getNick());
+			content.put("name", user.getName());
+			content.put("firstname", user.getFirstName());
+			content.put("phone", user.getPhone());
+			content.put("email", user.getEmail());
+			data.put("content", content);
+			com.sendText(data.toString());
+		} catch (JSONException e) {
+				e.printStackTrace();
+		} finally {
+			this.reset();
+		}
 	}
 
 }
