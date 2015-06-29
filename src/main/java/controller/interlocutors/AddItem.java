@@ -1,7 +1,5 @@
 package controller.interlocutors;
 
-import java.io.IOException;
-
 import javax.websocket.Session;
 
 import org.codehaus.jettison.json.JSONException;

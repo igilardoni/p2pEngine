@@ -261,6 +261,13 @@ public class ManagerBridge{
 		}
 		return items;
 	}
+	
+	public static Item getFavoriteItem(String itemKey){
+		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
+		Item iLocal = Application.getInstance().getManager().getItem(itemKey);
+		if(iLocal != null) return iLocal;
+		else return itemSearcher.search(itemKey);
+	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static ArrayList<Message> getMessages(){
 		return Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));

@@ -140,12 +140,14 @@ function searchItem(){
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function itemRemoved(content){
-	$("#"+itemList+" #"+content.itemKey).detach();
+	var id = removePunctuation(content.itemKey);
+	$("#"+id).detach();
 	$("#"+itemForm).replaceWith(getItemAddForm());
 }
 
 function itemUpdated(content){
-	$("#"+content.itemKey).replaceWith(newRowItem(content));
+	var id = removePunctuation(content.itemKey);
+	$("#"+id).replaceWith(newRowItem(content));
 	$("#"+itemForm).replaceWith(getItemAddForm());
 }
 
@@ -278,7 +280,7 @@ function getTableItem(id){
  */
 function newRowItem(content){
 	var row = document.createElement("tr");
-	row.setAttribute("id", content.itemKey);
+	row.setAttribute("id", removePunctuation(content.itemKey));
 	// Title cell
 	var cell1 = document.createElement("td");
 	cell1.setAttribute("class", "rowTitle");
@@ -324,4 +326,8 @@ function newRowItem(content){
  */
 function cancelItem(){
 	$("#"+itemForm).replaceWith(getItemAddForm());
+}
+
+function removePunctuation(string){
+	return string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
 }

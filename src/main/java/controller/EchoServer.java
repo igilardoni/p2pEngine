@@ -20,6 +20,7 @@ import controller.interlocutors.LoadAccount;
 import controller.interlocutors.LoadCategories;
 import controller.interlocutors.LoadConversation;
 import controller.interlocutors.LoadItem;
+import controller.interlocutors.LoadItemFavorites;
 import controller.interlocutors.LoadItemSearchField;
 import controller.interlocutors.LoadItemSearchFieldCategory;
 import controller.interlocutors.LoadItemSearchFieldType;
@@ -82,6 +83,7 @@ public class EchoServer {
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
 		interlocutors.put("addItemFavorites", new AddItemFavorites());
 		interlocutors.put("removeItemFavorites", new RemoveItemFavorites());
+		interlocutors.put("loadItemFavorites", new LoadItemFavorites());
 		
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());

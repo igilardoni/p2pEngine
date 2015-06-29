@@ -378,6 +378,46 @@ var writeMessage = [
 			{element:"textarea", attributes:{id:"message", name:"message"}, inside:[]}
 		]}
 ];
+
+var itemFavoritesDisplayer = [
+		{element:"h1", attributes:{id:"itemKey"}, inside:[]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Title : "}
+			]},
+			{element:"label", attributes:{id:"title"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Type : "}
+			]},
+			{element:"label", attributes:{id:"type"}, inside:[]},
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Category : "}
+			]},
+			{element:"label", attributes:{id:"category"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Description : "}
+			]},
+			{element:"label", attributes:{id:"description"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Contry : "}
+			]},
+			{element:"label", attributes:{id:"country"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Contact : "}
+			]},
+			{element:"label", attributes:{id:"contact"}, inside:[]}
+		]}
+];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * PAGE GENERATORS * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -430,6 +470,15 @@ function getSearchItem(){
 	content.appendChild(getTableItem(itemSearchList));
 	return content;
 } 
+
+function getItemFavoritesDisplay(){
+	var div = document.createElement("div");
+	div.setAttribute("id", "itemFavoritesDisplayer");
+	for ( var i = 0 ; i < itemFavoritesDisplayer.length ; i++ ) {
+		div.appendChild(getElement(itemFavoritesDisplayer[i]));
+	}
+	return div;
+}
 
 function getFavoritesDisplay(){
 	var div = document.createElement("div");

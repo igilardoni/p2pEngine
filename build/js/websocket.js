@@ -25,7 +25,7 @@ function openSocket(){
 //Distributes to the proper function
 function serverReply(data){
 	data = JSON.parse(data);
-	console.log("Input query : "+data.query);
+	console.log("Input query : "+data.query+"\n\t"+JSON.stringify(data.content));
 	switch(data.query){
 	case "registration":					registration(data.content); break;
 	case "accountUpdated":					accountUpdated(data.content); break;
@@ -48,6 +48,7 @@ function serverReply(data){
 	case "favoritesItemsLoaded":			favoritesItemsLoaded(data.content); break;
 	case "favoritesItemsLoadingEnd":		favoritesItemsLoadingEnd(data.content); break;
 	case "itemFavoritesRemoved":			itemFavoritesRemoved(data.content); break;
+	case "favoritesItemLoaded":				favoritesItemLoaded(data.content); break;
 	
 	case "displayHome":						displayHome(data.content); break;
 	case "displayItem":						displayItem(data.content); break;

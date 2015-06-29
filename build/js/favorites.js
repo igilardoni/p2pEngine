@@ -35,9 +35,13 @@ function favoritesItemsLoaded(content){
 	$("#"+favoritesList).append(newRowFavorites(content));
 }
 
+function favoritesItemLoaded(content){
+	displayItemFavorites(content);
+}
+
 function itemFavoritesRemoved(content){
-	$("#"+favoritesList+" #"+content.itemKey).detach();
-	$("#"+itemForm).replaceWith(getItemAddForm());
+	var id = "favorites"+removePunctuation(content.itemKey);
+	$("#"+id).detach();
 }
 
 function favoritesItemsLoadingStart(content){
@@ -54,17 +58,17 @@ function favoritesItemsLoadingEnd(content){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function newRowFavorites(content){
 	var row = document.createElement("tr");
-	row.setAttribute("id", content.itemKey);
+	row.setAttribute("id", "favorites"+removePunctuation(content.itemKey));
 	// Title cell
 	var cell1 = document.createElement("td");
 	cell1.setAttribute("class", "rowTitle");
 	cell1.appendChild(document.createTextNode(content.title));
-	cell1.setAttribute("onclick", "editItem('"+content.itemKey+"');");
+	cell1.setAttribute("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	row.appendChild(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
 	cell2.setAttribute("class", "rowDescription");
-	cell2.setAttribute("onclick", "editItem('"+content.itemKey+"');");
+	cell2.setAttribute("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	if(content.description.length > 400)
 		cell2.appendChild(document.createTextNode(content.description.substring(0, 200)+" [...]"));
 	else
@@ -81,4 +85,13 @@ function newRowFavorites(content){
 	cell3.appendChild(removeButton);
 	row.appendChild(cell3);
 	return row;
+}
+
+function displayItemFavorites(content){
+	$("aside #itemFavoritesDisplayer").remove();
+	$("aside").append(getItemFavoritesDisplay());
+	$.each(content, function(key, value){
+		var text = document.createTextNode(value);
+		$("#itemFavoritesDisplayer"+" #"+key).append(text);
+	});
 }
