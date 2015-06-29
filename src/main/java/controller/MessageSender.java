@@ -2,9 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
-import controller.controllerInterface.MessageSenderInterface;
 import model.Application;
-import model.data.manager.Manager;
 import model.data.user.Message;
 import model.data.user.User;
 import model.network.search.Search;
@@ -12,21 +10,14 @@ import net.jxta.peer.PeerID;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 
-public class MessageSender implements MessageSenderInterface {
-	private Manager manager;
-	
-	public MessageSender(){
-		this.manager = Application.getInstance().getManager();
-	}
-	
-	@Override
+public class MessageSender {
 	/**
 	 * Send a message to a nickname
 	 * Used when unknown publicKey but have nickname
 	 * @param message - String message
 	 * @param nick - String receiver's nickname
 	 */
-	public boolean sendMessageToNick(String message, String nick){
+	public static boolean sendMessageToNick(String message, String nick){
 		boolean sendOneTime = false;
 		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "nick", true);
 		search.search(nick, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
@@ -52,14 +43,13 @@ public class MessageSender implements MessageSenderInterface {
 		return sendOneTime;
 	}
 	
-	@Override
 	/**
 	 * Send a message to a publicKey
 	 * Used when known publicKey
 	 * @param message - String message
 	 * @param publicKey - String(hexa) receiver's publicKey  
 	 */
-	public boolean sendMessageToPublicKey(String message, String publicKey){
+	public static boolean sendMessageToPublicKey(String message, String publicKey){
 		boolean sendOneTime = false;
 		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
 		search.search(publicKey, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
@@ -87,11 +77,10 @@ public class MessageSender implements MessageSenderInterface {
 		return sendOneTime;
 	}
 
-	@Override
 	/**
 	 * return an array list with all message from publicKey to currentUser
 	 */
-	public ArrayList<Message> getMessagesfrom(String publicKey) {
-		return manager.getCurrentUserConversations().getConversation(publicKey);
+	public static ArrayList<Message> getMessagesfrom(String publicKey) {
+		return Application.getInstance().getManager().getCurrentUserConversations().getConversation(publicKey);
 	}
 }

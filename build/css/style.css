@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+@import url("menu.css");
+@import url("login.css");
+@import url("header.css");
+@import url("section.css");
+@import url("aside.css");
+@import url("registration.css");
+@import url("accountUpdate.css");
+@import url("footer.css");
+@import url("search.css");
+@import url("tables.css");
+@import url("webmail.css");
+
+@import url("loading.css");
+
+/** BODY **/
+html {
+	height : 100%;
+	overflow-x : hidden;
+	overflow-y : auto;
+}
+
+body {
+	/* COLOR BACKGROUND */
+	background : -moz-linear-gradient(right, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0.1) 100%);
+	background : -webkit-gradient(linear, right top, left top, color-stop(10%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0.1)));
+	background : -webkit-linear-gradient(right, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
+	background : -o-linear-gradient(right, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
+	background : -ms-linear-gradient(right, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
+	background : linear-gradient(to left, rgba(0,0,0,0.65) 10%,rgba(0,0,0,0.1) 100%);
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 );
+	margin : 0px;
+	padding : 0px;
+}

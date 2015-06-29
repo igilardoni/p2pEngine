@@ -131,6 +131,22 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		return userItems;
 	}
 	/**
+	 * Use to found a item with itemKey
+	 * @param itemKey
+	 * @return
+	 */
+	public Item getItem(String itemKey){
+		if(itemKey == null || itemKey.isEmpty()){
+			System.err.println(this.getAdvertisementName()+".getItem : itemKey is empty or null !");
+			return null;
+		}
+		for (Item item : items) {
+			if(item.getItemKey().equals(itemKey))
+				return item;
+		}
+		return null;
+	}
+	/**
 	 * Use to found a item with owner's publicKey and item's title
 	 * @param publicKey
 	 * @param title
@@ -250,7 +266,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!favorites.containsKey(publicKey))
-			favorites.put(publicKey, null);
+			favorites.put(publicKey, new Favorites(currentUser));
 		return getUserFavorites(publicKey);
 	}
 	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -307,9 +323,16 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			printError("addItem","Owner unknown for "+i.getTitle());
 			return;
 		}
-		if(!i.checkSignature(users.get(owner).getKeys())){
-			printError("addItem","Bad Signature for "+i.getTitle());
-			return;
+		if(owner.equals(currentUser)){
+			if(!i.checkSignature(currentUser.getKeys())){
+				printError("addItem","Bad Signature for "+i.getTitle());
+				return;
+			}
+		}else{
+			if(!i.checkSignature(users.get(owner).getKeys())){
+				printError("addItem","Bad Signature for "+i.getTitle());
+				return;
+			}
 		}
 		if(items.contains(i)){
 			if(items.get(items.indexOf(i)).getLastUpdated() >= i.getLastUpdated()){
@@ -333,6 +356,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				printError("addItem",e.toString());
 			}
 		}
+	}
+	public void updateItem(String itemKey, Item item){
+		removeItem(getItem(itemKey));
+		addItem(item);
 	}
 	/**
 	 * to add a message
@@ -424,8 +451,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public void addFavoritesItem(Item item){
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		if(publicKey == null || publicKey.isEmpty()){
+			printError("addFavoritesItem", "Not user logged or PublicKey empty !");
+			return;
+		}
 		if(!favorites.containsKey(publicKey)){
-			Favorites f = new Favorites(publicKey);
+			Favorites f = new Favorites(currentUser);
 			f.sign(currentUser.getKeys());
 			addFavorites(f);
 		}
@@ -879,10 +910,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
 		String clearPassword = new String(currentUser.getClearPwd());
-		System.out.println("\tCOMPATIBLE : "+currentUser.getKeys().isCompatible());
 		currentUser.encryptPrivateKey(clearPassword);
 		currentUser.sign(clearKey);
-		System.out.println("\tSIGNATURE : "+currentUser.checkSignature(currentUser.getKeys()));
 		currentUser.setClearPassword(null);
 		this.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;
