@@ -23,6 +23,7 @@ public class ManagerTest {
 	private static User user1, user2;
 	private static Item item1_1, item1_2;
 	private static Item item2_1, item2_2;
+	
 	private static Network network;
 	
 	@BeforeClass

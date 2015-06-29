@@ -14,14 +14,15 @@ import util.secure.ElGamal;
  * that class represent a private message between 2 users.
  * The users are represented by their public keys.
  * @author Michael Dubuis
- * TODO HAVE TO CHANGE "TO" FROM BIGINTEGER TO ASYMKEYSIMPL
+ * @author Julien Prudhomme
+ * TODO HAVE TO CHANGE "TO" FROM BIGINTEGER TO ASYMKEYSIMPL A REFAIRE
  */
 public class Message extends AbstractAdvertisement{
-	private BigInteger to;				// This is the public Key (using as login)
+	private AsymKeysImpl to;				// This is the public Key (using as login)
 	private AsymKeysImpl from;			// This is the AsymKeysImpl of sender (Encrypted with public Key of Owner)
 	private String msg;					// This is the content of message (Encrypted with public Key of Owner)
 	private long date;					// This is the date of message
-	
+
 	/**
 	 * This Constructor is used for create a new Message
 	 * @param to - AsymKeysImpl of the recipient
@@ -30,35 +31,35 @@ public class Message extends AbstractAdvertisement{
 	 */
 	public Message(AsymKeysImpl to, AsymKeysImpl from, String msg){
 		super();
-		this.to = to.getPublicKey();
+		this.to = to;
 		this.from = encryptSender(from, to);
 		this.msg = encryptMessage(msg, to);
 		this.date = System.currentTimeMillis();
 	}
-	
+
 	/**
-	 * This constructor is used create Message based on a existing message
+	 * This constructor is used to create Message based on a existing message
 	 * @param to
 	 * @param from
 	 * @param msg
 	 * @param date
 	 */
-	public Message(BigInteger to, AsymKeysImpl from, String msg, long date){
+	public Message(AsymKeysImpl to, AsymKeysImpl from, String msg, long date){
 		super();
 		this.to = to;
 		this.from = from;
 		this.msg = msg;
 		this.date = date;
 	}
-	
+
 	public Message(String XML){
 		super(XML);
 	}
-	
+
 	public Message(Element e){
 		super(e);
 	}
-	
+
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private void setSenderPublic(BigInteger publicKey){
 		this.from.setPublicKey(publicKey);
@@ -69,27 +70,32 @@ public class Message extends AbstractAdvertisement{
 	private void setSenderG(BigInteger g){
 		this.from.setG(g);
 	}
-	
+
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public String getOwner(){
-		return to.toString(16);
+		return to.getPublicKey().toString(16);
 	}
+
 	public BigInteger getTo(){
-		return to;
+		return to.getPublicKey();
 	}
+
 	public AsymKeysImpl getSender(AsymKeysImpl key){
 		return decryptSender(key);
 	}
+
 	public String getMsg(){
 		return msg;
 	}
+
 	public String getMsg(AsymKeysImpl key){
 		return decryptMessage(key);
 	}
+
 	public long getDate(){
 		return date;
 	}
-	
+
 	/////////////////////////////////////////////// PRIVATE METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to encrypt the sender for the owner
@@ -103,10 +109,10 @@ public class Message extends AbstractAdvertisement{
 		BigInteger pSender_Encrypted = new BigInteger(eg.encryptWithPublicKey(sender.getP().toByteArray()));
 		BigInteger gSender_Encrypted = new BigInteger(eg.encryptWithPublicKey(sender.getG().toByteArray()));
 		AsymKeysImpl senderKey_Encrypted = new AsymKeysImpl(pSender_Encrypted, gSender_Encrypted, publicKeySender_Encrypted);
-		
+
 		return senderKey_Encrypted;
 	}
-	
+
 	/**
 	 * to decrypt the sender's AsymKeysImpl
 	 * @param key - AsymKeysImpl of the recipient
@@ -114,15 +120,15 @@ public class Message extends AbstractAdvertisement{
 	 */
 	private AsymKeysImpl decryptSender(AsymKeysImpl key){
 		ElGamal eg = new ElGamal(key);
-		
+
 		BigInteger publicSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getPublicKey().toByteArray()));
 		BigInteger pSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getP().toByteArray()));
 		BigInteger gSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getG().toByteArray()));
 		AsymKeysImpl senderKey_Decrypted = new AsymKeysImpl(pSender_Decrypted, gSender_Decrypted, publicSender_Decrypted);
-		
+
 		return senderKey_Decrypted;
 	}
-	
+
 	/**
 	 * to encrypt the message for the owner 
 	 * @param msg - sent string
@@ -132,10 +138,10 @@ public class Message extends AbstractAdvertisement{
 	private static String encryptMessage(String msg, AsymKeysImpl owner){
 		ElGamal eg = new ElGamal(owner);
 		String content_Encrypted = Hexa.bytesToHex(eg.encryptWithPublicKey(msg.getBytes()));
-		
+
 		return content_Encrypted;
 	}
-	
+
 	/**
 	 * to decrypt the sent string
 	 * @param key - AsymKeysImpl of the recipient
@@ -144,14 +150,14 @@ public class Message extends AbstractAdvertisement{
 	private String decryptMessage(AsymKeysImpl key){
 		ElGamal eg = new ElGamal(key);
 		String content_Decrypted = Hexa.bytesToHex(eg.decryptWithPrivateKey(Hexa.hexToBytes(msg)));
-		
+
 		return content_Decrypted;
 	}
 
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected String getAdvertisementName() {
-		return Message.class.getSimpleName();
+		return this.getClass().getSimpleName();
 	}
 
 	@Override
@@ -167,7 +173,7 @@ public class Message extends AbstractAdvertisement{
 
 	@Override
 	protected void putValues() {
-		this.addValue("to", to.toString(16));
+		this.addValue("toPublic", to.getPublicKey().toString(16));
 		this.addValue("senderPublic", from.getPublicKey().toString(16));
 		this.addValue("senderP", from.getP().toString(16));
 		this.addValue("senderG", from.getG().toString(16));

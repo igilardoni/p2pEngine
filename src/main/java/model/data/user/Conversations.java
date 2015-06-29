@@ -68,8 +68,8 @@ public class Conversations extends AbstractAdvertisement{
 			/*
 			 * Proto for XML convers:
 			 * <Messages to="anUserPublicKey">
-			 * <Message>message content</Message>
-			 * ...
+			 * 		<Message>message content</Message>
+			 * 		...
 			 * </Messages>
 			 * <Messages to="anOtherPublicKey">
 			 * ...
@@ -95,6 +95,13 @@ public class Conversations extends AbstractAdvertisement{
 		Element root = StringToElement.getElementFromString(clearText, "UserConversation");
 		parseRootElement(root);
 	}
+	
+	public void lock() {
+		this.password = null;
+		this.keys = null;
+		messages = null;
+	}
+	
 	
 	/**
 	 * We parse the root element, result of decrypted cypher.
@@ -144,8 +151,9 @@ public class Conversations extends AbstractAdvertisement{
 		if(message == null)
 			return;
 		String sender = message.getSender(key).getPublicKey().toString(16);
-		if(messages.containsKey(sender))
+		if(!messages.containsKey(sender)) {
 			messages.put(sender, new ArrayList<Message>());
+		}
 		messages.get(sender).add(message);
 	}
 }
