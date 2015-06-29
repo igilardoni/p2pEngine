@@ -42,6 +42,7 @@ function favoritesItemLoaded(content){
 function itemFavoritesRemoved(content){
 	var id = "favorites"+removePunctuation(content.itemKey);
 	$("#"+id).detach();
+	removeDisplayItemFavorites();
 }
 
 function favoritesItemsLoadingStart(content){
@@ -87,8 +88,12 @@ function newRowFavorites(content){
 	return row;
 }
 
-function displayItemFavorites(content){
+function removeDisplayItemFavorites(){
 	$("aside #itemFavoritesDisplayer").remove();
+}
+
+function displayItemFavorites(content){
+	removeDisplayItemFavorites();
 	$("aside").append(getItemFavoritesDisplay());
 	$.each(content, function(key, value){
 		var text = document.createTextNode(value);

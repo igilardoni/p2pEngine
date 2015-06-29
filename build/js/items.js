@@ -12,15 +12,15 @@ var itemForm = "itemForm";
  * Ask to the model to add a new item
  */
 function addItem(){
-	var title = $("#title").val();
-	var category = $("#category").val();
-	var contact = $("#contact").val();
-	var country = $("#country").val();
-	var date = $("#date").val();
-	var description = $("#description").val();
-	var image = $("#image").val();
-	var lifetime = $("#lifetime").val();
-	var type = $("#type").val();
+	var title = $("#"+itemForm+" #title").val();
+	var category = $("#"+itemForm+" #category").val();
+	var contact = $("#"+itemForm+" #contact").val();
+	var country = $("#"+itemForm+" #country").val();
+	var date = $("#"+itemForm+" #date").val();
+	var description = $("#"+itemForm+" #description").val();
+	var image = $("#"+itemForm+" #image").val();
+	var lifetime = $("#"+itemForm+" #lifetime").val();
+	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
 	var content = {
 			"title":title,
@@ -48,15 +48,15 @@ function removeItem(itemKey){
  * @param itemKey
  */
 function updateItem(itemKey){
-	var title = $("#title").val();
-	var category = $("#category").val();
-	var contact = $("#contact").val();
-	var country = $("#country").val();
-	var date = $("#date").val();
-	var description = $("#description").val();
-	var image = $("#image").val();
-	var lifetime = $("#lifetime").val();
-	var type = $("#type").val();
+	var title = $("#"+itemForm+" #title").val();
+	var category = $("#"+itemForm+" #category").val();
+	var contact = $("#"+itemForm+" #contact").val();
+	var country = $("#"+itemForm+" #country").val();
+	var date = $("#"+itemForm+" #date").val();
+	var description = $("#"+itemForm+" #description").val();
+	var image = $("#"+itemForm+" #image").val();
+	var lifetime = $("#"+itemForm+" #lifetime").val();
+	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
 	var content = {
 			"itemKey":itemKey,
@@ -174,13 +174,13 @@ function itemLoaded(content){
 function categoryLoaded(content){
 	var option = document.createElement("option");
 	option.appendChild(document.createTextNode(content.category));
-	$("#category").append(option);
+	$("#"+itemForm+" #category").append(option);
 }
 
 function typeLoaded(content){
 	var option = document.createElement("option");
 	option.appendChild(document.createTextNode(content.type));
-	$("#type").append(option);
+	$("#"+itemForm+" #type").append(option);
 }
 
 function itemSearchFieldLoaded(content){

@@ -7,6 +7,7 @@ import javax.websocket.Session;
 
 import model.Application;
 import model.data.item.Item;
+import model.network.search.ItemSearcher;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -43,23 +44,47 @@ public class AddItemFavorites extends AbstractInterlocutor {
 			JSONObject c = getJSON(content);
 			String itemKey;
 			itemKey = c.getString("itemKey");
-		
+			ArrayList<String> itemsFavorites = ManagerBridge.getFavoriteItemsKey();
+			if(itemsFavorites.contains(itemKey)){
+				JSONObject data = new JSONObject();
+				data.put("query", "favoritesItemsLoadedError");
+				JSONObject content = new JSONObject();
+				content.put("message", "This item is already in Favorites !");
+				data.put("content", content);
+				com.sendText(data.toString());
+				return;
+			}
+			Item item = null;
 			ArrayList<Item> items = ManagerBridge.getCurrentUserItems();
-			for (Item item : items) {
-				if(item.getItemKey().equals(itemKey)){
-					ManagerBridge.addFavoriteItem(item);
-					JSONObject data = new JSONObject();
-					data.put("query", "favoritesItemsLoaded");
-					JSONObject content = new JSONObject();
-					content.put("itemKey", itemKey);
-					content.put("title", item.getTitle());
-					content.put("description", item.getDescription());
-					data.put("content", content);
-					com.sendText(data.toString());
-					return;
+			for (Item i : items) {
+				if(i.getItemKey().equals(itemKey)){
+					item = i;
+					break;
 				}
 			}
-			// If here, search on network the item with itemKey, for add on favorites
+			if(item == null){
+				ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
+				item = itemSearcher.search(itemKey);
+			}
+			if(item == null){
+				JSONObject data = new JSONObject();
+				data.put("query", "favoritesItemsLoadedError");
+				JSONObject content = new JSONObject();
+				content.put("message", "This item isn't found on Network !");
+				data.put("content", content);
+				com.sendText(data.toString());
+				return;
+			}
+			ManagerBridge.addFavoriteItem(item);
+			JSONObject data = new JSONObject();
+			data.put("query", "favoritesItemsLoaded");
+			JSONObject content = new JSONObject();
+			content.put("itemKey", itemKey);
+			content.put("title", item.getTitle());
+			content.put("description", item.getDescription());
+			data.put("content", content);
+			com.sendText(data.toString());
+			return;
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {
