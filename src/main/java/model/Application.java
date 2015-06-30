@@ -15,8 +15,6 @@ import model.data.manager.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.ChatService;
-import model.network.communication.service.TransmitAccountService;
-import model.network.communication.service.UpdateUser;
 import util.VARIABLES;
 
 /**
@@ -47,7 +45,6 @@ public class Application {
 		manager = new Manager(network);
 		manager.recovery(VARIABLES.ManagerFilePath);
 		startCommunication();
-		com.getService(TransmitAccountService.class.getName()).addListener(manager);
 		network.addGroup("items");
 		network.addGroup("users");
 		sharingManager = new SharingManager(manager, network, com,  VARIABLES.ReplicationsAccount, VARIABLES.CheckTimeAccount);
@@ -69,8 +66,6 @@ public class Application {
 			e.printStackTrace();
 		}
 		com.addService(new ChatService());
-		com.addService(new TransmitAccountService()); // TODO FIXED ERROR BUT NOT NEEDED, RIGHT ?
-		com.addService(new UpdateUser(manager));
 	}
 	
 	/**

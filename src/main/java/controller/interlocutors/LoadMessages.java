@@ -48,8 +48,8 @@ public class LoadMessages extends AbstractInterlocutor {
 				JSONObject content = new JSONObject();
 				content.put("date", message.getDate());
 				content.put("id", message.getID());
-				content.put("from", message.getSender(key));
-				content.put("subject", message.getMsg(key).substring(0, 10));
+				content.put("from", message.getSender().getPublicKey());
+				content.put("subject", message.getSubject());
 				data.put("content", content);
 				com.sendText(data.toString());
 			}
