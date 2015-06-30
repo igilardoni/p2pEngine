@@ -36,8 +36,8 @@ public class LoadCategories extends AbstractInterlocutor {
 	@Override
 	public void run() {
 		if(!isInitialized()) return;
-			try {
-			ArrayList<String> listCat = Category.getAllCategorie();
+		try {
+		ArrayList<String> listCat = Category.getAllCategorie();
 			for (String string : listCat) {
 				JSONObject data = new JSONObject();
 				data.put("query", "categoryLoaded");

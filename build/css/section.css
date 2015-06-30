@@ -96,6 +96,17 @@ section:empty {
 	-moz-box-shadow: 0px 1px 3px #666666;
 	box-shadow: 0px 1px 3px #666666;
 }
+#itemForm #label_image {
+	margin-right : 50%;
+}
+#itemForm .radio {
+	margin-left : 32%;
+	text-align : left;
+	margin-top : -1.2em;
+	margin-bottom : 0.5em;
+	list-style : none;
+	padding : 0;
+}
 #addButton:before {
 	content : "\2611 ";
 }

@@ -17,6 +17,7 @@ import controller.interlocutors.AbstractInterlocutor;
 import controller.interlocutors.AddItemFavorites;
 import controller.interlocutors.AddItem;
 import controller.interlocutors.LoadAccount;
+import controller.interlocutors.LoadBase64Image;
 import controller.interlocutors.LoadCategories;
 import controller.interlocutors.LoadConversation;
 import controller.interlocutors.LoadItem;
@@ -88,6 +89,8 @@ public class EchoServer {
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());
 		interlocutors.put("loadMessage", new LoadMessage());
+		
+		interlocutors.put("loadBase64Image", new LoadBase64Image());
 	}
 	
 	/**

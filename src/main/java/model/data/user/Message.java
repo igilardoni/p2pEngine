@@ -18,7 +18,7 @@ import util.secure.ElGamal;
  * TODO HAVE TO CHANGE "TO" FROM BIGINTEGER TO ASYMKEYSIMPL A REFAIRE
  */
 public class Message extends AbstractAdvertisement{
-	private AsymKeysImpl to;				// This is the public Key (using as login)
+	private AsymKeysImpl to;			// This is the public Key (using as login)
 	private AsymKeysImpl from;			// This is the AsymKeysImpl of sender (Encrypted with public Key of Owner)
 	private String msg;					// This is the content of message (Encrypted with public Key of Owner)
 	private long date;					// This is the date of message
@@ -186,7 +186,7 @@ public class Message extends AbstractAdvertisement{
 		String val = e.getText();
 		switch(e.getName()){
 		case "to":
-			this.to = new BigInteger(val, 16);
+			this.to = new AsymKeysImpl(val); // TODO Check if ok
 			return true;
 		case "senderPublic":
 			setSenderPublic(new BigInteger(val, 16));

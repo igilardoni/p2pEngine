@@ -243,41 +243,57 @@ var itemAddForm = [
 			]},
 			{element:"input", attributes:{type:"text", id:"lifetime", name:"lifetime", required:"required", placeholder:"2015-12-25"}, inside:[]},
 		]},
-  		{element:"p", attributes:{}, inside:[
- 			{element:"label", attributes:{id:"label_category"}, inside:[
- 				{element:"text", value:"Category : "}
+ 		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{id:"label_category"}, inside:[
+				{element:"text", value:"Category : "}
+			]},
+			{element:"select", attributes:{id:"category", name:"category", required:"required", value:"NC"}, inside:[]},
+		]},
+ 		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{id:"label_description"}, inside:[
+				{element:"text", value:"Description : "}
+			]},
+			{element:"textarea", attributes:{id:"description", name:"description", required:"required", placeholder:"My potatoes are great !"}, inside:[]},
+		]},
+ 		{element:"p", attributes:{id:"paraImage"}, inside:[
+			{element:"label", attributes:{id:"label_image"}, inside:[
+				{element:"text", value:"Image : "}
+			]},
+			{element:"ul", attributes:{"class":"radio"}, inside:[
+				{element:"li", attributes:{}, inside:[
+					{element:"input", attributes:{type:"radio", name:"typeImage", value:"File", onchange:"typeImageChanged();", checked:"checked"}, inside:[]},
+					{element:"text", value:"File"}
+				]},
+				{element:"li", attributes:{}, inside:[
+					{element:"input", attributes:{type:"radio", name:"typeImage", value:"Webcam", onchange:"typeImageChanged();"}, inside:[]},
+					{element:"text", value:"Webcam"}
+				]},
+			]},
+			{element:"div", attributes:{id:"fileImageDisplay"}, inside:[
+				{element:"input", attributes:{type:"file", id:"fileImage", accept:"image/*", onchange:"previewFile(this);"}, inside:[]},
+			]},
+			{element:"div", attributes:{id:"webcam", style:"display:none;"}, inside:[
+				{element:"input", attributes:{type:"button", value:"Capture"}, inside:[]}
+			]},
+			{element:"img", attributes:{id:"image", style:"max-width:100px;"}, inside:[]}
+		]},
+ 		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{id:"label_country"}, inside:[
+				{element:"text", value:"Country : "}
+			]},
+			{element:"input", attributes:{type:"text", id:"country", name:"country", required:"required", placeholder:"FRANCE - Marseille"}, inside:[]},
+		]},
+ 		{element:"p", attributes:{}, inside:[
+ 			{element:"label", attributes:{id:"label_contact"}, inside:[
+ 				{element:"text", value:"Contact : "}
  			]},
- 			{element:"select", attributes:{id:"category", name:"category", required:"required", value:"NC"}, inside:[]},
+ 			{element:"textarea", attributes:{id:"contact", name:"contact", required:"required", placeholder:"Please call me : +336 05 04 03 02"}, inside:[]},
  		]},
-  		{element:"p", attributes:{}, inside:[
- 			{element:"label", attributes:{id:"label_description"}, inside:[
- 				{element:"text", value:"Description : "}
- 			]},
- 			{element:"textarea", attributes:{id:"description", name:"description", required:"required", placeholder:"My potatoes are great !"}, inside:[]},
- 		]},
-  		{element:"p", attributes:{}, inside:[
- 			{element:"label", attributes:{id:"label_image"}, inside:[
- 				{element:"text", value:"Image : "}
- 			]},
- 			{element:"img", attributes:{id:"image", name:"image"}, inside:[]},
- 		]},
-  		{element:"p", attributes:{}, inside:[
- 			{element:"label", attributes:{id:"label_country"}, inside:[
- 				{element:"text", value:"Country : "}
- 			]},
- 			{element:"input", attributes:{type:"text", id:"country", name:"country", required:"required", placeholder:"FRANCE - Marseille"}, inside:[]},
- 		]},
-  		{element:"p", attributes:{}, inside:[
-  			{element:"label", attributes:{id:"label_contact"}, inside:[
-  				{element:"text", value:""}
-  			]},
-  			{element:"textarea", attributes:{id:"contact", name:"contact", required:"required", placeholder:"Please call me : +336 05 04 03 02"}, inside:[]},
-  		]},
-  		{element:"p", attributes:{}, inside:[
-       		{element:"a", attributes:{onclick:"addItem();", id:"addButton"}, inside:[
-       			{element:"text", value:"Add item"}
-       		]},
-       		{element:"a", attributes:{onclick:"cancelItem();", id:"cancelButton"}, inside:[
+ 		{element:"p", attributes:{}, inside:[
+      		{element:"a", attributes:{onclick:"addItem();", id:"addButton"}, inside:[
+      			{element:"text", value:"Add item"}
+      		]},
+      		{element:"a", attributes:{onclick:"cancelItem();", id:"cancelButton"}, inside:[
 	  			{element:"text", value:"Cancel"}
 	  		]}
        	]}
@@ -553,4 +569,16 @@ function getMenu(){
 		nav.appendChild(getElement(menu[i]));
 	}
 	return nav;
+}
+
+function typeImageChanged(){
+	if($("#paraImage input[type=radio]:checked").val()=="File"){
+		$("#paraImage input[type=file]").show();
+		$("#webcam").hide();
+		previewFile();
+	}else if($("#paraImage input[type=radio]:checked").val()=="Webcam"){
+		$("#paraImage input[type=file]").hide();
+		$("#webcam").show();
+		$("#paraImage img").attr("src", "");
+	}
 }
