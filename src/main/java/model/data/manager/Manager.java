@@ -1030,6 +1030,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Item i : items) {
 			itemsElement.addContent(i.getRootElement());
 		}
+		/* TODO FIX BUG
 		// Element messages
 		Element messagesElement = new Element("messages");
 		for (Message m : messages) {
@@ -1040,6 +1041,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Conversations c : conversations) {
 			conversationsElement.addContent(c.getRootElement());
 		}
+		*/
 		// Element Favorites
 		Element favoritesElement = new Element("favorites");
 		for (Favorites f : favorites) {
@@ -1061,8 +1063,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		// Adding all elements in root element
 		root.addContent(usersElement);
 		root.addContent(itemsElement);
+		/* TODO FIX BUG
 		root.addContent(messagesElement);
 		root.addContent(conversationsElement);
+		*/
 		root.addContent(favoritesElement);
 		root.addContent(dealsElement);
 		// Writing in file

@@ -273,9 +273,10 @@ var itemAddForm = [
 				{element:"input", attributes:{type:"file", id:"fileImage", accept:"image/*", onchange:"previewFile(this);"}, inside:[]},
 			]},
 			{element:"div", attributes:{id:"webcam", style:"display:none;"}, inside:[
-				{element:"input", attributes:{type:"button", value:"Capture"}, inside:[]}
+				{element:"input", attributes:{type:"button", value:"Capture"}, inside:[]},
+				{element:"img", attributes:{alt:"Webcam"}, inside:[]}
 			]},
-			{element:"img", attributes:{id:"image", style:"max-width:100px;"}, inside:[]}
+			{element:"img", attributes:{id:"image", style:"max-width:30%;"}, inside:[]}
 		]},
  		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_country"}, inside:[
@@ -414,6 +415,12 @@ var itemFavoritesDisplayer = [
 				{element:"text", value:"Category : "}
 			]},
 			{element:"label", attributes:{id:"category"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"Image : "}
+			]},
+			{element:"img", attributes:{id:"image", style:"max-width:20%;"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[

@@ -96,7 +96,11 @@ function displayItemFavorites(content){
 	removeDisplayItemFavorites();
 	$("aside").append(getItemFavoritesDisplay());
 	$.each(content, function(key, value){
-		var text = document.createTextNode(value);
-		$("#itemFavoritesDisplayer"+" #"+key).append(text);
+		if(key=="image")
+			$("#itemFavoritesDisplayer"+" #"+key).attr("src", value);
+		else{
+			var text = document.createTextNode(value);
+			$("#itemFavoritesDisplayer"+" #"+key).append(text);
+		}
 	});
 }

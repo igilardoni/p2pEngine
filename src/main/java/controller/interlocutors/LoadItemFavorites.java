@@ -51,6 +51,7 @@ public class LoadItemFavorites extends AbstractInterlocutor {
 			content.put("description", item.getDescription());
 			content.put("country", item.getCountry());
 			content.put("contact", item.getContact());
+			content.put("image", item.getImage());
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

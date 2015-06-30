@@ -18,7 +18,7 @@ function addItem(){
 	var country = $("#"+itemForm+" #country").val();
 	var date = $("#"+itemForm+" #date").val();
 	var description = $("#"+itemForm+" #description").val();
-	var image = $("#"+itemForm+" #image").val();
+	var image = $("#"+itemForm+" #image").attr("src");
 	var lifetime = $("#"+itemForm+" #lifetime").val();
 	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
@@ -54,7 +54,7 @@ function updateItem(itemKey){
 	var country = $("#"+itemForm+" #country").val();
 	var date = $("#"+itemForm+" #date").val();
 	var description = $("#"+itemForm+" #description").val();
-	var image = $("#"+itemForm+" #image").val();
+	var image = $("#"+itemForm+" #image").attr("src");
 	var lifetime = $("#"+itemForm+" #lifetime").val();
 	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
@@ -164,6 +164,7 @@ function itemLoaded(content){
 	$.each(content, function(key, value){
 		$("#"+itemForm+" #"+key).val(value);
 	});
+	$("#"+itemForm+" #image").attr("src", content.image);
 	$("#itemForm").find("h1").empty();
 	$("#itemForm").find("h1").append("Item : "+content.itemKey);
 	$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");

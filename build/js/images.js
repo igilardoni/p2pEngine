@@ -2,7 +2,7 @@
  * 
  */
 function previewFile() {
-	var preview = document.querySelector("#image");
+	var preview = document.querySelector("#itemForm #image");
 	var file    = document.querySelector("input[type=file]").files[0];
 	var reader  = new FileReader();
 
