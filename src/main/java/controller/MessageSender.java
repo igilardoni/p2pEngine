@@ -37,7 +37,8 @@ public class MessageSender {
 					keyUsed.add(to.getPublicKey().toString(16));
 				}
 				sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", r.peerID);
-				Application.getInstance().getManager().addMessage(msg);
+				
+				// TODO SEND MESSAGE ! Application.getInstance().getManager().addMessage(msg);
 			}
 		}
 		return sendOneTime;
@@ -70,7 +71,7 @@ public class MessageSender {
 			msg = new Message(to, from, message);
 			msg.sign(from);
 			sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
-			Application.getInstance().getManager().addMessage(msg);
+			//TODO SEND MESSAGE Application.getInstance().getManager().addMessage(msg);
 		}else{
 			//System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
 		}

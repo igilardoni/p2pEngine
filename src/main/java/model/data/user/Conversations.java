@@ -15,6 +15,7 @@ import model.advertisement.AbstractAdvertisement;
  * Conversation of an user.
  * contain messages sent and received.
  * The content of this class is crypted with the owner password.
+ * the different message should'nt be crypted individually.
  * @author Julien Prudhomme
  *
  */
@@ -89,7 +90,6 @@ public class Conversations extends AbstractAdvertisement{
 	 */
 	public void unLock(User loguedUser) {
 		this.password = loguedUser.getClearPwd();
-		this.keys = loguedUser.getKeys();
 		Serpent crypter = new Serpent(password);
 		String clearText = new String(crypter.decrypt(cypher.getBytes()));
 		Element root = StringToElement.getElementFromString(clearText, "UserConversation");
@@ -98,7 +98,6 @@ public class Conversations extends AbstractAdvertisement{
 	
 	public void lock() {
 		this.password = null;
-		this.keys = null;
 		messages = null;
 	}
 	
@@ -155,13 +154,16 @@ public class Conversations extends AbstractAdvertisement{
 		return false;
 	}
 	
-	public void addMessage(Message message, AsymKeysImpl key){
-		if(message == null)
-			return;
-		String sender = message.getSender(key).getPublicKey().toString(16);
-		if(!messages.containsKey(sender)) {
-			messages.put(sender, new ArrayList<Message>());
+	public void addMessage(Message message){
+		if(message.isEncrypted()) {
+			message.decrypt(keys);
 		}
-		messages.get(sender).add(message);
+		if(!message.checkSignature(message.getSender())) return;
+		
+		if(message.getSender().getPublicKey().equals(keys.getPublicKey())) {
+			messages.get(message.getReceiver().getPublicKey().toString(16)).add(message);
+		} else {
+			messages.get(message.getSender().getPublicKey().toString(16)).add(message);
+		}
 	}
 }

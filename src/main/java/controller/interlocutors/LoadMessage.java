@@ -49,9 +49,9 @@ public class LoadMessage extends AbstractInterlocutor {
 			}else{
 				data.put("query", "messageLoaded");
 				content.put("id", message.getID());
-				content.put("message", message.getMsg(ManagerBridge.getCurrentUser().getKeys()));
+				content.put("message", message.getContent());
 				content.put("date", message.getDate());
-				content.put("from", message.getSender(ManagerBridge.getCurrentUser().getKeys()));
+				content.put("from", message.getSender().getPublicKey());
 			}
 			data.put("content", content);
 			com.sendText(data.toString());

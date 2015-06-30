@@ -1,210 +1,157 @@
 package model.data.user;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
 import org.jdom2.Element;
 
-import model.advertisement.AbstractAdvertisement;
-import util.Hexa;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
+import model.advertisement.AbstractAdvertisement;
 
+public class Message extends AbstractAdvertisement {
 
-/**
- * that class represent a private message between 2 users.
- * The users are represented by their public keys.
- * @author Michael Dubuis
- * @author Julien Prudhomme
- * TODO HAVE TO CHANGE "TO" FROM BIGINTEGER TO ASYMKEYSIMPL A REFAIRE
- */
-public class Message extends AbstractAdvertisement{
-	private AsymKeysImpl to;			// This is the public Key (using as login)
-	private AsymKeysImpl from;			// This is the AsymKeysImpl of sender (Encrypted with public Key of Owner)
-	private String msg;					// This is the content of message (Encrypted with public Key of Owner)
-	private long date;					// This is the date of message
-
+	private String subject;
+	private String message;
+	private AsymKeysImpl sender;
+	private String senderName;
+	private AsymKeysImpl receiver;
+	private long date;
+	boolean encrypted = false;
+	
+	
+	
 	/**
-	 * This Constructor is used for create a new Message
-	 * @param to - AsymKeysImpl of the recipient
-	 * @param from - AsymKeysImpl of the sender
-	 * @param msg - String content of the message
+	 * Create a new message
+	 * @param receiver 
+	 * @param sender
+	 * @param message
 	 */
-	public Message(AsymKeysImpl to, AsymKeysImpl from, String msg){
+	public Message(AsymKeysImpl receiver, AsymKeysImpl sender, String message) {
 		super();
-		this.to = to;
-		this.from = encryptSender(from, to);
-		this.msg = encryptMessage(msg, to);
+		this.message = message;
+		this.sender = sender;
+		this.receiver = receiver;
 		this.date = System.currentTimeMillis();
 	}
-
-	/**
-	 * This constructor is used to create Message based on a existing message
-	 * @param to
-	 * @param from
-	 * @param msg
-	 * @param date
-	 */
-	public Message(AsymKeysImpl to, AsymKeysImpl from, String msg, long date){
-		super();
-		this.to = to;
-		this.from = from;
-		this.msg = msg;
-		this.date = date;
-	}
-
-	public Message(String XML){
+	
+	public Message(String XML) {
 		super(XML);
 	}
-
-	public Message(Element e){
-		super(e);
+	
+	public Message(Element root) {
+		super(root);
 	}
-
-	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	private void setSenderPublic(BigInteger publicKey){
-		this.from.setPublicKey(publicKey);
-	}
-	private void setSenderP(BigInteger p){
-		this.from.setP(p);
-	}
-	private void setSenderG(BigInteger g){
-		this.from.setG(g);
-	}
-
-	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public String getOwner(){
-		return to.getPublicKey().toString(16);
-	}
-
-	public BigInteger getTo(){
-		return to.getPublicKey();
-	}
-
-	public AsymKeysImpl getSender(AsymKeysImpl key){
-		return decryptSender(key);
-	}
-
-	public String getMsg(){
-		return msg;
-	}
-
-	public String getMsg(AsymKeysImpl key){
-		return decryptMessage(key);
-	}
-
-	public long getDate(){
-		return date;
-	}
-
-	/////////////////////////////////////////////// PRIVATE METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * to encrypt the sender for the owner
-	 * @param sender - AsymKeysImpl of the sender
-	 * @param owner - AsymKeysImpl of the owner
-	 * @return AsymKeysImpl of the sender encrypted with the public Key of the owner
-	 */
-	private static AsymKeysImpl encryptSender(AsymKeysImpl sender, AsymKeysImpl owner){
-		ElGamal eg = new ElGamal(owner);
-		BigInteger publicKeySender_Encrypted = new BigInteger(eg.encryptWithPublicKey(sender.getPublicKey().toByteArray()));
-		BigInteger pSender_Encrypted = new BigInteger(eg.encryptWithPublicKey(sender.getP().toByteArray()));
-		BigInteger gSender_Encrypted = new BigInteger(eg.encryptWithPublicKey(sender.getG().toByteArray()));
-		AsymKeysImpl senderKey_Encrypted = new AsymKeysImpl(pSender_Encrypted, gSender_Encrypted, publicKeySender_Encrypted);
-
-		return senderKey_Encrypted;
-	}
-
-	/**
-	 * to decrypt the sender's AsymKeysImpl
-	 * @param key - AsymKeysImpl of the recipient
-	 * @return AsymKeysImpl - the sender's AsymKeysImpl decrypted
-	 */
-	private AsymKeysImpl decryptSender(AsymKeysImpl key){
-		ElGamal eg = new ElGamal(key);
-
-		BigInteger publicSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getPublicKey().toByteArray()));
-		BigInteger pSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getP().toByteArray()));
-		BigInteger gSender_Decrypted = new BigInteger(eg.decryptWithPrivateKey(from.getG().toByteArray()));
-		AsymKeysImpl senderKey_Decrypted = new AsymKeysImpl(pSender_Decrypted, gSender_Decrypted, publicSender_Decrypted);
-
-		return senderKey_Decrypted;
-	}
-
-	/**
-	 * to encrypt the message for the owner 
-	 * @param msg - sent string
-	 * @param owner - AsymKeysImpl of the owner
-	 * @return String - msg encrypted with the public Key of the owner
-	 */
-	private static String encryptMessage(String msg, AsymKeysImpl owner){
-		ElGamal eg = new ElGamal(owner);
-		String content_Encrypted = Hexa.bytesToHex(eg.encryptWithPublicKey(msg.getBytes()));
-
-		return content_Encrypted;
-	}
-
-	/**
-	 * to decrypt the sent string
-	 * @param key - AsymKeysImpl of the recipient
-	 * @return String - the sent string decrypted
-	 */
-	private String decryptMessage(AsymKeysImpl key){
-		ElGamal eg = new ElGamal(key);
-		String content_Decrypted = Hexa.bytesToHex(eg.decryptWithPrivateKey(Hexa.hexToBytes(msg)));
-
-		return content_Decrypted;
-	}
-
-	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
 	@Override
 	protected String getAdvertisementName() {
-		return this.getClass().getSimpleName();
+		return getClass().getSimpleName();
 	}
 
+	
+	/**
+	 * Encrypt the message. Must be call before the message is send.
+	 */
+	public void encrypt() {
+		if(encrypted) return;
+		encrypted = true;
+		ElGamal eg = new ElGamal(receiver);
+		message = new String(eg.encryptWithPublicKey(message.getBytes()));
+		BigInteger crypted = 
+				new BigInteger(
+						new String(eg.encryptWithPublicKey(sender.getPublicKey().toByteArray())));
+		sender.setPublicKey(crypted);
+	}
+	
+	/**
+	 * Decrypt the message.
+	 * @param receiver the receiver keys (with private key)
+	 */
+	public void decrypt(AsymKeysImpl receiver) {
+		if(!encrypted) return;
+		ElGamal eg = new ElGamal(receiver);
+		message = new String(eg.decryptWithPrivateKey(message.getBytes()));
+		sender.setPublicKey(new BigInteger(
+				eg.decryptWithPrivateKey(sender.getPublicKey().toByteArray())));
+		encrypted = false;
+	}
+	
 	@Override
 	protected void setKeys() {
-		from = new AsymKeysImpl();
-		this.addKey("to", true, false);
-		this.addKey("senderPublic", false, false);
-		this.addKey("senderP", false, false);
-		this.addKey("senderG", false, false);
-		this.addKey("msg", false, false);
-		this.addKey("date", true, false);
+		sender = new AsymKeysImpl();
+		receiver = new AsymKeysImpl();
+		
+		addKey("content", false, false);
+		
+		addKey("senderKey", false, false);
+		addKey("senderP", false, false);
+		addKey("senderG", false, false);
+		
+		addKey("receiverKey", true, false);
+		addKey("receiverP", false, false);
+		addKey("receiverG", false, false);
+		
+		addKey("date", false, false);
+		addKey("subject", false, false);
+		addKey("senderName", false, false);
 	}
 
 	@Override
 	protected void putValues() {
-		this.addValue("toPublic", to.getPublicKey().toString(16));
-		this.addValue("senderPublic", from.getPublicKey().toString(16));
-		this.addValue("senderP", from.getP().toString(16));
-		this.addValue("senderG", from.getG().toString(16));
-		this.addValue("msg", msg);
-		this.addValue("date", Long.toString(date));
+		addValue("content", message);
+		addValue("senderKey", sender.getPublicKey().toString(16));
+		addValue("senderP", sender.getP().toString(16));
+		addValue("senderG", sender.getG().toString(16));
+		addValue("receiverKey", receiver.getPublicKey().toString(16));
+		addValue("receiverP", receiver.getP().toString(16));
+		addValue("receiverG", receiver.getG().toString(16));
+		addValue("subject", subject);
+		addValue("senderName", senderName);
+		addValue("date", Long.toString(date));
 	}
 
 	@Override
 	protected boolean handleElement(Element e) {
-		String val = e.getText();
-		switch(e.getName()){
-		case "to":
-			this.to = new AsymKeysImpl(val); // TODO Check if ok
-			return true;
-		case "senderPublic":
-			setSenderPublic(new BigInteger(val, 16));
-			return true;
-		case "senderP":
-			setSenderP(new BigInteger(val, 16));
-			return true;
-		case "senderG":
-			setSenderG(new BigInteger(val, 16));
-			return true;
-		case "msg":
-			this.msg = val;
-			return true;
-		case "date":
-			this.date = Long.parseLong(val);
-			return true;
-		default:
-			return false;
+		switch(e.getName()) {
+		case "content": message = e.getValue(); return true;
+		case "senderKey": sender.setPublicKey(new BigInteger(e.getValue(), 16)); return true;
+		case "senderP": sender.setP(new BigInteger(e.getValue(), 16)); return true;
+		case "senderG": sender.setG(new BigInteger(e.getValue(), 16)); return true;
+		case "receiverKey": receiver.setPublicKey(new BigInteger(e.getValue(), 16)); return true;
+		case "receiverP": receiver.setP(new BigInteger(e.getValue(), 16)); return true;
+		case "receiverG": receiver.setG(new BigInteger(e.getValue(), 16)); return true;
+		case "date": date =  new Long(e.getValue()); return true;
 		}
+		return false;
 	}
+	
+	/**
+	 * Get if the message is encrypted or not.
+	 * @return true if message is encrypted.
+	 */
+	public boolean isEncrypted() {
+		return encrypted;
+	}
+	
+	public AsymKeysImpl getSender() {
+		return sender;
+	}
+	
+	public AsymKeysImpl getReceiver() {
+		return receiver;
+	}
+
+	public long getDate() {
+		return date;
+	}
+	
+	public String getSubject() {
+		return subject;
+	}
+	
+	public String getContent() {
+		return message;
+	}
+	
+
 }

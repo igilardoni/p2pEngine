@@ -185,20 +185,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		return getItem(currentUser.getKeys().getPublicKey().toString(16), title);
 	}
-	/**
-	 * Return the user's messages' list
-	 * @param publicKey the user public key
-	 * @return a new list containing user's messages
-	 */
-	public ArrayList<Message> getUserMessages(String publicKey) {
-		ArrayList<Message> userMessages = new ArrayList<Message>();
-		for(Message m : messages){
-			if(m.getOwner().equals(publicKey)) {
-				userMessages.add(m);
-			}
-		}
-		return userMessages;
-	}
+	
 	/**
 	 * Get the user conversations. If the conversations doesn't exist, it will be created.
 	 * @param publicKey
@@ -361,42 +348,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		removeItem(getItem(itemKey));
 		addItem(item);
 	}
-	/**
-	 * to add a message
-	 * if receiver of the message isn't registered in this instance of manger, function will fail
-	 * @param m
-	 */
-	public void addMessage(Message m){
-		if(m == null){
-			printError("addMessage","This Message is null !");
-			return;
-		}
-		String owner = m.getOwner();
-		if(owner.isEmpty()){
-			printError("addMessage","No owner found !");
-			return;
-		}
-		if(!users.containsKey(owner)){
-			printError("addMessage","Owner unknown "+owner);
-			return;
-		}
-		if(!m.checkSignature(users.get(owner).getKeys())){
-			printError("addMessage","Bad Signature for Message");
-			return;
-		}
-		if(messages.contains(m)){
-			if(messages.get(messages.indexOf(m)).getLastUpdated() >= m.getLastUpdated()){
-				printError("addMessage","This message is already registred !");
-				return;
-			}
-		}
-		/* TODO future change (remove comment)
-		if(m.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16)) || m.getTo().equals(currentUser.getKeys().getPublicKey()))
-			conversations.get(m.getOwner()).addMessage(m, currentUser.getKeys());
-		else
-		*/	
-		messages.add(m);
-	}
+	
 	/**
 	 * Add an existing conversation to this manager.
 	 * @param c
@@ -515,10 +467,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			if(i.getOwner().equals(userKey))
 				return false;
 		}
-		for (Message m : messages) {
-			if(m.getOwner().equals(userKey))
-				return false;
-		}
 		return users.remove(userKey)!=null;
 	}
 	/**
@@ -537,10 +485,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			if(i.getOwner().equals(userKey))
 				valid &= items.remove(i);
 		}
-		for(Message m : messages){
-			if(m.getOwner().equals(user.getKeys().getPublicKey()))
-				valid &= messages.remove(m);
-		}
+		
 		return (valid &= (users.remove(userKey)!=null));
 	}
 	/**
@@ -582,9 +527,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		}
 		s.append("</items>");
 		s.append("<messages>");
-		for(Message m : getUserMessages(publicKey)){
-			s.append(m.toString());
-		}
+		// TODO
 		s.append("</messages>");
 		s.append("<ReceivedMessages>");
 		s.append(conversations.get(publicKey).toString());
@@ -690,16 +633,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			addItem(new Item(i));
 		}
 	}
-	/**
-	 * Load all the messages in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	private void loadMessages(Element e) {
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element m: root.getChildren()) {
-			addMessage(new Message(m));
-		}
-	}
+	
 	/**
 	 * Load all the messages in this element
 	 * @param e an element that contains messages in XML format.
@@ -738,7 +672,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		switch(e.getName()) {
 		case "users": 				loadUsers(e); break;
 		case "items": 				loadItems(e); break;
-		case "messages": 			loadMessages(e); break;
+		case "messages": 			/*TODO loadMessages(e);*/ break;
 		case "ReceivedMessages":	loadReceivedMessages(e); break;
 		case "favorites":			loadFavorites(e); break;
 		case "deals":				loadDeals(e); break;
@@ -778,7 +712,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	/////////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	public void messageEvent(Manager m) {
-		// TODO Tests
+		/*// TODO Tests
         Element elements;
     	// Add all Users
 		elements = null;
@@ -826,7 +760,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			if(favorites.checkSignature(this.getUser(favorites.getOwner()).getKeys()))
 				this.addFavorites(favorites);
 		}
-	}
+	*/ }
+	
+		
 	///////////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to remove all items with lifeTime is over
@@ -972,7 +908,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 			Element messagesElement = root.getChild("messages");
 			for (Element e : messagesElement.getChildren()) {
-				addMessage(new Message(e));
+			// TODO	addMessage(new Message(e));
 			}
 			Element conversationsElement = root.getChild("ReceivedMessages");
 			for (Element e : conversationsElement.getChildren()) {
@@ -1020,7 +956,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		// ArrayList are used for adding data in local file.
 		ArrayList<User> users = new ArrayList<User>();
 		ArrayList<Item> items = this.getUserItems(currentPublicKey);
-		ArrayList<Message> messages = this.getUserMessages(currentPublicKey);
+		ArrayList<Message> messages = null; // TODO this.getUserMessages(currentPublicKey);
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
 		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
 		HashMap<String,ArrayList<Contrat>> deals = new HashMap<String,ArrayList<Contrat>>();
@@ -1051,14 +987,15 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 						items.add(i);
 				}
 				// Filling ArrayList messages
-				for (Message m : this.getUserMessages(userKey)) {
+			/* TODO	for (Message m : this.getUserMessages(userKey)) {
 					if(!messages.contains(m))
 						messages.add(m);
 				}
 				for (Message m : manager.getUserMessages(userKey)) {
 					if(!messages.contains(m))
 						messages.add(m);
-				}
+				} */
+				
 				// Filling ArrayList conversations
 				Conversations c;
 				c = this.getUserConversations(userKey);

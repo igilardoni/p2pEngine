@@ -270,7 +270,9 @@ public class ManagerBridge{
 	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static ArrayList<Message> getMessages(){
-		return Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
+		
+		return null; // TODO getMESSAGE ? Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
+		
 	}
 	public static ArrayList<Message> getConversation(){
 		ArrayList<Message> messages = new ArrayList<Message>();
