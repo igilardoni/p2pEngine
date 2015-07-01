@@ -15,7 +15,7 @@ import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
 import model.data.item.Item;
 import model.data.user.Conversations;
-import model.data.user.Message;
+import model.data.user.UserMessage;
 import model.data.user.User;
 import model.network.Network;
 import model.network.NetworkInterface;
@@ -46,7 +46,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private ArrayList<Item> items;				// list of items handled by this manager.
 	private NetworkInterface network;
 	private User currentUser;					// User logged
-	private ArrayList<Message> messages;		// Messages for users attempting to be received.
+	private ArrayList<UserMessage> messages;		// Messages for users attempting to be received.
 	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
 	private HashMap<String, ArrayList<Contrat>> deals;
 	private HashMap<String, Favorites> favorites;
@@ -501,7 +501,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * @param msg
 	 * @return
 	 */
-	public boolean removeMessage(Message msg){
+	public boolean removeMessage(UserMessage msg){
 		return messages.remove(msg);
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -570,7 +570,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	private String getMessagesXML() {
 		StringBuffer s = new StringBuffer();
-		for(Message m: messages) {
+		for(UserMessage m: messages) {
 			s.append(m); 
 		}
 		return s.toString();
@@ -688,7 +688,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	protected void setKeys() {
 		users = new HashMap<String, User>();
 		items = new ArrayList<Item>();
-		messages = new ArrayList<Message>();
+		messages = new ArrayList<UserMessage>();
 		conversations = new HashMap<String, Conversations>();
 		currentUser = null;
 		favorites = new HashMap<String, Favorites>();
@@ -956,7 +956,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		// ArrayList are used for adding data in local file.
 		ArrayList<User> users = new ArrayList<User>();
 		ArrayList<Item> items = this.getUserItems(currentPublicKey);
-		ArrayList<Message> messages = null; // TODO this.getUserMessages(currentPublicKey);
+		ArrayList<UserMessage> messages = null; // TODO this.getUserMessages(currentPublicKey);
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
 		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
 		HashMap<String,ArrayList<Contrat>> deals = new HashMap<String,ArrayList<Contrat>>();
@@ -1118,6 +1118,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				System.out.println(deal.toPrint());
 			}
 		}
+	}
+	
+	public void addMessage(UserMessage msg) {
+		this.messages.add(msg);
+		//TODO PUBLISH MSG
 	}
 	
 	

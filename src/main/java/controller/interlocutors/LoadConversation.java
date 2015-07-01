@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.websocket.Session;
 
-import model.data.user.Message;
+import model.data.user.UserMessage;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -40,9 +40,9 @@ public class LoadConversation extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 			try {
-				ArrayList<Message> messages = ManagerBridge.getConversation();
+				ArrayList<UserMessage> messages = ManagerBridge.getConversation();
 				AsymKeysImpl key = ManagerBridge.getCurrentUser().getKeys();
-				for (Message message : messages) {
+				for (UserMessage message : messages) {
 				JSONObject data = new JSONObject();
 					data.put("query", "conversationLoaded");
 					

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.websocket.Session;
 
-import model.data.user.Message;
+import model.data.user.UserMessage;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -40,7 +40,7 @@ public class LoadMessage extends AbstractInterlocutor {
 		try {
 			JSONObject c = getJSON(content);
 			String id = c.getString("id");
-			Message message = ManagerBridge.getMessage(id);
+			UserMessage message = ManagerBridge.getMessage(id);
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
 			if(message == null){

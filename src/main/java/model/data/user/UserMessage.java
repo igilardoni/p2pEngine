@@ -9,7 +9,7 @@ import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import model.advertisement.AbstractAdvertisement;
 
-public class Message extends AbstractAdvertisement {
+public class UserMessage extends AbstractAdvertisement {
 
 	private String subject;
 	private String message;
@@ -27,7 +27,7 @@ public class Message extends AbstractAdvertisement {
 	 * @param sender
 	 * @param message
 	 */
-	public Message(AsymKeysImpl receiver, AsymKeysImpl sender, String message) {
+	public UserMessage(AsymKeysImpl receiver, AsymKeysImpl sender, String message) {
 		super();
 		this.message = message;
 		this.sender = sender;
@@ -35,11 +35,11 @@ public class Message extends AbstractAdvertisement {
 		this.date = System.currentTimeMillis();
 	}
 	
-	public Message(String XML) {
+	public UserMessage(String XML) {
 		super(XML);
 	}
 	
-	public Message(Element root) {
+	public UserMessage(Element root) {
 		super(root);
 	}
 	

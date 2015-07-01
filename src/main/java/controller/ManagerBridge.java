@@ -8,7 +8,7 @@ import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
 import model.data.user.Conversations;
-import model.data.user.Message;
+import model.data.user.UserMessage;
 import model.data.user.User;
 import model.network.search.ItemSearcher;
 import util.DateConverter;
@@ -269,13 +269,13 @@ public class ManagerBridge{
 		else return itemSearcher.search(itemKey);
 	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public static ArrayList<Message> getMessages(){
+	public static ArrayList<UserMessage> getMessages(){
 		
 		return null; // TODO getMESSAGE ? Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
 		
 	}
-	public static ArrayList<Message> getConversation(){
-		ArrayList<Message> messages = new ArrayList<Message>();
+	public static ArrayList<UserMessage> getConversation(){
+		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 		Conversations conversation = Application.getInstance().getManager().getCurrentUserConversations();
 		conversation.unLock(getCurrentUser());
 		for(String key : conversation.getSenders()){
@@ -283,11 +283,11 @@ public class ManagerBridge{
 		}
 		return messages;
 	}
-	public static Message getMessage(String id){
-		ArrayList<Message> messages = new ArrayList<Message>();
+	public static UserMessage getMessage(String id){
+		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 		messages.addAll(getMessages());
 		messages.addAll(getConversation());
-		for (Message message : messages) {
+		for (UserMessage message : messages) {
 			if(message.getID().equals(id))
 				return message;
 		}

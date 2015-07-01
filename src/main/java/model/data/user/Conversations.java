@@ -24,7 +24,7 @@ public class Conversations extends AbstractAdvertisement{
 	 * String: to (the messages between the user and to)
 	 * ArrayList<Message> list of the messages (sent to "to" and reveived from "to")
 	 */
-	private HashMap<String, ArrayList<Message>> messages = null; //all message when cypher is decrypted.
+	private HashMap<String, ArrayList<UserMessage>> messages = null; //all message when cypher is decrypted.
 	private String owner; //public key of the conversation owner;
 	private String cypher;
 	private String password = null; //content locked if password is null
@@ -58,9 +58,9 @@ public class Conversations extends AbstractAdvertisement{
 				return;
 			}
 			StringBuffer s = new StringBuffer();
-			for(Entry<String, ArrayList<Message>> entry : messages.entrySet()) {
+			for(Entry<String, ArrayList<UserMessage>> entry : messages.entrySet()) {
 				s.append("<Messages to=\"" + entry.getKey() + "\">");
-				for(Message m: entry.getValue()) {
+				for(UserMessage m: entry.getValue()) {
 					s.append(m.toString());
 				}
 				s.append("</Messages>");
@@ -107,12 +107,12 @@ public class Conversations extends AbstractAdvertisement{
 	 * @param root 
 	 */
 	private void parseRootElement(Element root) {
-		messages = new HashMap<String, ArrayList<Message>>();
+		messages = new HashMap<String, ArrayList<UserMessage>>();
 		for(Element e: root.getChildren()) {
 			String pkey = e.getAttributeValue("to");
-			messages.put(pkey, new ArrayList<Message>());
+			messages.put(pkey, new ArrayList<UserMessage>());
 			for(Element m: e.getChildren()) {
-				messages.get(pkey).add(new Message(m));
+				messages.get(pkey).add(new UserMessage(m));
 			}
 		}
 	}
@@ -122,9 +122,9 @@ public class Conversations extends AbstractAdvertisement{
 	 * All the message has to be get or added here.
 	 * @param to
 	 */
-	public ArrayList<Message> getConversation(String to) {
+	public ArrayList<UserMessage> getConversation(String to) {
 		if(password == null) return null; //content locked
-		if(!messages.containsKey(to)) messages.put(to, new ArrayList<Message>());
+		if(!messages.containsKey(to)) messages.put(to, new ArrayList<UserMessage>());
 		return messages.get(to);
 	}
 	
@@ -154,7 +154,7 @@ public class Conversations extends AbstractAdvertisement{
 		return false;
 	}
 	
-	public void addMessage(Message message){
+	public void addMessage(UserMessage message){
 		if(message.isEncrypted()) {
 			message.decrypt(keys);
 		}

@@ -14,7 +14,6 @@ import model.data.manager.Manager;
 import model.data.manager.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
-import model.network.communication.service.ChatService;
 import util.VARIABLES;
 
 /**
@@ -65,7 +64,6 @@ public class Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		com.addService(new ChatService());
 	}
 	
 	/**

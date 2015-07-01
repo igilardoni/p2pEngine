@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.Application;
-import model.data.user.Message;
+import model.data.user.UserMessage;
 import model.data.user.User;
 import model.network.search.Search;
 import net.jxta.peer.PeerID;
@@ -25,14 +25,14 @@ public class MessageSender {
 		AsymKeysImpl to;
 		AsymKeysImpl from = Application.getInstance().getManager().getCurrentUser().getKeys();
 		ArrayList<String> keyUsed = new ArrayList<String>();
-		Message msg = null;
+		UserMessage msg = null;
 		for (Search<User>.Result r : results) {
 			if(!r.result.checkSignature(r.result.getKeys())){
 				results.remove(r);
 			}else{
 				to = r.result.getKeys();
 				if(!keyUsed.contains(to.getPublicKey().toString(16))){
-					msg = new Message(to, from, message);
+					msg = new UserMessage(to, from, message);
 					msg.sign(from);
 					keyUsed.add(to.getPublicKey().toString(16));
 				}
@@ -58,7 +58,7 @@ public class MessageSender {
 		ArrayList<PeerID> ids = new ArrayList<PeerID>();
 		AsymKeysImpl to = null;
 		AsymKeysImpl from = Application.getInstance().getManager().getCurrentUser().getKeys();
-		Message msg = null;
+		UserMessage msg = null;
 		for (Search<User>.Result r : results) {
 			if(!r.result.checkSignature(r.result.getKeys())){
 				results.remove(r);
@@ -68,7 +68,7 @@ public class MessageSender {
 			}
 		}
 		if(to != null){
-			msg = new Message(to, from, message);
+			msg = new UserMessage(to, from, message);
 			msg.sign(from);
 			sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			//TODO SEND MESSAGE Application.getInstance().getManager().addMessage(msg);
@@ -81,7 +81,7 @@ public class MessageSender {
 	/**
 	 * return an array list with all message from publicKey to currentUser
 	 */
-	public static ArrayList<Message> getMessagesfrom(String publicKey) {
+	public static ArrayList<UserMessage> getMessagesfrom(String publicKey) {
 		return Application.getInstance().getManager().getCurrentUserConversations().getConversation(publicKey);
 	}
 }
