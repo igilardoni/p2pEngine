@@ -1,18 +1,18 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.websocket.Session;
 
+import model.data.item.Category;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import controller.ManagerBridge;
+public class LoadCategories extends AbstractInterlocutor {
 
-public class LoadItemSearchField extends AbstractInterlocutor {
-
-	public LoadItemSearchField() {
+	public LoadCategories() {
 	}
 	
 	public static String content;
@@ -36,13 +36,14 @@ public class LoadItemSearchField extends AbstractInterlocutor {
 	@Override
 	public void run() {
 		if(!isInitialized()) return;
-		try{
-			ArrayList<String> fields = ManagerBridge.getItemSearchableFields();
-			for (String field : fields) {
+		try {
+		ArrayList<String> listCat = Category.getAllCategorie();
+			for (String string : listCat) {
 				JSONObject data = new JSONObject();
-				data.put("query", "itemSearchFieldLoaded");
+				data.put("query", "categoryLoaded");
+				
 				JSONObject content = new JSONObject();
-				content.put("field", field);
+				content.put("category", string);
 				data.put("content", content);
 				com.sendText(data.toString());
 			}
@@ -51,6 +52,6 @@ public class LoadItemSearchField extends AbstractInterlocutor {
 		} finally {
 			this.reset();
 		}
-	}
+}
 
 }

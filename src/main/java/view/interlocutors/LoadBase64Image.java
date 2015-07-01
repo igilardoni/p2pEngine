@@ -1,4 +1,4 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import javax.websocket.Session;
 

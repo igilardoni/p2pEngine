@@ -38,6 +38,15 @@ function messageLoaded(content) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function sendMessageTo(){
+	var receiver = $("#owner").text();
+	var subject = $("#title").text();
+	includeWebmail();
+	newMessage();
+	$("#receiver").val(receiver);
+	$("#subject").val("Item : "+subject);
+}
+
 function newMessage(){
 	$("#"+"messageDisplay").empty();
 	$("#"+"messageDisplay").replaceWith(getNewMessageForm());

@@ -1,17 +1,19 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 
 import javax.websocket.Session;
+
+import model.data.user.UserMessage;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
 
-public class RemoveItemFavorites extends AbstractInterlocutor {
+public class LoadMessage extends AbstractInterlocutor {
 
-	public RemoveItemFavorites() {
+	public LoadMessage() {
 	}
 	
 	public static String content;
@@ -37,12 +39,20 @@ public class RemoveItemFavorites extends AbstractInterlocutor {
 		if(!isInitialized()) return;
 		try {
 			JSONObject c = getJSON(content);
-			String itemKey = c.getString("itemKey");
-			ManagerBridge.removeFavoriteItem(itemKey);
+			String id = c.getString("id");
+			UserMessage message = ManagerBridge.getMessage(id);
 			JSONObject data = new JSONObject();
-			data.put("query", "itemFavoritesRemoved");
 			JSONObject content = new JSONObject();
-			content.put("itemKey", itemKey);
+			if(message == null){
+				data.put("query", "messageUnLoaded");
+				content.put("error", "unknow message");
+			}else{
+				data.put("query", "messageLoaded");
+				content.put("id", message.getID());
+				content.put("message", message.getContent());
+				content.put("date", message.getDate());
+				content.put("from", message.getSender().getPublicKey());
+			}
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

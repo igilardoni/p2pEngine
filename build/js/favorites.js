@@ -70,8 +70,8 @@ function newRowFavorites(content){
 	var cell2 = document.createElement("td");
 	cell2.setAttribute("class", "rowDescription");
 	cell2.setAttribute("onclick", "loadItemFavorites('"+content.itemKey+"');");
-	if(content.description.length > 400)
-		cell2.appendChild(document.createTextNode(content.description.substring(0, 200)+" [...]"));
+	if(content.description.length > 100)
+		cell2.appendChild(document.createTextNode(content.description.substring(0, 100)+" [...]"));
 	else
 		cell2.appendChild(document.createTextNode(content.description));
 	row.appendChild(cell2);

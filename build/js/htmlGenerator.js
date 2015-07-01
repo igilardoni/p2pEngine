@@ -380,7 +380,7 @@ var webmailForm = [
 ];
 var writeMessage = [
 		{element:"ul", attributes:{"class":"newMessageHeader"}, inside:[
-			{element:"li", attributes:{onclick:"sendMessage();"}, inside:[
+			{element:"li", attributes:{onclick:"sendMessage();", id:"sendButton"}, inside:[
 				{element:"a", attributes:{}, inside:[
 					{element:"text", value:"Send"}
 				]}
@@ -388,13 +388,29 @@ var writeMessage = [
 			{element:"li", attributes:{}, inside:[
 				{element:"p", attributes:{}, inside:[
 					{element:"label", attributes:{}, inside:[
-						{element:"text", value:"Receiver : "}
+						{element:"text", value:"Subject "}
 					]},
-					{element:"input", attributes:{}, inside:[]}
+					{element:"input", attributes:{type:"text", id:"subject", name:"subject"}, inside:[]}
+				]}
+			]},
+			{element:"li", attributes:{}, inside:[
+				{element:"p", attributes:{}, inside:[
+					{element:"label", attributes:{}, inside:[
+						{element:"text", value:"Receiver "}
+					]},
+					{element:"input", attributes:{type:"text", id:"receiver", name:"receiver"}, inside:[]},
+					{element:"select", attributes:{id:"typeReceiver", name:"typeReceiver"}, inside:[
+						{element:"option", attributes:{value:"PublicKey"}, inside:[
+							{element:"text", value:"PublicKey"}
+						]},
+						{element:"option", attributes:{value:"Username"}, inside:[
+  							{element:"text", value:"Username"}
+						]},
+					]}
 				]}
 			]}
 		]},
-		{element:"p", attributes:{}, inside:[
+		{element:"p", attributes:{"class":"messageContent"}, inside:[
 			{element:"label", attributes:{}, inside:[
 				{element:"text", value:"Message : "}
 			]},
@@ -408,43 +424,53 @@ var itemFavoritesDisplayer = [
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Title : "}
 			]},
-			{element:"label", attributes:{id:"title"}, inside:[]}
+			{element:"label", attributes:{id:"title", "class":"content"}, inside:[]}
+		]},
+		{element:"p", attributes:{}, inside:[
+ 			{element:"label", attributes:{"class":"label"}, inside:[
+ 				{element:"text", value:"Owner : "}
+ 			]},
+ 			{element:"label", attributes:{id:"owner", "class":"content", onclick:"sendMessageTo();"}, inside:[]}
+ 		]},
+ 		{element:"p", attributes:{}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[]},
+			{element:"label", attributes:{id:"friendlyNick", "class":"content", onclick:"sendMessageTo();"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Type : "}
 			]},
-			{element:"label", attributes:{id:"type"}, inside:[]},
+			{element:"label", attributes:{id:"type", "class":"content"}, inside:[]},
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Category : "}
 			]},
-			{element:"label", attributes:{id:"category"}, inside:[]}
+			{element:"label", attributes:{id:"category", "class":"content"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Image : "}
 			]},
-			{element:"img", attributes:{id:"image", style:"max-width:20%;"}, inside:[]}
+			{element:"img", attributes:{id:"image", "class":"content", style:"max-width:20%;"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Description : "}
 			]},
-			{element:"label", attributes:{id:"description"}, inside:[]}
+			{element:"label", attributes:{id:"description", "class":"content"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Contry : "}
 			]},
-			{element:"label", attributes:{id:"country"}, inside:[]}
+			{element:"label", attributes:{id:"country", "class":"content"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Contact : "}
 			]},
-			{element:"label", attributes:{id:"contact"}, inside:[]}
+			{element:"label", attributes:{id:"contact", "class":"content"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

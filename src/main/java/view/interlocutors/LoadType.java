@@ -1,17 +1,17 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 
 import javax.websocket.Session;
 
+import model.data.item.Item;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import controller.ManagerBridge;
+public class LoadType extends AbstractInterlocutor {
 
-public class SignOut extends AbstractInterlocutor {
-
-	public SignOut() {
+	public LoadType() {
 	}
 	
 	public static String content;
@@ -36,14 +36,15 @@ public class SignOut extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 		try {
-			String username = ManagerBridge.getCurrentUser().getNick();
-			ManagerBridge.logout();
-			JSONObject data = new JSONObject();
-			data.put("query", "logout");
-			JSONObject content = new JSONObject();
-			content.put("username", username);
-			data.put("content", content);
-			com.sendText(data.toString());
+			Item.TYPE[] types = Item.TYPE.values();
+			for (Item.TYPE type : types) {
+				JSONObject data = new JSONObject();
+				data.put("query", "typeLoaded");
+				JSONObject content = new JSONObject();
+				content.put("type", type.toString());
+				data.put("content", content);
+				com.sendText(data.toString());
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {

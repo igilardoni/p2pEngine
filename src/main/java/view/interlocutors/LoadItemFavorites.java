@@ -1,4 +1,4 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import javax.websocket.Session;
 
@@ -45,6 +45,8 @@ public class LoadItemFavorites extends AbstractInterlocutor {
 			data.put("query", "favoritesItemLoaded");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", item.getItemKey());
+			content.put("owner", item.getOwner());
+			content.put("friendlyNick", item.getFriendNick());
 			content.put("title", item.getTitle());
 			content.put("type", item.getType());
 			content.put("category", item.getCategory().getStringChoice());

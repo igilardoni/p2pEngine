@@ -1030,14 +1030,16 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		for (Item i : items) {
 			itemsElement.addContent(i.getRootElement());
 		}
-		/* TODO FIX BUG
 		// Element messages
 		Element messagesElement = new Element("messages");
+		/* TODO FIX BUG
 		for (Message m : messages) {
 			messagesElement.addContent(m.getRootElement());
 		}
+		*/
 		// Element ReceivedMessages
 		Element conversationsElement = new Element("ReceivedMessages");
+		/* TODO FIX BUG
 		for (Conversations c : conversations) {
 			conversationsElement.addContent(c.getRootElement());
 		}

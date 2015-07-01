@@ -1,4 +1,4 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 import java.util.ArrayList;

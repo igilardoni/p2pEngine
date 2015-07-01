@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,30 +13,30 @@ import javax.websocket.server.ServerEndpoint;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import controller.interlocutors.AbstractInterlocutor;
-import controller.interlocutors.AddItemFavorites;
-import controller.interlocutors.AddItem;
-import controller.interlocutors.LoadAccount;
-import controller.interlocutors.LoadBase64Image;
-import controller.interlocutors.LoadCategories;
-import controller.interlocutors.LoadConversation;
-import controller.interlocutors.LoadItem;
-import controller.interlocutors.LoadItemFavorites;
-import controller.interlocutors.LoadItemSearchField;
-import controller.interlocutors.LoadItemSearchFieldCategory;
-import controller.interlocutors.LoadItemSearchFieldType;
-import controller.interlocutors.LoadItems;
-import controller.interlocutors.LoadItemsFavorites;
-import controller.interlocutors.LoadMessage;
-import controller.interlocutors.LoadMessages;
-import controller.interlocutors.LoadType;
-import controller.interlocutors.Register;
-import controller.interlocutors.RemoveItem;
-import controller.interlocutors.RemoveItemFavorites;
-import controller.interlocutors.SignIn;
-import controller.interlocutors.SignOut;
-import controller.interlocutors.UpdateAccount;
-import controller.interlocutors.UpdateItem;
+import view.interlocutors.AbstractInterlocutor;
+import view.interlocutors.AddItem;
+import view.interlocutors.AddItemFavorites;
+import view.interlocutors.LoadAccount;
+import view.interlocutors.LoadBase64Image;
+import view.interlocutors.LoadCategories;
+import view.interlocutors.LoadConversation;
+import view.interlocutors.LoadItem;
+import view.interlocutors.LoadItemFavorites;
+import view.interlocutors.LoadItemSearchField;
+import view.interlocutors.LoadItemSearchFieldCategory;
+import view.interlocutors.LoadItemSearchFieldType;
+import view.interlocutors.LoadItems;
+import view.interlocutors.LoadItemsFavorites;
+import view.interlocutors.LoadMessage;
+import view.interlocutors.LoadMessages;
+import view.interlocutors.LoadType;
+import view.interlocutors.Register;
+import view.interlocutors.RemoveItem;
+import view.interlocutors.RemoveItemFavorites;
+import view.interlocutors.SignIn;
+import view.interlocutors.SignOut;
+import view.interlocutors.UpdateAccount;
+import view.interlocutors.UpdateItem;
 
 
 /**

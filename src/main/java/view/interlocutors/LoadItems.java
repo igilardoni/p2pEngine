@@ -1,4 +1,4 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
 
-public class LoadItemsFavorites extends AbstractInterlocutor {
+public class LoadItems extends AbstractInterlocutor {
 
-	public LoadItemsFavorites() {
+	public LoadItems() {
 	}
 	
 	public static String content;
@@ -39,13 +39,11 @@ public class LoadItemsFavorites extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 		try {
-			ArrayList<Item> favorites = ManagerBridge.getFavoriteItems();
-			// to say to Javascript that Model start to found favorites' items
-			sendStart();
-		
-			for (Item item : favorites) {
+			ArrayList<Item> items = ManagerBridge.getCurrentUserItems();
+			if(items == null || items.isEmpty()) return;
+			for (Item item : items) {
 				JSONObject data = new JSONObject();
-				data.put("query", "favoritesItemsLoaded");
+				data.put("query", "itemsLoaded");
 				JSONObject content = new JSONObject();
 				content.put("itemKey", item.getItemKey());
 				content.put("title", item.getTitle());
@@ -53,36 +51,10 @@ public class LoadItemsFavorites extends AbstractInterlocutor {
 				data.put("content", content);
 				com.sendText(data.toString());
 			}
-			// to say to Javascript that Model finish to found favorites' items
-			sendEnd();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {
 			this.reset();
-		}
-	}
-	
-	private void sendStart() {
-		try{
-			JSONObject data = new JSONObject();
-			data.put("query", "favoritesItemsLoadingStart");
-			JSONObject content = new JSONObject();
-			data.put("content", content);
-			com.sendText(data.toString());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void sendEnd() {
-		try{
-			JSONObject data = new JSONObject();
-			data.put("query", "favoritesItemsLoadingEnd");
-			JSONObject content = new JSONObject();
-			data.put("content", content);
-			com.sendText(data.toString());
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 	}
 

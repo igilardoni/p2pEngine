@@ -71,3 +71,63 @@
 	box-shadow: 0px 1px 3px #666666;
 	min-height : 200px;
 }
+
+.messageContent label {
+	display : inline-block;
+	width : 10%;
+	vertical-align : top;
+}
+
+.messageContent textarea {
+	width : 88%;
+	min-height : 200px;
+}
+
+ul.newMessageHeader #sendButton {
+	cursor : pointer;
+	text-align : center;
+	margin-bot : 10px;
+	margin-top : 10px;
+	
+	background: #d2e0e4;
+	background-image: -webkit-linear-gradient(top, #d2e0e4, #9a9a9a);
+	background-image: -moz-linear-gradient(top, #d2e0e4, #9a9a9a);
+	background-image: -ms-linear-gradient(top, #d2e0e4, #9a9a9a);
+	background-image: -o-linear-gradient(top, #d2e0e4, #9a9a9a);
+	background-image: linear-gradient(to bottom, #d2e0e4, #9a9a9a);
+	-webkit-border-radius: 10;
+	-moz-border-radius: 10;
+	border-radius: 10px;
+	text-shadow: 1px 1px 3px #666666;
+	-webkit-box-shadow: 0px 1px 3px #666666;
+	-moz-box-shadow: 0px 1px 3px #666666;
+	box-shadow: 0px 1px 3px #666666;
+	font-family: Arial;
+	color: #3d3d3d;
+	padding: 4px 20px 6px 20px;
+	text-decoration: none;
+}
+ul.newMessageHeader {
+	border : 5px solid transparent;
+	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #979797 100%);
+	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #979797 100%);
+	border-image : linear-gradient(to right, #FFFFFF 0%, #979797 100%);
+	border-image-slice : 1;
+	border-top : none;
+	border-left : none;
+	border-right : none;
+	padding-bottom : 5px;
+	padding-left : 0;
+	padding-top : 0;
+	padding-right : 0;
+	margin : -1%;
+	text-align : left;
+}
+ul.newMessageHeader li {
+	display : inline-block;
+	margin-right : 10px;
+	margin-left : 5px;
+}
+ul.newMessageHeader p {
+	margin : 0;
+}

@@ -1,17 +1,17 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 
 import javax.websocket.Session;
 
+import model.data.item.Item;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import controller.ManagerBridge;
+public class LoadItemSearchFieldType extends AbstractInterlocutor {
 
-public class UpdateAccount extends AbstractInterlocutor {
-
-	public UpdateAccount() {
+	public LoadItemSearchFieldType() {
 	}
 	
 	public static String content;
@@ -36,22 +36,12 @@ public class UpdateAccount extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 		try {
-			JSONObject c = getJSON(content);
-			String nick = c.getString("username");
-			String oldPassword = c.getString("oldpassword");
-			String newPassword = c.getString("password");
-			String name = c.getString("name");
-			String firstName = c.getString("firstname");
-			String email = c.getString("email");
-			String phone = c.getString("phone");
-			boolean ok = ManagerBridge.updateAccount(nick, oldPassword, newPassword, name, firstName, email, phone);
-			if(!ok){
-				// Send error message
-			}else{
+			Item.TYPE[] types = Item.TYPE.values();
+			for (Item.TYPE t : types) {
 				JSONObject data = new JSONObject();
-				data.put("query", "accountUpdated");
+				data.put("query", "itemSearchFieldTypeLoaded");
 				JSONObject content = new JSONObject();
-				content.put("ok", "ok");
+				content.put("option", t.toString());
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

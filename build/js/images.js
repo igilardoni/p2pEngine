@@ -17,6 +17,7 @@ function previewFile() {
 	}
 }
 
+/*
 var width = 320;    // We will scale the photo width to this
 var height = 0;     // This will be computed based on the input stream
 
@@ -27,9 +28,7 @@ var canvas = null;
 var photo = null;
 var startbutton = null;
 
-
 function startup() {
-	alert("test");
 	video = document.getElementById('video');
 	canvas = document.getElementById('canvas');
 	photo = document.getElementById('photo');
@@ -109,3 +108,4 @@ function takepicture() {
 		clearphoto();
 	}
 }
+*/

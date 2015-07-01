@@ -45,6 +45,7 @@ table .rowTitle {
 }
 table .rowDescription {
 	text-align : left;
+	word-break : break-all;
 }
 table .rowActions {
 	text-align : center;

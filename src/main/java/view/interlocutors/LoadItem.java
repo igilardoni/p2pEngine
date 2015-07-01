@@ -1,17 +1,19 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 
 import javax.websocket.Session;
+
+import model.data.item.Item;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
 
-public class UpdateItem extends AbstractInterlocutor {
+public class LoadItem extends AbstractInterlocutor {
 
-	public UpdateItem() {
+	public LoadItem() {
 	}
 	
 	public static String content;
@@ -37,23 +39,22 @@ public class UpdateItem extends AbstractInterlocutor {
 		if(!isInitialized()) return;
 		try {
 			JSONObject c = getJSON(content);
-			String itemKey = c.getString("itemKey");
-			String category = c.getString("category");
-			String contact = c.getString("contact");
-			String country = c.getString("country");
-			String description = c.getString("description");
-			String image = c.getString("image");
-			String lifeTime = c.getString("lifetime");
-			String title = c.getString("title");
-			String type = c.getString("type");
-			ManagerBridge.updateItem(itemKey, title, category, description, image, country, contact, lifeTime, type);
-	
+			String itemKey;
+			itemKey = c.getString("itemKey");
+			
+			Item item = ManagerBridge.getCurrentUserItem(itemKey);
 			JSONObject data = new JSONObject();
-			data.put("query", "itemUpdated");
+			data.put("query", "itemLoaded");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", itemKey);
-			content.put("title", title);
-			content.put("description", description);
+			content.put("title", item.getTitle());
+			content.put("description", item.getDescription());
+			content.put("category", item.getCategory().getStringChoice());
+			content.put("contact", item.getContact());
+			content.put("country", item.getCountry());
+			content.put("image", item.getImage());
+			content.put("lifetime", item.getLifeTime());
+			content.put("type", item.getType());
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

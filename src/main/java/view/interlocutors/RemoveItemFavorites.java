@@ -1,4 +1,4 @@
-package controller.interlocutors;
+package view.interlocutors;
 
 import java.io.IOException;
 
@@ -9,9 +9,9 @@ import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
 
-public class RemoveItem extends AbstractInterlocutor {
+public class RemoveItemFavorites extends AbstractInterlocutor {
 
-	public RemoveItem() {
+	public RemoveItemFavorites() {
 	}
 	
 	public static String content;
@@ -38,9 +38,9 @@ public class RemoveItem extends AbstractInterlocutor {
 		try {
 			JSONObject c = getJSON(content);
 			String itemKey = c.getString("itemKey");
-			ManagerBridge.removeItem(itemKey);
+			ManagerBridge.removeFavoriteItem(itemKey);
 			JSONObject data = new JSONObject();
-			data.put("query", "itemRemoved");
+			data.put("query", "itemFavoritesRemoved");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", itemKey);
 			data.put("content", content);
