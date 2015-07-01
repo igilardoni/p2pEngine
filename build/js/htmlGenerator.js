@@ -269,12 +269,18 @@ var itemAddForm = [
 					{element:"text", value:"Webcam"}
 				]},
 			]},
-			{element:"div", attributes:{id:"fileImageDisplay"}, inside:[
+			{element:"div", attributes:{id:"fileDiv"}, inside:[
 				{element:"input", attributes:{type:"file", id:"fileImage", accept:"image/*", onchange:"previewFile(this);"}, inside:[]},
 			]},
-			{element:"div", attributes:{id:"webcam", style:"display:none;"}, inside:[
-				{element:"input", attributes:{type:"button", value:"Capture"}, inside:[]},
-				{element:"img", attributes:{alt:"Webcam"}, inside:[]}
+			{element:"div", attributes:{id:"webcamDiv", style:"display:none;"}, inside:[
+				{element:"div", attributes:{"class":"camera", onload:"startup();"}, inside:[
+					{element:"video", attributes:{}, inside:[
+						{element:"text", value:"Video stream not available."}
+					]},
+					{element:"button", attributes:{id:"startbutton"}, inside:[
+						{element:"text", value:"Take photo"}
+					]}
+				]}
 			]},
 			{element:"img", attributes:{id:"image", style:"max-width:30%;"}, inside:[]}
 		]},
@@ -580,12 +586,12 @@ function getMenu(){
 
 function typeImageChanged(){
 	if($("#paraImage input[type=radio]:checked").val()=="File"){
-		$("#paraImage input[type=file]").show();
-		$("#webcam").hide();
+		$("#fileDiv").show();
+		$("#webcamDiv").hide();
 		previewFile();
 	}else if($("#paraImage input[type=radio]:checked").val()=="Webcam"){
-		$("#paraImage input[type=file]").hide();
-		$("#webcam").show();
+		$("#fileDiv").hide();
+		$("#webcamDiv").show();
 		$("#paraImage img").attr("src", "");
 	}
 }

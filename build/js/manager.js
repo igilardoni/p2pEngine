@@ -30,6 +30,7 @@ function includeHome(){
 	includeMenu();
 	emptyContent();
 	$("#content").replaceWith(getHome());
+	startup();
 }
 
 function includeSearch(){
