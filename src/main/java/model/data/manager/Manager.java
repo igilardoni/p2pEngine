@@ -1125,6 +1125,10 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		//TODO PUBLISH MSG
 	}
 	
+	public ArrayList<UserMessage> getMessages() {
+		return messages;
+	}
+	
 	
 }
 
