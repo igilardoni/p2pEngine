@@ -1,8 +1,9 @@
-package model.data.manager;
+package model.data.manager.resiliance;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import model.data.manager.Manager;
 import model.data.user.User;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;

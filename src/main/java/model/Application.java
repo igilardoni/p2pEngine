@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
 import model.data.manager.Manager;
-import model.data.manager.SharingManager;
+import model.data.manager.resiliance.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
 import util.VARIABLES;
