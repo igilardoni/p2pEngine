@@ -13,6 +13,31 @@ var tableItem = [
 		{text:"Description", attributes:{"class":"rowDescription"}},
 		{text:"", attributes:{"class":"rowActions"}}
 ];
+var itemTable = [
+		{element:"table", attributes:{}, inside:[
+			{element:"thead", attributes:{}, inside:[
+				{element:"tr", attributes:{}, inside:[
+					{element:"th", attributes:{"class":"rowTitle"}, inside:[
+						{element:"text", value:"Title"}
+					]},
+					{element:"th", attributes:{"class":"rowDescription"}, inside:[
+						{element:"text", value:"Description"}
+					]},
+					{element:"th", attributes:{"class":"rowActions"}, inside:[
+						{element:"text", value:""}
+					]},
+				]}
+			]},
+			{element:"tbody", attributes:{}, inside:[]},
+			{element:"tfoot", attributes:{}, inside:[
+				{element:"tr", attributes:{}, inside:[
+					{element:"td", attributes:{colspan:"3"}, inside:[
+						{element:"text", value:"EMPTY"}
+					]}
+				]}
+			]}
+		]}
+];
 var emptyForm = [
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_"}, inside:[
@@ -24,29 +49,29 @@ var emptyForm = [
 /* * * * * * * * * * * * * * * * * * * * * * *  MENU * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
 		{element:"ul", attributes:{}, inside:[
-			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();loadItems();"}, inside:[
+			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();"}, inside:[
 	            	{element:"a", attributes:{}, inside:[
-	                    {element:"text", value:"My objects"}
+	                    //{element:"text", value:"My objects"}
 	                ]}
 			]},
 			{element:"li", attributes:{"class":"searchButton", onclick:"includeSearch();"}, inside:[
 				{element:"a", attributes:{}, inside:[
-					{element:"text", value:"Search Object"}
+					//{element:"text", value:"Search Object"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"contratButton", onclick:"includeContrat();"}, inside:[
 				{element:"a", attributes:{}, inside:[
-					{element:"text", value:"Contrats"}
+					//{element:"text", value:"Contrats"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"messageButton", onclick:"includeWebmail();"}, inside:[
 				{element:"a", attributes:{}, inside:[
-					{element:"text", value:"Messages"}
+					//{element:"text", value:"Messages"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"favoritesButton", onclick:"switchFavorites();"}, inside:[
 				{element:"a", attributes:{}, inside:[
-					{element:"text", value:"Favorites"}
+					//{element:"text", value:"Favorites"}
 	        	]}
 			]}
 		]}
@@ -241,7 +266,7 @@ var itemAddForm = [
 			{element:"label", attributes:{id:"label_lifetime"}, inside:[
 				{element:"text", value:"Life time : "}
 			]},
-			{element:"input", attributes:{type:"text", id:"lifetime", name:"lifetime", required:"required", placeholder:"2015-12-25"}, inside:[]},
+			{element:"input", attributes:{type:"text", id:"lifetime", name:"lifetime", required:"required", placeholder:"2015-12-25", pattern:"[0-9]{4}\-[0-9]{2}\-[0-9]{2}"}, inside:[]},
 		]},
  		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_category"}, inside:[
@@ -370,6 +395,14 @@ var webmailForm = [
 							]},
 							{element:"th", attributes:{"class":"rowActions"}, inside:[]}
 						]}
+					]},
+					{element:"tbody", attributes:{}, inside:[]},
+					{element:"tfoot", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"td", attributes:{colspan:"4"}, inside:[
+          						{element:"text", value:"EMPTY"}
+      						]}
+						]}
 					]}
 				]},
 				{element:"div", attributes:{id:"messageDisplay"}, inside:[
@@ -415,6 +448,7 @@ var writeMessage = [
 			{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton"}, inside:[
 				{element:"text", value:"Send"}
 			]},
+			{element:"label", attributes:{id:"webmailErrorBox"}, inside:[]}
 		]}
 ];
 
@@ -430,11 +464,11 @@ var itemFavoritesDisplayer = [
  			{element:"label", attributes:{"class":"label"}, inside:[
  				{element:"text", value:"Owner : "}
  			]},
- 			{element:"label", attributes:{id:"owner", "class":"content", onclick:"sendMessageTo();"}, inside:[]}
+ 			{element:"label", attributes:{id:"friendlyNick", "class":"content"}, inside:[]}
  		]},
- 		{element:"p", attributes:{}, inside:[
+ 		{element:"p", attributes:{style:"display:none;"}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[]},
-			{element:"label", attributes:{id:"friendlyNick", "class":"content", onclick:"sendMessageTo();"}, inside:[]}
+			{element:"label", attributes:{id:"owner", "class":"content"}, inside:[]}
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
@@ -471,6 +505,9 @@ var itemFavoritesDisplayer = [
 				{element:"text", value:"Contact : "}
 			]},
 			{element:"label", attributes:{id:"contact", "class":"content"}, inside:[]}
+		]},
+		{element:"p", attributes:{style:"text-align:center;"}, inside:[
+			{element:"input", attributes:{type:"button", value:"Send Message", onclick:"sendMessageTo();"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

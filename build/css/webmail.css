@@ -1,6 +1,6 @@
 #webmailMenu{
 	height : 75%;
-	width : 10%;
+	width : 10em;
 	background: #FFFFFF;
 	-webkit-border-radius: 15;
 	-moz-border-radius: 15;
@@ -48,7 +48,7 @@
 }
 
 #webmailDisplay {
-	margin-left : 17%;
+	margin-left : 10.5em;
 }
 
 #messageList {}
@@ -84,7 +84,7 @@
 	min-height : 200px;
 }
 
-ul.newMessageHeader #sendButton {
+#sendButton {
 	cursor : pointer;
 	text-align : center;
 	margin-bot : 10px;
@@ -131,4 +131,9 @@ ul.newMessageHeader li {
 }
 ul.newMessageHeader p {
 	margin : 0;
+}
+
+#webmailErrorBox {
+	margin-left : 2em;
+	color : #c20000;
 }

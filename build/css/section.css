@@ -1,19 +1,36 @@
 #content {
-	position : absolute;
-	width : 100%;
-	left : 0;
-	top : 12%;
-	margin-left : 12%;
-	margin-right : 23%;
+	width : auto;
+	padding-right : 20.5em;
 	padding-bottom : 20px;
 	padding-top : 20px;
-	width : 65%;
 	height : 100%;
 	min-height: 100%;
 	overflow-y : none;
 }
 section:empty {
 	display : none;
+}
+/* BIG SCREEN */
+@media(min-height : 400px) {
+	#content {
+		margin-top : 10em;
+	}
+}
+@media(min-width : 1000px) {
+	#content {
+		padding-left : 15.5em;
+	}
+}
+/* LITTLE SCREEN */
+@media(max-width : 1000px) {
+	#content {
+		margin-left : 2.5em;
+	}
+}
+@media(min-height : 400px) {
+	#content {
+		margin-top : 5em;
+	}
 }
 /************************************************* ITEMFORM *************************************************/
 #itemForm h1 {

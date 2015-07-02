@@ -90,8 +90,7 @@ function login(content){
 		includeHome();
 	}else{
 		alert(content.message);
-	}
-	loadItems(); // Ask loading all current user's item
+	}// Ask loading all current user's item
 }
 
 // Logout answer

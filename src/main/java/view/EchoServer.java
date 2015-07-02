@@ -33,6 +33,7 @@ import view.interlocutors.LoadType;
 import view.interlocutors.Register;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemFavorites;
+import view.interlocutors.SendMessage;
 import view.interlocutors.SignIn;
 import view.interlocutors.SignOut;
 import view.interlocutors.UpdateAccount;
@@ -89,6 +90,7 @@ public class EchoServer {
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());
 		interlocutors.put("loadMessage", new LoadMessage());
+		interlocutors.put("sendMessage", new SendMessage());
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 	}

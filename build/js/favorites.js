@@ -14,8 +14,10 @@ function addItemFavorites(itemKey){
 
 // Ask to the model to remove itemKey in Favorites
 function removeItemFavorites(itemKey){
-	var content = {"itemKey":itemKey};
-	sendQuery("removeItemFavorites", content);
+	if(confirm("Are you sure to delete this item from Favorites ?")) {
+		var content = {"itemKey":itemKey};
+		sendQuery("removeItemFavorites", content);
+	}
 }
 
 // Ask to the model to send item's itemKey from Favorites 

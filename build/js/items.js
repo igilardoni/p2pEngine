@@ -19,6 +19,7 @@ function addItem(){
 	var date = $("#"+itemForm+" #date").val();
 	var description = $("#"+itemForm+" #description").val();
 	var image = $("#"+itemForm+" #image").attr("src");
+	if(image == null) image = "";
 	var lifetime = $("#"+itemForm+" #lifetime").val();
 	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
@@ -40,8 +41,10 @@ function addItem(){
  * @param itemKey
  */
 function removeItem(itemKey){
-	var content = {"itemKey":itemKey};
-	sendQuery("removeItem", content);
+	if(confirm("Are you sure to remove this item ?")){
+		var content = {"itemKey":itemKey};
+		sendQuery("removeItem", content);
+	}
 }
 /**
  * Ask to the model to update item's itemKey
@@ -55,6 +58,7 @@ function updateItem(itemKey){
 	var date = $("#"+itemForm+" #date").val();
 	var description = $("#"+itemForm+" #description").val();
 	var image = $("#"+itemForm+" #image").attr("src");
+	if(image == null) image = "";
 	var lifetime = $("#"+itemForm+" #lifetime").val();
 	var type = $("#"+itemForm+" #type").val();
 	// Fields verification
@@ -258,20 +262,8 @@ function getItemAddForm(){
  * @returns Element "table"
  */
 function getTableItem(id){
-	var table = document.createElement("table");
+	var table = getElement(itemTable[0]);
 	table.setAttribute("id", id);
-	var theader = document.createElement("thead");
-	var tr = document.createElement("tr");
-	for( var i = 0 ; i < tableItem.length; i++){
-		var th = document.createElement("th");
-		$.each(tableItem[i].attributes, function(key, value){
-			th.setAttribute(key, value);
-		});
-		th.appendChild(document.createTextNode(tableItem[i].text));
-		tr.appendChild(th);
-	}
-	theader.appendChild(tr);
-	table.appendChild(theader);
 	return table;
 }
 /**

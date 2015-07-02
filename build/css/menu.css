@@ -1,10 +1,22 @@
+
 nav {
 	left : 0;
-	top : 12%;
 	position : fixed; 
 	height : 100%; 
-	width : 12%;
+	width : 15em;
 	background-color : #404040;
+}
+/* BIG SCREEN */
+@media(min-height : 400px) {
+	header {
+		top : 10em;
+	}
+}
+/* LITTLE SCREEN */
+@media(min-height : 400px) {
+	header {
+		top : 5em;
+	}
 }
 nav:empty {
 	display : none;
@@ -17,12 +29,9 @@ nav ul {
 
 nav li {
 	cursor : pointer;
-	width : 80%;
+	width : 100%;
 	text-align : center;
-	margin-bot : 10px;
-	margin-top : 10px;
-	margin-left : 0;
-	margin-rigth : 0;
+	margin : 0;
 	
 	border : 3px solid transparent;
 	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #979797 100%);
@@ -35,8 +44,12 @@ nav li {
 	
 	font-family: Arial;
 	color: #fcfcfc;
-	padding: 4px 20px 6px 20px;
+	padding: 1em 0 1em 0;
 	text-decoration: none;
+}
+
+nav li:hover {
+	background-color : #565656;
 }
 
 nav li a:before {
@@ -52,3 +65,24 @@ nav li.searchButton a:before { content : '\2315'; }
 nav li.contratButton a:before { content : '\270D'; }
 nav li.messageButton a:before { content : '\2709'; }
 nav li.favoritesButton a:before { content : '\2606'; }
+
+@media(min-width : 1000px) {
+	nav li.homeButton a:after { content : 'My object'; }
+	nav li.searchButton a:after { content : 'Search Object'; }
+	nav li.contratButton a:after { content : 'Contrats'; }
+	nav li.messageButton a:after { content : 'Messages'; }
+	nav li.favoritesButton a:after { content : 'Favorites'; }
+}
+
+@media(max-width : 1000px) {
+	nav {
+		width : 2em;
+	}
+	nav li a:before {
+		width: 1em;
+		text-align: center;
+		font-size: 1.7em;
+		margin: 0;
+		pointer-events: none;
+	}
+}

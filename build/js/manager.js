@@ -30,6 +30,7 @@ function includeHome(){
 	includeMenu();
 	emptyContent();
 	$("#content").replaceWith(getHome());
+	scrollTop();
 	loadItems();
 }
 
@@ -38,6 +39,7 @@ function includeSearch(){
 	includeMenu();
 	emptyContent();
 	$("#content").replaceWith(getSearchItem());
+	scrollTop();
 	loadItemSearchField();
 }
 
@@ -49,6 +51,7 @@ function includeContrat(){
 function includeWebmail(){
 	emptyContent();
 	$("#content").replaceWith(getWebmail());
+	scrollTop();
 }
 
 function includeMenu(){
@@ -90,4 +93,8 @@ function includeFooter(){
 
 function removeFooter(){
 	$("footer").empty();
+}
+
+function scrollTop(){
+	window.scrollTo(0, 0);
 }

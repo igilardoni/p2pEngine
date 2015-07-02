@@ -11,7 +11,7 @@ public class VARIABLES {
 	/* SharingManager */
 	public final static int ReplicationsAccount = 5;
 	public final static int CheckTimeAccount = 3000;
-	public static final long MaxTimeSearch = 30000L;
+	public static final long MaxTimeSearch = 3000L;
 	
 	/* Network */
 	public final static String NetworkFolderName = ".peerFolder";

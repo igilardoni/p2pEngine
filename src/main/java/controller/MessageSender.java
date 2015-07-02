@@ -9,6 +9,7 @@ import model.network.search.Search;
 import net.jxta.peer.PeerID;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
+import view.EchoServer;
 
 public class MessageSender {
 	/**
@@ -41,6 +42,7 @@ public class MessageSender {
 				// TODO SEND MESSAGE ! Application.getInstance().getManager().addMessage(msg);
 			}
 		}
+		// TODO Throw Exception for give fail reason
 		return sendOneTime;
 	}
 	
@@ -49,8 +51,10 @@ public class MessageSender {
 	 * Used when known publicKey
 	 * @param message - String message
 	 * @param publicKey - String(hexa) receiver's publicKey  
+	 * @throws Exception 
 	 */
-	public static boolean sendMessageToPublicKey(String message, String publicKey){
+	public static boolean sendMessageToPublicKey(String message, String publicKey) throws Exception{
+		// TODO Delete all System.out
 		boolean sendOneTime = false;
 		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
 		search.search(publicKey, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
@@ -67,14 +71,17 @@ public class MessageSender {
 				to = r.result.getKeys();
 			}
 		}
+		System.out.println("to : "+to);
 		if(to != null){
 			msg = new UserMessage(to, from, message);
 			msg.sign(from);
 			sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			//TODO SEND MESSAGE Application.getInstance().getManager().addMessage(msg);
 		}else{
-			//System.err.println(EchoServer.class.getClass().getName()+" : sendTextPublicKey Account not found");
+			System.err.println(EchoServer.class.getClass().getName()+".sendTextPublicKey : Account not found");
+			throw new Exception("Account not found");
 		}
+		System.out.println(sendOneTime);
 		return sendOneTime;
 	}
 
