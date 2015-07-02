@@ -103,7 +103,7 @@ public class SharingManager {
 			// Wait "checkTime" seconds or "replications" results
 			search.search(publicKey, this.checkTime, this.replications);
 			ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
-			User user = manager.getUser(publicKey);
+			User user = manager.getUsers().getUser(publicKey);
 			long maxDate = user.getLastUpdated();
 			for (Search<User>.Result r : results) {
 				if(!r.result.checkSignature(r.result.getKeys())){
@@ -113,8 +113,8 @@ public class SharingManager {
 						// If a result is more recent than mine
 						maxDate = r.result.getLastUpdated();
 						user = r.result;
-						if(!manager.getCurrentUser().equals(user))
-							manager.addUser(user);
+						if(!manager.getUsers().getCurrentUser().equals(user))
+							manager.getUsers().addUser(user);
 						else{
 							// FATAL ERROR : FAILLE DE SECURITE (QUELQU'UN A REUSSI A MODIFIER MON COMPTE)
 						}
@@ -140,7 +140,7 @@ public class SharingManager {
 	}
 	
 	public void checkDataResilience() {
-		for(User u: manager.getUsers()) {
+		for(User u: manager.getUsers().getUsers()) {
 			checkUserResilience(u.getKeys().getPublicKey().toString(16));
 		}
 	}

@@ -35,7 +35,7 @@ public class MessageResiliance implements Resiliance, SearchListener<UserMessage
 		Search<UserMessage> s = new Search<UserMessage>(n.getGroup("messages").getDiscoveryService(),
 				"receiverKey", true);
 		s.addListener(this);
-		for(User u : m.getUsers()) {
+		for(User u : m.getUsers().getUsers()) {
 			s.search(u.getKeys().getPublicKey().toString(16), 0, 0);
 		}
 		
@@ -67,7 +67,7 @@ public class MessageResiliance implements Resiliance, SearchListener<UserMessage
 
 	@Override
 	public void searchEvent(UserMessage event) {
-		if(event.getReceiver().getPublicKey().equals(m.getCurrentUser().getKeys().getPublicKey())) {
+		if(event.getReceiver().getPublicKey().equals(m.getUsers().getCurrentUser().getKeys().getPublicKey())) {
 			m.getCurrentUserConversations().addMessage(event);
 		}
 		else {
