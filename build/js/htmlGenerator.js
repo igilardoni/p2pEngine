@@ -380,11 +380,6 @@ var webmailForm = [
 ];
 var writeMessage = [
 		{element:"ul", attributes:{"class":"newMessageHeader"}, inside:[
-			{element:"li", attributes:{onclick:"sendMessage();", id:"sendButton"}, inside:[
-				{element:"a", attributes:{}, inside:[
-					{element:"text", value:"Send"}
-				]}
-			]},
 			{element:"li", attributes:{}, inside:[
 				{element:"p", attributes:{}, inside:[
 					{element:"label", attributes:{}, inside:[
@@ -415,6 +410,11 @@ var writeMessage = [
 				{element:"text", value:"Message : "}
 			]},
 			{element:"textarea", attributes:{id:"message", name:"message"}, inside:[]}
+		]},
+		{element:"p", attributes:{"class":"newMessageFooter"}, inside:[
+			{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton"}, inside:[
+				{element:"text", value:"Send"}
+			]},
 		]}
 ];
 

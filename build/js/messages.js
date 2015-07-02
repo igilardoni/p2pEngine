@@ -18,6 +18,16 @@ function loadMessage(id){
 	var content = {"id":id};
 	sendQuery("loadMessage", content);
 }
+
+function sendMessage(){
+	var content = {
+			subject:$("#subject").val(),
+			receiver:$("#receiver").val(),
+			typeReceiver:$("#typeReceiver").val(),
+			message:$("#message").val()
+	}
+	sendQuery("sendMessage", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
