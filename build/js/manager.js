@@ -45,7 +45,7 @@ function includeSearch(){
 
 function includeContrat(){
 	emptyContent();
-	// TODO
+	$("#content").append(getContrat());
 }
 
 function includeWebmail(){

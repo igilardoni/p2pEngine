@@ -13,31 +13,6 @@ var tableItem = [
 		{text:"Description", attributes:{"class":"rowDescription"}},
 		{text:"", attributes:{"class":"rowActions"}}
 ];
-var itemTable = [
-		{element:"table", attributes:{}, inside:[
-			{element:"thead", attributes:{}, inside:[
-				{element:"tr", attributes:{}, inside:[
-					{element:"th", attributes:{"class":"rowTitle"}, inside:[
-						{element:"text", value:"Title"}
-					]},
-					{element:"th", attributes:{"class":"rowDescription"}, inside:[
-						{element:"text", value:"Description"}
-					]},
-					{element:"th", attributes:{"class":"rowActions"}, inside:[
-						{element:"text", value:""}
-					]},
-				]}
-			]},
-			{element:"tbody", attributes:{}, inside:[]},
-			{element:"tfoot", attributes:{}, inside:[
-				{element:"tr", attributes:{}, inside:[
-					{element:"td", attributes:{colspan:"3"}, inside:[
-						{element:"text", value:"EMPTY"}
-					]}
-				]}
-			]}
-		]}
-];
 var emptyForm = [
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_"}, inside:[
@@ -330,6 +305,32 @@ var itemAddForm = [
 	  		]}
        	]}
 ];
+/* * * * * * * * * * * * * * * * * * * * * ITEMS TABLE * * * * * * * * * * * * * * * * * * * * * * * * */
+var itemTable = [
+		{element:"table", attributes:{}, inside:[
+			{element:"thead", attributes:{}, inside:[
+				{element:"tr", attributes:{}, inside:[
+					{element:"th", attributes:{"class":"rowTitle"}, inside:[
+						{element:"text", value:"Title"}
+					]},
+					{element:"th", attributes:{"class":"rowDescription"}, inside:[
+						{element:"text", value:"Description"}
+					]},
+					{element:"th", attributes:{"class":"rowActions"}, inside:[
+						{element:"text", value:""}
+					]},
+				]}
+			]},
+			{element:"tbody", attributes:{}, inside:[]},
+			{element:"tfoot", attributes:{}, inside:[
+				{element:"tr", attributes:{}, inside:[
+					{element:"td", attributes:{colspan:"3"}, inside:[
+						{element:"text", value:"EMPTY"}
+					]}
+				]}
+			]}
+		]}
+];
 /* * * * * * * * * * * * * * * * * * * * * SEARCH FORM * * * * * * * * * * * * * * * * * * * * * * * * */
 var searchForm = [             
 		{element:"h1", attributes:{}, inside:[
@@ -451,7 +452,7 @@ var writeMessage = [
 			{element:"label", attributes:{id:"webmailErrorBox"}, inside:[]}
 		]}
 ];
-
+/* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer = [
 		{element:"h1", attributes:{id:"itemKey"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
@@ -508,6 +509,62 @@ var itemFavoritesDisplayer = [
 		]},
 		{element:"p", attributes:{style:"text-align:center;"}, inside:[
 			{element:"input", attributes:{type:"button", value:"Send Message", onclick:"sendMessageTo();"}, inside:[]}
+		]}
+];
+/* * * * * * * * * * * * * * * * * * * * * CONTRATS* * * * * * * * * * * * * * * * * * * * * * * * * * */
+var contratTable = [
+		{element:"table", attributes:{id:contratList}, inside:[
+			{element:"thead", attributes:{}, inside:[]},
+			{element:"tbody", attributes:{}, inside:[]},
+			{element:"tfoot", attributes:{}, inside:[]}
+		]}
+];
+var contratForm =[
+		{element:"div", attributes:{id:"contratForm"}, inside:[
+			{element:"h1", attributes:{}, inside:[
+				{element:"text", value:"Contrat"}
+			]},
+			{element:"div", attributes:{id:"objects"}, inside:[]},
+			{element:"div", attributes:{id:"rules"}, inside:[
+				{element:"table", attributes:{}, inside:[
+					{element:"thead", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"th", attributes:{}, inside:[
+								{element:"text", value:"Item"}
+							]},
+							{element:"th", attributes:{}, inside:[
+  								{element:"text", value:"From"}
+  							]},
+  							{element:"th", attributes:{}, inside:[
+								{element:"text", value:"To"}
+							]},
+						]}
+					]},
+					{element:"tbody", attributes:{}, inside:[]}
+				]}
+			]},
+			{element:"div", attributes:{id:"clauses"}, inside:[
+				{element:"input", attributes:{type:"button", value:"+", onclick:"addClauses();"}, inside:[]}
+			]},
+			{element:"div", attributes:{id:"actions"}, inside:[
+				{element:"input", attributes:{type:"submit", value:"Lauch Signature Protocol", onclick:"signContrat();"}, inside:[]},
+				{element:"input", attributes:{type:"button", value:"Save as draft", onclick:"saveDraftContrat();"}, inside:[]},
+				{element:"input", attributes:{type:"button", value:"Reset", onclick:"resetContrat();"}, inside:[]}
+			]},
+		]}
+];
+var ruleForm = [
+		{element:"tr", attributes:{}, inside:[
+			{element:"td", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"item"}, inside:[]}
+			]},
+			{element:"td", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"from"}, inside:[]},
+				{element:"label", attributes:{"class":"fromItemKey", style:"display:none;"}, inside:[]}
+			]},
+			{element:"td", attributes:{}, inside:[
+  				{element:"select", attributes:{"class":"userSelect"}, inside:[]}
+  			]},
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -645,6 +702,10 @@ function getMenu(){
 		nav.appendChild(getElement(menu[i]));
 	}
 	return nav;
+}
+
+function getContrat(){
+	var table = getElement(contratTable[0]);
 }
 
 function typeImageChanged(){
