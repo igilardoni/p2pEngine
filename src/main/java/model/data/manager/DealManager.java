@@ -11,22 +11,26 @@ import util.StringToElement;
 import model.data.contrat.Contrat;
 import model.data.user.User;
 
+
+/**
+ * Manager for deals.
+ * @author Julien Prudhomme
+ * @author Michael Dubuis
+ *
+ */
 public class DealManager {
 	private HashMap<String, ArrayList<Contrat>> deals = new HashMap<String, ArrayList<Contrat>>();
 	private Manager manager;
 	
 	
+    ///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public DealManager(Manager m) {
 		manager = m;
 	}
 	
+    ///////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public HashMap<String, ArrayList<Contrat>> getDeals() {
 		return deals;
-	}
-	
-	
-	public boolean containsUser(String user) {
-		return deals.containsKey(user);
 	}
 	
 	/**
@@ -55,6 +59,47 @@ public class DealManager {
 		return getUserDeals(publicKey);
 	}
 	
+	public boolean containsUser(String user) {
+		return deals.containsKey(user);
+	}
+	
+	
+	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Get an XML string representing all the deals that are saved on this device.
+	 * @return A string, XML formated
+	 */
+	protected String getDealsXML(){
+		StringBuffer s = new StringBuffer();
+		for(Entry<String, ArrayList<Contrat>> entry : this.deals.entrySet()) {
+			String owner = entry.getKey();
+			ArrayList<Contrat> deals = entry.getValue();
+			for (Contrat d : deals) {
+				s.append("<deal>");
+				s.append("<owner>");
+				s.append(owner);
+				s.append("</owner>");
+				s.append(d);
+				s.append("</deal>");
+			}
+		}
+		return s.toString();
+	}
+	
+	/**
+	 * Load all the deals in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	protected void loadDeals(Element e){
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element d: root.getChildren()){
+			String owner = d.getChildText("owner");
+			Element deal = d.getChild("Deal");
+			addDeal(owner, new Contrat(deal));
+		}
+	}
+	
+	///////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Create a new empty Deal for the current User
 	 * @param title
@@ -92,40 +137,10 @@ public class DealManager {
 		deals.get(publicKey).add(deal);
 	}
 	
-	/**
-	 * Get an XML string representing all the deals that are saved on this device.
-	 * @return A string, XML formated
-	 */
-	protected String getDealsXML(){
-		StringBuffer s = new StringBuffer();
-		for(Entry<String, ArrayList<Contrat>> entry : this.deals.entrySet()) {
-			String owner = entry.getKey();
-			ArrayList<Contrat> deals = entry.getValue();
-			for (Contrat d : deals) {
-				s.append("<deal>");
-				s.append("<owner>");
-				s.append(owner);
-				s.append("</owner>");
-				s.append(d);
-				s.append("</deal>");
-			}
-		}
-		return s.toString();
-	}
 	
 	
 	
-	/**
-	 * Load all the deals in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	protected void loadDeals(Element e){
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element d: root.getChildren()){
-			String owner = d.getChildText("owner");
-			Element deal = d.getChild("Deal");
-			addDeal(owner, new Contrat(deal));
-		}
-	}
+	
+
 	
 }

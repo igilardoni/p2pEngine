@@ -24,11 +24,13 @@ public class UserManager {
 	private Manager manager;
 	
 	
-	
+	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public UserManager(Manager m) {
 		manager = m;
 	}
 	
+	
+	///////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Return the user with this publicKey
 	 * @param publicKey - String format
@@ -60,7 +62,7 @@ public class UserManager {
 	 * @param item
 	 * @return
 	 */
-	public User whoHas(Item item){
+	public User getItemUser(Item item){
 		return users.get(item.getOwner());
 	}
 	
@@ -93,6 +95,8 @@ public class UserManager {
 		return userItems;
 	}
 	
+	
+	///////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to add an user in this instance of manager
 	 * if user is already in the manager, this function remove old and put User u
@@ -119,6 +123,44 @@ public class UserManager {
 	}
 	
 	/**
+	 * Registry an user in the manager
+	 * @param user
+	 * @return
+	 */
+	public void registration(User user){
+		if(user == null){
+			System.err.println(Manager.class.getName()+".registration : can't register null user");
+			return;
+		}
+		if(user.getKeys() == null || !user.getKeys().isCompatible()){
+			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
+			return;
+		}
+		AsymKeysImpl originalKey = user.getKeys().clone();
+		user.encryptPrivateKey(user.getClearPwd());
+		user.sign(originalKey);
+		this.addUser(user);
+	}	
+	
+	/**
+	 * Add an user
+	 * @param u the user. Must me signed.
+	 * @param publish true if the user is emmediatly publish on the network.
+	 */
+	public void addUser(User u, boolean publish) {
+		addUser(u);
+		if(publish) {
+			try {
+				manager.getNetwork().getGroup("users").getDiscoveryService().publish(u);
+			} catch (IOException e) {
+				Printer.printError(this, "addUser",e.toString());
+			}
+		}
+	}
+	
+	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
+	/**
 	 * Get an XML string representing all the users that are saved on this device.
 	 * @return A string, XML formated
 	 */
@@ -141,26 +183,62 @@ public class UserManager {
 			addUser(new User(u));
 		}
 	}
-	
+
+	///////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
-	 * Registry an user in the manager
+	 * Remove an user if he haven't item and message !
 	 * @param user
 	 * @return
 	 */
-	public void registration(User user){
-		if(user == null){
-			System.err.println(Manager.class.getName()+".registration : can't register null user");
-			return;
+	public boolean removeUserIfEmpty(User user){
+		String userKey = user.getKeys().getPublicKey().toString(16);
+		if(getUser(userKey) == null)
+			return false;
+		for (Item i : manager.getItemManager().getItems()) {
+			if(i.getOwner().equals(userKey))
+				return false;
 		}
-		if(user.getKeys() == null || !user.getKeys().isCompatible()){
-			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
-			return;
+		return users.remove(userKey)!=null;
+	}
+	
+	/**
+	 * Remove an user.
+	 * If this user have items, they will be deleted.
+	 * If this user have messages, they will be deleted.
+	 * @param user
+	 * @return
+	 */
+	public boolean removeUser(User user){
+		String userKey = user.getKeys().getPublicKey().toString(16);
+		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
+			return false;
+		boolean valid = true;
+		for (Item i : manager.getItemManager().getItems()) {
+			if(i.getOwner().equals(userKey))
+				valid &= manager.getItemManager().getItems().remove(i);
 		}
-		AsymKeysImpl originalKey = user.getKeys().clone();
-		user.encryptPrivateKey(user.getClearPwd());
-		user.sign(originalKey);
-		this.addUser(user);
-	}	
+		
+		return (valid &= (users.remove(userKey)!=null));
+	}
+	
+	
+	///////////////////////////////////////////////// UTILS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Log out the current User.
+	 */
+	public void logout() {
+		AsymKeysImpl clearKey = currentUser.getKeys().clone();
+		String clearPassword = new String(currentUser.getClearPwd());
+		currentUser.encryptPrivateKey(clearPassword);
+		currentUser.sign(clearKey);
+		currentUser.setClearPassword(null);
+		manager.saving(VARIABLES.ManagerFilePath);
+		currentUser = null;
+	}
+	
+	public boolean userExists(String key) {
+		return users.containsKey(key);
+	}
 	
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
@@ -209,71 +287,7 @@ public class UserManager {
 		return currentUser != null;
 	}
 	
-	/**
-	 * Add an user
-	 * @param u the user. Must me signed.
-	 * @param publish true if the user is emmediatly publish on the network.
-	 */
-	public void addUser(User u, boolean publish) {
-		addUser(u);
-		if(publish) {
-			try {
-				manager.getNetwork().getGroup("users").getDiscoveryService().publish(u);
-			} catch (IOException e) {
-				Printer.printError(this, "addUser",e.toString());
-			}
-		}
-	}
-	
-	/**
-	 * Remove an user if he haven't item and message !
-	 * @param user
-	 * @return
-	 */
-	public boolean removeUserIfEmpty(User user){
-		String userKey = user.getKeys().getPublicKey().toString(16);
-		if(getUser(userKey) == null)
-			return false;
-		for (Item i : manager.getItemManager().getItems()) {
-			if(i.getOwner().equals(userKey))
-				return false;
-		}
-		return users.remove(userKey)!=null;
-	}
-	
-	/**
-	 * Remove an user.
-	 * If this user have items, they will be deleted.
-	 * If this user have messages, they will be deleted.
-	 * @param user
-	 * @return
-	 */
-	public boolean removeUser(User user){
-		String userKey = user.getKeys().getPublicKey().toString(16);
-		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
-			return false;
-		boolean valid = true;
-		for (Item i : manager.getItemManager().getItems()) {
-			if(i.getOwner().equals(userKey))
-				valid &= manager.getItemManager().getItems().remove(i);
-		}
-		
-		return (valid &= (users.remove(userKey)!=null));
-	}
-	
-	/**
-	 * Log out the current User.
-	 */
-	public void logout() {
-		AsymKeysImpl clearKey = currentUser.getKeys().clone();
-		String clearPassword = new String(currentUser.getClearPwd());
-		currentUser.encryptPrivateKey(clearPassword);
-		currentUser.sign(clearKey);
-		currentUser.setClearPassword(null);
-		manager.saving(VARIABLES.ManagerFilePath);
-		currentUser = null;
-	}
-	
+	///////////////////////////////////////////////// PUBLISHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	protected void publishUsers() {
 		DiscoveryService discovery = manager.getNetwork().getGroup("users").getDiscoveryService();
 		for(User u: users.values()) {
@@ -285,9 +299,4 @@ public class UserManager {
 			}
 		}
 	}
-	
-	public boolean userExists(String key) {
-		return users.containsKey(key);
-	}
-	
 }

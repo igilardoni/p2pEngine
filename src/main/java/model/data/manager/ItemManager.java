@@ -16,11 +16,12 @@ public class ItemManager {
 	private Manager manager;
 	
 	
-	
+	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public ItemManager(Manager m) {
 		manager = m;
 	}
 	
+	///////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public ArrayList<Item> getItems() {
 		return items;
 	}
@@ -42,6 +43,7 @@ public class ItemManager {
 		return null;
 	}
 	
+	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Get an XML string representing all the items that are saved on this device.
 	 * @return A string, XML formated
@@ -66,17 +68,7 @@ public class ItemManager {
 		}
 	}
 	
-	/**
-	 * to remove all items with lifeTime is over
-	 */
-	public void cleanItems(){
-		for(int i = 0; i <items.size();i++){
-			if(!items.get(i).isAlive(manager.getUserManager().whoHas(items.get(i)).getLastUpdated()
-					))
-				removeItem(items.get(i));
-		}
-	}
-	
+	///////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * to add a item in this instance of manager
 	 * if owner of the item isn't registered in this instance of manger, function will fail
@@ -147,6 +139,8 @@ public class ItemManager {
 		addItem(item);
 	}
 	
+	
+	///////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Remove an item from the Manager
 	 * @param item
@@ -156,6 +150,18 @@ public class ItemManager {
 		return items.remove(item);
 	}
 	
+	/**
+	 * to remove all items with lifeTime is over
+	 */
+	public void cleanItems(){
+		for(int i = 0; i <items.size();i++){
+			if(!items.get(i).isAlive(manager.getUserManager().getItemUser(items.get(i)).getLastUpdated()
+					))
+				removeItem(items.get(i));
+		}
+	}
+	
+	///////////////////////////////////////////////// PUBLISHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	protected void publishItems() {
 		DiscoveryService discovery = manager.getNetwork().getGroup("items").getDiscoveryService();
 		for(Item i: items) {

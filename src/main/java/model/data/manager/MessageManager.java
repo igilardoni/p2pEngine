@@ -17,11 +17,13 @@ public class MessageManager {
 	private Manager manager;
 	
 	
-	
+	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public MessageManager(Manager m) {
 		manager = m;
 	}
 	
+	
+	///////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public ArrayList<UserMessage> getMessages() {
 		return messages;
 	}
@@ -63,6 +65,7 @@ public class MessageManager {
 		return conversations.get(u.getKeys().getPublicKey().toString(16));
 	}
 	
+	///////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Add an existing conversation to this manager.
 	 * @param c
@@ -88,7 +91,12 @@ public class MessageManager {
 		conversations.put(c.getOwner(), c);
 	}
 	
+	public void addMessage(UserMessage msg) {
+		this.messages.add(msg);
+		//TODO PUBLISH MSG
+	}
 	
+	///////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Remove a message from the Manager
 	 * @param msg
@@ -98,6 +106,18 @@ public class MessageManager {
 		return messages.remove(msg);
 	}
 	
+	
+	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * Load all the messages in this element
+	 * @param e an element that contains messages in XML format.
+	 */
+	protected void loadReceivedMessages(Element e) {
+		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
+		for(Element m: root.getChildren()) {
+			addConversations(new Conversations(m));
+		}
+	}
 	
 	/**
 	 * Get an XML string representing all the messages that are saved on this device.
@@ -117,22 +137,6 @@ public class MessageManager {
 			s.append(c);
 		}
 		return s.toString();
-	}
-	
-	/**
-	 * Load all the messages in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	protected void loadReceivedMessages(Element e) {
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element m: root.getChildren()) {
-			addConversations(new Conversations(m));
-		}
-	}
-	
-	public void addMessage(UserMessage msg) {
-		this.messages.add(msg);
-		//TODO PUBLISH MSG
 	}
 	
 

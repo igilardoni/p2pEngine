@@ -10,15 +10,23 @@ import model.data.favorites.Favorites;
 import model.data.item.Item;
 import model.data.user.User;
 
+/**
+ * Manager for favorites
+ * @author Julien Prudhomme
+ * @author Michael Dubuis
+ *
+ */
 public class FavoriteManager {
 	private HashMap<String, Favorites> favorites = new HashMap<String, Favorites>();
 	private Manager manager;
 	
-	
+	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public FavoriteManager(Manager m) {
 		manager = m;
 	}
 	
+	
+	///////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Get the current user's favorites. If doesn't exist, return null;
 	 * @return Favorites
@@ -45,6 +53,8 @@ public class FavoriteManager {
 		return getUserFavorites(publicKey);
 	}
 	
+	
+	///////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Add Favorites to the owner of the Favorites. If the user isn't in the manager, abort.
 	 * @param f
@@ -94,6 +104,8 @@ public class FavoriteManager {
 		favorites.get(publicKey).sign(currentUser.getKeys());
 	}
 	
+	
+	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Get an XML string representing all the favorites that are saved on this device.
 	 * @return A string, XML formated

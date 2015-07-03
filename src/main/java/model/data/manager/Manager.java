@@ -41,7 +41,7 @@ import util.secure.AsymKeysImpl;
  * @author Michael Dubuis
  *
  */
-public class Manager extends AbstractAdvertisement implements ServiceListener<Manager>, RecoveryManager {
+public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	
 	private UserManager userManager;
 	private ItemManager itemManager;
@@ -50,9 +50,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	private DealManager dealManager;
 	
 	private NetworkInterface network;
-	
-	
-	
 
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -106,22 +103,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	public NetworkInterface getNetwork() {
 		return network;
 	}
-	
-
-	
-
-	
-
-
-
-	
-	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	
-	
-	
-	
-	/////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	
 
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -153,13 +134,6 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		s.append("</deals>");
 		return s.toString();
 	}
-
-
-	
-	
-	
-	
-	
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected boolean handleElement(Element e) {
@@ -202,66 +176,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		addValue("favorites", favoriteManager.getFavoritesXML());
 		addValue("deals", dealManager.getDealsXML());
 	}
-	
-	
-	//TODO///////////////////////////////////////////// SERVICE LISTENER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	@Override
-	public void messageEvent(Manager m) {
-		/*// TODO Tests
-        Element elements;
-    	// Add all Users
-		elements = null;
-    	elements  = StringToElement.getElementFromString(m.getUsersXML(), "users");
-    	for (Element element : elements.getChildren()) {
-			User user = new User(element);
-			if(user.checkSignature(user.getKeys()))
-				this.addUser(user);
-		}
-		// Add all Items
-		elements = null;
-		elements  = StringToElement.getElementFromString(m.getItemsXML(), "items");
-		for (Element element : elements.getChildren()) {
-			Item item = new Item(element);
-			if(item.checkSignature(this.getUser(item.getOwner()).getKeys()))
-				this.addItem(item);
-		}
-		// Add all Messages
-		elements = null;
-		elements  = StringToElement.getElementFromString(m.getMessagesXML(), "messages");
-		for (Element element : elements.getChildren()) {
-			Message message = new Message(element);
-			if(message.getOwner().equals(currentUser.getKeys().getPublicKey().toString(16))){
-				if(message.checkSignature(message.getSender(currentUser.getKeys()))) // If owner, check signature
-					this.getCurrentUserConversations().addMessage(message, currentUser.getKeys());
-				else
-					printError("messageEvent", "Bad Signature for Message");
-			}
-			else
-				this.addMessage(message);
-		}
-		// Add all Conversations
-		elements = null;
-		elements  = StringToElement.getElementFromString(m.getReceivedMessagesXML(), "ReceivedMessages");
-		for (Element element : elements.getChildren()) {
-			Conversations conversations = new Conversations(element);
-			// TODO TEST !
-			this.addConversations(conversations);
-		}
-		// Add all Favorites
-		elements = null;
-		elements  = StringToElement.getElementFromString(m.getFavoritesXML(), "favorites");
-		for (Element element : elements.getChildren()) {
-			Favorites favorites = new Favorites(element);
-			if(favorites.checkSignature(this.getUser(favorites.getOwner()).getKeys()))
-				this.addFavorites(favorites);
-		}
-	*/ }
 
 	/////////////////////////////////////////////////// PUBLISHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private void publishMessages() {
 		// TODO
 	}
-	
 	
 	/**
 	 * Publish (advertise) users and item on network. Also check data resilience and send data to other
