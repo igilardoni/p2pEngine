@@ -71,7 +71,7 @@ public class ItemManager {
 	 */
 	public void cleanItems(){
 		for(int i = 0; i <items.size();i++){
-			if(!items.get(i).isAlive(manager.getUsers().whoHas(items.get(i)).getLastUpdated()
+			if(!items.get(i).isAlive(manager.getUserManager().whoHas(items.get(i)).getLastUpdated()
 					))
 				removeItem(items.get(i));
 		}
@@ -92,17 +92,17 @@ public class ItemManager {
 			Printer.printError(this, "addItem","No owner found !");
 			return;
 		}
-		if(!manager.getUsers().userExists(owner)){
+		if(!manager.getUserManager().userExists(owner)){
 			Printer.printError(this, "addItem","Owner unknown for "+i.getTitle());
 			return;
 		}
-		if(owner.equals(manager.getUsers().getCurrentUser())){
-			if(!i.checkSignature(manager.getUsers().getCurrentUser().getKeys())){
+		if(owner.equals(manager.getUserManager().getCurrentUser())){
+			if(!i.checkSignature(manager.getUserManager().getCurrentUser().getKeys())){
 				Printer.printError(this, "addItem","Bad Signature for "+i.getTitle());
 				return;
 			}
 		}else{
-			if(!i.checkSignature(manager.getUsers().getUser(owner).getKeys())){
+			if(!i.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
 				Printer.printError(this, "addItem","Bad Signature for "+i.getTitle());
 				return;
 			}

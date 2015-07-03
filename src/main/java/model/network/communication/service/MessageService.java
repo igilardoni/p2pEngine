@@ -20,15 +20,15 @@ public class MessageService extends Service<UserMessage> {
 	public UserMessage handleMessage(Message m) {
 		if(m.getMessageElement("content") == null) return null;
 		UserMessage msg = new UserMessage(new String(m.getMessageElement("content").getBytes(true)));
-		User u = Application.getInstance().getManager().getUsers().getCurrentUser();
+		User u = Application.getInstance().getManager().getUserManager().getCurrentUser();
 		if(u != null) {
 			if(u.getKeys().getPublicKey().equals(msg.getReceiver().getPublicKey())) {
-				Application.getInstance().getManager().getCurrentUserConversations().addMessage(msg);
+				Application.getInstance().getManager().getMessageManager().getCurrentUserConversations().addMessage(msg);
 				return msg;
 			}
 		}
 		
-		Application.getInstance().getManager().addMessage(msg);
+		Application.getInstance().getManager().getMessageManager().addMessage(msg);
 		return null;
 		
 	}

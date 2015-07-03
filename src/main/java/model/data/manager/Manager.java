@@ -43,15 +43,16 @@ import util.secure.AsymKeysImpl;
  */
 public class Manager extends AbstractAdvertisement implements ServiceListener<Manager>, RecoveryManager {
 	
-	private UserManager users;
-	private ItemManager items;
+	private UserManager userManager;
+	private ItemManager itemManager;
+	private MessageManager messageManager;
+	private FavoriteManager favoriteManager;
+	private DealManager dealManager;
 	
 	private NetworkInterface network;
 	
-	private ArrayList<UserMessage> messages;		// Messages for users attempting to be received.
-	private HashMap<String, Conversations> conversations; //users's conversation (already received.) (string : user public key that own the conversations
-	private HashMap<String, ArrayList<Contrat>> deals;
-	private HashMap<String, Favorites> favorites;
+	
+	
 
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -78,216 +79,49 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * Get the UserManager that is handling users.
 	 * @return an UserManager instance.
 	 */
-	public UserManager getUsers() {
-		return users;
+	public UserManager getUserManager() {
+		return userManager;
 	}
 	
 	/**
 	 * Get the ItemManager that is handling items.
 	 * @return an ItemManager instance.
 	 */
-	public ItemManager getItems() {
-		return items;
+	public ItemManager getItemManager() {
+		return itemManager;
+	}
+	
+	public MessageManager getMessageManager() {
+		return messageManager;
+	}
+	
+	public FavoriteManager getFavoriteManager() {
+		return favoriteManager;
+	}
+	
+	public DealManager getDealManager() {
+		return dealManager;
 	}
 	
 	public NetworkInterface getNetwork() {
 		return network;
 	}
 	
-	public HashMap<String, ArrayList<Contrat>> getDeals() {
-		return deals;
-	}
+
 	
-	/**
-	 * Get the user conversations. If the conversations doesn't exist, it will be created.
-	 * @param publicKey
-	 * @return
-	 */
-	public Conversations getUserConversations(String publicKey){
-		/*if(!conversations.containsKey(publicKey))
-			addConversations(new Conversations(publicKey));*/
-		return conversations.get(publicKey);
-	}
-	/**
-	 * Get the current user conversations. If the conversations doesn't exist, it will be created.
-	 * @return a Conversations
-	 */
-	public Conversations getCurrentUserConversations() {
-		if(users.getCurrentUser() == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		User u = users.getCurrentUser();
-		if(!conversations.containsKey(u.getKeys().getPublicKey().toString(16))) {
-			addConversations(new Conversations(u.getKeys().getPublicKey().toString(16)));
-		}
-		return conversations.get(u.getKeys().getPublicKey().toString(16));
-	}
-	/**
-	 * Get the current user's deals. If doesn't exist, return create new ArrayList;
-	 * @return ArrayList<Deal>
-	 */
-	public ArrayList<Contrat> getUserDeals(String publicKey){
-		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Contrat>());
-		return deals.get(publicKey);
-	}
-	/**
-	 * Get the current user's deals. If doesn't exist, it will be created
-	 * @return ArrayList<Deal>
-	 */
-	public ArrayList<Contrat> getDealsCurrentUser(){
-		User currentUser = users.getCurrentUser();
-		if(currentUser == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
-		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Contrat>());
-		return getUserDeals(publicKey);
-	}
-	/**
-	 * Get the current user's favorites. If doesn't exist, return null;
-	 * @return Favorites
-	 */
-	public Favorites getUserFavorites(String publicKey){
-		if(!favorites.containsKey(publicKey))
-			return null;
-		return favorites.get(publicKey);
-	}
-	/**
-	 * Get the current user's favorites. If doesn't exist, it will return null.
-	 * @return Favorites
-	 */
-	public Favorites getFavoritesCurrentUser(){
-		User currentUser = users.getCurrentUser();
-		if(currentUser == null) {
-			System.err.println("no user logged");
-			return null;
-		}
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
-		if(!favorites.containsKey(publicKey))
-			favorites.put(publicKey, new Favorites(currentUser));
-		return getUserFavorites(publicKey);
-	}
+
+	
+
+
+
+	
 	///////////////////////////////////////////////////// ADDERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	/**
-	 * Add an existing conversation to this manager.
-	 * @param c
-	 */
-	public void addConversations(Conversations c) {
-		if(c == null){
-			Printer.printError(this, "addConversations","This Conversation is null !");
-			return;
-		}
-		String owner = c.getOwner();
-		if(owner.isEmpty()){
-			Printer.printError(this, "addConversations","No owner found !");
-			return;
-		}
-		if(users.getUser(owner) == null){
-			Printer.printError(this, "addConversations","Owner unknown "+owner);
-			return;
-		}
-		if(!c.checkSignature(users.getUser(owner).getKeys())){
-			Printer.printError(this, "addConversations","Bad Signature for Conversation");
-			return;
-		}
-		conversations.put(c.getOwner(), c);
-	}
-	/**
-	 * Add Favorites to the owner of the Favorites. If the user isn't in the manager, abort.
-	 * @param f
-	 */
-	public void addFavorites(Favorites f){
-		if(f == null){
-			Printer.printError(this, "addFavorites","This Favorites is null !");
-			return;
-		}
-		String owner = f.getOwner();
-		if(owner.isEmpty()){
-			Printer.printError(this, "addFavorites","No owner found !");
-			return;
-		}
-		if(users.getUser(owner) == null){
-			Printer.printError(this, "addFavorites","Owner unknown "+owner);
-			return;
-		}
-		if(!f.checkSignature(users.getUser(owner).getKeys())){
-			Printer.printError(this, "addFavorites","Bad Signature for Favorite");
-			return;
-		}
-		favorites.put(f.getOwner(), f);
-	}
-	/**
-	 * Add an item to current user's Favorites
-	 * @param item
-	 */
-	public void addFavoritesItem(Item item){
-		User currentUser = users.getCurrentUser();
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16); //TODO verification currentUser existe ?
-		if(publicKey == null || publicKey.isEmpty()){
-			Printer.printError(this, "addFavoritesItem", "Not user logged or PublicKey empty !");
-			return;
-		}
-		if(!favorites.containsKey(publicKey)){
-			Favorites f = new Favorites(currentUser);
-			f.sign(currentUser.getKeys());
-			addFavorites(f);
-		}
-		if(item == null){
-			Printer.printError(this, "addFavoritesItem","This Item is null !");
-			return;
-		}
-		favorites.get(publicKey).addItem(item);
-		favorites.get(publicKey).sign(currentUser.getKeys());
-	}
-	/**
-	 * Create a new empty Deal for the current User
-	 * @param title
-	 */
-	public void newDeal(String title){
-		User currentUser = users.getCurrentUser();
-		if(currentUser == null){
-			Printer.printError(this, "newDeal", "No user logged");
-			return;
-		}
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
-		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Contrat>());
-		Contrat deal = new Contrat(title, currentUser);
-		deals.get(publicKey).add(deal);
-	}
-	/**
-	 * Add Deal to the user's publicKey. If deal is empty, it will abort.
-	 * If the publicKey isn't an user's publicKey known, it will abort.
-	 * @param publicKey
-	 * @param deal
-	 */
-	public void addDeal(String publicKey, Contrat deal){
-		if(deal == null){
-			Printer.printError(this, "addDeal", "deal is empty");
-			return;
-		}
-		if(users.getUser(publicKey) == null){
-			Printer.printError(this, "addDeal", "user is unknow");
-			return;
-		}
-		if(!deals.containsKey(publicKey))
-			deals.put(publicKey, new ArrayList<Contrat>());
-		deals.get(publicKey).add(deal);
-	}
+	
+	
+	
 	/////////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * Remove a message from the Manager
-	 * @param msg
-	 * @return
-	 */
-	public boolean removeMessage(UserMessage msg){
-		return messages.remove(msg);
-	}
+	
 
 	////////////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
@@ -297,9 +131,9 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	public String completUserXMLString(String publicKey) {
 		StringBuffer s = new StringBuffer();
-		s.append(users.getUser(publicKey).toString());
+		s.append(userManager.getUser(publicKey).toString());
 		s.append("<items>");
-		for(Item i : users.getUserItems(publicKey)) {
+		for(Item i : userManager.getUserItems(publicKey)) {
 			s.append(i.toString());
 		}
 		s.append("</items>");
@@ -307,13 +141,13 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		// TODO
 		s.append("</messages>");
 		s.append("<ReceivedMessages>");
-		s.append(conversations.get(publicKey).toString());
+		s.append(messageManager.getConversation(publicKey).toString());
 		s.append("</ReceivedMessages>");
 		s.append("<favorites>");
-		s.append(favorites.get(publicKey).toString());
+		s.append(favoriteManager.getUserFavorites(publicKey).toString());
 		s.append("</favorites>");
 		s.append("<deals>");
-		for(Contrat d : getUserDeals(publicKey)){
+		for(Contrat d : dealManager.getUserDeals(publicKey)){
 			s.append(d.toString());
 		}
 		s.append("</deals>");
@@ -321,100 +155,21 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 
 
-	/**
-	 * Get an XML string representing all the messages that are saved on this device.
-	 * @return A string, XML formated
-	 */
-	private String getMessagesXML() {
-		StringBuffer s = new StringBuffer();
-		for(UserMessage m: messages) {
-			s.append(m); 
-		}
-		return s.toString();
-	}
-	private String getReceivedMessagesXML() {
-		StringBuffer s = new StringBuffer();
-		for(Conversations c : conversations.values()) {
-			s.append(c);
-		}
-		return s.toString();
-	}
 	
-	/**
-	 * Get an XML string representing all the favorites that are saved on this device.
-	 * @return A string, XML formated
-	 */
-	private String getFavoritesXML(){
-		StringBuffer s = new StringBuffer();
-		for(Favorites f : favorites.values()) {
-			s.append(f);
-		}
-		return s.toString();
-	}
 	
-	/**
-	 * Get an XML string representing all the deals that are saved on this device.
-	 * @return A string, XML formated
-	 */
-	private String getDealsXML(){
-		StringBuffer s = new StringBuffer();
-		for(Entry<String, ArrayList<Contrat>> entry : this.deals.entrySet()) {
-			String owner = entry.getKey();
-			ArrayList<Contrat> deals = entry.getValue();
-			for (Contrat d : deals) {
-				s.append("<deal>");
-				s.append("<owner>");
-				s.append(owner);
-				s.append("</owner>");
-				s.append(d);
-				s.append("</deal>");
-			}
-		}
-		return s.toString();
-	}
 	
-	/**
-	 * Load all the messages in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	private void loadReceivedMessages(Element e) {
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element m: root.getChildren()) {
-			addConversations(new Conversations(m));
-		}
-	}
-	/**
-	 * Load all the favorites in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	private void loadFavorites(Element e) {
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element f: root.getChildren()){
-			addFavorites(new Favorites(f));
-		}
-	}
-	/**
-	 * Load all the deals in this element
-	 * @param e an element that contains messages in XML format.
-	 */
-	private void loadDeals(Element e){
-		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
-		for(Element d: root.getChildren()){
-			String owner = d.getChildText("owner");
-			Element deal = d.getChild("Deal");
-			addDeal(owner, new Contrat(deal));
-		}
-	}
+	
+	
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
-		case "users": 				users.loadUsers(e); break;
-		case "items": 				items.loadItems(e); break;
+		case "users": 				userManager.loadUsers(e); break;
+		case "items": 				itemManager.loadItems(e); break;
 		case "messages": 			/*TODO loadMessages(e);*/ break;
-		case "ReceivedMessages":	loadReceivedMessages(e); break;
-		case "favorites":			loadFavorites(e); break;
-		case "deals":				loadDeals(e); break;
+		case "ReceivedMessages":	messageManager.loadReceivedMessages(e); break;
+		case "favorites":			favoriteManager.loadFavorites(e); break;
+		case "deals":				dealManager.loadDeals(e); break;
 		default: return false;
 		}
 		return true;
@@ -426,12 +181,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	@Override
 	protected void setKeys() {
-		users = new UserManager(this);
-		items = new ItemManager(this);
-		messages = new ArrayList<UserMessage>();
-		conversations = new HashMap<String, Conversations>();
-		favorites = new HashMap<String, Favorites>();
-		deals = new HashMap<String, ArrayList<Contrat>>();
+		userManager = new UserManager(this);
+		itemManager = new ItemManager(this);
+		messageManager = new MessageManager(this);
+		favoriteManager = new FavoriteManager(this);
+		dealManager = new DealManager(this);
 		addKey("users", false, true);
 		addKey("items", false, true);
 		addKey("messages", false, true);
@@ -441,12 +195,12 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	}
 	@Override
 	protected void putValues() {
-		addValue("users", users.getUsersXML());
-		addValue("items", items.getItemsXML());
-		addValue("messages", getMessagesXML());
-		addValue("ReceivedMessages", getReceivedMessagesXML());
-		addValue("favorites", getFavoritesXML());
-		addValue("deals", getDealsXML());
+		addValue("users", userManager.getUsersXML());
+		addValue("items", itemManager.getItemsXML());
+		addValue("messages", messageManager.getMessagesXML());
+		addValue("ReceivedMessages", messageManager.getReceivedMessagesXML());
+		addValue("favorites", favoriteManager.getFavoritesXML());
+		addValue("deals", dealManager.getDealsXML());
 	}
 	
 	
@@ -515,8 +269,8 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 * TODO a refaire pe ?
 	 */
 	public void publishManager() {
-		users.publishUsers();
-		items.publishItems();
+		userManager.publishUsers();
+		itemManager.publishItems();
 		publishMessages();
 	}
 	///////////////////////////////////////////////////// RECOVERY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -532,11 +286,11 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			Element root = document.getRootElement();
 			Element usersElement = root.getChild("users");
 			for (Element e : usersElement.getChildren()) {
-				users.addUser(new User(e));
+				userManager.addUser(new User(e));
 			}
 			Element itemsElement = root.getChild("items");
 			for (Element e : itemsElement.getChildren()) {
-				items.addItem(new Item(e));
+				itemManager.addItem(new Item(e));
 			}
 			Element messagesElement = root.getChild("messages");
 			for (Element e : messagesElement.getChildren()) {
@@ -544,20 +298,20 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 			}
 			Element conversationsElement = root.getChild("ReceivedMessages");
 			for (Element e : conversationsElement.getChildren()) {
-				addConversations(new Conversations(e));
+				messageManager.addConversations(new Conversations(e));
 			}
 			Element favoritesElement = root.getChild("favorites");
 			for (Element e : favoritesElement.getChildren()) {
-				addFavorites(new Favorites(e));
+				favoriteManager.addFavorites(new Favorites(e));
 			}
 			Element dealsElement = root.getChild("deals");
 			for	(Element e : dealsElement.getChildren()){
 				String owner = e.getChild("owner").getText();
 				//String owner = e.getChildText("owner");
-				if(!deals.containsKey(owner) && users.userExists(owner))
-					deals.put(owner, new ArrayList<Contrat>());
+				if(!dealManager.containsUser(owner) && userManager.userExists(owner))
+					dealManager.getDeals().put(owner, new ArrayList<Contrat>());
 				if(e.getChild(Contrat.class.getName())!=null)
-					addDeal(owner, new Contrat(e.getChild("Deal")));
+					dealManager.addDeal(owner, new Contrat(e.getChild("Deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = Printer.printError(this, "recovery", "File \""+path+"\" doesn't exist");
@@ -581,7 +335,7 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 	 */
 	@Override
 	public void saving(String path) {
-		String currentPublicKey = users.getCurrentUser().getKeys().getPublicKey().toString(16);
+		String currentPublicKey = userManager.getCurrentUser().getKeys().getPublicKey().toString(16);
 		// Recovery all local data in a new Manager
 		Manager manager = new Manager(null);
 		manager.recovery(path);
@@ -592,34 +346,34 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		Element root = new Element(Manager.class.getName());
 		// ArrayList are used for adding data in local file.
 		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<Item> items = this.users.getUserItems(currentPublicKey);
+		ArrayList<Item> items = this.userManager.getUserItems(currentPublicKey);
 		ArrayList<UserMessage> messages = null; // TODO this.getUserMessages(currentPublicKey);
 		ArrayList<Conversations> conversations = new ArrayList<Conversations>();
 		ArrayList<Favorites> favorites = new ArrayList<Favorites>();
 		HashMap<String,ArrayList<Contrat>> deals = new HashMap<String,ArrayList<Contrat>>();
 		
-		Conversations converC = this.getUserConversations(currentPublicKey);
+		Conversations converC = this.messageManager.getUserConversations(currentPublicKey);
 		if(converC!=null) conversations.add(converC);
-		ArrayList<Contrat> arrayDealsC = this.getDealsCurrentUser();
+		ArrayList<Contrat> arrayDealsC = this.dealManager.getDealsCurrentUser();
 		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
-		Favorites favoC = this.getFavoritesCurrentUser();
+		Favorites favoC = this.favoriteManager.getFavoritesCurrentUser();
 		if(favoC!=null) favorites.add(favoC);
 		
 		// Element users
-		users.add(this.users.getCurrentUser());
+		users.add(this.userManager.getCurrentUser());
 		Element usersElement = new Element("users");
-		usersElement.addContent(this.users.getCurrentUser().getRootElement());
-		for (User user : manager.users.getUsers()){
+		usersElement.addContent(this.userManager.getCurrentUser().getRootElement());
+		for (User user : manager.userManager.getUsers()){
 			String userKey =  user.getKeys().getPublicKey().toString(16);
 				if(!user.getKeys().getPublicKey().toString(16).equals(currentPublicKey)){
 					usersElement.addContent(user.getRootElement());
 					users.add(user);
 				// Filling ArrayList items
-				for (Item i : this.users.getUserItems(userKey)) {
+				for (Item i : this.userManager.getUserItems(userKey)) {
 					if(!items.contains(i))
 						items.add(i);
 				}
-				for (Item i : manager.users.getUserItems(userKey)) {
+				for (Item i : manager.userManager.getUserItems(userKey)) {
 					if(!items.contains(i))
 						items.add(i);
 				}
@@ -635,28 +389,28 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 				
 				// Filling ArrayList conversations
 				Conversations c;
-				c = this.getUserConversations(userKey);
+				c = this.messageManager.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
 					conversations.add(c);
-				c = manager.getUserConversations(userKey);
+				c = manager.messageManager.getUserConversations(userKey);
 				if(c != null && !conversations.contains(c))
 					conversations.add(c);
 				// Filling ArrayList favorites
 				Favorites f;
-				f = this.getUserFavorites(userKey);
+				f = this.favoriteManager.getUserFavorites(userKey);
 				if(f != null && !favorites.contains(f))
 					favorites.add(f);
-				f = manager.getUserFavorites(userKey);
+				f = manager.favoriteManager.getUserFavorites(userKey);
 				if(f != null && !favorites.contains(f))
 					favorites.add(f);
 				// Filling ArrayList deals
 				if(!deals.containsKey(userKey))
 					deals.put(userKey, new ArrayList<Contrat>());
-				for (Contrat d : this.getUserDeals(userKey)){
+				for (Contrat d : this.dealManager.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}
-				for (Contrat d : manager.getUserDeals(userKey)){
+				for (Contrat d : manager.dealManager.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}
@@ -754,21 +508,14 @@ public class Manager extends AbstractAdvertisement implements ServiceListener<Ma
 		manager.saving("");*/
 		
 		manager.recovery("");
-		for (User user : manager.users.getUsers()) {
-			for (Contrat deal : manager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
+		for (User user : manager.userManager.getUsers()) {
+			for (Contrat deal : manager.dealManager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
 				System.out.println(deal.toPrint());
 			}
 		}
 	}
 	
-	public void addMessage(UserMessage msg) {
-		this.messages.add(msg);
-		//TODO PUBLISH MSG
-	}
-	
-	public ArrayList<UserMessage> getMessages() {
-		return messages;
-	}
+
 	
 	
 }

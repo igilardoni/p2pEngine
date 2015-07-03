@@ -28,7 +28,7 @@ public class ManagerBridge{
 	 */
 	public static void registration(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);
-		Application.getInstance().getManager().getUsers().registration(user);
+		Application.getInstance().getManager().getUserManager().registration(user);
 	}
 	/**
 	 * Return true if, only if, login exists and password is good
@@ -37,15 +37,15 @@ public class ManagerBridge{
 	 * @return
 	 */
 	public static boolean login(String login, String password){
-		if(Application.getInstance().getManager().getUsers().getCurrentUser()!=null)
-			Application.getInstance().getManager().getUsers().logout();
-		return Application.getInstance().getManager().getUsers().login(login, password);
+		if(Application.getInstance().getManager().getUserManager().getCurrentUser()!=null)
+			Application.getInstance().getManager().getUserManager().logout();
+		return Application.getInstance().getManager().getUserManager().login(login, password);
 	}
 	/**
 	 * Logout the current user
 	 */
 	public static void logout(){
-		Application.getInstance().getManager().getUsers().logout();
+		Application.getInstance().getManager().getUserManager().logout();
 	}
 	/**
 	 * Update the current account
@@ -62,21 +62,21 @@ public class ManagerBridge{
 			String name, String firstName, String email, String phone){
 		
 	
-		if(Application.getInstance().getManager().getUsers().getCurrentUser() == null){
+		if(Application.getInstance().getManager().getUserManager().getCurrentUser() == null){
 			System.err.println(ManagerBridge.class.getName()+".addItem : No user logged !");
 			return false;
 		}
-		if(Application.getInstance().getManager().getUsers().getCurrentUser().isPassword(oldPassword)){
-			Application.getInstance().getManager().getUsers().getCurrentUser().setNick(nick);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setName(name);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setFirstName(firstName);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setEmail(email);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setPassWord(newPassword);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setClearPassword(newPassword);
-			Application.getInstance().getManager().getUsers().getCurrentUser().setPhone(phone);
-			Application.getInstance().getManager().getUsers().getCurrentUser().sign(Application.getInstance().getManager().getUsers().getCurrentUser().getKeys());
-			Application.getInstance().getManager().getUsers().logout();
-			return Application.getInstance().getManager().getUsers().login(nick, newPassword);
+		if(Application.getInstance().getManager().getUserManager().getCurrentUser().isPassword(oldPassword)){
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setNick(nick);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setName(name);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setFirstName(firstName);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setEmail(email);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setPassWord(newPassword);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setClearPassword(newPassword);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().setPhone(phone);
+			Application.getInstance().getManager().getUserManager().getCurrentUser().sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+			Application.getInstance().getManager().getUserManager().logout();
+			return Application.getInstance().getManager().getUserManager().login(nick, newPassword);
 		}
 		return false;
 	}
@@ -85,7 +85,7 @@ public class ManagerBridge{
 	 * @return User currentUser
 	 */
 	public static User getCurrentUser() {
-		return Application.getInstance().getManager().getUsers().getCurrentUser();
+		return Application.getInstance().getManager().getUserManager().getCurrentUser();
 	}
 	//////////////////////////////////////////////////// ITEMS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	
 	/**
@@ -118,10 +118,10 @@ public class ManagerBridge{
 		default:
 			t = TYPE.OFFER;
 		}
-		System.out.println(Application.getInstance().getManager().getUsers().getCurrentUser().getKeys().toString());
-		Item item = new Item(Application.getInstance().getManager().getUsers().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		item.sign(Application.getInstance().getManager().getUsers().getCurrentUser().getKeys());
-		Application.getInstance().getManager().getItems().addItem(item, true);
+		System.out.println(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().toString());
+		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
+		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}
 	/**
@@ -133,9 +133,9 @@ public class ManagerBridge{
 			System.err.println(ManagerBridge.class.getName()+".removeItem : No user logged !");
 			return;
 		}
-		Item item  = Application.getInstance().getManager().getItems().getItem(itemKey);
+		Item item  = Application.getInstance().getManager().getItemManager().getItem(itemKey);
 		if(item != null)
-			Application.getInstance().getManager().getItems().removeItem(item);
+			Application.getInstance().getManager().getItemManager().removeItem(item);
 	}
 	/**
 	 * Update item with title for the current user
@@ -156,7 +156,7 @@ public class ManagerBridge{
 			System.err.println(ManagerBridge.class.getName()+".updateItem : No user logged !");
 			return;
 		}
-		Item item = new Item(Application.getInstance().getManager().getItems().getItem(itemKey).toString());
+		Item item = new Item(Application.getInstance().getManager().getItemManager().getItem(itemKey).toString());
 		item.setTitle(title);
 		item.setCategory(new Category(category));
 		item.setDescription(description);
@@ -165,8 +165,8 @@ public class ManagerBridge{
 		item.setContact(contact);
 		item.setLifeTime(Long.parseLong(lifeTime));
 		item.setType(type.toUpperCase()=="WISH"?TYPE.DEMAND:TYPE.OFFER);
-		item.sign(Application.getInstance().getManager().getUsers().getCurrentUser().getKeys());
-		Application.getInstance().getManager().getItems().updateItem(itemKey, item);
+		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		Application.getInstance().getManager().getItemManager().updateItem(itemKey, item);
 	}
 	/**
 	 * Get user's items
@@ -178,7 +178,7 @@ public class ManagerBridge{
 			System.err.println("public key empty");
 			return null;
 		}
-		return Application.getInstance().getManager().getUsers().getUserItems(publicKey);
+		return Application.getInstance().getManager().getUserManager().getUserItems(publicKey);
 	}
 	/**
 	 * Get current user's items
@@ -193,7 +193,7 @@ public class ManagerBridge{
 	 * @return
 	 */
 	public static Item getCurrentUserItem(String itemKey){
-		return Application.getInstance().getManager().getItems().getItem(itemKey);
+		return Application.getInstance().getManager().getItemManager().getItem(itemKey);
 	}
 	/**
 	 * Get Searchable fields for Item
@@ -226,21 +226,21 @@ public class ManagerBridge{
 	 * @param item
 	 */
 	public static void addFavoriteItem(Item item) {
-		Application.getInstance().getManager().addFavoritesItem(item);
+		Application.getInstance().getManager().getFavoriteManager().addFavoritesItem(item);
 	}
 	/**
 	 * Remove an item in current user's Favorite.
 	 * @param itemKey - can be given with item.getItemKey()
 	 */
 	public static void removeFavoriteItem(String itemKey) {
-		Application.getInstance().getManager().getFavoritesCurrentUser().removeItem(itemKey);
+		Application.getInstance().getManager().getFavoriteManager().getFavoritesCurrentUser().removeItem(itemKey);
 	}
 	/**
 	 * Return all item in current user's favorites
 	 * @return
 	 */
 	public static ArrayList<String> getFavoriteItemsKey() {
-		ArrayList<String> items =  Application.getInstance().getManager().getFavoritesCurrentUser().getItemsKey();
+		ArrayList<String> items =  Application.getInstance().getManager().getFavoriteManager().getFavoritesCurrentUser().getItemsKey();
 		return items==null?(new ArrayList<String>()):items;
 	}
 	/**
@@ -251,7 +251,7 @@ public class ManagerBridge{
 		ArrayList<Item> items = new ArrayList<Item>();
 		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
 		for(String itemKey : getFavoriteItemsKey()){
-			Item iLocal = Application.getInstance().getManager().getItems().getItem(itemKey);
+			Item iLocal = Application.getInstance().getManager().getItemManager().getItem(itemKey);
 			if(iLocal!=null) items.add(iLocal);
 			else{
 				Item i = itemSearcher.search(itemKey);
@@ -264,7 +264,7 @@ public class ManagerBridge{
 	
 	public static Item getFavoriteItem(String itemKey){
 		ItemSearcher itemSearcher = new ItemSearcher(Application.getInstance().getNetwork());
-		Item iLocal = Application.getInstance().getManager().getItems().getItem(itemKey);
+		Item iLocal = Application.getInstance().getManager().getItemManager().getItem(itemKey);
 		if(iLocal != null) return iLocal;
 		else return itemSearcher.search(itemKey);
 	}
@@ -276,7 +276,7 @@ public class ManagerBridge{
 	}
 	public static ArrayList<UserMessage> getConversation(){
 		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
-		Conversations conversation = Application.getInstance().getManager().getCurrentUserConversations();
+		Conversations conversation = Application.getInstance().getManager().getMessageManager().getCurrentUserConversations();
 		conversation.unLock(getCurrentUser());
 		for(String key : conversation.getSenders()){
 			messages.addAll(conversation.getConversation(key));
@@ -295,6 +295,6 @@ public class ManagerBridge{
 	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){
-		return Application.getInstance().getManager().getUsers().getCurrentUser() == null;
+		return Application.getInstance().getManager().getUserManager().getCurrentUser() == null;
 	}
 }

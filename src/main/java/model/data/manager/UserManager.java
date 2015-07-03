@@ -85,7 +85,7 @@ public class UserManager {
 	 */
 	public ArrayList<Item> getUserItems(String publicKey) {
 		ArrayList<Item> userItems = new ArrayList<Item>();
-		for(Item i: manager.getItems().getItems()) {
+		for(Item i: manager.getItemManager().getItems()) {
 			if(i.getOwner().equals(publicKey)) {
 				userItems.add(i);
 			}
@@ -115,7 +115,7 @@ public class UserManager {
 			}
 		}
 		users.put(key, u);
-		manager.getDeals().put(key, new ArrayList<Contrat>());
+		manager.getDealManager().getDeals().put(key, new ArrayList<Contrat>());
 	}
 	
 	/**
@@ -234,7 +234,7 @@ public class UserManager {
 		String userKey = user.getKeys().getPublicKey().toString(16);
 		if(getUser(userKey) == null)
 			return false;
-		for (Item i : manager.getItems().getItems()) {
+		for (Item i : manager.getItemManager().getItems()) {
 			if(i.getOwner().equals(userKey))
 				return false;
 		}
@@ -253,9 +253,9 @@ public class UserManager {
 		if(!users.containsKey(user.getKeys().getPublicKey().toString(16)))
 			return false;
 		boolean valid = true;
-		for (Item i : manager.getItems().getItems()) {
+		for (Item i : manager.getItemManager().getItems()) {
 			if(i.getOwner().equals(userKey))
-				valid &= manager.getItems().getItems().remove(i);
+				valid &= manager.getItemManager().getItems().remove(i);
 		}
 		
 		return (valid &= (users.remove(userKey)!=null));

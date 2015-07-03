@@ -24,7 +24,7 @@ public class MessageSender {
 		search.search(nick, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
 		AsymKeysImpl to;
-		AsymKeysImpl from = Application.getInstance().getManager().getUsers().getCurrentUser().getKeys();
+		AsymKeysImpl from = Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys();
 		ArrayList<String> keyUsed = new ArrayList<String>();
 		UserMessage msg = null;
 		for (Search<User>.Result r : results) {
@@ -61,7 +61,7 @@ public class MessageSender {
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
 		ArrayList<PeerID> ids = new ArrayList<PeerID>();
 		AsymKeysImpl to = null;
-		AsymKeysImpl from = Application.getInstance().getManager().getUsers().getCurrentUser().getKeys();
+		AsymKeysImpl from = Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys();
 		UserMessage msg = null;
 		for (Search<User>.Result r : results) {
 			if(!r.result.checkSignature(r.result.getKeys())){
@@ -89,6 +89,6 @@ public class MessageSender {
 	 * return an array list with all message from publicKey to currentUser
 	 */
 	public static ArrayList<UserMessage> getMessagesfrom(String publicKey) {
-		return Application.getInstance().getManager().getCurrentUserConversations().getConversation(publicKey);
+		return Application.getInstance().getManager().getMessageManager().getCurrentUserConversations().getConversation(publicKey);
 	}
 }
