@@ -45,6 +45,7 @@ public class MessageResiliance implements Resiliance, SearchListener<UserMessage
 				"keyId", true);
 		
 		for(UserMessage m : msgs) {
+			m.publish(this.m.getNetwork().getGroup("messages"));
 			s.search(m.getId(), 3000, 5);
 			if(s.getResults().size() < 5) {
 				RandomPeerFinder rpf = new RandomPeerFinder(this.m.getNetwork());

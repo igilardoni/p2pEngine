@@ -20,6 +20,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import util.StringToElement;
+import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
@@ -34,6 +35,7 @@ import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
 import net.jxta.peer.PeerID;
+import net.jxta.peergroup.PeerGroup;
 
 
 /**
@@ -465,10 +467,22 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * Publish an object on a PeerGroup
+	 * @param pg the peergroup to publish to.
+	 */
+	public void publish(PeerGroup pg) {
+		try {
+			pg.getDiscoveryService().flushAdvertisement(this);
+			pg.getDiscoveryService().publish(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
