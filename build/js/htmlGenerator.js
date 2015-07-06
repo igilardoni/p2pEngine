@@ -508,22 +508,34 @@ var itemFavoritesDisplayer = [
 			{element:"label", attributes:{id:"contact", "class":"content"}, inside:[]}
 		]},
 		{element:"p", attributes:{style:"text-align:center;"}, inside:[
-			{element:"input", attributes:{type:"button", value:"Send Message", onclick:"sendMessageTo();"}, inside:[]}
+			{element:"input", attributes:{type:"button", value:"Send Message", onclick:"sendMessageTo();"}, inside:[]},
+			{element:"input", attributes:{type:"button", value:"Add to contrat", onclick:"addToContrat();"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * CONTRATS* * * * * * * * * * * * * * * * * * * * * * * * * * */
+var contratDisplay = [
+		{element:"h1", attributes:{}, inside:[
+			{element:"text", value:"Contrats"}
+		]}
+];
 var contratTable = [
 		{element:"table", attributes:{id:contratList}, inside:[
-			{element:"thead", attributes:{}, inside:[]},
+			{element:"thead", attributes:{}, inside:[
+				{element:"tr", attributes:{}, inside:[
+					{element:"th", attributes:{}, inside:[
+						{element:"text", value:"Id Contrat"}
+					]},
+					{element:"th", attributes:{}, inside:[
+						{element:"text", value:"Date Contrat"}
+					]}
+				]}
+			]},
 			{element:"tbody", attributes:{}, inside:[]},
 			{element:"tfoot", attributes:{}, inside:[]}
 		]}
 ];
 var contratForm =[
 		{element:"div", attributes:{id:"contratForm"}, inside:[
-			{element:"h1", attributes:{}, inside:[
-				{element:"text", value:"Contrat"}
-			]},
 			{element:"div", attributes:{id:"objects"}, inside:[]},
 			{element:"div", attributes:{id:"rules"}, inside:[
 				{element:"table", attributes:{}, inside:[
@@ -540,7 +552,14 @@ var contratForm =[
 							]},
 						]}
 					]},
-					{element:"tbody", attributes:{}, inside:[]}
+					{element:"tbody", attributes:{}, inside:[]},
+					{element:"tfoot", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"td", attributes:{colspan:"3"}, inside:[
+								{element:"input", attributes:{type:"button", onclick:"addRules();", value:"Add exchange rule"}, inside:[]}
+							]}
+						]}
+					]}
 				]}
 			]},
 			{element:"div", attributes:{id:"clauses"}, inside:[
@@ -702,10 +721,6 @@ function getMenu(){
 		nav.appendChild(getElement(menu[i]));
 	}
 	return nav;
-}
-
-function getContrat(){
-	var table = getElement(contratTable[0]);
 }
 
 function typeImageChanged(){
