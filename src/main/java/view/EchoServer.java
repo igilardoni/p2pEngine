@@ -19,6 +19,7 @@ import view.interlocutors.AddItemFavorites;
 import view.interlocutors.LoadAccount;
 import view.interlocutors.LoadBase64Image;
 import view.interlocutors.LoadCategories;
+import view.interlocutors.LoadContrat;
 import view.interlocutors.LoadContrats;
 import view.interlocutors.LoadConversation;
 import view.interlocutors.LoadItem;
@@ -98,6 +99,7 @@ public class EchoServer {
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
 		interlocutors.put("loadContrats", new LoadContrats());
+		interlocutors.put("loadContrat", new LoadContrat());
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 	}

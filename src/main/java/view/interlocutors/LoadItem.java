@@ -9,6 +9,7 @@ import model.data.item.Item;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import util.DateConverter;
 import controller.ManagerBridge;
 
 public class LoadItem extends AbstractInterlocutor {
@@ -53,7 +54,7 @@ public class LoadItem extends AbstractInterlocutor {
 			content.put("contact", item.getContact());
 			content.put("country", item.getCountry());
 			content.put("image", item.getImage());
-			content.put("lifetime", item.getLifeTime());
+			content.put("lifetime", DateConverter.getString(item.getLifeTime()+item.getDate()));
 			content.put("type", item.getType());
 			data.put("content", content);
 			com.sendText(data.toString());

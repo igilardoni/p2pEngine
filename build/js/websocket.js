@@ -59,6 +59,7 @@ function serverReply(data){
 	
 	case "contratCreated":					contratCreated(data.content); break;
 	case "itemForContratLoaded":			itemForContratLoaded(data.content); break;
+	case "contratsLoaded":					contratsLoaded(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 }

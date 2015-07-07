@@ -230,7 +230,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				if(!dealManager.containsUser(owner) && userManager.userExists(owner))
 					dealManager.getDeals().put(owner, new ArrayList<Contrat>());
 				if(e.getChild(Contrat.class.getName())!=null)
-					dealManager.addDeal(owner, new Contrat(e.getChild("Deal")));
+					dealManager.addDeal(owner, new Contrat(e.getChild("deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = Printer.printError(this, "recovery", "File \""+path+"\" doesn't exist");

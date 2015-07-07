@@ -222,6 +222,9 @@ var updateAccountForm = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * ITEM FORM * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemAddForm = [
+		{element:"a", attributes:{id:"itemFormCompletButton", onclick:"itemFormComplet();", value:"Create new object"}, inside:[
+			{element:"text", value:"Create new Object"}
+		]},
 		{element:"h1", attributes:{}, inside:[
   			{element:"text", value:"Item"}
   		]},
@@ -523,11 +526,12 @@ var contratTable = [
 			{element:"thead", attributes:{}, inside:[
 				{element:"tr", attributes:{}, inside:[
 					{element:"th", attributes:{}, inside:[
-						{element:"text", value:"Id Contrat"}
+						{element:"text", value:"Title"}
 					]},
 					{element:"th", attributes:{}, inside:[
-						{element:"text", value:"Date Contrat"}
-					]}
+  						{element:"text", value:"State"}
+  					]},
+  					{element:"th", attributes:{"class":"rowActions"}, inside:[]}
 				]}
 			]},
 			{element:"tbody", attributes:{}, inside:[]},
@@ -675,10 +679,13 @@ function getFavoritesDisplay(){
 }
 
 function switchFavorites(){
-	if($("aside").text().length == 0)
+	if($("aside").text().length == 0){
 		includeFavorites();
-	else
+		$("nav .favoritesButton").css("background-color", "#707070");
+	} else {
 		removeFavorites();
+		$("nav .favoritesButton").css("background-color", "#404040");
+	}
 }
 
 function getLoginForm(){

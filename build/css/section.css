@@ -124,6 +124,10 @@ section:empty {
 	list-style : none;
 	padding : 0;
 }
+#itemFormCompletButton:before, #itemFormCompletButton:after {
+	content : " \2193 ";
+	font-size : 1.2em ;
+}
 #addButton:before {
 	content : "\2611 ";
 }

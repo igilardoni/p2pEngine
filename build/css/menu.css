@@ -67,7 +67,7 @@ nav li.messageButton a:before { content : '\2709'; }
 nav li.favoritesButton a:before { content : '\2606'; }
 
 @media(min-width : 1000px) {
-	nav li.homeButton a:after { content : 'My object'; }
+	nav li.homeButton a:after { content : 'My objects'; }
 	nav li.searchButton a:after { content : 'Search Object'; }
 	nav li.contratButton a:after { content : 'Contrats'; }
 	nav li.messageButton a:after { content : 'Messages'; }
