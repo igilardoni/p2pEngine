@@ -14,6 +14,9 @@ import model.data.manager.Manager;
 import model.data.manager.resiliance.SharingManager;
 import model.network.Network;
 import model.network.communication.Communication;
+import model.network.communication.service.MessageService;
+import model.network.communication.service.InstanceSender.ClassSenderService;
+import model.network.communication.service.update.UpdateService;
 import util.VARIABLES;
 
 /**
@@ -34,7 +37,6 @@ public class Application {
 	/**
 	 * Launch the application.
 	 */
-	@SuppressWarnings("unchecked")
 	public Application(boolean startLocalServer) {
 		if(instance != null) {
 			throw new RuntimeException("this class can be instancied only once");
@@ -56,11 +58,14 @@ public class Application {
 	}
 	
 	/**
-	 * Start the communication package.
+	 * Start the communication package and adds the services
 	 */
 	private void startCommunication() {
 		try {
 			this.com = new Communication(network);
+			com.addService(new MessageService());
+			com.addService(new UpdateService());
+			ClassSenderService.addSenderServices(com);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
