@@ -4,6 +4,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import net.jxta.document.AdvertisementFactory;
+import net.jxta.document.MimeMediaType;
+import net.jxta.document.StructuredDocument;
+import net.jxta.document.StructuredDocumentFactory;
+import net.jxta.document.TextElement;
+import net.jxta.document.XMLElement;
+import net.jxta.impl.document.DOMXMLElement;
+
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
