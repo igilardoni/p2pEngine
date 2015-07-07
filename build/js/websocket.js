@@ -56,6 +56,9 @@ function serverReply(data){
 	case "displayContrat":					displayContrat(data.content); break;
 	
 	case "messageNotSent":					messageNotSent(data.content); break;
+	
+	case "contratCreated":					contratCreated(data.content); break;
+	case "itemForContratLoaded":			itemForContratLoaded(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 }

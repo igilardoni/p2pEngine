@@ -3,7 +3,9 @@ package model.data.favorites;
 import java.util.ArrayList;
 
 import model.advertisement.AbstractAdvertisement;
+import model.data.item.Category;
 import model.data.item.Item;
+import model.data.item.Item.TYPE;
 import model.data.user.User;
 
 import org.jdom2.Element;
@@ -208,5 +210,14 @@ public class Favorites extends AbstractAdvertisement{
 		if(!this.getOwner().equals(favorites.getOwner()))
 			return false;
 		return true;
+	}
+	
+	public static void main(String[] args){
+		User user = new User("nick", "passWord", "name", "firstName", "email", "phone");
+		Item item = new Item(user, "title", new Category("NA"), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
+		Favorites f = new Favorites(user);
+		f.addItem(item);
+		f.sign(user.getKeys());
+		System.out.println(f.checkSignature(user.getKeys()));
 	}
 }

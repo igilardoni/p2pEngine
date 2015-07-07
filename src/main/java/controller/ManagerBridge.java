@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Application;
+import model.data.contrat.Contrat;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
@@ -292,6 +293,17 @@ public class ManagerBridge{
 				return message;
 		}
 		return null;
+	}
+	/////////////////////////////////////////////////// CONTRAT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public static Contrat createContrat(){
+		Contrat contrat = Application.getInstance().getManager().getDealManager().newDeal("");
+		return contrat;
+	}
+	public static void addItemContrat(Item item, String contratID){
+		Application.getInstance().getManager().getDealManager().addItem(contratID, item);
+	}
+	public static ArrayList<Contrat> getCurrentUserContrats(){
+		return Application.getInstance().getManager().getDealManager().getDealsCurrentUser();
 	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){
