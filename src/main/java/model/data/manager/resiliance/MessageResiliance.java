@@ -17,40 +17,37 @@ import model.network.search.SearchListener;
  * @author Julien
  *
  */
-public class MessageResiliance implements Resiliance, SearchListener<UserMessage> {
-	private Manager m;
-	private Communication c;
+public class MessageResiliance extends AbstractResiliance implements SearchListener<UserMessage> {
+	
+	
 	
 	public MessageResiliance(Manager m, Communication c) {
-		this.m = m;
-		this.c = c;
+		super(m, c);
 	}
-	
-	
-	
+
 	private void retrieveMessages() {
-		Search<UserMessage> s = new Search<UserMessage>(m.getNetwork().getGroup("messages").getDiscoveryService(),
+		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork().getGroup("messages").getDiscoveryService(),
 				"receiverKey", true);
 		s.addListener(this);
-		for(User u : m.getUserManager().getUsers()) {
+		for(User u : manager.getUserManager().getUsers()) {
 			s.search(u.getKeys().getPublicKey().toString(16), 0, 0);
 		}
 		
 	}
 	
 	private void sendMessages() {
-		ArrayList<UserMessage> msgs = m.getMessageManager().getMessages();
+		ArrayList<UserMessage> msgs = manager.getMessageManager().getMessages();
 		
-		Search<UserMessage> s = new Search<UserMessage>(m.getNetwork().getGroup("messages").getDiscoveryService(),
+		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork().getGroup("messages").getDiscoveryService(),
 				"keyId", true);
 		
 		for(UserMessage m : msgs) {
-			m.publish(this.m.getNetwork().getGroup("messages"));
+			m.publish(this.manager.getNetwork().getGroup("messages"));
 			s.search(m.getId(), 3000, 5);
 			if(s.getResults().size() < 5) {
-				RandomPeerFinder rpf = new RandomPeerFinder(this.m.getNetwork());
+				RandomPeerFinder rpf = new RandomPeerFinder(this.manager.getNetwork());
 				rpf.findPeers(3000, 5 - s.getResults().size());
-				c.sendMessage(m.toString(), MessageService.class.getSimpleName(), rpf.getResults().toArray(new PeerID[0]));
+				com.sendMessage(m.toString(), MessageService.class.getSimpleName(), rpf.getResults().toArray(new PeerID[0]));
 			}
 		}
 		
@@ -65,11 +62,11 @@ public class MessageResiliance implements Resiliance, SearchListener<UserMessage
 
 	@Override
 	public void searchEvent(UserMessage event) {
-		if(event.getReceiver().getPublicKey().equals(m.getUserManager().getCurrentUser().getKeys().getPublicKey())) {
-			m.getMessageManager().getCurrentUserConversations().addMessage(event);
+		if(event.getReceiver().getPublicKey().equals(manager.getUserManager().getCurrentUser().getKeys().getPublicKey())) {
+			manager.getMessageManager().getCurrentUserConversations().addMessage(event);
 		}
 		else {
-			m.getMessageManager().addMessage(event);
+			manager.getMessageManager().addMessage(event);
 		}
 	}
 }
