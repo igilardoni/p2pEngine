@@ -73,7 +73,10 @@ public class FavoriteManager {
 			Printer.printError(this, "addFavorites","Owner unknown "+owner);
 			return;
 		}
-		if(!f.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
+		if(owner.equals(manager.getUserManager().getCurrentUser()) && !f.checkSignature(manager.getUserManager().getCurrentUser().getKeys())){
+			Printer.printError(this, "addFavorites","Bad Signature for Favorite (current User)");
+			return;
+		}else if(!f.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
 			Printer.printError(this, "addFavorites","Bad Signature for Favorite");
 			return;
 		}

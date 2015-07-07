@@ -239,10 +239,10 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		} catch (JDOMException e) {
 			recovered = Printer.printError(this, "recovery", "JDOMException\n\tFile \""+path+"\" is empty");
 			xmlFile.delete();
-		} catch (Exception e){
+		} /*catch (Exception e){
 			recovered = Printer.printError(this, "recovery", "Unknown error\n\t"+e.toString());
 			e.printStackTrace();
-		} finally{
+		} */finally{
 			if(recovered)
 				Printer.printInfo(this, "recovery", "Local data recovered");
 		}
@@ -317,8 +317,9 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				// Filling ArrayList favorites
 				Favorites f;
 				f = this.favoriteManager.getUserFavorites(userKey);
-				if(f != null && !favorites.contains(f))
+				if(f != null && !favorites.contains(f)){
 					favorites.add(f);
+				}
 				f = manager.favoriteManager.getUserFavorites(userKey);
 				if(f != null && !favorites.contains(f))
 					favorites.add(f);
@@ -375,10 +376,8 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		// Adding all elements in root element
 		root.addContent(usersElement);
 		root.addContent(itemsElement);
-		/* TODO FIX BUG
 		root.addContent(messagesElement);
 		root.addContent(conversationsElement);
-		*/
 		root.addContent(favoritesElement);
 		root.addContent(dealsElement);
 		// Writing in file

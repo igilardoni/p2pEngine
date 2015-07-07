@@ -509,7 +509,7 @@ var itemFavoritesDisplayer = [
 		]},
 		{element:"p", attributes:{style:"text-align:center;"}, inside:[
 			{element:"input", attributes:{type:"button", value:"Send Message", onclick:"sendMessageTo();"}, inside:[]},
-			{element:"input", attributes:{type:"button", value:"Add to contrat", onclick:"addToContrat();"}, inside:[]}
+			{element:"input", attributes:{type:"button", value:"Add to contrat", onclick:"loadItemForContrat();"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * CONTRATS* * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -536,7 +536,24 @@ var contratTable = [
 ];
 var contratForm =[
 		{element:"div", attributes:{id:"contratForm"}, inside:[
+			{element:"h1", attributes:{id:"contratID"}, inside:[]},
 			{element:"div", attributes:{id:"objects"}, inside:[]},
+			{element:"div", attributes:{}, inside:[
+				{element:"table", attributes:{id:"signatories"}, inside:[
+					{element:"thead", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"th", attributes:{}, inside:[
+								{element:"text", value:"friendlyNick"}
+							]},
+							{element:"th", attributes:{style:"display:none;"}, inside:[
+  								{element:"text", value:"publicKey"}
+  							]},
+						]}
+					]},
+					{element:"tbody", attributes:{}, inside:[]},
+					{element:"tfoot", attributes:{}, inside:[]}
+				]}
+			]},
 			{element:"div", attributes:{id:"rules"}, inside:[
 				{element:"table", attributes:{}, inside:[
 					{element:"thead", attributes:{}, inside:[

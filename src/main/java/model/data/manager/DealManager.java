@@ -9,6 +9,7 @@ import org.jdom2.Element;
 import util.Printer;
 import util.StringToElement;
 import model.data.contrat.Contrat;
+import model.data.item.Item;
 import model.data.user.User;
 
 
@@ -63,7 +64,6 @@ public class DealManager {
 		return deals.containsKey(user);
 	}
 	
-	
 	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Get an XML string representing all the deals that are saved on this device.
@@ -104,17 +104,18 @@ public class DealManager {
 	 * Create a new empty Deal for the current User
 	 * @param title
 	 */
-	public void newDeal(String title){
+	public Contrat newDeal(String title){
 		User currentUser = manager.getUserManager().getCurrentUser();
 		if(currentUser == null){
 			Printer.printError(this, "newDeal", "No user logged");
-			return;
+			return null;
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(!deals.containsKey(publicKey))
 			deals.put(publicKey, new ArrayList<Contrat>());
 		Contrat deal = new Contrat(title, currentUser);
 		deals.get(publicKey).add(deal);
+		return deal;
 	}
 	
 	/**
@@ -137,7 +138,28 @@ public class DealManager {
 		deals.get(publicKey).add(deal);
 	}
 	
-	
+	public void addItem(String contratID, Item item){
+		Contrat contrat = null;
+		
+		User currentUser = manager.getUserManager().getCurrentUser();
+		if(currentUser == null) {
+			System.err.println("no user logged");
+			return;
+		}
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
+		
+		for(Contrat c : deals.get(publicKey)){
+			if(c.getId().equals(contratID)){
+				contrat = c;
+				break;
+			}
+		}
+		if(contrat == null){
+			Printer.printError(this, "addItem", "Contrat doesn't exist !");
+			return;
+		}
+		contrat.addItem(item);
+	}
 	
 	
 	

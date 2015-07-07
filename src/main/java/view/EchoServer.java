@@ -19,9 +19,11 @@ import view.interlocutors.AddItemFavorites;
 import view.interlocutors.LoadAccount;
 import view.interlocutors.LoadBase64Image;
 import view.interlocutors.LoadCategories;
+import view.interlocutors.LoadContrats;
 import view.interlocutors.LoadConversation;
 import view.interlocutors.LoadItem;
 import view.interlocutors.LoadItemFavorites;
+import view.interlocutors.LoadItemForContrat;
 import view.interlocutors.LoadItemSearchField;
 import view.interlocutors.LoadItemSearchFieldCategory;
 import view.interlocutors.LoadItemSearchFieldType;
@@ -30,6 +32,7 @@ import view.interlocutors.LoadItemsFavorites;
 import view.interlocutors.LoadMessage;
 import view.interlocutors.LoadMessages;
 import view.interlocutors.LoadType;
+import view.interlocutors.NewContrat;
 import view.interlocutors.Register;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemFavorites;
@@ -91,6 +94,10 @@ public class EchoServer {
 		interlocutors.put("loadConversation", new LoadConversation());
 		interlocutors.put("loadMessage", new LoadMessage());
 		interlocutors.put("sendMessage", new SendMessage());
+		
+		interlocutors.put("newContrat", new NewContrat());
+		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
+		interlocutors.put("loadContrats", new LoadContrats());
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 	}
