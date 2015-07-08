@@ -213,6 +213,18 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		return newKey;
 	}
 	
+	/**
+	 * Clone these keys including private key
+	 * @param privateKey
+	 * @return
+	 */
+	public AsymKeysImpl clone(boolean privateKey) {
+		AsymKeysImpl res = clone();
+		if(!privateKey) return res;
+		res.setPrivateKey(this.privateKey);
+		return res;
+	}
+	
 	@Override
 	public boolean equals(Object k){
 		if(!(k instanceof AsymKeysImpl))

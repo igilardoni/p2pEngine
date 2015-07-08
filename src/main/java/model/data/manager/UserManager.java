@@ -143,7 +143,7 @@ public class UserManager {
 			return;
 		}
 		
-		AsymKeysImpl originalKey = user.getKeys().clone();
+		AsymKeysImpl originalKey = user.getKeys().clone(true);
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);
