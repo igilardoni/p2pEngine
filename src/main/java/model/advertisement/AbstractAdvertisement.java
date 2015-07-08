@@ -64,6 +64,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 */
 	protected ArrayList<String> indexes = new ArrayList<String>();
 	
+	private AsymKeysImpl keys = null;
+	
 	/*
 	 * The Elgamal signature of this object.
 	 */
@@ -95,6 +97,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addKey("signature", false, true);
 		addKey("lastUpdated", false, true);
 		addKey("keyId", true, false);
+		addKey("keys", false, false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 		setId();
 	}
@@ -140,6 +143,15 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		initialize(root);
 	}
 	
+	
+	
+	public void setKeys(AsymKeysImpl keys) {
+		this.keys = keys;
+	}
+	
+	public AsymKeysImpl getKeys() {
+		return this.keys;
+	}
 	
 	/**
 	 * Return the value according to the key. 
@@ -248,6 +260,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addValue("signature", signature == null ? null:signature.toString());
 		addValue("lastUpdated", Long.toString(lastUpdated));
 		addValue("keyId", keyId);
+		addValue("keys", keys == null ? null:keys.toString());
 		putValues();
 	}
 	
@@ -320,6 +333,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		case "signature": setSignature(e.getValue()); return true;
 		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
 		case "keyId": keyId = e.getValue(); return true;
+		case "keys": keys = new AsymKeysImpl(e.getValue()); return true;
 		default: return handleElement(e);
 		}
 	}
