@@ -98,7 +98,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addKey("lastUpdated", false, true);
 		addKey("keyId", true, false);
 		addKey("keys", false, false);
-		addKey("publicKey", true, false);
+		addKey("superPublicKey", true, false);
 		setKeys(); //setting the default keys and indexes for this advertisement.
 		setId();
 	}
@@ -266,7 +266,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addValue("keyId", keyId);
 		addValue("keys", keys == null ? null:keys.toString());
 		if(keys != null) {
-			addValue("publicKey", keys.getPublicKey().toString(16));
+			addValue("superPublicKey", keys.getPublicKey().toString(16));
 		}
 		putValues();
 	}
@@ -341,7 +341,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
 		case "keyId": keyId = e.getValue(); return true;
 		case "keys": keys = new AsymKeysImpl(e.getValue()); return true;
-		case "publicKey": return true;
+		case "superPublicKey": return true;
 		default: return handleElement(e);
 		}
 	}
