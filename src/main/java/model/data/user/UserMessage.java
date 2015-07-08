@@ -13,7 +13,6 @@ public class UserMessage extends AbstractAdvertisement {
 
 	private String subject;
 	private String message;
-	private AsymKeysImpl sender;
 	private String senderName;
 	private AsymKeysImpl receiver;
 	private long date;
@@ -30,7 +29,7 @@ public class UserMessage extends AbstractAdvertisement {
 	public UserMessage(AsymKeysImpl receiver, AsymKeysImpl sender, String message) {
 		super();
 		this.message = message;
-		this.sender = sender;
+		setKeys(sender);
 		this.receiver = receiver;
 		this.date = System.currentTimeMillis();
 	}
@@ -51,6 +50,7 @@ public class UserMessage extends AbstractAdvertisement {
 	
 	/**
 	 * Encrypt the message. Must be call before the message is send.
+	 * TODO A REVOIR
 	 */
 	public void encrypt() {
 		if(encrypted) return;
@@ -59,37 +59,32 @@ public class UserMessage extends AbstractAdvertisement {
 		message = new String(eg.encryptWithPublicKey(message.getBytes()));
 		BigInteger crypted = 
 				new BigInteger(
-						new String(eg.encryptWithPublicKey(sender.getPublicKey().toByteArray())));
-		sender.setPublicKey(crypted);
+						new String(eg.encryptWithPublicKey(getKeys().getPublicKey().toByteArray())));
+		getKeys().setPublicKey(crypted);
 	}
 	
 	/**
 	 * Decrypt the message.
+	 * TODO A REVOIR
 	 * @param receiver the receiver keys (with private key)
 	 */
 	public void decrypt(AsymKeysImpl receiver) {
 		if(!encrypted) return;
 		ElGamal eg = new ElGamal(receiver);
 		message = new String(eg.decryptWithPrivateKey(message.getBytes()));
-		sender.setPublicKey(new BigInteger(
-				eg.decryptWithPrivateKey(sender.getPublicKey().toByteArray())));
+		getKeys().setPublicKey(new BigInteger(
+				eg.decryptWithPrivateKey(getKeys().getPublicKey().toByteArray())));
 		encrypted = false;
 	}
 	
 	@Override
 	protected void setKeys() {
-		sender = new AsymKeysImpl();
+		setKeys(new AsymKeysImpl());
 		receiver = new AsymKeysImpl();
 		
 		addKey("content", false, false);
 		
-		addKey("senderKey", false, false);
-		addKey("senderP", false, false);
-		addKey("senderG", false, false);
-		
 		addKey("receiverKey", true, false);
-		addKey("receiverP", false, false);
-		addKey("receiverG", false, false);
 		
 		addKey("date", false, false);
 		addKey("subject", false, false);
@@ -99,12 +94,7 @@ public class UserMessage extends AbstractAdvertisement {
 	@Override
 	protected void putValues() {
 		addValue("content", message);
-		addValue("senderKey", sender.getPublicKey().toString(16));
-		addValue("senderP", sender.getP().toString(16));
-		addValue("senderG", sender.getG().toString(16));
-		addValue("receiverKey", receiver.getPublicKey().toString(16));
-		addValue("receiverP", receiver.getP().toString(16));
-		addValue("receiverG", receiver.getG().toString(16));
+		addValue("receiverKey", receiver.toString());
 		addValue("subject", subject);
 		addValue("senderName", senderName);
 		addValue("date", Long.toString(date));
@@ -114,12 +104,7 @@ public class UserMessage extends AbstractAdvertisement {
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
 		case "content": message = e.getValue(); return true;
-		case "senderKey": sender.setPublicKey(new BigInteger(e.getValue(), 16)); return true;
-		case "senderP": sender.setP(new BigInteger(e.getValue(), 16)); return true;
-		case "senderG": sender.setG(new BigInteger(e.getValue(), 16)); return true;
-		case "receiverKey": receiver.setPublicKey(new BigInteger(e.getValue(), 16)); return true;
-		case "receiverP": receiver.setP(new BigInteger(e.getValue(), 16)); return true;
-		case "receiverG": receiver.setG(new BigInteger(e.getValue(), 16)); return true;
+		case "receiverKey": receiver = new AsymKeysImpl(e.getValue()); return true;
 		case "date": date =  new Long(e.getValue()); return true;
 		}
 		return false;
@@ -134,7 +119,7 @@ public class UserMessage extends AbstractAdvertisement {
 	}
 	
 	public AsymKeysImpl getSender() {
-		return sender;
+		return getKeys();
 	}
 	
 	public AsymKeysImpl getReceiver() {

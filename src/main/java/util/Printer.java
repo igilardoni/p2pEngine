@@ -1,7 +1,5 @@
 package util;
 
-import model.data.manager.Manager;
-
 public  class Printer {
 
 	public static void printInfo(Object o, String method, String info){

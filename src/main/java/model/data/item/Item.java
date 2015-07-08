@@ -10,6 +10,7 @@ import org.jdom2.Element;
 
 import util.Hasher;
 import util.VARIABLES;
+import util.secure.AsymKeysImpl;
 
 /**
  * This class can be instantiated for contains an item.
@@ -27,7 +28,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		DEMAND						// If object is needed
 	};
 	
-	private String owner;			// Owner of the object
 	private String friendlyNick;	// Friendly-user Pseudo of owner
 	private String title;			// Title of the object
 	private Category category;		// Category of the object
@@ -53,7 +53,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param lifeTime
 	 * @param type
 	 */
-	public Item(String owner, String friendlyNick,
+	public Item(AsymKeysImpl owner, String friendlyNick,
 			String title, Category category, String description, 
 			String image, String country, String contact, 
 			long date, long lifeTime,TYPE type){
@@ -93,7 +93,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(User owner, String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
-		this(owner.getKeys().getPublicKey().toString(16),owner.getNick(),title, 
+		this(owner.getKeys() ,owner.getNick(),title, 
 				category, description, image, country, contact, date, lifeTime, type);
 	}
 	
@@ -125,15 +125,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @return
 	 */
 	public String getOwner() {
-		return owner;
+		return getKeys().getPublicKey().toString(16);
 	}
 	
 	/**
 	 * Define the owner of this Item
 	 * @param owner
 	 */
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setOwner(AsymKeysImpl keys) {
+		setKeys(keys);
 	}
 	
 	/*private void setId(long id){
@@ -153,7 +153,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @param owner
 	 */
 	public void setOwner(User owner){
-		this.owner = owner.getKeys().getPublicKey().toString(16);
+		setKeys(owner.getKeys());
 	}
 	
 	/**
@@ -384,7 +384,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	@Override
 	protected void putValues() {
-		addValue("owner", this.getOwner());
 		addValue("friendNick", this.getFriendNick());
 		addValue("title", this.getTitle());
 		addValue("category", category.getStringChoice());
@@ -406,9 +405,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	protected boolean handleElement(org.jdom2.Element e) {
 		String val = e.getText();
 		switch(e.getName()){
-		case "owner":
-			setOwner(val);
-			return true;
 		case "friendNick":
 			setFriendlyNick(val);
 			return true;

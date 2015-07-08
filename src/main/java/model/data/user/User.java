@@ -27,7 +27,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	private String email;			// The email of the user
 	private String phone;			// The phone of the user
 	private long date;				// The date of creation/update of the user's profile
-	private AsymKeysImpl keys; 		// The public key, user ID on network, is here.
 	
 	private String clearPassword;	// is never saved, not null only if a user log in this.
 	
@@ -55,7 +54,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.email = email;
 		this.phone = phone;
 		this.date = System.currentTimeMillis();
-		this.keys = new AsymKeysImpl(false);		// TODO false / true finally choice ?
+		setKeys(new AsymKeysImpl(false));		// TODO false / true finally choice ?
 	}
 	
 	/**
@@ -97,86 +96,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		}
 	}
 	
-	/**
-	 * Encrypt privateKey with password
-	 * @param password - have to be this account's password
-	 * @return true if encryption was successful, else false
-	 */
-	public boolean encryptPrivateKey(String password){
-		// Check if Key isn't empty
-		if(this.getKeys() == null ||
-				this.getKeys().getG() == null ||
-				this.getKeys().getP() == null ||
-				this.getKeys().getPublicKey() == null ||
-				this.getKeys().getPrivateKey() == null){
-			System.err.println(this.getAdvertisementName()+" : Key empty !");
-			return false;
-		}
-		// Check if private key is decrypted
-		if(!this.getKeys().isCompatible()){
-			System.err.println(this.getAdvertisementName()+" : Can't encrypt uncompatible keys !");
-			return false;
-		}
-		BigInteger goodPrivate = this.getKeys().getPrivateKey();
-		// Check if the password is good
-		if(!this.isPassword(password)){
-			System.err.println(this.getAdvertisementName()+" : Wrong password !");
-			return false;
-		}
-		// Try to encrypt
-		Serpent cypher = new Serpent(password);
-		byte[] privateByte = cypher.encrypt(goodPrivate.toByteArray());
-		BigInteger privateKey = new BigInteger(privateByte);
-		this.setPrivateKey(privateKey);
-		// Check if Keys are compatible
-		if(this.getKeys().isCompatible()){
-			System.err.println(this.getAdvertisementName()+" : Error during encrypting !");
-			this.setPrivateKey(goodPrivate);
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Decrypt the private key with the password
-	 * @param password - have to be this account's password
-	 * @return true if decryption was successful, else false
-	 */
-	public boolean decryptPrivateKey(String password){
-		// Check if Key isn't empty
-		if(this.getKeys() == null ||
-				this.getKeys().getG() == null ||
-				this.getKeys().getP() == null ||
-				this.getKeys().getPublicKey() == null ||
-				this.getKeys().getPrivateKey() == null){
-			System.err.println(this.getAdvertisementName()+" : Key empty !");
-			return false;
-		}
-		// Check if private key is encrypted
-		if(this.getKeys().isCompatible()){
-			System.err.println(this.getAdvertisementName()+" : Private key already decrypted !");
-			return true;
-		}
-		BigInteger wrongPrivate = this.getKeys().getPrivateKey();
-		// Check if the password is good
-		if(!this.isPassword(password)){
-			System.err.println(this.getAdvertisementName()+" : Wrong password !");
-			return false;
-		}
-		// Try to decrypt
-		Serpent cypher = new Serpent(password);
-		byte[] privateByte = cypher.decrypt(wrongPrivate.toByteArray());
-		BigInteger privateKey = new BigInteger(privateByte);
-		this.setPrivateKey(privateKey);
-		// Check if Keys are compatible
-		if(!this.getKeys().isCompatible()){
-			System.err.println(this.getAdvertisementName()+" : Uncompatible Key !");
-			this.setPrivateKey(wrongPrivate);
-			return false;
-		}
-		return true;
-	}
-	
 	/////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public String getNick() {
 		return nick;
@@ -199,9 +118,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public long getDate(){
 		return date;
 	}
-	public AsymKeysImpl getKeys(){
-		return keys;
-	}
+	
 	public String getClearPwd(){
 		return clearPassword;
 	}
@@ -234,21 +151,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	public void setDate(long date){
 		this.date = date == 0 ? System.currentTimeMillis() : date;
 	}
-	public void setKey(AsymKeysImpl key){
-		this.keys = key == null ? new AsymKeysImpl(): key;
-	}
-	public void setPrivateKey(BigInteger privateKey){
-		this.keys.setPrivateKey(privateKey);
-	}
-	public void setPublicKey(BigInteger publicKey){
-		this.keys.setPublicKey(publicKey);
-	}
-	public void setG(BigInteger g){
-		this.keys.setG(g);
-	}
-	public void setP(BigInteger p){
-		this.keys.setP(p);
-	}
+
 	public void setClearPwd(String password){
 		this.clearPassword = password;
 	}
@@ -267,7 +170,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	@Override
 	protected void setKeys() {
-		this.keys = new AsymKeysImpl();
+		setKeys(new AsymKeysImpl());
 		clearPassword = null;
 		this.addKey("nick", true, true);
 		this.addKey("hashPwd", false, true);
@@ -294,10 +197,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addValue("email", this.getEmail());
 		this.addValue("phone", this.getPhone());
 		this.addValue("date",Long.toString(this.getDate()));
-		this.addValue("privateKey", this.keys.getPrivateKey().toString(16));
-		this.addValue("publicKey", this.keys.getPublicKey().toString(16));
-		this.addValue("p", this.keys.getP().toString(16));
-		this.addValue("g", this.keys.getG().toString(16));
 	}
 
 	@Override
@@ -336,19 +235,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 				all &= handleElement(f);
 			}
 			return all;
-		case "privateKey":
-			setPrivateKey(new BigInteger(val, 16));
-			return true;
-		case "publicKey":
-			BigInteger valBigInt = new BigInteger(val,16);
-			setPublicKey(valBigInt);
-			return true;
-		case "p":
-			setP(new BigInteger(val, 16));
-			return true;
-		case "g":
-			setG(new BigInteger(val, 16));
-			return true;
 		default:
 			return false;
 		}
@@ -365,26 +251,29 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		return 0;
 	}
 	
+	/**
+	 *TODO PAS BO
+	 */
 	@Override
 	public boolean equals(Object u) {
 		if(! (u instanceof User))
 			return false;
 		User user = (User) u;
-		if( (this.keys.getPublicKey() == null || user.keys.getPublicKey() == null)
-				&& (this.keys.getPublicKey() != null || user.keys.getPublicKey() != null))
+		if( (this.getKeys().getPublicKey() == null || user.getKeys().getPublicKey() == null)
+				&& (this.getKeys().getPublicKey() != null || user.getKeys().getPublicKey() != null))
 			return false;
-		if((this.keys.getP() == null || user.keys.getP() == null)
-				&& (this.keys.getP() != null || user.keys.getP() != null))
+		if((this.getKeys().getP() == null || user.getKeys().getP() == null)
+				&& (this.getKeys().getP() != null || user.getKeys().getP() != null))
 			return false;
-		if((this.keys.getG() == null || user.keys.getG() == null)
-				&& (this.keys.getG() != null || user.keys.getG() != null))
+		if((this.getKeys().getG() == null || user.getKeys().getG() == null)
+				&& (this.getKeys().getG() != null || user.getKeys().getG() != null))
 			return false;
-		if(!(this.keys.getG() != null || user.keys.getG() != null) && 
-				(this.keys.getPublicKey().compareTo(user.keys.getPublicKey()) != 0) ||
-				!(this.keys.getP() != null || user.keys.getP() != null) && 
-				(this.keys.getP().compareTo(user.keys.getP()) != 0) ||
-				!(this.keys.getPublicKey() != null || user.keys.getPublicKey() != null) && 
-				(this.keys.getG().compareTo(user.keys.getG()) != 0) &&
+		if(!(this.getKeys().getG() != null || user.getKeys().getG() != null) && 
+				(this.getKeys().getPublicKey().compareTo(user.getKeys().getPublicKey()) != 0) ||
+				!(this.getKeys().getP() != null || user.getKeys().getP() != null) && 
+				(this.getKeys().getP().compareTo(user.getKeys().getP()) != 0) ||
+				!(this.getKeys().getPublicKey() != null || user.getKeys().getPublicKey() != null) && 
+				(this.getKeys().getG().compareTo(user.getKeys().getG()) != 0) &&
 				this.getDate()==user.getDate())
 			return false;
 		return true;
@@ -397,7 +286,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		u.setDate(this.getDate());
 		u.setEmail(this.getEmail());
 		u.setFirstName(this.getFirstName());
-		u.setKey(this.getKeys());
+		u.setKeys(this.getKeys());
 		u.setNick(this.getNick());
 		u.setPhone(this.getPhone());
 		u.setHashPwd(this.getHashPwd());
@@ -410,7 +299,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		User user = new User("nick", "password", "name", "firstName", "email", "phone");
 		AsymKeysImpl keys = user.getKeys().clone();
 		
-		user.encryptPrivateKey("password");
+		user.getKeys().encryptPrivateKey("password");
 		
 		user.sign(keys);
 		System.out.println(user.checkSignature(user.getKeys()));

@@ -12,34 +12,27 @@ import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
 import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 import org.jdom2.Element;
 
+import model.advertisement.AbstractAdvertisement;
 import util.StringToElement;
 
 /**
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
  * If needed, this class can call KeyGenerator
+ * @author Julien Prudhomme
+ * @author Michaël Dubuis
+ * @author Sarah Bourkis
  */
-public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<BigInteger> {
+public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.encryptionInterface.AsymKeys<BigInteger> {
 	static SecureRandom  random = new SecureRandom();
 	
-	private static BigInteger ONE = BigInteger.ONE;
-	private static BigInteger TWO = new BigInteger("2");
 	private BigInteger p = new BigInteger ("124233341635855292420681698148845681014844866056212176632655173602444135581779341928584451946831820357622587249219477577145009300106828967466602146104562163160400103396735672041344557638270362523343149686623705761738910044071399582025053147811261321814632661084042311141045136246602979886564584763268994320823");
-	private boolean pGenerated = false;
 	private BigInteger g = new BigInteger ("57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171");
 	
 	private boolean wellGenerated = false;
-	private BigInteger q = null;
 	private BigInteger privateKey = null;
 	private BigInteger publicKey = null;
-	
-	private static int pLength = 1024;
-	private static int keyLength = 160;
-	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*/																										  /*/
-	/*/									SARAH'S GENERATION OF KEYS											  /*/
-	/*/																										  /*/
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private BigInteger encryptedPrivateKey = null;
+	private boolean clearPrivateKey = true; //is the private key clear or crypted ?
 	/**
 	 * This method is used to generate P and G
 	 * @return ElGamalParameters for GenerateKeys
@@ -53,7 +46,6 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		params = apg.generateParameters();
         p = params.getP();
         g = params.getG();
-        pGenerated = true;
         return params;
 	}
 	
@@ -71,82 +63,6 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		wellGenerated = true;
 	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*/																										  /*/
-	/*/									OLD SARAH'S GENERATION OF KEYS										  /*/
-	/*/																			@DEPRECATED					  /*/
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/**
-	 * @deprecated
-	 * This method is used for generate P (without BountyCastle)
-	 */
-	@SuppressWarnings("unused")
-	private void GenerateP()
-	{
-		BigInteger p,q;
-		p = BigInteger.valueOf(4);
-		q = ONE;
-		while (!p.isProbablePrime(20))
-		{
-			q = BigInteger.probablePrime(pLength-1, random);
-			while (q.bitLength()!=pLength-1)
-				q = BigInteger.probablePrime(pLength-1, random);
-			p = q.multiply(TWO).add(ONE);
-		}
-		this.p = p;
-		this.q = q;
-		pGenerated = true;
-	}
-	
-	/**
-	 * @deprecated
-	 * This method is used for generate G. If P isn't generated, the system crash (without BountyCastle)
-	 */
-	@SuppressWarnings("unused")
-	private void GenerateG()
-	{
-		if(!pGenerated){
-			System.err.println("ERROR "+this.getClass().getName()+" : G can't be generated !!!");
-			System.exit(-1);
-		}
-		BigInteger g = BigInteger.ZERO;
-		BigInteger n = p.subtract(ONE);
-		BigInteger p1 = TWO;
-		BigInteger p2 = q;
-		Boolean ok = false;
-		while (!ok)
-		{
-			g = new BigInteger(pLength,random);
-			while (g.compareTo(p) >= 0 || g.compareTo(BigInteger.ONE)<=0)
-				g = new BigInteger(pLength,random);
-			
-				BigInteger b1 = g.modPow(n.divide(p1), p);
-				BigInteger b2 = g.modPow(n.divide(p2), p);
-				
-				if (!b1.equals(ONE) && !b2.equals(ONE))
-					ok = true;	
-		}
-		this.g = g;
-	}
-	
-	/**
-	 * @deprecated
-	 * This method is used to generate Keys (without BountyCastle)
-	 */
-	@SuppressWarnings("unused")
-	private void GenerateKeys(){
-		privateKey = new BigInteger(keyLength,random);
-		while (privateKey.compareTo(p) >= 0 || privateKey.compareTo(BigInteger.ONE)<=0)
-			privateKey = new BigInteger(keyLength,random);
-		publicKey = g.modPow(privateKey,p);
-		this.wellGenerated = true;
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*/																										  /*/
-	/*/										CLASS GESTION BY MICHAEL										  /*/
-	/*/																										  /*/
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * This constructor is used for unknown PrivateKey
 	 */
@@ -269,17 +185,21 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 	 * Used to verify if publicKey, privateKey, p and g are compatible ! 
 	 * @return true if keys are compatible, false else.
 	 */
-	public boolean isCompatible(){
+	public boolean isCompatible(BigInteger privateKey){
 		if(this.getG() == null ||
 				this.getP() == null ||
 				this.getPrivateKey() == null ||
-				this.getPublicKey() == null)
+				privateKey == null)
 			return false;
-		BigInteger verif = this.getG().modPow(this.getPrivateKey(), this.getP());
+		BigInteger verif = this.getG().modPow(privateKey, this.getP());
 		if(verif.compareTo(this.getPublicKey())==0)
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean isCompatible() {
+		return isCompatible(this.privateKey);
 	}
 	
 	@Override
@@ -316,5 +236,74 @@ public class AsymKeysImpl implements util.secure.encryptionInterface.AsymKeys<Bi
 		s.append("<g>" + g.toString(16) + "</g>");
 		
 		return s.toString();
+	}
+	
+	
+	/**
+	 * Crypt the private key with the given password.
+	 * @param password
+	 * @return
+	 */
+	public BigInteger getEncryptedPrivateKey(String password) {
+		if(!clearPrivateKey) return encryptedPrivateKey; //key already encrypted.
+		
+		Serpent cypher = new Serpent(password);
+		return new BigInteger(cypher.encrypt(privateKey.toByteArray()));	
+	}
+	
+	public BigInteger getDecryptedPrivateKey(String password) {
+		if(encryptedPrivateKey == null) return null;
+		if(clearPrivateKey) return privateKey;
+		
+		Serpent cypher = new Serpent(password);
+		BigInteger clear = new BigInteger(cypher.decrypt(encryptedPrivateKey.toByteArray()));
+		if(!isCompatible(clear)) return null;
+		return clear;
+	}
+	
+	public boolean decryptPrivateKey(String password) {
+		BigInteger pk = getDecryptedPrivateKey(password);
+		if(pk == null) return false;
+		privateKey = pk;
+		return true;
+	}
+	
+	public void encryptPrivateKey(String password) {
+		encryptedPrivateKey = getEncryptedPrivateKey(password);
+	}
+
+	@Override
+	protected String getAdvertisementName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	protected void setKeys() {
+		addKey("publicKey", false, false);
+		addKey("p", false, false);
+		addKey("g", false, false);
+		addKey("privateKey", false, false);
+	}
+
+	@Override
+	protected void putValues() {
+		addValue("publicKey", publicKey.toString(16));
+		addValue("p", p.toString(16));
+		addValue("g", g.toString(16));
+		addValue("privateKey", encryptedPrivateKey.toString(16)); //the private key is always send encrypted.
+	}
+
+	@Override
+	protected boolean handleElement(Element e) {
+		switch(e.getName()) {
+		case "publicKey": publicKey = new BigInteger(e.getValue()); return true;
+		case "p": p = new BigInteger(e.getValue()); return true;
+		case "g": g = new BigInteger(e.getValue()); return true;
+		case "privateKey": 
+			encryptedPrivateKey = new BigInteger(e.getValue()); 
+			clearPrivateKey = false; 
+			return true;
+		}
+		return false;
 	}
 }
