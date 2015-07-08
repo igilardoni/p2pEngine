@@ -23,12 +23,12 @@ public class Contrat extends AbstractAdvertisement {
 	private static final String[] stringState = {"draft", "waiting", "signed", "to sign"};
 	
 	private String title;								// Title of deal
-	private int state = 0;								// State of deal (draft at start)
+	private int state;									// State of deal (draft at start)
 	private ArrayList<String> signatories;				// All participants publicKey
 	private ArrayList<Item> items;						// All items of this deal 
 	private HashMap<String, String> rules;				// All exchange rule
 	private ArrayList<Claus> clauses;					// all clauses
-	private HashMap<String, Delta> proofs = null;		// All proof of signature (null at start)
+	private HashMap<String, Delta> proofs;				// All proof of signature (null at start)
 	private HashMap<String, ElGamalSign> signatures;	// All signature of participants
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -422,6 +422,7 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	@Override
 	protected void setKeys() {
+		state = 0;
 		signatories = new ArrayList<String>();
 		items = new ArrayList<Item>();
 		rules = new HashMap<String, String>();

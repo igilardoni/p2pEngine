@@ -22,8 +22,8 @@ import util.secure.Serpent;
  */
 public class Favorites extends AbstractAdvertisement{
 	private String owner;
-	private ArrayList<String> itemsKey = new ArrayList<String>();
-	private boolean crypted = false;
+	private ArrayList<String> itemsKey;
+	private boolean crypted;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public Favorites(User owner){
@@ -168,8 +168,12 @@ public class Favorites extends AbstractAdvertisement{
 			itemsKey = new ArrayList<String>();
 		for(Element i: root.getChildren()) {
 			String itemKey = new String(i.getValue());
-			addItem(itemKey);
+			itemsKey.add(itemKey);
 		}
+	}
+	private void loadCrypted(String val){
+		if(val.toLowerCase().equals("true"))
+			this.setCrypted(true);
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
@@ -179,6 +183,7 @@ public class Favorites extends AbstractAdvertisement{
 	@Override
 	protected void setKeys() {
 		itemsKey = new ArrayList<String>();
+		crypted = false;
 		this.addKey("owner", false, false);
 		this.addKey("itemsKey", false, true);
 		this.addKey("crypted", false, false);
@@ -195,7 +200,7 @@ public class Favorites extends AbstractAdvertisement{
 		switch(e.getName()) {
 		case "owner":			this.setOwner(val);							break;
 		case "itemsKey":		this.loadItemsKey(e);						break;
-		case "crypted":			this.setCrypted(Boolean.parseBoolean(val));	break;
+		case "crypted":			this.loadCrypted(val);						break;
 		default: return false;
 		}
 		return true;

@@ -14,8 +14,11 @@ import util.StringToElement;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.data.contrat.Contrat;
+import model.data.favorites.Favorites;
 import model.data.item.Item;
+import model.data.user.Conversations;
 import model.data.user.User;
+import model.data.user.UserMessage;
 import model.network.search.Search;
 
 public class UserManager {
@@ -229,6 +232,8 @@ public class UserManager {
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
 		String clearPassword = new String(currentUser.getClearPwd());
+		manager.getFavoriteManager().getFavoritesCurrentUser().encrypt(clearPassword);
+		manager.getFavoriteManager().getFavoritesCurrentUser().sign(clearKey);
 		currentUser.encryptPrivateKey(clearPassword);
 		currentUser.sign(clearKey);
 		currentUser.setClearPassword(null);
@@ -284,6 +289,7 @@ public class UserManager {
 			return false;
 		currentUser = u;
 		currentUser.setClearPassword(password);
+		manager.getFavoriteManager().getFavoritesCurrentUser().decrypt(password);
 		return currentUser != null;
 	}
 	
