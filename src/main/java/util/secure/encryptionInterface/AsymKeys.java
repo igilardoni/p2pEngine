@@ -12,9 +12,10 @@ public interface AsymKeys<K> {
 	
 	/**
 	 * Generate the private and public key according to the implemented asymmetric algorithm
+	 * @param password The password to encrypt private key.
 	 * @return True if successful generation
 	 */
-	public boolean generate();
+	public boolean generate(String password);
 	
 	
 	

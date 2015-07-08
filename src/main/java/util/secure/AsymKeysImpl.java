@@ -53,7 +53,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	 * This method is used to generate Public Key and Private Key
 	 * @param params
 	 */
-	private void GenerateKeys(ElGamalParameters params){
+	private void GenerateKeys(ElGamalParameters params, String password){
 		ElGamalKeyGenerationParameters elGP = new ElGamalKeyGenerationParameters(random,params);
 		ElGamalKeyPairGenerator KeyPair = new ElGamalKeyPairGenerator();
 		KeyPair.init(elGP);
@@ -61,12 +61,14 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		publicKey = ((ElGamalPublicKeyParameters) cipher1.getPublic()).getY();
 		privateKey = ((ElGamalPrivateKeyParameters)cipher1.getPrivate()).getX();
 		wellGenerated = true;
+		encryptPrivateKey(password);
 	}
 	
 	/**
 	 * This constructor is used for unknown PrivateKey
 	 */
 	public AsymKeysImpl(BigInteger p, BigInteger g, BigInteger publicKey){
+		super();
 		this.privateKey = null;
 		this.publicKey = publicKey;
 		this.p = p;
@@ -77,6 +79,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	 * This constructor is used if Keys are already generated.
 	 */
 	public AsymKeysImpl(BigInteger p, BigInteger g, BigInteger publicKey, BigInteger privateKey) throws Exception{
+		super();
 		this.privateKey = privateKey;
 		this.publicKey = publicKey;
 		this.p = p;
@@ -88,11 +91,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	}
 	
 	public AsymKeysImpl(String xml) {
-		Element root = StringToElement.getElementFromString(xml, "keys");
-		this.privateKey = new BigInteger(root.getChild("privateKey").getValue(), 16);
-		this.publicKey = new BigInteger(root.getChild("publicKey").getValue(), 16);
-		this.g = new BigInteger(root.getChild("g").getValue(), 16);
-		this.p = new BigInteger(root.getChild("p").getValue(), 16);
+		super(xml);
 	}
 	
 	/**
@@ -104,8 +103,10 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	/**
 	 * This constructor is used for generate the public key and private key with possibility of generation p and q.
 	 * @param pgGenerated - true for generate p and q, false else.
+	 * @param password - Password to encrypt the privatekey.
 	 */
-	public AsymKeysImpl(boolean pgGenerate){
+	public AsymKeysImpl(boolean pgGenerate, String password){
+		super();
 		ElGamalParameters params;
 		if(pgGenerate){
 			params = GeneratePG();
@@ -113,7 +114,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		else{
 			params = new ElGamalParameters(p, g);
 		}
-		GenerateKeys(params);
+		GenerateKeys(params, password);
 	}
 	
 	/**
@@ -174,10 +175,10 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	}
 	
 	@Override
-	public boolean generate() {
+	public boolean generate(String password) {
 		ElGamalParameters params;
 		params = GeneratePG();
-		GenerateKeys(params);
+		GenerateKeys(params, password);
 		return wellGenerated;
 	}
 	
@@ -270,6 +271,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	
 	public void encryptPrivateKey(String password) {
 		encryptedPrivateKey = getEncryptedPrivateKey(password);
+		privateKey = null;
 	}
 
 	@Override

@@ -135,11 +135,15 @@ public class UserManager {
 			System.err.println(Manager.class.getName()+".registration : can't register null user");
 			return;
 		}
+		
+		user.getKeys().decryptPrivateKey(user.getClearPwd());
+		
 		if(user.getKeys() == null || !user.getKeys().isCompatible()){
 			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
 			return;
 		}
-		AsymKeysImpl originalKey = new AsymKeysImpl(user.getKeys().toString());
+		
+		AsymKeysImpl originalKey = user.getKeys().clone();
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);

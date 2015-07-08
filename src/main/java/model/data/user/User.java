@@ -54,7 +54,7 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.email = email;
 		this.phone = phone;
 		this.date = System.currentTimeMillis();
-		setKeys(new AsymKeysImpl(false));		// TODO false / true finally choice ?
+		setKeys(new AsymKeysImpl(false, passWord));		// TODO false / true finally choice ?
 	}
 	
 	/**

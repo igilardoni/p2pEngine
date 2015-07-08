@@ -8,10 +8,8 @@ import net.jxta.document.AdvertisementFactory;
 
 import org.jdom2.Element;
 
-import util.Hasher;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
-import util.secure.encryptionInterface.AsymKeys;
 
 /**
  * This class can be instantiated for contains an item.
