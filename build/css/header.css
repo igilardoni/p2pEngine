@@ -45,8 +45,11 @@ header:empty {
 	padding: 0;
 }
 
-.dropDownMenu:first-child {
-	test-align : right;
+.dropDownMenu ul:first-child {
+	position : relative;
+	top : 0;
+	right : 0;
+	fonte-size : 1.5em;
 }
 
 .dropDownMenu input {

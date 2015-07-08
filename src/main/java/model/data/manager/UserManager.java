@@ -234,12 +234,13 @@ public class UserManager {
 	 * Log out the current User.
 	 */
 	public void logout() {
-		AsymKeysImpl clearKey = currentUser.getKeys().clone();
 		String clearPassword = new String(currentUser.getClearPwd());
-		manager.getFavoriteManager().getFavoritesCurrentUser().encrypt(clearPassword);
-		manager.getFavoriteManager().getFavoritesCurrentUser().sign(clearKey);
+		/*if(manager.getFavoriteManager().getFavoritesCurrentUser() != null){
+			manager.getFavoriteManager().getFavoritesCurrentUser().encrypt(clearPassword);
+			manager.getFavoriteManager().getFavoritesCurrentUser().sign(currentUser.getKeys());
+		}*/
 		currentUser.getKeys().encryptPrivateKey(clearPassword);
-		currentUser.sign(clearKey);
+		currentUser.sign(currentUser.getKeys());
 		currentUser.setClearPassword(null);
 		manager.saving(VARIABLES.ManagerFilePath);
 		currentUser = null;
