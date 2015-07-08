@@ -13,6 +13,7 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 import org.jdom2.Element;
 
 import model.advertisement.AbstractAdvertisement;
+import util.Printer;
 import util.StringToElement;
 
 /**
@@ -32,7 +33,6 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	private BigInteger privateKey = null;
 	private BigInteger publicKey = null;
 	private BigInteger encryptedPrivateKey = null;
-	private boolean clearPrivateKey = true; //is the private key clear or crypted ?
 	/**
 	 * This method is used to generate P and G
 	 * @return ElGamalParameters for GenerateKeys
@@ -98,6 +98,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	 * Empty Constructor.
 	 */
 	public AsymKeysImpl(){
+		super();
 	}
 	
 	/**
@@ -115,7 +116,6 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 			params = new ElGamalParameters(p, g);
 		}
 		GenerateKeys(params, password);
-		clearPrivateKey = false;
 	}
 	
 	/**
@@ -190,7 +190,6 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	public boolean isCompatible(BigInteger privateKey){
 		if(this.getG() == null ||
 				this.getP() == null ||
-				this.getPrivateKey() == null ||
 				privateKey == null)
 			return false;
 		BigInteger verif = this.getG().modPow(privateKey, this.getP());
@@ -230,16 +229,6 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		return true;
 	}
 	
-	public String toString() {
-		StringBuffer s = new StringBuffer();
-		s.append("<privateKey>" + privateKey.toString(16) + "</privateKey>");
-		s.append("<publicKey>" + publicKey.toString(16)+ "</publicKey>");
-		s.append("<p>" + p.toString(16) + "</p>");
-		s.append("<g>" + g.toString(16) + "</g>");
-		
-		return s.toString();
-	}
-	
 	
 	/**
 	 * Crypt the private key with the given password.
@@ -247,19 +236,26 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	 * @return
 	 */
 	public BigInteger getEncryptedPrivateKey(String password) {
-		if(!clearPrivateKey) return encryptedPrivateKey; //key already encrypted.
+		if(encryptedPrivateKey != null) return encryptedPrivateKey; //key already encrypted.
 		
 		Serpent cypher = new Serpent(password);
 		return new BigInteger(cypher.encrypt(privateKey.toByteArray()));	
 	}
 	
 	public BigInteger getDecryptedPrivateKey(String password) {
-		if(encryptedPrivateKey == null) return null;
-		if(clearPrivateKey) return privateKey;
+		if(encryptedPrivateKey == null)  {
+			Printer.printError(this, "getDecriptedKey", "encyrpted key is null");
+			return null;
+		}
+		if(privateKey != null) return privateKey;
 		
 		Serpent cypher = new Serpent(password);
 		BigInteger clear = new BigInteger(cypher.decrypt(encryptedPrivateKey.toByteArray()));
-		if(!isCompatible(clear)) return null;
+		if(!isCompatible(clear)) {
+			
+			Printer.printError(this, "getDecryptedPrivateKey", "key no compatible");
+			return null;
+		}
 		return clear;
 	}
 	
@@ -304,9 +300,10 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		case "g": g = new BigInteger(e.getValue()); return true;
 		case "privateKey": 
 			encryptedPrivateKey = new BigInteger(e.getValue()); 
-			clearPrivateKey = false; 
+			privateKey = null; 
 			return true;
 		}
 		return false;
 	}
+	
 }
