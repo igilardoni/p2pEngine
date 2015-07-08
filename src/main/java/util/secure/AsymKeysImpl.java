@@ -115,6 +115,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 			params = new ElGamalParameters(p, g);
 		}
 		GenerateKeys(params, password);
+		clearPrivateKey = false;
 	}
 	
 	/**

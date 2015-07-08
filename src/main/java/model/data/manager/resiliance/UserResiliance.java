@@ -26,7 +26,8 @@ public class UserResiliance extends AbstractResiliance {
 				}
 				else {
 					if(u.getLastUpdated() < user.getLastUpdated()) {
-						manager.getUserManager().addUser(u, false);
+						manager.getUserManager().addUser(user, false);
+						u = user;
 					}
 				}
 			}
@@ -35,6 +36,7 @@ public class UserResiliance extends AbstractResiliance {
 				rpf.findPeers(2, 5 - s.getResults().size());
 				com.getService(UserSender.class.getSimpleName()).sendMessage(u, rpf.getResults().toArray(new PeerID[0]));
 			}
+			u.publish(manager.getNetwork().getGroup("users"));
 		}
 	}
 
