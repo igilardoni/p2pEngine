@@ -19,7 +19,7 @@ import util.StringToElement;
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
  * If needed, this class can call KeyGenerator
  * @author Julien Prudhomme
- * @author Michaël Dubuis
+ * @author Michaï¿½l Dubuis
  * @author Sarah Bourkis
  */
 public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.encryptionInterface.AsymKeys<BigInteger> {

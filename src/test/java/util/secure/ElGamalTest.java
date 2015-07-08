@@ -15,7 +15,7 @@ public class ElGamalTest {
 	
 	@BeforeClass
 	public static void init(){
-		keysBob = new AsymKeysImpl(false);
+		keysBob = new AsymKeysImpl("");
 		keysAliceKnow = new AsymKeysImpl(keysBob.getP(), keysBob.getG(), keysBob.getPublicKey());
 		msgAliceToBob = "Hello dear Bob !";
 		msgBobToAlice = "Hello dear Alice !";
