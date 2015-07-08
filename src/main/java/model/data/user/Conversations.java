@@ -46,7 +46,6 @@ public class Conversations extends AbstractAdvertisement{
 
 	@Override
 	protected void setKeys() {
-		addKey("owner", false, false);
 		addKey("cypher", false, true);
 	}
 
@@ -81,7 +80,6 @@ public class Conversations extends AbstractAdvertisement{
 		}
 		
 		addValue("cypher", cypher);
-		addValue("owner", owner);
 	}
 
 	/**

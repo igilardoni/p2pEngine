@@ -178,13 +178,12 @@ public class Favorites extends AbstractAdvertisement{
 	protected void setKeys() {
 		itemsKey = new ArrayList<String>();
 		crypted = false;
-		this.addKey("owner", false, false);
+		
 		this.addKey("itemsKey", false, true);
 		this.addKey("crypted", false, false);
 	}
 	@Override
 	protected void putValues() {
-		this.addValue("owner", this.getOwner());
 		this.addValue("itemsKey", this.itemsKeyXML());
 		this.addValue("crypted", String.valueOf(crypted));
 	}

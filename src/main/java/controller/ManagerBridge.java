@@ -121,7 +121,7 @@ public class ManagerBridge{
 		}
 		System.out.println(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys()); // TODO Care try debug
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}
