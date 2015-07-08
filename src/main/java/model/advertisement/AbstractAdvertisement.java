@@ -264,9 +264,9 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		addValue("signature", signature == null ? null:signature.toString());
 		addValue("lastUpdated", Long.toString(lastUpdated));
 		addValue("keyId", keyId);
-		addValue("keys", keys == null ? null:keys.toString());
 		if(keys != null) {
 			addValue("superPublicKey", keys.getPublicKey().toString(16));
+			addValue("keys",keys.toString());
 		}
 		putValues();
 	}
@@ -340,7 +340,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		case "signature": setSignature(e.getValue()); return true;
 		case "lastUpdated": lastUpdated = new Long(e.getValue()); return true;
 		case "keyId": keyId = e.getValue(); return true;
-		case "keys": keys = new AsymKeysImpl(e.getValue()); return true;
+		case "keys": 
+			if(e.getValue().isEmpty()) { keys = null; return true; }
+			keys = new AsymKeysImpl(e.getValue()); 
+			return true;
 		case "superPublicKey": return true;
 		default: return handleElement(e);
 		}

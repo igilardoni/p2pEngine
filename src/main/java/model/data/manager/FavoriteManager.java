@@ -1,5 +1,7 @@
 package model.data.manager;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.jdom2.Element;
@@ -131,6 +133,11 @@ public class FavoriteManager {
 		for(Element f: root.getChildren()){
 			addFavorites(new Favorites(f));
 		}
+	}
+
+
+	public Collection<Favorites> getFavorites() {
+		return favorites.values();
 	}
 	
 	

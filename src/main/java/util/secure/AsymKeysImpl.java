@@ -14,7 +14,6 @@ import org.jdom2.Element;
 
 import model.advertisement.AbstractAdvertisement;
 import util.Printer;
-import util.StringToElement;
 
 /**
  * AsymKeysImpl contains the public key (and P and G) and eventually the private key
@@ -30,9 +29,9 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	private BigInteger g = new BigInteger ("57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171");
 	
 	private boolean wellGenerated = false;
-	private BigInteger privateKey = null;
-	private BigInteger publicKey = null;
-	private BigInteger encryptedPrivateKey = null;
+	private BigInteger privateKey;
+	private BigInteger publicKey;
+	private BigInteger encryptedPrivateKey;
 	/**
 	 * This method is used to generate P and G
 	 * @return ElGamalParameters for GenerateKeys
@@ -99,6 +98,14 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	 */
 	public AsymKeysImpl(){
 		super();
+	}
+	
+	public AsymKeysImpl(Element e) {
+		super(e);
+	}
+	
+	public AsymKeysImpl(net.jxta.document.Element e) {
+		super(e);
 	}
 	
 	/**
@@ -203,27 +210,9 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		return isCompatible(this.privateKey);
 	}
 	
-	@Override
-	public AsymKeysImpl clone(){
-		AsymKeysImpl newKey = new AsymKeysImpl();
-		newKey.setP(this.getP());
-		newKey.setG(this.getG());
-		newKey.setPrivateKey(this.getPrivateKey());
-		newKey.setPublicKey(this.getPublicKey());
-		return newKey;
-	}
+
 	
-	/**
-	 * Clone these keys including private key
-	 * @param privateKey
-	 * @return
-	 */
-	public AsymKeysImpl clone(boolean privateKey) {
-		AsymKeysImpl res = clone();
-		if(!privateKey) return res;
-		res.setPrivateKey(this.privateKey);
-		return res;
-	}
+
 	
 	@Override
 	public boolean equals(Object k){
@@ -307,15 +296,30 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	@Override
 	protected boolean handleElement(Element e) {
 		switch(e.getName()) {
-		case "publicKey": publicKey = new BigInteger(e.getValue()); return true;
-		case "p": p = new BigInteger(e.getValue()); return true;
-		case "g": g = new BigInteger(e.getValue()); return true;
+		case "publicKey": publicKey = new BigInteger(e.getValue(), 16); return true;
+		case "p": p = new BigInteger(e.getValue(), 16); return true;
+		case "g": g = new BigInteger(e.getValue(), 16); return true;
 		case "privateKey": 
-			encryptedPrivateKey = new BigInteger(e.getValue()); 
+			encryptedPrivateKey = new BigInteger(e.getValue(), 16); 
 			privateKey = null; 
 			return true;
 		}
 		return false;
+	}
+	
+	public AsymKeysImpl copy() {
+		AsymKeysImpl res = new AsymKeysImpl(this.toString());
+		res.setPrivateKey(privateKey);
+		return res;
+	}
+	
+	
+	public static void main(String[] args) {
+		AsymKeysImpl k1 = new AsymKeysImpl(false, "mario");
+		k1.decryptPrivateKey("mario");
+		AsymKeysImpl k2 = k1.copy();
+		System.out.println(k1);
+		System.out.println(k2);
 	}
 	
 }
