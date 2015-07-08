@@ -25,7 +25,7 @@ public class UserTest {
 	private static String email = "email";
 	private static String phone = "phone";
 	private static long date = System.currentTimeMillis();
-	private static AsymKeysImpl key = new AsymKeysImpl(false);
+	private static AsymKeysImpl key = new AsymKeysImpl(password);
 	
 	@Test
 	public void password(){

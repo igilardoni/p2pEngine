@@ -195,6 +195,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		publishMessages();
 	}
 	///////////////////////////////////////////////////// RECOVERY \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
 	@Override
 	public void recovery(String path) {
 		if(path == null || path.isEmpty())
@@ -227,7 +228,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 			}
 			Element dealsElement = root.getChild("deals");
 			for	(Element e : dealsElement.getChildren()){
-				String owner = e.getChild("owner").getText();
+				String owner = e.getChild("owner").getText(); // TODO Change with AsymKeysImpl
 				//String owner = e.getChildText("owner");
 				if(!dealManager.containsUser(owner) && userManager.userExists(owner))
 					dealManager.getDeals().put(owner, new ArrayList<Contrat>());
@@ -241,10 +242,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		} catch (JDOMException e) {
 			recovered = Printer.printError(this, "recovery", "JDOMException\n\tFile \""+path+"\" is empty");
 			xmlFile.delete();
-		} /*catch (Exception e){
-			recovered = Printer.printError(this, "recovery", "Unknown error\n\t"+e.toString());
-			e.printStackTrace();
-		} */finally{
+		} finally{
 			if(recovered)
 				Printer.printInfo(this, "recovery", "Local data recovered");
 		}
@@ -387,7 +385,9 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		// Writing in file
 		Document doc = new Document(root);
 		XMLOutputter xmlOutput = new XMLOutputter();
-		xmlOutput.setFormat(Format.getPrettyFormat());
+		Format format = Format.getPrettyFormat();
+		//format.setEncoding("UTF-8");
+		xmlOutput.setFormat(format);
 		try {
 			xmlOutput.output(doc, new FileWriter(path));
 		} catch (IOException e) {

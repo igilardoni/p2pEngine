@@ -10,7 +10,8 @@ import org.junit.Test;
 import util.secure.AsymKeysImpl;
 
 public class ItemTest {
-	private static AsymKeysImpl owner = new AsymKeysImpl(false);
+	private static String pwd = "pwd";
+	private static AsymKeysImpl owner = new AsymKeysImpl(pwd);
 	private static String friendlyNick = "friendlyNick";
 	private static String title = "title";
 	private static Category category = new Category(CATEGORY.NA);
@@ -29,7 +30,7 @@ public class ItemTest {
 		item1 = new Item(owner, friendlyNick, title, category, description, image, country, contact, 0, lifeTime, type);
 		
 		item2 = new Item();
-		item2.setOwner(owner);
+		item2.setKeys(owner);
 		item2.setTitle(title);
 		item2.setCategory(category);
 		item2.setDescription(description);

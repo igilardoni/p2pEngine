@@ -13,7 +13,7 @@ public class ASymKeysImplTest {
 		AsymKeysImpl gen;
 		BigInteger verif;
 		
-		gen = new AsymKeysImpl(false);
+		gen = new AsymKeysImpl("");
 		verif = gen.getG().modPow(gen.getPrivateKey(), gen.getP());
 		assertEquals(gen.getPublicKey(), verif);
 		// TODO Reduction time duration !
@@ -27,7 +27,7 @@ public class ASymKeysImplTest {
 		AsymKeysImpl gen = new AsymKeysImpl();
 		assertFalse(gen.isCompatible());
 		
-		gen = new AsymKeysImpl(false);
+		gen = new AsymKeysImpl("");
 		assertTrue(gen.isCompatible());
 	}
 }

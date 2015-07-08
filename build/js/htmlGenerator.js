@@ -7,12 +7,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * VARIABLES * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-var tableItem = [
-		{text:"Title", attributes:{"class":"rowTitle"}},
-		{text:"Description", attributes:{"class":"rowDescription"}},
-		{text:"", attributes:{"class":"rowActions"}}
-];
 var emptyForm = [
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_"}, inside:[
@@ -54,12 +48,15 @@ var menu = [
 /* * * * * * * * * * * * * * * * * * * * * * * HEADER* * * * * * * * * * * * * * * * * * * * * * * * * */
 var header = [
 		{element:"div", attributes:{}, inside:[
-        	{element:"text", value:"Secure eXchange Protocol Manager"}
-    	]},
+			{element:"img", attributes:{src:"./img/sxpLogo.png"}, inside:[]}
+		]},
     	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
 			{element:"ul", attributes:{"class":"menu", onmouseover:"dropMenuOn();", onmouseout:"dropMenuOff();"}, inside:[
 				{element:"li", attributes:{}, inside:[
-					{element:"text", value:"Account Setting"}
+					{element:"text", value:'⚙'}
+				]},
+				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"headerButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
 				]},
 				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
 					{element:"input", attributes:{type:"button", value:"Profile", "class":"headerButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
@@ -69,6 +66,13 @@ var header = [
 				]}
 			]}
 		]}
+];
+/* * * * * * * * * * * * * * * * * * * * * * * BOOSTRAP* * * * * * * * * * * * * * * * * * * * * * * * */
+var boostrapInvitation = [
+		{element:"div", attributes:{id:"bootstrapInvitation"}, inside:[]}
+];
+var boostrapSetting = [
+		{element:"div", attributes:{id:"boostrapPreference"}, inside:[]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
 var loginForm = [
@@ -374,7 +378,7 @@ var webmailForm = [
 					]},
 					{element:"li", attributes:{id:"unread", onclick:"loadMessages();"}, inside:[
 						{element:"a", attributes:{}, inside:[
-							{element:"text", value:"Unreaded"}
+							{element:"text", value:"Unread"}
 						]}
 					]},
 					{element:"li", attributes:{id:"conversation", onclick:"loadConversation();"}, inside:[
@@ -752,7 +756,7 @@ function typeImageChanged(){
 		$("#fileDiv").show();
 		$("#webcamDiv").hide();
 		previewFile();
-	}else if($("#paraImage input[type=radio]:checked").val()=="Webcam"){
+	} else if($("#paraImage input[type=radio]:checked").val()=="Webcam") {
 		$("#fileDiv").hide();
 		$("#webcamDiv").show();
 		$("#paraImage img").attr("src", "");
