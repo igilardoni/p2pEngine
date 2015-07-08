@@ -14,8 +14,11 @@ import util.StringToElement;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import model.data.contrat.Contrat;
+import model.data.favorites.Favorites;
 import model.data.item.Item;
+import model.data.user.Conversations;
 import model.data.user.User;
+import model.data.user.UserMessage;
 import model.network.search.Search;
 
 public class UserManager {
@@ -136,8 +139,8 @@ public class UserManager {
 			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
 			return;
 		}
-		AsymKeysImpl originalKey = user.getKeys().clone();
-		user.encryptPrivateKey(user.getClearPwd());
+		AsymKeysImpl originalKey = new AsymKeysImpl(user.getKeys().toString());
+		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);
 	}	
@@ -229,7 +232,9 @@ public class UserManager {
 	public void logout() {
 		AsymKeysImpl clearKey = currentUser.getKeys().clone();
 		String clearPassword = new String(currentUser.getClearPwd());
-		currentUser.encryptPrivateKey(clearPassword);
+		manager.getFavoriteManager().getFavoritesCurrentUser().encrypt(clearPassword);
+		manager.getFavoriteManager().getFavoritesCurrentUser().sign(clearKey);
+		currentUser.getKeys().encryptPrivateKey(clearPassword);
 		currentUser.sign(clearKey);
 		currentUser.setClearPassword(null);
 		manager.saving(VARIABLES.ManagerFilePath);
@@ -280,10 +285,11 @@ public class UserManager {
 		if(!u.isPassword(password))
 			return false;
 		// Check privateKey decryption
-		if(!u.decryptPrivateKey(password))
+		if(!u.getKeys().decryptPrivateKey(password))
 			return false;
 		currentUser = u;
 		currentUser.setClearPassword(password);
+		manager.getFavoriteManager().getFavoritesCurrentUser().decrypt(password);
 		return currentUser != null;
 	}
 	

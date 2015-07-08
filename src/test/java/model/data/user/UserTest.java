@@ -45,7 +45,7 @@ public class UserTest {
 		
 		// Two type of constructor
 		user1 = new User(nick, password, name, firstName, email, phone);
-		user1.setKey(key);
+		user1.setKeys(key);
 		user2 = new User(user1.toString());
 		user3 = new User(user2.toString());
 		
@@ -54,12 +54,12 @@ public class UserTest {
 		assertTrue(user3.equals(user1));
 		
 		// Compare with empty key and not empty key (different expected)
-		user1.setKey(null);
+		user1.setKeys(null);
 		assertFalse(user1.equals(user2));
 		assertFalse(user1.equals(user3));
 		
 		// Compare two user with empty key (equals expected)
-		user2.setKey(null);
+		user2.setKeys(null);
 		assertTrue(user1.equals(user2));
 		
 		// Compare empty constructor with user with empty key (equals expected)
@@ -89,10 +89,10 @@ public class UserTest {
 		User user1;
 		user1 = new User(nick, password, name, firstName, email, phone);
 		BigInteger truePrivate = user1.getKeys().getPrivateKey();
-		user1.encryptPrivateKey(password);
+		user1.getKeys().encryptPrivateKey(password);
 		
 		User user2 = new User(user1.toString());
-		user2.decryptPrivateKey(password);
+		user2.getKeys().decryptPrivateKey(password);
 		assertEquals(truePrivate, user2.getKeys().getPrivateKey());
 	}
 }

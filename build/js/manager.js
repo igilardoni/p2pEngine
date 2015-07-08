@@ -8,8 +8,6 @@ function emptyContent(){
 }
 
 function includeLogin(){
-	removeHeader();
-	removeMenu();
 	removeFavorites();
 	removeFooter();
 	emptyContent();
@@ -17,8 +15,6 @@ function includeLogin(){
 }
 
 function includeRegistration(){
-	removeHeader();
-	removeMenu();
 	removeFavorites();
 	removeFooter();
 	emptyContent();
@@ -26,19 +22,19 @@ function includeRegistration(){
 }
 
 function includeHome(){
-	includeHeader();
-	includeMenu();
 	emptyContent();
 	$("#content").replaceWith(getHome());
+	allMenuWhite();
+	$("nav .homeButton").css("background-color", "#707070");
 	scrollTop();
 	loadItems();
 }
 
 function includeSearch(){
-	includeHeader();
-	includeMenu();
 	emptyContent();
 	$("#content").replaceWith(getSearchItem());
+	allMenuWhite();
+	$("nav .searchButton").css("background-color", "#707070");
 	scrollTop();
 	loadItemSearchField();
 }
@@ -46,6 +42,8 @@ function includeSearch(){
 function includeContrat(){
 	emptyContent();
 	$("#content").replaceWith(getContrat());
+	allMenuWhite();
+	$("nav .contratButton").css("background-color", "#707070");
 	loadContrats();
 	scrollTop();
 }
@@ -53,6 +51,8 @@ function includeContrat(){
 function includeWebmail(){
 	emptyContent();
 	$("#content").replaceWith(getWebmail());
+	allMenuWhite();
+	$("nav .messageButton").css("background-color", "#707070");
 	scrollTop();
 }
 
@@ -77,6 +77,7 @@ function removeHeader(){
 function includeAccount(){
 	emptyContent();
 	$("#content").append(getUpdateAccountForm());
+	allMenuWhite();
 }
 
 function includeFavorites(){
@@ -99,4 +100,11 @@ function removeFooter(){
 
 function scrollTop(){
 	window.scrollTo(0, 0);
+}
+
+function allMenuWhite(){
+	$("nav .homeButton").css("background-color", "#404040");
+	$("nav .searchButton").css("background-color", "#404040");
+	$("nav .contratButton").css("background-color", "#404040");
+	$("nav .messageButton").css("background-color", "#404040");
 }

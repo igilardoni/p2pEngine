@@ -7,8 +7,10 @@ import model.data.item.Category.CATEGORY;
 
 import org.junit.Test;
 
+import util.secure.AsymKeysImpl;
+
 public class ItemTest {
-	private static String owner = "owner";
+	private static AsymKeysImpl owner = new AsymKeysImpl(false);
 	private static String friendlyNick = "friendlyNick";
 	private static String title = "title";
 	private static Category category = new Category(CATEGORY.NA);

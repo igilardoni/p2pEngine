@@ -13,7 +13,9 @@ import java.util.Map.Entry;
 import model.advertisement.AbstractAdvertisement;
 import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
+import model.data.item.Category;
 import model.data.item.Item;
+import model.data.item.Item.TYPE;
 import model.data.user.Conversations;
 import model.data.user.UserMessage;
 import model.data.user.User;
@@ -230,7 +232,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				if(!dealManager.containsUser(owner) && userManager.userExists(owner))
 					dealManager.getDeals().put(owner, new ArrayList<Contrat>());
 				if(e.getChild(Contrat.class.getName())!=null)
-					dealManager.addDeal(owner, new Contrat(e.getChild("Deal")));
+					dealManager.addDeal(owner, new Contrat(e.getChild("deal")));
 			}
 		} catch (FileNotFoundException e){
 			recovered = Printer.printError(this, "recovery", "File \""+path+"\" doesn't exist");
@@ -276,7 +278,9 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		ArrayList<Contrat> arrayDealsC = this.dealManager.getDealsCurrentUser();
 		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
 		Favorites favoC = this.favoriteManager.getFavoritesCurrentUser();
-		if(favoC!=null) favorites.add(favoC);
+		if(favoC!=null) {
+			favorites.add(favoC);
+		}
 		
 		// Element users
 		users.add(this.userManager.getCurrentUser());
@@ -389,52 +393,19 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		} catch (IOException e) {
 			Printer.printError(this, "saving", "saving : "+e.toString());
 		}
-		// Decrypt current user's private key
-		// currentUser.decryptPrivateKey(currentUser.getClearPwd());
 	}
 	
-	
-	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public static void main(String[] args) {
-		Network network = new Network(123, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
-		Manager manager = new Manager(network);
-		
-		/*User user1 = new User("Eldoran", "123456789", "Michael", "Dubuis", "Eldoran.s.e@gmail.com", "0664968765");
-		manager.registration(user1);
-		user1.decryptPrivateKey("123456789");
-		manager.currentUser = user1;
-		Item item1 = new Item(manager.currentUser, "Eldoran's Soul", new Category("category"), "useless things", "", "hell", "phone me", 0L, 0L, TYPE.PROPOSAL);
-		item1.sign(manager.currentUser.getKeys());
-		manager.addItem(item1);
-		
-		User user2 = new User("Lulu", "666", "Satan", "Lucifer", "Lulu666@hell.ff", "666");
-		user2.sign(user2.getKeys());
-		
-		Item item2 = new Item(user2, "Porsche 911", new Category("Vehicles"), "Beautyful car", "", "In front of your Home", "praying", 0L, 0L, TYPE.PROPOSAL);
-		item2.sign(user2.getKeys());
-		
-		Deal deal = new Deal("Good deal", user1);
-		deal.addSignatory(user2);
-		deal.addItem(item1);
-		deal.addItem(item2);
-		deal.addTransferRule(item1.getItemKey(), user2.getKeys().getPublicKey().toString(16));
-		deal.addTransferRule(item2.getItemKey(), user1.getKeys().getPublicKey().toString(16));
-		deal.sign(user1.getKeys()); 
-		
-		manager.addDeal(user1.getKeys().getPublicKey().toString(16), deal);
-		
-		manager.saving("");*/
-		
-		manager.recovery("");
-		for (User user : manager.userManager.getUsers()) {
-			for (Contrat deal : manager.dealManager.getUserDeals(user.getKeys().getPublicKey().toString(16))) {
-				System.out.println(deal.toPrint());
-			}
-		}
+	public static void main(String[] args){
+		User u = new User("nick", "passWord", "name", "firstName", "email", "phone");
+		Item i = new Item(u, "title", new Category("NA"), "description", "image", "country", "contact", 0L, 0L, TYPE.OFFER);
+		Favorites f = new Favorites(u);
+		f.addItem(i);
+		f.sign(u.getKeys());
+		f.encrypt("passWord");
+		f.sign(u.getKeys());
+		//System.out.println(f.toString());
+		Favorites f2 = new Favorites(f.toString());
+		System.out.println(f2.checkSignature(u.getKeys()));
 	}
-	
-
-	
-	
 }
 

@@ -37,9 +37,11 @@ function contratCreated(content) {
 	$("#objects").append(getTableItem(itemContratList));
 }
 function itemForContratLoaded(content) {
-	alert($("#contratID").val());
 	$("#contratID").text()==content.contratId
 	$("#"+itemContratList).append(newRowItemContrat(content));
+}
+function contratsLoaded(content) {
+	$("#"+contratList).append(newRowContrat(content));
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
@@ -57,10 +59,22 @@ function getContrat(){
 	div.appendChild(buttonContrat);
 	return div;
 }
-
+function newRowContrat(content) {
+	var row = document.createElement("tr");
+	row.setAttribute("id", removePunctuation(content.contratID));
+	var cell1 = document.createElement("td");
+	cell1.appendChild(document.createTextNode(content.title));
+	var cell2 = document.createElement("td");
+	cell2.appendChild(document.createTextNode(content.state));
+	var cell3 = document.createElement("td");
+	cell3.setAttribute("class", "rowActions");
+	row.appendChild(cell1);
+	row.appendChild(cell2);
+	row.appendChild(cell3);
+}
 function newRowItemContrat(content) {
 	var row = document.createElement("tr");
-	row.setAttribute("id", "contrat"+removePunctuation(content.itemKey));
+	row.setAttribute("id", "contrat"+removePunctuation(content.contratID));
 	// Title cell
 	var cell1 = document.createElement("td");
 	cell1.setAttribute("class", "rowTitle");

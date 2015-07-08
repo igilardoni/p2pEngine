@@ -165,15 +165,18 @@ function itemAdded(content){
 }
 
 function itemLoaded(content){
-	$.each(content, function(key, value){
-		$("#"+itemForm+" #"+key).val(value);
-	});
-	$("#"+itemForm+" #image").attr("src", content.image);
-	$("#itemForm").find("h1").empty();
-	$("#itemForm").find("h1").append("Item : "+content.itemKey);
-	$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");
-	$("#addButton").empty();
-	$("#addButton").append("Update Item");
+	itemFormComplet();
+	setTimeout(function(){
+		$.each(content, function(key, value){
+			$("#"+itemForm+" #"+key).val(value);
+		});
+		$("#"+itemForm+" #image").attr("src", content.image);
+		$("#itemForm").find("h1").empty();
+		$("#itemForm").find("h1").append("Item : "+content.itemKey);
+		$("#addButton").attr("onclick", "updateItem('"+content.itemKey+"');");
+		$("#addButton").empty();
+		$("#addButton").append("Update Item");
+	}, 10);
 }
 
 function categoryLoaded(content){
@@ -249,12 +252,17 @@ function resetSearch(){
 function getItemAddForm(){
 	var div = document.createElement("div");
 	div.setAttribute("id", itemForm);
-	for ( var i = 0 ; i < itemAddForm.length ; i++ ) {
-		div.appendChild(getElement(itemAddForm[i]));
+	div.appendChild(getElement(itemAddForm[0]));
+	return div;
+}
+
+function itemFormComplet(){
+	$("#"+itemForm).empty();
+	for ( var i = 1 ; i < itemAddForm.length ; i++ ) {
+		$("#"+itemForm).append(getElement(itemAddForm[i]));
 	}
 	loadCategories();
 	loadType();
-	return div;
 }
 /**
  * Get a table for display item list

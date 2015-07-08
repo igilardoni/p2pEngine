@@ -12,6 +12,7 @@ import org.jdom2.Element;
 
 import util.Hexa;
 import util.StringToElement;
+import util.secure.AsymKeysImpl;
 import util.secure.Serpent;
 
 /**
@@ -21,9 +22,8 @@ import util.secure.Serpent;
  *
  */
 public class Favorites extends AbstractAdvertisement{
-	private String owner;
-	private ArrayList<String> itemsKey = new ArrayList<String>();
-	private boolean crypted = false;
+	private ArrayList<String> itemsKey;
+	private boolean crypted;
 	
 	///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public Favorites(User owner){
@@ -36,7 +36,7 @@ public class Favorites extends AbstractAdvertisement{
 			printError("Favorites", "User haven't publicKey");
 			return;
 		}
-		this.setOwner(owner.getKeys().getPublicKey().toString(16));
+		this.setKeys(owner.getKeys());
 	}
 	public Favorites(Element e){
 		super(e);
@@ -46,7 +46,7 @@ public class Favorites extends AbstractAdvertisement{
 	}
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public String getOwner(){
-		return owner;
+		return getKeys().getPublicKey().toString(16);
 	}
 	public ArrayList<String> getItemsKey(){
 		return itemsKey;
@@ -55,13 +55,7 @@ public class Favorites extends AbstractAdvertisement{
 		return crypted;
 	}
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public void setOwner(String publicKey){
-		if(publicKey == null || publicKey.isEmpty()){
-			printError("setOwner", "publicKey is null or empty");
-			return;
-		}
-		this.owner = publicKey;
-	}
+
 	public boolean addItem(Item item){
 		if(item == null)
 			return printError("addItem", "Item empty");
@@ -168,8 +162,12 @@ public class Favorites extends AbstractAdvertisement{
 			itemsKey = new ArrayList<String>();
 		for(Element i: root.getChildren()) {
 			String itemKey = new String(i.getValue());
-			addItem(itemKey);
+			itemsKey.add(itemKey);
 		}
+	}
+	private void loadCrypted(String val){
+		if(val.toLowerCase().equals("true"))
+			this.setCrypted(true);
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
@@ -179,13 +177,13 @@ public class Favorites extends AbstractAdvertisement{
 	@Override
 	protected void setKeys() {
 		itemsKey = new ArrayList<String>();
-		this.addKey("owner", false, false);
+		crypted = false;
+		
 		this.addKey("itemsKey", false, true);
 		this.addKey("crypted", false, false);
 	}
 	@Override
 	protected void putValues() {
-		this.addValue("owner", this.getOwner());
 		this.addValue("itemsKey", this.itemsKeyXML());
 		this.addValue("crypted", String.valueOf(crypted));
 	}
@@ -193,9 +191,8 @@ public class Favorites extends AbstractAdvertisement{
 	protected boolean handleElement(Element e) {
 		String val = e.getText();
 		switch(e.getName()) {
-		case "owner":			this.setOwner(val);							break;
 		case "itemsKey":		this.loadItemsKey(e);						break;
-		case "crypted":			this.setCrypted(Boolean.parseBoolean(val));	break;
+		case "crypted":			this.loadCrypted(val);						break;
 		default: return false;
 		}
 		return true;

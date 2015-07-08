@@ -121,7 +121,7 @@ public class ManagerBridge{
 		}
 		System.out.println(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys()); // TODO Care try debug
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}
@@ -164,7 +164,7 @@ public class ManagerBridge{
 		item.setImage(image);
 		item.setCountry(country);
 		item.setContact(contact);
-		item.setLifeTime(Long.parseLong(lifeTime));
+		item.setLifeTime(DateConverter.getLong(lifeTime)-item.getDate());
 		item.setType(type.toUpperCase()=="WISH"?TYPE.DEMAND:TYPE.OFFER);
 		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
 		Application.getInstance().getManager().getItemManager().updateItem(itemKey, item);
@@ -304,6 +304,14 @@ public class ManagerBridge{
 	}
 	public static ArrayList<Contrat> getCurrentUserContrats(){
 		return Application.getInstance().getManager().getDealManager().getDealsCurrentUser();
+	}
+	public static Contrat getCurrentUserContrat(String id){
+		ArrayList<Contrat> contrats = getCurrentUserContrats();
+		for (Contrat contrat : contrats) {
+			if(contrat.getId().equals(id))
+				return contrat;
+		}
+		return null;
 	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){

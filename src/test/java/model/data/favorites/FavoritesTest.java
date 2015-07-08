@@ -100,7 +100,7 @@ public class FavoritesTest {
 		Favorites f1 = new Favorites((User) null);
 		assertNull(f1.getOwner());
 		
-		f1.setOwner(userOwnerFavorites.getKeys().getPublicKey().toString(16));
+		f1.setKeys(userOwnerFavorites.getKeys());
 		assertEquals(userOwnerFavorites.getKeys().getPublicKey().toString(16), f1.getOwner());
 	}
 }

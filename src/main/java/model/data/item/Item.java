@@ -39,7 +39,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	private long date;				// Date of post/update
 	private long lifeTime;			// LifeTime of the object (at the end of this, the object is delete)
 	private TYPE type;				// Proposal/Wish
-	private AsymKeysImpl owner;
 	
 	/**
 	 * Constructor of Item.
@@ -60,7 +59,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 			String image, String country, String contact, 
 			long date, long lifeTime,TYPE type){
 		super();
-		this.setOwner(owner);
+		this.setKeys(owner); //TODO ENCRYPT
 		this.setFriendlyNick(friendlyNick);
 		this.setTitle(title);
 		this.setCategory(category);
@@ -95,7 +94,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	public Item(User owner, String title,
 			Category category, String description, String image,
 			String country,String contact,long date,long lifeTime,TYPE type){
-		this(owner.getKeys(),owner.getNick(),title, 
+		this(owner.getKeys(), owner.getNick(),title, 
 				category, description, image, country, contact, date, lifeTime, type);
 	}
 	
@@ -127,35 +126,15 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 * @return
 	 */
 	public String getOwner() {
-		return owner.getPublicKey().toString(16);
+		return getKeys().getPublicKey().toString(16);
 	}
-	
-	/**
-	 * Define the owner of this Item
-	 * @param owner
-	 */
-	public void setOwner(AsymKeysImpl owner) {
-		this.owner = owner;
-	}
-	
-	/*private void setId(long id){
-		long rand;
-		if(id<=0)
-			rand = 1 + (long)(Math.random() * ((Long.MAX_VALUE - 1) + 1));
-		else
-			rand = id;
-		this.keyId = Hasher.SHA256(this.getOwner()+":"+String.valueOf(rand));
-	}
-	private void setId(String keyId){
-		this.keyId = keyId;
-	} */
 	
 	/**
 	 * Define the owner of this Item (with User Object in parameter)
 	 * @param owner
 	 */
 	public void setOwner(User owner){
-		this.owner = owner.getKeys();
+		setKeys(owner.getKeys());
 	}
 	
 	/**
@@ -368,7 +347,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 
 	@Override
 	protected void setKeys() {
-		this.addKey("owner", true, false);
+		//this.addKey("owner", true, false);
 		this.addKey("friendNick", false, true);
 		this.addKey("title", true, true);
 		this.addKey("category",true, true);
@@ -386,7 +365,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	 */
 	@Override
 	protected void putValues() {
-		addValue("owner", this.getOwner());
 		addValue("friendNick", this.getFriendNick());
 		addValue("title", this.getTitle());
 		addValue("category", category.getStringChoice());
@@ -408,9 +386,6 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 	protected boolean handleElement(org.jdom2.Element e) {
 		String val = e.getText();
 		switch(e.getName()){
-		case "owner":
-			setOwner(new AsymKeysImpl(val));
-			return true;
 		case "friendNick":
 			setFriendlyNick(val);
 			return true;
