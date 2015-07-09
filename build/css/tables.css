@@ -65,6 +65,9 @@ table .rowActions {
 	text-align : center;
 	width : 8%;
 }
+table .rowState {
+	text-align : center;
+}
 /************************************************* BUTTONS **************************************************/
 .buttonEdit, .buttonRemove, .buttonAddFavorites {
 	cursor : pointer;

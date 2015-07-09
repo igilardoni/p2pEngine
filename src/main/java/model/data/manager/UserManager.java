@@ -243,8 +243,8 @@ public class UserManager {
 		}*/
 		currentUser.getKeys().encryptPrivateKey(clearPassword);
 		currentUser.sign(clearKeys);
-		currentUser.setClearPassword(null);
 		manager.saving(VARIABLES.ManagerFilePath);
+		currentUser.setClearPassword(null);
 		currentUser = null;
 	}
 	

@@ -11,16 +11,18 @@ function loadContrats(){
 	sendQueryEmpty("loadContrats");
 }
 function loadContrat(id){
-	var content = {"id":id};
+	var content = {"contratID":id};
 	sendQuery("loadContrat", content);
 }
 function loadItemForContrat(){
 	var itemKey = $("#itemFavoritesDisplayer #itemKey").text();
+	if(!$("#contratID"))
+		newContrat();
 	var contrat = $("#contratID").text();
 	
 	var content = {
 			"itemKey":itemKey,
-			"contratId":contrat
+			"contratID":contrat
 	};
 	sendQuery("loadItemForContrat", content);
 }
@@ -62,15 +64,19 @@ function getContrat(){
 function newRowContrat(content) {
 	var row = document.createElement("tr");
 	row.setAttribute("id", removePunctuation(content.contratID));
+	row.setAttribute("onclick", "loadContrat(content.contratID);");
 	var cell1 = document.createElement("td");
+	cell1.setAttribute("class", "rowTitle");
 	cell1.appendChild(document.createTextNode(content.title));
 	var cell2 = document.createElement("td");
+	cell2.setAttribute("class", "rowState");
 	cell2.appendChild(document.createTextNode(content.state));
 	var cell3 = document.createElement("td");
 	cell3.setAttribute("class", "rowActions");
 	row.appendChild(cell1);
 	row.appendChild(cell2);
 	row.appendChild(cell3);
+	return row;
 }
 function newRowItemContrat(content) {
 	var row = document.createElement("tr");

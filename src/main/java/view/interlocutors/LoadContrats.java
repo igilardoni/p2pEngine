@@ -43,7 +43,7 @@ public class LoadContrats extends AbstractInterlocutor {
 			JSONObject content = new JSONObject();
 			for (Contrat contrat : contrats) {
 				data.put("query", "contratsLoaded");
-				content.put("id", contrat.getId());
+				content.put("contratID", contrat.getId());
 				content.put("state", contrat.getStateStringFormat());
 				content.put("title", contrat.getTitle());
 				data.put("content", content);

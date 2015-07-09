@@ -39,7 +39,7 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 			JSONObject c = getJSON(content);
 			String itemKey, contrat;
 			itemKey = c.getString("itemKey");
-			contrat = c.getString("contratId");
+			contrat = c.getString("contratID");
 			
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();

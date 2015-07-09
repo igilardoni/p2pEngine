@@ -461,7 +461,10 @@ var writeMessage = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer = [
-		{element:"h1", attributes:{id:"itemKey"}, inside:[]},
+		{element:"h1", attributes:{}, inside:[
+			{element:"text", value:"Favorite item"}
+		]},
+ 		{element:"label", attributes:{id:"itemKey", "class":"hidden"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Title : "}
@@ -529,10 +532,10 @@ var contratTable = [
 		{element:"table", attributes:{id:contratList}, inside:[
 			{element:"thead", attributes:{}, inside:[
 				{element:"tr", attributes:{}, inside:[
-					{element:"th", attributes:{}, inside:[
+					{element:"th", attributes:{"class":"rowTitle"}, inside:[
 						{element:"text", value:"Title"}
 					]},
-					{element:"th", attributes:{}, inside:[
+					{element:"th", attributes:{"class":"rowState"}, inside:[
   						{element:"text", value:"State"}
   					]},
   					{element:"th", attributes:{"class":"rowActions"}, inside:[]}
@@ -544,7 +547,10 @@ var contratTable = [
 ];
 var contratForm =[
 		{element:"div", attributes:{id:"contratForm"}, inside:[
-			{element:"h1", attributes:{id:"contratID"}, inside:[]},
+			{element:"h1", attributes:{}, inside:[
+				{element:"text", value:"Contrat"}
+			]},
+			{element:"label", attributes:{"class":"hidden", id:"contratID"}, inside:[]},
 			{element:"div", attributes:{id:"objects"}, inside:[]},
 			{element:"div", attributes:{}, inside:[
 				{element:"table", attributes:{id:"signatories"}, inside:[
