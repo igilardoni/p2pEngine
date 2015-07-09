@@ -8,6 +8,7 @@ import org.jdom2.Element;
 
 import util.Printer;
 import util.StringToElement;
+import util.secure.AsymKeysImpl;
 import model.data.favorites.Favorites;
 import model.data.item.Item;
 import model.data.user.User;
@@ -91,6 +92,10 @@ public class FavoriteManager {
 	 */
 	public void addFavoritesItem(Item item){
 		User currentUser = manager.getUserManager().getCurrentUser();
+		AsymKeysImpl keys = manager.getUserManager().getCurrentUser().getKeys().copy();
+		keys.decryptPrivateKey(manager.getUserManager().getCurrentUser().getClearPwd());
+		System.out.println(manager.getUserManager().getCurrentUser().getKeys().toString());
+		System.out.println(keys.getPrivateKey().toString(16));
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16); //TODO verification currentUser existe ?
 		if(publicKey == null || publicKey.isEmpty()){
 			Printer.printError(this, "addFavoritesItem", "Not user logged or PublicKey empty !");
@@ -98,7 +103,7 @@ public class FavoriteManager {
 		}
 		if(!favorites.containsKey(publicKey)){
 			Favorites f = new Favorites(currentUser);
-			f.sign(currentUser.getKeys());
+			f.sign(keys);
 			addFavorites(f);
 		}
 		if(item == null){
@@ -106,7 +111,7 @@ public class FavoriteManager {
 			return;
 		}
 		favorites.get(publicKey).addItem(item);
-		favorites.get(publicKey).sign(currentUser.getKeys());
+		favorites.get(publicKey).sign(keys);
 	}
 	
 	

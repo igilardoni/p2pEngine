@@ -143,7 +143,7 @@ public class UserManager {
 			return;
 		}
 		
-		AsymKeysImpl originalKey = user.getKeys().clone(true);
+		AsymKeysImpl originalKey = user.getKeys().copy();
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user);
@@ -234,7 +234,8 @@ public class UserManager {
 	 * Log out the current User.
 	 */
 	public void logout() {
-		AsymKeysImpl clearKeys = currentUser.getKeys().clone(true);
+		AsymKeysImpl clearKeys = currentUser.getKeys().copy();
+		clearKeys.decryptPrivateKey(currentUser.getClearPwd());
 		String clearPassword = new String(currentUser.getClearPwd());
 		/*if(manager.getFavoriteManager().getFavoritesCurrentUser() != null){
 			manager.getFavoriteManager().getFavoritesCurrentUser().encrypt(clearPassword);

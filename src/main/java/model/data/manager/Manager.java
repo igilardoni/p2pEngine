@@ -255,6 +255,8 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	@Override
 	public void saving(String path) {
 		String currentPublicKey = userManager.getCurrentUser().getKeys().getPublicKey().toString(16);
+		AsymKeysImpl keys = userManager.getCurrentUser().getKeys().copy();
+		keys.decryptPrivateKey(userManager.getCurrentUser().getClearPwd());
 		// Recovery all local data in a new Manager
 		Manager manager = new Manager(null);
 		manager.recovery(path);
@@ -277,6 +279,8 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
 		Favorites favoC = this.favoriteManager.getFavoritesCurrentUser();
 		if(favoC!=null) {
+			favoC.encrypt(userManager.getCurrentUser().getClearPwd());
+			favoC.sign(keys);
 			favorites.add(favoC);
 		}
 		

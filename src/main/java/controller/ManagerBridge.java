@@ -13,6 +13,7 @@ import model.data.user.UserMessage;
 import model.data.user.User;
 import model.network.search.ItemSearcher;
 import util.DateConverter;
+import util.secure.AsymKeysImpl;
 
 public class ManagerBridge{
 	private ManagerBridge(){
@@ -121,7 +122,9 @@ public class ManagerBridge{
 		}
 		System.out.println(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().toString());
 		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys()); // TODO Care try debug
+		AsymKeysImpl keys = Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().copy();
+		keys.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
+		item.sign(keys); // TODO Care try debug
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}

@@ -223,6 +223,9 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 			return false;
 		if(key.getG().compareTo(this.getG())!=0)
 			return false;
+		if(key.getPrivateKey() == null && this.getPrivateKey() != null ||
+				key.getPrivateKey() != null && this.getPrivateKey() == null)
+			return false;
 		if(key.getPrivateKey().compareTo(this.getPrivateKey())!=0)
 			return false;
 		if(key.getPublicKey().compareTo(this.getPublicKey())!=0)

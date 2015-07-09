@@ -297,11 +297,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public static void main(String[] args){
 		User user = new User("nick", "password", "name", "firstName", "email", "phone");
-		AsymKeysImpl keys = user.getKeys().clone();
+		AsymKeysImpl keys = user.getKeys().copy();
 		
 		user.getKeys().encryptPrivateKey("password");
 		
-		user.sign(user.getKeys());
+		user.sign(keys);
 		System.out.println(user.checkSignature(user.getKeys()));
 	}
 }
