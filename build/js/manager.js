@@ -25,7 +25,7 @@ function includeHome(){
 	emptyContent();
 	$("#content").replaceWith(getHome());
 	allMenuWhite();
-	$("nav .homeButton").css("background-color", "#707070");
+	$("nav .homeButton").addClass("selected");
 	scrollTop();
 	loadItems();
 }
@@ -34,7 +34,7 @@ function includeSearch(){
 	emptyContent();
 	$("#content").replaceWith(getSearchItem());
 	allMenuWhite();
-	$("nav .searchButton").css("background-color", "#707070");
+	$("nav .searchButton").addClass("selected");
 	scrollTop();
 	loadItemSearchField();
 }
@@ -43,7 +43,7 @@ function includeContrat(){
 	emptyContent();
 	$("#content").replaceWith(getContrat());
 	allMenuWhite();
-	$("nav .contratButton").css("background-color", "#707070");
+	$("nav .contratButton").addClass("selected");
 	loadContrats();
 	scrollTop();
 }
@@ -52,7 +52,7 @@ function includeWebmail(){
 	emptyContent();
 	$("#content").replaceWith(getWebmail());
 	allMenuWhite();
-	$("nav .messageButton").css("background-color", "#707070");
+	$("nav .messageButton").addClass("selected");
 	scrollTop();
 }
 
@@ -103,8 +103,8 @@ function scrollTop(){
 }
 
 function allMenuWhite(){
-	$("nav .homeButton").css("background-color", "#404040");
-	$("nav .searchButton").css("background-color", "#404040");
-	$("nav .contratButton").css("background-color", "#404040");
-	$("nav .messageButton").css("background-color", "#404040");
+	$("nav .homeButton").removeClass("selected");
+	$("nav .searchButton").removeClass("selected");
+	$("nav .contratButton").removeClass("selected");
+	$("nav .messageButton").removeClass("selected");
 }

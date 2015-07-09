@@ -68,6 +68,14 @@ table .rowActions {
 table .rowState {
 	text-align : center;
 }
+table .rowItem, table .rowFrom, table .rowTo {
+	width : 30%;
+	padding-left : 1em;
+	padding-right : 1em;
+}
+td {
+	word-break: break-all;
+}
 /************************************************* BUTTONS **************************************************/
 .buttonEdit, .buttonRemove, .buttonAddFavorites {
 	cursor : pointer;

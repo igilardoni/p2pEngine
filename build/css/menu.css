@@ -52,6 +52,17 @@ nav li:hover {
 	background-color : #565656;
 }
 
+nav li.selected {
+	background-color : #707070;
+}
+
+nav li.favoriteSelected {
+	background-color : #707070;
+}
+nav li.favoriteSelected:hover {
+	background-color : #565656;
+}
+
 nav li a:before {
 	width: 1em;
 	text-align: center;
@@ -65,6 +76,7 @@ nav li.searchButton a:before { content : '\2315'; }
 nav li.contratButton a:before { content : '\270D'; }
 nav li.messageButton a:before { content : '\2709'; }
 nav li.favoritesButton a:before { content : '\2606'; }
+nav li.favoriteSelected a:before { content : '\2605'; }
 
 @media(min-width : 1000px) {
 	nav li.homeButton a:after { content : 'My objects'; }

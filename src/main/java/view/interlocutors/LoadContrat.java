@@ -56,6 +56,7 @@ public class LoadContrat extends AbstractInterlocutor {
 				content.put("title", contrat.getTitle());
 				data.put("content", content);
 				com.sendText(data.toString());
+				
 				for(Item item : contrat.getItems()){
 					data = new JSONObject();
 					content = new JSONObject();
@@ -63,6 +64,7 @@ public class LoadContrat extends AbstractInterlocutor {
 					content.put("title", item.getTitle());
 					content.put("category", item.getCategory().getStringChoice());
 					content.put("contact", item.getContact());
+					content.put("contratID", contrat);
 					content.put("country", item.getCountry());
 					content.put("description", item.getDescription());
 					content.put("date", item.getDate());
@@ -81,8 +83,10 @@ public class LoadContrat extends AbstractInterlocutor {
 					content = new JSONObject();
 					data.put("query", "transfertRuleLoaded");
 					content.put("from", item.getOwner());
+					content.put("fromFriendlyNick", item.getFriendNick());
 					content.put("to", contrat.getRecipientOf(item));
 					content.put("itemKey", item.getItemKey());
+					content.put("itemTitle", item.getTitle());
 					data.put("content", content);
 					com.sendText(data.toString());
 				}

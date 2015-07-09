@@ -1,5 +1,5 @@
 /bin/
-/users.data
+/users.data/
 /.gradle/
 .classpath
 .project
@@ -11,3 +11,4 @@
 /build/libs/
 *~
 /.peerFolder*/
+SXPManager.xml

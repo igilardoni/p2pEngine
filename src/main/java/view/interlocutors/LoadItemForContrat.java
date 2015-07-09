@@ -7,6 +7,7 @@ import model.data.item.Item;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import util.Printer;
 import controller.ManagerBridge;
 
 public class LoadItemForContrat extends AbstractInterlocutor {
@@ -48,13 +49,15 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 			item = ManagerBridge.getCurrentUserItem(itemKey);
 			if(item == null)
 				item = ManagerBridge.getFavoriteItem(itemKey);
+			if(item == null)
+				item = null; // TODO Search on network !!!
 			if(item == null){
 				data.put("query", "itemForContratNotLoaded");
 				content.put("Error", "Item not in Favorites or current list");
 			}else{
 				ManagerBridge.addItemContrat(item, contrat);
 				data.put("query", "itemForContratLoaded");
-				content.put("contratId", contrat);
+				content.put("contratID", contrat);
 				content.put("itemKey", item.getItemKey());
 				content.put("title", item.getTitle());
 				content.put("owner", item.getOwner());

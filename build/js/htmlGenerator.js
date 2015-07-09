@@ -51,17 +51,17 @@ var header = [
 			{element:"img", attributes:{src:"./img/sxpLogo.png"}, inside:[]}
 		]},
     	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
-			{element:"ul", attributes:{"class":"menu", onmouseover:"dropMenuOn();", onmouseout:"dropMenuOff();"}, inside:[
-				{element:"li", attributes:{}, inside:[
+			{element:"ul", attributes:{"class":"menu"}, inside:[
+				{element:"li", attributes:{"class":"droper"}, inside:[
 					{element:"text", value:'⚙'}
 				]},
-				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+				{element:"li", attributes:{"class":"drop"}, inside:[
 					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"headerButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
 				]},
-				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+				{element:"li", attributes:{"class":"drop"}, inside:[
 					{element:"input", attributes:{type:"button", value:"Profile", "class":"headerButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
 				]},
-				{element:"li", attributes:{"class":"drop", style:"display:none;"}, inside:[
+				{element:"li", attributes:{"class":"drop"}, inside:[
 					{element:"input", attributes:{type:"button", value:"Logout", "class":"headerButton", onclick:"signOut();"}, inside:[]}
 				]}
 			]}
@@ -293,7 +293,7 @@ var itemAddForm = [
 		]},
  		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_country"}, inside:[
-				{element:"text", value:"Country : "}
+				{element:"text", value:"Location : "}
 			]},
 			{element:"input", attributes:{type:"text", id:"country", name:"country", required:"required", placeholder:"FRANCE - Marseille"}, inside:[]},
 		]},
@@ -507,7 +507,7 @@ var itemFavoritesDisplayer = [
 		]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
-				{element:"text", value:"Contry : "}
+				{element:"text", value:"Location : "}
 			]},
 			{element:"label", attributes:{id:"country", "class":"content"}, inside:[]}
 		]},
@@ -572,19 +572,26 @@ var contratForm =[
 				{element:"table", attributes:{}, inside:[
 					{element:"thead", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
-							{element:"th", attributes:{}, inside:[
+							{element:"th", attributes:{"class":"rowItem"}, inside:[
 								{element:"text", value:"Item"}
 							]},
-							{element:"th", attributes:{}, inside:[
+							{element:"th", attributes:{"class":"rowFrom"}, inside:[
   								{element:"text", value:"From"}
   							]},
-  							{element:"th", attributes:{}, inside:[
+  							{element:"th", attributes:{"class":"rowTo"}, inside:[
 								{element:"text", value:"To"}
 							]},
 						]}
 					]},
 					{element:"tbody", attributes:{}, inside:[]},
 					{element:"tfoot", attributes:{}, inside:[
+         				{element:"tr", attributes:{}, inside:[
+         					{element:"td", attributes:{colspan:"3"}, inside:[
+         						{element:"text", value:"EMPTY"}
+         					]}
+         				]}
+         			]},
+					{element:"tbutton", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
 							{element:"td", attributes:{colspan:"3"}, inside:[
 								{element:"input", attributes:{type:"button", onclick:"addRules();", value:"Add exchange rule"}, inside:[]}
@@ -605,14 +612,14 @@ var contratForm =[
 ];
 var ruleForm = [
 		{element:"tr", attributes:{}, inside:[
-			{element:"td", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"item"}, inside:[
 				{element:"label", attributes:{"class":"item"}, inside:[]}
 			]},
-			{element:"td", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"from"}, inside:[
 				{element:"label", attributes:{"class":"from"}, inside:[]},
 				{element:"label", attributes:{"class":"fromItemKey", style:"display:none;"}, inside:[]}
 			]},
-			{element:"td", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"userSelect"}, inside:[
   				{element:"select", attributes:{"class":"userSelect"}, inside:[]}
   			]},
 		]}
@@ -691,10 +698,10 @@ function getFavoritesDisplay(){
 function switchFavorites(){
 	if($("aside").text().length == 0){
 		includeFavorites();
-		$("nav .favoritesButton").css("background-color", "#707070");
+		$("nav .favoritesButton").addClass("favoriteSelected");
 	} else {
 		removeFavorites();
-		$("nav .favoritesButton").css("background-color", "#404040");
+		$("nav .favoritesButton").removeClass("favoriteSelected");
 	}
 }
 
@@ -723,13 +730,6 @@ function getUpdateAccountForm(){
 		div.appendChild(getElement(updateAccountForm[i]));
 	}
 	return div;
-}
-
-function dropMenuOn(){
-	$(".drop").show();
-}
-function dropMenuOff(){
-	$(".drop").hide();
 }
 
 function getWebmail(){
