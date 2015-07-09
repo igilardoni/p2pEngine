@@ -54,8 +54,26 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 			if(item == null){
 				data.put("query", "itemForContratNotLoaded");
 				content.put("Error", "Item not in Favorites or current list");
+				data.put("content", content);
+				com.sendText(data.toString());
 			}else{
-				ManagerBridge.addItemContrat(item, contrat);
+				if(!ManagerBridge.addItemContrat(item, contrat)){
+					data = new JSONObject();
+					content = new JSONObject();
+					data.put("query", "itemForContratNotLoaded");
+					content.put("Error", "Item not added to Contrat. \nMaybe already in this contrat ?");
+					data.put("content", content);
+					com.sendText(data.toString());
+				}
+				if(ManagerBridge.getCurrentUserContrat(contrat).addSignatory(item.getOwner())){
+					data.put("query", "signatoryAdded");
+					content.put("publicKey", item.getOwner());
+					content.put("friendlyNick", item.getFriendNick());
+					data.put("content", content);
+					com.sendText(data.toString());
+				}
+				data = new JSONObject();
+				content = new JSONObject();
 				data.put("query", "itemForContratLoaded");
 				content.put("contratID", contrat);
 				content.put("itemKey", item.getItemKey());
@@ -70,10 +88,9 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 				content.put("contact", item.getContact());
 				content.put("country", item.getCountry());
 				content.put("image", item.getImage());
+				data.put("content", content);
+				com.sendText(data.toString());
 			}
-			
-			data.put("content", content);
-			com.sendText(data.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {

@@ -298,12 +298,12 @@ public class ManagerBridge{
 		return null;
 	}
 	/////////////////////////////////////////////////// CONTRAT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public static Contrat createContrat(){
-		Contrat contrat = Application.getInstance().getManager().getDealManager().newDeal("");
+	public static Contrat createContrat(String title){
+		Contrat contrat = Application.getInstance().getManager().getDealManager().newDeal(title);
 		return contrat;
 	}
-	public static void addItemContrat(Item item, String contratID){
-		Application.getInstance().getManager().getDealManager().addItem(contratID, item);
+	public static boolean addItemContrat(Item item, String contratID){
+		return Application.getInstance().getManager().getDealManager().addItem(contratID, item);
 	}
 	public static ArrayList<Contrat> getCurrentUserContrats(){
 		return Application.getInstance().getManager().getDealManager().getDealsCurrentUser();

@@ -144,7 +144,7 @@ public class Contrat extends AbstractAdvertisement {
 		if(publicKey == null || publicKey.isEmpty())
 			return printError("addSignatory", "publicKey Empty !");
 		if(signatories.contains(publicKey))
-			return true;
+			return false;
 		return signatories.add(publicKey);
 	}
 	public boolean addSignatory(User user){
@@ -166,6 +166,8 @@ public class Contrat extends AbstractAdvertisement {
 		String owner = item.getOwner();
 		if(!signatories.contains(owner))
 			return signatories.add(owner) && items.add(item);
+		if(items.contains(item))
+			return false;
 		return items.add(item);
 	}
 	public boolean addTransferRule(String itemKey, String publicKey){

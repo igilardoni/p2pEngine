@@ -138,13 +138,13 @@ public class DealManager {
 		deals.get(publicKey).add(deal);
 	}
 	
-	public void addItem(String contratID, Item item){
+	public boolean addItem(String contratID, Item item){
 		Contrat contrat = null;
 		
 		User currentUser = manager.getUserManager().getCurrentUser();
 		if(currentUser == null) {
 			System.err.println("no user logged");
-			return;
+			return false;
 		}
 		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		
@@ -156,9 +156,9 @@ public class DealManager {
 		}
 		if(contrat == null){
 			Printer.printError(this, "addItem", "Contrat doesn't exist !");
-			return;
+			return false;
 		}
-		contrat.addItem(item);
+		return contrat.addItem(item);
 	}
 	
 	

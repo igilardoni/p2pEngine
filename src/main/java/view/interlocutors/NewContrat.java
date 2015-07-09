@@ -36,12 +36,25 @@ public class NewContrat extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 		try {
-			Contrat contrat = ManagerBridge.createContrat();
+			JSONObject c = getJSON(content);
+			JSONObject data;
+			JSONObject content;
+			Contrat contrat = ManagerBridge.createContrat(c.getString("title"));
 			
-			JSONObject data = new JSONObject();
+			/* New signatory */
+			/**/ data = new JSONObject();
+			/**/ content = new JSONObject();
+			/**/ data.put("query", "signatoryAdded");
+			/**/ content.put("publicKey", ManagerBridge.getCurrentUser().getKeys().getPublicKey().toString(16));
+			/**/ content.put("friendlyNick", ManagerBridge.getCurrentUser().getNick());
+			/**/ data.put("content", content);
+			/**/ com.sendText(data.toString());
+			
+			data = new JSONObject();
 			data.put("query", "contratCreated");
-			JSONObject content = new JSONObject();
-			content.put("contratId", contrat.getId());
+			content = new JSONObject();
+			content.put("contratID", contrat.getId());
+			content.put("title", contrat.getTitle());
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

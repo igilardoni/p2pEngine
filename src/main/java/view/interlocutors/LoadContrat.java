@@ -1,5 +1,7 @@
 package view.interlocutors;
 
+import java.util.ArrayList;
+
 import javax.websocket.Session;
 
 import model.data.contrat.Contrat;
@@ -50,10 +52,20 @@ public class LoadContrat extends AbstractInterlocutor {
 				data.put("content", content);
 				com.sendText(data.toString());
 			}else{
+				ArrayList<String> signatoriesAlreadySent = new ArrayList<String>();
 				data.put("query", "contratLoaded");
 				content.put("contratID", contrat.getId());
 				content.put("state", contrat.getStateStringFormat());
 				content.put("title", contrat.getTitle());
+				data.put("content", content);
+				com.sendText(data.toString());
+				
+				signatoriesAlreadySent.add(ManagerBridge.getCurrentUser().getKeys().getPublicKey().toString(16));
+				data = new JSONObject();
+				content = new JSONObject();
+				data.put("query", "signatoryAdded");
+				content.put("publicKey", ManagerBridge.getCurrentUser().getKeys().getPublicKey().toString(16));
+				content.put("friendlyNick", ManagerBridge.getCurrentUser().getNick());
 				data.put("content", content);
 				com.sendText(data.toString());
 				
@@ -89,6 +101,17 @@ public class LoadContrat extends AbstractInterlocutor {
 					content.put("itemTitle", item.getTitle());
 					data.put("content", content);
 					com.sendText(data.toString());
+					
+					if(!signatoriesAlreadySent.contains(item.getOwner())){
+						signatoriesAlreadySent.add(item.getOwner());
+						data = new JSONObject();
+						content = new JSONObject();
+						data.put("query", "signatoryAdded");
+						content.put("publicKey", item.getOwner());
+						content.put("friendlyNick", item.getFriendNick());
+						data.put("content", content);
+						com.sendText(data.toString());
+					}
 				}
 			}
 		} catch (JSONException e) {

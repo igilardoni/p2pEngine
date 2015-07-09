@@ -526,6 +526,10 @@ var itemFavoritesDisplayer = [
 var contratDisplay = [
 		{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Contrats"}
+		]},
+		{element:"div", attributes:{}, inside:[
+			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", required:"required"}, inside:[]},
+			{element:"input", attributes:{type:"button", onclick:"newContrat();", value:"New Contrat"}, inside:[]}
 		]}
 ];
 var contratTable = [

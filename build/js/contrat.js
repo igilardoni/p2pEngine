@@ -31,7 +31,9 @@ function loadItemForContrat(){
 	}
 }
 function newContrat(){
-	sendQueryEmpty("newContrat");
+	var titleNewContrat = $("#titleNewContrat").val();
+	var content = {"title":titleNewContrat};
+	sendQuery("newContrat", content);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
@@ -39,8 +41,9 @@ function newContrat(){
 function contratCreated(content) {
 	emptyContent();
 	$("#content").append(getElement(contratForm[0]));
-	$("#contratID").append(document.createTextNode(content.contratId));
+	$("#contratID").append(document.createTextNode(content.contratID));
 	$("#objects").append(getTableItem(itemContratList));
+	$("#contratForm").find("h1").text(content.title);
 }
 function itemForContratLoaded(content) {
 	$("#contratID").text(content.contratId);
@@ -53,7 +56,11 @@ function transfertRuleLoaded(content){
 	$("#rules table").append(newRowTransfertRule(content));
 }
 function contratLoaded(content) {
-	alert("content : "+JSON.stringify(content));
+	$("#contratForm").find("h1").text(content.title);
+	$("#contratID").append(document.createTextNode(content.contratID));
+}
+function signatoryAdded(content) {
+	$("#signatories").append(newRowSignatory(content));
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
@@ -64,11 +71,7 @@ function getContrat(){
 	div.appendChild(getElement(contratDisplay[0]));
 	div.appendChild(getElement(contratTable[0]));
 	//div.appendChild(getElement(contratForm[0]));
-	var buttonContrat = document.createElement("input");
-	buttonContrat.setAttribute("value", "New Contrat");
-	buttonContrat.setAttribute("type", "button");
-	buttonContrat.setAttribute("onclick", "newContrat();");
-	div.appendChild(buttonContrat);
+	div.appendChild(getElement(contratDisplay[1]));
 	return div;
 }
 function newRowContrat(content) {
@@ -157,5 +160,19 @@ function newRowTransfertRule(content) {
 }
 // For add a signatory in table
 function newRowSignatory(content) {
+	var row = document.createElement("tr");
+	row.setAttribute("id", "signatories"+removePunctuation(content.publicKey));
 	
+	var cell1 = document.createElement("td");
+	var label11 = document.createElement("label");
+	label11.appendChild(document.createTextNode(content.publicKey));
+	label11.setAttribute("class", "hidden");
+	var label21 = document.createElement("label");
+	label21.appendChild(document.createTextNode(content.friendlyNick));
+	cell1.appendChild(label11);
+	cell1.appendChild(label21);
+	
+	row.appendChild(cell1);
+	
+	return row;
 }
