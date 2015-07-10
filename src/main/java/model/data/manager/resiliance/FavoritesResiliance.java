@@ -2,20 +2,25 @@ package model.data.manager.resiliance;
 
 import net.jxta.peer.PeerID;
 import model.data.favorites.Favorites;
-import model.data.item.Item;
 import model.data.manager.Manager;
 import model.network.communication.Communication;
 import model.network.communication.service.InstanceSender.FavoritesSender;
-import model.network.communication.service.InstanceSender.ItemSender;
 import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
 
+
+/**
+ * Retrieve and replicate favories.
+ * @author Julien Prudhomme
+ *
+ */
 public class FavoritesResiliance extends AbstractResiliance {
 
 	public FavoritesResiliance(Manager m, Communication c) {
 		super(m, c);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void step() {
 		Search<Favorites> s = new Search<Favorites>(manager.getNetwork().getGroup("favorites").getDiscoveryService(), "keyId", true);

@@ -122,7 +122,7 @@ public class UserManager {
 			}
 		}
 		users.put(key, u);
-		manager.getDealManager().getDeals().put(key, new ArrayList<Contrat>());
+		manager.getContratManager().getDeals().put(key, new ArrayList<Contrat>());
 	}
 	
 	/**

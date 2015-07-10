@@ -9,14 +9,16 @@ import model.network.search.RandomPeerFinder;
 import model.network.search.Search;
 import model.network.search.SearchListener;
 
+/**
+ * Retrieve and spread items on the network.
+ * @author crashxxl
+ *
+ */
 public class ItemResiliance extends AbstractResiliance {
 
 	public ItemResiliance(Manager m, Communication c) {
 		super(m, c);
 	}
-
-	
-
 
 	@Override
 	public void step() {

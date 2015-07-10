@@ -49,7 +49,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	private ItemManager itemManager;
 	private MessageManager messageManager;
 	private FavoriteManager favoriteManager;
-	private DealManager dealManager;
+	private ContratManager contratManager;
 	
 	private NetworkInterface network;
 
@@ -98,8 +98,8 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		return favoriteManager;
 	}
 	
-	public DealManager getDealManager() {
-		return dealManager;
+	public ContratManager getContratManager() {
+		return contratManager;
 	}
 	
 	public NetworkInterface getNetwork() {
@@ -130,7 +130,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		s.append(favoriteManager.getUserFavorites(publicKey).toString());
 		s.append("</favorites>");
 		s.append("<deals>");
-		for(Contrat d : dealManager.getUserDeals(publicKey)){
+		for(Contrat d : contratManager.getUserDeals(publicKey)){
 			s.append(d.toString());
 		}
 		s.append("</deals>");
@@ -145,7 +145,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		case "messages": 			/*TODO loadMessages(e);*/ break;
 		case "ReceivedMessages":	messageManager.loadReceivedMessages(e); break;
 		case "favorites":			favoriteManager.loadFavorites(e); break;
-		case "deals":				dealManager.loadDeals(e); break;
+		case "deals":				contratManager.loadDeals(e); break;
 		default: return false;
 		}
 		return true;
@@ -161,7 +161,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		itemManager = new ItemManager(this);
 		messageManager = new MessageManager(this);
 		favoriteManager = new FavoriteManager(this);
-		dealManager = new DealManager(this);
+		contratManager = new ContratManager(this);
 		addKey("users", false, true);
 		addKey("items", false, true);
 		addKey("messages", false, true);
@@ -176,7 +176,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		addValue("messages", messageManager.getMessagesXML());
 		addValue("ReceivedMessages", messageManager.getReceivedMessagesXML());
 		addValue("favorites", favoriteManager.getFavoritesXML());
-		addValue("deals", dealManager.getDealsXML());
+		addValue("deals", contratManager.getDealsXML());
 	}
 
 	/////////////////////////////////////////////////// PUBLISHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -230,10 +230,10 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 			for	(Element e : dealsElement.getChildren()){
 				String owner = e.getChild("owner").getText(); // TODO Change with AsymKeysImpl
 				//String owner = e.getChildText("owner");
-				if(!dealManager.containsUser(owner) && userManager.userExists(owner))
-					dealManager.getDeals().put(owner, new ArrayList<Contrat>());
+				if(!contratManager.containsUser(owner) && userManager.userExists(owner))
+					contratManager.getDeals().put(owner, new ArrayList<Contrat>());
 				if(e.getChild(Contrat.class.getName())!=null)
-					dealManager.addDeal(owner, new Contrat(e.getChild(Contrat.class.getName())));
+					contratManager.addDeal(owner, new Contrat(e.getChild(Contrat.class.getName())));
 			}
 		} catch (FileNotFoundException e){
 			recovered = Printer.printError(this, "recovery", "File \""+path+"\" doesn't exist");
@@ -275,7 +275,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		
 		Conversations converC = this.messageManager.getUserConversations(currentPublicKey);
 		if(converC!=null) conversations.add(converC);
-		ArrayList<Contrat> arrayDealsC = this.dealManager.getDealsCurrentUser();
+		ArrayList<Contrat> arrayDealsC = this.contratManager.getDealsCurrentUser();
 		if(arrayDealsC!=null) deals.put(currentPublicKey, arrayDealsC);
 		Favorites favoC = this.favoriteManager.getFavoritesCurrentUser();
 		if(favoC!=null) {
@@ -332,11 +332,11 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				// Filling ArrayList deals
 				if(!deals.containsKey(userKey))
 					deals.put(userKey, new ArrayList<Contrat>());
-				for (Contrat d : this.dealManager.getUserDeals(userKey)){
+				for (Contrat d : this.contratManager.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}
-				for (Contrat d : manager.dealManager.getUserDeals(userKey)){
+				for (Contrat d : manager.contratManager.getUserDeals(userKey)){
 					if(!deals.get(userKey).contains(d))
 						deals.get(userKey).add(d);
 				}

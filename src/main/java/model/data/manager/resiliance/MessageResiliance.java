@@ -13,8 +13,8 @@ import model.network.search.Search;
 import model.network.search.SearchListener;
 
 /**
- * Diffuse les messages en liste d'attente & cherche les messages qui sont destinés a un des users.
- * @author Julien
+ * Spread waiting messages and retrieve messages that are for our users.
+ * @author Julien Prudhomme
  *
  */
 public class MessageResiliance extends AbstractResiliance implements SearchListener<UserMessage> {

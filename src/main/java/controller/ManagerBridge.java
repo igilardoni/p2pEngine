@@ -299,14 +299,14 @@ public class ManagerBridge{
 	}
 	/////////////////////////////////////////////////// CONTRAT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static Contrat createContrat(String title){
-		Contrat contrat = Application.getInstance().getManager().getDealManager().newDeal(title);
+		Contrat contrat = Application.getInstance().getManager().getContratManager().newDeal(title);
 		return contrat;
 	}
 	public static boolean addItemContrat(Item item, String contratID){
-		return Application.getInstance().getManager().getDealManager().addItem(contratID, item);
+		return Application.getInstance().getManager().getContratManager().addItem(contratID, item);
 	}
 	public static ArrayList<Contrat> getCurrentUserContrats(){
-		return Application.getInstance().getManager().getDealManager().getDealsCurrentUser();
+		return Application.getInstance().getManager().getContratManager().getDealsCurrentUser();
 	}
 	public static Contrat getCurrentUserContrat(String id){
 		ArrayList<Contrat> contrats = getCurrentUserContrats();

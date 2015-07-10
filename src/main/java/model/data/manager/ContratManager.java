@@ -1,6 +1,7 @@
 package model.data.manager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -19,13 +20,13 @@ import model.data.user.User;
  * @author Michael Dubuis
  *
  */
-public class DealManager {
+public class ContratManager {
 	private HashMap<String, ArrayList<Contrat>> deals = new HashMap<String, ArrayList<Contrat>>();
 	private Manager manager;
 	
 	
     ///////////////////////////////////////////////// CONSTRUCTORS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	public DealManager(Manager m) {
+	public ContratManager(Manager m) {
 		manager = m;
 	}
 	
@@ -161,7 +162,31 @@ public class DealManager {
 		return contrat.addItem(item);
 	}
 	
+	public Collection<Contrat> getContrats() {
+		ArrayList<Contrat> contrats = new ArrayList<Contrat>();
+		for(ArrayList<Contrat> cs : deals.values()) {
+			contrats.addAll(cs);
+		}
+		return contrats;
+	}
 	
+	public void addContrat(Contrat c) {
+		ArrayList<Contrat> contrats =  deals.get(c.getKeys().getPublicKey().toString(16));
+		if(contrats == null) {
+			contrats = new ArrayList<Contrat>();
+			deals.put(c.getKeys().getPublicKey().toString(16), contrats);
+		}
+		if(contrats.contains(c)) {
+			Contrat local = contrats.get(contrats.indexOf(c));
+			if(local.getLastUpdated() < c.getLastUpdated()) {
+				contrats.remove(local);
+				contrats.add(c);
+			}
+		}
+		else {
+			contrats.add(c);
+		}
+	}
 	
 
 	
