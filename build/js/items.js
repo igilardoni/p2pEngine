@@ -181,25 +181,25 @@ function itemLoaded(content){
 
 function categoryLoaded(content){
 	var option = document.createElement("option");
-	option.appendChild(document.createTextNode(content.category));
+	$(option).append(content.category);
 	$("#"+itemForm+" #category").append(option);
 }
 
 function typeLoaded(content){
 	var option = document.createElement("option");
-	option.appendChild(document.createTextNode(content.type));
+	$(option).append(content.type);
 	$("#"+itemForm+" #type").append(option);
 }
 
 function itemSearchFieldLoaded(content){
 	var option = document.createElement("option");
-	option.appendChild(document.createTextNode(content.field));
+	$(option).append(content.field);
 	$("#field").append(option);
 }
 
 function itemSearchFieldsLoaded(content){
 	var option = document.createElement("option");
-	option.appendChild(document.createTextNode(content.option));
+	$(option).append(content.option);
 	$("#searchField").append(option);
 }
 
@@ -208,23 +208,23 @@ function updateSearchField(){
 	switch(field){
 	case "category":
 		var select = document.createElement("select");
-		select.setAttribute("id", "searchField");
-		select.setAttribute("name", "searchField");
+		$(select).attr("id", "searchField");
+		$(select).attr("name", "searchField");
 		$("#searchField").replaceWith(select);
 		loadItemSearchFieldCategory();
 		break;
 	case "type":
 		var select = document.createElement("select");
-		select.setAttribute("id", "searchField");
-		select.setAttribute("name", "searchField");
+		$(select).attr("id", "searchField");
+		$(select).attr("name", "searchField");
 		$("#searchField").replaceWith(select);
 		loadItemSearchFieldType();
 		break;
 	default:
 		var input = document.createElement("input");
-		input.setAttribute("id", "searchField");
-		input.setAttribute("name", "searchField");
-		input.setAttribute("type", "text");
+		$(input).attr("id", "searchField");
+		$(input).attr("name", "searchField");
+		$(input).attr("type", "text");
 		$("#searchField").replaceWith(input);
 	}
 }
@@ -251,8 +251,8 @@ function resetSearch(){
  */
 function getItemAddForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", itemForm);
-	div.appendChild(getElement(itemAddForm[0]));
+	$(div).attr("id", itemForm);
+	$(div).append(getElement(itemAddForm[0]));
 	return div;
 }
 
@@ -281,45 +281,39 @@ function getTableItem(id){
  */
 function newRowItem(content){
 	var row = document.createElement("tr");
-	row.setAttribute("id", removePunctuation(content.itemKey));
+	$(row).attr("id", removePunctuation(content.itemKey));
 	// Title cell
 	var cell1 = document.createElement("td");
-	cell1.setAttribute("class", "rowTitle");
-	cell1.setAttribute("onclick", "editItem('"+content.itemKey+"');");
-	cell1.appendChild(document.createTextNode(content.title));
-	row.appendChild(cell1);
+	$(cell1).attr("class", "rowTitle");
+	$(cell1).attr("onclick", "editItem('"+content.itemKey+"');");
+	$(cell1).append(document.createTextNode(content.title));
+	$(row).append(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
-	cell2.setAttribute("class", "rowDescription");
-	cell2.setAttribute("onclick", "editItem('"+content.itemKey+"');");
+	$(cell2).attr("class", "rowDescription");
+	$(cell2).attr("onclick", "editItem('"+content.itemKey+"');");
 	if(content.description.length > 400)
-		cell2.appendChild(document.createTextNode(content.description.substring(0, 400)+" [...]"));
+		$(cell2).append(document.createTextNode(content.description.substring(0, 400)+" [...]"));
 	else
-		cell2.appendChild(document.createTextNode(content.description));
-	row.appendChild(cell2);
+		$(cell2).append(document.createTextNode(content.description));
+	$(row).append(cell2);
 	// Buttons Cell
 	var cell3 = document.createElement("td");
-	cell3.setAttribute("class", "rowActions");
-	// Edit Button
-	/*var removeButton = document.createElement("a");
-	removeButton.setAttribute("class", "buttonEdit");
-	removeButton.setAttribute("onclick", "editItem('"+content.itemKey+"');");
-	//removeButton.appendChild(document.createTextNode("Edit"));
-	cell3.appendChild(removeButton);*/
+	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	removeButton.setAttribute("class", "buttonRemove");
-	removeButton.setAttribute("onclick", "removeItem('"+content.itemKey+"');");
-	//removeButton.appendChild(document.createTextNode("Remove"));
-	cell3.appendChild(removeButton);
-	row.appendChild(cell3);
+	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("onclick", "removeItem('"+content.itemKey+"');");
+	//$(removeButton).append(document.createTextNode("Remove"));
+	$(cell3).append(removeButton);
+	$(row).append(cell3);
 	// Add to favorites Button
 	var favoritesButton = document.createElement("a");
-	favoritesButton.setAttribute("class", "buttonAddFavorites");
-	favoritesButton.setAttribute("onclick", "addItemFavorites('"+content.itemKey+"');");
-	//removeButton.appendChild(document.createTextNode("Remove"));
-	cell3.appendChild(favoritesButton);
-	row.appendChild(cell3);
+	$(favoritesButton).attr("class", "buttonAddFavorites");
+	$(favoritesButton).attr("onclick", "addItemFavorites('"+content.itemKey+"');");
+	//$(removeButton).append(document.createTextNode("Remove"));
+	$(cell3).append(favoritesButton);
+	$(row).append(cell3);
 	return row;
 }
 /**

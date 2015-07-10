@@ -9,7 +9,7 @@ nav {
 /* BIG SCREEN */
 @media(min-height : 400px) {
 	header {
-		top : 10em;
+		top : 0em;
 	}
 }
 /* LITTLE SCREEN */

@@ -28,6 +28,8 @@ function signIn(){
 
 // Ask to the model to register
 function register(){
+	$("input").removeClass("inputWrong");
+	var error = false;
 	var password = $("#password").val();
 	var passwordConfirm = $("#passwordConfirm").val();
 	var username = $("#username").val();
@@ -35,7 +37,32 @@ function register(){
 	var firstname = $("#firstname").val();
 	var email = $("#email").val();
 	var phone = $("#phone").val();
-	// TODO Fields verification
+	if(password != passwordConfirm || password == "") {
+		$("#password").addClass("inputWrong");
+		$("#passwordConfirm").addClass("inputWrong");
+		error = true;
+	}
+	if(username == "") {
+		$("#username").addClass("inputWrong");
+		error = true;
+	}
+	if(name == "") {
+		$("#name").addClass("inputWrong");
+		error = true;
+	}
+	if(firstname == "") {
+		$("#firstname").addClass("inputWrong");
+		error = true;
+	}
+	if(email == "" || !isEmail(email)) {
+		$("#email").addClass("inputWrong");
+		error = true;
+	}
+	if(phone == "" || !isPhone(phone)) {
+		$("#phone").addClass("inputWrong");
+		error = true;
+	}
+	if(error) return;
 	var content = {
 			"password":password,
 			"username":username,
@@ -88,6 +115,7 @@ function login(content){
 		includeHeader();
 		includeMenu();
 		includeHome();
+		includeFavorites();
 	}else{
 		alert(content.message);
 	}// Ask loading all current user's item
@@ -132,4 +160,14 @@ function accountLoaded(content){
 	$("#firstname").val(content.firstname);
 	$("#email").val(content.email);
 	$("#phone").val(content.phone);
+}
+
+function isEmail(email) {
+	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	return regex.test(email);
+}
+
+function isPhone(phone) {
+	var regex = /^[0-9-+ ]+$/;
+	return regex.test(phone);
 }

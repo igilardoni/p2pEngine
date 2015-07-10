@@ -2,7 +2,6 @@ aside {
 	position : absolute;
 	right : 0;
 	overflow : auto;
-	width : 20em;
 	
 	animation: popup 0.5s ease-in-out 1;
 	padding-top : 20px;
@@ -11,9 +10,14 @@ aside {
 	text-align : center;
 }
 /* BIG SCREEN */
-@media(min-height : 400px) {
+@media(max-height : 400px) {
 	aside {
-		top : 10em;
+		top : 5em;
+	}
+}
+@media(min-width : 1000px) {
+	aside {
+		width : 20em;
 	}
 }
 /* LITTLE SCREEN */
@@ -22,7 +26,12 @@ aside {
 		top : 5em;
 	}
 }
-aside:empty {
+@media(max-width : 1000px) {
+	aside {
+		width : 9.5em;
+	}
+}
+aside:empty, aside.hidden {
 	display : none;
 	animation: none;
 }

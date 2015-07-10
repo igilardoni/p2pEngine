@@ -11,20 +11,22 @@ section:empty {
 	display : none;
 }
 /* BIG SCREEN */
-@media(min-height : 400px) {
+@media(max-height : 400px) {
 	#content {
-		margin-top : 10em;
+		margin-top : 0em;
 	}
 }
 @media(min-width : 1000px) {
 	#content {
 		padding-left : 15.5em;
+		padding-right : 20.5em;
 	}
 }
 /* LITTLE SCREEN */
 @media(max-width : 1000px) {
 	#content {
 		margin-left : 2.5em;
+		padding-right : 10.5em;
 	}
 }
 @media(min-height : 400px) {

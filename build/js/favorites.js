@@ -35,6 +35,8 @@ function loadItemsFavorites(){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function favoritesItemsLoaded(content){
 	$("#"+favoritesList).append(newRowFavorites(content));
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").addClass("inFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").removeClass("buttonAddFavorites");
 }
 
 function favoritesItemLoaded(content){
@@ -45,12 +47,14 @@ function itemFavoritesRemoved(content){
 	var id = "favorites"+removePunctuation(content.itemKey);
 	$("#"+id).detach();
 	removeDisplayItemFavorites();
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.inFavorites").addClass("buttonAddFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").removeClass("inFavorites");
 }
 
 function favoritesItemsLoadingStart(content){
 	/*var div = document.createElement("div");
-	div.setAttribute("id","loading");
-	div.appendChild(document.createTextNode("Loading..."));
+	div.attr("id","loading");
+	div.append(document.createTextNode("Loading..."));
 	$("aside").append(div);*/
 }
 function favoritesItemsLoadingEnd(content){
@@ -59,34 +63,37 @@ function favoritesItemsLoadingEnd(content){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function clearFavoritesTable(){
+	$("aside #favoritesList tbody").empty();
+}
 function newRowFavorites(content){
 	var row = document.createElement("tr");
-	row.setAttribute("id", "favorites"+removePunctuation(content.itemKey));
+	$(row).attr("id", "favorites"+removePunctuation(content.itemKey));
 	// Title cell
 	var cell1 = document.createElement("td");
-	cell1.setAttribute("class", "rowTitle");
-	cell1.appendChild(document.createTextNode(content.title));
-	cell1.setAttribute("onclick", "loadItemFavorites('"+content.itemKey+"');");
-	row.appendChild(cell1);
+	$(cell1).attr("class", "rowTitle");
+	$(cell1).append(document.createTextNode(content.title));
+	$(cell1).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
+	$(row).append(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
-	cell2.setAttribute("class", "rowDescription");
-	cell2.setAttribute("onclick", "loadItemFavorites('"+content.itemKey+"');");
+	$(cell2).attr("class", "rowDescription");
+	$(cell2).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	if(content.description.length > 100)
-		cell2.appendChild(document.createTextNode(content.description.substring(0, 100)+" [...]"));
+		$(cell2).append(content.description.substring(0, 100)+" [...]");
 	else
-		cell2.appendChild(document.createTextNode(content.description));
-	row.appendChild(cell2);
+		$(cell2).append(content.description);
+	$(row).append(cell2);
 	// Buttons Cell
 	var cell3 = document.createElement("td");
-	cell3.setAttribute("class", "rowActions");
+	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	removeButton.setAttribute("class", "buttonRemove");
-	removeButton.setAttribute("onclick", "removeItemFavorites('"+content.itemKey+"');");
-	//removeButton.appendChild(document.createTextNode("Remove"));
-	cell3.appendChild(removeButton);
-	row.appendChild(cell3);
+	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("onclick", "removeItemFavorites('"+content.itemKey+"');");
+	//$(removeButton).append(document.createTextNode("Remove"));
+	$(cell3).append(removeButton);
+	$(row).append(cell3);
 	return row;
 }
 

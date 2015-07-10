@@ -38,9 +38,9 @@ function messageLoaded(content) {
 	$("#"+messageDisplay).empty();
 	$.each(content, function(key, value){
 		var h2 = document.createElement("h2");
-		h2.appendChild(document.createTextNode(key));
+		$(h2).append(key);
 		var p = document.createElement("p");
-		p.appendChild(document.createTextNode(value));
+		$(p).append(value);
 		$("#"+messageDisplay).append(h2);
 		$("#"+messageDisplay).append(p);
 	});
@@ -68,41 +68,41 @@ function newMessage(){
 
 function getNewMessageForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "messageDisplay");
+	$(div).attr("id", "messageDisplay");
 	for ( var i = 0 ; i < writeMessage.length ; i++ ) {
-		div.appendChild(getElement(writeMessage[i]));
+		$(div).append(getElement(writeMessage[i]));
 	}
 	return div;
 }
 
 function newRowMessage(content){
 	var row = document.createElement("tr");
-	row.setAttribute("id", content.itemKey);
-	row.setAttribute("onclick", "loadMessage('"+content.id+"');")
+	$(row).attr("id", content.itemKey);
+	$(row).attr("onclick", "loadMessage('"+content.id+"');")
 	// Date cell
 	var cell1 = document.createElement("td");
-	cell1.setAttribute("class", "rowDate");
-	cell1.appendChild(document.createTextNode(content.date));
-	row.appendChild(cell1);
+	$(cell1).attr("class", "rowDate");
+	$(cell1).append(document.createTextNode(content.date));
+	$(row).append(cell1);
 	// Subject cell
 	var cell2 = document.createElement("td");
-	cell2.setAttribute("class", "rowSubject");
-	cell2.appendChild(document.createTextNode(content.subject));
-	row.appendChild(cell2);
+	$(cell2).attr("class", "rowSubject");
+	$(cell2).append(document.createTextNode(content.subject));
+	$(row).append(cell2);
 	// From cell
 	var cell3 = document.createElement("td");
-	cell3.setAttribute("class", "rowFrom");
-	cell3.appendChild(document.createTextNode(content.sender));
-	row.appendChild(cell3);
+	$(cell3).attr("class", "rowFrom");
+	$(cell3).append(document.createTextNode(content.sender));
+	$(row).append(cell3);
 	// Buttons Cell
 	var cell4 = document.createElement("td");
-	cell4.setAttribute("class", "rowActions");
+	$(cell4).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	removeButton.setAttribute("class", "buttonRemove");
-	removeButton.setAttribute("onclick", "removeMessage('"+content.id+"');");
+	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("onclick", "removeMessage('"+content.id+"');");
 	//removeButton.appendChild(document.createTextNode("Remove"));
-	cell4.appendChild(removeButton);
-	row.appendChild(cell4);
+	$(cell4).append(removeButton);
+	$(row).append(cell4);
 	return row;
 }

@@ -638,15 +638,15 @@ function getElement(json) {
 	}
 	var element = document.createElement(json.element);
 	if(json.element == "textarea"){
-		element.setAttribute("onkeyup", "textAreaAdjust(this);");
-		element.setAttribute("onfocus", "textAreaAdjust(this);");
-		element.setAttribute("onscroll", "textAreaAdjust(this);");
+		$(element).attr("onkeyup", "textAreaAdjust(this);");
+		$(element).attr("onfocus", "textAreaAdjust(this);");
+		$(element).attr("onscroll", "textAreaAdjust(this);");
 	}
 	$.each(json.attributes, function(key, value){
-		element.setAttribute(key, value);
+		$(element).attr(key, value);
 	});
 	for( var i = 0 ; i < json.inside.length ; i++ ){
-		element.appendChild(getElement(json.inside[i]));
+		$(element).append(getElement(json.inside[i]));
 	}
 	return element;
 }
@@ -658,89 +658,89 @@ function textAreaAdjust(o) {
 
 function getHome(){
 	var content = document.createElement("section");
-	content.setAttribute("id", "content");
+	$(content).attr("id", "content");
 	var div = document.createElement("div");
-	div.setAttribute("id", "items");
-	div.appendChild(getTableItem(itemList));
+	$(div).attr("id", "items");
+	$(div).append(getTableItem(itemList));
 	content.appendChild(div);
-	div.appendChild(getItemAddForm());
-	content.appendChild(div);
+	$(div).append(getItemAddForm());
+	$(content).append(div);
 	return content;
 }
 
 function getSearchItem(){
 	var content = document.createElement("div");
-	content.setAttribute("id", "content");
+	$(content).attr("id", "content");
 	var div = document.createElement("div");
-	div.setAttribute("id", "searchForm");
+	$(div).attr("id", "searchForm");
 	for ( var i = 0 ; i < searchForm.length ; i++ ) {
-		div.appendChild(getElement(searchForm[i]));
+		$(div).append(getElement(searchForm[i]));
 	}
-	content.appendChild(div);
-	content.appendChild(getTableItem(itemSearchList));
+	$(content).append(div);
+	$(content).append(getTableItem(itemSearchList));
 	return content;
 } 
 
 function getItemFavoritesDisplay(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "itemFavoritesDisplayer");
+	$(div).attr("id", "itemFavoritesDisplayer");
 	for ( var i = 0 ; i < itemFavoritesDisplayer.length ; i++ ) {
-		div.appendChild(getElement(itemFavoritesDisplayer[i]));
+		$(div).append(getElement(itemFavoritesDisplayer[i]));
 	}
 	return div;
 }
 
 function getFavoritesDisplay(){
 	var div = document.createElement("div");
-	div.appendChild(getTableItem(favoritesList));
+	$(div).append(getTableItem(favoritesList));
 	var loading = document.createElement("div");
-	loading.setAttribute("id", "loading");
-	div.appendChild(loading);
+	$(loading).attr("id", "loading");
+	$(div).append(loading);
 	return div;
 }
 
 function switchFavorites(){
-	if($("aside").text().length == 0){
-		includeFavorites();
+	if($("aside").hasClass("hidden")){
+		displayFavorites();
 		$("nav .favoritesButton").addClass("favoriteSelected");
 	} else {
-		removeFavorites();
+		hideFavorites();
 		$("nav .favoritesButton").removeClass("favoriteSelected");
 	}
 }
 
 function getLoginForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "login");
+	$(div).attr("id", "login");
 	for ( var i = 0 ; i < loginForm.length ; i++ ) {
-		div.appendChild(getElement(loginForm[i]));
+		$(div).append(getElement(loginForm[i]));
 	}
 	return div;
 }
 
 function getRegistrationForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "registration");
+	$(div).attr("id", "registration");
 	for ( var i = 0 ; i < registrationForm.length ; i++ ) {
-		div.appendChild(getElement(registrationForm[i]));
+		$(div).append(getElement(registrationForm[i]));
 	}
 	return div;
 }
 
 function getUpdateAccountForm(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "accountUpdate");
+	$(div).attr("id", "accountUpdate");
 	for ( var i = 0 ; i < updateAccountForm.length ; i++ ) {
-		div.appendChild(getElement(updateAccountForm[i]));
+		$(div).append(getElement(updateAccountForm[i]));
 	}
 	return div;
 }
 
 function getWebmail(){
 	var div = document.createElement("div");
-	div.setAttribute("id", "content");
+	$(div).attr("id", "content");
 	for( var i = 0 ; i < webmailForm.length ; i++ ) {
-		div.appendChild(getElement(webmailForm[i]));
+		$(div).append(getElement(webmailForm[i]));
 	}
 	return div;
 }
@@ -748,7 +748,7 @@ function getWebmail(){
 function getHeader(){
 	var div = document.createElement("div");
 	for ( var i = 0 ; i < header.length ; i++ ) {
-		div.appendChild(getElement(header[i]));
+		$(div).append(getElement(header[i]));
 	}
 	return div;
 }
@@ -756,7 +756,7 @@ function getHeader(){
 function getMenu(){
 	var nav = document.createElement("nav");
 	for ( var i = 0 ; i < menu.length ; i++ ) {
-		nav.appendChild(getElement(menu[i]));
+		$(nav).append(getElement(menu[i]));
 	}
 	return nav;
 }

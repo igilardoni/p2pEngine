@@ -28,6 +28,8 @@ function includeHome(){
 	$("nav .homeButton").addClass("selected");
 	scrollTop();
 	loadItems();
+	clearFavoritesTable();
+	loadItemsFavorites();
 }
 
 function includeSearch(){
@@ -80,10 +82,19 @@ function includeAccount(){
 	allMenuWhite();
 }
 
+function displayFavorites(){
+	$("aside").removeClass("hidden");
+}
+
+function hideFavorites(){
+	$("aside").addClass("hidden");
+}
+
 function includeFavorites(){
 	$("aside").empty();
 	$("aside").append(getFavoritesDisplay());
 	loadItemsFavorites();
+	hideFavorites();
 }
 
 function removeFavorites(){

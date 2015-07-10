@@ -1,5 +1,6 @@
 @CHARSET "UTF-8";
 
+@import url("general.css");
 @import url("menu.css");
 @import url("login.css");
 @import url("header.css");
