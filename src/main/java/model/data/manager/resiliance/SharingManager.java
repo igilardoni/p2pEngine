@@ -24,13 +24,10 @@ import net.jxta.protocol.PeerGroupAdvertisement;
  * 
  */
 public class SharingManager {
-	private Manager manager; //local manager
-	private NetworkInterface network; //Jxta network
-	private int replications; //number of account replication on the network
 	private int checkTime; //intervals for checking data's replication
 	private boolean continueThread = false; //boolean to start/stop the thread.
 	private Thread thread = null;
-	private Communication com = null;
+	private ArrayList<AbstractResiliance> resiliances = new ArrayList<AbstractResiliance>();
 	
 	// TODO add verify Favorites
 	/**
@@ -42,14 +39,20 @@ public class SharingManager {
 	 * @param manager The local ressource manager.
 	 * @param network The network interface with Jxta.
 	 * @param replications Number of account replication that would be enough on the network.
-	 * @param checkTime The amount of time (in minutes) between 2 data replication
+	 * @param checkTime The amount of time (in minutes) between 2 data checks/replication
 	 */
 	public SharingManager(Manager manager, NetworkInterface network, Communication com, int replications, int checkTime) {
-		this.manager = manager;
-		this.network = network;
-		this.replications = replications;
-		this.com = com;
-		this.checkTime = checkTime;
+		this.checkTime = checkTime * 60 * 1000;
+	}
+	
+	public void addResiliance(AbstractResiliance r) {
+		resiliances.add(r);
+	}
+	
+	public void resiliance() {
+		for(AbstractResiliance r : resiliances) {
+			r.step();
+		}
 	}
 	
 	/**
@@ -66,9 +69,9 @@ public class SharingManager {
 			@Override
 			public void run() {
 				while(continueThread) {
-						checkDataResilience();
+						resiliance();
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(checkTime);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -92,74 +95,4 @@ public class SharingManager {
 		}
 		thread = null;
 	}
-	
-	/**
-	 *  Check user data replication on the network.
-	 * @param publicKey The user to check.
-	 */
-	private void checkUserResilience(String publicKey) {
-		try {
-			Search<User> search = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
-			// Wait "checkTime" seconds or "replications" results
-			search.search(publicKey, this.checkTime, this.replications);
-			ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
-			User user = manager.getUserManager().getUser(publicKey);
-			long maxDate = user.getLastUpdated();
-			for (Search<User>.Result r : results) {
-				if(!r.result.checkSignature(r.result.getKeys())){
-					results.remove(r);
-				}else{
-					if(Long.compare(maxDate, r.result.getLastUpdated()) < 0){
-						// If a result is more recent than mine
-						maxDate = r.result.getLastUpdated();
-						user = r.result;
-						if(!manager.getUserManager().getCurrentUser().equals(user))
-							manager.getUserManager().addUser(user);
-						else{
-							// FATAL ERROR : FAILLE DE SECURITE (QUELQU'UN A REUSSI A MODIFIER MON COMPTE)
-						}
-					}
-				}
-			}
-			for (Search<User>.Result r : results) {
-				if(r.result.getLastUpdated() < maxDate){
-					// TODO service "updaterUsers"
-					com.sendMessage(manager.completUserXMLString(publicKey), "TransmitAccountService", r.peerID);
-				}
-			}
-			if((results.size() - this.replications) > 0){
-				RandomPeerFinder finder = new RandomPeerFinder(network);
-				finder.findPeers(3000, (results.size() - this.replications));
-				PeerID[] randomPeers = new PeerID[finder.getResults().size()]; 
-				randomPeers = finder.getResults().toArray(randomPeers);
-				com.sendMessage(manager.completUserXMLString(publicKey), "TransmitAccountService", randomPeers);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void checkDataResilience() {
-		for(User u: manager.getUserManager().getUsers()) {
-			checkUserResilience(u.getKeys().getPublicKey().toString(16));
-		}
-	}
-	
-	public void testGroup() {
-		System.out.println("Search for existing group ...");
-		network.getDefaultGroup().getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.GROUP, 
-				"Name", null, 10, new DiscoveryListener() {
-
-			@Override
-			public void discoveryEvent(DiscoveryEvent event) {
-				Enumeration<Advertisement> advs = event.getResponse().getAdvertisements();
-				while(advs.hasMoreElements()) {
-					PeerGroupAdvertisement adv = (PeerGroupAdvertisement) advs.nextElement();
-					System.out.println("Groupe trouv� :" + adv.getName());
-				}
-			}
-			
-		});
-	}
-	
 }

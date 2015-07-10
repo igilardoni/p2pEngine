@@ -11,7 +11,12 @@ import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
 import model.data.manager.Manager;
+import model.data.manager.resiliance.ContratsResiliance;
+import model.data.manager.resiliance.FavoritesResiliance;
+import model.data.manager.resiliance.ItemResiliance;
+import model.data.manager.resiliance.MessageResiliance;
 import model.data.manager.resiliance.SharingManager;
+import model.data.manager.resiliance.UserResiliance;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.MessageService;
@@ -48,13 +53,25 @@ public class Application {
 		startCommunication();
 		network.addGroup("items");
 		network.addGroup("users");
-		sharingManager = new SharingManager(manager, network, com,  VARIABLES.ReplicationsAccount, VARIABLES.CheckTimeAccount);
-		sharingManager.startSharing();
+		//TODO more groups to adds.
+		
+		
+		startSharingManager();
 		
 		if(startLocalServer)
 			startLocalServer();	
 		
 		instance = this;
+	}
+	
+	private void startSharingManager() {
+		sharingManager = new SharingManager(manager, network, com,  VARIABLES.ReplicationsAccount, VARIABLES.CheckTimeAccount);
+		sharingManager.addResiliance(new ContratsResiliance(manager, com));
+		sharingManager.addResiliance(new FavoritesResiliance(manager, com));
+		sharingManager.addResiliance(new ItemResiliance(manager, com));
+		sharingManager.addResiliance(new MessageResiliance(manager, com));
+		sharingManager.addResiliance(new UserResiliance(manager, com));
+		sharingManager.startSharing();
 	}
 	
 	/**
