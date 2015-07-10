@@ -302,14 +302,14 @@ function newRowItem(content){
 	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("class", "button buttonCancel");
 	$(removeButton).attr("onclick", "removeItem('"+content.itemKey+"');");
 	//$(removeButton).append(document.createTextNode("Remove"));
 	$(cell3).append(removeButton);
 	$(row).append(cell3);
 	// Add to favorites Button
 	var favoritesButton = document.createElement("a");
-	$(favoritesButton).attr("class", "buttonAddFavorites");
+	$(favoritesButton).attr("class", "button buttonFavorites");
 	$(favoritesButton).attr("onclick", "addItemFavorites('"+content.itemKey+"');");
 	//$(removeButton).append(document.createTextNode("Remove"));
 	$(cell3).append(favoritesButton);

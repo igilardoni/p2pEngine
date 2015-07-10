@@ -77,54 +77,30 @@ td {
 	word-break: break-all;
 }
 /************************************************* BUTTONS **************************************************/
-.buttonEdit, .buttonRemove, .buttonAddFavorites, .inFavorites {
-	cursor : pointer;
-	padding : 2px;
-	margin : 5px;
-	overflow : hidden;
-	width : 25%;
+table .button {
 	display : inline-block;
-	font-size : 1em;
-	font-weight: bold;
-	color : white;
-	text-align : center;
-	
-	background: #416c75;
-	background-image: -webkit-linear-gradient(top, #416c75, #3a3b3b);
-	background-image: -moz-linear-gradient(top, #416c75, #3a3b3b);
-	background-image: -ms-linear-gradient(top, #416c75, #3a3b3b);
-	background-image: -o-linear-gradient(top, #416c75, #3a3b3b);
-	background-image: linear-gradient(to bottom, #416c75, #3a3b3b);
-	-webkit-border-radius: 15;
-	-moz-border-radius: 15;
-	border-radius: 15px;
-	text-shadow: 1px 1px 3px #666666;
-	-webkit-box-shadow: 0px 1px 3px #666666;
-	-moz-box-shadow: 0px 1px 3px #666666;
-	box-shadow: 0px 1px 3px #666666;
 }
-
-.buttonAddFavorites:before {
-	display: block;
-	padding-top: 12.5%; 	/* initial ratio of 1:1*/
-	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
+.buttonFavorites:before {
+	display : inline-block;
 	content: "\2606";
 }
 .inFavorites:before {
-	display: block;
-	padding-top: 12.5%; 	/* initial ratio of 1:1*/
-	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
+	display : inline-block;
 	content : '\2605';
 }
-.buttonEdit:before {
-	display: block;
-	padding-top: 12.5%; 	/* initial ratio of 1:1*/
-	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
-	content: "\270D";
+.buttonValidate:before {
+	display : inline-block;	 
+	content : "\2611 ";
 }
-.buttonRemove:before {
-	display: block;
-	padding-top: 12.5%; 	/* initial ratio of 1:1*/
-	padding-bottom: 12.5%;	/* initial ratio of 1:1*/
+.buttonEdit:before {
+	display : inline-block;
+	content : "\270D";
+}
+.buttonCancel:before {
+	display: inline-block;
 	content: "\2612";
+}
+.buttonStart:before {
+	display : inline-block;
+	content :"\26A1";
 }

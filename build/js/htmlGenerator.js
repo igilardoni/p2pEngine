@@ -18,27 +18,27 @@ var emptyForm = [
 /* * * * * * * * * * * * * * * * * * * * * * *  MENU * * * * * * * * * * * * * * * * * * * * * * * * * */
 var menu = [
 		{element:"ul", attributes:{}, inside:[
-			{element:"li", attributes:{"class":"homeButton", onclick:"includeHome();"}, inside:[
+			{element:"li", attributes:{"class":"menu homeButton", onclick:"includeHome();"}, inside:[
 	            	{element:"a", attributes:{}, inside:[
 	                    //{element:"text", value:"My objects"}
 	                ]}
 			]},
-			{element:"li", attributes:{"class":"searchButton", onclick:"includeSearch();"}, inside:[
+			{element:"li", attributes:{"class":"menu searchButton", onclick:"includeSearch();"}, inside:[
 				{element:"a", attributes:{}, inside:[
 					//{element:"text", value:"Search Object"}
 	        	]}
 			]},
-			{element:"li", attributes:{"class":"contratButton", onclick:"includeContrat();"}, inside:[
+			{element:"li", attributes:{"class":"menu contratButton", onclick:"includeContrat();"}, inside:[
 				{element:"a", attributes:{}, inside:[
 					//{element:"text", value:"Contrats"}
 	        	]}
 			]},
-			{element:"li", attributes:{"class":"messageButton", onclick:"includeWebmail();"}, inside:[
+			{element:"li", attributes:{"class":"menu messageButton", onclick:"includeWebmail();"}, inside:[
 				{element:"a", attributes:{}, inside:[
 					//{element:"text", value:"Messages"}
 	        	]}
 			]},
-			{element:"li", attributes:{"class":"favoritesButton", onclick:"switchFavorites();"}, inside:[
+			{element:"li", attributes:{"class":"menu favoritesButton", onclick:"switchFavorites();"}, inside:[
 				{element:"a", attributes:{}, inside:[
 					//{element:"text", value:"Favorites"}
 	        	]}
@@ -51,18 +51,18 @@ var header = [
 			{element:"img", attributes:{src:"./img/sxpLogo.png"}, inside:[]}
 		]},
     	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
-			{element:"ul", attributes:{"class":"menu"}, inside:[
+			{element:"ul", attributes:{"class":"dropMenu"}, inside:[
 				{element:"li", attributes:{"class":"droper"}, inside:[
 					{element:"text", value:'⚙'}
 				]},
 				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"headerButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
+					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"dropButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
 				]},
 				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Profile", "class":"headerButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
+					{element:"input", attributes:{type:"button", value:"Profile", "class":"dropButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
 				]},
 				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Logout", "class":"headerButton", onclick:"signOut();"}, inside:[]}
+					{element:"input", attributes:{type:"button", value:"Logout", "class":"dropButton", onclick:"signOut();"}, inside:[]}
 				]}
 			]}
 		]}
@@ -80,13 +80,13 @@ var loginForm = [
 			{element:"text", value:"Sign In"}
 		]},
 		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_username"}, inside:[
+			{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 				{element:"text", value:"Username : "}
 			]},
 			{element:"input", attributes:{type:"text", id:"username", name:"username", required:"required", placeholder:"AliceWonderland"}, inside:[]},
 		]},
 		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_password"}, inside:[
+			{element:"label", attributes:{id:"label_password", "class":"label"}, inside:[
 				{element:"text", value:"Password : "}
 			]},
 			{element:"input", attributes:{type:"password", id:"password", name:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]}
@@ -108,43 +108,43 @@ var registrationForm = [
 		{element:"text", value:"Registration"}
 	]},
 	{element:"p", attributes:{}, inside:[
-		{element:"label", attributes:{id:"label_username"}, inside:[
+		{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 			{element:"text", value:"Username : "}
 		]},
 		{element:"input", attributes:{type:"text", id:"username", name:"username", required:"required", placeholder:"AliceWonderland"}, inside:[]},
 	]},
 	{element:"p", attributes:{}, inside:[
-		{element:"label", attributes:{id:"label_name"}, inside:[
+		{element:"label", attributes:{id:"label_name", "class":"label"}, inside:[
 			{element:"text", value:"Name : "}
 		]},
 		{element:"input", attributes:{type:"text", name:"name", id:"name", required:"required", placeholder:"Liddel"}, inside:[]}
 	]},
 	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_firstname"}, inside:[
+ 		{element:"label", attributes:{id:"label_firstname", "class":"label"}, inside:[
  			{element:"text", value:"First Name : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"firstname", id:"firstname", required:"required", placeholder:"Alice"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_email"}, inside:[
+ 		{element:"label", attributes:{id:"label_email", "class":"label"}, inside:[
  			{element:"text", value:"Email : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"email", id:"email", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_phone"}, inside:[
+ 		{element:"label", attributes:{id:"label_phone", "class":"label"}, inside:[
  			{element:"text", value:"Phone : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"phone", id:"phone", required:"required", placeholder:"+336 05 04 03 02"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_password"}, inside:[
+ 		{element:"label", attributes:{id:"label_password", "class":"label"}, inside:[
  			{element:"text", value:"Password : "}
  		]},
  		{element:"input", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_passwordConfirm"}, inside:[
+ 		{element:"label", attributes:{id:"label_passwordConfirm", "class":"label"}, inside:[
  			{element:"text", value:"Confirm password : "}
  		]},
  		{element:"input", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]}
@@ -166,49 +166,49 @@ var updateAccountForm = [
 		{element:"text", value:"Account"}
 	]},
 	{element:"p", attributes:{}, inside:[
-		{element:"label", attributes:{id:"label_username"}, inside:[
+		{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 			{element:"text", value:"Username : "}
 		]},
 		{element:"input", attributes:{type:"text", id:"username", name:"username", required:"required", placeholder:"AliceWonderland"}, inside:[]},
 	]},
 	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_oldpassword"}, inside:[
+ 		{element:"label", attributes:{id:"label_oldpassword", "class":"label"}, inside:[
  			{element:"text", value:"Old password : "}
  		]},
  		{element:"input", attributes:{type:"password", id:"oldpassword", name:"oldpassword", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]},
  	]},
 	{element:"p", attributes:{}, inside:[
-		{element:"label", attributes:{id:"label_name"}, inside:[
+		{element:"label", attributes:{id:"label_name", "class":"label"}, inside:[
 			{element:"text", value:"Name : "}
 		]},
 		{element:"input", attributes:{type:"text", name:"name", id:"name", required:"required", placeholder:"Liddel"}, inside:[]}
 	]},
 	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_firstname"}, inside:[
+ 		{element:"label", attributes:{id:"label_firstname", "class":"label"}, inside:[
  			{element:"text", value:"First Name : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"firstname", id:"firstname", required:"required", placeholder:"Alice"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_email"}, inside:[
+ 		{element:"label", attributes:{id:"label_email", "class":"label"}, inside:[
  			{element:"text", value:"Email : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"email", id:"email", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_phone"}, inside:[
+ 		{element:"label", attributes:{id:"label_phone", "class":"label"}, inside:[
  			{element:"text", value:"Phone : "}
  		]},
  		{element:"input", attributes:{type:"text", name:"phone", id:"phone", required:"required", placeholder:"+336 05 04 03 02"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_password"}, inside:[
+ 		{element:"label", attributes:{id:"label_password", "class":"label"}, inside:[
  			{element:"text", value:"Password : "}
  		]},
  		{element:"input", attributes:{type:"password", name:"password", id:"password", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]}
  	]},
  	{element:"p", attributes:{}, inside:[
- 		{element:"label", attributes:{id:"label_passwordConfirm"}, inside:[
+ 		{element:"label", attributes:{id:"label_passwordConfirm", "class":"label"}, inside:[
  			{element:"text", value:"Confirm password : "}
  		]},
  		{element:"input", attributes:{type:"password", name:"passwordConfirm", id:"passwordConfirm", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]}
@@ -220,50 +220,50 @@ var updateAccountForm = [
 	]},
 	{element:"p", attributes:{}, inside:[
 		{element:"input", attributes:{type:"button", onclick:"includeHome();", value:"Cancel"}, inside:[
-			/*{element:"text", value:"Sign In"}*/
+			/*{element:"text", value:"Cancel"}*/
 		]}
 	]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * ITEM FORM * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemAddForm = [
-		{element:"a", attributes:{id:"itemFormCompletButton", onclick:"itemFormComplet();", value:"Create new object"}, inside:[
+		{element:"a", attributes:{id:"itemFormCompletButton", onclick:"itemFormComplet();", value:"Create new object", "class":"button"}, inside:[
 			{element:"text", value:"Create new Object"}
 		]},
 		{element:"h1", attributes:{}, inside:[
   			{element:"text", value:"Item"}
   		]},
   		{element:"p", attributes:{}, inside:[
-  			{element:"label", attributes:{id:"label_title"}, inside:[
+  			{element:"label", attributes:{id:"label_title", "class":"label"}, inside:[
   				{element:"text", value:"Title  : "}
   			]},
   			{element:"input", attributes:{type:"text", id:"title", name:"title", required:"required", placeholder:"Potatoes"}, inside:[]},
   		]},
   		{element:"p", attributes:{}, inside:[
-  			{element:"label", attributes:{id:"label_type"}, inside:[
+  			{element:"label", attributes:{id:"label_type", "class":"label"}, inside:[
   				{element:"text", value:"Type : "}
   			]},
   			{element:"select", attributes:{id:"type", name:"type", required:"required", value:"PROPOSAL"}, inside:[]},
   		]},
   		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_lifetime"}, inside:[
+			{element:"label", attributes:{id:"label_lifetime", "class":"label"}, inside:[
 				{element:"text", value:"Life time : "}
 			]},
 			{element:"input", attributes:{type:"text", id:"lifetime", name:"lifetime", required:"required", placeholder:"2015-12-25", pattern:"[0-9]{4}\-[0-9]{2}\-[0-9]{2}"}, inside:[]},
 		]},
  		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_category"}, inside:[
+			{element:"label", attributes:{id:"label_category", "class":"label"}, inside:[
 				{element:"text", value:"Category : "}
 			]},
 			{element:"select", attributes:{id:"category", name:"category", required:"required", value:"NC"}, inside:[]},
 		]},
  		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_description"}, inside:[
+			{element:"label", attributes:{id:"label_description", "class":"label"}, inside:[
 				{element:"text", value:"Description : "}
 			]},
 			{element:"textarea", attributes:{id:"description", name:"description", required:"required", placeholder:"My potatoes are great !"}, inside:[]},
 		]},
  		{element:"p", attributes:{id:"paraImage"}, inside:[
-			{element:"label", attributes:{id:"label_image"}, inside:[
+			{element:"label", attributes:{id:"label_image", "class":"label"}, inside:[
 				{element:"text", value:"Image : "}
 			]},
 			{element:"ul", attributes:{"class":"radio"}, inside:[
@@ -292,22 +292,22 @@ var itemAddForm = [
 			{element:"img", attributes:{id:"image", style:"max-width:30%;"}, inside:[]}
 		]},
  		{element:"p", attributes:{}, inside:[
-			{element:"label", attributes:{id:"label_country"}, inside:[
+			{element:"label", attributes:{id:"label_country", "class":"label"}, inside:[
 				{element:"text", value:"Location : "}
 			]},
 			{element:"input", attributes:{type:"text", id:"country", name:"country", required:"required", placeholder:"FRANCE - Marseille"}, inside:[]},
 		]},
  		{element:"p", attributes:{}, inside:[
- 			{element:"label", attributes:{id:"label_contact"}, inside:[
+ 			{element:"label", attributes:{id:"label_contact", "class":"label"}, inside:[
  				{element:"text", value:"Contact : "}
  			]},
  			{element:"textarea", attributes:{id:"contact", name:"contact", required:"required", placeholder:"Please call me : +336 05 04 03 02"}, inside:[]},
  		]},
  		{element:"p", attributes:{}, inside:[
-      		{element:"a", attributes:{onclick:"addItem();", id:"addButton"}, inside:[
+      		{element:"a", attributes:{onclick:"addItem();", id:"addButton", "class":"button buttonValidate"}, inside:[
       			{element:"text", value:"Add item"}
       		]},
-      		{element:"a", attributes:{onclick:"cancelItem();", id:"cancelButton"}, inside:[
+      		{element:"a", attributes:{onclick:"cancelItem();", "class":"button buttonCancel"}, inside:[
 	  			{element:"text", value:"Cancel"}
 	  		]}
        	]}
@@ -340,9 +340,9 @@ var itemTable = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * SEARCH FORM * * * * * * * * * * * * * * * * * * * * * * * * */
 var searchForm = [             
-		{element:"h1", attributes:{}, inside:[
+		/*{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Search"}
-		]},
+		]},*/
 		{element:"label", attributes:{}, inside:[
 		     {element:"text", value:"Search : "}
 		]},
@@ -353,15 +353,15 @@ var searchForm = [
 			]},
 			{element:"select", attributes:{name:"field", id:"field", onchange:"updateSearchField();"}, inside:[]},
 			{element:"input", attributes:{type:"text", name:"searchField", id:"searchField"}, inside:[]},
-			{element:"a", attributes:{onclick:"addSearch();", id:"addFieldButton"}, inside:[
+			{element:"a", attributes:{onclick:"addSearch();", id:"addFieldButton", "class":"button"}, inside:[
 				{element:"text", value:"+"}
 			]},
 		]},
   		{element:"p", attributes:{"class":"buttonsContainer"}, inside:[
-      		{element:"a", attributes:{onclick:"searchItem();", id:"searchButton"}, inside:[
+      		{element:"a", attributes:{onclick:"searchItem();", id:"searchButton", "class":"button"}, inside:[
       			{element:"text", value:"Seach"}
       		]},
-      		{element:"a", attributes:{onclick:"resetSearch();", id:"resetButton"}, inside:[
+      		{element:"a", attributes:{onclick:"resetSearch();", id:"resetButton","class":"button"}, inside:[
 				{element:"text", value:"Reset"}
 			]}
       	]}
@@ -369,19 +369,22 @@ var searchForm = [
 /* * * * * * * * * * * * * * * * * * * * * MESSAGES FORM * * * * * * * * * * * * * * * * * * * * * * * */
 var webmailForm = [
 		{element:"div", attributes:{id:"webmail"}, inside:[
+			/*{element:"h1", attributes:{}, inside:[
+				{element:"text", value:"Messages"}
+			]},*/
 			{element:"div", attributes:{id:"webmailMenu"}, inside:[
 				{element:"ul", attributes:{}, inside:[
-					{element:"li", attributes:{id:"unread", onclick:"newMessage();"}, inside:[
+					{element:"li", attributes:{id:"unread", onclick:"newMessage();", "class":"menu"}, inside:[
 						{element:"a", attributes:{}, inside:[
 							{element:"text", value:"Write"}
 						]}
 					]},
-					{element:"li", attributes:{id:"unread", onclick:"loadMessages();"}, inside:[
+					{element:"li", attributes:{id:"unread", onclick:"loadMessages();", "class":"menu"}, inside:[
 						{element:"a", attributes:{}, inside:[
 							{element:"text", value:"Unread"}
 						]}
 					]},
-					{element:"li", attributes:{id:"conversation", onclick:"loadConversation();"}, inside:[
+					{element:"li", attributes:{id:"conversation", onclick:"loadConversation();", "class":"menu"}, inside:[
   						{element:"a", attributes:{}, inside:[
   							{element:"text", value:"Archives"}
   						]}
@@ -453,7 +456,7 @@ var writeMessage = [
 			{element:"textarea", attributes:{id:"message", name:"message"}, inside:[]}
 		]},
 		{element:"p", attributes:{"class":"newMessageFooter"}, inside:[
-			{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton"}, inside:[
+			{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton", "class":"button"}, inside:[
 				{element:"text", value:"Send"}
 			]},
 			{element:"label", attributes:{id:"webmailErrorBox"}, inside:[]}
@@ -461,9 +464,9 @@ var writeMessage = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer = [
-		{element:"h1", attributes:{}, inside:[
+		/*{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Favorite item"}
-		]},
+		]},*/
  		{element:"label", attributes:{id:"itemKey", "class":"hidden"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
@@ -524,9 +527,9 @@ var itemFavoritesDisplayer = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * CONTRATS* * * * * * * * * * * * * * * * * * * * * * * * * * */
 var contratDisplay = [
-		{element:"h1", attributes:{}, inside:[
+		/*{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Contrats"}
-		]},
+		]},*/
 		{element:"div", attributes:{}, inside:[
 			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", required:"required"}, inside:[]},
 			{element:"input", attributes:{type:"button", onclick:"newContrat();", value:"New Contrat"}, inside:[]}
@@ -608,19 +611,25 @@ var contratForm =[
 				{element:"input", attributes:{type:"button", value:"+", onclick:"addClauses();"}, inside:[]}
 			]},
 			{element:"div", attributes:{id:"actions"}, inside:[
-				{element:"input", attributes:{type:"submit", value:"Lauch Signature Protocol", onclick:"signContrat();"}, inside:[]},
-				{element:"input", attributes:{type:"button", value:"Save as draft", onclick:"saveDraftContrat();"}, inside:[]},
-				{element:"input", attributes:{type:"button", value:"Reset", onclick:"resetContrat();"}, inside:[]}
+				{element:"a", attributes:{"class":"button buttonStart", onclick:"signContrat();"}, inside:[
+					{element:"text", value:"Lauch Signature Protocol"}
+				]},
+				{element:"a", attributes:{"class":"button buttonValidate", onclick:"saveDraftContrat();"}, inside:[
+					{element:"text", value:"Save"}
+				]},
+				{element:"a", attributes:{"class":"button buttonCancel", onclick:"deleteContrat();"}, inside:[
+					{element:"text", value:"Delete"}
+				]}
 			]},
 		]}
 ];
 var ruleForm = [
 		{element:"tr", attributes:{}, inside:[
 			{element:"td", attributes:{"class":"item"}, inside:[
-				{element:"label", attributes:{"class":"item"}, inside:[]}
+				{element:"label", attributes:{"class":"label item"}, inside:[]}
 			]},
 			{element:"td", attributes:{"class":"from"}, inside:[
-				{element:"label", attributes:{"class":"from"}, inside:[]},
+				{element:"label", attributes:{"class":"label from"}, inside:[]},
 				{element:"label", attributes:{"class":"fromItemKey", style:"display:none;"}, inside:[]}
 			]},
 			{element:"td", attributes:{"class":"userSelect"}, inside:[
@@ -662,7 +671,7 @@ function getHome(){
 	var div = document.createElement("div");
 	$(div).attr("id", "items");
 	$(div).append(getTableItem(itemList));
-	content.appendChild(div);
+	$(content).append(div);
 	$(div).append(getItemAddForm());
 	$(content).append(div);
 	return content;

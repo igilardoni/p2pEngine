@@ -41,7 +41,7 @@ function newContrat(){
 function contratCreated(content) {
 	emptyContent();
 	$("#content").append(getElement(contratForm[0]));
-	$("#contratID").append(document.createTextNode(content.contratID));
+	$("#contratID").append(content.contratID);
 	$("#objects").append(getTableItem(itemContratList));
 	$("#contratForm").find("h1").text(content.title);
 }
@@ -68,10 +68,10 @@ function signatoryAdded(content) {
 function getContrat(){
 	var div = document.createElement("div");
 	$(div).attr("id", "content");
-	$(div).append(getElement(contratDisplay[0]));
+	//$(div).append(getElement(contratDisplay[0]));
 	$(div).append(getElement(contratTable[0]));
 	//$(div).append(getElement(contratForm[0]));
-	$(div).append(getElement(contratDisplay[1]));
+	$(div).append(getElement(contratDisplay[0]));
 	return div;
 }
 function newRowContrat(content) {

@@ -12,26 +12,8 @@
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 }
 
-#registration h1 {
-	border : 5px solid transparent;
-	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
-	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #5aafcf 100%);
-	border-image : linear-gradient(to right, #FFFFFF 0%, #5aafcf 100%);
-	border-image-slice : 1;
-	border-top : none;
-	border-left : none;
-	border-right : none;
-	padding-bottom : 20px;
-	margin-bottom : 20px;
-	color : #3b93b4;
-	font-weight : bold;
-}
-
 #registration label {
-	color : #416c75;
-	display : block;
-	margin-left:10px;
-	width : 200px;
+	width : 92%;
 	text-align : left;
 }
 

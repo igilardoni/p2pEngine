@@ -35,8 +35,8 @@ function loadItemsFavorites(){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function favoritesItemsLoaded(content){
 	$("#"+favoritesList).append(newRowFavorites(content));
-	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").addClass("inFavorites");
-	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").removeClass("buttonAddFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonFavorites").addClass("inFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonFavorites").removeClass("buttonFavorites");
 }
 
 function favoritesItemLoaded(content){
@@ -47,8 +47,8 @@ function itemFavoritesRemoved(content){
 	var id = "favorites"+removePunctuation(content.itemKey);
 	$("#"+id).detach();
 	removeDisplayItemFavorites();
-	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.inFavorites").addClass("buttonAddFavorites");
-	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.buttonAddFavorites").removeClass("inFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.inFavorites").addClass("buttonFavorites");
+	$("#"+itemList+" #"+removePunctuation(content.itemKey)).find("a.inFavorites").removeClass("inFavorites");
 }
 
 function favoritesItemsLoadingStart(content){
@@ -89,7 +89,7 @@ function newRowFavorites(content){
 	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("class", "button buttonCancel");
 	$(removeButton).attr("onclick", "removeItemFavorites('"+content.itemKey+"');");
 	//$(removeButton).append(document.createTextNode("Remove"));
 	$(cell3).append(removeButton);

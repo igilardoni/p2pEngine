@@ -28,24 +28,7 @@ nav ul {
 }
 
 nav li {
-	cursor : pointer;
 	width : 100%;
-	text-align : center;
-	margin : 0;
-	
-	border : 3px solid transparent;
-	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #979797 100%);
-	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #979797 100%);
-	border-image : linear-gradient(to right, #FFFFFF 0%, #979797 100%);
-	border-image-slice : 1;
-	border-top : none;
-	border-left : none;
-	border-right : none;
-	
-	font-family: Arial;
-	color: #fcfcfc;
-	padding: 1em 0 1em 0;
-	text-decoration: none;
 }
 
 nav li:hover {
@@ -56,10 +39,10 @@ nav li.selected {
 	background-color : #707070;
 }
 
-nav li.favoriteSelected {
+nav .favoriteSelected {
 	background-color : #707070;
 }
-nav li.favoriteSelected:hover {
+nav .favoriteSelected:hover {
 	background-color : #565656;
 }
 
