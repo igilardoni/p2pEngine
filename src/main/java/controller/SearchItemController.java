@@ -13,7 +13,7 @@ public class SearchItemController implements SearchListener<Item>{
 	private ArrayList<SearchListener<Item>> listeners = new ArrayList<SearchListener<Item>>();
 	
 	public void startSearch(String title) {
-		Search<Item> s = new Search<Item>(Application.getInstance().getNetwork().getGroup("items").getDiscoveryService(), "title", false);
+		Search<Item> s = new Search<Item>(Application.getInstance().getNetwork(), Item.class.getSimpleName(), "title", false);
 		s.addListener(this);
 		s.search(title, 0, 0);
 		System.out.println("recherche en cours: title=" + title);

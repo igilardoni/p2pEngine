@@ -20,7 +20,7 @@ public class MessageSender {
 	 */
 	public static boolean sendMessageToNick(String message, String nick){
 		boolean sendOneTime = false;
-		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "nick", true);
+		Search<User> search = new Search<User>(Application.getInstance().getNetwork(), User.class.getSimpleName(), "nick", true);
 		search.search(nick, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
 		AsymKeysImpl to;
@@ -56,7 +56,7 @@ public class MessageSender {
 	public static boolean sendMessageToPublicKey(String message, String publicKey) throws Exception{
 		// TODO Delete all System.out
 		boolean sendOneTime = false;
-		Search<User> search = new Search<User>(Application.getInstance().getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
+		Search<User> search = new Search<User>(Application.getInstance().getNetwork(), User.class.getSimpleName(), "publicKey", true);
 		search.search(publicKey, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<Search<User>.Result> results = search.getResultsWithPeerID();
 		ArrayList<PeerID> ids = new ArrayList<PeerID>();

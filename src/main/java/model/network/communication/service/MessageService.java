@@ -35,7 +35,7 @@ public class MessageService extends Service<UserMessage> {
 
 	@Override
 	public void sendMessage(UserMessage data, PeerID... ids) {
-		Search<User> s = new Search<User>(this.getNetwork().getGroup("users").getDiscoveryService(), 
+		Search<User> s = new Search<User>(this.getNetwork(), User.class.getSimpleName(),
 				"publicKey", true);
 		s.search(data.getReceiver().getPublicKey().toString(16), 3, 5);
 		ArrayList<Search<User>.Result> r = s.getResultsWithPeerID();

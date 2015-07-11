@@ -263,7 +263,7 @@ public class UserManager {
 		if(users.size()>0)
 			u = this.getNamed(nickname);
 		// Search on network
-		Search<User> search = new Search<User>(manager.getNetwork().getGroup("users").getDiscoveryService(), "nick", true);
+		Search<User> search = new Search<User>(manager.getNetwork(), User.class.getSimpleName(), "nick", true);
 		search.search(nickname, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<User> results = search.getResults();
 		if(results.isEmpty() && u==null){

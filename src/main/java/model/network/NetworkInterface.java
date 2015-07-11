@@ -29,6 +29,12 @@ public interface NetworkInterface {
 	 */
 	public void addGroup(String name);
 	
+	/**
+	 * Add a new PeerGroup on the network
+	 * @param name The new PeerGroup's name
+	 * @param idGroup add a 2nd PeerGroup, "id-name".
+	 */
+	public void addGroup(String name, boolean idGroup);
 	
 	/**
 	 * Starts the network

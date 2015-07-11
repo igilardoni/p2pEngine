@@ -22,7 +22,7 @@ public class ItemResiliance extends AbstractResiliance {
 
 	@Override
 	public void step() {
-		Search<Item> s = new Search<Item>(manager.getNetwork().getGroup("items").getDiscoveryService(), "itemKey", true);
+		Search<Item> s = new Search<Item>(manager.getNetwork(), Item.class.getSimpleName(), "itemKey", true);
 		for(Item i : manager.getItemManager().getItems()) {
 			s.search(i.getItemKey(), 2, 5);
 			for(Item item: s.getResults()) {
@@ -41,7 +41,7 @@ public class ItemResiliance extends AbstractResiliance {
 				rpf.findPeers(2, 5 - s.getResults().size());
 				com.getService(ItemSender.class.getSimpleName()).sendMessage(i, rpf.getResults().toArray(new PeerID[0]));
 			}
-			i.publish(manager.getNetwork().getGroup("items"));
+			i.publish(manager.getNetwork());
 		}
 	}
 

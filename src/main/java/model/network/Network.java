@@ -100,6 +100,14 @@ public class Network implements NetworkInterface {
 		} /* Getting the advertisement of implemented modules */
 		
 	}
+	
+	@Override 
+	public void addGroup(final String name, boolean idGroup) {
+		addGroup(name);
+		if(idGroup) {
+			addGroup("id-" + name);
+		}
+	}
 
 	@Override
 	public void start() {

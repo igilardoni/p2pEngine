@@ -17,7 +17,7 @@ public class UserResiliance extends AbstractResiliance {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void step() {
-		Search<User> s = new Search<User>(manager.getNetwork().getGroup("users").getDiscoveryService(), "publicKey", true);
+		Search<User> s = new Search<User>(manager.getNetwork(), User.class.getSimpleName(), "publicKey", true);
 		for(User u: manager.getUserManager().getUsers()) {
 			s.search(u.getKeys().getPublicKey().toString(16), 2, 5);
 			for(User user: s.getResults()) {
@@ -36,7 +36,7 @@ public class UserResiliance extends AbstractResiliance {
 				rpf.findPeers(2, 5 - s.getResults().size());
 				com.getService(UserSender.class.getSimpleName()).sendMessage(u, rpf.getResults().toArray(new PeerID[0]));
 			}
-			u.publish(manager.getNetwork().getGroup("users"));
+			u.publish(manager.getNetwork());
 		}
 	}
 

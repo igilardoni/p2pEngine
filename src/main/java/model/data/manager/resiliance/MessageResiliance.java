@@ -26,7 +26,7 @@ public class MessageResiliance extends AbstractResiliance implements SearchListe
 	}
 
 	private void retrieveMessages() {
-		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork().getGroup("messages").getDiscoveryService(),
+		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork(), UserMessage.class.getSimpleName(),
 				"receiverKey", true);
 		s.addListener(this);
 		for(User u : manager.getUserManager().getUsers()) {
@@ -38,11 +38,11 @@ public class MessageResiliance extends AbstractResiliance implements SearchListe
 	private void sendMessages() {
 		ArrayList<UserMessage> msgs = manager.getMessageManager().getMessages();
 		
-		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork().getGroup("messages").getDiscoveryService(),
+		Search<UserMessage> s = new Search<UserMessage>(manager.getNetwork(), UserMessage.class.getSimpleName(),
 				"keyId", true);
 		
 		for(UserMessage m : msgs) {
-			m.publish(this.manager.getNetwork().getGroup("messages"));
+			m.publish(this.manager.getNetwork());
 			s.search(m.getId(), 3000, 5);
 			if(s.getResults().size() < 5) {
 				RandomPeerFinder rpf = new RandomPeerFinder(this.manager.getNetwork());

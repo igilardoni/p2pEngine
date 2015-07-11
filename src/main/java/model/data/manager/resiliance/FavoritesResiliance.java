@@ -23,7 +23,7 @@ public class FavoritesResiliance extends AbstractResiliance {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void step() {
-		Search<Favorites> s = new Search<Favorites>(manager.getNetwork().getGroup("favorites").getDiscoveryService(), "keyId", true);
+		Search<Favorites> s = new Search<Favorites>(manager.getNetwork(), Favorites.class.getSimpleName(), "keyId", true);
 		for(Favorites f : manager.getFavoriteManager().getFavorites()) {
 			s.search(f.getId(), 2, 5);
 			for(Favorites favorites: s.getResults()) {
@@ -42,7 +42,7 @@ public class FavoritesResiliance extends AbstractResiliance {
 				rpf.findPeers(2, 5 - s.getResults().size());
 				com.getService(FavoritesSender.class.getSimpleName()).sendMessage(f, rpf.getResults().toArray(new PeerID[0]));
 			}
-			f.publish(manager.getNetwork().getGroup("favorites"));
+			f.publish(manager.getNetwork());
 		}
 	}
 

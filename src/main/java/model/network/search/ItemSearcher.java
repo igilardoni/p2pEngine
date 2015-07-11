@@ -32,14 +32,14 @@ public class ItemSearcher {
 		ArrayList<Item> itemList;
 		User user = null;
 		
-		Search<Item> itemSearch = new Search<Item>(network.getGroup("items").getDiscoveryService(), "itemKey", true);
+		Search<Item> itemSearch = new Search<Item>(network, Item.class.getSimpleName(), "itemKey", true);
 		itemSearch.search(itemKey, VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
 		itemList = itemSearch.getResults();
 		long maxDateItem = 0;
 		for(Item i : itemList){
 			if(user==null || !user.getKeys().getPublicKey().toString(16).equals(i.getOwner())){
 				// Normally used only once (except if Item i is fallacious)
-				Search<User> userSearch = new Search<User>(network.getGroup("users").getDiscoveryService(), "publicKey", true);
+				Search<User> userSearch = new Search<User>(network, User.class.getSimpleName(), "publicKey", true);
 				userSearch.search(i.getOwner(), VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
 				ArrayList<User> userList = userSearch.getResults();
 				long maxDateUser = 0;

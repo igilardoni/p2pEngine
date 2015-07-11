@@ -16,7 +16,7 @@ public class ContratsResiliance extends AbstractResiliance {
 
 	@Override
 	public void step() {
-		Search<Contrat> s = new Search<Contrat>(manager.getNetwork().getGroup("Contrat").getDiscoveryService(), "keyId", true);
+		Search<Contrat> s = new Search<Contrat>(manager.getNetwork(), Contrat.class.getSimpleName(), "keyId", true);
 		for(Contrat f : manager.getContratManager().getContrats()) {
 			s.search(f.getId(), 2, 5);
 			for(Contrat contrat: s.getResults()) {
@@ -35,7 +35,7 @@ public class ContratsResiliance extends AbstractResiliance {
 				rpf.findPeers(2, 5 - s.getResults().size());
 				com.getService(ContratSender.class.getSimpleName()).sendMessage(f, rpf.getResults().toArray(new PeerID[0]));
 			}
-			f.publish(manager.getNetwork().getGroup("Contrat"));
+			f.publish(manager.getNetwork());
 		}
 	}
 

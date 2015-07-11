@@ -24,6 +24,7 @@ import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalSign;
+import model.network.NetworkInterface;
 import model.network.communication.Communication;
 import model.network.communication.service.update.UpdateMessage;
 import net.jxta.document.Advertisement;
@@ -49,6 +50,8 @@ import net.jxta.peergroup.PeerGroup;
 public abstract class AbstractAdvertisement extends Advertisement{
 
 	private AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
+	
+	private IdAdvertisement idAdv; //id advertisement to save network data use.
 	
 	/*
 	 * An hashMap that usually contain the key and value of this advertisement content, 
@@ -480,6 +483,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		keyId = this.getAdvType() + ":" + UUID.randomUUID() + UUID.randomUUID();
 	}
 	
+	public void setId(String id) {
+		this.keyId = id;
+	}
+	
 	/**
 	 * Clone the Abstract advertisement (only with declared fields in setKeys)
 	 * For example, for the User class that extends abstractAdvertisement, 
@@ -498,16 +505,20 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	/**
-	 * Publish an object on a PeerGroup
-	 * @param pg the peergroup to publish to.
+	 * Publish an object on his PeerGroup
+	 * @param NetworkInterface the current network.
 	 */
-	public void publish(PeerGroup pg) {
+	public void publish(NetworkInterface n) {
+		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
-			pg.getDiscoveryService().flushAdvertisement(this);
-			pg.getDiscoveryService().publish(this);
+			n.getGroup(getClass().getSimpleName()).getDiscoveryService().flushAdvertisement(this);
+			n.getGroup(getClass().getSimpleName()).getDiscoveryService().publish(this);
+			n.getGroup("id-" + getClass().getSimpleName()).getDiscoveryService().flushAdvertisement(idAdv);
+			n.getGroup("id-" + getClass().getSimpleName()).getDiscoveryService().publish(idAdv);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 }

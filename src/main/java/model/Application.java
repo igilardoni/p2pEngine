@@ -9,7 +9,12 @@ import java.net.URISyntaxException;
 import java.util.Random;
 import java.util.logging.Level;
 
+import com.sun.enterprise.security.auth.realm.User;
+import com.sun.mail.imap.protocol.Item;
+
 import model.advertisement.AdvertisementInstaciator;
+import model.data.contrat.Contrat;
+import model.data.favorites.Favorites;
 import model.data.manager.Manager;
 import model.data.manager.resiliance.ContratsResiliance;
 import model.data.manager.resiliance.FavoritesResiliance;
@@ -17,6 +22,7 @@ import model.data.manager.resiliance.ItemResiliance;
 import model.data.manager.resiliance.MessageResiliance;
 import model.data.manager.resiliance.SharingManager;
 import model.data.manager.resiliance.UserResiliance;
+import model.data.user.UserMessage;
 import model.network.Network;
 import model.network.communication.Communication;
 import model.network.communication.service.MessageService;
@@ -51,17 +57,21 @@ public class Application {
 		manager = new Manager(network);
 		manager.recovery(VARIABLES.ManagerFilePath);
 		startCommunication();
-		network.addGroup("items");
-		network.addGroup("users");
-		//TODO more groups to adds.
-		
-		
+		addAllGroups();
 		startSharingManager();
 		
 		if(startLocalServer)
 			startLocalServer();	
 		
 		instance = this;
+	}
+	
+	private void addAllGroups() {
+		network.addGroup(Item.class.getSimpleName(), true);
+		network.addGroup(User.class.getSimpleName(), true);
+		network.addGroup(Contrat.class.getSimpleName(), true);
+		network.addGroup(Favorites.class.getSimpleName(), true);
+		network.addGroup(UserMessage.class.getSimpleName(), true);
 	}
 	
 	private void startSharingManager() {

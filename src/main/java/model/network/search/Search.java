@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 import model.advertisement.AbstractAdvertisement;
+import model.network.NetworkInterface;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -48,12 +49,13 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	
 	/**
 	 * Initialise a new research on the discovery, on the specified attribute.
-	 * @param discovery
+	 * @param NetworkInterface
+	 * @param pg the peerGroup. Usually Class name or id-ClassName
 	 * @param attribute
 	 * @param exact true if the search has to be exact (letter sensitive) or not (search "foo" can find "foobar")
 	 */
-	public Search(DiscoveryService discovery, String attribute, boolean exact) {
-		this.discovery = discovery;
+	public Search(NetworkInterface n, String pg, String attribute, boolean exact) {
+		this.discovery = n.getGroup(pg).getDiscoveryService();
 		this.attribute = attribute;
 		this.exact = exact;
 	}

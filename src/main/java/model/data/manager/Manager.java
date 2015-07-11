@@ -75,6 +75,16 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	/**
+	 * Get an object (Item, user, message .. etc) with his id
+	 * @param id
+	 * @return an AbstractAdvertisement
+	 */
+	public AbstractAdvertisement getObjectById(String id) {
+		// TODO 
+		return null;
+	}
+	
+	/**
 	 * Get the UserManager that is handling users.
 	 * @return an UserManager instance.
 	 */
