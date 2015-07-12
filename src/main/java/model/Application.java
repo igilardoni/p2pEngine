@@ -9,12 +9,10 @@ import java.net.URISyntaxException;
 import java.util.Random;
 import java.util.logging.Level;
 
-import com.sun.enterprise.security.auth.realm.User;
-import com.sun.mail.imap.protocol.Item;
-
 import model.advertisement.AdvertisementInstaciator;
 import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
+import model.data.item.Item;
 import model.data.manager.Manager;
 import model.data.manager.resiliance.ContratsResiliance;
 import model.data.manager.resiliance.FavoritesResiliance;
@@ -22,6 +20,7 @@ import model.data.manager.resiliance.ItemResiliance;
 import model.data.manager.resiliance.MessageResiliance;
 import model.data.manager.resiliance.SharingManager;
 import model.data.manager.resiliance.UserResiliance;
+import model.data.user.User;
 import model.data.user.UserMessage;
 import model.network.Network;
 import model.network.communication.Communication;
@@ -205,32 +204,16 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Application(true);
+		new Application(false);
 		Network n = Application.getInstance().getNetwork();
-		if(Desktop.isDesktopSupported())
-		{
+		if(Desktop.isDesktopSupported()) {
 		  try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/index.html"));
-		} catch (IOException | URISyntaxException e) {
+		  } catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		  }
 		}
 		
-		/*User u = new User("test", "test", "test", "test", "test", "test");
-		u.sign(u.getKeys());
-		Manager m = Application.getInstance().getManager();
-		m.addUser(u);
-		Item i = new Item(u, "orange", new Category(CATEGORY.Appliances), "test", "test", "test", "test", 0, 0, Item.TYPE.WISH);
-		i.sign(u.getKeys());
-		m.addItem(i, true);*/
-		System.out.println(n.getBootStrapIp());
-
-		/*try {
-			Thread.sleep(20000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Application.getInstance().close(); */
 	}
 }
