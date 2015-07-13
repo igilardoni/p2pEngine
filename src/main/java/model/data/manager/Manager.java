@@ -113,6 +113,8 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	}
 	
 	public NetworkInterface getNetwork() {
+		if(network == null)
+			Printer.printError(this, "getNetwork", "Network is null !");
 		return network;
 	}
 
@@ -303,6 +305,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				if(!user.getKeys().getPublicKey().toString(16).equals(currentPublicKey)){
 					usersElement.addContent(user.getRootElement());
 					users.add(user);
+					System.out.println("User added : \n"+user.toString());
 				// Filling ArrayList items
 				for (Item i : this.userManager.getUserItems(userKey)) {
 					if(!items.contains(i))
@@ -400,12 +403,14 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		Document doc = new Document(root);
 		XMLOutputter xmlOutput = new XMLOutputter();
 		Format format = Format.getPrettyFormat();
-		//format.setEncoding("UTF-8");
+		format.setEncoding("UTF-8");
 		xmlOutput.setFormat(format);
 		try {
 			xmlOutput.output(doc, new FileWriter(path));
 		} catch (IOException e) {
 			Printer.printError(this, "saving", "saving : "+e.toString());
+		}  finally{
+			Printer.printInfo(this, "saving", "Data saved localy");
 		}
 	}
 	
