@@ -134,7 +134,8 @@ public class EchoServer {
 				System.err.println("\t"+jsonObject.getString("query")+" is an unknow query");
 				return;
 			}
-			AbstractInterlocutor absI = interlocutors.get(jsonObject.getString("query")).getClass().newInstance();
+			AbstractInterlocutor absI = null;
+			absI = interlocutors.get(jsonObject.getString("query")).getClass().newInstance();
 			absI.init(jsonObject.getString("content"));
 			absI.start();
 		} catch (JSONException e) {
