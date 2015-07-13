@@ -6,6 +6,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadBase64Image extends AbstractInterlocutor {
 
 	public LoadBase64Image() {
+		super();
 	}
 	
 	@Override

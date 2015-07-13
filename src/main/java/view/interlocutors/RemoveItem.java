@@ -8,6 +8,7 @@ import controller.ManagerBridge;
 public class RemoveItem extends AbstractInterlocutor {
 
 	public RemoveItem() {
+		super();
 	}
 
 	@Override

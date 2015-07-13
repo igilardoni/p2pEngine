@@ -12,6 +12,7 @@ import controller.ManagerBridge;
 public class LoadItemsFavorites extends AbstractInterlocutor {
 
 	public LoadItemsFavorites() {
+		super();
 	}
 
 	@Override

@@ -118,14 +118,7 @@ public class ItemManager {
 	public void addItem(Item i, boolean publish) {
 		addItem(i);
 		if(publish) {
-			try {
-				manager.getNetwork().getGroup("items").getDiscoveryService().publish(i);
-				manager.getNetwork().getGroup("items").getDiscoveryService().remotePublish(i);
-				System.out.println("item publie :");
-				System.out.println(i);
-			} catch (IOException e) {
-				Printer.printError(this, "addItem",e.toString());
-			}
+			i.publish(this.manager.getNetwork());
 		}
 	}
 	

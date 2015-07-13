@@ -13,6 +13,7 @@ import controller.ManagerBridge;
 public class LoadContrat extends AbstractInterlocutor {
 	
 	public LoadContrat() {
+		super();
 	}
 
 	@Override

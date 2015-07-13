@@ -13,6 +13,7 @@ import controller.ManagerBridge;
 public class LoadConversation extends AbstractInterlocutor {
 
 	public LoadConversation() {
+		super();
 	}
 
 	@Override

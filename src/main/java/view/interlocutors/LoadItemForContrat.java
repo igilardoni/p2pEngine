@@ -10,6 +10,7 @@ import controller.ManagerBridge;
 public class LoadItemForContrat extends AbstractInterlocutor {
 
 	public LoadItemForContrat() {
+		super();
 	}
 	
 	@Override

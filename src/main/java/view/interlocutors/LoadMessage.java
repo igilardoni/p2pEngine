@@ -10,6 +10,7 @@ import controller.ManagerBridge;
 public class LoadMessage extends AbstractInterlocutor {
 
 	public LoadMessage() {
+		super();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import controller.ManagerBridge;
 public class Register extends AbstractInterlocutor {
 
 	public Register() {
+		super();
 	}
 
 	@Override

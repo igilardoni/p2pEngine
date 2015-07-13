@@ -11,6 +11,7 @@ import controller.ManagerBridge;
 public class LoadItem extends AbstractInterlocutor {
 
 	public LoadItem() {
+		super();
 	}
 
 	@Override

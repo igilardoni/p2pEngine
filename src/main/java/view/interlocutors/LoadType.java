@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadType extends AbstractInterlocutor {
 
 	public LoadType() {
+		super();
 	}
 	
 	@Override

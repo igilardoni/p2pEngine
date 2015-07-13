@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadItemSearchFieldType extends AbstractInterlocutor {
 
 	public LoadItemSearchFieldType() {
+		super();
 	}
 
 	@Override

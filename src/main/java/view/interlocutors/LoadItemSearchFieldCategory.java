@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadItemSearchFieldCategory extends AbstractInterlocutor {
 
 	public LoadItemSearchFieldCategory() {
+		super();
 	}
 
 	@Override

@@ -7,8 +7,8 @@ import org.codehaus.jettison.json.JSONObject;
 
 public abstract class AbstractInterlocutor extends Thread {
 	public static Async com;
-	public String content;
-	
+	protected String content;
+
 	public static void setCom(Async com){
 		AbstractInterlocutor.com = com;
 	}
@@ -25,7 +25,6 @@ public abstract class AbstractInterlocutor extends Thread {
 		return this.content != null && AbstractInterlocutor.com != null;
 	}
 	
-	@Override
 	public abstract void run();
 
 	protected static JSONObject getJSON(String string){

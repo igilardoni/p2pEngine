@@ -8,6 +8,7 @@ import controller.ManagerBridge;
 public class UpdateItem extends AbstractInterlocutor {
 
 	public UpdateItem() {
+		super();
 	}
 	
 	@Override

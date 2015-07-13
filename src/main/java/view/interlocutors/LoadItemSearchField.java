@@ -10,6 +10,7 @@ import controller.ManagerBridge;
 public class LoadItemSearchField extends AbstractInterlocutor {
 
 	public LoadItemSearchField() {
+		super();
 	}
 
 	@Override

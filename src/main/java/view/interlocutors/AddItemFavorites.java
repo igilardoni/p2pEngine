@@ -15,7 +15,7 @@ public class AddItemFavorites extends AbstractInterlocutor {
 
 	public AddItemFavorites() {
 	}
-	
+
 	@Override
 	public void run() {
 		if(!isInitialized()) return;

@@ -10,6 +10,7 @@ import controller.ManagerBridge;
 public class LoadAccount extends AbstractInterlocutor {
 
 	public LoadAccount() {
+		super();
 	}
 
 	@Override

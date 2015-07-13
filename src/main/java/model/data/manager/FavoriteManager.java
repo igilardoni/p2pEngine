@@ -84,6 +84,7 @@ public class FavoriteManager {
 			return;
 		}
 		favorites.put(f.getOwner(), f);
+		f.publish(manager.getNetwork());
 	}
 	
 	/**

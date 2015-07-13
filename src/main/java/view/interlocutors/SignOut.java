@@ -8,6 +8,7 @@ import controller.ManagerBridge;
 public class SignOut extends AbstractInterlocutor {
 
 	public SignOut() {
+		super();
 	}
 
 	@Override

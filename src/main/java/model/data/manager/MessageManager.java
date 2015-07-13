@@ -93,7 +93,7 @@ public class MessageManager {
 	
 	public void addMessage(UserMessage msg) {
 		this.messages.add(msg);
-		//TODO PUBLISH MSG
+		msg.publish(manager.getNetwork());
 	}
 	
 	///////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

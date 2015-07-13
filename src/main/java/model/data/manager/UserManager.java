@@ -157,11 +157,7 @@ public class UserManager {
 	public void addUser(User u, boolean publish) {
 		addUser(u);
 		if(publish) {
-			try {
-				manager.getNetwork().getGroup("users").getDiscoveryService().publish(u);
-			} catch (IOException e) {
-				Printer.printError(this, "addUser",e.toString());
-			}
+			u.publish(manager.getNetwork());
 		}
 	}
 	

@@ -6,7 +6,9 @@ import org.codehaus.jettison.json.JSONObject;
 import controller.ManagerBridge;
 
 public class SignIn extends AbstractInterlocutor {
+	
 	public SignIn() {
+		super();
 	}
 
 	@Override

@@ -181,10 +181,12 @@ public class ContratManager {
 			if(local.getLastUpdated() < c.getLastUpdated()) {
 				contrats.remove(local);
 				contrats.add(c);
+				c.publish(manager.getNetwork());
 			}
 		}
 		else {
 			contrats.add(c);
+			c.publish(manager.getNetwork());
 		}
 	}
 	

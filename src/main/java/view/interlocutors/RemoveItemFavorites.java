@@ -8,6 +8,7 @@ import controller.ManagerBridge;
 public class RemoveItemFavorites extends AbstractInterlocutor {
 
 	public RemoveItemFavorites() {
+		super();
 	}
 
 	@Override

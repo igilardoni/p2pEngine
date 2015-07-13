@@ -10,6 +10,7 @@ import controller.ManagerBridge;
 public class NewContrat extends AbstractInterlocutor {
 
 	public NewContrat() {
+		super();
 	}
 
 	@Override

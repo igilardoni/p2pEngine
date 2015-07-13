@@ -10,6 +10,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadCategories extends AbstractInterlocutor {
 
 	public LoadCategories() {
+		super();
 	}
 
 	@Override

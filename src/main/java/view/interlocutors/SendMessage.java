@@ -8,6 +8,7 @@ import controller.MessageSender;
 public class SendMessage extends AbstractInterlocutor {
 
 	public SendMessage() {
+		super();
 	}
 
 	@Override
