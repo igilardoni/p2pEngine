@@ -36,4 +36,10 @@ public class ClausVAT extends Claus {
 		return false;
 	}
 
+	@Override
+	public String getSimpleName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -161,5 +161,10 @@ public class UpdateMessage extends AbstractAdvertisement{
 		u.setNick("new nick");
 		u.throwUpdate(null, u.getKeys());
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 	
 }

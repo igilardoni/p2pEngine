@@ -217,4 +217,8 @@ public class Favorites extends AbstractAdvertisement{
 		f.sign(user.getKeys());
 		System.out.println(f.checkSignature(user.getKeys()));
 	}
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }

@@ -146,7 +146,7 @@ public class UserManager {
 		AsymKeysImpl originalKey = user.getKeys().copy();
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
-		this.addUser(user);
+		this.addUser(user, true);
 	}	
 	
 	/**

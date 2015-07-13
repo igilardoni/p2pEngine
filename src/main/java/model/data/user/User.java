@@ -304,4 +304,9 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		user.sign(keys);
 		System.out.println(user.checkSignature(user.getKeys()));
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }

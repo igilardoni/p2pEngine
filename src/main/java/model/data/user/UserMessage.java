@@ -137,6 +137,11 @@ public class UserMessage extends AbstractAdvertisement {
 	public String getContent() {
 		return message;
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 	
 
 }

@@ -137,6 +137,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	}
 	
 	
+	
+	
 	@SuppressWarnings("rawtypes")
 	/**
 	 * Instantiate and initialize this advertisement with the given root element given by Jxta.
@@ -147,6 +149,8 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		initialize(root);
 	}
 	
+	
+	public abstract String getSimpleName();
 	
 	
 	public void setKeys(AsymKeysImpl keys) {
@@ -511,10 +515,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void publish(NetworkInterface n) {
 		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
-			n.getGroup(getClass().getSimpleName()).getDiscoveryService().flushAdvertisement(this);
-			n.getGroup(getClass().getSimpleName()).getDiscoveryService().publish(this);
-			n.getGroup("id-" + getClass().getSimpleName()).getDiscoveryService().flushAdvertisement(idAdv);
-			n.getGroup("id-" + getClass().getSimpleName()).getDiscoveryService().publish(idAdv);
+			n.getGroup(getSimpleName()).getDiscoveryService().flushAdvertisement(this);
+			n.getGroup(getSimpleName()).getDiscoveryService().publish(this);
+			n.getGroup("id-" + getSimpleName()).getDiscoveryService().flushAdvertisement(idAdv);
+			n.getGroup("id-" + getSimpleName()).getDiscoveryService().publish(idAdv);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

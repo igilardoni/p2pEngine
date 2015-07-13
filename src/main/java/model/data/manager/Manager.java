@@ -426,5 +426,9 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		Favorites f2 = new Favorites(f.toString());
 		System.out.println(f2.checkSignature(u.getKeys()));
 	}
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }
 
