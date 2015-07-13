@@ -1,19 +1,29 @@
 package view.interlocutors;
 
 import javax.websocket.RemoteEndpoint.Async;
-import javax.websocket.Session;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 public abstract class AbstractInterlocutor extends Thread {
 	public static Async com;
+	public String content;
 	
-	public abstract void init(String content, Session session);
+	public static void setCom(Async com){
+		AbstractInterlocutor.com = com;
+	}
 	
-	public abstract void reset();
+	public void init(String content){
+		this.content = content;
+	}
 	
-	public abstract boolean isInitialized();
+	public void reset(){
+		this.content = null;
+	}
+	
+	public boolean isInitialized(){
+		return this.content != null && AbstractInterlocutor.com != null;
+	}
 	
 	@Override
 	public abstract void run();

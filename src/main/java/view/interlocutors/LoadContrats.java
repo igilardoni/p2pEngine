@@ -2,8 +2,6 @@ package view.interlocutors;
 
 import java.util.ArrayList;
 
-import javax.websocket.Session;
-
 import model.data.contrat.Contrat;
 
 import org.codehaus.jettison.json.JSONException;
@@ -14,24 +12,6 @@ import controller.ManagerBridge;
 public class LoadContrats extends AbstractInterlocutor {
 	
 	public LoadContrats() {
-	}
-	
-	public static String content;
-	
-	@Override
-	public void init(String content, Session session){
-		this.content = content;
-		AbstractInterlocutor.com = session.getAsyncRemote();
-	}
-	
-	@Override
-	public void reset(){
-		this.content = null;
-	}
-	
-	@Override
-	public boolean isInitialized(){
-		return this.content != null && this.com != null;
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package view.interlocutors;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.websocket.Session;
 
 import model.data.item.Category;
 
@@ -13,24 +10,6 @@ import org.codehaus.jettison.json.JSONObject;
 public class LoadCategories extends AbstractInterlocutor {
 
 	public LoadCategories() {
-	}
-	
-	public static String content;
-	
-	@Override
-	public void init(String content, Session session){
-		this.content = content;
-		AbstractInterlocutor.com = session.getAsyncRemote();
-	}
-	
-	@Override
-	public void reset(){
-		this.content = null;
-	}
-	
-	@Override
-	public boolean isInitialized(){
-		return this.content != null && this.com != null;
 	}
 
 	@Override

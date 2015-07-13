@@ -1,9 +1,5 @@
 package view.interlocutors;
 
-import java.io.IOException;
-
-import javax.websocket.Session;
-
 import model.data.user.UserMessage;
 
 import org.codehaus.jettison.json.JSONException;
@@ -14,24 +10,6 @@ import controller.ManagerBridge;
 public class LoadMessage extends AbstractInterlocutor {
 
 	public LoadMessage() {
-	}
-	
-	public static String content;
-	
-	@Override
-	public void init(String content, Session session){
-		this.content = content;
-		AbstractInterlocutor.com = session.getAsyncRemote();
-	}
-	
-	@Override
-	public void reset(){
-		this.content = null;
-	}
-	
-	@Override
-	public boolean isInitialized(){
-		return this.content != null && this.com != null;
 	}
 
 	@Override

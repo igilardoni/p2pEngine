@@ -69,6 +69,8 @@ public class EchoServer {
 	public void onOpen(Session session, EndpointConfig config){
 		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
 		
+		AbstractInterlocutor.setCom(session.getAsyncRemote());
+		
 		interlocutors.put("signIn", new SignIn());
 		interlocutors.put("signOut", new SignOut());
 		interlocutors.put("register", new Register());
@@ -133,7 +135,7 @@ public class EchoServer {
 				return;
 			}
 			AbstractInterlocutor absI = interlocutors.get(jsonObject.getString("query")).getClass().newInstance();
-			absI.init(jsonObject.getString("content"), session);
+			absI.init(jsonObject.getString("content"));
 			absI.start();
 		} catch (JSONException e) {
 			e.printStackTrace();
