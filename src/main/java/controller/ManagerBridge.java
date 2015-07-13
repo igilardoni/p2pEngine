@@ -126,7 +126,7 @@ public class ManagerBridge{
 		keys.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
 		item.sign(keys); // TODO Care try debug
 		// Application.getInstance().getManager().getItemManager().addItem(item, true); TODO IMPORTANT TO CHANGE THIS !!!
-		Application.getInstance().getManager().getItemManager().addItem(item);
+		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}
 	/**

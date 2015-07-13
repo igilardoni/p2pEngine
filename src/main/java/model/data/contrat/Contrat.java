@@ -460,4 +460,9 @@ public class Contrat extends AbstractAdvertisement {
 		}
 		return true;
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }

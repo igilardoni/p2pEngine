@@ -164,4 +164,9 @@ public class Conversations extends AbstractAdvertisement{
 			messages.get(message.getSender().getPublicKey().toString(16)).add(message);
 		}
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }

@@ -508,4 +508,9 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		item1.sign(user.getKeys());
 		System.out.println(item1.checkSignature(user.getKeys()));
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 }
