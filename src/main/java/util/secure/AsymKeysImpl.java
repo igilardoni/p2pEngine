@@ -324,5 +324,10 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		System.out.println(k1);
 		System.out.println(k2);
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 	
 }
