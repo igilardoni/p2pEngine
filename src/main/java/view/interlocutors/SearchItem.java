@@ -22,11 +22,6 @@ public class SearchItem extends AbstractInterlocutor implements SearchListener<I
 			SearchItemController is = new SearchItemController();
 			is.startSearch(content);
 			is.addListener(this);
-			while(this.isAlive()){
-				this.sleep(1000);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} finally {
 			this.reset();
 		}

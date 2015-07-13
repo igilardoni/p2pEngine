@@ -228,6 +228,10 @@ function updateSearchField(){
 		$("#searchField").replaceWith(input);
 	}
 }
+
+function itemSearchFound(content){
+	$("#"+itemSearchList).append(newRowItem(content));
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -37,6 +37,7 @@ import view.interlocutors.NewContrat;
 import view.interlocutors.Register;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemFavorites;
+import view.interlocutors.SearchItem;
 import view.interlocutors.SendMessage;
 import view.interlocutors.SignIn;
 import view.interlocutors.SignOut;
@@ -84,9 +85,11 @@ public class EchoServer {
 		interlocutors.put("removeItem", new RemoveItem());
 		interlocutors.put("loadCategories", new LoadCategories());
 		interlocutors.put("loadType", new LoadType());
+		
 		interlocutors.put("loadItemSearchField", new LoadItemSearchField());
 		interlocutors.put("loadItemSearchFieldCategory", new LoadItemSearchFieldCategory());
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
+		interlocutors.put("searchItem", new SearchItem());
 		
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
 		interlocutors.put("addItemFavorites", new AddItemFavorites());

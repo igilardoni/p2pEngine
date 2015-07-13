@@ -40,9 +40,11 @@ function serverReply(data){
 	case "itemLoaded":						itemLoaded(data.content); break;
 	case "categoryLoaded":					categoryLoaded(data.content); break;
 	case "typeLoaded":						typeLoaded(data.content); break;
+	
 	case "itemSearchFieldLoaded":			itemSearchFieldLoaded(data.content); break;
 	case "itemSearchFieldCategoryLoaded":	itemSearchFieldsLoaded(data.content); break;
 	case "itemSearchFieldTypeLoaded":		itemSearchFieldsLoaded(data.content); break;
+	case "itemSearchFound":					itemSearchFound(data.content); break;
 	
 	case "favoritesItemsLoadingStart":		favoritesItemsLoadingStart(data.content); break;
 	case "favoritesItemsLoaded":			favoritesItemsLoaded(data.content); break;
