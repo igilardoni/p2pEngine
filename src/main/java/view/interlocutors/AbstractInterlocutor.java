@@ -7,15 +7,23 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 public abstract class AbstractInterlocutor extends Thread {
-	public static Async com;
+	public Async com;
+	protected String content;
 	
-	public abstract void init(String content, Session session);
 	
-	public abstract void reset();
+	public void init(String content, Session session){
+		this.content = content;
+		com = session.getAsyncRemote();
+	}
 	
-	public abstract boolean isInitialized();
+	public void reset(){
+		this.content = null;
+	}
 	
-	@Override
+	public boolean isInitialized(){
+		return this.content != null && this.com != null;
+	}
+	
 	public abstract void run();
 
 	protected static JSONObject getJSON(String string){
