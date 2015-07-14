@@ -27,6 +27,7 @@ import util.secure.ElGamalSign;
 import model.network.NetworkInterface;
 import model.network.communication.Communication;
 import model.network.communication.service.update.UpdateMessage;
+import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 import net.jxta.document.Attributable;
 import net.jxta.document.Document;
@@ -515,8 +516,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void publish(NetworkInterface n) {
 		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
-			n.getGroup(getSimpleName()).getDiscoveryService().publish(this);
-			n.getGroup("id-" + getSimpleName()).getDiscoveryService().publish(idAdv);
+			DiscoveryService service = n.getGroup(getSimpleName()).getDiscoveryService();
+			DiscoveryService idService = n.getGroup("id-" + getSimpleName()).getDiscoveryService();
+			service.publish(this);
+			idService.publish(idAdv);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

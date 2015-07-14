@@ -115,6 +115,7 @@ public class Item extends AbstractAdvertisement implements Comparable<Item>{
 		super(i);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public Item(net.jxta.document.Element e) {
 		super(e);
 	}

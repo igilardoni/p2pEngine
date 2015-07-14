@@ -42,6 +42,11 @@ public class UserMessage extends AbstractAdvertisement {
 		super(root);
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public UserMessage(net.jxta.document.Element root) {
+		super(root);
+	}
+	
 	@Override
 	protected String getAdvertisementName() {
 		return getClass().getSimpleName();

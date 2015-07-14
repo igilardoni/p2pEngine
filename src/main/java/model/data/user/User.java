@@ -1,7 +1,5 @@
 package model.data.user;
 
-import java.math.BigInteger;
-
 import model.advertisement.AbstractAdvertisement;
 import model.advertisement.AdvertisementInstaciator;
 import net.jxta.document.AdvertisementFactory;
@@ -10,7 +8,6 @@ import org.jdom2.Element;
 
 import util.Hasher;
 import util.secure.AsymKeysImpl;
-import util.secure.Serpent;
 
 /**
  * This class can be instantiated for contains an user.
@@ -77,6 +74,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 * @param u
 	 */
 	public User(Element u) {
+		super(u);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public User(net.jxta.document.Element u) {
 		super(u);
 	}
 
