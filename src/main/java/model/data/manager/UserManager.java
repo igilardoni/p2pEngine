@@ -75,12 +75,13 @@ public class UserManager {
 	 * @param nickName
 	 * @return
 	 */
-	public User getNamed(String nickName){
+	public ArrayList<User> getNamed(String nickName){
+		ArrayList<User> users = new ArrayList<User>();
 		for (User user : this.users.values()) {
 			if(user.getNick().equals(nickName))
-				return user;
+				users.add(user);
 		}
-		return null;
+		return users;
 	}
 	
 	/**
@@ -248,49 +249,58 @@ public class UserManager {
 		return users.containsKey(key);
 	}
 	
+	
+	/**
+	 * Get the local User corresponding to nickname/password
+	 * @param nickname
+	 * @param password
+	 * @return The user of null is no user correspond.
+	 */
+	private User getLocalUserByLogin(String nickname, String password) {
+		ArrayList<User> localUsers = getNamed(nickname);
+		for(User u : localUsers) {
+			if(u.isPassword(password)) {
+				return u;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Retrieve the corresponding user according to nickname and password.
 	 * @param nickname
 	 * @param password
 	 */
 	public boolean login(String nickname, String password) {
-		// TODO This method have to change if nickName can be same on different account !
-		User u = null;
-		if(users.size()>0)
-			u = this.getNamed(nickname);
-		// Search on network
+		User findUser = getLocalUserByLogin(nickname, password);
+		
+		//Retrieving network users
 		Search<User> search = new Search<User>(manager.getNetwork(), User.class.getSimpleName(), "nick", true);
 		search.search(nickname, VARIABLES.CheckTimeAccount, VARIABLES.ReplicationsAccount);
 		ArrayList<User> results = search.getResults();
-		if(results.isEmpty() && u==null){
-			Printer.printError(this, "login", "Account not found !");
+		if(results.isEmpty() && findUser == null){
 			return false;
 		}
-		long maxUpdate = 0;
-		if(u != null)
-			maxUpdate = u.getLastUpdated();
-		for (User user : results) {
-			if(user.checkSignature(user.getKeys())){
-				results.remove(user);
-				continue;
+		
+		
+		for(User u : results) {
+			if(!u.checkSignature(u.getKeys()) || !u.isPassword(password)) continue;
+			if(u.getKeys().getDecryptedPrivateKey(password) == null) continue;
+			if(findUser == null) findUser = u;
+			if(u.getLastUpdated() > findUser.getLastUpdated()) {
+				findUser = u;
 			}
-			maxUpdate = user.getLastUpdated() > maxUpdate ? user.getLastUpdated() : maxUpdate;
 		}
-		for(User user : results){
-			if(user.getLastUpdated() == maxUpdate)
-				u = user;
-			else
-				results.remove(user);
-		}
-		if(this.getNamed(nickname) != null)
-			this.addUser(u);
-		// Check password
-		if(!u.isPassword(password))
-			return false;
+		
+		if(findUser == null) return false;
+		
+		addUser(findUser);
+		
+		
 		// Check privateKey decryption
-		if(!u.getKeys().decryptPrivateKey(password))
+		if(!findUser.getKeys().decryptPrivateKey(password))
 			return false;
-		currentUser = u;
+		currentUser = findUser;
 		currentUser.setClearPassword(password);
 		manager.getFavoriteManager().getFavoritesCurrentUser().decrypt(password);
 		return currentUser != null;

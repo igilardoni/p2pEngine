@@ -5,7 +5,7 @@ import javax.websocket.RemoteEndpoint.Async;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-public abstract class AbstractInterlocutor extends Thread {
+public abstract class AbstractInterlocutor {
 	public static Async com;
 	protected String content;
 

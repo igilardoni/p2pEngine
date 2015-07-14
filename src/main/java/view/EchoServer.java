@@ -138,14 +138,10 @@ public class EchoServer {
 				return;
 			}
 			AbstractInterlocutor absI = null;
-			absI = interlocutors.get(jsonObject.getString("query")).getClass().newInstance();
+			absI = interlocutors.get(jsonObject.getString("query"));
 			absI.init(jsonObject.getString("content"));
-			absI.start();
+			absI.run();
 		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}

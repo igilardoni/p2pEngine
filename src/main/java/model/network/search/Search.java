@@ -30,7 +30,7 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 	private ArrayList<T> results = new ArrayList<T>();
 	private ArrayList<Result> resultsWithPeerID = new ArrayList<Result>();
 	
-	public class Result {
+	public class Result implements Cloneable{
 		public PeerID peerID;
 		public T result;
 		
@@ -74,7 +74,7 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 		long waiting = maxWaitTime;
 		
 		if(maxWaitTime != 0) {
-			while(waiting > 0 && results.size() < waitResult) {
+			while(waiting > 0 && (results.size() < waitResult || waitResult == 0)) {
 				long currentTime = System.currentTimeMillis();
 				try {
 					Thread.sleep(5);
@@ -104,12 +104,14 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<T> getResults() {
-		return results;
+		return (ArrayList<T>) results.clone();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Result> getResultsWithPeerID() {
-		return this.resultsWithPeerID;
+		return (ArrayList<Search<T>.Result>) this.resultsWithPeerID.clone();
 	}
 	
 	@SuppressWarnings("unchecked")
