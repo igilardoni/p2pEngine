@@ -52,8 +52,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 
 	private AbstractAdvertisement old = null; //for update. After each updates the last change are saved here.
 	
-	private IdAdvertisement idAdv; //id advertisement to save network data use.
-	
 	/*
 	 * An hashMap that usually contain the key and value of this advertisement content, 
 	 * for generating an XML file for JXTA or for saving datas.
@@ -86,12 +84,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public long getLastUpdated(){
 		return this.lastUpdated;
 	}
-	
-	/* FOR TESTS
-	public void setLastUpdated(){
-		this.lastUpdated = System.currentTimeMillis();
-	}
-	*/
 	
 	/**
 	 * Instantiate an empty Advertisement, just setting the appropriate keys.
@@ -516,6 +508,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void publish(NetworkInterface n) {
 		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
+			System.out.println("Publish dans le group " + getSimpleName());
 			DiscoveryService service = n.getGroup(getSimpleName()).getDiscoveryService();
 			DiscoveryService idService = n.getGroup("id-" + getSimpleName()).getDiscoveryService();
 			service.publish(this);

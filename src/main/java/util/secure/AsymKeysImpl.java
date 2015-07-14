@@ -104,6 +104,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		super(e);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public AsymKeysImpl(net.jxta.document.Element e) {
 		super(e);
 	}
@@ -314,15 +315,6 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 		AsymKeysImpl res = new AsymKeysImpl(this.toString());
 		res.setPrivateKey(privateKey);
 		return res;
-	}
-	
-	
-	public static void main(String[] args) {
-		AsymKeysImpl k1 = new AsymKeysImpl(false, "mario");
-		k1.decryptPrivateKey("mario");
-		AsymKeysImpl k2 = k1.copy();
-		System.out.println(k1);
-		System.out.println(k2);
 	}
 
 	@Override
