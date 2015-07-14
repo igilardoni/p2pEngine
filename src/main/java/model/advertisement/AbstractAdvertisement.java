@@ -515,9 +515,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public void publish(NetworkInterface n) {
 		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
-			n.getGroup(getSimpleName()).getDiscoveryService().flushAdvertisement(this);
 			n.getGroup(getSimpleName()).getDiscoveryService().publish(this);
-			n.getGroup("id-" + getSimpleName()).getDiscoveryService().flushAdvertisement(idAdv);
 			n.getGroup("id-" + getSimpleName()).getDiscoveryService().publish(idAdv);
 		} catch (IOException e) {
 			e.printStackTrace();
