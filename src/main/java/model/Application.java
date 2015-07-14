@@ -216,30 +216,5 @@ public class Application {
 		  }
 		}
 		
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while(true) {
-					Search<Item> s = new Search<Item>(Application.getInstance().network, Item.class.getSimpleName(), "title", false);
-					s.search("patate", 0, 0);
-					System.out.println("recherche de patates .....");
-					for(Item i : s.getResults()) {
-						System.out.println("item trouvé !!!!!!");
-					}
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-			}
-			
-		}) {
-			
-		}.start();
-		
 	}
 }
