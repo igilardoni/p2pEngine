@@ -231,10 +231,11 @@ function updateSearchField(){
 }
 
 function itemSearchFound(content){
-	if($("#"+content.itemKey).lenght == 0)
+	// TODO Verify if already exist
+	/*if($("#"+content.itemKey).lenght == 0)*/
 		$("#"+itemSearchList).append(newRowItem(content));
-	else
-		$("#"+itemSearchList+" #"+content.itemKey).replaceWith(newRowItem(content));
+	/*else
+		$("#"+itemSearchList+" #"+content.itemKey).replaceWith(newRowItem(content));*/
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

@@ -21,8 +21,8 @@ public class SearchItem extends AbstractInterlocutor implements SearchListener<I
 		JSONObject c = getJSON(content);
 		try {
 			SearchItemController is = new SearchItemController();
-			is.startSearch(c.getString("search"));
 			is.addListener(this);
+			is.startSearch(c.getString("search"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {

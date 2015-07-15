@@ -27,5 +27,4 @@ public class LoadIP extends AbstractInterlocutor {
 			this.reset();
 		}
 	}
-
 }

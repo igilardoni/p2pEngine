@@ -39,6 +39,7 @@ import view.interlocutors.Register;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemFavorites;
 import view.interlocutors.SearchItem;
+import view.interlocutors.SendBootstrap;
 import view.interlocutors.SendMessage;
 import view.interlocutors.SignIn;
 import view.interlocutors.SignOut;
@@ -109,6 +110,7 @@ public class EchoServer {
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());
+		interlocutors.put("sendBoostrap", new SendBootstrap());
 	}
 	
 	/**

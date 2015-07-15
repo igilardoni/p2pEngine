@@ -9,6 +9,11 @@ function loadIP(){
 	sendQueryEmpty("loadIP");
 }
 
+function sendBootstrap(){
+	var email = $("#email").val();
+	var content = {"email":email};
+	sendQuery("sendBoostrap", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

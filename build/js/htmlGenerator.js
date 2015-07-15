@@ -76,7 +76,7 @@ var boostrapInvitation = [
 			{element:"label", attributes:{id:"IP"}, inside:[]},
 			{element:"br", attributes:{}, inside:[]},
 			{element:"input", attributes:{type:"text", id:"email", name:"email"}, inside:[]},
-			{element:"input", attributes:{type:"button", onclick:"sendIpBootstrap();", value:"Send Invitation"}, inside:[]}
+			{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
 		]}
 ];	
 var boostrapSetting = [
