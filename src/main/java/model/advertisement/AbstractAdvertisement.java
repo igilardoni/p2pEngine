@@ -19,6 +19,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import util.Printer;
 import util.StringToElement;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
@@ -509,6 +510,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		IdAdvertisement idAdv = new IdAdvertisement(this);
 		try {
 			System.out.println("Publish dans le group " + getSimpleName());
+			if(n.getGroup(getSimpleName()) == null) {
+				Printer.printError(this, "publish", getSimpleName() + " group doesn't exist");
+				//this error mean you forgot to create the right group for this advertisement.
+			}
 			DiscoveryService service = n.getGroup(getSimpleName()).getDiscoveryService();
 			DiscoveryService idService = n.getGroup("id-" + getSimpleName()).getDiscoveryService();
 			service.publish(this);

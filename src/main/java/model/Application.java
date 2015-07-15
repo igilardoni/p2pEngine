@@ -54,10 +54,10 @@ public class Application {
 		}
 		AdvertisementInstaciator.RegisterAllAdv();
 		startNetwork();
+		addAllGroups();
+		startCommunication();
 		manager = new Manager(network);
 		manager.recovery(VARIABLES.ManagerFilePath);
-		startCommunication();
-		addAllGroups();
 		startSharingManager();
 		
 		if(startLocalServer)
