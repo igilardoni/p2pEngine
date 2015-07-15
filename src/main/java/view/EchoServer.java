@@ -22,6 +22,7 @@ import view.interlocutors.LoadCategories;
 import view.interlocutors.LoadContrat;
 import view.interlocutors.LoadContrats;
 import view.interlocutors.LoadConversation;
+import view.interlocutors.LoadIP;
 import view.interlocutors.LoadItem;
 import view.interlocutors.LoadItemFavorites;
 import view.interlocutors.LoadItemForContrat;
@@ -107,6 +108,7 @@ public class EchoServer {
 		interlocutors.put("loadContrat", new LoadContrat());
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
+		interlocutors.put("loadIP", new LoadIP());
 	}
 	
 	/**

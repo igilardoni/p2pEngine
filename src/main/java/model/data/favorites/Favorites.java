@@ -172,7 +172,7 @@ public class Favorites extends AbstractAdvertisement{
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
 	protected String getAdvertisementName() {
-		return Favorites.class.getSimpleName();
+		return Favorites.class.getName();
 	}
 	@Override
 	protected void setKeys() {
