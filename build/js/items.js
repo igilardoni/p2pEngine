@@ -134,6 +134,7 @@ function loadItemSearchFieldType(){
 }
 function searchItem(){
 	if($("#search").val()!=""){
+		$("#"+itemSearchList+" tbody").empty();
 		var content = {"search":$("#search").val()};
 		sendQuery("searchItem", content);
 	}else{
@@ -230,7 +231,10 @@ function updateSearchField(){
 }
 
 function itemSearchFound(content){
-	$("#"+itemSearchList).append(newRowItem(content));
+	if($("#"+content.itemKey).lenght == 0)
+		$("#"+itemSearchList).append(newRowItem(content));
+	else
+		$("#"+itemSearchList+" #"+content.itemKey).replaceWith(newRowItem(content));
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
