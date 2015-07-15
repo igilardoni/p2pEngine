@@ -65,6 +65,8 @@ function serverReply(data){
 	case "contratLoaded":					contratLoaded(data.content); break;
 	case "transfertRuleLoaded":				transfertRuleLoaded(data.content); break;
 	case "signatoryAdded":					signatoryAdded(data.content); break;
+	
+	case "ipLoaded":						ipLoaded(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 }

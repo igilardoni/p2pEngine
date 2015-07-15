@@ -69,8 +69,13 @@ var header = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * * * BOOSTRAP* * * * * * * * * * * * * * * * * * * * * * * * */
 var boostrapInvitation = [
-		{element:"div", attributes:{id:"bootstrapInvitation"}, inside:[]}
-];
+		{element:"div", attributes:{id:"bootstrapInvitation"}, inside:[
+			{element:"label", attributes:{}, inside:[
+				{element:"text", value:""}
+			]},
+			{element:"label", attributes:{id:"IP"}, inside:[]}
+		]}
+];	
 var boostrapSetting = [
 		{element:"div", attributes:{id:"boostrapPreference"}, inside:[]}
 ];
@@ -780,4 +785,8 @@ function typeImageChanged(){
 		$("#webcamDiv").show();
 		$("#paraImage img").attr("src", "");
 	}
+}
+
+function getBootstrapInvitation(){
+	return getElement(boostrapInvitation[0]);
 }

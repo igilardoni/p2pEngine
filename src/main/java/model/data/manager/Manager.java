@@ -236,7 +236,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 			}
 			Element favoritesElement = root.getChild("favorites");
 			for (Element e : favoritesElement.getChildren()) {
-				favoriteManager.addFavorites(new Favorites(e));
+				favoriteManager.addFavorites(new Favorites(e), false);
 			}
 			Element dealsElement = root.getChild("deals");
 			for	(Element e : dealsElement.getChildren()){

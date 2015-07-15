@@ -134,7 +134,7 @@ function loadItemSearchFieldType(){
 }
 function searchItem(){
 	if($("#search").val()!=""){
-		var content = ""+$("#search").val()+"";
+		var content = {"search":$("#search").val()};
 		sendQuery("searchItem", content);
 	}else{
 		alert("Impossible to launch an empty search !")

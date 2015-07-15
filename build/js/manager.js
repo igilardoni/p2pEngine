@@ -93,7 +93,7 @@ function hideFavorites(){
 function includeFavorites(){
 	$("aside").empty();
 	$("aside").append(getFavoritesDisplay());
-	loadItemsFavorites();
+	//loadItemsFavorites();
 	hideFavorites();
 }
 
@@ -111,6 +111,13 @@ function removeFooter(){
 
 function scrollTop(){
 	window.scrollTo(0, 0);
+}
+
+function includeBoostrapInvitation(){
+	emptyContent();
+	$("#content").append(getBootstrapInvitation());
+	loadIP();
+	allMenuWhite();
 }
 
 function allMenuWhite(){

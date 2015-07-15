@@ -84,7 +84,37 @@ public class FavoriteManager {
 			return;
 		}
 		favorites.put(f.getOwner(), f);
-		f.publish(manager.getNetwork());
+		//f.publish(manager.getNetwork()); // TODO BUG !!!!!!!!!
+	}
+	
+	/**
+	 * Add Favorites to the owner of the Favorites. If the user isn't in the manager, abort.
+	 * @param f
+	 */
+	public void addFavorites(Favorites f, boolean publish){
+		if(f == null){
+			Printer.printError(this, "addFavorites","This Favorites is null !");
+			return;
+		}
+		String owner = f.getOwner();
+		if(owner.isEmpty()){
+			Printer.printError(this, "addFavorites","No owner found !");
+			return;
+		}
+		if(manager.getUserManager().getUser(owner) == null){
+			Printer.printError(this, "addFavorites","Owner unknown "+owner);
+			return;
+		}
+		if(owner.equals(manager.getUserManager().getCurrentUser()) && !f.checkSignature(manager.getUserManager().getCurrentUser().getKeys())){
+			Printer.printError(this, "addFavorites","Bad Signature for Favorite (current User)");
+			return;
+		}else if(!f.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
+			Printer.printError(this, "addFavorites","Bad Signature for Favorite");
+			return;
+		}
+		favorites.put(f.getOwner(), f);
+		if(publish)
+			f.publish(manager.getNetwork()); // TODO BUG !!!!!!!!!
 	}
 	
 	/**

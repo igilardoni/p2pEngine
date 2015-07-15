@@ -105,7 +105,7 @@ public class Application {
 	private void startNetwork() {
 		Random r = new Random();
 		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
-		network.setLogger(Level.SEVERE);
+		network.setLogger(Level.OFF);
 		//network.boot("tcp://85.171.121.182:9800");
 		network.start();
 	}
