@@ -161,7 +161,7 @@ function newRowTransfertRule(content) {
 // For add a signatory in table
 function newRowSignatory(content) {
 	var row = document.createElement("tr");
-	$(row).setAttribute("id", "signatories"+removePunctuation(content.publicKey));
+	$(row).attr("id", "signatories"+removePunctuation(content.publicKey));
 	
 	var cell1 = document.createElement("td");
 	var label11 = document.createElement("label");
