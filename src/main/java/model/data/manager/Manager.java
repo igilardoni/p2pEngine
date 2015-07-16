@@ -305,7 +305,6 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 				if(!user.getKeys().getPublicKey().toString(16).equals(currentPublicKey)){
 					usersElement.addContent(user.getRootElement());
 					users.add(user);
-					System.out.println("User added : \n"+user.toString());
 				// Filling ArrayList items
 				for (Item i : this.userManager.getUserItems(userKey)) {
 					if(!items.contains(i))

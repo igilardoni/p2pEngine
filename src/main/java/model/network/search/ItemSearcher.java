@@ -2,6 +2,7 @@ package model.network.search;
 
 import java.util.ArrayList;
 
+import model.Application;
 import model.data.item.Item;
 import model.data.user.User;
 import model.network.NetworkInterface;
@@ -31,41 +32,13 @@ public class ItemSearcher {
 	 */
 	public Item search(String itemKey){
 		ArrayList<Item> itemList;
-		User user = null;
 		
-		Search<Item> itemSearch = new Search<Item>(network, Item.class.getSimpleName(), "itemKey", true);
+		Search<Item> itemSearch = new Search<Item>(Application.getInstance().getNetwork(), Item.class.getSimpleName(), "keyId", true);
 		itemSearch.search(itemKey, VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
 		itemList = itemSearch.getResults();
 		long maxDateItem = 0;
 		for(Item i : itemList){
-			if(user==null || !user.getKeys().getPublicKey().toString(16).equals(i.getOwner())){
-				// Normally used only once (except if Item i is fallacious)
-				Search<User> userSearch = new Search<User>(network, User.class.getSimpleName(), "publicKey", true);
-				userSearch.search(i.getOwner(), VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
-				ArrayList<User> userList = userSearch.getResults();
-				long maxDateUser = 0;
-				for (User u : userList) {
-					if(!u.checkSignature(u.getKeys())){
-						userList.remove(u); // Removes users that are fallacious
-						continue;
-					}
-					if(maxDateUser >= u.getLastUpdated()){
-						userList.remove(u); // Removes users that are less up to date (or as much)
-						continue;
-					}
-					maxDateUser = u.getLastUpdated();
-				}
-				for(User u : userList){
-					if(maxDateUser > u.getLastUpdated())
-						userList.remove(u); // Removes users that are less up to date
-				}
-				if(userList.isEmpty()){
-					itemList.remove(i); // Removes items that the user doesn't exist on the network
-					continue;
-				}
-				user = userList.get(0); // Contains only one (if all works)
-			}
-			if(!i.checkSignature(user.getKeys())){
+			if(!i.checkSignature(i.getKeys())){
 				itemList.remove(i); // Removes items that are fallacious
 				continue;
 			}
