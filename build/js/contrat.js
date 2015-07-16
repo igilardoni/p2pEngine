@@ -115,7 +115,7 @@ function newRowItemContrat(content) {
 	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	$(removeButton).attr("class", "buttonRemove");
+	$(removeButton).attr("class", "button buttonRemove");
 	$(removeButton).attr("onclick", "removeItemContrat('"+content.itemKey+"');");
 	//removeButton.appendChild(document.createTextNode("Remove"));
 	$(cell3).append(removeButton);

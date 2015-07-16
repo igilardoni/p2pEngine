@@ -65,6 +65,10 @@ function favoritesItemsLoadingEnd(content){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function clearFavoritesTable(){
 	$("aside #favoritesList tbody").empty();
+	var div = document.createElement("div");
+	$(div).attr("id","loading");
+	$(div).append("Loading...");
+	$("aside").append(div);
 }
 function newRowFavorites(content){
 	var row = document.createElement("tr");
