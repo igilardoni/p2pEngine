@@ -27,6 +27,7 @@ public class ItemSearcher {
 	 * Search an item with his unique key
 	 * @param itemKey
 	 * @return unique item if exist on network, well signed. Else return null.
+	 * TODO All to change !
 	 */
 	public Item search(String itemKey){
 		ArrayList<Item> itemList;

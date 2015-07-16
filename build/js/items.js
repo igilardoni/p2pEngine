@@ -325,6 +325,40 @@ function newRowItem(content){
 	$(row).append(cell3);
 	return row;
 }
+
+function newRowItemSearch(content){
+	var row = document.createElement("tr");
+	$(row).attr("id", removePunctuation(content.itemKey));
+	// Title cell
+	var cell1 = document.createElement("td");
+	$(cell1).attr("class", "rowTitle");
+	$(cell1).attr("onclick", "editItem('"+content.itemKey+"');");
+	$(cell1).append(document.createTextNode(content.title));
+	$(row).append(cell1);
+	// Description cell
+	var cell2 = document.createElement("td");
+	$(cell2).attr("class", "rowDescription");
+	$(cell2).attr("onclick", "editItem('"+content.itemKey+"');");
+	if(content.description.length > 400)
+		$(cell2).append(document.createTextNode(content.description.substring(0, 400)+" [...]"));
+	else
+		$(cell2).append(document.createTextNode(content.description));
+	$(row).append(cell2);
+	// Buttons Cell
+	var cell3 = document.createElement("td");
+	$(cell3).attr("class", "rowActions");
+	$(cell3).append(removeButton);
+	$(row).append(cell3);
+	// Add to favorites Button
+	var favoritesButton = document.createElement("a");
+	$(favoritesButton).attr("class", "button buttonFavorites");
+	$(favoritesButton).attr("onclick", "addItemFavorites('"+content.itemKey+"');");
+	//$(removeButton).append(document.createTextNode("Remove"));
+	$(cell3).append(favoritesButton);
+	$(row).append(cell3);
+	return row;
+}
+
 /**
  * Erase form with id "itemForm"
  */
