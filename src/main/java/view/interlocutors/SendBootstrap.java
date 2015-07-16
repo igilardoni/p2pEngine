@@ -30,46 +30,70 @@ public class SendBootstrap extends AbstractInterlocutor {
 			return;
 		try {
 			JSONObject c = getJSON(content);
-			String to = c.getString("email");
+			String to = c.getString("emailReceiver");
+			String from = c.getString("emailSender");
+			String pwd = c.getString("passwordSender");
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
-			if(to.isEmpty()){
+			if(to.isEmpty() || to.equals("")){
 				data.put("query", "bootstrapNotSent");
 				content.put("error", "email receiver empty !");
+				content.put("fieldError", "emailReceiver");
 				data.put("content", content);
 				com.sendText(data.toString());
 				Printer.printError(this, "", "email receiver empty");
 				return;
 			}
-			
-			// Try to send email
-			String from = ManagerBridge.getCurrentUser().getEmail();
-			if(from == null || from.isEmpty()){
+			if(from.isEmpty() || from.equals("")){
 				data.put("query", "bootstrapNotSent");
 				content.put("error", "yout email is empty !");
+				content.put("fieldError", "emailSender");
 				data.put("content", content);
 				com.sendText(data.toString());
 				Printer.printError(this, "", "from empty");
 				return;
 			}
-			String host = "localhost";
-			Properties properties = System.getProperties();
-			properties.setProperty("mail.smtp.host", host);
-			Session session = Session.getDefaultInstance(properties);
-			MimeMessage message = new MimeMessage(session);
+			
+			 // TODO Maybe a class to send mail
+			String smtpHost = "smtp."+from.split("@")[1];
+			String username = from;
+			 
+			Properties props = new Properties();
+			props.put("mail.smtp.host", smtpHost);
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.port", "587");
+			 
+			Session session = Session.getDefaultInstance(props);
+			session.setDebug(true);
+			 
+			MimeMessage message = new MimeMessage(session);   
 			message.setFrom(new InternetAddress(from));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			
 			message.setSubject("SXP Invitation from "+
-					ManagerBridge.getCurrentUser().getName()+" "+
-					ManagerBridge.getCurrentUser().getFirstName());
-	        message.setText(Application.getInstance().getNetwork().getBootStrapIp());
-	        
-	        Transport.send(message);
-			// End of try
+			ManagerBridge.getCurrentUser().getName()+" "+
+			ManagerBridge.getCurrentUser().getFirstName());
+			message.setText(Application.getInstance().getNetwork().getBootStrapIp());
+			
+			/* 				Example to send attachment
+			 * TODO Class to create attachment !!!!!!
+			 * messageBodyPart = new MimeBodyPart();
+			 * DataSource source = new FileDataSource("image.gif");
+			 * messageBodyPart.setDataHandler(new DataHandler(source));
+			 * messageBodyPart.setFileName("image.gif");
+			 * multipart.addBodyPart(messageBodyPart); 
+			 */
+			
+			Transport tr = session.getTransport("smtp");
+			tr.connect(smtpHost, username, pwd);
+			message.saveChanges();
+			
+			tr.sendMessage(message,message.getAllRecipients());
+			tr.close();
 	        
 			data.put("query", "boostrapSent");
-			content.put("ip", Application.getInstance().getNetwork().getBootStrapIp());
+			content.put("message", "Message sent to "+to);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (AddressException e) {
@@ -83,9 +107,9 @@ public class SendBootstrap extends AbstractInterlocutor {
 				content.put("error", e.getCause());
 				data.put("content", content);
 				com.sendText(data.toString());
-				Printer.printError(this, "", "from empty");
+				Printer.printError(this, "", e.toString());
 			} catch (JSONException e1) {
-				e1.printStackTrace();
+				Printer.printError(this, "", e1.toString());
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

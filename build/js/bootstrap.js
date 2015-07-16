@@ -10,8 +10,14 @@ function loadIP(){
 }
 
 function sendBootstrap(){
-	var email = $("#email").val();
-	var content = {"email":email};
+	var emailReceiver = $("#emailReceiver").val();
+	var emailSender = $("#emailSender").val();
+	var passwordSender = $("#passwordSender").val();
+	var content = {
+			"emailReceiver":emailReceiver,
+			"emailSender":emailSender,
+			"passwordSender":passwordSender
+			};
 	sendQuery("sendBoostrap", content);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -21,6 +27,9 @@ function ipLoaded(content){
 	$("#IP").append(content.ip);
 }
 
+function boostrapSent(content){
+	$("#feedbackBox").append(content.message);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

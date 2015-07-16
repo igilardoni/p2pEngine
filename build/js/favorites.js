@@ -89,7 +89,7 @@ function newRowFavorites(content){
 	$(cell3).attr("class", "rowActions");
 	// Remove Button
 	var removeButton = document.createElement("a");
-	$(removeButton).attr("class", "button buttonCancel");
+	$(removeButton).attr("class", "button buttonRemove");
 	$(removeButton).attr("onclick", "removeItemFavorites('"+content.itemKey+"');");
 	//$(removeButton).append(document.createTextNode("Remove"));
 	$(cell3).append(removeButton);

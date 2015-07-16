@@ -80,27 +80,41 @@ td {
 table .button {
 	display : inline-block;
 }
+.buttonRemove:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/garbage.png);
+}
 .buttonFavorites:before {
-	display : inline-block;
-	content: "\2606";
+	width : 20px;
+	height : 20px;
+	content : url(../img/caddie.png);
 }
 .inFavorites:before {
-	display : inline-block;
-	content : '\2605';
+	width : 20px;
+	height : 20px;
+	content : url(../img/star.png);
 }
 .buttonValidate:before {
-	display : inline-block;	 
-	content : "\2611 ";
+	content-width : 20px;
+	content-height : 20px;
+	content : url(../img/ok.png); 
 }
 .buttonEdit:before {
-	display : inline-block;
-	content : "\270D";
+	width : 20px;
+	height : 20px;
+	content : url(../img/edit.png);
+}
+.buttonAdd:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/plus.png);
 }
 .buttonCancel:before {
-	display: inline-block;
-	content: "\2612";
+	width : 20px;
+	height : 20px;
+	content : url(../img/cancel.png);
 }
 .buttonStart:before {
-	display : inline-block;
 	content :"\26A1";
 }

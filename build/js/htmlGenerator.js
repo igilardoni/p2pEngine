@@ -74,9 +74,31 @@ var boostrapInvitation = [
 				{element:"text", value:""}
 			]},
 			{element:"label", attributes:{id:"IP"}, inside:[]},
-			{element:"br", attributes:{}, inside:[]},
-			{element:"input", attributes:{type:"text", id:"email", name:"email"}, inside:[]},
-			{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Send to : "}
+				]},
+				{element:"input", attributes:{type:"text", id:"emailReceiver", name:"emailReceiver", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Your email : "}
+				]},
+				{element:"input", attributes:{type:"text", id:"emailSender", name:"emailSender", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+	         	{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Your email password : "}
+				]},
+				{element:"input", attributes:{type:"password", id:"passwordSender", name:"passwordSender", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]},
+				{element:"label", attributes:{}, inside:[
+					{element:"text", value:" This is your email password for connect to your webmail (Will not be stored)"}
+				]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
+			]},
+			{element:"p", attributes:{id:"feedbackBox"}, inside:[]}
 		]}
 ];	
 var boostrapSetting = [
@@ -361,9 +383,7 @@ var searchForm = [
 			]},
 			{element:"select", attributes:{name:"field", id:"field", onchange:"updateSearchField();"}, inside:[]},
 			{element:"input", attributes:{type:"text", name:"searchField", id:"searchField"}, inside:[]},
-			{element:"a", attributes:{onclick:"addSearch();", id:"addFieldButton", "class":"button"}, inside:[
-				{element:"text", value:"+"}
-			]},
+			{element:"a", attributes:{onclick:"addSearch();", id:"addFieldButton", "class":"button buttonAdd"}, inside:[]},
 		]},
   		{element:"p", attributes:{"class":"buttonsContainer"}, inside:[
       		{element:"a", attributes:{onclick:"searchItem();", id:"searchButton", "class":"button"}, inside:[
