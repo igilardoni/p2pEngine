@@ -181,9 +181,11 @@ public class Network implements NetworkInterface {
 			e1.printStackTrace();
 		}*/
          try {
-			configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			//configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			configurator.setTcpInterfaceAddress("0.0.0.0");
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
-			configurator.setHttpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			//configurator.setHttpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
+			configurator.setHttpInterfaceAddress("0.0.0.0");
 			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
 		//  configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
