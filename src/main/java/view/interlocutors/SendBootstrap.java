@@ -1,5 +1,6 @@
 package view.interlocutors;
 
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -14,6 +15,7 @@ import model.Application;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.jvnet.libpam.impl.CLibrary.passwd;
 
 import util.Printer;
 import controller.ManagerBridge;
@@ -21,7 +23,6 @@ import controller.ManagerBridge;
 public class SendBootstrap extends AbstractInterlocutor {
 
 	public SendBootstrap() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -29,28 +30,55 @@ public class SendBootstrap extends AbstractInterlocutor {
 		if(!isInitialized())
 			return;
 		try {
+			boolean error = false;
 			JSONObject c = getJSON(content);
 			String to = c.getString("emailReceiver");
 			String from = c.getString("emailSender");
 			String pwd = c.getString("passwordSender");
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
-			if(to.isEmpty() || to.equals("")){
-				data.put("query", "bootstrapNotSent");
-				content.put("error", "email receiver empty !");
-				content.put("fieldError", "emailReceiver");
-				data.put("content", content);
-				com.sendText(data.toString());
-				Printer.printError(this, "", "email receiver empty");
-				return;
+			content.put("feedback", "");
+			if(to.isEmpty() || to.equals("")) {
+				content.put("feedback", "Receiver's email is empty !");
+				Printer.printError(this, "", "to empty");
+				error = true;
 			}
-			if(from.isEmpty() || from.equals("")){
+			if(!to.contains("@") && !to.isEmpty()){
+				if(content.getString("feedback").isEmpty())
+					content.put("feedback", "Receiver's adress is invalid !");
+				else
+					content.put("feedback", content.getString("feedback")+"<br/>Receiver's adress is invalid !");
+				Printer.printError(this, "", "adress not valide !");
+				error = true;
+			}
+			if(from.isEmpty() || from.equals("")) {
+				if(content.getString("feedback").isEmpty())
+					content.put("feedback", "Your email is empty !");
+				else
+					content.put("feedback", content.getString("feedback")+"<br/>Your email is empty !");
+				Printer.printError(this, "", "from empty");
+				error = true;
+			}
+			if(!from.contains("@") && !from.isEmpty()){
+				if(content.getString("feedback").isEmpty())
+					content.put("feedback", "Your adress is invalid !");
+				else
+					content.put("feedback", content.getString("feedback")+"<br/>Your adress is invalid !");
+				Printer.printError(this, "", "adress not valide !");
+				error = true;
+			}
+			if(pwd.isEmpty()) {
+				if(content.getString("feedback").isEmpty())
+					content.put("feedback", "Your password is empty !");
+				else
+					content.put("feedback", content.getString("feedback")+"<br/>Your password is empty !");
+				Printer.printError(this, "", "from empty");
+				error = true;
+			}
+			if(error){
 				data.put("query", "bootstrapNotSent");
-				content.put("error", "yout email is empty !");
-				content.put("fieldError", "emailSender");
 				data.put("content", content);
 				com.sendText(data.toString());
-				Printer.printError(this, "", "from empty");
 				return;
 			}
 			
@@ -65,7 +93,7 @@ public class SendBootstrap extends AbstractInterlocutor {
 			props.put("mail.smtp.port", "587");
 			 
 			Session session = Session.getDefaultInstance(props);
-			session.setDebug(true);
+			session.setDebug(false);
 			 
 			MimeMessage message = new MimeMessage(session);   
 			message.setFrom(new InternetAddress(from));
@@ -92,19 +120,30 @@ public class SendBootstrap extends AbstractInterlocutor {
 			tr.sendMessage(message,message.getAllRecipients());
 			tr.close();
 	        
-			data.put("query", "boostrapSent");
-			content.put("message", "Message sent to "+to);
+			data.put("query", "bootstrapSent");
+			content.put("feedback", "Message sent to "+to);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (AddressException e) {
 			e.printStackTrace();
+			try {
+				JSONObject data = new JSONObject();
+				JSONObject content = new JSONObject();
+				data.put("query", "bootstrapNotSent");
+				content.put("feedback", e.toString());
+				data.put("content", content);
+				com.sendText(data.toString());
+				Printer.printError(this, "", e.toString());
+			} catch (JSONException e1) {
+				Printer.printError(this, "", e1.toString());
+			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			try {
 				JSONObject data = new JSONObject();
 				JSONObject content = new JSONObject();
 				data.put("query", "bootstrapNotSent");
-				content.put("error", e.getCause());
+				content.put("feedback", e.toString());
 				data.put("content", content);
 				com.sendText(data.toString());
 				Printer.printError(this, "", e.toString());

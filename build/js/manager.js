@@ -8,17 +8,23 @@ function emptyContent(){
 }
 
 function includeLogin(){
+	var username = $("#username").val();
 	removeFavorites();
 	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getLoginForm());
+	if(username.length > 0) $("#username").val(username);
 }
 
 function includeRegistration(){
+	var username = $("#username").val();
+	var pwd = $("#password").val();
 	removeFavorites();
 	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getRegistrationForm());
+	if(username.length > 0) $("#username").val(username);
+	if(pwd.length > 0) $("#password").val(pwd);
 }
 
 function includeHome(){
@@ -118,6 +124,11 @@ function includeBoostrapInvitation(){
 	$("#content").append(getBootstrapInvitation());
 	loadIP();
 	allMenuWhite();
+}
+
+function includeBoostrapSetting(){
+	emptyContent();
+	$("#contentStart").append(getBootstrapSetting());
 }
 
 function allMenuWhite(){

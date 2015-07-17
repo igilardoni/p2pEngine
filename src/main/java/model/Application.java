@@ -207,7 +207,7 @@ public class Application {
 		Network n = Application.getInstance().getNetwork();
 		if(Desktop.isDesktopSupported()) {
 		  try {
-			Desktop.getDesktop().browse(new URI("http://localhost:8080/EchoChamber/index.html"));
+			Desktop.getDesktop().browse(new URI("http://localhost:8080/SXPManager/index.html"));
 		  } catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

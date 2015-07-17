@@ -21,7 +21,7 @@ public class SignIn extends AbstractInterlocutor {
 				data.put("query", "login");
 				JSONObject content = new JSONObject();
 				content.put("ok", "ok");
-				content.put("message", "user logged");
+				content.put("feedback", "user logged");
 				data.put("content", content);
 				com.sendText(data.toString());
 			}else{
@@ -29,7 +29,7 @@ public class SignIn extends AbstractInterlocutor {
 				data.put("query", "login");
 				JSONObject content = new JSONObject();
 				content.put("ok", "no");
-				content.put("message", "unknown account");
+				content.put("feedback", "Can't connect. Thank you to verify that you correctly entered your username and password.");
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

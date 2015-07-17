@@ -117,8 +117,8 @@ function login(content){
 		includeHome();
 		includeFavorites();
 	}else{
-		alert(content.message);
-	}// Ask loading all current user's item
+		printFeedback(content.feedback, false);
+	}
 }
 
 // Logout answer
@@ -134,6 +134,7 @@ function registration(content){
 	if(content.ok = "ok"){
 		includeLogin();
 		$("#username").val(content.username);
+		printFeedback(content.feedback, true);
 	}
 }
 

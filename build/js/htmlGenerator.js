@@ -73,7 +73,17 @@ var boostrapInvitation = [
 			{element:"label", attributes:{}, inside:[
 				{element:"text", value:""}
 			]},
-			{element:"label", attributes:{id:"IP"}, inside:[]},
+			{element:"table", attributes:{id:"IP"}, inside:[
+				{element:"thead", attributes:{}, inside:[
+					{element:"tr", attributes:{}, inside:[
+						{element:"th", attributes:{}, inside:[
+							{element:"text", value:"IP Bootstrap"}
+						]}
+					]}
+				]},
+				{element:"tbody", attributes:{}, inside:[]},
+				{element:"tfoot", attributes:{}, inside:[]}
+			]},
 			{element:"p", attributes:{}, inside:[
 				{element:"label", attributes:{"class":"label"}, inside:[
 					{element:"text", value:"Send to : "}
@@ -98,17 +108,30 @@ var boostrapInvitation = [
 			{element:"p", attributes:{}, inside:[
 				{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
 			]},
-			{element:"p", attributes:{id:"feedbackBox"}, inside:[]}
+			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];	
 var boostrapSetting = [
-		{element:"div", attributes:{id:"boostrapPreference"}, inside:[]}
+		{element:"div", attributes:{id:"boostrapPreference"}, inside:[
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"File sent by your sponsor : "}
+				]},
+				{element:"input", attributes:{type:"file", id:"bootstrapFile"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"input", attributes:{type:"button", onclick:"sponsorBootstrap();", value:"Save Setting"}, inside:[]}
+			]},
+			{element:"p", attributes:{id:"feedbackBox hidden"}, inside:[]}
+		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
 var loginForm = [
+		{element:"input", attributes:{type:"button",id:"bootstrapSetting", value:"Bootstrap Settings", onclick:"includeBoostrapSetting();"}, inside:[]},
 		{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Sign In"}
 		]},
+		{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 				{element:"text", value:"Username : "}
@@ -137,6 +160,7 @@ var registrationForm = [
 	{element:"h1", attributes:{}, inside:[
 		{element:"text", value:"Registration"}
 	]},
+	{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]},
 	{element:"p", attributes:{}, inside:[
 		{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 			{element:"text", value:"Username : "}
@@ -812,4 +836,19 @@ function typeImageChanged(){
 
 function getBootstrapInvitation(){
 	return getElement(boostrapInvitation[0]);
+}
+
+function printFeedback(feedback, isOk) {
+	$("p.feedbackBox").removeClass("feedbackOk");
+	if(feedback.length > 0) {
+		$("p.feedbackBox").empty();
+		$("p.feedbackBox").append(feedback);
+		$("p.feedbackBox").removeClass("hidden");
+	} else {
+		$("p.feedbackBox").empty();
+		$("p.feedbackBox").addClass("hidden");
+	}
+	if(isOk) {
+		$("p.feedbackBox").addClass("feedbackOk");
+	}
 }

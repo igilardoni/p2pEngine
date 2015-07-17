@@ -6,7 +6,7 @@
  */
 var webSocket;
 var websocket2;
-var serverAdress = "ws://localhost:8080/EchoChamber/serv";
+var serverAdress = "ws://localhost:8080/SXPManager/serv";
 
 // open a socket to communicate with the server
 function openSocket(){
@@ -67,6 +67,8 @@ function serverReply(data){
 	case "signatoryAdded":					signatoryAdded(data.content); break;
 	
 	case "ipLoaded":						ipLoaded(data.content); break;
+	case "bootstrapSent":					bootstrapSent(data.content); break;
+	case "bootstrapNotSent":				bootstrapNotSent(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 }

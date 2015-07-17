@@ -99,3 +99,12 @@ div {
 	vertical-align : top;
 	color : #416c75;
 }
+
+.feedbackBox {
+	padding-left : 1em;
+	padding-right : 1em;
+	color : #CA0000;
+}
+.feedbackOk {
+	color : #009d00;
+}
