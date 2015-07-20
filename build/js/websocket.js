@@ -69,6 +69,7 @@ function serverReply(data){
 	case "ipLoaded":						ipLoaded(data.content); break;
 	case "bootstrapSent":					bootstrapSent(data.content); break;
 	case "bootstrapNotSent":				bootstrapNotSent(data.content); break;
+	case "sponsorBootstrapSaved":			sponsorBootstrapSaved(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 }

@@ -27,17 +27,15 @@ function sponsorBootstrap() {
 	if (f) {
 		var r = new FileReader();
 		r.onload = function(e) { 
-			contents = e.target.result;  
+			contents = e.target.result;
+			var content = {"fileContent":contents}
+			sendQuery("sponsorBootstrap", content);
 		}
 		r.readAsText(f);
 	} else { 
 		alert("Failed to load file");
+		return;
 	}
-	
-	var content = {
-			"fileContent":contents
-	}
-	sendQuery("sponsorBootstrap", content);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
@@ -52,6 +50,11 @@ function bootstrapSent(content){
 
 function bootstrapNotSent(content){
 	printFeedback(content.feedback, false);
+}
+
+function sponsorBootstrapSaved(content){
+	includeBoostrapSetting();
+	printFeedback(content.feedback, true);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

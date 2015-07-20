@@ -43,6 +43,7 @@ import view.interlocutors.SendBootstrap;
 import view.interlocutors.SendMessage;
 import view.interlocutors.SignIn;
 import view.interlocutors.SignOut;
+import view.interlocutors.SponsorBootstrap;
 import view.interlocutors.UpdateAccount;
 import view.interlocutors.UpdateItem;
 
@@ -110,7 +111,9 @@ public class EchoServer {
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());
+		
 		interlocutors.put("sendBoostrap", new SendBootstrap());
+		interlocutors.put("sponsorBootstrap", new SponsorBootstrap());
 	}
 	
 	/**

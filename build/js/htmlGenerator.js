@@ -122,7 +122,7 @@ var boostrapSetting = [
 			{element:"p", attributes:{}, inside:[
 				{element:"input", attributes:{type:"button", onclick:"sponsorBootstrap();", value:"Save Setting"}, inside:[]}
 			]},
-			{element:"p", attributes:{id:"feedbackBox hidden"}, inside:[]}
+			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
