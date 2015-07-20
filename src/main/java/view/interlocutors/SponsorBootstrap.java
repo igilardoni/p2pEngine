@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import model.data.RendezVousIp;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -19,19 +21,21 @@ public class SponsorBootstrap extends AbstractInterlocutor {
 			return;
 		JSONObject c = getJSON(content);
 		try {
-			File file = new File("./bootstrap.txt");
+			File file = new File("./bootstrap.xml");
 			String fileContent = "";
 			if(!file.exists())
 				file.createNewFile();
 			FileWriter fstream = new FileWriter(file.getAbsoluteFile());
 		    BufferedWriter out = new BufferedWriter(fstream);
 			String[] ips = c.getString("fileContent").split("\n");
+			RendezVousIp rdvIp = new RendezVousIp();
 			for(String ip : ips) {
 				if(isIP(ip)) {
 					fileContent = fileContent.isEmpty() ? ip : fileContent+'\n'+ip;
+					rdvIp.addIp(ip);
 				}
 			}
-			out.write(fileContent);
+			out.write(rdvIp.toString());
 			out.close();
 			// Answer
 			JSONObject data = new JSONObject();
