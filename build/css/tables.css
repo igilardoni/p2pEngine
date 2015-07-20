@@ -83,7 +83,7 @@ table .button {
 .buttonRemove:before {
 	width : 20px;
 	height : 20px;
-	content : url(../img/garbage.png);
+	content : url(../img/trash.png);
 }
 .buttonFavorites:before {
 	width : 20px;

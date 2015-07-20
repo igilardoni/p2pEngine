@@ -1,0 +1,13 @@
+#boostrapPreference {
+	margin : 0 auto;
+	background : white;
+	display : block;
+	text-align : center;
+	width : 30em;
+	padding-top : 1.5em;;
+	padding-bottom : 1.5em;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+}

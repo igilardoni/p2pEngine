@@ -54,12 +54,35 @@ nav li a:before {
 	pointer-events: none;
 }
 
-nav li.homeButton a:before { content : '\2302'; }
-nav li.searchButton a:before { content : '\2315'; }
-nav li.contratButton a:before { content : '\270D'; }
-nav li.messageButton a:before { content : '\2709'; }
-nav li.favoritesButton a:before { content : '\2606'; }
-nav li.favoriteSelected a:before { content : '\2605'; }
+nav li.homeButton a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/home.png);}
+nav li.searchButton a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/knur.png);
+}
+nav li.contratButton a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/hand.png);
+}
+nav li.messageButton a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/mail.png);
+}
+nav li.favoritesButton a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/favOff.png);
+}
+nav li.favoriteSelected a:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/favOn.png);
+}
 
 @media(min-width : 1000px) {
 	nav li.homeButton a:after { content : 'My objects'; }

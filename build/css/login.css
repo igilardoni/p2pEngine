@@ -8,11 +8,10 @@
 
 #login {
 	background : white;
-	float : top;
+	margin : 0 auto;
 	text-align : center;
-	width : 30%;
-	margin-left : 35%;
-	padding-top : 20px;
+	width : 30em;
+	padding-top : 1.5em;
 	padding-bottom : 0px;
 	border-radius : 15px;
 	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
