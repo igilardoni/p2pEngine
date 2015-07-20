@@ -48,12 +48,12 @@ var menu = [
 /* * * * * * * * * * * * * * * * * * * * * * * HEADER* * * * * * * * * * * * * * * * * * * * * * * * * */
 var header = [
 		{element:"div", attributes:{}, inside:[
-			{element:"img", attributes:{src:"./img/sxpLogo.png"}, inside:[]}
+			{element:"img", attributes:{src:"./img/sxpLogo.png", "class":"icon"}, inside:[]}
 		]},
     	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
 			{element:"ul", attributes:{"class":"dropMenu"}, inside:[
 				{element:"li", attributes:{"class":"droper"}, inside:[
-					{element:"text", value:'⚙'}
+					{element:"img", attributes:{src:"./img/gears.png", alt:"Settings", "class":"setting"}, inside:[]}
 				]},
 				{element:"li", attributes:{"class":"drop"}, inside:[
 					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"dropButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
@@ -113,6 +113,9 @@ var boostrapInvitation = [
 ];	
 var boostrapSetting = [
 		{element:"div", attributes:{id:"boostrapPreference"}, inside:[
+			{element:"h1", attributes:{}, inside:[
+				{element:"text", value:"Bootstrap Settings"}
+			]},
 			{element:"p", attributes:{}, inside:[
 				{element:"label", attributes:{"class":"label"}, inside:[
 					{element:"text", value:"File sent by your sponsor : "}
