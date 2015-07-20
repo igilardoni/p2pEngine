@@ -17,23 +17,17 @@ function previewFile() {
 	}
 }
 
-/*
-var width = 320;    // We will scale the photo width to this
-var height = 0;     // This will be computed based on the input stream
+function startWebcam() {
 
-var streaming = false;
-
-var video = null;
-var canvas = null;
-var photo = null;
-var startbutton = null;
-
-function startup() {
-	video = document.getElementById('video');
-	canvas = document.getElementById('canvas');
-	photo = document.getElementById('photo');
-	startbutton = document.getElementById('startbutton');
-
+	var streaming = false,
+	video        = document.querySelector('#video'),
+	cover        = document.querySelector('#cover'),
+	canvas       = document.querySelector('#canvas'),
+	photo        = document.querySelector('#image'),
+	startbutton  = document.querySelector('#startbutton'),
+	stopbutton	 = document.querySelector('#stopbutton'),
+	width = 320,
+	height = 0;
 
 	navigator.getMedia = ( navigator.getUserMedia ||
 			navigator.webkitGetUserMedia ||
@@ -62,14 +56,6 @@ function startup() {
 	video.addEventListener('canplay', function(ev){
 		if (!streaming) {
 			height = video.videoHeight / (video.videoWidth/width);
-
-			// Firefox currently has a bug where the height can't be read from
-			// the video, so we will make assumptions if this happens.
-
-			if (isNaN(height)) {
-				height = width / (4/3);
-			}
-
 			video.setAttribute('width', width);
 			video.setAttribute('height', height);
 			canvas.setAttribute('width', width);
@@ -78,34 +64,30 @@ function startup() {
 		}
 	}, false);
 
+	function takepicture() {
+		canvas.width = width;
+		canvas.height = height;
+		canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+		var data = canvas.toDataURL('image/png');
+		photo.setAttribute('src', data);
+		$(video).addClass("hidden");
+		$(startbutton).addClass("hidden");
+		$(stopbutton).removeClass("hidden");
+	}
+	
+	function resetpicture() {
+		$(video).removeClass("hidden");
+		$(startbutton).removeClass("hidden");
+		$(stopbutton).addClass("hidden");
+		$(photo).attr('src', "");
+	}
+
 	startbutton.addEventListener('click', function(ev){
 		takepicture();
 		ev.preventDefault();
 	}, false);
+	stopbutton.addEventListener('click', function(ev){
+		resetpicture();
+	})
 
-	clearphoto();
 }
-
-function clearphoto() {
-	var context = canvas.getContext('2d');
-	context.fillStyle = "#AAA";
-	context.fillRect(0, 0, canvas.width, canvas.height);
-
-	var data = canvas.toDataURL('image/png');
-	photo.setAttribute('src', data);
-}
-
-function takepicture() {
-	var context = canvas.getContext('2d');
-	if (width && height) {
-		canvas.width = width;
-		canvas.height = height;
-		context.drawImage(video, 0, 0, width, height);
-
-		var data = canvas.toDataURL('image/png');
-		photo.setAttribute('src', data);
-	} else {
-		clearphoto();
-	}
-}
-*/

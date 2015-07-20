@@ -1,6 +1,5 @@
 package view.interlocutors;
 
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -15,7 +14,6 @@ import model.Application;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.jvnet.libpam.impl.CLibrary.passwd;
 
 import util.Printer;
 import controller.ManagerBridge;

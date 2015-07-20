@@ -338,12 +338,12 @@ var itemAddForm = [
 			]},
 			{element:"div", attributes:{id:"webcamDiv", style:"display:none;"}, inside:[
 				{element:"div", attributes:{"class":"camera", onload:"startup();"}, inside:[
-					{element:"video", attributes:{}, inside:[
+					{element:"video", attributes:{id:"video"}, inside:[
 						{element:"text", value:"Video stream not available."}
 					]},
-					{element:"button", attributes:{id:"startbutton"}, inside:[
-						{element:"text", value:"Take photo"}
-					]}
+					{element:"canvas", attributes:{id:"canvas", "class":"hidden"}, inside:[]},
+					{element:"input", attributes:{type:"button", id:"startbutton", value:"Take photo"}, inside:[]},
+					{element:"input", attributes:{type:"button", id:"stopbutton", value:"Reset photo", "class":"hidden"}, inside:[]}
 				]}
 			]},
 			{element:"img", attributes:{id:"image", style:"max-width:30%;"}, inside:[]}
@@ -834,6 +834,7 @@ function typeImageChanged(){
 		$("#fileDiv").hide();
 		$("#webcamDiv").show();
 		$("#paraImage img").attr("src", "");
+		startWebcam();
 	}
 }
 

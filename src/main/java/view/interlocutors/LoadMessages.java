@@ -7,7 +7,6 @@ import model.data.user.UserMessage;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import util.secure.AsymKeysImpl;
 import controller.ManagerBridge;
 
 public class LoadMessages extends AbstractInterlocutor {
@@ -21,7 +20,7 @@ public class LoadMessages extends AbstractInterlocutor {
 		if(!isInitialized()) return;
 		try {
 			ArrayList<UserMessage> messages = ManagerBridge.getMessages();
-			AsymKeysImpl key = ManagerBridge.getCurrentUser().getKeys();
+			//AsymKeysImpl key = ManagerBridge.getCurrentUser().getKeys();
 			for (UserMessage message : messages) {
 				JSONObject data = new JSONObject();
 				data.put("query", "messagesLoaded");
