@@ -20,12 +20,12 @@ function previewFile() {
 function startWebcam() {
 
 	var streaming = false,
-	video        = document.querySelector('#video'),
-	cover        = document.querySelector('#cover'),
-	canvas       = document.querySelector('#canvas'),
-	photo        = document.querySelector('#webcamDiv #image'),
-	startbutton  = document.querySelector('#startbutton'),
-	stopbutton	 = document.querySelector('#stopbutton'),
+	video        = document.querySelector('#itemForm #video'),
+	cover        = document.querySelector('#itemForm #cover'),
+	canvas       = document.querySelector('#itemForm #canvas'),
+	photo        = document.querySelector('#itemForm #image'),
+	startbutton  = document.querySelector('#itemForm #startbutton'),
+	stopbutton	 = document.querySelector('#itemForm #stopbutton'),
 	width = 320,
 	height = 0;
 
