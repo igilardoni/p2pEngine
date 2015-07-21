@@ -23,7 +23,7 @@ function startWebcam() {
 	video        = document.querySelector('#video'),
 	cover        = document.querySelector('#cover'),
 	canvas       = document.querySelector('#canvas'),
-	photo        = document.querySelector('#image'),
+	photo        = document.querySelector('#webcamDiv #image'),
 	startbutton  = document.querySelector('#startbutton'),
 	stopbutton	 = document.querySelector('#stopbutton'),
 	width = 320,
