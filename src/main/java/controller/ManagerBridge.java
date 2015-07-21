@@ -161,6 +161,9 @@ public class ManagerBridge{
 			System.err.println(ManagerBridge.class.getName()+".updateItem : No user logged !");
 			return;
 		}
+		AsymKeysImpl key = Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().copy();
+		key.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
+		
 		Item item = new Item(Application.getInstance().getManager().getItemManager().getItem(itemKey).toString());
 		item.setTitle(title);
 		item.setCategory(new Category(category));
@@ -170,7 +173,7 @@ public class ManagerBridge{
 		item.setContact(contact);
 		item.setLifeTime(DateConverter.getLong(lifeTime)-item.getDate());
 		item.setType(type.toUpperCase()=="WISH"?TYPE.DEMAND:TYPE.OFFER);
-		item.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		item.sign(key);
 		Application.getInstance().getManager().getItemManager().updateItem(itemKey, item);
 	}
 	/**
