@@ -18,7 +18,6 @@ public class ResponsesCCD extends Responses {
 	 */
 	public ResponsesCCD(Masks mask, BigInteger challenge, BigInteger response) {
 		super(mask, challenge, response);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
