@@ -121,7 +121,7 @@ public class ManagerBridge{
 			t = TYPE.OFFER;
 		}
 		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		AsymKeysImpl keys = (AsymKeysImpl) Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().clone();
+		AsymKeysImpl keys = (AsymKeysImpl) Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().copy();
 		keys.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
 		item.sign(keys);
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
