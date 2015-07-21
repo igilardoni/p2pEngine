@@ -124,8 +124,6 @@ public class ManagerBridge{
 		AsymKeysImpl keys = (AsymKeysImpl) Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().clone();
 		keys.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
 		item.sign(keys);
-		Item i = new Item(item.toString());
-		if(i.checkSignature(keys))
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
 		return item.getItemKey();
 	}

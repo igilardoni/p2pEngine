@@ -148,10 +148,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	
 	public void setKeys(AsymKeysImpl keys) {
-		this.keys = keys;
-		if(keys != null) {
-			this.keys.setPrivateKey(null);
-		}
+		this.keys = new AsymKeysImpl(keys.toString());
 	}
 	
 	public AsymKeysImpl getKeys() {

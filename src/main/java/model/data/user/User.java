@@ -181,10 +181,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		this.addKey("email", false, true);
 		this.addKey("phone", false, true);
 		this.addKey("date", false, false);
-		//this.addKey("privateKey", false, false);
-		//this.addKey("publicKey", true, false);
-		//this.addKey("p", false, false);
-		//this.addKey("g", false, false);
 	}
 
 	/**

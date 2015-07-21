@@ -37,7 +37,6 @@ public class SearchItemController implements SearchListener<Item>{
 	 */
 	public void searchEvent(Item event) {
 		if(!event.checkSignature(event.getKeys())) {
-			System.out.println("Signature incorrecte" + event.getTitle());
 			return;
 		}
 		if(items.containsKey(event.getItemKey())) {
