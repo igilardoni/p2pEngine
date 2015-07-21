@@ -79,7 +79,6 @@ public class Search<T extends AbstractAdvertisement> implements DiscoveryListene
 				try {
 					Thread.sleep(5);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				waiting -= System.currentTimeMillis()-currentTime;

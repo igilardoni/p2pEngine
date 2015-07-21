@@ -210,7 +210,6 @@ public class Application {
 		  try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8080/SXPManager/index.html"));
 		  } catch (IOException | URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		  }
 		}

@@ -166,7 +166,6 @@ public class Sender extends Fabric{
 		try {
 			hash_function = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -76,7 +76,6 @@ public class Network implements NetworkInterface {
 			System.err.println("impossible to create default group");
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -95,7 +94,6 @@ public class Network implements NetworkInterface {
 			temp.getRendezVousService().setAutoStart(true, 60);
 			peergroups.put(name, temp);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} /* Getting the advertisement of implemented modules */
 		
@@ -177,7 +175,6 @@ public class Network implements NetworkInterface {
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}*/
          try {
@@ -191,7 +188,6 @@ public class Network implements NetworkInterface {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
          configurator.setTcpEndPort(-1);
@@ -244,7 +240,6 @@ public class Network implements NetworkInterface {
 		try {
 			networkManager.getConfigurator().addSeedRendezvous(theSeed);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		networkManager.setUseDefaultSeeds(false);
@@ -255,7 +250,6 @@ public class Network implements NetworkInterface {
 		try {
 			return "tcp://" + this.networkManager.getConfigurator().getTcpPublicAddress() + ":" + networkManager.getConfigurator().getTcpPort();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

@@ -129,7 +129,7 @@ public class ItemManager {
 	 */
 	public void updateItem(String itemKey, Item item){
 		removeItem(getItem(itemKey));
-		addItem(item);
+		addItem(item, true);
 	}
 	
 	

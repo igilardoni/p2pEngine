@@ -71,7 +71,6 @@ public class UserManager {
 	
 	/**
 	 * Return an Array List which contain all User named nickName (parameter)
-	 * TODO ca retourne pas un array list :p
 	 * @param nickName
 	 * @return
 	 */

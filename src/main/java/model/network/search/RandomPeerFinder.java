@@ -46,7 +46,6 @@ public class RandomPeerFinder implements DiscoveryListener{
 			try {
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			waiting -= System.currentTimeMillis()-currentTime;

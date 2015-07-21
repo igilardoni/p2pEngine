@@ -19,7 +19,6 @@ public class ResponsesSchnorr extends Responses{
 	public ResponsesSchnorr(Masks mask, BigInteger challenge,
 			BigInteger response) {
 		super(mask, challenge, response);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
