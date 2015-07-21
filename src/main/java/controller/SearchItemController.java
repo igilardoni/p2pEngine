@@ -36,16 +36,18 @@ public class SearchItemController implements SearchListener<Item>{
 	 * Receive an Item and filtering it.
 	 */
 	public void searchEvent(Item event) {
-		/*if(!event.checkSignature(event.getKeys())) return;
+		//if(!event.checkSignature(event.getKeys())) return;
 		if(items.containsKey(event.getItemKey())) {
 			Item i = items.get(event.getItemKey());
 			if(event.getLastUpdated() > i.getLastUpdated()) {
 				items.put(event.getItemKey(), event);
 				notifyListeners(event);
 			}
-		} */
-		System.out.println("Objet trouvé");
-			notifyListeners(event);
+		}
+		else { 
+			items.put(event.getItemKey(), event);
+			notifyListeners(event); 
+		}
 	
 		
 		
