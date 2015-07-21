@@ -313,6 +313,7 @@ public class AsymKeysImpl extends AbstractAdvertisement implements util.secure.e
 	
 	public AsymKeysImpl copy() {
 		AsymKeysImpl res = new AsymKeysImpl(this.toString());
+		if(this.privateKey != null)
 		res.setPrivateKey(new BigInteger(privateKey.toByteArray()));
 		return res;
 	}
