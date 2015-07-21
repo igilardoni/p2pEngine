@@ -6,7 +6,7 @@
 	text-align : center;
 }
 
-#login {
+#login, #registration, #accountUpdate {
 	background : white;
 	margin : 0 auto;
 	text-align : center;

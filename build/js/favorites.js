@@ -63,6 +63,24 @@ function favoritesItemsLoadingEnd(content){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function getFavoritesDisplay(){
+	var div = document.createElement("div");
+	$(div).append(getTableItem(favoritesList));
+	var loading = document.createElement("div");
+	$(loading).attr("id", "loading");
+	$(div).append(loading);
+	return div;
+}
+
+function getItemFavoritesDisplay(){
+	var div = document.createElement("div");
+	$(div).attr("id", "itemFavoritesDisplayer");
+	for ( var i = 0 ; i < itemFavoritesDisplayer.length ; i++ ) {
+		$(div).append(getElement(itemFavoritesDisplayer[i]));
+	}
+	return div;
+}
+
 function clearFavoritesTable(){
 	$("aside #favoritesList tbody").empty();
 	var div = document.createElement("div");
@@ -116,4 +134,14 @@ function displayItemFavorites(content){
 			$("#itemFavoritesDisplayer"+" #"+key).append(text);
 		}
 	});
+}
+
+function switchFavorites(){
+	if($("aside").hasClass("hidden")){
+		displayFavorites();
+		$("nav .favoritesButton").addClass("favoriteSelected");
+	} else {
+		hideFavorites();
+		$("nav .favoritesButton").removeClass("favoriteSelected");
+	}
 }

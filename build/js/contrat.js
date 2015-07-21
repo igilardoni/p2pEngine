@@ -75,12 +75,11 @@ function signatoryAdded(content) {
 function getContrat(){
 	var div = document.createElement("div");
 	$(div).attr("id", "content");
-	//$(div).append(getElement(contratDisplay[0]));
 	$(div).append(getElement(contratTable[0]));
-	//$(div).append(getElement(contratForm[0]));
 	$(div).append(getElement(contratDisplay[0]));
 	return div;
 }
+
 function newRowContrat(content) {
 	var row = document.createElement("tr");
 	$(row).attr("id", removePunctuation(content.contratID));

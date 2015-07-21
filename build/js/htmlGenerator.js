@@ -720,95 +720,6 @@ function textAreaAdjust(o) {
     o.style.height = (20+o.scrollHeight)+"px";
 }
 
-function getHome(){
-	var content = document.createElement("section");
-	$(content).attr("id", "content");
-	var div = document.createElement("div");
-	$(div).attr("id", "items");
-	$(div).append(getTableItem(itemList));
-	$(content).append(div);
-	$(div).append(getItemAddForm());
-	$(content).append(div);
-	return content;
-}
-
-function getSearchItem(){
-	var content = document.createElement("div");
-	$(content).attr("id", "content");
-	var div = document.createElement("div");
-	$(div).attr("id", "searchForm");
-	for ( var i = 0 ; i < searchForm.length ; i++ ) {
-		$(div).append(getElement(searchForm[i]));
-	}
-	$(content).append(div);
-	$(content).append(getTableItem(itemSearchList));
-	return content;
-} 
-
-function getItemFavoritesDisplay(){
-	var div = document.createElement("div");
-	$(div).attr("id", "itemFavoritesDisplayer");
-	for ( var i = 0 ; i < itemFavoritesDisplayer.length ; i++ ) {
-		$(div).append(getElement(itemFavoritesDisplayer[i]));
-	}
-	return div;
-}
-
-function getFavoritesDisplay(){
-	var div = document.createElement("div");
-	$(div).append(getTableItem(favoritesList));
-	var loading = document.createElement("div");
-	$(loading).attr("id", "loading");
-	$(div).append(loading);
-	return div;
-}
-
-function switchFavorites(){
-	if($("aside").hasClass("hidden")){
-		displayFavorites();
-		$("nav .favoritesButton").addClass("favoriteSelected");
-	} else {
-		hideFavorites();
-		$("nav .favoritesButton").removeClass("favoriteSelected");
-	}
-}
-
-function getLoginForm(){
-	var div = document.createElement("div");
-	$(div).attr("id", "login");
-	for ( var i = 0 ; i < loginForm.length ; i++ ) {
-		$(div).append(getElement(loginForm[i]));
-	}
-	return div;
-}
-
-function getRegistrationForm(){
-	var div = document.createElement("div");
-	$(div).attr("id", "registration");
-	for ( var i = 0 ; i < registrationForm.length ; i++ ) {
-		$(div).append(getElement(registrationForm[i]));
-	}
-	return div;
-}
-
-function getUpdateAccountForm(){
-	var div = document.createElement("div");
-	$(div).attr("id", "accountUpdate");
-	for ( var i = 0 ; i < updateAccountForm.length ; i++ ) {
-		$(div).append(getElement(updateAccountForm[i]));
-	}
-	return div;
-}
-
-function getWebmail(){
-	var div = document.createElement("div");
-	$(div).attr("id", "content");
-	for( var i = 0 ; i < webmailForm.length ; i++ ) {
-		$(div).append(getElement(webmailForm[i]));
-	}
-	return div;
-}
-
 function getHeader(){
 	var div = document.createElement("div");
 	for ( var i = 0 ; i < header.length ; i++ ) {
@@ -823,23 +734,6 @@ function getMenu(){
 		$(nav).append(getElement(menu[i]));
 	}
 	return nav;
-}
-
-function typeImageChanged(){
-	if($("#paraImage input[type=radio]:checked").val()=="File"){
-		$("#fileDiv").show();
-		$("#webcamDiv").hide();
-		previewFile();
-	} else if($("#paraImage input[type=radio]:checked").val()=="Webcam") {
-		$("#fileDiv").hide();
-		$("#webcamDiv").show();
-		$("#paraImage img").attr("src", "");
-		startWebcam();
-	}
-}
-
-function getBootstrapInvitation(){
-	return getElement(boostrapInvitation[0]);
 }
 
 function printFeedback(feedback, isOk) {

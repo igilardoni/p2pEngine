@@ -162,3 +162,33 @@ function accountLoaded(content){
 	$("#email").val(content.email);
 	$("#phone").val(content.phone);
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 											HTML GENERATOR											   *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function getLoginForm(){
+	var div = document.createElement("div");
+	$(div).attr("id", "login");
+	for ( var i = 0 ; i < loginForm.length ; i++ ) {
+		$(div).append(getElement(loginForm[i]));
+	}
+	return div;
+}
+
+function getRegistrationForm(){
+	var div = document.createElement("div");
+	$(div).attr("id", "registration");
+	for ( var i = 0 ; i < registrationForm.length ; i++ ) {
+		$(div).append(getElement(registrationForm[i]));
+	}
+	return div;
+}
+
+function getUpdateAccountForm(){
+	var div = document.createElement("div");
+	$(div).attr("id", "accountUpdate");
+	for ( var i = 0 ; i < updateAccountForm.length ; i++ ) {
+		$(div).append(getElement(updateAccountForm[i]));
+	}
+	return div;
+}

@@ -52,6 +52,15 @@ function messageNotSent(content) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function getWebmail(){
+	var div = document.createElement("div");
+	$(div).attr("id", "content");
+	for( var i = 0 ; i < webmailForm.length ; i++ ) {
+		$(div).append(getElement(webmailForm[i]));
+	}
+	return div;
+}
+
 function sendMessageTo(){
 	var receiver = $("#owner").text();
 	var subject = $("#title").text();

@@ -240,6 +240,42 @@ function itemSearchFound(content){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function getHome(){
+	var content = document.createElement("section");
+	$(content).attr("id", "content");
+	var div = document.createElement("div");
+	$(div).attr("id", "items");
+	$(div).append(getTableItem(itemList));
+	$(content).append(div);
+	$(div).append(getItemAddForm());
+	$(content).append(div);
+	return content;
+}
+
+function getSearchItem(){
+	var content = document.createElement("div");
+	$(content).attr("id", "content");
+	var div = document.createElement("div");
+	$(div).attr("id", "searchForm");
+	for ( var i = 0 ; i < searchForm.length ; i++ ) {
+		$(div).append(getElement(searchForm[i]));
+	}
+	$(content).append(div);
+	$(content).append(getTableItem(itemSearchList));
+	return content;
+}
+
+/**
+ * Get a form for add item (with buttons "Add" and "Cancel")
+ * @returns Element "div"
+ */
+function getItemAddForm(){
+	var div = document.createElement("div");
+	$(div).attr("id", itemForm);
+	$(div).append(getElement(itemAddForm[0]));
+	return div;
+}
+
 function addSearch(){
 	var field = $("#field").val();
 	var searchField = $("#searchField").val();
@@ -253,16 +289,6 @@ function addSearch(){
 }
 function resetSearch(){
 	$("#search").val("");
-}
-/**
- * Get a form for add item (with buttons "Add" and "Cancel")
- * @returns Element "div"
- */
-function getItemAddForm(){
-	var div = document.createElement("div");
-	$(div).attr("id", itemForm);
-	$(div).append(getElement(itemAddForm[0]));
-	return div;
 }
 
 function itemFormComplet(){

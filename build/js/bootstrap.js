@@ -77,3 +77,7 @@ function sponsorBootstrapSaved(content){
 function getBootstrapSetting(){
 	return getElement(boostrapSetting[0]);
 }
+
+function getBootstrapInvitation(){
+	return getElement(boostrapInvitation[0]);
+}

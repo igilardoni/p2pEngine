@@ -67,11 +67,12 @@ input[type="button"], input[type=submit], .button {
 	margin : 0;
 	width : 100%;
 	
-	border : 3px solid transparent;
+	/*border : 3px solid transparent;
 	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #979797 100%);
 	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #979797 100%);
 	border-image : linear-gradient(to right, #FFFFFF 0%, #979797 100%);
-	border-image-slice : 1;
+	border-image-slice : 1;*/
+	border-bottom : solid #d6d6d6;
 	border-top : none;
 	border-left : none;
 	border-right : none;
