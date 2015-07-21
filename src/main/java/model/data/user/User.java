@@ -248,9 +248,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		return 0;
 	}
 	
-	/**
-	 *TODO PAS BO
-	 */
 	@Override
 	public boolean equals(Object u) {
 		if(! (u instanceof User))
@@ -289,6 +286,11 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		u.setHashPwd(this.getHashPwd());
 		return u;
 	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
 	
 	////////////////////////////////////////////////// MAIN FOR TEST \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -300,10 +302,5 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 		
 		user.sign(keys);
 		System.out.println(user.checkSignature(user.getKeys()));
-	}
-
-	@Override
-	public String getSimpleName() {
-		return getClass().getSimpleName();
 	}
 }
