@@ -35,6 +35,12 @@ function newContrat(){
 	var content = {"title":titleNewContrat};
 	sendQuery("newContrat", content);
 }
+function removeContrat(id) {
+	var content = {
+			"contratID":id
+	}
+	sendQuery("removeContrat", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -48,6 +54,7 @@ function contratCreated(content) {
 function itemForContratLoaded(content) {
 	$("#contratID").text(content.contratId);
 	$("#"+itemContratList).append(newRowItemContrat(content));
+	printFeedback(content.feedback, true);
 }
 function contratsLoaded(content) {
 	$("#"+contratList).append(newRowContrat(content));
@@ -57,7 +64,7 @@ function transfertRuleLoaded(content){
 }
 function contratLoaded(content) {
 	$("#contratForm").find("h1").text(content.title);
-	$("#contratID").append(document.createTextNode(content.contratID));
+	$("#contratID").append(content.contratID);
 }
 function signatoryAdded(content) {
 	$("#signatories").append(newRowSignatory(content));
@@ -77,15 +84,21 @@ function getContrat(){
 function newRowContrat(content) {
 	var row = document.createElement("tr");
 	$(row).attr("id", removePunctuation(content.contratID));
-	$(row).attr("onclick", "loadContrat('"+content.contratID+"');");
 	var cell1 = document.createElement("td");
 	$(cell1).attr("class", "rowTitle");
+	$(cell1).attr("onclick", "loadContrat('"+content.contratID+"');");
 	$(cell1).append(content.title);
 	var cell2 = document.createElement("td");
 	$(cell2).attr("class", "rowState");
+	$(cell2).attr("onclick", "loadContrat('"+content.contratID+"');");
 	$(cell2).append(content.state);
 	var cell3 = document.createElement("td");
 	$(cell3).attr("class", "rowActions");
+	var buttonRemove = document.createElement("a");
+	$(buttonRemove).attr("class", "button buttonRemove");
+	$(buttonRemove).attr("onclick", "removeContrat('"+content.contratID+"');");
+	$(cell3).append(buttonRemove);
+	
 	$(row).append(cell1);
 	$(row).append(cell2);
 	$(row).append(cell3);

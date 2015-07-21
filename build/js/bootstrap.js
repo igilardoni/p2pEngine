@@ -10,9 +10,24 @@ function loadIP(){
 }
 
 function sendBootstrap(){
+	$(".inputWrong").removeClass("inputWrong");
+	var error = false;
+	var feedback = "";
 	var emailReceiver = $("#emailReceiver").val();
+	if(!isEmail(emailReceiver)){
+		error = true;
+		$("#emailReceiver").addClass("inputWrong");
+	}
 	var emailSender = $("#emailSender").val();
+	if(!isEmail(emailSender)) {
+		error = true;
+		$("#emailSender").addClass("inputWrong");
+	}
 	var passwordSender = $("#passwordSender").val();
+	if(passwordSender == "") {
+		error = true;
+		$("#passwordSender").addClass("inputWrong");
+	}
 	var content = {
 			"emailReceiver":emailReceiver,
 			"emailSender":emailSender,
@@ -33,7 +48,7 @@ function sponsorBootstrap() {
 		}
 		r.readAsText(f);
 	} else { 
-		alert("Failed to load file");
+		$("#bootstrapFile").addClass("inputWrong");
 		return;
 	}
 }
