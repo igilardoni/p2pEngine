@@ -147,6 +147,13 @@ public class UserManager {
 		AsymKeysImpl originalKey = user.getKeys().copy();
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
+		if(user.checkSignature(user.getKeys())) {
+			System.out.println("signature user1 ok");
+		}
+		User u2 = new User(user.toString());
+		if(u2.checkSignature(u2.getKeys()))  {
+			System.out.println("signature user 2 ok");
+		}
 		this.addUser(user, true);
 	}	
 	
