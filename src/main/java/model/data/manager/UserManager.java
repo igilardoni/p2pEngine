@@ -284,7 +284,10 @@ public class UserManager {
 		
 		
 		for(User u : results) {
-			if(!u.checkSignature(u.getKeys()) || !u.isPassword(password)) continue;
+			if(!u.checkSignature(u.getKeys()) || !u.isPassword(password))  {
+				System.out.println("bad signature : " + u.getNick());
+				continue;
+			}
 			if(u.getKeys().getDecryptedPrivateKey(password) == null) continue;
 			if(findUser == null) findUser = u;
 			if(u.getLastUpdated() > findUser.getLastUpdated()) {
