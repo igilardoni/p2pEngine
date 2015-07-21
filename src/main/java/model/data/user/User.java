@@ -172,7 +172,6 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	 */
 	@Override
 	protected void setKeys() {
-		setKeys(new AsymKeysImpl());
 		clearPassword = null;
 		this.addKey("nick", true, true);
 		this.addKey("hashPwd", false, true);
