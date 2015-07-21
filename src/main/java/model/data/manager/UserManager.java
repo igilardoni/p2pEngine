@@ -144,6 +144,9 @@ public class UserManager {
 		}
 		
 		AsymKeysImpl originalKey = user.getKeys().copy();
+		if(!originalKey.isCompatible()) System.out.println("c la");
+		
+		
 		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		if(user.checkSignature(user.getKeys())) {
