@@ -296,20 +296,17 @@ public class User extends AbstractAdvertisement implements Comparable<User>{
 	
 	public static void main(String[] args){
 		User user = new User("nick", "password", "name", "firstName", "email", "phone");
-		AsymKeysImpl keys = new AsymKeysImpl(user.getKeys().toString());
-		keys.decryptPrivateKey("password");
-		System.out.println(keys);
-		System.out.println();
-		
-		System.out.println(keys.isCompatible());
-		
-		System.out.println();
-		System.out.println(user.getKeys());
-		System.out.println();
-		
-		System.out.println(user.getKeys().isCompatible());
-		
-		//user.sign(keys);
-		//System.out.println(user.checkSignature(user.getKeys()));
+		user.getKeys().decryptPrivateKey("password");
+		user.sign(user.getKeys());
+		User user2 = new User(user.toString());
+		System.out.println(user.getKeys().getPrivateKey());
+		user2.getKeys().decryptPrivateKey("password");
+		System.out.println(user2.getKeys().getPrivateKey());
+		if(user.checkSignature(user.getKeys())) {
+			System.out.println("Signature 1 ok");
+		}
+		if(user2.checkSignature(user2.getKeys())) {
+			System.out.println("Signature 2 ok");
+		}
 	}
 }

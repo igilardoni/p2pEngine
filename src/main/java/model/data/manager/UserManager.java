@@ -142,11 +142,11 @@ public class UserManager {
 			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
 			return;
 		}
-		
-		AsymKeysImpl originalKey = user.getKeys().copy();
-		
-		user.getKeys().encryptPrivateKey(user.getClearPwd());
-		user.sign(originalKey);
+		user.sign(user.getKeys());
+		User user2 = new User(user.toString());
+		if(user2.checkSignature(user2.getKeys())) {
+			System.out.println("user 2 ok !");
+		}
 		this.addUser(user, true);
 	}	
 	
