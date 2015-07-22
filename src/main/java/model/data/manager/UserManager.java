@@ -136,16 +136,14 @@ public class UserManager {
 			return;
 		}
 		
-		user.getKeys().decryptPrivateKey(user.getClearPwd());
+		AsymKeysImpl originalKey = new AsymKeysImpl(user.getKeys().toString());
+		originalKey.getKeys().decryptPrivateKey(user.getClearPwd());
 		
-		if(user.getKeys() == null || !user.getKeys().isCompatible()){
+		if(originalKey.getKeys() == null || !originalKey.getKeys().isCompatible()){
 			System.err.println(Manager.class.getName()+".registration : can't register user without compatible keys !");
 			return;
 		}
 		
-		AsymKeysImpl originalKey = user.getKeys().copy();
-		
-		user.getKeys().encryptPrivateKey(user.getClearPwd());
 		user.sign(originalKey);
 		this.addUser(user, true);
 	}	

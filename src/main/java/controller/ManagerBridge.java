@@ -13,6 +13,7 @@ import model.data.user.UserMessage;
 import model.data.user.User;
 import model.network.search.ItemSearcher;
 import util.DateConverter;
+import util.Printer;
 import util.secure.AsymKeysImpl;
 
 public class ManagerBridge{
@@ -65,8 +66,7 @@ public class ManagerBridge{
 		
 	
 		if(Application.getInstance().getManager().getUserManager().getCurrentUser() == null){
-			System.err.println(ManagerBridge.class.getName()+".addItem : No user logged !");
-			return false;
+			return Printer.printError(ManagerBridge.class, "updateAccount", "No user logged !");
 		}
 		if(Application.getInstance().getManager().getUserManager().getCurrentUser().isPassword(oldPassword)){
 			Application.getInstance().getManager().getUserManager().getCurrentUser().setNick(nick);
@@ -103,7 +103,7 @@ public class ManagerBridge{
 	 */
 	public static String addItem(String title, String category, String description, String image, String country, String contact, String lifeTime, String type ){
 		if(notLogged()){
-			System.err.println(ManagerBridge.class.getName()+".addItem : No user logged !");
+			Printer.printError(ManagerBridge.class, "addItem", "No user logged !");
 			return null;
 		}
 		Long l = DateConverter.getLongBefore(lifeTime);
@@ -121,7 +121,7 @@ public class ManagerBridge{
 			t = TYPE.OFFER;
 		}
 		Item item = new Item(Application.getInstance().getManager().getUserManager().getCurrentUser(), title, c, description, image, country, contact, 0, l, t);
-		AsymKeysImpl keys = (AsymKeysImpl) Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().copy();
+		AsymKeysImpl keys = new AsymKeysImpl(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().toString());
 		keys.decryptPrivateKey(Application.getInstance().getManager().getUserManager().getCurrentUser().getClearPwd());
 		item.sign(keys);
 		Application.getInstance().getManager().getItemManager().addItem(item, true);
@@ -133,7 +133,7 @@ public class ManagerBridge{
 	 */
 	public static void removeItem(String itemKey) {
 		if(notLogged()){
-			System.err.println(ManagerBridge.class.getName()+".removeItem : No user logged !");
+			Printer.printError(ManagerBridge.class, "removeItem", "No user logged !");
 			return;
 		}
 		Item item  = Application.getInstance().getManager().getItemManager().getItem(itemKey);
@@ -156,7 +156,7 @@ public class ManagerBridge{
 			String description, String image, String country,
 			String contact, String lifeTime, String type) {
 		if(notLogged()){
-			System.err.println(ManagerBridge.class.getName()+".updateItem : No user logged !");
+			Printer.printError(ManagerBridge.class, "updateItem", "No user logged !");
 			return;
 		}
 		AsymKeysImpl key = Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().copy();
@@ -181,7 +181,7 @@ public class ManagerBridge{
 	 */
 	public static ArrayList<Item> getUserItems(String publicKey) {
 		if(publicKey == null){
-			System.err.println("public key empty");
+			Printer.printError(ManagerBridge.class, "getUserItems", "public key empty");
 			return null;
 		}
 		return Application.getInstance().getManager().getUserManager().getUserItems(publicKey);
@@ -199,6 +199,10 @@ public class ManagerBridge{
 	 * @return
 	 */
 	public static Item getCurrentUserItem(String itemKey){
+		if(itemKey == null){
+			Printer.printError(ManagerBridge.class, "getCurrentUserItem", "item key empty");
+			return null;
+		}
 		return Application.getInstance().getManager().getItemManager().getItem(itemKey);
 	}
 	/**

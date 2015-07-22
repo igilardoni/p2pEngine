@@ -9,6 +9,7 @@ import org.jdom2.Element;
 import util.Printer;
 import util.StringToElement;
 import util.secure.AsymKeysImpl;
+import model.Application;
 import model.data.favorites.Favorites;
 import model.data.item.Item;
 import model.data.user.User;
@@ -108,7 +109,7 @@ public class FavoriteManager {
 		if(owner.equals(manager.getUserManager().getCurrentUser()) && !f.checkSignature(manager.getUserManager().getCurrentUser().getKeys())){
 			Printer.printError(this, "addFavorites","Bad Signature for Favorite (current User)");
 			return;
-		}else if(!f.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
+		}else if(!f.checkSignature(f.getKeys())){
 			Printer.printError(this, "addFavorites","Bad Signature for Favorite");
 			return;
 		}
@@ -123,17 +124,19 @@ public class FavoriteManager {
 	 */
 	public void addFavoritesItem(Item item){
 		User currentUser = manager.getUserManager().getCurrentUser();
-		AsymKeysImpl keys = manager.getUserManager().getCurrentUser().getKeys().copy();
+		if(currentUser == null){
+			Printer.printError(this, "addFavoritesItem", "not user logged !");
+			return;
+		}
+		AsymKeysImpl keys = new AsymKeysImpl(manager.getUserManager().getCurrentUser().getKeys().toString());
 		keys.decryptPrivateKey(manager.getUserManager().getCurrentUser().getClearPwd());
-		System.out.println(manager.getUserManager().getCurrentUser().getKeys().toString());
-		System.out.println(keys.getPrivateKey().toString(16));
-		String publicKey = currentUser.getKeys().getPublicKey().toString(16); //TODO verification currentUser existe ?
+		String publicKey = currentUser.getKeys().getPublicKey().toString(16);
 		if(publicKey == null || publicKey.isEmpty()){
 			Printer.printError(this, "addFavoritesItem", "Not user logged or PublicKey empty !");
 			return;
 		}
 		if(!favorites.containsKey(publicKey)){
-			Favorites f = new Favorites(currentUser);
+			Favorites f = new Favorites(manager.getUserManager().getCurrentUser());
 			f.sign(keys);
 			addFavorites(f);
 		}
