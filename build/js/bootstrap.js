@@ -37,7 +37,7 @@ function sendBootstrap(){
 }
 
 function sponsorBootstrap() {
-	var f = $("#bootstrapFile")[0].files[0]; 
+	/*var f = $("#bootstrapFile")[0].files[0]; 
 	var contents;
 	if (f) {
 		var r = new FileReader();
@@ -50,7 +50,17 @@ function sponsorBootstrap() {
 	} else { 
 		$("#bootstrapFile").addClass("inputWrong");
 		return;
+	}*/
+	if($("#bootstrapIP").val() == ""){
+		$("#bootstrapIP").addClass("inputWrong");
+		var feedback = "You must copy the IP address sent by your sponsor.";
+		printFeedback(feedback, false);
+		return;
 	}
+	var content = {
+			"ips":$("#bootstrapIP").val()
+	}
+	sendQuery("sponsorBootstrap", content);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
@@ -61,6 +71,10 @@ function ipLoaded(content){
 
 function bootstrapSent(content){
 	printFeedback(content.feedback, true);
+	var link = "mailto:"+$("#emailReceiver").val()
+        + "?subject=" + content.subject
+        + "&body=" + content.text;
+	window.location.href = link;
 }
 
 function bootstrapNotSent(content){

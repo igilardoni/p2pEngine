@@ -138,6 +138,7 @@ public class EchoServer {
 				System.err.println("content null");
 				return;
 			}
+			// TODO Remove print when GUI is finished
 			System.out.println("INFO : "+EchoServer.class.getName()+" Query input -> "+jsonObject.getString("query"));
 			System.out.println("\t"+jsonObject.getString("content"));
 			if(!interlocutors.containsKey(jsonObject.getString("query"))){

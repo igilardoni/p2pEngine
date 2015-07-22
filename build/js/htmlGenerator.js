@@ -117,14 +117,22 @@ var boostrapSetting = [
 				{element:"text", value:"Bootstrap Settings"}
 			]},
 			{element:"p", attributes:{}, inside:[
-				{element:"label", attributes:{"class":"label"}, inside:[
+				/*{element:"label", attributes:{"class":"label"}, inside:[
 					{element:"text", value:"File sent by your sponsor : "}
 				]},
-				{element:"input", attributes:{type:"file", id:"bootstrapFile"}, inside:[]}
+				{element:"input", attributes:{type:"file", id:"bootstrapFile"}, inside:[]}*/
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Copy here all IP sent in your invitation :"}
+				]},
+				{element:"textarea", attributes:{id:"bootstrapIP"}, inside:[]}
 			]},
-			{element:"p", attributes:{}, inside:[
-				{element:"input", attributes:{type:"button", onclick:"sponsorBootstrap();", value:"Save Setting"}, inside:[]}
+			{element:"p", attributes:{"class":"actions"}, inside:[
+				{element:"input", attributes:{type:"button", onclick:"sponsorBootstrap();", value:"Save Setting"}, inside:[]},
+				{element:"input", attributes:{type:"button", onclick:"includeLogin();", value:"Back and log in"}, inside:[]}
 			]},
+			/*{element:"p", attributes:{}, inside:[
+				{element:"input", attributes:{type:"button", onclick:"includeLogin();", value:"Back and log in"}, inside:[]}
+			]},*/
 			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];
