@@ -139,9 +139,9 @@ function displayItemFavorites(content){
 function switchFavorites(){
 	if($("aside").hasClass("hidden")){
 		displayFavorites();
-		$("nav .favoritesButton").addClass("favoriteSelected");
+		$("nav .favoritesButton").addClass("selected");
 	} else {
 		hideFavorites();
-		$("nav .favoritesButton").removeClass("favoriteSelected");
+		$("nav .favoritesButton").removeClass("selected");
 	}
 }

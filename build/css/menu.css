@@ -78,7 +78,7 @@ nav li.favoritesButton a:before {
 	height : 20px;
 	content : url(../img/favOff.png);
 }
-nav li.favoriteSelected a:before {
+nav li.favoritesButton.selected a:before {
 	width : 20px;
 	height : 20px;
 	content : url(../img/favOn.png);

@@ -515,7 +515,8 @@ var itemFavoritesDisplayer = [
 		/*{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Favorite item"}
 		]},*/
- 		{element:"label", attributes:{id:"itemKey", "class":"hidden"}, inside:[]},
+ 		{element:"a", attributes:{"class":"button buttonCancel toprightButton", alt:"hide", onclick:"removeDisplayItemFavorites();"}, inside:[]},
+		{element:"label", attributes:{id:"itemKey", "class":"hidden"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"Title : "}
@@ -528,7 +529,7 @@ var itemFavoritesDisplayer = [
  			]},
  			{element:"label", attributes:{id:"friendlyNick", "class":"content"}, inside:[]}
  		]},
- 		{element:"p", attributes:{style:"display:none;"}, inside:[
+ 		{element:"p", attributes:{"class":"hidden"}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[]},
 			{element:"label", attributes:{id:"owner", "class":"content"}, inside:[]}
 		]},
@@ -580,7 +581,8 @@ var contratDisplay = [
 		]},*/
 		{element:"div", attributes:{}, inside:[
 			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", required:"required"}, inside:[]},
-			{element:"input", attributes:{type:"button", onclick:"newContrat();", value:"New Contrat"}, inside:[]}
+			{element:"input", attributes:{type:"button", onclick:"newContrat();", value:"New Contrat"}, inside:[]},
+			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];
 var contratTable = [
@@ -669,6 +671,7 @@ var contratForm =[
 					{element:"text", value:"Delete"}
 				]}
 			]},
+			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];
 var ruleForm = [

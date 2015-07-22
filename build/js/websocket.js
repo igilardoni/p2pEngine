@@ -56,6 +56,8 @@ function serverReply(data){
 	case "displayItem":						displayItem(data.content); break;
 	case "displayAccount":					displayAccount(data.content); break;
 	case "displayContrat":					displayContrat(data.content); break;
+	case "contratRemoved":					contratRemoved(data.content); break;
+	case "contratNotRemoved":				contratNotRemoved(data.content); break;
 	
 	case "messageNotSent":					messageNotSent(data.content); break;
 	

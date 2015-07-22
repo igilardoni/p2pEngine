@@ -36,6 +36,7 @@ import view.interlocutors.LoadMessages;
 import view.interlocutors.LoadType;
 import view.interlocutors.NewContrat;
 import view.interlocutors.Register;
+import view.interlocutors.RemoveContrat;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemFavorites;
 import view.interlocutors.SearchItem;
@@ -108,6 +109,7 @@ public class EchoServer {
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
 		interlocutors.put("loadContrats", new LoadContrats());
 		interlocutors.put("loadContrat", new LoadContrat());
+		interlocutors.put("removeContrat", new RemoveContrat());
 		
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());

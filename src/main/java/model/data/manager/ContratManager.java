@@ -190,6 +190,13 @@ public class ContratManager {
 		}
 	}
 	
+	public boolean removeContrat(String publicKey, String contratID) {
+		for(Contrat d : deals.get(publicKey)){
+			if(d.getId().equals(contratID))
+				return deals.get(publicKey).remove(d);
+		}
+		return false;
+	}
 
 	
 }

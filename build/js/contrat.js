@@ -32,6 +32,8 @@ function loadItemForContrat(){
 }
 function newContrat(){
 	var titleNewContrat = $("#titleNewContrat").val();
+	if(titleNewContrat == undefined)
+		titleNewContrat = "";
 	var content = {"title":titleNewContrat};
 	sendQuery("newContrat", content);
 }
@@ -68,6 +70,14 @@ function contratLoaded(content) {
 }
 function signatoryAdded(content) {
 	$("#signatories").append(newRowSignatory(content));
+}
+function contratRemoved(content) {
+	var id = removePunctuation(content.contratID);
+	$("#"+id).detach();
+	printFeedback(content.feedback, true);
+}
+function contratNotRemoved(content) {
+	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

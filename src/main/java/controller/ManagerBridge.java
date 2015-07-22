@@ -312,6 +312,9 @@ public class ManagerBridge{
 	public static boolean addItemContrat(Item item, String contratID){
 		return Application.getInstance().getManager().getContratManager().addItem(contratID, item);
 	}
+	public static boolean removeContrat(String contratID) {
+		return Application.getInstance().getManager().getContratManager().removeContrat(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16), contratID);
+	}
 	public static ArrayList<Contrat> getCurrentUserContrats(){
 		return Application.getInstance().getManager().getContratManager().getDealsCurrentUser();
 	}
