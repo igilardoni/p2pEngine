@@ -31,6 +31,7 @@ public class ManagerBridge{
 	 */
 	public static void registration(String nick,String password, String name, String firstName, String email, String phone){
 		User user = new User(nick, password, name, firstName, email, phone);
+		user.setClearPassword(password);
 		Application.getInstance().getManager().getUserManager().registration(user);
 	}
 	/**
