@@ -91,21 +91,6 @@ var boostrapInvitation = [
 				{element:"input", attributes:{type:"text", id:"emailReceiver", name:"emailReceiver", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
 			]},
 			{element:"p", attributes:{}, inside:[
-				{element:"label", attributes:{"class":"label"}, inside:[
-					{element:"text", value:"Your email : "}
-				]},
-				{element:"input", attributes:{type:"text", id:"emailSender", name:"emailSender", required:"required", placeholder:"Alice@wonderland.com"}, inside:[]}
-			]},
-			{element:"p", attributes:{}, inside:[
-	         	{element:"label", attributes:{"class":"label"}, inside:[
-					{element:"text", value:"Your email password : "}
-				]},
-				{element:"input", attributes:{type:"password", id:"passwordSender", name:"passwordSender", required:"required", placeholder:"ex : p4$Sw0r6!"}, inside:[]},
-				{element:"label", attributes:{}, inside:[
-					{element:"text", value:" This is your email password for connect to your webmail (Will not be stored)"}
-				]}
-			]},
-			{element:"p", attributes:{}, inside:[
 				{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
 			]},
 			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}

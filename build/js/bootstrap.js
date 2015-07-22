@@ -11,29 +11,14 @@ function loadIP(){
 
 function sendBootstrap(){
 	$(".inputWrong").removeClass("inputWrong");
-	var error = false;
-	var feedback = "";
 	var emailReceiver = $("#emailReceiver").val();
 	if(!isEmail(emailReceiver)){
-		error = true;
 		$("#emailReceiver").addClass("inputWrong");
+		feedback = "Email is invalid !";
+		printFeedback(feedback, false);
+		return;
 	}
-	var emailSender = $("#emailSender").val();
-	if(!isEmail(emailSender)) {
-		error = true;
-		$("#emailSender").addClass("inputWrong");
-	}
-	var passwordSender = $("#passwordSender").val();
-	if(passwordSender == "") {
-		error = true;
-		$("#passwordSender").addClass("inputWrong");
-	}
-	var content = {
-			"emailReceiver":emailReceiver,
-			"emailSender":emailSender,
-			"passwordSender":passwordSender
-			};
-	sendQuery("sendBoostrap", content);
+	sendQueryEmpty("sendBoostrap");
 }
 
 function sponsorBootstrap() {
