@@ -11,3 +11,18 @@
 	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
 }
+
+.actions {
+	padding-right : 1em;
+	text-align : right;
+}
+
+#boostrapPreference textarea {
+	width : 95%;
+	min-height : 15em;
+}
+
+#boostrapPreference .label {
+	text-align : left;
+	width : 95%;
+}

@@ -28,4 +28,25 @@ public class VARIABLES {
 	/* AVProtocol */
 	public static final int AVProtocolN = 10;
 	public static final int AVProtocolK = 5;
+	
+	/* Email Invitation */
+	public static final String EmailIntro = "Hello,%0A"
+			+ "This is an automatically generated email.%0A"
+			+ "What is the Secure eXchange Protocol application? %0A"
+			+ "It is a platform to provide objects to the exchange. %0A"
+			+ "Yes, unlike the usual commercial platform, you are not %0A"
+			+ "going to buy or sell but rather trade items.%0A"
+			+ "Secure eXchange Protocol is based on the latest %0A"
+			+ "technology to improve security and reliability. %0A"
+			+ "This application is completely free and without advertising.%0A%0A"
+			+ "____________________________________________________________%0A%0A";
+	public static final String EmailFoot = "%0A"
+			+ "____________________________________________________________%0A%0A" 
+			+ "To start using the application, simply download it by going on%0A"
+			+ "        secureexchangeprotocol.com/download.%0A%0A"
+			+ "Once the application is downloaded and installed, launch the %0A"
+			+ "application and click the \"Bootstrap Settings\". You simply %0A"
+			+ "copy the contents of the frame above and paste it into the %0A"
+			+ "text box provided for this purpose. Restart the application. %0A"
+			+ "And now, you are ready to use the application.";
 }
