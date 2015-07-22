@@ -23,7 +23,7 @@ public class LoadItemFavorites extends AbstractInterlocutor {
 			
 			Item item = ManagerBridge.getFavoriteItem(itemKey);
 			JSONObject data = new JSONObject();
-			data.put("query", "favoritesItemLoaded");
+			data.put("query", "itemSearchLoaded");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", item.getItemKey());
 			content.put("owner", item.getOwner());

@@ -26,6 +26,7 @@ import view.interlocutors.LoadIP;
 import view.interlocutors.LoadItem;
 import view.interlocutors.LoadItemFavorites;
 import view.interlocutors.LoadItemForContrat;
+import view.interlocutors.LoadItemSearch;
 import view.interlocutors.LoadItemSearchField;
 import view.interlocutors.LoadItemSearchFieldCategory;
 import view.interlocutors.LoadItemSearchFieldType;
@@ -94,6 +95,7 @@ public class EchoServer {
 		interlocutors.put("loadItemSearchFieldCategory", new LoadItemSearchFieldCategory());
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
 		interlocutors.put("searchItem", new SearchItem());
+		interlocutors.put("loadItemSearch", new LoadItemSearch());
 		
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
 		interlocutors.put("addItemFavorites", new AddItemFavorites());

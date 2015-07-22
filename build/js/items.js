@@ -141,6 +141,14 @@ function searchItem(){
 		alert("Impossible to launch an empty search !")
 	}
 }
+function loadItemSearch(itemKey){
+	if($("aside").hasClass("hidden"))
+		switchFavorites();
+	content = {
+			"itemKey":itemKey
+	};
+	sendQuery("loadItemSearch", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -233,9 +241,16 @@ function updateSearchField(){
 function itemSearchFound(content){
 	// TODO Verify if already exist
 	/*if($("#"+content.itemKey).lenght == 0)*/
-		$("#"+itemSearchList).append(newRowItem(content));
+		$("#"+itemSearchList).append(newRowItemSearch(content));
 	/*else
 		$("#"+itemSearchList+" #"+content.itemKey).replaceWith(newRowItem(content));*/
+}
+function itemSearchLoaded(content) {
+	printFeedback(content.feedback, true);
+	favoritesItemLoaded(content);
+}
+function itemSearchNotLoaded(content) {
+	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
@@ -358,13 +373,13 @@ function newRowItemSearch(content){
 	// Title cell
 	var cell1 = document.createElement("td");
 	$(cell1).attr("class", "rowTitle");
-	$(cell1).attr("onclick", "editItem('"+content.itemKey+"');");
+	$(cell1).attr("onclick", "loadItemSearch('"+content.itemKey+"');");
 	$(cell1).append(document.createTextNode(content.title));
 	$(row).append(cell1);
 	// Description cell
 	var cell2 = document.createElement("td");
 	$(cell2).attr("class", "rowDescription");
-	$(cell2).attr("onclick", "editItem('"+content.itemKey+"');");
+	$(cell2).attr("onclick", "loadItemSearch('"+content.itemKey+"');");
 	if(content.description.length > 400)
 		$(cell2).append(document.createTextNode(content.description.substring(0, 400)+" [...]"));
 	else
@@ -373,8 +388,6 @@ function newRowItemSearch(content){
 	// Buttons Cell
 	var cell3 = document.createElement("td");
 	$(cell3).attr("class", "rowActions");
-	$(cell3).append(removeButton);
-	$(row).append(cell3);
 	// Add to favorites Button
 	var favoritesButton = document.createElement("a");
 	$(favoritesButton).attr("class", "button buttonFavorites");
