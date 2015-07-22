@@ -93,19 +93,18 @@ function newRowFavorites(content){
 	$(row).attr("id", "favorites"+removePunctuation(content.itemKey));
 	// Title cell
 	var cell1 = document.createElement("td");
-	$(cell1).attr("class", "rowTitle");
 	$(cell1).append(document.createTextNode(content.title));
 	$(cell1).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	$(row).append(cell1);
 	// Description cell
-	var cell2 = document.createElement("td");
+	/*var cell2 = document.createElement("td");
 	$(cell2).attr("class", "rowDescription");
 	$(cell2).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	if(content.description.length > 100)
 		$(cell2).append(content.description.substring(0, 100)+" [...]");
 	else
 		$(cell2).append(content.description);
-	$(row).append(cell2);
+	$(row).append(cell2);*/
 	// Buttons Cell
 	var cell3 = document.createElement("td");
 	$(cell3).attr("class", "rowActions");

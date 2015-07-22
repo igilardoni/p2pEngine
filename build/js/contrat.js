@@ -52,11 +52,18 @@ function contratCreated(content) {
 	$("#contratID").append(content.contratID);
 	$("#objects").append(getTableItem(itemContratList));
 	$("#contratForm").find("h1").text(content.title);
+	var contentBis = {
+			"contratID" : content.contratID
+	};
+	sendQuery("loadContentContrat", contentBis);
 }
 function itemForContratLoaded(content) {
 	$("#contratID").text(content.contratId);
 	$("#"+itemContratList).append(newRowItemContrat(content));
 	printFeedback(content.feedback, true);
+}
+function itemForContratNotLoaded(content) {
+	printFeedback(content.feedback, false);
 }
 function contratsLoaded(content) {
 	$("#"+contratList).append(newRowContrat(content));
@@ -67,6 +74,13 @@ function transfertRuleLoaded(content){
 function contratLoaded(content) {
 	$("#contratForm").find("h1").text(content.title);
 	$("#contratID").append(content.contratID);
+	var contentBis = {
+			"contratID" : content.contratID
+	};
+	sendQuery("loadContentContrat", contentBis);
+}
+function contratNotLoaded(content) {
+	printFeedback(content.feedback, false);
 }
 function signatoryAdded(content) {
 	$("#signatories").append(newRowSignatory(content));

@@ -247,7 +247,7 @@ function itemSearchFound(content){
 }
 function itemSearchLoaded(content) {
 	printFeedback(content.feedback, true);
-	favoritesItemLoaded(content);
+	displayItemFavorites(content);
 }
 function itemSearchNotLoaded(content) {
 	printFeedback(content.feedback, false);

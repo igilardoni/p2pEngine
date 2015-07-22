@@ -19,6 +19,7 @@ import view.interlocutors.AddItemFavorites;
 import view.interlocutors.LoadAccount;
 import view.interlocutors.LoadBase64Image;
 import view.interlocutors.LoadCategories;
+import view.interlocutors.LoadContentContrat;
 import view.interlocutors.LoadContrat;
 import view.interlocutors.LoadContrats;
 import view.interlocutors.LoadConversation;
@@ -76,13 +77,13 @@ public class EchoServer {
 		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
 		
 		AbstractInterlocutor.setCom(session.getAsyncRemote());
-		
+		/* Users */
 		interlocutors.put("signIn", new SignIn());
 		interlocutors.put("signOut", new SignOut());
 		interlocutors.put("register", new Register());
 		interlocutors.put("loadAccount", new LoadAccount());
 		interlocutors.put("updateAccount", new UpdateAccount());
-		
+		/* Items */
 		interlocutors.put("addItem", new AddItem());
 		interlocutors.put("loadItems", new LoadItems());
 		interlocutors.put("loadItem", new LoadItem());
@@ -90,32 +91,33 @@ public class EchoServer {
 		interlocutors.put("removeItem", new RemoveItem());
 		interlocutors.put("loadCategories", new LoadCategories());
 		interlocutors.put("loadType", new LoadType());
-		
+		/* Search */
 		interlocutors.put("loadItemSearchField", new LoadItemSearchField());
 		interlocutors.put("loadItemSearchFieldCategory", new LoadItemSearchFieldCategory());
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
 		interlocutors.put("searchItem", new SearchItem());
 		interlocutors.put("loadItemSearch", new LoadItemSearch());
-		
+		/* Favorites */
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
 		interlocutors.put("addItemFavorites", new AddItemFavorites());
 		interlocutors.put("removeItemFavorites", new RemoveItemFavorites());
 		interlocutors.put("loadItemFavorites", new LoadItemFavorites());
-		
+		/* Messages */
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());
 		interlocutors.put("loadMessage", new LoadMessage());
 		interlocutors.put("sendMessage", new SendMessage());
-		
+		/* Contrat */
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
 		interlocutors.put("loadContrats", new LoadContrats());
 		interlocutors.put("loadContrat", new LoadContrat());
+		interlocutors.put("loadContentContrat", new LoadContentContrat());
 		interlocutors.put("removeContrat", new RemoveContrat());
-		
+		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());
-		
+		/* Bootstrap */
 		interlocutors.put("sendBoostrap", new SendBootstrap());
 		interlocutors.put("sponsorBootstrap", new SponsorBootstrap());
 	}

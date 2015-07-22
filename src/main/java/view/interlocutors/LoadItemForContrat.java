@@ -33,7 +33,7 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 				item = null; // TODO Search on network !!!
 			if(item == null){
 				data.put("query", "itemForContratNotLoaded");
-				content.put("Error", "Item not in Favorites or current list");
+				content.put("feedbock", "Item not in Favorites or current list");
 				data.put("content", content);
 				com.sendText(data.toString());
 			}else{
@@ -41,9 +41,10 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 					data = new JSONObject();
 					content = new JSONObject();
 					data.put("query", "itemForContratNotLoaded");
-					content.put("Error", "Item not added to Contrat. \nMaybe already in this contrat ?");
+					content.put("feedback", "Item not added to Contrat. <br />Maybe already in this contrat ?");
 					data.put("content", content);
 					com.sendText(data.toString());
+					return;
 				}
 				if(ManagerBridge.getCurrentUserContrat(contrat).addSignatory(item.getOwner())){
 					data.put("query", "signatoryAdded");
@@ -68,6 +69,18 @@ public class LoadItemForContrat extends AbstractInterlocutor {
 				content.put("contact", item.getContact());
 				content.put("country", item.getCountry());
 				content.put("image", item.getImage());
+				data.put("content", content);
+				com.sendText(data.toString());
+				
+
+				data = new JSONObject();
+				content = new JSONObject();
+				data.put("query", "transfertRuleLoaded");
+				content.put("from", item.getOwner());
+				content.put("fromFriendlyNick", item.getFriendNick());
+				content.put("to", ManagerBridge.getCurrentUserContrat(contrat).getRecipientOf(item));
+				content.put("itemKey", item.getItemKey());
+				content.put("itemTitle", item.getTitle());
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

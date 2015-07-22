@@ -16,17 +16,18 @@ public class RemoveContrat extends AbstractInterlocutor {
 		try {
 			JSONObject c = getJSON(content);
 			String contratID = c.getString("contratID");
+			String title = ManagerBridge.getCurrentUserContrat(contratID).getTitle();
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
 			if(ManagerBridge.removeContrat(contratID)){
 				data.put("query", "contratRemoved");
-				content.put("feedback", "This contrat was been removed.");
+				content.put("feedback", "Contrat \""+title+"\" was been removed.");
 				content.put("contratID", contratID);
 				data.put("content", content);
 				com.sendText(data.toString());
 			} else {
 				data.put("query", "contratNotRemoved");
-				content.put("feedback", "Removing contrat failed !!!");
+				content.put("feedback", "Removing contrat \""+title+"\" failed !!!");
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

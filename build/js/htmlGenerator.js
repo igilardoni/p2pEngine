@@ -19,27 +19,27 @@ var emptyForm = [
 var menu = [
 		{element:"ul", attributes:{}, inside:[
 			{element:"li", attributes:{"class":"menu homeButton", onclick:"includeHome();"}, inside:[
-	            	{element:"a", attributes:{}, inside:[
+	            	{element:"a", attributes:{title:"Your objects manager"}, inside:[
 	                    //{element:"text", value:"My objects"}
 	                ]}
 			]},
 			{element:"li", attributes:{"class":"menu searchButton", onclick:"includeSearch();"}, inside:[
-				{element:"a", attributes:{}, inside:[
+				{element:"a", attributes:{title:"Searching item interface"}, inside:[
 					//{element:"text", value:"Search Object"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"menu contratButton", onclick:"includeContrat();"}, inside:[
-				{element:"a", attributes:{}, inside:[
-					//{element:"text", value:"Contrats"}
+				{element:"a", attributes:{title:"Your contract manager"}, inside:[
+					//{element:"text", value:"Contracts"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"menu messageButton", onclick:"includeWebmail();"}, inside:[
-				{element:"a", attributes:{}, inside:[
+				{element:"a", attributes:{title:"Your messages manager"}, inside:[
 					//{element:"text", value:"Messages"}
 	        	]}
 			]},
 			{element:"li", attributes:{"class":"menu favoritesButton", onclick:"switchFavorites();"}, inside:[
-				{element:"a", attributes:{}, inside:[
+				{element:"a", attributes:{title:"Display/Hide favorites bar"}, inside:[
 					//{element:"text", value:"Favorites"}
 	        	]}
 			]}
@@ -276,7 +276,7 @@ var updateAccountForm = [
 ];
 /* * * * * * * * * * * * * * * * * * * * * ITEM FORM * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemAddForm = [
-		{element:"a", attributes:{id:"itemFormCompletButton", onclick:"itemFormComplet();", value:"Create new object", "class":"button"}, inside:[
+		{element:"a", attributes:{id:"itemFormCompletButton", onclick:"itemFormComplet();", title:"Create new object", "class":"button"}, inside:[
 			{element:"text", value:"Create new Object"}
 		]},
 		{element:"h1", attributes:{}, inside:[
@@ -515,7 +515,7 @@ var itemFavoritesDisplayer = [
 		/*{element:"h1", attributes:{}, inside:[
 			{element:"text", value:"Favorite item"}
 		]},*/
- 		{element:"a", attributes:{"class":"button buttonCancel toprightButton", alt:"hide", onclick:"removeDisplayItemFavorites();"}, inside:[]},
+ 		{element:"a", attributes:{"class":"button buttonCancel toprightButton", title:"hide", onclick:"removeDisplayItemFavorites();"}, inside:[]},
 		{element:"label", attributes:{id:"itemKey", "class":"hidden"}, inside:[]},
 		{element:"p", attributes:{}, inside:[
 			{element:"label", attributes:{"class":"label"}, inside:[
@@ -574,14 +574,17 @@ var itemFavoritesDisplayer = [
 			{element:"input", attributes:{type:"button", value:"Add to contrat", onclick:"loadItemForContrat();"}, inside:[]}
 		]}
 ];
-/* * * * * * * * * * * * * * * * * * * * * CONTRATS* * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * CONTRACTS * * * * * * * * * * * * * * * * * * * * * * * * * */
 var contratDisplay = [
 		/*{element:"h1", attributes:{}, inside:[
-			{element:"text", value:"Contrats"}
+			{element:"text", value:"Contracts"}
 		]},*/
-		{element:"div", attributes:{}, inside:[
-			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", required:"required"}, inside:[]},
-			{element:"input", attributes:{type:"button", onclick:"newContrat();", value:"New Contrat"}, inside:[]},
+		{element:"div", attributes:{id:"newContratForm"}, inside:[
+			{element:"label", attributes:{"class":"label"}, inside:[
+				{element:"text", value:"New contrat's title : "}
+			]},
+			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", title:"If empty title will be generated"}, inside:[]},
+			{element:"a", attributes:{"class":"button buttonAdd", onclick:"newContrat();"}, inside:[]},
 			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]}
 ];
@@ -614,7 +617,7 @@ var contratForm =[
 					{element:"thead", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
 							{element:"th", attributes:{}, inside:[
-								{element:"text", value:"friendlyNick"}
+								{element:"text", value:"Signatories"}
 							]},
 							{element:"th", attributes:{style:"display:none;"}, inside:[
   								{element:"text", value:"publicKey"}
@@ -651,7 +654,7 @@ var contratForm =[
 					{element:"tbutton", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
 							{element:"td", attributes:{colspan:"3"}, inside:[
-								{element:"input", attributes:{type:"button", onclick:"addRules();", value:"Add exchange rule"}, inside:[]}
+								{element:"a", attributes:{"class":"button buttonAdd", onclick:"addRules();", alt:"Add exchange rule"}, inside:[]}
 							]}
 						]}
 					]}
@@ -732,14 +735,17 @@ function getMenu(){
 	return nav;
 }
 
+function clearFeedback() {
+	$("p.feedbackBox").empty();
+}
+
 function printFeedback(feedback, isOk) {
 	$("p.feedbackBox").removeClass("feedbackOk");
+	clearFeedback();
 	if(feedback.length > 0) {
-		$("p.feedbackBox").empty();
 		$("p.feedbackBox").append(feedback);
 		$("p.feedbackBox").removeClass("hidden");
 	} else {
-		$("p.feedbackBox").empty();
 		$("p.feedbackBox").addClass("hidden");
 	}
 	if(isOk) {

@@ -20,7 +20,7 @@ public class NewContrat extends AbstractInterlocutor {
 			JSONObject c = getJSON(content);
 			JSONObject data;
 			JSONObject content;
-			String title = !(c.getString("title")).equals("") ? c.getString("title") : "Contrat "+(ManagerBridge.getCurrentUserContrats().size()+1);
+			String title = !(c.getString("title")).equals("") ? c.getString("title") : "Contract "+(ManagerBridge.getCurrentUserContrats().size()+1);
 			System.out.println(title);
 			Contrat contrat = ManagerBridge.createContrat(title);
 			

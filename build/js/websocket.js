@@ -24,6 +24,7 @@ function openSocket(){
 
 //Distributes to the proper function
 function serverReply(data){
+	clearFeedback();
 	data = JSON.parse(data);
 	console.log("Input query : "+data.query+"\n\t"+JSON.stringify(data.content));
 	switch(data.query){
@@ -65,6 +66,7 @@ function serverReply(data){
 	
 	case "contratCreated":					contratCreated(data.content); break;
 	case "itemForContratLoaded":			itemForContratLoaded(data.content); break;
+	case "itemForContratNotLoaded":			itemForContratNotLoaded(data.content); break;
 	case "contratsLoaded":					contratsLoaded(data.content); break;
 	case "contratLoaded":					contratLoaded(data.content); break;
 	case "transfertRuleLoaded":				transfertRuleLoaded(data.content); break;

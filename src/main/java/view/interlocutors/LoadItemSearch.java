@@ -31,7 +31,7 @@ public class LoadItemSearch extends AbstractInterlocutor {
 				data.put("content", content);
 				com.sendText(data.toString());
 			} else {
-				data.put("query", "favoritesItemLoaded");
+				data.put("query", "itemSearchLoaded");
 				content.put("feedback", "Item "+item.getTitle()+" found !");
 				content.put("itemKey", item.getItemKey());
 				content.put("owner", item.getOwner());

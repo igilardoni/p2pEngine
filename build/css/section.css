@@ -81,3 +81,19 @@ section:empty {
 	content : " \2193 ";
 	font-size : 1.2em ;
 }
+#newContratForm {
+	
+	padding-top : 0.5em;
+	padding-bottom : 0.5em;
+	text-align : center;
+	margin : 10px;
+	background-color : white;
+	border-radius : 15px;
+	box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(119, 119, 119, 0.75);
+	overflow-y : auto;
+	margin-left : 1%;
+	margin-right : 1%;
+	width : 98%;
+}

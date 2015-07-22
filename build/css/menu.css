@@ -87,7 +87,7 @@ nav li.favoritesButton.selected a:before {
 @media(min-width : 1000px) {
 	nav li.homeButton a:after { content : 'My objects'; }
 	nav li.searchButton a:after { content : 'Search Object'; }
-	nav li.contratButton a:after { content : 'Contrats'; }
+	nav li.contratButton a:after { content : 'Contracts'; }
 	nav li.messageButton a:after { content : 'Messages'; }
 	nav li.favoritesButton a:after { content : 'Favorites'; }
 }
