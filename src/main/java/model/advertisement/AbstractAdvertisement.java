@@ -5,6 +5,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -37,6 +39,7 @@ import net.jxta.document.StructuredDocument;
 import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
+import net.jxta.id.IDFactory;
 import net.jxta.peer.PeerID;
 import net.jxta.peergroup.PeerGroup;
 
@@ -75,7 +78,6 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	private ElGamalSign signature; 
 	
 	private String keyId;			// ID of the object
-	
 	
 	/*
 	 * Last time this object was modified
@@ -350,8 +352,12 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	@Override
 	public ID getID() {
-		// We don't use ids on advertisements.
-		return null;
+		try {
+			return IDFactory.fromURI(URI.create("urn:jxta:uuid-" + keyId));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	
