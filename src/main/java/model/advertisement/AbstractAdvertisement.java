@@ -385,7 +385,9 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		ArrayList<String> sortedElements = new ArrayList<String>();
 		for(String s: keyValues.keySet()) {
 			if(!s.equals("signature")) {
-				sortedElements.add(keyValues.get(s));
+				String value = keyValues.get(s);
+				if(value != null && !value.isEmpty())
+					sortedElements.add(keyValues.get(s));
 			}
 		}
 		Collections.sort(sortedElements);
