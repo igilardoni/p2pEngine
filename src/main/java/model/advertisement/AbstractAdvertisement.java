@@ -394,10 +394,9 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		superPutValues();
 		ArrayList<String> sortedElements = new ArrayList<String>();
 		for(String s: keyValues.keySet()) {
-			if(!s.equals("signature")) {
-				String value = keyValues.get(s);
-				if(value != null && !value.isEmpty())
-					sortedElements.add(keyValues.get(s));
+			if(!s.equals("signature") && keyValues.get(s) != null && !keyValues.get(s).isEmpty()) {
+				String value = s + ":" + keyValues.get(s) + "\n";
+				sortedElements.add(value);
 			}
 		}
 		Collections.sort(sortedElements);
