@@ -48,7 +48,7 @@ function deleteContrat() {
 	includeContrat();
 }
 function removeItemContrat(itemKey) {
-	if(confirm("Are you sure to remove this contract ?")){}
+	if(confirm("Are you sure to remove this contract ?")){
 		var contratID = $("#contratID").text();
 		var content = {
 				"contratID":contratID,
