@@ -74,7 +74,7 @@ public class SearchItemController implements SearchListener<Item>{
 		}
 		
 		Item item1 = new Item(user1, "patate", new Category(CATEGORY.Appliances), "slt vous", null, 
-				"france", "contactme", 0, 3600*1000, TYPE.OFFER);
+				"france", "contactme", 1, 3600*1000, TYPE.OFFER);
 		item1.sign(user1.getKeys());
 		if(item1.checkSignature(item1.getKeys())) {
 			System.out.println("signature item1 ok");
@@ -84,9 +84,6 @@ public class SearchItemController implements SearchListener<Item>{
 			System.out.println("signature item2 ok");
 		}
 		System.out.println(item2.getConcatenedElements());
-		
-		
-		System.out.println(item2.getSignature());
 	}
 	
 }
