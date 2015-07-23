@@ -46,6 +46,9 @@ uploadArchives {
     }
 }
 
+[compileJava, compileTestJava]*.options.collect {options -> 
+options.encoding = 'UTF-8'} 
+
 task(run, dependsOn: 'classes', type: JavaExec) {
 	description = 'Launch the application.'
 	main = 'model.Application'
