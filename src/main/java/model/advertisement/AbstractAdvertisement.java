@@ -380,7 +380,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	 * Used to generate a hash of the advertisement.
 	 * @return a string that represent all the elements values concatenated
 	 */
-	private String getConcatenedElements() {
+	public String getConcatenedElements() {
 		superPutValues();
 		ArrayList<String> sortedElements = new ArrayList<String>();
 		for(String s: keyValues.keySet()) {
