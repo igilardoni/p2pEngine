@@ -210,7 +210,13 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public Element getRootElement() {
 		superPutValues();
 		Element root = new Element(getAdvertisementName());
-		for(String key: keyValues.keySet()) { //creating an element for each keys. Add to root content.
+		ArrayList<String> sorted = new ArrayList<>();
+		for(String key: keyValues.keySet()) {
+			sorted.add(key);
+		}
+		Collections.sort(sorted);
+		
+		for(String key: sorted) { //creating an element for each keys. Add to root content.
 			Element e = new Element(key);
 			e.addContent(keyValues.get(key));
 			root.addContent(e);
@@ -334,6 +340,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		BigInteger s = new BigInteger(sign.getChild("signS").getValue(), 16);
 		this.signature = new ElGamalSign(r, s);
 		return true;
+	}
+	
+	public String getSignature() {
+		return signature.toString();
 	}
 	
 	private boolean superHandleElement(Element e) {

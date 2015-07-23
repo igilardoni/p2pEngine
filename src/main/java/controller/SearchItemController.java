@@ -83,7 +83,7 @@ public class SearchItemController implements SearchListener<Item>{
 		if(item2.checkSignature(item2.getKeys())) {
 			System.out.println("signature item2 ok");
 		}
-		System.out.println(item2.getConcatenedElements());
+		System.out.println(item2.getSignature());
 	}
 	
 }
