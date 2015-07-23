@@ -43,6 +43,10 @@ function removeContrat(id) {
 	}
 	sendQuery("removeContrat", content);
 }
+function deleteContrat() {
+	removeContrat($("#contratID").text());
+	includeContrat();
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -186,8 +190,22 @@ function newRowTransfertRule(content) {
 	
 	var cell3 = document.createElement("td");
 	$(cell3).attr("class", "rowTo");
-	if(content.to)
+	/*if(content.to)
 		$(cell3).append(content.to);
+	*/
+	var select = document.createElement("select");
+	$(select).attr("class", "signatoriesSelector");
+	$(select).attr("name", "to");
+	$(cell3).append(select);
+	
+	$('#signatories td').each(function(){ 
+		   var label1 = $(this).find("label.hidden").text();
+		   var label2 = $(this).find("label:not(.hidden)").text();
+		   var option = document.createElement("option");
+		   $(option).val(label1);
+		   $(option).append(label2);
+		   $(select).append(option);
+	});
 	
 	$(row).append(cell1);
 	$(row).append(cell2);
