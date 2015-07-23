@@ -71,6 +71,9 @@ function serverReply(data){
 	case "contratLoaded":					contratLoaded(data.content); break;
 	case "transfertRuleLoaded":				transfertRuleLoaded(data.content); break;
 	case "signatoryAdded":					signatoryAdded(data.content); break;
+	case "signatoryRemoved":				signatoryRemoved(data.content); break;
+	case "itemContratNotRemoved":			itemContratNotRemoved(data.content); break;
+	case "itemContratRemoved":				itemContratRemoved(data.content); break; 
 	
 	case "ipLoaded":						ipLoaded(data.content); break;
 	case "bootstrapSent":					bootstrapSent(data.content); break;

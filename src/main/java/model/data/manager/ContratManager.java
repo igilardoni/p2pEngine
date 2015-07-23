@@ -189,7 +189,7 @@ public class ContratManager {
 			c.publish(manager.getNetwork());
 		}
 	}
-	
+	//////////////////////////////////////////////// REMOVERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeContrat(String publicKey, String contratID) {
 		for(Contrat d : deals.get(publicKey)){
 			if(d.getId().equals(contratID))
@@ -197,6 +197,29 @@ public class ContratManager {
 		}
 		return false;
 	}
-
+	public boolean removeItemContrat(String itemKey, String contratID) {
+		String publicKey = manager.getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16);
+		if(publicKey == null || publicKey.isEmpty())
+			return false;
+		for(Contrat d : deals.get(publicKey)){
+			if(d.getId().equals(contratID)){
+				return d.removeItem(itemKey);
+			}
+		}
+		return false;
+	}
+	public boolean removeSignatoryContrat(String contratID, String publicKey) {
+		String currentPublicKey = manager.getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16);
+		if(publicKey == null || publicKey.isEmpty())
+			return false;
+		if(currentPublicKey.equals(publicKey))
+			return false;
+		for(Contrat d : deals.get(publicKey)){
+			if(d.getId().equals(contratID)){
+				return d.removeSignatory(publicKey);
+			}
+		}
+		return false;
+	}
 	
 }

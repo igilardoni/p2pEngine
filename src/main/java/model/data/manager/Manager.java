@@ -402,7 +402,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		Document doc = new Document(root);
 		XMLOutputter xmlOutput = new XMLOutputter();
 		Format format = Format.getPrettyFormat();
-		format.setEncoding("UTF-8");
+		format.setEncoding("UTF8");
 		xmlOutput.setFormat(format);
 		try {
 			xmlOutput.output(doc, new FileWriter(path));

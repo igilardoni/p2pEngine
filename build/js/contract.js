@@ -47,6 +47,14 @@ function deleteContrat() {
 	removeContrat($("#contratID").text());
 	includeContrat();
 }
+function removeItemContrat(itemKey) {
+	var contratID = $("#contratID").text();
+	var content = {
+			"contratID":contratID,
+			"itemKey":itemKey
+	};
+	sendQuery("removeItemContrat", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -96,6 +104,21 @@ function contratRemoved(content) {
 }
 function contratNotRemoved(content) {
 	printFeedback(content.feedback, false);
+}
+function itemContratNotRemoved(content) {
+	printFeedback(content.feedback, false);
+}
+function itemContratRemoved(content) {
+	if($("#contratID").text() != content.contratID)
+		return;
+	$("#itemContratList #"+removePunctuation(content.itemKey)).detach();
+	$("#rules #"+removePunctuation(content.itemKey)).detach();
+	printFeedback(content.feedback, true);
+}
+function signatoryRemoved(content) {
+	if($("#contratID").text() != content.contratID)
+		return;
+	$("#signatories #signatories"+content.publicKey).detach();
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

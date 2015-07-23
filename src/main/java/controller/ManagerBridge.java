@@ -326,6 +326,13 @@ public class ManagerBridge{
 		}
 		return null;
 	}
+	public static boolean removeItemContrat(String itemKey, String contratID){
+		return Application.getInstance().getManager().getContratManager().removeItemContrat(itemKey, contratID);
+	}
+	public static boolean removeSignatoryContrat(String publicKey, String contratID){
+		Application.getInstance().getManager().getContratManager().removeSignatoryContrat(contratID, publicKey);
+		return false;
+	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){
 		return Application.getInstance().getManager().getUserManager().getCurrentUser() == null;
