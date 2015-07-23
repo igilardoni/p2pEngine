@@ -21,13 +21,13 @@ public class RemoveContrat extends AbstractInterlocutor {
 			JSONObject content = new JSONObject();
 			if(ManagerBridge.removeContrat(contratID)){
 				data.put("query", "contratRemoved");
-				content.put("feedback", "Contrat \""+title+"\" was been removed.");
+				content.put("feedback", "Contract \""+title+"\" has been removed.");
 				content.put("contratID", contratID);
 				data.put("content", content);
 				com.sendText(data.toString());
 			} else {
 				data.put("query", "contratNotRemoved");
-				content.put("feedback", "Removing contrat \""+title+"\" failed !!!");
+				content.put("feedback", "Removing contract \""+title+"\" failed !!!");
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

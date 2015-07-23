@@ -48,12 +48,14 @@ function deleteContrat() {
 	includeContrat();
 }
 function removeItemContrat(itemKey) {
-	var contratID = $("#contratID").text();
-	var content = {
-			"contratID":contratID,
-			"itemKey":itemKey
-	};
-	sendQuery("removeItemContrat", content);
+	if(confirm("Are you sure to remove this contract ?")){}
+		var contratID = $("#contratID").text();
+		var content = {
+				"contratID":contratID,
+				"itemKey":itemKey
+		};
+		sendQuery("removeItemContrat", content);
+	}
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *

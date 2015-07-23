@@ -59,7 +59,8 @@ function bootstrapSent(content){
 	var link = "mailto:"+$("#emailReceiver").val()
         + "?subject=" + content.subject
         + "&body=" + content.text;
-	window.location.href = link;
+	//window.location.href = link;
+	window.open(link, "_blank");
 }
 
 function bootstrapNotSent(content){
