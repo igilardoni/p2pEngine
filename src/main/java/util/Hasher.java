@@ -59,4 +59,9 @@ public class Hasher {
         byte[] mdbytes = md.digest();
         return Hexa.bytesToHex(mdbytes);
 	}
+	
+	public static void main(String[] args) {
+		String test = "test";
+		System.out.println(Hasher.SHA256(test));
+	}
 }
