@@ -352,12 +352,7 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	
 	@Override
 	public ID getID() {
-		try {
-			return IDFactory.fromURI(URI.create("urn:jxta:uuid-" + keyId));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return null;
 	}
 	
 	
