@@ -75,9 +75,9 @@ function sponsorBootstrapSaved(content){
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getBootstrapSetting(){
-	return getElement(boostrapSetting[0]);
+	return getElement(boostrapSetting);
 }
 
 function getBootstrapInvitation(){
-	return getElement(boostrapInvitation[0]);
+	return getElement(boostrapInvitation);
 }

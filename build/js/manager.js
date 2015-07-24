@@ -58,7 +58,7 @@ function includeContrat(){
 
 function includeWebmail(){
 	emptyContent();
-	$("#content").replaceWith(getWebmail());
+	$("#content").append(getWebmail());
 	allMenuWhite();
 	$("nav .messageButton").addClass("selected");
 	scrollTop();

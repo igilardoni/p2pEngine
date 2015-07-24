@@ -64,7 +64,7 @@ import view.interlocutors.UpdateItem;
  * This will be accessed via ws://localhost:8080/EchoChamber/echo.
  */
 @ServerEndpoint("/serv") 
-public class EchoServer {
+public class Server {
 	HashMap<String, AbstractInterlocutor> interlocutors = new HashMap<String, AbstractInterlocutor>();
 	
 	/**
@@ -75,7 +75,7 @@ public class EchoServer {
 	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config){
-		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Connection Established");
+		System.out.println("INFO : "+Server.class.getName()+".onOpen : Connection Established");
 		
 		AbstractInterlocutor.setCom(session.getAsyncRemote());
 		/* Users */
@@ -130,7 +130,7 @@ public class EchoServer {
 	 */
 	@OnClose
 	public void onClose(Session session){
-		System.out.println("INFO : "+EchoServer.class.getName()+".onOpen : Session has ended");
+		System.out.println("INFO : "+Server.class.getName()+".onOpen : Session has ended");
 	}
 	
 	/**
@@ -147,7 +147,7 @@ public class EchoServer {
 				return;
 			}
 			// TODO Remove print when GUI is finished
-			System.out.println("INFO : "+EchoServer.class.getName()+" Query input -> "+jsonObject.getString("query"));
+			System.out.println("INFO : "+Server.class.getName()+" Query input -> "+jsonObject.getString("query"));
 			System.out.println("\t"+jsonObject.getString("content"));
 			if(!interlocutors.containsKey(jsonObject.getString("query"))){
 				System.err.println("\t"+jsonObject.getString("query")+" is an unknow query");
