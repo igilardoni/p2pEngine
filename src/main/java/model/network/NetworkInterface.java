@@ -14,7 +14,7 @@ public interface NetworkInterface {
 	 * Get the mentioned group
 	 * @param group The group name
 	 * @return a PeerGroup registered with the name group, or null if it doesn't exist.
-	 */
+	 */	
 	public PeerGroup getGroup(String group);
 	
 	/**
