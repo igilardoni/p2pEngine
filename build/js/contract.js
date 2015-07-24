@@ -2,8 +2,6 @@
  * JavaScript for managing contrats
  * @author Michael DUBUIS
  */
-var contratList = "contratList";
-var itemContratList = "itemContratList"
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -15,7 +13,7 @@ function loadContrat(id){
 	sendQuery("loadContrat", content);
 	emptyContent();
 	$("#content").append(getElement(contratForm));
-	$("#objects").append(getTableItem(itemContratList));
+	$("#objects").append(getElement(itemContratTable));
 }
 function loadItemForContrat(){
 	var itemKey = $("#itemFavoritesDisplayer #itemKey").text();
@@ -38,14 +36,18 @@ function newContrat(){
 	sendQuery("newContrat", content);
 }
 function removeContrat(id) {
-	var content = {
-			"contratID":id
+	if(confirm("Are you sure to remove this contract ?")){
+		var content = {
+				"contratID":id
+		}
+		sendQuery("removeContrat", content);
+		return true;
 	}
-	sendQuery("removeContrat", content);
+	return false;
 }
 function deleteContrat() {
-	removeContrat($("#contratID").text());
-	includeContrat();
+	if(removeContrat($("#contratID").text()))
+		includeContrat();
 }
 function removeItemContrat(itemKey) {
 	if(confirm("Are you sure to remove this contract ?")){
@@ -64,7 +66,7 @@ function contratCreated(content) {
 	emptyContent();
 	$("#content").append(getElement(contratForm));
 	$("#contratID").append(content.contratID);
-	$("#objects").append(getTableItem(itemContratList));
+	$("#objects").append(getElement(itemContratTable));
 	$("#contratForm").find("h1").text(content.title);
 	var contentBis = {
 			"contratID" : content.contratID
