@@ -66,6 +66,12 @@ table tfoot {
 	height : 5em;
 	font-style : italic;
 }
+table tbutton {
+	v-align : middle;
+	width : 98%;
+	display : table;
+	text-align : right;
+}
 table .rowTitle {
 	width : 15%;
 	text-align : center;

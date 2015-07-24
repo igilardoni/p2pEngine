@@ -2,7 +2,6 @@
  * JavaScript for managing favorites
  * @author Michael DUBUIS
  */
-var favoritesList = "favoritesList";
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -65,7 +64,7 @@ function favoritesItemsLoadingEnd(content){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getFavoritesDisplay(){
 	var div = document.createElement("div");
-	$(div).append(getTableItem(favoritesList));
+	$(div).append(getElement(itemFavoritesTable));
 	var loading = document.createElement("div");
 	$(loading).attr("id", "loading");
 	$(div).append(loading);
@@ -91,15 +90,6 @@ function newRowFavorites(content){
 	$(cell1).append(document.createTextNode(content.title));
 	$(cell1).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
 	$(row).append(cell1);
-	// Description cell
-	/*var cell2 = document.createElement("td");
-	$(cell2).attr("class", "rowDescription");
-	$(cell2).attr("onclick", "loadItemFavorites('"+content.itemKey+"');");
-	if(content.description.length > 100)
-		$(cell2).append(content.description.substring(0, 100)+" [...]");
-	else
-		$(cell2).append(content.description);
-	$(row).append(cell2);*/
 	// Buttons Cell
 	var cell3 = document.createElement("td");
 	$(cell3).attr("class", "rowActions");

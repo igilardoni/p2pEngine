@@ -2,9 +2,6 @@
  * JavaScript for managing items
  * @author Michael DUBUIS
  */
-var itemList = "itemList";
-var itemSearchList = "itemSearchList";
-var itemForm = "itemForm";
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -272,7 +269,7 @@ function getSearchItem(){
 	$(content).attr("id", "content");
 	var div = getElement(searchForm);
 	$(content).append(div);
-	$(content).append(getTableItem(itemSearchList));
+	$(content).append(getElement(itemSearchTable));
 	return content;
 }
 
@@ -282,8 +279,6 @@ function getSearchItem(){
  */
 function getItemAddForm(){
 	var div = document.createElement("div");
-	$(div).attr("id", itemForm);
-	$(div).append(getElement(itemAddForm[0]));
 	return div;
 }
 
@@ -303,10 +298,8 @@ function resetSearch(){
 }
 
 function itemFormComplet(){
-	$("#"+itemForm).empty();
-	for ( var i = 1 ; i < itemAddForm.length ; i++ ) {
-		$("#"+itemForm).append(getElement(itemAddForm[i]));
-	}
+	cancelItem();
+	$("#content").append(getElement(itemAddForm));
 	loadCategories();
 	loadType();
 }
@@ -398,7 +391,7 @@ function newRowItemSearch(content){
  * Erase form with id "itemForm"
  */
 function cancelItem(){
-	$("#"+itemForm).replaceWith(getItemAddForm());
+	$("#"+itemForm).detach();
 }
 
 function removePunctuation(string){
