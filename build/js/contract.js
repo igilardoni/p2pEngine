@@ -14,7 +14,7 @@ function loadContrat(id){
 	var content = {"contratID":id};
 	sendQuery("loadContrat", content);
 	emptyContent();
-	$("#content").append(getElement(contratForm[0]));
+	$("#content").append(getElement(contratForm));
 	$("#objects").append(getTableItem(itemContratList));
 }
 function loadItemForContrat(){
@@ -62,7 +62,7 @@ function removeItemContrat(itemKey) {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function contratCreated(content) {
 	emptyContent();
-	$("#content").append(getElement(contratForm[0]));
+	$("#content").append(getElement(contratForm));
 	$("#contratID").append(content.contratID);
 	$("#objects").append(getTableItem(itemContratList));
 	$("#contratForm").find("h1").text(content.title);
@@ -128,8 +128,8 @@ function signatoryRemoved(content) {
 function getContrat(){
 	var div = document.createElement("div");
 	$(div).attr("id", "content");
-	$(div).append(getElement(contratTable[0]));
-	$(div).append(getElement(contratDisplay[0]));
+	$(div).append(getElement(contratTable));
+	$(div).append(getElement(contratDisplay));
 	return div;
 }
 

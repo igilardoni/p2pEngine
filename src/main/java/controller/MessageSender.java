@@ -9,7 +9,7 @@ import model.network.search.Search;
 import net.jxta.peer.PeerID;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
-import view.EchoServer;
+import view.Server;
 
 public class MessageSender {
 	/**
@@ -78,7 +78,7 @@ public class MessageSender {
 			sendOneTime |= Application.getInstance().getCommunication().sendMessage(msg.toString(), "ChatService", (PeerID[]) ids.toArray());
 			//TODO SEND MESSAGE Application.getInstance().getManager().addMessage(msg);
 		}else{
-			System.err.println(EchoServer.class.getClass().getName()+".sendTextPublicKey : Account not found");
+			System.err.println(Server.class.getClass().getName()+".sendTextPublicKey : Account not found");
 			throw new Exception("Account not found");
 		}
 		System.out.println(sendOneTime);

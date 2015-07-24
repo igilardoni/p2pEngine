@@ -53,12 +53,7 @@ function messageNotSent(content) {
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getWebmail(){
-	var div = document.createElement("div");
-	$(div).attr("id", "content");
-	for( var i = 0 ; i < webmailForm.length ; i++ ) {
-		$(div).append(getElement(webmailForm[i]));
-	}
-	return div;
+	return getElement(webmailForm);
 }
 
 function sendMessageTo(){
@@ -76,12 +71,7 @@ function newMessage(){
 }
 
 function getNewMessageForm(){
-	var div = document.createElement("div");
-	$(div).attr("id", "messageDisplay");
-	for ( var i = 0 ; i < writeMessage.length ; i++ ) {
-		$(div).append(getElement(writeMessage[i]));
-	}
-	return div;
+	return getElement(writeMessage);
 }
 
 function newRowMessage(content){

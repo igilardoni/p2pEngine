@@ -73,12 +73,7 @@ function getFavoritesDisplay(){
 }
 
 function getItemFavoritesDisplay(){
-	var div = document.createElement("div");
-	$(div).attr("id", "itemFavoritesDisplayer");
-	for ( var i = 0 ; i < itemFavoritesDisplayer.length ; i++ ) {
-		$(div).append(getElement(itemFavoritesDisplayer[i]));
-	}
-	return div;
+	return getElement(itemFavoritesDisplayer);
 }
 
 function clearFavoritesTable(){

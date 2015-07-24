@@ -270,11 +270,7 @@ function getHome(){
 function getSearchItem(){
 	var content = document.createElement("div");
 	$(content).attr("id", "content");
-	var div = document.createElement("div");
-	$(div).attr("id", "searchForm");
-	for ( var i = 0 ; i < searchForm.length ; i++ ) {
-		$(div).append(getElement(searchForm[i]));
-	}
+	var div = getElement(searchForm);
 	$(content).append(div);
 	$(content).append(getTableItem(itemSearchList));
 	return content;
@@ -320,7 +316,7 @@ function itemFormComplet(){
  * @returns Element "table"
  */
 function getTableItem(id){
-	var table = getElement(itemTable[0]);
+	var table = getElement(itemTable);
 	table.setAttribute("id", id);
 	return table;
 }
