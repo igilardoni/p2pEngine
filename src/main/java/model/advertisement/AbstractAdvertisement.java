@@ -145,7 +145,10 @@ public abstract class AbstractAdvertisement extends Advertisement{
 		initialize(root);
 	}
 	
-	
+	/**
+	 * Get the class.getSimpleName() of the child class
+	 * @return
+	 */
 	public abstract String getSimpleName();
 	
 	

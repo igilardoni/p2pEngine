@@ -171,20 +171,11 @@ public class Network implements NetworkInterface {
          configurator.setHttpOutgoing(true);
          configurator.setTcpOutgoing(true);
          configurator.setUseMulticast(true);
-        /* try {
-			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
-			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}*/
          try {
-			//configurator.setTcpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 			configurator.setTcpInterfaceAddress("0.0.0.0");
 			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
-			//configurator.setHttpInterfaceAddress(InetAddress.getLocalHost().getHostAddress());
 			configurator.setHttpInterfaceAddress("0.0.0.0");
 			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
-		//  configurator.setTcpPublicAddress(IpChecker.getIp(), false);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -195,9 +186,7 @@ public class Network implements NetworkInterface {
          configurator.setName("SXPeerGroup");
          configurator.setDescription("SXP default peer group");
          configurator.setPrincipal("SXP peer group");
-         
-       //  configurator.setPeerID(IDFactory.newPeerID(PeerGroupID.defaultNetPeerGroupID, peerName.getBytes()));
-		
+     
 		return manager;
 	}
 	
