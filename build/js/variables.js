@@ -58,14 +58,22 @@ var header = [
 				{element:"li", attributes:{"class":"droper"}, inside:[
 					{element:"img", attributes:{src:"./img/gears.png", alt:"Settings", "class":"setting"}, inside:[]}
 				]},
-				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Bootstrap", "class":"dropButton", onclick:"includeBoostrapInvitation();"}, inside:[]}
-				]},
-				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Profile", "class":"dropButton", onclick:"includeAccount();loadAccount();"}, inside:[]}
-				]},
-				{element:"li", attributes:{"class":"drop"}, inside:[
-					{element:"input", attributes:{type:"button", value:"Logout", "class":"dropButton", onclick:"signOut();"}, inside:[]}
+				{element:"ul", attributes:{"class":"drop"}, inside:[
+					{element:"li", attributes:{}, inside:[
+						{element:"a", attributes:{title:"Bootstrap", "class":"dropButton buttonBootstrap", onclick:"includeBoostrapInvitation();"}, inside:[
+							//{element:"text", value:"Bootstrap"}
+						]}
+					]},
+					{element:"li", attributes:{}, inside:[
+						{element:"a", attributes:{title:"Profile", "class":"dropButton buttonProfile", onclick:"includeAccount();loadAccount();"}, inside:[
+							//{element:"text", value:"Profile"}
+						]}
+					]},
+					{element:"li", attributes:{}, inside:[
+						{element:"a", attributes:{title:"Logout", "class":"dropButton buttonLogout", onclick:"signOut();"}, inside:[
+							//{element:"text", value:"Logout"}
+						]}
+					]}
 				]}
 			]}
 		]}
@@ -215,7 +223,7 @@ var registrationForm =
 		]};
 /* * * * * * * * * * * * * * * * * * * * ACCOUNT UPDATE FORM * * * * * * * * * * * * * * * * * * * * * */
 var updateAccountForm =
-		{element:"div", attributes:{id:"updateAccount"}, inside:[
+		{element:"div", attributes:{id:"accountUpdate"}, inside:[
 			{element:"h1", attributes:{}, inside:[
 				{element:"text", value:"Account"}
 			]},

@@ -268,6 +268,8 @@ public class ManagerBridge{
 				Item i = itemSearcher.search(itemKey);
 				if(i!=null)
 					items.add(i);
+				else
+					Application.getInstance().getManager().getFavoriteManager().getFavoritesCurrentUser().removeItem(itemKey);
 			}
 		}
 		return items;

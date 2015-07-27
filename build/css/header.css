@@ -10,11 +10,18 @@ header {
 	margin-left : 0px;
 	margin-right : 0px;
 }
+header ul {
+	list-style: none;
+}
 header img.icon {
 	position : absolute;
 	top : 0;
 	left : 0;
 	height : 100%;
+}
+header img.setting {
+	height : 30px;
+	width : 30px;
 }
 
 /* BIG SCREEN */
@@ -22,6 +29,11 @@ header img.icon {
 	header {
 		height : 10em;
 	}
+}
+@media(min-width : 1000px) {
+	.buttonBootstrap:after { content : "Bootstrap"; }
+	.buttonProfile:after { content : "Profile"; }
+	.buttonLogout:after { content : "Logout"; }
 }
 /* LITTLE SCREEN */
 @media(min-height : 400px) {
@@ -40,22 +52,56 @@ header:empty {
 	text-align : right;
 	padding-right : 0.2em;
 }
-
 .dropMenu:hover > .drop {
+	animation: growup 0.5s ease-in-out 1;
 	display : list-item;
 }
 .drop {
 	display : none;
+	animation : none;
 }
 .dropMenu {
 	float : right;
 	position : absolute;
 	right : 10px;
 	top : 10px;
-	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 .dropButton {
+	display : block;
+	cursor : pointer;
+	text-align : center;
+	margin : 0;
 	width : 100%;
+	background-color : #404040;
+	
+	border : solid #d6d6d6;
+	
+	padding-left : 0.2em;
+	padding-right : 0.2em;
+	padding-bottom : 0.2em;
+	padding-top : 0.2em;
+}
+.dropButton:before {
+	margin-left : 0.1em;
+	margin-right : 0.5em;
+	display : inline-block;
+	vertical-align : middle;
+	text-align : center;
+}
+.dropButton:hover {
+	background-color : #7f7f7f;
+}
+
+
+@keyframes growup {
+  0% {
+  	transform-origin : top right;
+  	transform : scale(0,0);
+  }	
+  100% {
+  	transform-origin : top right; 
+  	transform : scale(1,1);
+  }
 }

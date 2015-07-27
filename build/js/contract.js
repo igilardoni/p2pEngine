@@ -59,6 +59,11 @@ function removeItemContrat(itemKey) {
 		sendQuery("removeItemContrat", content);
 	}
 }
+function saveDraftContrat(){
+	// TODO HERE IN PROGRESSE
+	alert("function not implemented");
+	var contratID;
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
