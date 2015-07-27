@@ -417,7 +417,7 @@ var searchForm =
 	      	]}
 		]};
 var itemSearchTable =
-		{element:"table", attributes:{}, inside:[
+		{element:"table", attributes:{id:itemSearchList}, inside:[
 			{element:"thead", attributes:{}, inside:[
 				{element:"tr", attributes:{}, inside:[
 					{element:"th", attributes:{"class":"rowTitle"}, inside:[
@@ -439,6 +439,51 @@ var itemSearchTable =
 					]}
 				]}
 			]}
+		]};
+var itemSearchDisplayer =
+		{element:"div", attributes:{"class":"searchDisplayer hidden"}, inside:[
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Title : "}
+				]},
+				{element:"label", attributes:{id:"title"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Category : "}
+				]},
+				{element:"label", attributes:{id:"category"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Type : "}
+				]},
+				{element:"label", attributes:{id:"type"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Description : "}
+				]},
+				{element:"label", attributes:{id:"description"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Image : "}
+				]},
+				{element:"label", attributes:{id:"image"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Location : "}
+				]},
+				{element:"label", attributes:{id:"country"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Contact : "}
+				]},
+				{element:"label", attributes:{id:"contact"}, inside:[]}
+			]},
 		]};
 /* * * * * * * * * * * * * * * * * * * * * MESSAGES FORM * * * * * * * * * * * * * * * * * * * * * * * */
 var webmailForm =

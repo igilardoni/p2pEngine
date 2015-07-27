@@ -43,3 +43,7 @@
 	margin-left : 10px;
 	margin-right : 10px;
 }
+.searchDisplayer label {
+	width : auto;
+	display : inline-block;
+}
