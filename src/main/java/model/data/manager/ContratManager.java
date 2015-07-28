@@ -209,7 +209,7 @@ public class ContratManager {
 		String publicKey = manager.getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16);
 		if(publicKey == null || publicKey.isEmpty())
 			return false;
-		for(Contrat d : deals.get(publicKey)){
+		for(Contrat d : getDealsCurrentUser()){
 			if(d.getId().equals(contratID)){
 				return d.removeItem(itemKey);
 			}

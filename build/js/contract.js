@@ -50,7 +50,7 @@ function deleteContrat() {
 		includeContrat();
 }
 function removeItemContrat(itemKey) {
-	if(confirm("Are you sure to remove this contract ?")){
+	if(confirm("Are you sure to remove this item in contract ?")){
 		var contratID = $("#contratID").text();
 		var content = {
 				"contratID":contratID,
@@ -73,6 +73,22 @@ function saveDraftContrat(){
 	alert("function not implemented");
 	var contratID;
 }
+function changeContratExchangeRule(itemKey, itemTitle, from, fromNick, select) {
+	var to = $(select).val();
+	var toNick = $(select).find("option:selected").text();
+	var contratID = $("#contratID").text();
+	
+	var content = {
+			"contratID":contratID,
+			"itemKey":itemKey,
+			"itemTitle":itemTitle,
+			"from":from,
+			"fromFriendlyNick": fromNick,
+			"to":to,
+			"toFriendlyNick":toNick
+	};
+	sendQuery("changeContratExchangeRule", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -81,7 +97,9 @@ function contratCreated(content) {
 	$("#content").append(getElement(contratForm));
 	$("#contratID").append(content.contratID);
 	$("#objects").append(getElement(itemContratTable));
+	var editButton = $("#contratForm h1 a");
 	$("#contratForm").find("h1").text(content.title);
+	$("#contratForm").find("h1").append(editButton);
 	var contentBis = {
 			"contratID" : content.contratID
 	};
@@ -232,52 +250,26 @@ function newRowItemContrat(content) {
 }
 // For add a transfert rule in table
 function newRowTransfertRule(content) {
-	var row = document.createElement("tr");
-	$(row).attr("id", "rule"+removePunctuation(content.itemKey));
-	
-	var cell1 = document.createElement("td");
-	$(cell1).attr("class", "rowItem")
-	var label11 = document.createElement("label");
-	$(label11).append(content.itemKey);
-	$(label11).attr("class", "hidden");
-	var label21 = document.createElement("label");
-	$(label21).append(content.itemTitle);
-	$(cell1).append(label11);
-	$(cell1).append(label21);
-	
-	var cell2 = document.createElement("td");
-	$(cell2).attr("class", "rowFrom");
-	var label12 = document.createElement("label");
-	$(label12).append(content.from);
-	$(label12).attr("id", "from");
-	$(label12).attr("class", "hidden");
-	var label22 = document.createElement("label");
-	$(label22).append(content.fromFriendlyNick);
-	$(cell2).append(label12);
-	$(cell2).append(label22);
-	
-	var cell3 = document.createElement("td");
-	$(cell3).attr("class", "rowTo");
-	/*if(content.to)
-		$(cell3).append(content.to);
-	*/
-	var select = document.createElement("select");
-	$(select).attr("class", "signatoriesSelector");
-	$(select).attr("name", "to");
-	$(cell3).append(select);
-	
+	var row = getElement(ruleForm);
+	$(row).find(".labelItem").text(content.itemTitle);
+	$(row).find(".itemKey").text(content.itemKey);
+	$(row).find(".labelFrom").text(content.fromFriendlyNick);
+	$(row).find(".publicKey").text(content.from);
 	$('#signatories td').each(function(){ 
 		   var label1 = $(this).find("label.hidden").text();
 		   var label2 = $(this).find("label:not(.hidden)").text();
 		   var option = document.createElement("option");
 		   $(option).val(label1);
 		   $(option).append(label2);
-		   $(select).append(option);
+		   $(row).find(".userSelect").append(option);
 	});
-	
-	$(row).append(cell1);
-	$(row).append(cell2);
-	$(row).append(cell3);
+	$(row).find(".userSelect").val(content.to);
+	$(row).find(".userSelect").attr("onchange", "changeContratExchangeRule('" +
+			content.itemKey+"','" +
+			content.itemTitle+"','"+
+			content.from+"','" +
+			content.fromFriendlyNick+
+			"',this);");
 	return row;
 }
 // For add a signatory in table

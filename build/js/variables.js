@@ -742,25 +742,25 @@ var contratForm =
          					]}
          				]}
          			]},
-					{element:"tbutton", attributes:{}, inside:[
+					/*{element:"tbutton", attributes:{}, inside:[
 						{element:"tr", attributes:{}, inside:[
 							{element:"td", attributes:{colspan:"3"}, inside:[
 								{element:"a", attributes:{"class":"button buttonAdd", onclick:"addRules();", alt:"Add exchange rule"}, inside:[]}
 							]}
 						]}
-					]}
+					]}*/
 				]}
 			]},
-			{element:"div", attributes:{id:"clauses"}, inside:[
+			/*{element:"div", attributes:{id:"clauses"}, inside:[
 				{element:"input", attributes:{type:"button", value:"+", onclick:"addClauses();"}, inside:[]}
-			]},
+			]},*/
 			{element:"div", attributes:{id:"actions"}, inside:[
 				{element:"a", attributes:{"class":"button buttonStart", onclick:"signContrat();"}, inside:[
 					{element:"text", value:"Lauch Signature Protocol"}
 				]},
-				{element:"a", attributes:{"class":"button buttonValidate", onclick:"saveDraftContrat();"}, inside:[
+				/*{element:"a", attributes:{"class":"button buttonValidate", onclick:"saveDraftContrat();"}, inside:[
 					{element:"text", value:"Save"}
-				]},
+				]},*/
 				{element:"a", attributes:{"class":"button buttonCancel", onclick:"deleteContrat();"}, inside:[
 					{element:"text", value:"Delete"}
 				]}
@@ -770,13 +770,14 @@ var contratForm =
 var ruleForm =
 		{element:"tr", attributes:{}, inside:[
 			{element:"td", attributes:{"class":"item"}, inside:[
-				{element:"label", attributes:{"class":"label item"}, inside:[]}
+				{element:"label", attributes:{"class":"labelItem"}, inside:[]},
+				{element:"label", attributes:{"class":"itemKey hidden"}, inside:[]}
 			]},
 			{element:"td", attributes:{"class":"from"}, inside:[
-				{element:"label", attributes:{"class":"label from"}, inside:[]},
-				{element:"label", attributes:{"class":"fromItemKey", style:"display:none;"}, inside:[]}
+				{element:"label", attributes:{"class":"labelFrom"}, inside:[]},
+				{element:"label", attributes:{"class":"publicKey hidden"}, inside:[]}
 			]},
-			{element:"td", attributes:{"class":"userSelect"}, inside:[
+			{element:"td", attributes:{"class":"to"}, inside:[
   				{element:"select", attributes:{"class":"userSelect"}, inside:[]}
   			]},
 		]};
