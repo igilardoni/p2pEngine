@@ -55,30 +55,30 @@ public class UserMessage extends AbstractAdvertisement {
 	
 	/**
 	 * Encrypt the message. Must be call before the message is send.
-	 * TODO A REVOIR
 	 */
 	public void encrypt() {
 		if(encrypted) return;
-		encrypted = true;
 		ElGamal eg = new ElGamal(receiver);
 		message = new String(eg.encryptWithPublicKey(message.getBytes()));
 		BigInteger crypted = 
 				new BigInteger(
 						new String(eg.encryptWithPublicKey(getKeys().getPublicKey().toByteArray())));
 		getKeys().setPublicKey(crypted);
+		encrypted = true;
 	}
 	
 	/**
 	 * Decrypt the message.
-	 * TODO A REVOIR
 	 * @param receiver the receiver keys (with private key)
 	 */
 	public void decrypt(AsymKeysImpl receiver) {
 		if(!encrypted) return;
 		ElGamal eg = new ElGamal(receiver);
+		
 		message = new String(eg.decryptWithPrivateKey(message.getBytes()));
 		getKeys().setPublicKey(new BigInteger(
 				eg.decryptWithPrivateKey(getKeys().getPublicKey().toByteArray())));
+		
 		encrypted = false;
 	}
 	
@@ -94,6 +94,7 @@ public class UserMessage extends AbstractAdvertisement {
 		addKey("date", false, false);
 		addKey("subject", false, false);
 		addKey("senderName", false, false);
+		addKey("encrypted", false, false);
 	}
 
 	@Override
@@ -103,6 +104,7 @@ public class UserMessage extends AbstractAdvertisement {
 		addValue("subject", subject);
 		addValue("senderName", senderName);
 		addValue("date", Long.toString(date));
+		addValue("encrypted", encrypted?"true":"false");
 	}
 
 	@Override
@@ -111,6 +113,9 @@ public class UserMessage extends AbstractAdvertisement {
 		case "content": message = e.getValue(); return true;
 		case "receiverKey": receiver = new AsymKeysImpl(e.getValue()); return true;
 		case "date": date =  new Long(e.getValue()); return true;
+		case "subject": subject = e.getValue(); return true;
+		case "senderName": senderName = e.getValue(); return true;
+		case "encrypted": encrypted = (e.getValue().equals("true"))?true:false; return true;
 		}
 		return false;
 	}
