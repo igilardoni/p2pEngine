@@ -698,7 +698,8 @@ var contratTable =
 var contratForm =
 		{element:"div", attributes:{id:"contratForm"}, inside:[
 			{element:"h1", attributes:{}, inside:[
-				{element:"text", value:"Contrat"}
+				{element:"text", value:"Contrat"},
+				{element:"a", attributes:{"class":"button buttonEdit", onclick:"renameContractForm()", title:"Rename"}, inside:[]}
 			]},
 			{element:"label", attributes:{"class":"hidden", id:"contratID"}, inside:[]},
 			{element:"div", attributes:{id:"objects"}, inside:[]},
@@ -780,7 +781,7 @@ var ruleForm =
   			]},
 		]};
 var itemContratTable =
-		{element:"table", attributes:{}, inside:[
+		{element:"table", attributes:{id:itemContratList}, inside:[
 			{element:"thead", attributes:{}, inside:[
 				{element:"tr", attributes:{}, inside:[
 					{element:"th", attributes:{"class":"rowTitle"}, inside:[

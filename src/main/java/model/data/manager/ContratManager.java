@@ -61,6 +61,14 @@ public class ContratManager {
 		return getUserDeals(publicKey);
 	}
 	
+	public Contrat getContract(String contratID) {
+		for(Contrat c : this.getDealsCurrentUser()) {
+			if(c.getId().equals(contratID))
+				return c;
+		}
+		return null;
+	}
+	
 	public boolean containsUser(String user) {
 		return deals.containsKey(user);
 	}

@@ -42,6 +42,7 @@ import view.interlocutors.RemoveContrat;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemContrat;
 import view.interlocutors.RemoveItemFavorites;
+import view.interlocutors.RenameContrat;
 import view.interlocutors.SearchItem;
 import view.interlocutors.SendBootstrap;
 import view.interlocutors.SendMessage;
@@ -116,6 +117,7 @@ public class Server {
 		interlocutors.put("loadContentContrat", new LoadContentContrat());
 		interlocutors.put("removeContrat", new RemoveContrat());
 		interlocutors.put("removeItemContrat", new RemoveItemContrat());
+		interlocutors.put("renameContrat", new RenameContrat());
 		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());

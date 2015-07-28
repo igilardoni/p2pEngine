@@ -59,6 +59,15 @@ function removeItemContrat(itemKey) {
 		sendQuery("removeItemContrat", content);
 	}
 }
+function renameContrat() {
+	var contratID = $("#contratID").text();
+	var title = $("#contratForm"+" #title").val();
+	var content = {
+			"contratID":contratID,
+			"title":title
+	};
+	sendQuery("renameContrat", content);
+}
 function saveDraftContrat(){
 	// TODO HERE IN PROGRESSE
 	alert("function not implemented");
@@ -93,7 +102,9 @@ function transfertRuleLoaded(content){
 	$("#rules table").append(newRowTransfertRule(content));
 }
 function contratLoaded(content) {
+	var editButton = $("#contratForm h1 a");
 	$("#contratForm").find("h1").text(content.title);
+	$("#contratForm").find("h1").append(editButton);
 	$("#contratID").append(content.contratID);
 	var contentBis = {
 			"contratID" : content.contratID
@@ -129,9 +140,34 @@ function signatoryRemoved(content) {
 		return;
 	$("#signatories #signatories"+content.publicKey).detach();
 }
+function contractRenamed(content) {
+	if(content.contratID != $("#contratID").text())
+		return;
+	printFeedback(content.feedback, true);
+	var button = {element:"a", attributes:{"class":"button buttonEdit", onclick:"renameContractForm()", title:"Rename"}, inside:[]};
+	$("#contratForm h1").empty();
+	$("#contratForm h1").append(content.title);
+	$("#contratForm h1").append(getElement(button));
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function renameContractForm(){
+	var name = $("#contratForm h1").text();
+	var input = document.createElement("input");
+	$(input).attr("type", "text");
+	$(input).attr("value", name);
+	$(input).attr("id", "title");
+	$(input).attr("name", "title");
+	var button = document.createElement("a");
+	$(button).addClass("button");
+	$(button).addClass("buttonValidate");
+	$(button).attr("onclick", "renameContrat();");
+	$("#contratForm h1").empty();
+	$("#contratForm h1").append(input);
+	$("#contratForm h1").append(button);
+}
+
 function getContrat(){
 	var div = document.createElement("div");
 	$(div).attr("id", "content");

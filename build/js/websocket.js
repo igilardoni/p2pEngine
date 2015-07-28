@@ -72,7 +72,8 @@ function serverReply(data){
 	case "signatoryAdded":					signatoryAdded(data.content); break;
 	case "signatoryRemoved":				signatoryRemoved(data.content); break;
 	case "itemContratNotRemoved":			itemContratNotRemoved(data.content); break;
-	case "itemContratRemoved":				itemContratRemoved(data.content); break; 
+	case "itemContratRemoved":				itemContratRemoved(data.content); break;
+	case "contractRenamed":					contractRenamed(data.content); break;
 	
 	case "ipLoaded":						ipLoaded(data.content); break;
 	case "bootstrapSent":					bootstrapSent(data.content); break;

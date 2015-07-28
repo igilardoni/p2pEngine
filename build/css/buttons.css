@@ -51,6 +51,11 @@
 	height : 20px;
 	content : url(../img/logout.png);
 }
+.buttonRename:before {
+	width : 20px;
+	height : 20px;
+	content : url(../img/rename.png);
+}
 
 
 .toprightButton {
