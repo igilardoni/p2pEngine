@@ -11,6 +11,11 @@ public class SendMessage extends AbstractInterlocutor {
 		super();
 	}
 
+	/**
+	 * A revoir
+	 * on peut pas envoyer a un nickname ca a pas de sens (on peut envoyé a plusieurs personne du coup)
+	 * comment retrouver la clé public avec le p et le g sans refaire une recherche ?
+	 */
 	@Override
 	public void run() {
 		if(!isInitialized()) return;

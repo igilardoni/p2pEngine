@@ -16,12 +16,12 @@ public class MessageController {
 	private UserMessage msg;
 	private User u;
 	
-	public MessageController(String message, AsymKeysImpl to) {
+	public MessageController(String subject, String message, AsymKeysImpl to) {
 		u = Application.getInstance().getManager().getUserManager().getCurrentUser();
 		if(u == null) {
 			throw new RuntimeException("Must be loggued");
 		}
-		msg = new UserMessage(to, u.getKeys(), message);
+		msg = new UserMessage(to, u.getKeys(), subject, message);
 	}
 	
 	public boolean send() {
