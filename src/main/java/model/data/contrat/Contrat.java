@@ -10,6 +10,7 @@ import model.data.user.User;
 
 import org.jdom2.Element;
 
+import util.Printer;
 import util.StringToElement;
 import util.secure.ElGamalSign;
 import util.secure.AVProtocol.Delta;
@@ -81,14 +82,14 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public String getStateStringFormat(){
 		if(state < 0 || state > stringState.length -1){
-			printError("getStateStringFormat","Unknown state !");
+			Printer.printError(this, "getStateStringFormat","Unknown state !");
 			return "unknown state";
 		}
 		return stringState[state];
 	}
 	public int getState(){
 		if(state < 0 || state >= stringState.length){
-			printError("getState","Unknown state !");
+			Printer.printError(this, "getState","Unknown state !");
 			return -1;
 		}
 		return state;
@@ -114,7 +115,7 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public static String getPossibleState(int i){
 		if(i < 0 || i > stringState.length -1){
-			printError("getPossibleState","Unknown state !");
+			Printer.printError(Contrat.class, "getPossibleState", "Unknown state !");
 			return "unknown state";
 		}
 		return stringState[i];
@@ -122,14 +123,14 @@ public class Contrat extends AbstractAdvertisement {
 	//////////////////////////////////////////////////// SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public void setTitle(String title){
 		if(!isDraft()){
-			printError("setTitle", "This Deal isn't a draft");
+			Printer.printError(this, "setTitle", "This Deal isn't a draft");
 			return;
 		}
 		this.title = title;
 	}
 	private void setState(int state){
 		if(state < 0 || state >= stringState.length){
-			printError("setState", "Unknown state !");
+			Printer.printError(this, "setState", "Unknown state !");
 			return;
 		}
 		this.state = state;
@@ -140,29 +141,29 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public boolean addSignatory(String publicKey){
 		if(!isDraft())
-			return printError("addSignatory", "This Deal isn't a draft");
+			return Printer.printError(this, "addSignatory", "This Deal isn't a draft");
 		if(publicKey == null || publicKey.isEmpty())
-			return printError("addSignatory", "publicKey Empty !");
+			return Printer.printError(this, "addSignatory", "publicKey Empty !");
 		if(signatories.contains(publicKey))
 			return false;
 		return signatories.add(publicKey);
 	}
 	public boolean addSignatory(User user){
 		if(!isDraft())
-			return printError("addSignatory", "This Deal isn't a draft");
+			return Printer.printError(this, "addSignatory", "This Deal isn't a draft");
 		if(user == null)
-			return printError("addSignatory", "User empty");
+			return Printer.printError(this, "addSignatory", "User empty");
 		if(user.getKeys() == null || user.getKeys().getPublicKey() == null)
-			return printError("addSignatory", "User have to got PublicKey !");
+			return Printer.printError(this, "addSignatory", "User have to got PublicKey !");
 		return addSignatory(user.getKeys().getPublicKey().toString(16));
 	}
 	public boolean addItem(Item item){
 		if(!isDraft())
-			return printError("addItem", "This Deal isn't a draft");
+			return Printer.printError(this, "addItem", "This Deal isn't a draft");
 		if(item == null)
-			return printError("addItem", "Item empty");
+			return Printer.printError(this, "addItem", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
-			return printError("addItem", "Item "+item.getTitle()+" doesn't have Owner");
+			return Printer.printError(this, "addItem", "Item "+item.getTitle()+" doesn't have Owner");
 		String owner = item.getOwner();
 		if(!signatories.contains(owner))
 			return signatories.add(owner) && items.add(item);
@@ -172,62 +173,64 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public boolean addTransferRule(String itemKey, String publicKey){
 		if(!isDraft())
-			return printError("addTransferRule", "This Deal isn't a draft");
+			return Printer.printError(this, "addTransferRule", "This Deal isn't a draft");
 		if(itemKey == null || itemKey.isEmpty())
-			return printError("addTransferRule", "itemKey is null or empty");
+			return Printer.printError(this, "addTransferRule", "itemKey is null or empty");
 		if(publicKey == null || publicKey.isEmpty())
-			return printError("", "publicKey is null or empty");
+			return Printer.printError(this, "", "publicKey is null or empty");
 		if(!signatories.contains(publicKey))
 			if(!addSignatory(publicKey))
-				return printError("addTransferRule", "Impossible to add publicKey");
+				return Printer.printError(this, "addTransferRule", "Impossible to add publicKey");
 		boolean ok = false;
 		for (Item item : items)
 			if(item.getItemKey().equals(itemKey)){
 				ok = true;
 			}
-		if(!ok) return printError("addTransferRule", "item not found !");
+		if(!ok) return Printer.printError(this, "addTransferRule", "item not found !");
 		if(rules.containsKey(itemKey)){
-			printError("addTransferRule", "Rule for Item deleted");
+			Printer.printInfo(this, "addTransferRule", "Rule for Item deleted");
 			rules.remove(itemKey);
 		}
-		return rules.put(itemKey, publicKey) != null;
+		rules.put(itemKey, publicKey);
+		return true;
 	}
 	public boolean addTransferRule(Item item, String publicKey){
 		if(!isDraft())
-			return printError("addTransferRule", "This Deal isn't a draft");
+			return Printer.printError(this, "addTransferRule", "This Deal isn't a draft");
 		if(item == null || publicKey == null || publicKey.isEmpty())
-			return printError("addTransferRule", "Item and PublicKey haven't to be empty");
+			return Printer.printError(this, "addTransferRule", "Item and PublicKey haven't to be empty");
 		if(!signatories.contains(publicKey))
 			if(!addSignatory(publicKey))
-				return printError("addTransferRule", "Impossible to add publicKey");
+				return Printer.printError(this, "addTransferRule", "Impossible to add publicKey");
 		if(!items.contains(item))
 			if(!addItem(item))
-				return printError("addTransferRule", "Impossible to add Item");
+				return Printer.printError(this, "addTransferRule", "Impossible to add Item");
 		String itemKey = item.getItemKey();
 		if(rules.containsKey(itemKey)){
-			printError("addTransferRule", "Rule for Item "+item.getTitle()+" deleted");
+			Printer.printInfo(this, "addTransferRule", "Rule for Item "+item.getTitle()+" deleted");
 			rules.remove(itemKey);
 		}
-		return rules.put(itemKey, publicKey) != null;
+		rules.put(itemKey, publicKey);
+		return true;
 	}
 	public boolean addTransferRule(Item item, User user){
 		if(!isDraft())
-			return printError("addTransferRule", "This Deal isn't a draft");
+			return Printer.printError(this, "addTransferRule", "This Deal isn't a draft");
 		if(user == null)
-			return printError("addTransferRule", "User empty");
+			return Printer.printError(this, "addTransferRule", "User empty");
 		if(user.getKeys() == null || user.getKeys().getPublicKey() == null)
-			return printError("addTransferRule", "User haven't publicKey");
+			return Printer.printError(this, "addTransferRule", "User haven't publicKey");
 		return addTransferRule(item, user.getKeys().getPublicKey().toString(16));
 	}
 	public boolean addClaus(Claus layout){
 		if(layout == null)
-			return printError("addLayout", "Layout empty");
+			return Printer.printError(this, "addLayout", "Layout empty");
 		return clauses.add(layout);
 	}
 	//////////////////////////////////////////////////// REMOVER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public boolean removeSignatory(String publicKey){
 		if(publicKey == null || publicKey.isEmpty())
-			return printError("removeSignatory", "publicKey empty");
+			return Printer.printError(this, "removeSignatory", "publicKey empty");
 		for (Item item : items) {
 			if(item.getOwner().equals(publicKey)){
 				String itemKey = item.getItemKey();
@@ -245,25 +248,25 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public boolean removeSignatory(User user){
 		if(user == null)
-			return printError("removeSignatory", "User Empty");
+			return Printer.printError(this, "removeSignatory", "User Empty");
 		if(user.getKeys() == null || user.getKeys().getPublicKey() == null)
-			return printError("removeSignatory", "User have to got a public Key");
+			return Printer.printError(this, "removeSignatory", "User have to got a public Key");
 		String publicKey = user.getKeys().getPublicKey().toString(16);
 		return removeSignatory(publicKey);
 	}
 	public boolean removeItem(Item item){
 		if(item == null)
-			return printError("removeItem", "Item empty");
+			return Printer.printError(this, "removeItem", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
-			return printError("removeItem", "Item haven't owner");
+			return Printer.printError(this, "removeItem", "Item haven't owner");
 		if(item.getTitle() == null || item.getTitle().isEmpty())
-			return printError("removeItem", "Item haven't title");
+			return Printer.printError(this, "removeItem", "Item haven't title");
 		String itemKey = item.getItemKey();
 		return rules.remove(itemKey)!=null && items.remove(item);
 	}
 	public boolean removeItem(String itemKey){
 		if(itemKey==null || itemKey.isEmpty())
-			return printError("removeItem", "ItemKey null or empty");
+			return Printer.printError(this, "removeItem", "ItemKey null or empty");
 		if(rules.containsKey(itemKey))
 			rules.remove(itemKey);
 		for (Item item : items) {
@@ -274,27 +277,27 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	public boolean removeRule(Item item, String publicKey){
 		if(item == null)
-			return printError("removeRule", "Item empty");
+			return Printer.printError(this, "removeRule", "Item empty");
 		if(item.getOwner() == null || item.getOwner().isEmpty())
-			return printError("removeRule", "Item haven't owner");
+			return Printer.printError(this, "removeRule", "Item haven't owner");
 		if(item.getTitle() == null || item.getTitle().isEmpty())
-			return printError("removeRule", "Item haven't title");
+			return Printer.printError(this, "removeRule", "Item haven't title");
 		if(publicKey == null || publicKey.isEmpty())
-			return printError("removeRule", "publicKey null or empty");
+			return Printer.printError(this, "removeRule", "publicKey null or empty");
 		String itemKey = item.getItemKey();
 		return rules.remove(itemKey)!=null;
 	}
 	public boolean removeRule(Item item, User user){
 		if(user == null)
-			return printError("removeRule", "User empty");
+			return Printer.printError(this, "removeRule", "User empty");
 		if(user.getKeys() == null || user.getKeys().getPublicKey() == null)
-			return printError("removeRule", "User haven't public Key");
+			return Printer.printError(this, "removeRule", "User haven't public Key");
 		String publicKey = user.getKeys().getPublicKey().toString(16);
 		return removeRule(item, publicKey);
 	}
 	public boolean removeClaus(Claus claus){
 		if(claus == null)
-			return printError("removeClaus", "Claus empty");
+			return Printer.printError(this, "removeClaus", "Claus empty");
 		return clauses.remove(claus);
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -303,11 +306,6 @@ public class Contrat extends AbstractAdvertisement {
 		return new Contrat(this.toString());
 	}
 	//////////////////////////////////////////////////// PRINTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	private static boolean printError(String method, String error){
-		System.err.println(Contrat.class.getName()+"."+method+" : "+error);
-		return false;
-	}
-	
 	public String toPrint(){
 		StringBuffer s = new StringBuffer();
 		s.append("Signatories ("+signatories.size()+") :\n");

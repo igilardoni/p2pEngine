@@ -58,6 +58,17 @@ public class LoadContentContrat extends AbstractInterlocutor {
 				content.put("type", item.getType());
 				data.put("content", content);
 				com.sendText(data.toString());
+				
+				if(!signatoriesAlreadySent.contains(item.getOwner())){
+					signatoriesAlreadySent.add(item.getOwner());
+					data = new JSONObject();
+					content = new JSONObject();
+					data.put("query", "signatoryAdded");
+					content.put("publicKey", item.getOwner());
+					content.put("friendlyNick", item.getFriendNick());
+					data.put("content", content);
+					com.sendText(data.toString());
+				}
 			}
 			for(Item item : contrat.getItems()){
 				data = new JSONObject();
@@ -70,17 +81,6 @@ public class LoadContentContrat extends AbstractInterlocutor {
 				content.put("itemTitle", item.getTitle());
 				data.put("content", content);
 				com.sendText(data.toString());
-				
-				if(!signatoriesAlreadySent.contains(item.getOwner())){
-					signatoriesAlreadySent.add(item.getOwner());
-					data = new JSONObject();
-					content = new JSONObject();
-					data.put("query", "signatoryAdded");
-					content.put("publicKey", item.getOwner());
-					content.put("friendlyNick", item.getFriendNick());
-					data.put("content", content);
-					com.sendText(data.toString());
-				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

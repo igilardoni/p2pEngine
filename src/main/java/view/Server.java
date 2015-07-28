@@ -16,6 +16,7 @@ import org.codehaus.jettison.json.JSONObject;
 import view.interlocutors.AbstractInterlocutor;
 import view.interlocutors.AddItem;
 import view.interlocutors.AddItemFavorites;
+import view.interlocutors.ChangeContratExchangeRule;
 import view.interlocutors.LoadAccount;
 import view.interlocutors.LoadBase64Image;
 import view.interlocutors.LoadCategories;
@@ -118,6 +119,7 @@ public class Server {
 		interlocutors.put("removeContrat", new RemoveContrat());
 		interlocutors.put("removeItemContrat", new RemoveItemContrat());
 		interlocutors.put("renameContrat", new RenameContrat());
+		interlocutors.put("changeContratExchangeRule", new ChangeContratExchangeRule());
 		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());

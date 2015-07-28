@@ -341,6 +341,12 @@ public class ManagerBridge{
 		Application.getInstance().getManager().getContratManager().getContract(contratID).setTitle(title);
 		return true;
 	}
+	public static boolean changeRuleContrat(String contratID, String itemKey, String from, String to) {
+		Contrat c = Application.getInstance().getManager().getContratManager().getContract(contratID);
+		if(c == null)
+			return false;
+		return c.addTransferRule(itemKey, to);
+	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){
 		return Application.getInstance().getManager().getUserManager().getCurrentUser() == null;
