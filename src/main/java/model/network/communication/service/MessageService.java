@@ -33,6 +33,10 @@ public class MessageService extends Service<UserMessage> {
 		
 	}
 
+	public void sendMessage(UserMessage data) {
+		sendMessage(data, (PeerID[])null);
+	}
+	
 	@Override
 	public void sendMessage(UserMessage data, PeerID... ids) {
 		Search<User> s = new Search<User>(this.getNetwork(), User.class.getSimpleName(),
