@@ -67,10 +67,13 @@ table tfoot {
 	font-style : italic;
 }
 table tbutton {
-	v-align : middle;
+	vertical-align : middle;
 	width : 98%;
 	display : table;
 	text-align : right;
+}
+table tbutton input {
+	vertical-align : top;
 }
 table .rowTitle {
 	width : 15%;

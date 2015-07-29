@@ -23,7 +23,6 @@ function sendMessage(){
 	var content = {
 			subject:$("#subject").val(),
 			receiver:$("#receiver").val(),
-			typeReceiver:$("#typeReceiver").val(),
 			message:$("#message").val()
 	}
 	sendQuery("sendMessage", content);
@@ -53,6 +52,10 @@ function messageNotSent(content) {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getWebmail(){
 	return getElement(webmailForm);
+}
+
+function cancelMessage() {
+	$("#messageDisplay").empty();
 }
 
 function sendMessageTo(){

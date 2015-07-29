@@ -49,7 +49,7 @@ function includeSearch(){
 
 function includeContrat(){
 	emptyContent();
-	$("#content").replaceWith(getContrat());
+	$("#content").append(getContrat());
 	allMenuWhite();
 	$("nav .contratButton").addClass("selected");
 	loadContrats();

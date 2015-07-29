@@ -416,7 +416,7 @@ var searchForm =
 				{element:"a", attributes:{onclick:"addSearch();", id:"addFieldButton", "class":"button buttonAdd"}, inside:[]},
 			]},
 	  		{element:"p", attributes:{"class":"buttonsContainer"}, inside:[
-	      		{element:"a", attributes:{onclick:"searchItem();", id:"searchButton", "class":"button"}, inside:[
+	      		{element:"a", attributes:{onclick:"searchItem();", id:"searchButton", "class":"button buttonSearch"}, inside:[
 	      			{element:"text", value:"Seach"}
 	      		]},
 	      		{element:"a", attributes:{onclick:"resetSearch();", id:"resetButton","class":"button"}, inside:[
@@ -541,7 +541,6 @@ var webmailForm =
 					]}
 				]},
 				{element:"div", attributes:{id:"messageDisplay"}, inside:[
-					{element:"text", value:"My super message !!!!"}
 				]}
 			]}
 		]};
@@ -562,14 +561,6 @@ var writeMessage =
 							{element:"text", value:"Receiver "}
 						]},
 						{element:"input", attributes:{type:"text", id:"receiver", name:"receiver"}, inside:[]}
-						/*{element:"select", attributes:{id:"typeReceiver", name:"typeReceiver"}, inside:[
-							{element:"option", attributes:{value:"PublicKey"}, inside:[
-								{element:"text", value:"PublicKey"}
-							]},
-							{element:"option", attributes:{value:"Username"}, inside:[
-	  							{element:"text", value:"Username"}
-							]},
-						]}*/
 					]}
 				]}
 			]},
@@ -580,11 +571,14 @@ var writeMessage =
 				{element:"textarea", attributes:{id:"message", name:"message"}, inside:[]}
 			]},
 			{element:"p", attributes:{"class":"newMessageFooter"}, inside:[
-				{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton", "class":"button"}, inside:[
+				{element:"a", attributes:{onclick:"sendMessage();", "class":"button buttonSend"}, inside:[
 					{element:"text", value:"Send"}
 				]},
-				{element:"label", attributes:{id:"feedbackBox"}, inside:[]}
-			]}
+				{element:"a", attributes:{onclick:"cancelMessage();", "class":"button buttonCancel"}, inside:[
+					{element:"text", value:"Cancel"}
+				]},
+			]},
+			{element:"p", attributes:{id:"feedbackBox"}, inside:[]}
 		]};
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer =
@@ -672,11 +666,11 @@ var itemFavoritesTable =
 /* * * * * * * * * * * * * * * * * * * * * CONTRACTS * * * * * * * * * * * * * * * * * * * * * * * * * */
 var contratDisplay =
 		{element:"div", attributes:{id:"newContratForm"}, inside:[
-			{element:"label", attributes:{"class":"label"}, inside:[
+			/*{element:"label", attributes:{"class":"label"}, inside:[
 				{element:"text", value:"New contrat's title : "}
 			]},
 			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", title:"If empty title will be generated"}, inside:[]},
-			{element:"a", attributes:{"class":"button buttonAdd", onclick:"newContrat();"}, inside:[]},
+			{element:"a", attributes:{"class":"button buttonAdd", onclick:"newContrat();"}, inside:[]},*/
 			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
 		]};
 var contratTable =
@@ -693,7 +687,11 @@ var contratTable =
 				]}
 			]},
 			{element:"tbody", attributes:{}, inside:[]},
-			{element:"tfoot", attributes:{}, inside:[]}
+			{element:"tfoot", attributes:{}, inside:[]},
+			{element:"tbutton", attributes:{}, inside:[
+				{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", title:"If empty title will be generated"}, inside:[]},
+				{element:"a", attributes:{"class":"button buttonAdd", onclick:"newContrat();"}, inside:[]},
+			]}
 		]};
 var contratForm =
 		{element:"div", attributes:{id:"contratForm"}, inside:[

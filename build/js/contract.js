@@ -187,11 +187,7 @@ function renameContractForm(){
 }
 
 function getContrat(){
-	var div = document.createElement("div");
-	$(div).attr("id", "content");
-	$(div).append(getElement(contratTable));
-	$(div).append(getElement(contratDisplay));
-	return div;
+	return getElement(contratTable);
 }
 
 function newRowContrat(content) {

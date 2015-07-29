@@ -34,6 +34,12 @@ public class SendMessage extends AbstractInterlocutor {
 			search.search(receiver, VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
 			
 			ArrayList<User> users = search.getResults();
+			if(users.isEmpty()) {
+				data.put("query", "messageNotSent");
+				content.put("feedback", "Account not found on network !");
+				data.put("content", content);	
+				com.sendText(data.toString());
+			}
 			long moreRecent = 0L;
 			for(User u : users){
 				if(moreRecent < u.getLastUpdated())
