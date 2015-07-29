@@ -561,15 +561,15 @@ var writeMessage =
 						{element:"label", attributes:{}, inside:[
 							{element:"text", value:"Receiver "}
 						]},
-						{element:"input", attributes:{type:"text", id:"receiver", name:"receiver"}, inside:[]},
-						{element:"select", attributes:{id:"typeReceiver", name:"typeReceiver"}, inside:[
+						{element:"input", attributes:{type:"text", id:"receiver", name:"receiver"}, inside:[]}
+						/*{element:"select", attributes:{id:"typeReceiver", name:"typeReceiver"}, inside:[
 							{element:"option", attributes:{value:"PublicKey"}, inside:[
 								{element:"text", value:"PublicKey"}
 							]},
 							{element:"option", attributes:{value:"Username"}, inside:[
 	  							{element:"text", value:"Username"}
 							]},
-						]}
+						]}*/
 					]}
 				]}
 			]},
@@ -583,7 +583,7 @@ var writeMessage =
 				{element:"a", attributes:{onclick:"sendMessage();", id:"sendButton", "class":"button"}, inside:[
 					{element:"text", value:"Send"}
 				]},
-				{element:"label", attributes:{id:"webmailErrorBox"}, inside:[]}
+				{element:"label", attributes:{id:"feedbackBox"}, inside:[]}
 			]}
 		]};
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */

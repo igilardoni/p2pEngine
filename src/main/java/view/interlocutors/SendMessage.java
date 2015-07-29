@@ -1,9 +1,16 @@
 package view.interlocutors;
 
+import java.util.ArrayList;
+
+import model.Application;
+import model.data.user.User;
+import model.network.search.Search;
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import controller.MessageSender;
+import util.VARIABLES;
+import controller.MessageController;
 
 public class SendMessage extends AbstractInterlocutor {
 
@@ -11,11 +18,6 @@ public class SendMessage extends AbstractInterlocutor {
 		super();
 	}
 
-	/**
-	 * A revoir
-	 * on peut pas envoyer a un nickname ca a pas de sens (on peut envoyé a plusieurs personne du coup)
-	 * comment retrouver la clé public avec le p et le g sans refaire une recherche ?
-	 */
 	@Override
 	public void run() {
 		if(!isInitialized()) return;
@@ -24,27 +26,37 @@ public class SendMessage extends AbstractInterlocutor {
 			String subject = c.getString("subject");
 			String message = c.getString("message");
 			String receiver = c.getString("receiver");
-			String type = c.getString("typeReceiver");
 			
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
 			
-			boolean ok = false;
+			Search<User> search = new Search<User>(Application.getInstance().getNetwork(), User.class.getSimpleName(), "publicKey", true);
+			search.search(receiver, VARIABLES.MaxTimeSearch, VARIABLES.ReplicationsAccount);
 			
-			if(type.equals("Username")) ok = MessageSender.sendMessageToNick(message, receiver);
-			if(type.equals("PublicKey"))
-				try {
-					ok = MessageSender.sendMessageToPublicKey(message, receiver);
-				} catch (Exception e) {
-					content.put("error", "Account not found on Network");
-					data.put("query", "messageNotSent");
-					data.put("content", content);	
-					com.sendText(data.toString());
-				}
+			ArrayList<User> users = search.getResults();
+			long moreRecent = 0L;
+			for(User u : users){
+				if(moreRecent < u.getLastUpdated())
+					moreRecent = u.getLastUpdated();
+				else
+					users.remove(u);
+			}
+			for(User u : users){
+				if(moreRecent > u.getLastUpdated())
+					users.remove(u);
+			}
+			User u = users.get(0);
 			
-			if(ok){
+			MessageController messageController = new MessageController(subject, message, u.getKeys());
+			if(messageController.send()){
 				data.put("query", "messageSent");
+				content.put("feedback", "Message Send to "+u.getNick()+" !");
 				data.put("content", content);
+				com.sendText(data.toString());
+			} else {
+				data.put("query", "messageNotSent");
+				content.put("feedback", "Message not send !");
+				data.put("content", content);	
 				com.sendText(data.toString());
 			}
 		} catch (JSONException e) {

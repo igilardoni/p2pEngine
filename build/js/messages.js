@@ -46,8 +46,7 @@ function messageLoaded(content) {
 	});
 }
 function messageNotSent(content) {
-	$("#webmailErrorBox").empty();
-	$("#webmailErrorBox").append(document.createTextNode("Message not send : "+content.error));
+	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
