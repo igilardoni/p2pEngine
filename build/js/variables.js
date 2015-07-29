@@ -56,6 +56,7 @@ var header = [
     	{element:"div", attributes:{"class":"dropDownMenu"}, inside:[
 			{element:"ul", attributes:{"class":"dropMenu"}, inside:[
 				{element:"li", attributes:{"class":"droper"}, inside:[
+					{element:"label", attributes:{id:"usernameHead"}, inside:[]},
 					{element:"img", attributes:{src:"./img/gears.png", alt:"Settings", "class":"setting"}, inside:[]}
 				]},
 				{element:"ul", attributes:{"class":"drop"}, inside:[

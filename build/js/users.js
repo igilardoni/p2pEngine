@@ -116,6 +116,7 @@ function login(content){
 		includeMenu();
 		includeHome();
 		includeFavorites();
+		$("#usernameHead").text(content.username);
 	}else{
 		printFeedback(content.feedback, false);
 	}

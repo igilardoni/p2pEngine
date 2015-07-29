@@ -23,6 +23,12 @@ header img.setting {
 	height : 30px;
 	width : 30px;
 }
+#usernameHead {
+	color: #F0F0F0;
+	font-size: initial;
+	vertical-align: text-top;
+	padding-right: 1em;
+}
 
 /* BIG SCREEN */
 @media(min-height : 400px) {
