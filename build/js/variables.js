@@ -105,7 +105,7 @@ var boostrapInvitation =
 			{element:"p", attributes:{}, inside:[
 				{element:"input", attributes:{type:"button", onclick:"sendBootstrap();", value:"Send Invitation"}, inside:[]}
 			]},
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
 		]};	
 var boostrapSetting =
 		{element:"div", attributes:{id:"boostrapPreference"}, inside:[
@@ -129,7 +129,7 @@ var boostrapSetting =
 			/*{element:"p", attributes:{}, inside:[
 				{element:"input", attributes:{type:"button", onclick:"includeLogin();", value:"Back and log in"}, inside:[]}
 			]},*/
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
 		]};
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
 var loginForm =
@@ -138,7 +138,7 @@ var loginForm =
 			{element:"h1", attributes:{}, inside:[
 				{element:"text", value:"Sign In"}
 			]},
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]},
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
 			{element:"p", attributes:{}, inside:[
 				{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 					{element:"text", value:"Username : "}
@@ -168,7 +168,7 @@ var registrationForm =
 			{element:"h1", attributes:{}, inside:[
 				{element:"text", value:"Registration"}
 			]},
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]},
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
 			{element:"p", attributes:{}, inside:[
 				{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 					{element:"text", value:"Username : "}
@@ -228,6 +228,7 @@ var updateAccountForm =
 			{element:"h1", attributes:{}, inside:[
 				{element:"text", value:"Account"}
 			]},
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
 			{element:"p", attributes:{}, inside:[
 				{element:"label", attributes:{id:"label_username", "class":"label"}, inside:[
 					{element:"text", value:"Username : "}
@@ -293,6 +294,7 @@ var itemAddForm =
 			{element:"h1", attributes:{}, inside:[
 	  			{element:"text", value:"Item"}
 	  		]},
+	  		{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
 	  		{element:"p", attributes:{}, inside:[
 	  			{element:"label", attributes:{id:"label_title", "class":"label"}, inside:[
 	  				{element:"text", value:"Title  : "}
@@ -423,7 +425,8 @@ var searchForm =
 	      		{element:"a", attributes:{onclick:"resetSearch();", id:"resetButton","class":"button"}, inside:[
 					{element:"text", value:"Reset"}
 				]}
-	      	]}
+	      	]},
+	      	{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
 		]};
 var itemSearchTable =
 		{element:"table", attributes:{id:itemSearchList}, inside:[
@@ -511,7 +514,7 @@ var webmailForm =
 					]},
 					{element:"li", attributes:{id:"conversation", onclick:"loadConversation();", "class":"menu"}, inside:[
   						{element:"a", attributes:{}, inside:[
-  							{element:"text", value:"Archives"}
+  							{element:"text", value:"Read"}
   						]}
   					]},
 				]}
@@ -541,8 +544,8 @@ var webmailForm =
 						]}
 					]}
 				]},
-				{element:"div", attributes:{id:"messageDisplay"}, inside:[
-				]}
+				{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
+				{element:"div", attributes:{id:"messageDisplay"}, inside:[]}
 			]}
 		]};
 var writeMessage =
@@ -579,7 +582,16 @@ var writeMessage =
 					{element:"text", value:"Cancel"}
 				]},
 			]},
-			{element:"p", attributes:{id:"feedbackBox"}, inside:[]}
+			{element:"p", attributes:{id:"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
+		]};
+var messageRow = 
+		{element:"tr", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"rowDate"}, inside:[]},
+			{element:"td", attributes:{"class":"rowSubject"}, inside:[]},
+			{element:"td", attributes:{"class":"rowFrom"}, inside:[]},
+			{element:"td", attributes:{"class":"rowActions"}, inside:[
+				{element:"a", attributes:{"class":"button buttonRemove"}, inside:[]}
+			]}
 		]};
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer =
@@ -672,7 +684,7 @@ var contratDisplay =
 			]},
 			{element:"input", attributes:{type:"text", id:"titleNewContrat", name:"titleNewContrat", title:"If empty title will be generated"}, inside:[]},
 			{element:"a", attributes:{"class":"button buttonAdd", onclick:"newContrat();"}, inside:[]},*/
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
 		]};
 var contratTable =
 		{element:"table", attributes:{id:contratList}, inside:[
@@ -700,6 +712,7 @@ var contratForm =
 				{element:"text", value:"Contrat"},
 				{element:"a", attributes:{"class":"button buttonEdit", onclick:"renameContractForm()", title:"Rename"}, inside:[]}
 			]},
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
 			{element:"label", attributes:{"class":"hidden", id:"contratID"}, inside:[]},
 			{element:"div", attributes:{id:"objects"}, inside:[]},
 			{element:"div", attributes:{}, inside:[
@@ -763,8 +776,7 @@ var contratForm =
 				{element:"a", attributes:{"class":"button buttonCancel", onclick:"deleteContrat();"}, inside:[
 					{element:"text", value:"Delete"}
 				]}
-			]},
-			{element:"p", attributes:{"class":"feedbackBox hidden"}, inside:[]}
+			]}
 		]};
 var ruleForm =
 		{element:"tr", attributes:{}, inside:[

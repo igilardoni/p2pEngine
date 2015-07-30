@@ -27,6 +27,11 @@ function sendMessage(){
 	}
 	sendQuery("sendMessage", content);
 }
+
+function removeMessage(id) {
+	var content = {"id":id};
+	sendQuery("removeMessage", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,6 +50,13 @@ function messageLoaded(content) {
 	});
 }
 function messageNotSent(content) {
+	printFeedback(content.feedback, false);
+}
+function messageRemoved(content) {
+	$("#"+messagesList+" #"+removePunctuation(content.id)).detach();
+	printFeedback(content.feedback, true);
+}
+function messageNotRemoved(content) {
 	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -77,33 +89,14 @@ function getNewMessageForm(){
 }
 
 function newRowMessage(content){
-	var row = document.createElement("tr");
-	$(row).attr("id", content.itemKey);
-	$(row).attr("onclick", "loadMessage('"+content.id+"');")
-	// Date cell
-	var cell1 = document.createElement("td");
-	$(cell1).attr("class", "rowDate");
-	$(cell1).append(document.createTextNode(content.date));
-	$(row).append(cell1);
-	// Subject cell
-	var cell2 = document.createElement("td");
-	$(cell2).attr("class", "rowSubject");
-	$(cell2).append(document.createTextNode(content.subject));
-	$(row).append(cell2);
-	// From cell
-	var cell3 = document.createElement("td");
-	$(cell3).attr("class", "rowFrom");
-	$(cell3).append(document.createTextNode(content.sender));
-	$(row).append(cell3);
-	// Buttons Cell
-	var cell4 = document.createElement("td");
-	$(cell4).attr("class", "rowActions");
-	// Remove Button
-	var removeButton = document.createElement("a");
-	$(removeButton).attr("class", "buttonRemove");
-	$(removeButton).attr("onclick", "removeMessage('"+content.id+"');");
-	//removeButton.appendChild(document.createTextNode("Remove"));
-	$(cell4).append(removeButton);
-	$(row).append(cell4);
+	var row = getElement(messageRow);
+	$(row).attr("id", removePunctuation(content.id));
+	$(row).find(".rowDate").append(content.date);
+	$(row).find(".rowDate").attr("onclick", "loadMessage('"+content.id+"');");
+	$(row).find(".rowSubject").append(content.subject);
+	$(row).find(".rowSubject").attr("onclick", "loadMessage('"+content.id+"');");
+	$(row).find(".rowFrom").append(content.sender);
+	$(row).find(".rowFrom").attr("onclick", "loadMessage('"+content.id+"');");
+	$(row).find(".buttonRemove").attr("onclick", "removeMessage('"+content.id+"');");
 	return row;
 }

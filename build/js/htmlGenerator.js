@@ -53,9 +53,6 @@ function printFeedback(feedback, isOk) {
 	clearFeedback();
 	if(feedback.length > 0) {
 		$("p.feedbackBox").append(feedback);
-		$("p.feedbackBox").removeClass("hidden");
-	} else {
-		$("p.feedbackBox").addClass("hidden");
 	}
 	if(isOk) {
 		$("p.feedbackBox").addClass("feedbackOk");
