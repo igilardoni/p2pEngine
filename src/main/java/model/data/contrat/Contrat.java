@@ -28,7 +28,7 @@ public class Contrat extends AbstractAdvertisement {
 	private ArrayList<String> signatories;				// All participants publicKey
 	private ArrayList<Item> items;						// All items of this deal 
 	private HashMap<String, String> rules;				// All exchange rule
-	private ArrayList<Claus> clauses;					// all clauses
+	private ArrayList<Clause> clauses;					// all clauses
 	private HashMap<String, Delta> proofs;				// All proof of signature (null at start)
 	private HashMap<String, ElGamalSign> signatures;	// All signature of participants
 	
@@ -106,8 +106,15 @@ public class Contrat extends AbstractAdvertisement {
 	public boolean isToSign(){
 		return state == 3;
 	}
-	public ArrayList<Claus> getClauses(){
+	public ArrayList<Clause> getClauses(){
 		return clauses;
+	}
+	public Clause getClause(String id){
+		for(Clause c : clauses){
+			if(c.getId().equals(id))
+				return c;
+		}
+		return null;
 	}
 	///////////////////////////////////////////////// STATIC GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static String[] getPossiblesStates(){
@@ -222,7 +229,7 @@ public class Contrat extends AbstractAdvertisement {
 			return Printer.printError(this, "addTransferRule", "User haven't publicKey");
 		return addTransferRule(item, user.getKeys().getPublicKey().toString(16));
 	}
-	public boolean addClaus(Claus layout){
+	public boolean addClaus(Clause layout){
 		if(layout == null)
 			return Printer.printError(this, "addLayout", "Layout empty");
 		return clauses.add(layout);
@@ -295,10 +302,19 @@ public class Contrat extends AbstractAdvertisement {
 		String publicKey = user.getKeys().getPublicKey().toString(16);
 		return removeRule(item, publicKey);
 	}
-	public boolean removeClaus(Claus claus){
-		if(claus == null)
+	public boolean removeClaus(Clause clause){
+		if(clause == null)
 			return Printer.printError(this, "removeClaus", "Claus empty");
-		return clauses.remove(claus);
+		return clauses.remove(clause);
+	}
+	public boolean removeClause(String id){
+		if(id == null || id.isEmpty())
+			return Printer.printError(this, "removeClause", "id is null or empty");
+		for(Clause c : clauses){
+			if(c.getId().equals(id))
+				return clauses.remove(c);
+		}
+		return false;
 	}
 	//////////////////////////////////////////////////// OTHERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	@Override
@@ -374,7 +390,7 @@ public class Contrat extends AbstractAdvertisement {
 	}
 	private String clausesXML(){
 		StringBuffer s = new StringBuffer();
-		for(Claus l: clauses) {
+		for(Clause l: clauses) {
 			s.append(l); 
 		}
 		return s.toString();
@@ -407,12 +423,7 @@ public class Contrat extends AbstractAdvertisement {
 	private void loadClauses(Element e){
 		Element root = StringToElement.getElementFromString(e.getValue(), e.getName());
 		for(Element i: root.getChildren()) {
-			switch(i.getChild("Class").getText()){
-			// TODO add case for all clauses
-			case "model.data.deal.ClausVAT":
-				addClaus(new ClausVAT(i));
-				break;
-			}
+			addClaus(new Clause(i));
 		}
 	}
 	///////////////////////////////////////////////// ADVERTISEMENT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -426,7 +437,7 @@ public class Contrat extends AbstractAdvertisement {
 		signatories = new ArrayList<String>();
 		items = new ArrayList<Item>();
 		rules = new HashMap<String, String>();
-		clauses = new ArrayList<Claus>();
+		clauses = new ArrayList<Clause>();
 		proofs = new HashMap<String, Delta>();
 		this.addKey("title", 			false, true);
 		this.addKey("state", 			false, true);

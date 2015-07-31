@@ -763,9 +763,9 @@ var contratForm =
 					]}*/
 				]}
 			]},
-			/*{element:"div", attributes:{id:"clauses"}, inside:[
-				{element:"input", attributes:{type:"button", value:"+", onclick:"addClauses();"}, inside:[]}
-			]},*/
+			{element:"div", attributes:{id:"clauses"}, inside:[
+				{element:"a", attributes:{"class":"button buttonAdd", title:"Add a clause", onclick:"addClause();"}, inside:[]}
+			]},
 			{element:"div", attributes:{id:"actions"}, inside:[
 				{element:"a", attributes:{"class":"button buttonStart", onclick:"signContrat();"}, inside:[
 					{element:"text", value:"Lauch Signature Protocol"}
@@ -777,20 +777,6 @@ var contratForm =
 					{element:"text", value:"Delete"}
 				]}
 			]}
-		]};
-var ruleForm =
-		{element:"tr", attributes:{}, inside:[
-			{element:"td", attributes:{"class":"item"}, inside:[
-				{element:"label", attributes:{"class":"labelItem"}, inside:[]},
-				{element:"label", attributes:{"class":"itemKey hidden"}, inside:[]}
-			]},
-			{element:"td", attributes:{"class":"from"}, inside:[
-				{element:"label", attributes:{"class":"labelFrom"}, inside:[]},
-				{element:"label", attributes:{"class":"publicKey hidden"}, inside:[]}
-			]},
-			{element:"td", attributes:{"class":"to"}, inside:[
-  				{element:"select", attributes:{"class":"userSelect"}, inside:[]}
-  			]},
 		]};
 var itemContratTable =
 		{element:"table", attributes:{id:itemContratList}, inside:[
@@ -815,4 +801,68 @@ var itemContratTable =
 					]}
 				]}
 			]}
+		]};
+var clauseContratForm =
+		{element:"div", attributes:{}, inside:[
+			{element:"p", attributes:{}, inside:[
+				{element:"label", attributes:{"class":"label"}, inside:[
+					{element:"text", value:"Title : "}
+				]},
+				{element:"input", attributes:{type:"text", id:"title", name:"title"}, inside:[]}
+			]},
+			{element:"p", attributes:{}, inside:[
+				{element:"textarea", attributes:{id:"value", name:"value"}, inside:[]}
+			]},
+			{element:"p", attributes:{style:"text-align:right;"}, inside:[
+				{element:"a", attributes:{"class":"button buttonValidate"}, inside:[
+					{element:"text", value:"Save Clause"}
+				]},
+				{element:"a", attributes:{"class":"button buttonRemove", title:"Remove clause"}, inside:[
+					{element:"text", value:"Remove Clause"}
+				]}
+			]}
+		]};
+var clauseContratDisplay =
+		{element:"div", attributes:{}, inside:[
+   			{element:"p", attributes:{}, inside:[
+   				{element:"label", attributes:{"class":"label"}, inside:[
+   					{element:"text", value:"Title : "}
+   				]},
+   				{element:"label", attributes:{id:"title"}, inside:[]},
+   				{element:"a", attributes:{"class":"button buttonRemove", title:"Remove clause"}, inside:[]},
+   				{element:"a", attributes:{"class":"button buttonEdit", title:"Edit clause"}, inside:[]}
+   			]},
+   			{element:"p", attributes:{}, inside:[
+   				{element:"label", attributes:{id:"value"}, inside:[]}
+   			]}
+   		]};
+var contratRow =
+		{element:"tr", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"rowTitle"}, inside:[]},
+			{element:"td", attributes:{"class":"rowState"}, inside:[]},
+			{element:"td", attributes:{"class":"rowActions"}, inside:[
+				{element:"a", attributes:{"class":"button buttonRemove"}, inside:{}}
+			]}
+		]}
+var ruleRow =
+		{element:"tr", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"item"}, inside:[
+				{element:"label", attributes:{"class":"labelItem"}, inside:[]},
+				{element:"label", attributes:{"class":"itemKey hidden"}, inside:[]}
+			]},
+			{element:"td", attributes:{"class":"from"}, inside:[
+				{element:"label", attributes:{"class":"labelFrom"}, inside:[]},
+				{element:"label", attributes:{"class":"publicKey hidden"}, inside:[]}
+			]},
+			{element:"td", attributes:{"class":"to"}, inside:[
+  				{element:"select", attributes:{"class":"userSelect"}, inside:[]}
+  			]}
+		]};
+var itemContratRow = 
+		{element:"tr", attributes:{}, inside:[
+			{element:"td", attributes:{"class":"rowTitle"}, inside:[]},
+			{element:"td", attributes:{"class":"rowDescription"}, inside:[]},
+			{element:"td", attributes:{"class":"rowActions"}, inside:[
+				{element:"a", attributes:{"class":"button buttonRemove"}, inside:[]}
+			]},
 		]};

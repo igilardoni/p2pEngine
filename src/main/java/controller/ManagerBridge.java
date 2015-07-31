@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Application;
+import model.data.contrat.Clause;
 import model.data.contrat.Contrat;
 import model.data.item.Category;
 import model.data.item.Item;
@@ -346,6 +347,23 @@ public class ManagerBridge{
 		if(c == null)
 			return false;
 		return c.addTransferRule(itemKey, to);
+	}
+	public static Clause addClause(String contratID) throws Exception {
+		Clause layout = new Clause();
+		if(Application.getInstance().getManager().getContratManager().getContract(contratID).addClaus(layout))
+			return layout;
+		else
+			throw new Exception("Clause not added");
+	}
+	public static boolean saveClause(String contratID, String id, String title, String content) {
+		if(Application.getInstance().getManager().getContratManager().getContract(contratID).getClause(id) == null)
+			return false;
+		Application.getInstance().getManager().getContratManager().getContract(contratID).getClause(id).setTitle(title);
+		Application.getInstance().getManager().getContratManager().getContract(contratID).getClause(id).setContent(content);
+		return true;
+	}
+	public static boolean removeClause(String contratID, String id) {
+		return Application.getInstance().getManager().getContratManager().getContract(contratID).removeClause(id);
 	}
 	//////////////////////////////////////////////////// OTHER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	private static boolean notLogged(){

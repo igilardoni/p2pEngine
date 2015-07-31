@@ -2,6 +2,7 @@ package view.interlocutors;
 
 import java.util.ArrayList;
 
+import model.data.contrat.Clause;
 import model.data.contrat.Contrat;
 import model.data.item.Item;
 
@@ -79,6 +80,16 @@ public class LoadContentContrat extends AbstractInterlocutor {
 				content.put("to", contrat.getRecipientOf(item));
 				content.put("itemKey", item.getItemKey());
 				content.put("itemTitle", item.getTitle());
+				data.put("content", content);
+				com.sendText(data.toString());
+			}
+			for(Clause clause : contrat.getClauses()){
+				data = new JSONObject();
+				content = new JSONObject();
+				data.put("query", "clauseLoaded");
+				content.put("title", clause.getTitle());
+				content.put("value", clause.getContent());
+				content.put("id", clause.getId());
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

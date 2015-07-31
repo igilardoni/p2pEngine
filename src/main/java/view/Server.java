@@ -10,10 +10,14 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+
+
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import view.interlocutors.AbstractInterlocutor;
+import view.interlocutors.AddClause;
 import view.interlocutors.AddItem;
 import view.interlocutors.AddItemFavorites;
 import view.interlocutors.ChangeContratExchangeRule;
@@ -39,11 +43,13 @@ import view.interlocutors.LoadMessages;
 import view.interlocutors.LoadType;
 import view.interlocutors.NewContrat;
 import view.interlocutors.Register;
+import view.interlocutors.RemoveClause;
 import view.interlocutors.RemoveContrat;
 import view.interlocutors.RemoveItem;
 import view.interlocutors.RemoveItemContrat;
 import view.interlocutors.RemoveItemFavorites;
 import view.interlocutors.RenameContrat;
+import view.interlocutors.SaveClause;
 import view.interlocutors.SearchItem;
 import view.interlocutors.SendBootstrap;
 import view.interlocutors.SendMessage;
@@ -120,6 +126,9 @@ public class Server {
 		interlocutors.put("removeItemContrat", new RemoveItemContrat());
 		interlocutors.put("renameContrat", new RenameContrat());
 		interlocutors.put("changeContratExchangeRule", new ChangeContratExchangeRule());
+		interlocutors.put("addClause", new AddClause());
+		interlocutors.put("saveClause", new SaveClause());
+		interlocutors.put("removeClause", new RemoveClause());
 		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());

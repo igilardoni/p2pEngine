@@ -13,7 +13,7 @@ function includeLogin(){
 	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getLoginForm());
-	if(username.length > 0) $("#username").val(username);
+	if(username !== undefined && username.length > 0) $("#username").val(username);
 }
 
 function includeRegistration(){
@@ -23,8 +23,8 @@ function includeRegistration(){
 	removeFooter();
 	emptyContent();
 	$("#contentStart").append(getRegistrationForm());
-	if(username.length > 0) $("#username").val(username);
-	if(pwd.length > 0) $("#password").val(pwd);
+	if(username !== undefined && username.length > 0) $("#username").val(username);
+	if(pwd !== undefined && pwd.length > 0) $("#password").val(pwd);
 }
 
 function includeHome(){

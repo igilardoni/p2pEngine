@@ -58,17 +58,22 @@ function serverReply(data){
 	case "displayItem":						displayItem(data.content); break;
 	case "displayAccount":					displayAccount(data.content); break;
 	case "displayContrat":					displayContrat(data.content); break;
-	case "contratRemoved":					contratRemoved(data.content); break;
-	case "contratNotRemoved":				contratNotRemoved(data.content); break;
 	
 	case "messageNotSent":					messageNotSent(data.content); break;
 	
 	case "contratCreated":					contratCreated(data.content); break;
+	case "contratRemoved":					contratRemoved(data.content); break;
+	case "contratNotRemoved":				contratNotRemoved(data.content); break;
 	case "itemForContratLoaded":			itemForContratLoaded(data.content); break;
 	case "itemForContratNotLoaded":			itemForContratNotLoaded(data.content); break;
 	case "contratsLoaded":					contratsLoaded(data.content); break;
 	case "contratLoaded":					contratLoaded(data.content); break;
 	case "transfertRuleLoaded":				transfertRuleLoaded(data.content); break;
+	case "clauseLoaded":					clauseLoaded(data.content); break;
+	case "clauseAdded":						clauseAdded(data.content); break;
+	case "clauseSaved":						clauseSaved(data.content); break;
+	case "clauseRemoved":					clauseRemoved(data.content); break;
+	case "clauseNotRemoved":				clauseNotRemoved(data.content); break;
 	case "signatoryAdded":					signatoryAdded(data.content); break;
 	case "signatoryRemoved":				signatoryRemoved(data.content); break;
 	case "itemContratNotRemoved":			itemContratNotRemoved(data.content); break;
