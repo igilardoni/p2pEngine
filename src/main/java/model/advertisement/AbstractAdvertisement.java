@@ -152,6 +152,14 @@ public abstract class AbstractAdvertisement extends Advertisement{
 	public abstract String getSimpleName();
 	
 	
+	/**
+	 * Get all key and their values
+	 * @return
+	 */
+	public HashMap<String, String> getKeysValues() {
+		return this.keyValues;
+	}
+	
 	public void setKeys(AsymKeysImpl keys) {
 		if(keys == null) return;
 		this.keys = keys.copy();
