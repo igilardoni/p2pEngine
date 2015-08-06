@@ -1,0 +1,44 @@
+<div id="itemFavoritesDisplayer">
+	<a class="button buttonCancel toprightButton" title="hide" onclick="removeDisplayItemFavorites();"></a>
+	<label id="itemKey" class="hidden"></label>
+	<p>
+		<label class="label">Title :</label>
+		<label id="title" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Owner :</label>
+		<label id="friendlyNick" class="content"></label>
+	</p>
+	<p>
+		<label class="label"></label>
+		<label id="owner" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Type :</label>
+		<label id="type" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Category :</label>
+		<label id="category" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Image :</label>
+		<img id="image" class="content" style="max-width: 20%;"/>
+	</p>
+	<p>
+		<label class="label">Description :</label>
+		<label id="description" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Location :</label>
+		<label id="country" class="content"></label>
+	</p>
+	<p>
+		<label class="label">Contact :</label>
+		<label id="contact" class="content"></label>
+	</p>
+	<p style="text-align: center;">
+		<input type="button" value="Send Message" onclick="sendMessageTo();" />
+		<input type="button" value="Add to contrat" onclick="loadItemForContrat();" />
+	</p>
+</div>

@@ -1,0 +1,75 @@
+
+
+
+var contratForm =
+		{element:"div", attributes:{id:"contratForm"}, inside:[
+			{element:"h1", attributes:{}, inside:[
+				{element:"text", value:"Contrat"},
+				{element:"a", attributes:{"class":"button buttonEdit", onclick:"renameContractForm()", title:"Rename"}, inside:[]}
+			]},
+			{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]},
+			{element:"label", attributes:{"class":"hidden", id:"contratID"}, inside:[]},
+			{element:"div", attributes:{id:"objects"}, inside:[]},
+			{element:"div", attributes:{}, inside:[
+				{element:"table", attributes:{id:"signatories"}, inside:[
+					{element:"thead", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"th", attributes:{}, inside:[
+								{element:"text", value:"Signatories"}
+							]},
+							{element:"th", attributes:{style:"display:none;"}, inside:[
+  								{element:"text", value:"publicKey"}
+  							]},
+						]}
+					]},
+					{element:"tbody", attributes:{}, inside:[]},
+					{element:"tfoot", attributes:{}, inside:[]}
+				]}
+			]},
+			{element:"div", attributes:{id:"rules"}, inside:[
+				{element:"table", attributes:{}, inside:[
+					{element:"thead", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"th", attributes:{"class":"rowItem"}, inside:[
+								{element:"text", value:"Item"}
+							]},
+							{element:"th", attributes:{"class":"rowFrom"}, inside:[
+  								{element:"text", value:"From"}
+  							]},
+  							{element:"th", attributes:{"class":"rowTo"}, inside:[
+								{element:"text", value:"To"}
+							]},
+						]}
+					]},
+					{element:"tbody", attributes:{}, inside:[]},
+					{element:"tfoot", attributes:{}, inside:[
+         				{element:"tr", attributes:{}, inside:[
+         					{element:"td", attributes:{colspan:"3"}, inside:[
+         						{element:"text", value:"EMPTY"}
+         					]}
+         				]}
+         			]},
+					/*{element:"tbutton", attributes:{}, inside:[
+						{element:"tr", attributes:{}, inside:[
+							{element:"td", attributes:{colspan:"3"}, inside:[
+								{element:"a", attributes:{"class":"button buttonAdd", onclick:"addRules();", alt:"Add exchange rule"}, inside:[]}
+							]}
+						]}
+					]}*/
+				]}
+			]},
+			{element:"div", attributes:{id:"clauses"}, inside:[
+				{element:"a", attributes:{"class":"button buttonAdd", title:"Add a clause", onclick:"addClause();"}, inside:[]}
+			]},
+			{element:"div", attributes:{id:"actions"}, inside:[
+				{element:"a", attributes:{"class":"button buttonStart", onclick:"signContrat();"}, inside:[
+					{element:"text", value:"Lauch Signature Protocol"}
+				]},
+				/*{element:"a", attributes:{"class":"button buttonValidate", onclick:"saveDraftContrat();"}, inside:[
+					{element:"text", value:"Save"}
+				]},*/
+				{element:"a", attributes:{"class":"button buttonCancel", onclick:"deleteContrat();"}, inside:[
+					{element:"text", value:"Delete"}
+				]}
+			]}
+		]};

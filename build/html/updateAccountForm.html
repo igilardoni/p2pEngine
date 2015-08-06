@@ -34,24 +34,9 @@
 		<input type="password" id="passwordConfirm" name="passwordConfirm" required="required" placeholder="ex : p4$Sw0r6!" />
 	</p>
 	<p>
-		<input type="button" id="registrationButton" onclick="register();" value="Registration" />
+		<input type="submit"  onclick="updateAccount();" value="Update account" />
 	</p>
 	<p>
-		<input type="button" id="loginButton" onclick="includeLogin();" value="Go and log in"/>
+		<input type="button" onclick="includeHome();" value="Cancel"/>
 	</p>
 </div>
-
-
-
-			{element:"p", attributes:{}, inside:[
-				{element:"input", attributes:{type:"submit", onclick:"updateAccount();", value:"Update Account"}, inside:[
-					/*{element:"text", value:"Sign In"}*/
-				]}
-			]},
-			{element:"p", attributes:{}, inside:[
-				{element:"input", attributes:{type:"button", onclick:"includeHome();", value:"Cancel"}, inside:[
-					/*{element:"text", value:"Cancel"}*/
-				]}
-			]}
-		]};
-

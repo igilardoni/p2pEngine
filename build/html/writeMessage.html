@@ -1,0 +1,25 @@
+<div id="messageDisplay">
+	<ul class="newMessageHeader">
+		<li>
+			<p>
+				<label>Subject</label>
+				<input type="text" id="subject" name="subject" />
+			</p>
+		</li>
+		<li>
+			<p>
+				<label>Receiver</label>
+				<input type="text" id="receiver" name="receiver" />
+			</p>
+		</li>
+	</ul>
+	<p class="messageContent">
+		<label>Message :</label>
+		<textarea id="message" name="message"></textarea>
+	</p>
+	<p class="newMessageFooter">
+		<a onclick="sendMessage();" class="button buttonSend">Send</a>
+		<a onclick="cancelMessage();" class="button buttonCancel">Cancel</a>
+	</p>
+	<p id="feedbackBox" onclick="clearFeedback();"></p>
+</div>
