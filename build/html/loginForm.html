@@ -1,0 +1,19 @@
+<div id="login">
+	<input type="button" id="bootstrapSetting" value="Bootstrap Settings" onclick="includeBoostrapSetting();" />
+	<h1>Sign In</h1>
+	<p class="feedbackBox" onclick="clearFeedback();"></p>
+	<p>
+		<label class="label" id="label_username">Username : </label>
+		<input type="text" id="username" name="username" required="required" placeholder="AliceWonderland" />
+	</p>
+	<p>
+		<label class="label" id="label_password">Password : </label>
+		<input type="password" id="password" name="password" required="required" placeholder="ex : p4$Sw0r6!" />
+	</p>
+	<p>
+		<input type="button" id="loginButton" onclick="signIn();" value="Sign In"/>
+	</p>
+	<p>
+		<input type="button" id="registrationButton" onclick="includeRegistration();" value="Registration"/>
+	</p>
+</div>
