@@ -843,7 +843,7 @@ var contratRow =
 			{element:"td", attributes:{"class":"rowActions"}, inside:[
 				{element:"a", attributes:{"class":"button buttonRemove"}, inside:{}}
 			]}
-		]}
+		]};
 var ruleRow =
 		{element:"tr", attributes:{}, inside:[
 			{element:"td", attributes:{"class":"item"}, inside:[
