@@ -5,7 +5,12 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * PAGE GENERATORS * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getElement(json) {
+
+function getElement(html) {
+	return html[0];
+}
+
+function getElement2(json) {
 	if(json.element=="text"){
 		var text = document.createTextNode(json.value);
 		return text;
@@ -31,17 +36,11 @@ function textAreaAdjust(o) {
 }
 
 function getHeader(){
-	var div = document.createElement("div");
-	for ( var i = 0 ; i < header.length ; i++ ) {
-		$(div).append(getElement(header[i]));
-	}
-	return div;
+	return getElement(header);
 }
 
 function getMenu(){
-	var nav = document.createElement("nav");
-	$(nav).append(getElement(menu));
-	return nav;
+	return getElement(menu);
 }
 
 function clearFeedback() {
