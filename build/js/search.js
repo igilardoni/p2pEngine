@@ -134,48 +134,63 @@ function resetSearch(){
 }
 
 function newRowItemSearch(content){
-	var row = document.createElement("tr");
-	$(row).attr("id", removePunctuation(content.itemKey));
-	// Title cell
-	var cell1 = document.createElement("td");
-	$(cell1).attr("class", "rowTitle resume");
-	$(cell1).attr("onclick", "loadItemSearch('"+content.itemKey+"');");
-	$(cell1).append(document.createTextNode(content.title));
-	$(row).append(cell1);
-	// Description cell
-	var cell2 = document.createElement("td");
-	$(cell2).attr("class", "rowDescription");
-	$(cell2).attr("onclick", "loadItemSearch('"+content.itemKey+"');");
-	var labelDescription = document.createElement("label");
-	$(labelDescription).addClass("resume");
-	if(content.description.length > 400)
-		$(labelDescription).append(document.createTextNode(content.description.substring(0, 400)+" [...]"));
-	else
-		$(labelDescription).append(document.createTextNode(content.description));
-	$(cell2).append(labelDescription);
-	
-	var divDisplay = getElement(itemSearchDisplayer);
-	$(divDisplay).find("#title").text(content.title);
-	$(divDisplay).find("#category").text(content.category);
-	$(divDisplay).find("#type").text(content.type);
-	$(divDisplay).find("#description").text(content.description);
-	$(divDisplay).find("#image").attr("src", content.image);
-	$(divDisplay).find("#country").text(content.country);
-	$(divDisplay).find("#contact").text(content.contact);
-	
-	$(cell2).append(divDisplay);
-	
-	
-	$(row).append(cell2);
-	// Buttons Cell
-	var cell3 = document.createElement("td");
-	$(cell3).attr("class", "rowActions");
-	// Add to favorites Button
-	var favoritesButton = document.createElement("a");
-	$(favoritesButton).attr("class", "button buttonFavorites");
-	$(favoritesButton).attr("onclick", "addItemFavorites('"+content.itemKey+"');");
-	//$(removeButton).append(document.createTextNode("Remove"));
-	$(cell3).append(favoritesButton);
-	$(row).append(cell3);
+	var description = content.description.length>400?content.description.substring(0, 400):content.description;
+	var row = $("<tr id=\""+removePunctuation(content.itemKey)+"\">" +
+				"<td class=\"rowTitle resume\" onclick=\"loadItemSearch('" + content.itemKey + "');\">" +
+					content.title +
+				"</td>" +
+				"<td class=\"rowDescription\" onclick=\"loadItemSearch('"+content.itemKey+"');\">" +
+					"<label class=\"resume\">" + 
+						description +
+					"</label>" +
+					"<div class=\"searchDisplayer hidden\">" +
+						"<p>" +
+							"<label class=\"label\">Title : </label>" +
+							"<label id=\"title\">" +
+								content.title +
+							"</label>" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Category</label>" +
+							"<label id=\"category\">" +
+								content.category +
+							"</label>" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Type : </label>" +
+							"<label id=\"type\">" +
+								content.type +
+							"</label>" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Description : </label>" +
+							"<label id=\"description\">" +
+								content.description +
+							"</label>" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Image : </label>" +
+							"<img id=\"image\" src=\"" +
+								content.image +
+							"\">" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Location : </label>" +
+							"<label id=\"country\">" +
+								content.country +
+							"</label>" +
+						"</p>" +
+						"<p>" +
+							"<label class=\"label\">Contact : </label>" +
+							"<label id=\"contact\">" +
+								content.contact +
+							"</label>" +
+						"</p>" +
+					"</div>" +
+				"</td>" +
+				"<td class=\"rowActions\">" +
+					"<a class=\"button buttonFavorites\" onclick=\"addItemFavorites('"+content.itemKey+"');\" />" +
+				"</td>" +
+			"</tr>");
 	return row;
 }
