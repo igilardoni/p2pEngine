@@ -22,6 +22,8 @@ public class RemoveItemFavorites extends AbstractInterlocutor {
 			data.put("query", "itemFavoritesRemoved");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", itemKey);
+			content.put("feedback", "Item deleted from favorites");
+			content.put("feedbackOk", true);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

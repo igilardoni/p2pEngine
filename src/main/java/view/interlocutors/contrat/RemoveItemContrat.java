@@ -32,9 +32,11 @@ public class RemoveItemContrat extends AbstractInterlocutor {
 				content.put("contratID", contratID);
 				content.put("itemKey", itemKey);
 				content.put("feedback", "Item removed !");
+				content.put("feedbackOk", true);
 			} else {
 				data.put("query", "itemContratNotRemoved");
 				content.put("feedback", "An unknown error occurred while deleting the item.");
+				content.put("feedbackOk", false);
 			}
 			data.put("content", content);
 			com.sendText(data.toString());
@@ -51,6 +53,7 @@ public class RemoveItemContrat extends AbstractInterlocutor {
 					content = new JSONObject();
 					data.put("query", "signatoryRemoved");
 					content.put("feedback", "Item removed !"+ "<br />" +"One signatory removed.");
+					content.put("feedbackOk", true);
 					content.put("contratID", contratID);
 					content.put("publicKey", s);
 					data.put("content", content);

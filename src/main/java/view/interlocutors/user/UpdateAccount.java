@@ -31,7 +31,8 @@ public class UpdateAccount extends AbstractInterlocutor {
 				JSONObject data = new JSONObject();
 				data.put("query", "accountUpdated");
 				JSONObject content = new JSONObject();
-				content.put("ok", "ok");
+				content.put("feedback", "Account updated !");
+				content.put("feedbackOk", true);
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

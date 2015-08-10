@@ -129,7 +129,8 @@ $('<div>').load("/SXPManager/html/itemContratRow.html", function() {
 var loginForm = null;
 $("<div>").load("/SXPManager/html/loginForm.html", function() {
 	loginForm = $(this).children();
-	includeLogin();
+	//includeLogin();
+	$("#contentStart").append($(this).children());
 });
 
 

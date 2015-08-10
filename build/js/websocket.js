@@ -86,6 +86,8 @@ function serverReply(data){
 	case "sponsorBootstrapSaved":			sponsorBootstrapSaved(data.content); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
+	if(data.content.feedback !== undefined)
+		printFeedback(data.content.feedback, data.content.feedbackOk);
 }
 
 function sendQueryEmpty(query){

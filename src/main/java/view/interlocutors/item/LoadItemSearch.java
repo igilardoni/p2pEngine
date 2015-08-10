@@ -28,12 +28,14 @@ public class LoadItemSearch extends AbstractInterlocutor {
 			if(item == null) {
 				data.put("query", "itemSearchNotLoaded");
 				content.put("feedback", "Item not found on network !");
+				content.put("feedbackOk", false);
 				content.put("itemKey", itemKey);
 				data.put("content", content);
 				com.sendText(data.toString());
 			} else {
 				data.put("query", "itemSearchLoaded");
 				content.put("feedback", "Item "+item.getTitle()+" found !");
+				content.put("feedbackOk", true);
 				content.put("itemKey", item.getItemKey());
 				content.put("owner", item.getOwner());
 				content.put("friendlyNick", item.getFriendNick());

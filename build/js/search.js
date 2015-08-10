@@ -100,11 +100,9 @@ function itemSearchFound(content){
 		$("#"+itemSearchList+" #"+removePunctuation(content.itemKey)).replaceWith(newRowItem(content));*/
 }
 function itemSearchLoaded(content) {
-	printFeedback(content.feedback, true);
 	displayItemFavorites(content);
 }
 function itemSearchNotLoaded(content) {
-	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

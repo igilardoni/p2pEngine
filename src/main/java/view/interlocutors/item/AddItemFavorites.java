@@ -29,7 +29,8 @@ public class AddItemFavorites extends AbstractInterlocutor {
 				JSONObject data = new JSONObject();
 				data.put("query", "favoritesItemsLoadedError");
 				JSONObject content = new JSONObject();
-				content.put("message", "This item is already in Favorites !");
+				content.put("feedback", "This item is already in Favorites !");
+				content.put("feedbackOk", false);
 				data.put("content", content);
 				com.sendText(data.toString());
 				return;
@@ -50,7 +51,8 @@ public class AddItemFavorites extends AbstractInterlocutor {
 				JSONObject data = new JSONObject();
 				data.put("query", "favoritesItemsLoadedError");
 				JSONObject content = new JSONObject();
-				content.put("message", "This item isn't found on Network !");
+				content.put("feedback", "This item isn't found on Network !");
+				content.put("feedbackOk", false);
 				data.put("content", content);
 				com.sendText(data.toString());
 				return;
@@ -62,6 +64,8 @@ public class AddItemFavorites extends AbstractInterlocutor {
 			content.put("itemKey", itemKey);
 			content.put("title", item.getTitle());
 			content.put("description", item.getDescription());
+			content.put("feedback", "Item add in favorites");
+			content.put("feedbackOk", true);
 			data.put("content", content);
 			com.sendText(data.toString());
 			return;

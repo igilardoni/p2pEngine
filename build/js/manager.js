@@ -29,6 +29,7 @@ function includeRegistration(){
 
 function includeHome(){
 	emptyContent();
+	$("#content").append("<p class=\"feedbackBox\" onclick=\"clearFeedback();\"></p>");
 	$("#content").append(getHome());
 	allMenuWhite();
 	$("nav .homeButton").addClass("selected");

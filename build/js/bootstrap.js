@@ -55,7 +55,6 @@ function ipLoaded(content){
 }
 
 function bootstrapSent(content){
-	printFeedback(content.feedback, true);
 	var link = "mailto:"+$("#emailReceiver").val()
         + "?subject=" + content.subject
         + "&body=" + content.text;
@@ -64,12 +63,10 @@ function bootstrapSent(content){
 }
 
 function bootstrapNotSent(content){
-	printFeedback(content.feedback, false);
 }
 
 function sponsorBootstrapSaved(content){
 	includeBoostrapSetting();
-	printFeedback(content.feedback, true);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *

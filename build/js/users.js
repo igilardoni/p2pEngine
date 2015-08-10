@@ -111,14 +111,13 @@ function loadAccount(){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Login answer
 function login(content){
-	if(content.ok == "ok"){
+	if(content.feedbackOk == "true" || content.feedbackOk){
 		includeHeader();
 		includeMenu();
 		includeHome();
 		includeFavorites();
 		$("#usernameHead").text(content.username);
 	}else{
-		printFeedback(content.feedback, false);
 	}
 }
 
@@ -132,16 +131,15 @@ function logout(content){
 
 // Registration answer
 function registration(content){
-	if(content.ok = "ok"){
+	if(content.feedbackOk == "true" || content.feedbackOk){
 		includeLogin();
 		$("#username").val(content.username);
-		printFeedback(content.feedback, true);
 	}
 }
 
 // Update account answer
 function accountUpdated(content){
-	if(content.ok = "ok"){
+	if(content.feedbackOk == "true" || content.feedbackOk){
 		includeHeader();
 		includeMenu();
 		includeHome();

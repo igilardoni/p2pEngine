@@ -42,6 +42,8 @@ public class ChangeContratExchangeRule extends AbstractInterlocutor {
 					content.put("toFriendlyNick", toNick);
 					content.put("itemKey", itemKey);
 					content.put("itemTitle", itemTitle);
+					content.put("feedback", "Rule saved");
+					content.put("feedbackOk", true);
 					data.put("content", content);
 					com.sendText(data.toString());
 				} else {

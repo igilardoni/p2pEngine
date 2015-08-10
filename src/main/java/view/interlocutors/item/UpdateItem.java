@@ -34,6 +34,8 @@ public class UpdateItem extends AbstractInterlocutor {
 			content.put("itemKey", itemKey);
 			content.put("title", title);
 			content.put("description", description);
+			content.put("feedback", "Item updated");
+			content.put("feedbackOk", true);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

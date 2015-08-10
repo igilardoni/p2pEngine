@@ -24,6 +24,8 @@ public class SaveClause extends AbstractInterlocutor {
 			if(ManagerBridge.saveClause(contratID, id, title, value)){
 				JSONObject data = new JSONObject();
 				data.put("query", "clauseSaved");
+				c.put("feedback", "Clause Saved");
+				c.put("feedbackOk", true);
 				data.put("content", c);
 				com.sendText(data.toString());
 			}

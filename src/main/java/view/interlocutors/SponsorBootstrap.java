@@ -50,6 +50,7 @@ public class SponsorBootstrap extends AbstractInterlocutor {
 			JSONObject content = new JSONObject();
 			data.put("query", "sponsorBootstrapSaved");
 			content.put("feedback", "Your preferences have been saved. They will be applied when you restart the application.");
+			content.put("feedbackOk", true);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

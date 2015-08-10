@@ -24,6 +24,7 @@ public class RenameContrat extends AbstractInterlocutor {
 				content.put("contratID", contratID);
 				content.put("title", title);
 				content.put("feedback", "Contract renamed");
+				content.put("feedbackOk", true);
 				data.put("query", "contractRenamed");
 				data.put("content", content);
 				com.sendText(data.toString());

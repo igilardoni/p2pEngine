@@ -23,12 +23,14 @@ public class RemoveClause extends AbstractInterlocutor {
 				JSONObject data = new JSONObject();
 				data.put("query", "clauseRemoved");
 				c.put("feedback", "Clause removed !");
+				c.put("feedbackOk", true);
 				data.put("content", c);
 				com.sendText(data.toString());
 			} else {
 				JSONObject data = new JSONObject();
 				data.put("query", "clauseNotRemoved");
 				c.put("feedback", "Clause can't be removed !");
+				c.put("feedbackOk", false);
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

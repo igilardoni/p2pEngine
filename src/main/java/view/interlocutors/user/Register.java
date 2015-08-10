@@ -27,7 +27,7 @@ public class Register extends AbstractInterlocutor {
 			
 			JSONObject data = new JSONObject();
 			data.put("query", "registration");
-			c.put("ok", "ok");
+			c.put("feedbackOk", true);
 			c.put("feedback", "Account created locally. You must log in at least once to complete registration.");
 			data.put("content", c);
 			com.sendText(data.toString());

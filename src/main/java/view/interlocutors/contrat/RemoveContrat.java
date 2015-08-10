@@ -23,12 +23,14 @@ public class RemoveContrat extends AbstractInterlocutor {
 			if(ManagerBridge.removeContrat(contratID)){
 				data.put("query", "contratRemoved");
 				content.put("feedback", "Contract \""+title+"\" has been removed.");
+				content.put("feedbackOk", true);
 				content.put("contratID", contratID);
 				data.put("content", content);
 				com.sendText(data.toString());
 			} else {
 				data.put("query", "contratNotRemoved");
 				content.put("feedback", "Removing contract \""+title+"\" failed !!!");
+				content.put("feedbackOk", false);
 				data.put("content", content);
 				com.sendText(data.toString());
 			}

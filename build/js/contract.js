@@ -139,10 +139,8 @@ function contratCreated(content) {
 function itemForContratLoaded(content) {
 	$("#contratID").text(content.contratId);
 	$("#"+itemContratList).append(newRowItemContrat(content));
-	printFeedback(content.feedback, true);
 }
 function itemForContratNotLoaded(content) {
-	printFeedback(content.feedback, false);
 }
 function contratsLoaded(content) {
 	$("#"+contratList).append(newRowContrat(content));
@@ -160,11 +158,9 @@ function clauseSaved(content){
 	$("#"+removePunctuation(content.id)).replaceWith(displayClause(content));
 }
 function clauseRemoved(content){
-	printFeedback(content.feedback, true);
 	$("#"+removePunctuation(content.id)).detach();
 }
 function clauseNotRemoved(content){
-	printFeedback(content.feedback, false);
 }
 function contratLoaded(content) {
 	var editButton = $("#contratForm h1 a");
@@ -186,7 +182,6 @@ function contratLoaded(content) {
 	sendQuery("loadContentContrat", contentBis);
 }
 function contratNotLoaded(content) {
-	printFeedback(content.feedback, false);
 }
 function signatoryAdded(content) {
 	$("#signatories").append(newRowSignatory(content));
@@ -194,20 +189,16 @@ function signatoryAdded(content) {
 function contratRemoved(content) {
 	var id = removePunctuation(content.contratID);
 	$("#"+id).detach();
-	printFeedback(content.feedback, true);
 }
 function contratNotRemoved(content) {
-	printFeedback(content.feedback, false);
 }
 function itemContratNotRemoved(content) {
-	printFeedback(content.feedback, false);
 }
 function itemContratRemoved(content) {
 	if($("#contratID").text() != content.contratID)
 		return;
 	$("#itemContratList #"+removePunctuation(content.itemKey)).detach();
 	$("#rules #"+removePunctuation(content.itemKey)).detach();
-	printFeedback(content.feedback, true);
 }
 function signatoryRemoved(content) {
 	if($("#contratID").text() != content.contratID)
@@ -217,7 +208,6 @@ function signatoryRemoved(content) {
 function contractRenamed(content) {
 	if(content.contratID != $("#contratID").text())
 		return;
-	printFeedback(content.feedback, true);
 	var button = $("<a class=\"button buttonEdit\" onclick=\"renameContractForm();\" title=\"Rename\" />");
 	$("#contratForm h1").empty();
 	$("#contratForm h1").append(content.title);

@@ -52,6 +52,7 @@ public class SendBootstrap extends AbstractInterlocutor {
 			JSONObject content = new JSONObject();
 			data.put("query", "bootstrapSent");
 			content.put("feedback", "");
+			content.put("feedbackOk", true);
 			content.put("subject", subject);
 			content.put("text", head+body+foot);
 			data.put("content", content);

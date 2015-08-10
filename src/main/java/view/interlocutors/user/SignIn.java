@@ -23,6 +23,7 @@ public class SignIn extends AbstractInterlocutor {
 				JSONObject content = new JSONObject();
 				content.put("ok", "ok");
 				content.put("feedback", "user logged");
+				content.put("feedbackOk", true);
 				content.put("username", c.getString("username"));
 				data.put("content", content);
 				com.sendText(data.toString());
@@ -30,7 +31,7 @@ public class SignIn extends AbstractInterlocutor {
 				JSONObject data = new JSONObject();
 				data.put("query", "login");
 				JSONObject content = new JSONObject();
-				content.put("ok", "no");
+				content.put("feedbackOk", false);
 				content.put("feedback", "Can't connect. Thank you to verify that you correctly entered your username and password.");
 				data.put("content", content);
 				com.sendText(data.toString());

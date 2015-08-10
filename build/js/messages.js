@@ -50,14 +50,11 @@ function messageLoaded(content) {
 	});
 }
 function messageNotSent(content) {
-	printFeedback(content.feedback, false);
 }
 function messageRemoved(content) {
 	$("#"+messagesList+" #"+removePunctuation(content.id)).detach();
-	printFeedback(content.feedback, true);
 }
 function messageNotRemoved(content) {
-	printFeedback(content.feedback, false);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
