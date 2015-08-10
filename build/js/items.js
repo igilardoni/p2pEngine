@@ -2,6 +2,7 @@
  * JavaScript for managing items
  * @author Michael DUBUIS
  */
+var itemsAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -87,7 +88,10 @@ function loadItem(itemKey){
  * Ask to the model to send all data items (for the current user)
  */
 function loadItems(){
+	if(itemsAreLoaded)
+		return;
 	sendQueryEmpty("loadItems");
+	itemsAreLoaded = true;
 }
 /**
  * Ask to the model to send item's itemKey

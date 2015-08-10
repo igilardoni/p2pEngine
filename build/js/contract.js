@@ -2,11 +2,15 @@
  * JavaScript for managing contrats
  * @author Michael DUBUIS
  */
+contratsAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function loadContrats(){
+	if(contratsAreLoaded)
+		return;
 	sendQueryEmpty("loadContrats");
+	contratsAreLoaded = true;
 }
 function loadContrat(id){
 	var content = {"contratID":id};

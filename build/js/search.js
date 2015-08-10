@@ -2,6 +2,7 @@
  * JavaScript for managing search
  * @author Michael DUBUIS
  */
+var itemSearchFieldAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -9,7 +10,10 @@
  * Ask to the model to send item's searchable field
  */
 function loadItemSearchField(){
+	if(itemSearchFieldAreLoaded)
+		return;
 	sendQueryEmpty("loadItemSearchField");
+	itemSearchFieldAreLoaded = true;
 }
 /**
  * Ask to the model to send item's category for searching

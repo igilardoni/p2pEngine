@@ -115,10 +115,6 @@ var clauseContratDisplay = null;
 $('<div>').load("/SXPManager/html/clauseContratDisplay.html", function() {
 	clauseContratDisplay = $(this).children();
 });
-var contratRow = null;
-$('<tr>').load("/SXPManager/html/contratRow.html", function() {
-	contratRow = $(this).children();
-});
 var ruleRow = null;
 $('<div>').load("/SXPManager/html/ruleRow.html", function() {
 	ruleRow = $(this).children();

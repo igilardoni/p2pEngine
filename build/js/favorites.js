@@ -2,6 +2,7 @@
  * JavaScript for managing favorites
  * @author Michael DUBUIS
  */
+var itemsFavoritesAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,7 +28,10 @@ function loadItemFavorites(itemKey){
 
 //Ask to the model to send all data items from Favorites (for the current user)
 function loadItemsFavorites(){
+	if(itemsFavoritesAreLoaded)
+		return;
 	sendQueryEmpty("loadItemsFavorites");
+	itemsFavoritesAreLoaded = true;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *

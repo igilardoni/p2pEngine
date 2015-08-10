@@ -34,7 +34,6 @@ function includeHome(){
 	$("nav .homeButton").addClass("selected");
 	scrollTop();
 	loadItems();
-	clearFavoritesTable();
 	loadItemsFavorites();
 }
 
