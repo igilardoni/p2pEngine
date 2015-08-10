@@ -224,7 +224,8 @@ function getContrat(){
 }
 
 function newRowContrat(content) {
-	var row = getElement(contratRow);
+	var row = $("<tr><td class=\"rowTitle\"></td><td class=\"rowState\"></td><td class=\"rowActions\"><a class=\"button buttonRemove\"></a></td></tr>");
+	
 	$(row).attr("id", removePunctuation(content.contratID));
 	$(row).find(".rowTitle").append(content.title);
 	$(row).find(".rowTitle").attr("onclick", "loadContrat('"+content.contratID+"');");

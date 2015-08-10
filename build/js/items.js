@@ -165,15 +165,7 @@ function typeLoaded(content){
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getHome(){
-	var content = document.createElement("section");
-	$(content).attr("id", "content");
-	var div = document.createElement("div");
-	$(div).attr("id", "items");
-	$(div).append(getTableItem(itemList));
-	$(content).append(div);
-	$(div).append(getItemAddForm());
-	$(content).append(div);
-	return content;
+	return getElement(itemTable);
 }
 
 /**

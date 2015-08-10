@@ -29,7 +29,7 @@ function includeRegistration(){
 
 function includeHome(){
 	emptyContent();
-	$("#content").replaceWith(getHome());
+	$("#content").append(getHome());
 	allMenuWhite();
 	$("nav .homeButton").addClass("selected");
 	scrollTop();
