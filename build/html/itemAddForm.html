@@ -1,4 +1,4 @@
-<div>
+<div id="itemForm">
 	<h1>Item</h1>
 	<p class="feedbackBox" onclick="clearFeedback();"></p>
 	<p>
@@ -22,7 +22,7 @@
 		<textarea rows="" cols="" id="description" name="description" placeholder="My potatoes are great !"></textarea>
 	</p>
 	<p id="paraImage">
-		<label id="label_image" class="label">Image:</label>
+		<label id="label_image" class="label">Image :</label>
 		<ul class="radio">
 			<li>
 				<input type="radio" name="typeImage" value="File" onchange="typeImageChanged();" checked="checked" />
@@ -36,15 +36,15 @@
 		<div id="fileDiv">
 			<input type="file" id="fileImage" accept="image/*" onchange="previewFile(this);" />
 		</div>
-		<div id="webcamDiv" style="display:none;">
+		<div id="webcamDiv" style="display:none">
 			<div class="camera" onload="startup();">
-				<video id="video">Video stream not available.</video>
-				<canvas id="canvas" class="hidden"></canvas>
-				<input type="button" id=startbutton" value="Take photo" />
-				<input type="button" id="stopbutton" value="Reset photo" class="hidden" />
+				<video id="video">video stream not available</video>
 			</div>
+			<canvas id="canvas" class="hidden"></canvas>
+			<input type="button" id="startbutton" value="Take photo" />
+			<input type="button" id="stopbutton" value="Reset photo" class="hidden" />
 		</div>
-		<image id="image" style="max-width:30%;" />
+		<img id="image" style="max-width:30%" />
 	</p>
 	<p>
 		<label id="label_country" class="label">Country : </label>
@@ -59,3 +59,20 @@
 		<a onclick="cancelItem();" class="button buttonCancel">Cancel</a>
 	</p>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

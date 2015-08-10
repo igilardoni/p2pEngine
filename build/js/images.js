@@ -18,11 +18,11 @@ function previewFile() {
 }
 
 function typeImageChanged(){
-	if($("#paraImage input[type=radio]:checked").val()=="File"){
+	if($(".radio input[type=radio]:checked").val()=="File"){
 		$("#fileDiv").show();
 		$("#webcamDiv").hide();
 		previewFile();
-	} else if($("#paraImage input[type=radio]:checked").val()=="Webcam") {
+	} else if($(".radio input[type=radio]:checked").val()=="Webcam") {
 		$("#fileDiv").hide();
 		$("#webcamDiv").show();
 		$("#paraImage img").attr("src", "");
