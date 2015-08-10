@@ -81,10 +81,6 @@ function getItemFavoritesDisplay(){
 
 function clearFavoritesTable(){
 	$("aside #favoritesList tbody").empty();
-	var div = document.createElement("div");
-	$(div).attr("id","loading");
-	$(div).append("Loading...");
-	$("aside").append(div);
 }
 function newRowFavorites(content){
 	var row = document.createElement("tr");
@@ -118,6 +114,7 @@ function displayItemFavorites(content){
 		if(key=="image")
 			$("#itemFavoritesDisplayer"+" #"+key).attr("src", value);
 		else{
+			$("#itemFavoritesDisplayer"+" #"+key).empty();
 			var text = document.createTextNode(value);
 			$("#itemFavoritesDisplayer"+" #"+key).append(text);
 		}
