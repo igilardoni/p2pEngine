@@ -116,6 +116,15 @@ function removeClause(id) {
 function contratCreated(content) {
 	emptyContent();
 	$("#content").append(getElement(contratForm));
+	
+	$("#contratID").empty();
+	$("#itemContratList tbody").empty();
+	$("#signatories tbody").empty();
+	$("#rules tbody").empty();
+	var addRuleButton = $("#clauses a");
+	$("#clauses").empty();
+	$("#clauses").append(addRuleButton);
+	
 	$("#contratID").append(content.contratID);
 	$("#objects").append(getElement(itemContratTable));
 	var editButton = $("#contratForm h1 a");
@@ -124,6 +133,7 @@ function contratCreated(content) {
 	var contentBis = {
 			"contratID" : content.contratID
 	};
+	
 	sendQuery("loadContentContrat", contentBis);
 }
 function itemForContratLoaded(content) {
@@ -160,6 +170,15 @@ function contratLoaded(content) {
 	var editButton = $("#contratForm h1 a");
 	$("#contratForm").find("h1").text(content.title);
 	$("#contratForm").find("h1").append(editButton);
+	
+	$("#contratID").empty();
+	$("#itemContratList tbody").empty();
+	$("#signatories tbody").empty();
+	$("#rules tbody").empty();
+	var addRuleButton = $("#clauses a#addClauseButton");
+	$("#clauses").empty();
+	$("#clauses").append(addRuleButton);
+	
 	$("#contratID").append(content.contratID);
 	var contentBis = {
 			"contratID" : content.contratID
@@ -199,10 +218,10 @@ function contractRenamed(content) {
 	if(content.contratID != $("#contratID").text())
 		return;
 	printFeedback(content.feedback, true);
-	var button = {element:"a", attributes:{"class":"button buttonEdit", onclick:"renameContractForm()", title:"Rename"}, inside:[]};
+	var button = $("<a class=\"button buttonEdit\" onclick=\"renameContractForm();\" title=\"Rename\" />");
 	$("#contratForm h1").empty();
 	$("#contratForm h1").append(content.title);
-	$("#contratForm h1").append(getElement(button));
+	$("#contratForm h1").append(button);
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
@@ -240,7 +259,11 @@ function newRowContrat(content) {
 }
 // For add an item in table item contrat list
 function newRowItemContrat(content) {
-	var row = getElement(itemContratRow);
+	var row = $("<tr>" +
+			"<td class=\"rowTitle\"></td>" +
+			"<td class=\"rowDescription\"></td>" +
+			"<td class=\"rowActions\"></td>" +
+			"</tr>");
 	$(row).attr("id", removePunctuation(content.itemKey));
 	$(row).find(".rowTitle").append(content.title);
 	if(content.description.length > 100)
@@ -252,7 +275,19 @@ function newRowItemContrat(content) {
 }
 // For add a transfert rule in table
 function newRowTransfertRule(content) {
-	var row = getElement(ruleRow);
+	var row = $("<tr>" +
+			"<td class=\"item\">" +
+			"<label class=\"labelItem\"></label>" +
+			"<label class=\"itemKey hidden\"></label>" +
+			"</td>" +
+			"<td class=\"from\">" +
+			"<label class=\"labelFrom\"></label>" +
+			"<label class=\"publicKey hidden\"></label>" +
+			"</td>" +
+			"<td class=\"to\">" +
+			"<select class=\"userSelect\"></select>" +
+			"</td>" +
+			"</tr>");
 	$(row).find(".labelItem").text(content.itemTitle);
 	$(row).find(".itemKey").text(content.itemKey);
 	$(row).find(".labelFrom").text(content.fromFriendlyNick);
@@ -276,27 +311,14 @@ function newRowTransfertRule(content) {
 }
 // For add a signatory in table
 function newRowSignatory(content) {
-	var row = document.createElement("tr");
-	$(row).attr("id", "signatories"+removePunctuation(content.publicKey));
-	
-	var cell1 = document.createElement("td");
-	var label11 = document.createElement("label");
-	$(label11).append(content.publicKey);
-	$(label11).attr("class", "hidden");
-	var label21 = document.createElement("label");
-	$(label21).append(content.friendlyNick);
-	$(cell1).append(label11);
-	$(cell1).append(label21);
-	
-	$(row).append(cell1);
-	
+	var row = $("<tr id=\""+removePunctuation(content.publicKey)+"\"><td><label class=\"hidden\">"+content.publicKey+"</label><label>"+content.friendlyNick+"</label></td></tr>");
 	return row;
 }
 function displayClause(content) {
-	var div = getElement(clauseContratDisplay);
+	var div = $("<div><p><label class=\"label\">Title : </label><label id=\"title\"></label><a class=\"button buttonRemove\" title=\"Remove clause\"></a><a class=\"button buttonEdit\" title=\"Edit clause\"></a></p><p id=\"value\"></p></div>");
 	$(div).attr("id", removePunctuation(content.id));
 	$(div).find("#title").text(content.title);
-	$(div).find("#value").text(content.value);
+	$(div).find("#value").append(textWithSlashNToBr(content.value));
 	$(div).find(".buttonEdit").attr("onclick", "editClause('"+content.id+"');");
 	$(div).find(".buttonRemove").attr("onclick", "removeClause('"+content.id+"');");
 	return div;
@@ -305,16 +327,23 @@ function editClause(id) {
 	var content = {
 		"id" : id,
 		"title" : $("#"+removePunctuation(id)).find("#title").text(),
-		"value" : $("#"+removePunctuation(id)).find("#value").text()
+		"value" : textWithBrToSlashN($("#"+removePunctuation(id)).find("#value").html())
 	};
 	$("#"+removePunctuation(id)).replaceWith(formClause(content));
 }
 function formClause(content) {
-	var div = getElement(clauseContratForm);
+	var div = $("<div><p><label class=\"label\">Title : </label><input type=\"text\" id=\"title\" name=\"title\"/></p><p><textarea id=\"value\" name=\"value\"></textarea></p><p style=\"text-align:right;\"><a class=\"button buttonValidate\">Save Clause</a><a class=\"button buttonRemove\" title=\"Remove clause\">Remove Clause</a></p></div>");
 	$(div).attr("id", removePunctuation(content.id));
 	$(div).find("#title").val(content.title);
-	$(div).find("#value").val(content.value);
+	$(div).find("#value").text(content.value);
 	$(div).find(".buttonValidate").attr("onclick", "saveClause('"+content.id+"');");
 	$(div).find(".buttonRemove").attr("onclick", "removeClause('"+content.id+"');");
 	return div;
+}
+
+function textWithSlashNToBr(string) {
+	return string.replace(/(?:\r\n|\r|\n)/g, '<br />');
+}
+function textWithBrToSlashN(string) {
+	return string.replace(/<br *\/?>/gi, '\n');
 }
