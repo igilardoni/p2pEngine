@@ -63,6 +63,8 @@ function messageLoaded(content) {
 	$("#"+messageDisplay).append(display);
 	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
 	$("#"+removePunctuation(content.id)).addClass("readedMessage");
+	if($(".unreadButton").hasClass("selected"))
+		$("#"+removePunctuation(content.id)).addClass("hidden");
 	/*$.each(content, function(key, value){
 		var h2 = document.createElement("h2");
 		$(h2).append(key);

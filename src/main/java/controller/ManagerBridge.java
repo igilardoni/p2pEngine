@@ -284,8 +284,17 @@ public class ManagerBridge{
 	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static ArrayList<UserMessage> getMessages(){
-		
-		return null; // TODO getMESSAGE ? Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
+		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
+		messages = Application.getInstance().getManager().getMessageManager().getMessages();
+		for(UserMessage m : messages) {
+			if(m.getReceiver().equals(getCurrentUser().getKeys()))
+				if(m.isEncrypted())
+					m.decrypt(getCurrentUser().getKeys());
+				else;
+			else
+				messages.remove(m);
+		}
+		return messages; // TODO getMESSAGE ? Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
 		
 	}
 	public static ArrayList<UserMessage> getConversation(){
