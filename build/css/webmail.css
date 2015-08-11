@@ -43,6 +43,12 @@
 #messageDisplay:empty {
 	display : none;
 }
+#messageDisplay .meta {
+	margin : -1%;-webkit-border-radius: 15;
+	-moz-border-radius: 15;
+	border-radius: 15px;
+	background-color : #64a9b0;
+}
 
 .messageContent label {
 	display : inline-block;

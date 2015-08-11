@@ -60,6 +60,7 @@ function messageLoaded(content) {
 					textWithSlashNToBr(content.message) +
 				"</p>" +
 			"</div>");
+	$("#"+messageDisplay).append(display);
 	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
 	$("#"+removePunctuation(content.id)).addClass("readedMessage");
 	/*$.each(content, function(key, value){
