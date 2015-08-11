@@ -1,18 +1,29 @@
 <div id="webmail">
 	<div id="webmailMenu">
 		<ul>
-			<li id="unread" onclick="newMessage();" class="menu">
-				<a>Write</a>
+			<li id="write" onclick="newMessage();" class="menu writeButton">
+				<a title="Write new message">Write</a>
 			</li>
-			<li id="unread" onclick="loadMessages()" class="menu">
-				<a>Unread</a>
-			</li>
-			<li id="conversation" onclick="loadConversation();" class="menu">
-				<a>Read</a>
-			</li>
+			<ul>
+				<li id="mailbox" class="menu mailboxButton" onclick="showSubMenu(this);">
+					<a title="MailBox">MailBox</a><img src="./img/triangle.png"/>
+				</li>
+				<ul class="hidden">
+					<li class="menu receivedButton selected" onclick="showMessageReceived();">
+						<a>Received</a>
+					</li>
+					<li class="menu unreadButton" onclick="showMessageUnread();">
+						<a>Unread</a>
+					</li>
+					<li class="menu sentButton" onclick="showMessageSent();">
+						<a>Sent</a>
+					</li>
+				</ul>
+			</ul>
 		</ul>
 	</div>
 	<div id="webmailDisplay">
+		<p class="feedbackBox" onclick="clearFeedback();"></p>
 		<table id="messagesList">
 			<thead>
 				<tr>
@@ -29,7 +40,6 @@
 				</tr>
 			</tfoot>
 		</table>
-		<p class="feedbackBox" onclick="clearFeedback();"></p>
 		<div id="messageDisplay"></div>
 	</div>
 </div>

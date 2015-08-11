@@ -52,21 +52,21 @@ header:empty {
 	display : none;
 }
 
-.droper {
+header .droper {
 	font-size : 1.5em;
 	font-weight: bold;
 	text-align : right;
 	padding-right : 0.2em;
 }
-.dropMenu:hover > .drop {
+header .dropMenu:hover > .drop {
 	animation: growup 0.5s ease-in-out 1;
 	display : list-item;
 }
-.drop {
+header .drop {
 	display : none;
 	animation : none;
 }
-.dropMenu {
+header .dropMenu {
 	float : right;
 	position : absolute;
 	right : 10px;
@@ -74,7 +74,7 @@ header:empty {
 	margin: 0;
 	padding: 0;
 }
-.dropButton {
+header .dropButton {
 	display : block;
 	cursor : pointer;
 	text-align : center;
@@ -89,14 +89,14 @@ header:empty {
 	padding-bottom : 0.2em;
 	padding-top : 0.2em;
 }
-.dropButton:before {
+header .dropButton:before {
 	margin-left : 0.1em;
 	margin-right : 0.5em;
 	display : inline-block;
 	vertical-align : middle;
 	text-align : center;
 }
-.dropButton:hover {
+header .dropButton:hover {
 	background-color : #7f7f7f;
 }
 

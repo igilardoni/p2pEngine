@@ -3,13 +3,20 @@
  */
 var messagesList = "messagesList";
 var messageDisplay = "messageDisplay";
+var messagesAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function loadMessages(){
+	if(messagesAreLoaded)
+		return;
 	sendQueryEmpty("loadMessages");
+	messagesAreLoaded = true;
 }
 
+/**
+ * @deprecated
+ */
 function loadConversation(){
 	sendQueryEmpty("loadConversation");
 }
@@ -40,14 +47,29 @@ function messagesLoaded(content) {
 }
 function messageLoaded(content) {
 	$("#"+messageDisplay).empty();
-	$.each(content, function(key, value){
+	var display = $("<div class=\"meta\">" +
+				"<label class=\"label\">Sender : </label>" +
+				content.sender +
+				"<label class=\"label\">Date : </label>" +
+				content.date +
+				"<label class=\"label\">Subject : </label>" +
+				content.subject +
+			"</div>" +
+			"<div>" +
+				"<p>" +
+					textWithSlashNToBr(content.message) +
+				"</p>" +
+			"</div>");
+	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
+	$("#"+removePunctuation(content.id)).addClass("readedMessage");
+	/*$.each(content, function(key, value){
 		var h2 = document.createElement("h2");
 		$(h2).append(key);
 		var p = document.createElement("p");
 		$(p).append(value);
 		$("#"+messageDisplay).append(h2);
 		$("#"+messageDisplay).append(p);
-	});
+	});*/
 }
 function messageNotSent(content) {
 }
@@ -60,6 +82,7 @@ function messageNotRemoved(content) {
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getWebmail(){
+	loadMessages();
 	return getElement(webmailForm);
 }
 
@@ -77,8 +100,33 @@ function sendMessageTo(){
 }
 
 function newMessage(){
-	$("#"+"messageDisplay").empty();
-	$("#"+"messageDisplay").replaceWith(getNewMessageForm());
+	$(".writeButton").addClass("selected");
+	 var writer = $("<div id=\"messageSender\">" +
+		"<ul class=\"newMessageHeader\">" +
+			"<li>" +
+				"<p>" +
+					"<label>Subject</label>" +
+					"<input type=\"text\" id=\"subject\" name=\"subject\" />" +
+				"</p>" +
+			"</li>" +
+			"<li>" +
+				"<p>" +
+					"<label>Receiver</label>" +
+					"<input type=\"text\" id=\"receiver\" name=\"receiver\" />" +
+				"</p>" +
+			"</li>" +
+		"</ul>" +
+		"<p class=\"messageContent\">" +
+			"<label>Message :</label>" +
+			"<textarea id=\"message\" name=\"message\"></textarea>" +
+		"</p>" +
+		"<p class=\"newMessageFooter\">" +
+			"<a onclick=\"sendMessage();\" class=\"button buttonSend\">Send</a>" +
+			"<a onclick=\"cancelMessage();\" class=\"button buttonCancel\">Cancel</a>" +
+		"</p>" +
+	"</div>");
+	 $("#messageDisplay").empty();
+	 $("#messageDisplay").append(writer);
 }
 
 function getNewMessageForm(){
@@ -86,8 +134,20 @@ function getNewMessageForm(){
 }
 
 function newRowMessage(content){
-	var row = getElement(messageRow);
+	var row = $("<tr>" +
+		"<td class=\"rowDate\"></td>" +
+		"<td class=\"rowSubject\"></td>" +
+		"<td class=\"rowFrom\"></td>" +
+		"<td class=\"rowActions\"><a class=\"button buttonRemove\"></a></td>" +
+	"</tr>");
+	
 	$(row).attr("id", removePunctuation(content.id));
+	if(content.isRead === undefined)
+		$(row).addClass("sentMessage hidden");
+	else if(content.isRead)
+		$(row).addClass("readedMessage");
+	else
+		$(row).addClass("unreadedMessage");
 	$(row).find(".rowDate").append(content.date);
 	$(row).find(".rowDate").attr("onclick", "loadMessage('"+content.id+"');");
 	$(row).find(".rowSubject").append(content.subject);
@@ -96,4 +156,44 @@ function newRowMessage(content){
 	$(row).find(".rowFrom").attr("onclick", "loadMessage('"+content.id+"');");
 	$(row).find(".buttonRemove").attr("onclick", "removeMessage('"+content.id+"');");
 	return row;
+}
+
+function showSubMenu(menu) {
+	var siblings = $(menu).siblings();
+	for(var i = 0; i < siblings.length; i++ ) {
+		if($(siblings[i]).hasClass("hidden")){
+			$(siblings[i]).removeClass("hidden");
+			$(menu).addClass("selected");
+		} else {
+			$(siblings[i]).addClass("hidden");
+			$(menu).removeClass("selected");
+		}
+	}
+}
+
+function showMessageReceived() {
+	$(".receivedButton").addClass("selected");
+	$(".unreadButton").removeClass("selected");
+	$(".sentButton").removeClass("selected");
+	$(".unreadedMessage").removeClass("hidden");
+	$(".readedMessage").removeClass("hidden");
+	$(".sentMessage").addClass("hidden");
+}
+
+function showMessageUnread() {
+	$(".receivedButton").removeClass("selected");
+	$(".unreadButton").addClass("selected");
+	$(".sentButton").removeClass("selected");
+	$(".unreadedMessage").removeClass("hidden");
+	$(".readedMessage").addClass("hidden");
+	$(".sentMessage").addClass("hidden");
+}
+
+function showMessageSent() {
+	$(".receivedButton").removeClass("selected");
+	$(".unreadButton").removeClass("selected");
+	$(".sentButton").addClass("selected");
+	$(".unreadedMessage").addClass("hidden");
+	$(".readedMessage").addClass("hidden");
+	$(".sentMessage").removeClass("hidden");
 }

@@ -84,3 +84,6 @@ ul.newMessageHeader p {
 	margin-left : 2em;
 	color : #c20000;
 }
+tr.unreadedMessage {
+	font-weight: bold;
+}
