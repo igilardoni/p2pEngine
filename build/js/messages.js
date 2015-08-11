@@ -102,7 +102,13 @@ function sendMessageTo(){
 	$("#subject").val("Item : "+subject);
 }
 
-function newMessage(){
+function newMessage() {
+	$(".writeButton").addClass("selected");
+	$("#messageDisplay").empty();
+	$("#messageDisplay").append(writeMessage);
+}
+
+function newMessage2(){
 	$(".writeButton").addClass("selected");
 	 var writer = $("<div id=\"messageSender\">" +
 		"<ul class=\"newMessageHeader\">" +

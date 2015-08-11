@@ -428,6 +428,7 @@ var searchForm =
 	      	]},
 	      	{element:"p", attributes:{"class":"feedbackBox", onclick:"clearFeedback();"}, inside:[]}
 		]};
+
 var itemSearchTable =
 		{element:"table", attributes:{id:itemSearchList}, inside:[
 			{element:"thead", attributes:{}, inside:[
