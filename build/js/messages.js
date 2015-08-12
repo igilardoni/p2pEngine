@@ -35,6 +35,17 @@ function sendMessage(){
 	sendQuery("sendMessage", content);
 }
 
+function loadSearchUsers() {
+	$("#searchUsersDiv").fadeIn();
+}
+
+function searchUsers() {
+	var content = {
+			search:$("#searchUserInput").val()
+	}
+	sendQuery("searchUsers", content);
+}
+
 function removeMessage(id) {
 	var content = {"id":id};
 	sendQuery("removeMessage", content);

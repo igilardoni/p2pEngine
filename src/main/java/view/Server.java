@@ -53,6 +53,7 @@ import view.interlocutors.message.LoadMessage;
 import view.interlocutors.message.LoadMessages;
 import view.interlocutors.message.SendMessage;
 import view.interlocutors.search.SearchItem;
+import view.interlocutors.search.SearchUser;
 import view.interlocutors.user.LoadAccount;
 import view.interlocutors.user.Register;
 import view.interlocutors.user.SignIn;
@@ -106,6 +107,7 @@ public class Server {
 		interlocutors.put("loadItemSearchFieldType", new LoadItemSearchFieldType());
 		interlocutors.put("searchItem", new SearchItem());
 		interlocutors.put("loadItemSearch", new LoadItemSearch());
+		interlocutors.put("searchUsers", new SearchUser());
 		/* Favorites */
 		interlocutors.put("loadItemsFavorites", new LoadItemsFavorites());
 		interlocutors.put("addItemFavorites", new AddItemFavorites());

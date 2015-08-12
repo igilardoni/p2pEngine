@@ -93,3 +93,33 @@ ul.newMessageHeader p {
 tr.unreadedMessage {
 	font-weight: bold;
 }
+
+
+/* Search users */
+#searchUsersDiv {
+	display: none;
+	position:fixed;
+	top: 50%;
+	left: 50%;
+	width: 680px;
+	height: 300px;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 5px;
+	border: 1px black solid;
+	box-shadow: 0px 0px 20px #000;
+}
+
+#searchPart, #knownPart {
+	position: relative;
+	display: inline-block;
+	width: 45%;
+	height: 100%;
+	vertical-align: top;
+}
+
+.wrapper {
+	position: relative;
+	height: 75%;
+	overflow: auto;
+}
