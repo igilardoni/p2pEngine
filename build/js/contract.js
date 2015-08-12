@@ -114,6 +114,7 @@ function removeClause(id) {
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function contratCreated(content) {
+	contratsLoaded(content);
 	emptyContent();
 	$("#content").append(getElement(contratForm));
 	
@@ -185,6 +186,10 @@ function contratNotLoaded(content) {
 }
 function signatoryAdded(content) {
 	$("#signatories").append(newRowSignatory(content));
+	var option = $("<option>");
+	$(option).val(content.publicKey);
+	$(option).append(content.friendlyNick);
+	$(".userSelect").append(option);
 }
 function contratRemoved(content) {
 	var id = removePunctuation(content.contratID);
@@ -237,23 +242,19 @@ function getContrat(){
 }
 
 function newRowContrat(content) {
-	var row = $("<tr><td class=\"rowTitle\"></td><td class=\"rowState\"></td><td class=\"rowActions\"><a class=\"button buttonRemove\"></a></td></tr>");
+	var row = getClone(contratRow);
 	
 	$(row).attr("id", removePunctuation(content.contratID));
 	$(row).find(".rowTitle").append(content.title);
 	$(row).find(".rowTitle").attr("onclick", "loadContrat('"+content.contratID+"');");
 	$(row).find(".rowState").append(content.state);
 	$(row).find(".rowState").attr("onclick", "loadContrat('"+content.contratID+"');");
-	$(row).find(".rowActions buttonRemove").attr("onclick", "removeContrat('"+content.contratID+"');");
+	$(row).find(".rowActions .buttonRemove").attr("onclick", "removeContrat('"+content.contratID+"');");
 	return row;
 }
 // For add an item in table item contrat list
 function newRowItemContrat(content) {
-	var row = $("<tr>" +
-			"<td class=\"rowTitle\"></td>" +
-			"<td class=\"rowDescription\"></td>" +
-			"<td class=\"rowActions\"></td>" +
-			"</tr>");
+	var row = getClone(contratItemRow);
 	$(row).attr("id", removePunctuation(content.itemKey));
 	$(row).find(".rowTitle").append(content.title);
 	if(content.description.length > 100)
@@ -265,19 +266,7 @@ function newRowItemContrat(content) {
 }
 // For add a transfert rule in table
 function newRowTransfertRule(content) {
-	var row = $("<tr>" +
-			"<td class=\"item\">" +
-			"<label class=\"labelItem\"></label>" +
-			"<label class=\"itemKey hidden\"></label>" +
-			"</td>" +
-			"<td class=\"from\">" +
-			"<label class=\"labelFrom\"></label>" +
-			"<label class=\"publicKey hidden\"></label>" +
-			"</td>" +
-			"<td class=\"to\">" +
-			"<select class=\"userSelect\"></select>" +
-			"</td>" +
-			"</tr>");
+	var row = getClone(contratRuleRow);
 	$(row).find(".labelItem").text(content.itemTitle);
 	$(row).find(".itemKey").text(content.itemKey);
 	$(row).find(".labelFrom").text(content.fromFriendlyNick);
@@ -285,7 +274,7 @@ function newRowTransfertRule(content) {
 	$('#signatories td').each(function(){ 
 		   var label1 = $(this).find("label.hidden").text();
 		   var label2 = $(this).find("label:not(.hidden)").text();
-		   var option = document.createElement("option");
+		   var option = $("<option>");
 		   $(option).val(label1);
 		   $(option).append(label2);
 		   $(row).find(".userSelect").append(option);
@@ -301,11 +290,14 @@ function newRowTransfertRule(content) {
 }
 // For add a signatory in table
 function newRowSignatory(content) {
-	var row = $("<tr id=\""+removePunctuation(content.publicKey)+"\"><td><label class=\"hidden\">"+content.publicKey+"</label><label>"+content.friendlyNick+"</label></td></tr>");
+	var row = getClone(contratSignatorieRow);
+	$(row).attr("id", removePunctuation(content.publicKey));
+	$(row).find("label.hidden").append(content.publicKey);
+	$(row).find("label:not(.hidden)").append(content.friendlyNick);
 	return row;
 }
 function displayClause(content) {
-	var div = $("<div><p><label class=\"label\">Title : </label><label id=\"title\"></label><a class=\"button buttonRemove\" title=\"Remove clause\"></a><a class=\"button buttonEdit\" title=\"Edit clause\"></a></p><p id=\"value\"></p></div>");
+	var div = getClone(contratClauseDisplay);
 	$(div).attr("id", removePunctuation(content.id));
 	$(div).find("#title").text(content.title);
 	$(div).find("#value").append(textWithSlashNToBr(content.value));
@@ -322,7 +314,7 @@ function editClause(id) {
 	$("#"+removePunctuation(id)).replaceWith(formClause(content));
 }
 function formClause(content) {
-	var div = $("<div><p><label class=\"label\">Title : </label><input type=\"text\" id=\"title\" name=\"title\"/></p><p><textarea id=\"value\" name=\"value\"></textarea></p><p style=\"text-align:right;\"><a class=\"button buttonValidate\">Save Clause</a><a class=\"button buttonRemove\" title=\"Remove clause\">Remove Clause</a></p></div>");
+	var div = getClone(contratClauseForm);
 	$(div).attr("id", removePunctuation(content.id));
 	$(div).find("#title").val(content.title);
 	$(div).find("#value").text(content.value);

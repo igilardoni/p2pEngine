@@ -10,6 +10,10 @@ function getElement(html) {
 	return html[0];
 }
 
+function getClone(element) {
+	return $(element).clone();
+}
+
 function getElement2(json) {
 	if(json.element=="text"){
 		var text = document.createTextNode(json.value);

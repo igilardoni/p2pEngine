@@ -116,50 +116,11 @@ function sendMessageTo(){
 function newMessage() {
 	$(".writeButton").addClass("selected");
 	$("#messageDisplay").empty();
-	$("#messageDisplay").append(writeMessage);
-}
-
-function newMessage2(){
-	$(".writeButton").addClass("selected");
-	 var writer = $("<div id=\"messageSender\">" +
-		"<ul class=\"newMessageHeader\">" +
-			"<li>" +
-				"<p>" +
-					"<label>Subject</label>" +
-					"<input type=\"text\" id=\"subject\" name=\"subject\" />" +
-				"</p>" +
-			"</li>" +
-			"<li>" +
-				"<p>" +
-					"<label>Receiver</label>" +
-					"<input type=\"text\" id=\"receiver\" name=\"receiver\" />" +
-				"</p>" +
-			"</li>" +
-		"</ul>" +
-		"<p class=\"messageContent\">" +
-			"<label>Message :</label>" +
-			"<textarea id=\"message\" name=\"message\"></textarea>" +
-		"</p>" +
-		"<p class=\"newMessageFooter\">" +
-			"<a onclick=\"sendMessage();\" class=\"button buttonSend\">Send</a>" +
-			"<a onclick=\"cancelMessage();\" class=\"button buttonCancel\">Cancel</a>" +
-		"</p>" +
-	"</div>");
-	 $("#messageDisplay").empty();
-	 $("#messageDisplay").append(writer);
-}
-
-function getNewMessageForm(){
-	return getElement(writeMessage);
+	$("#messageDisplay").append(getClone(writeMessage));
 }
 
 function newRowMessage(content){
-	var row = $("<tr>" +
-		"<td class=\"rowDate\"></td>" +
-		"<td class=\"rowSubject\"></td>" +
-		"<td class=\"rowFrom\"></td>" +
-		"<td class=\"rowActions\"><a class=\"button buttonRemove\"></a></td>" +
-	"</tr>");
+	var row = getClone(messageRow);
 	
 	$(row).attr("id", removePunctuation(content.id));
 	if(content.isRead === undefined)

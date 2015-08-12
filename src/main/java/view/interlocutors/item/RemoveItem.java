@@ -24,7 +24,7 @@ public class RemoveItem extends AbstractInterlocutor {
 			JSONObject content = new JSONObject();
 			content.put("itemKey", itemKey);
 			content.put("feedback", "Item removed");
-			content.put("feedbackOk", false);
+			content.put("feedbackOk", true);
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

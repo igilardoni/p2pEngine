@@ -39,6 +39,7 @@ public class NewContrat extends AbstractInterlocutor {
 			content = new JSONObject();
 			content.put("contratID", contrat.getId());
 			content.put("title", contrat.getTitle());
+			content.put("state", contrat.getStateStringFormat());
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {

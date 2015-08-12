@@ -103,6 +103,14 @@ var contratForm = null;
 $('<div>').load("/SXPManager/html/contratForm.html", function() {
 	contratForm = $(this).children();
 });
+var contratRow = null;
+$('<div>').load("/SXPManager/html/contratRow.html", function() {
+	contratRow = $(this).children();
+});
+var contratItemRow = null;
+$('<div>').load("/SXPManager/html/contratItemRow.html", function() {
+	contratItemRow = $(this).children();
+});
 var itemContratTable = null;
 $('<div>').load("/SXPManager/html/itemContratTable.html", function() {
 	itemContratTable = $(this).children();
@@ -115,13 +123,21 @@ var clauseContratDisplay = null;
 $('<div>').load("/SXPManager/html/clauseContratDisplay.html", function() {
 	clauseContratDisplay = $(this).children();
 });
-var ruleRow = null;
-$('<div>').load("/SXPManager/html/ruleRow.html", function() {
-	ruleRow = $(this).children();
+var contratRuleRow = null;
+$('<div>').load("/SXPManager/html/contratRuleRow.html", function() {
+	contratRuleRow = $(this).children();
 });
-var itemContratRow = null;
-$('<div>').load("/SXPManager/html/itemContratRow.html", function() {
-	itemContratRow = $(this).children();
+var contratSignatorieRow = null;
+$('<div>').load("/SXPManager/html/contratSignatorieRow.html", function() {
+	contratSignatorieRow = $(this).children();
+});
+var contratClauseDisplay = null;
+$('<div>').load("/SXPManager/html/contratClauseDisplay.html", function() {
+	contratClauseDisplay = $(this).children();
+});
+var contratClauseForm = null;
+$('<div>').load("/SXPManager/html/contratClauseForm.html", function() {
+	contratClauseForm = $(this).children();
 });
 
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * *
