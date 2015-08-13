@@ -68,7 +68,7 @@ function favoritesItemsLoadingEnd(content){
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getFavoritesDisplay(){
 	var div = document.createElement("div");
-	$(div).append(getElement(itemFavoritesTable));
+	$(div).append(itemFavoritesTable);
 	var loading = document.createElement("div");
 	$(loading).attr("id", "loading");
 	$(div).append(loading);
@@ -76,7 +76,7 @@ function getFavoritesDisplay(){
 }
 
 function getItemFavoritesDisplay(){
-	return getElement(itemFavoritesDisplayer);
+	return itemFavoritesDisplayer;
 }
 
 function clearFavoritesTable(){

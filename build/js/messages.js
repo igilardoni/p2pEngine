@@ -57,33 +57,16 @@ function messagesLoaded(content) {
 	$("#"+messagesList).append(newRowMessage(content));
 }
 function messageLoaded(content) {
-	$("#"+messageDisplay).empty();
-	var display = $("<div class=\"meta\">" +
-				"<label class=\"label\">Sender : </label>" +
-				content.sender +
-				"<label class=\"label\">Date : </label>" +
-				content.date +
-				"<label class=\"label\">Subject : </label>" +
-				content.subject +
-			"</div>" +
-			"<div>" +
-				"<p>" +
-					textWithSlashNToBr(content.message) +
-				"</p>" +
-			"</div>");
-	$("#"+messageDisplay).append(display);
+	var display = getClone(messageDisplay);
+	$(display).find("#senderMessage").text(content.sender);
+	$(display).find("#subjectMessage").text(content.subject);
+	$(display).find("#dateMessage").text(content.date);
+	$(display).find("#contentMessage").append(textWithSlashNToBr(content.message));
+	$("#messageDisplay").append(display);
 	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
 	$("#"+removePunctuation(content.id)).addClass("readedMessage");
 	if($(".unreadButton").hasClass("selected"))
 		$("#"+removePunctuation(content.id)).addClass("hidden");
-	/*$.each(content, function(key, value){
-		var h2 = document.createElement("h2");
-		$(h2).append(key);
-		var p = document.createElement("p");
-		$(p).append(value);
-		$("#"+messageDisplay).append(h2);
-		$("#"+messageDisplay).append(p);
-	});*/
 }
 function messageNotSent(content) {
 }

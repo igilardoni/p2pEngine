@@ -1,13 +1,13 @@
 package model.data.user;
 
 import java.math.BigInteger;
-import java.util.Collection;
+
+import model.advertisement.AbstractAdvertisement;
 
 import org.jdom2.Element;
 
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
-import model.advertisement.AbstractAdvertisement;
 
 public class UserMessage extends AbstractAdvertisement {
 
@@ -16,7 +16,8 @@ public class UserMessage extends AbstractAdvertisement {
 	private String senderName;
 	private AsymKeysImpl receiver;
 	private long date;
-	boolean encrypted = false;
+	private boolean read = false;
+	private boolean encrypted = false;
 	
 	
 	
@@ -90,7 +91,7 @@ public class UserMessage extends AbstractAdvertisement {
 		addKey("content", false, false);
 		
 		addKey("receiverKey", true, false);
-		
+		addKey("read", false, true);
 		addKey("date", false, false);
 		addKey("subject", false, false);
 		addKey("senderName", false, false);
@@ -105,6 +106,7 @@ public class UserMessage extends AbstractAdvertisement {
 		addValue("senderName", senderName);
 		addValue("date", Long.toString(date));
 		addValue("encrypted", encrypted?"true":"false");
+		addValue("read", Boolean.toString(read));
 	}
 
 	@Override
@@ -116,6 +118,7 @@ public class UserMessage extends AbstractAdvertisement {
 		case "subject": subject = e.getValue(); return true;
 		case "senderName": senderName = e.getValue(); return true;
 		case "encrypted": encrypted = (e.getValue().equals("true"))?true:false; return true;
+		case "read": read = Boolean.parseBoolean(e.getValue()); return true;
 		}
 		return false;
 	}
@@ -126,6 +129,10 @@ public class UserMessage extends AbstractAdvertisement {
 	 */
 	public boolean isEncrypted() {
 		return encrypted;
+	}
+	
+	public boolean isRead() {
+		return read;
 	}
 	
 	public AsymKeysImpl getSender() {
@@ -147,7 +154,11 @@ public class UserMessage extends AbstractAdvertisement {
 	public String getContent() {
 		return message;
 	}
-
+	
+	public void setRead(boolean read) {
+		this.read = read;
+	}
+	
 	@Override
 	public String getSimpleName() {
 		return getClass().getSimpleName();

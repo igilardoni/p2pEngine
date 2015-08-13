@@ -283,6 +283,10 @@ public class ManagerBridge{
 		else return itemSearcher.search(itemKey);
 	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public static ArrayList<UserMessage> getMessages(){
 		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 		messages = Application.getInstance().getManager().getMessageManager().getMessages();

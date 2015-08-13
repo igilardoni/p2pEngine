@@ -110,9 +110,8 @@ function itemSearchNotLoaded(content) {
 function getSearchItem(){
 	var content = document.createElement("div");
 	$(content).attr("id", "content");
-	var div = getElement(searchForm);
-	$(content).append(div);
-	$(content).append(getElement(itemSearchTable));
+	$(content).append(searchForm);
+	$(content).append(itemSearchTable);
 	return content;
 }
 
@@ -129,66 +128,24 @@ function addSearch(){
 }
 function resetSearch(){
 	$("#search").val("");
+	$("#itemSearchList tbody").empty();
 }
 
 function newRowItemSearch(content){
 	var description = content.description.length>400?content.description.substring(0, 400):content.description;
-	var row = $("<tr id=\""+removePunctuation(content.itemKey)+"\">" +
-				"<td class=\"rowTitle resume\" onclick=\"loadItemSearch('" + content.itemKey + "');\">" +
-					content.title +
-				"</td>" +
-				"<td class=\"rowDescription\" onclick=\"loadItemSearch('"+content.itemKey+"');\">" +
-					"<label class=\"resume\">" + 
-						description +
-					"</label>" +
-					"<div class=\"searchDisplayer hidden\">" +
-						"<p>" +
-							"<label class=\"label\">Title : </label>" +
-							"<label id=\"title\">" +
-								content.title +
-							"</label>" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Category</label>" +
-							"<label id=\"category\">" +
-								content.category +
-							"</label>" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Type : </label>" +
-							"<label id=\"type\">" +
-								content.type +
-							"</label>" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Description : </label>" +
-							"<label id=\"description\">" +
-								content.description +
-							"</label>" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Image : </label>" +
-							"<img id=\"image\" src=\"" +
-								content.image +
-							"\">" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Location : </label>" +
-							"<label id=\"country\">" +
-								content.country +
-							"</label>" +
-						"</p>" +
-						"<p>" +
-							"<label class=\"label\">Contact : </label>" +
-							"<label id=\"contact\">" +
-								content.contact +
-							"</label>" +
-						"</p>" +
-					"</div>" +
-				"</td>" +
-				"<td class=\"rowActions\">" +
-					"<a class=\"button buttonFavorites\" onclick=\"addItemFavorites('"+content.itemKey+"');\" />" +
-				"</td>" +
-			"</tr>");
+	var row = getClone(searchItemRow);
+	$(row).attr("id", removePunctuation(content.itemKey));
+	$(row).find(".rowTitle").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
+	$(row).find(".rowDescription").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
+	$(row).find(".rowTitle .resume").append(content.title);
+	$(row).find(".rowDescription .resume").text(description);
+	$(row).find("#title").text(content.title);
+	$(row).find("#category").text(content.category);
+	$(row).find("#type").text(content.type);
+	$(row).find("#description").text(content.description);
+	$(row).find("#country").text(content.country);
+	$(row).find("#contact").text(content.contact);
+	$(row).find("#image").attr("src", content.image);
+	$(row).find(".rowActions .buttonFavorites").attr("onclick", "addItemFavorites('"+content.itemKey+"');");
 	return row;
 }

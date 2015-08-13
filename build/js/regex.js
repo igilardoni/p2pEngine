@@ -7,3 +7,10 @@ function isPhone(phone) {
 	var regex = /^[0-9-+ ]+$/;
 	return regex.test(phone);
 }
+
+function textWithSlashNToBr(string) {
+	return string.replace(/(?:\r\n|\r|\n)/g, '<br />');
+}
+function textWithBrToSlashN(string) {
+	return string.replace(/<br *\/?>/gi, '\n');
+}

@@ -68,6 +68,10 @@ var itemSearchDisplayer = null;
 $('<div>').load("/SXPManager/html/itemSearchDisplayer.html", function() {
 	itemSearchDisplayer = $(this).children();
 });
+var searchItemRow = null;
+$('<div>').load("/SXPManager/html/searchItemRow.html", function() {
+	searchItemRow = $(this).children();
+});
 /* * * * * * * * * * * * * * * * * * * * * MESSAGES FORM * * * * * * * * * * * * * * * * * * * * * * * */
 var webmailForm = null;
 $('<div>').load("/SXPManager/html/webmailForm.html", function() {
@@ -80,6 +84,10 @@ $('<div>').load("/SXPManager/html/writeMessage.html", function() {
 var messageRow = null;
 $('<div>').load("/SXPManager/html/messageRow.html", function() {
 	messageRow = $(this).children();
+});
+var messageDisplay = null;
+$('<div>').load("/SXPManager/html/messageDisplay.html", function() {
+	messageDisplay = $(this).children();
 });
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer = null;

@@ -169,7 +169,7 @@ function typeLoaded(content){
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getHome(){
-	return getElement(itemTable);
+	return itemTable;
 }
 
 /**
@@ -183,7 +183,7 @@ function getItemAddForm(){
 
 function itemFormComplet(){
 	cancelItem();
-	$("#content").append(getElement(itemAddForm));
+	$("#content").append(itemAddForm);
 	loadCategories();
 	loadType();
 }
@@ -193,7 +193,7 @@ function itemFormComplet(){
  * @returns Element "table"
  */
 function getTableItem(id){
-	var table = getElement(itemTable);
+	var table = getClone(itemTable);
 	table.setAttribute("id", id);
 	return table;
 }

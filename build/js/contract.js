@@ -16,8 +16,8 @@ function loadContrat(id){
 	var content = {"contratID":id};
 	sendQuery("loadContrat", content);
 	emptyContent();
-	$("#content").append(getElement(contratForm));
-	$("#objects").append(getElement(itemContratTable));
+	$("#content").append(contratForm);
+	$("#objects").append(itemContratTable);
 }
 function loadItemForContrat(){
 	var itemKey = $("#itemFavoritesDisplayer #itemKey").text();
@@ -116,7 +116,7 @@ function removeClause(id) {
 function contratCreated(content) {
 	contratsLoaded(content);
 	emptyContent();
-	$("#content").append(getElement(contratForm));
+	$("#content").append(contratForm);
 	
 	$("#contratID").empty();
 	$("#itemContratList tbody").empty();
@@ -127,7 +127,7 @@ function contratCreated(content) {
 	$("#clauses").append(addRuleButton);
 	
 	$("#contratID").append(content.contratID);
-	$("#objects").append(getElement(itemContratTable));
+	$("#objects").append(itemContratTable);
 	var editButton = $("#contratForm h1 a");
 	$("#contratForm").find("h1").text(content.title);
 	$("#contratForm").find("h1").append(editButton);
@@ -238,7 +238,7 @@ function renameContractForm(){
 }
 
 function getContrat(){
-	return getElement(contratTable);
+	return contratTable;
 }
 
 function newRowContrat(content) {
@@ -321,11 +321,4 @@ function formClause(content) {
 	$(div).find(".buttonValidate").attr("onclick", "saveClause('"+content.id+"');");
 	$(div).find(".buttonRemove").attr("onclick", "removeClause('"+content.id+"');");
 	return div;
-}
-
-function textWithSlashNToBr(string) {
-	return string.replace(/(?:\r\n|\r|\n)/g, '<br />');
-}
-function textWithBrToSlashN(string) {
-	return string.replace(/<br *\/?>/gi, '\n');
 }
