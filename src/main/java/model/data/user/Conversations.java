@@ -1,11 +1,14 @@
 package model.data.user;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.jdom2.Element;
 
+import util.Hexa;
+import util.Printer;
 import util.StringToElement;
 import util.secure.AsymKeysImpl;
 import util.secure.Serpent;
@@ -24,7 +27,7 @@ public class Conversations extends AbstractAdvertisement{
 	 * String: to (the messages between the user and to)
 	 * ArrayList<Message> list of the messages (sent to "to" and reveived from "to")
 	 */
-	private HashMap<String, ArrayList<UserMessage>> messages = null; //all message when cypher is decrypted.
+	private HashMap<String, ArrayList<UserMessage>> messages; //all message when cypher is decrypted.
 	private String owner; //public key of the conversation owner;
 	private String cypher;
 	private String password = null; //content locked if password is null
@@ -34,9 +37,12 @@ public class Conversations extends AbstractAdvertisement{
 		super(child);
 	}
 
-	public Conversations(String owner) {
+	public Conversations(User owner) {
 		super();
-		this.owner = owner;
+		this.owner = owner.getKeys().getPublicKey().toString(16);
+		this.password = owner.getClearPwd();
+		this.keys = owner.getKeys();
+		setKeys(owner.getKeys());
 	}
 
 	@Override
@@ -46,11 +52,15 @@ public class Conversations extends AbstractAdvertisement{
 
 	@Override
 	protected void setKeys() {
+		messages = new HashMap<String, ArrayList<UserMessage>>();
 		addKey("cypher", false, true);
+		addKey("owner", true, false);
 	}
 
 	@Override
 	protected void putValues() {
+		addValue("owner", owner);
+		
 		if(password != null) { //if password is set we can recompute the cypher with the possible new values.
 			if(messages == null) {
 				System.err.println("password is set but messages still null ?");
@@ -76,9 +86,8 @@ public class Conversations extends AbstractAdvertisement{
 			 */
 			
 			Serpent crypter = new Serpent(password);
-			cypher = new String(crypter.encrypt(s.toString().getBytes()));
+			cypher = Hexa.bytesToHex(crypter.encrypt(s.toString().getBytes()));
 		}
-		
 		addValue("cypher", cypher);
 	}
 
@@ -89,7 +98,7 @@ public class Conversations extends AbstractAdvertisement{
 	public void unLock(User loguedUser) {
 		this.password = loguedUser.getClearPwd();
 		Serpent crypter = new Serpent(password);
-		String clearText = new String(crypter.decrypt(cypher.getBytes()));
+		String clearText = new String(crypter.decrypt(Hexa.hexToBytes(cypher)));
 		Element root = StringToElement.getElementFromString(clearText, "UserConversation");
 		parseRootElement(root);
 	}
@@ -156,11 +165,17 @@ public class Conversations extends AbstractAdvertisement{
 		if(message.isEncrypted()) {
 			message.decrypt(keys);
 		}
-		if(!message.checkSignature(message.getSender())) return;
-		
+		if(!message.checkSignature(message.getSender())){
+			Printer.printError(this, "addMessage", "Bad Signature for message");
+			return;
+		}
 		if(message.getSender().getPublicKey().equals(keys.getPublicKey())) {
+			if(!messages.containsKey(message.getReceiver().getPublicKey().toString(16)))
+				messages.put(message.getReceiver().getPublicKey().toString(16), new ArrayList<UserMessage>());
 			messages.get(message.getReceiver().getPublicKey().toString(16)).add(message);
 		} else {
+			if(!messages.containsKey(message.getSender().getPublicKey().toString(16)))
+				messages.put(message.getSender().getPublicKey().toString(16), new ArrayList<UserMessage>());
 			messages.get(message.getSender().getPublicKey().toString(16)).add(message);
 		}
 	}

@@ -14,3 +14,7 @@ function textWithSlashNToBr(string) {
 function textWithBrToSlashN(string) {
 	return string.replace(/<br *\/?>/gi, '\n');
 }
+
+function removePunctuation(string){
+	return string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+}

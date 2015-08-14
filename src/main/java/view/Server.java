@@ -13,6 +13,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -49,6 +50,7 @@ import view.interlocutors.item.LoadItemsFavorites;
 import view.interlocutors.item.RemoveItem;
 import view.interlocutors.item.UpdateItem;
 import view.interlocutors.message.LoadConversation;
+import view.interlocutors.message.LoadConversations;
 import view.interlocutors.message.LoadMessage;
 import view.interlocutors.message.LoadMessages;
 import view.interlocutors.message.SendMessage;
@@ -114,6 +116,7 @@ public class Server {
 		interlocutors.put("removeItemFavorites", new RemoveItemFavorites());
 		interlocutors.put("loadItemFavorites", new LoadItemFavorites());
 		/* Messages */
+		interlocutors.put("loadConversations", new LoadConversations());
 		interlocutors.put("loadMessages", new LoadMessages());
 		interlocutors.put("loadConversation", new LoadConversation());
 		interlocutors.put("loadMessage", new LoadMessage());

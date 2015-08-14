@@ -60,7 +60,7 @@ public class MessageManager {
 		}
 		User u = manager.getUserManager().getCurrentUser();
 		if(!conversations.containsKey(u.getKeys().getPublicKey().toString(16))) {
-			addConversations(new Conversations(u.getKeys().getPublicKey().toString(16)));
+			addConversations(new Conversations(u));
 		}
 		return conversations.get(u.getKeys().getPublicKey().toString(16));
 	}
@@ -76,7 +76,7 @@ public class MessageManager {
 			return;
 		}
 		String owner = c.getOwner();
-		if(owner.isEmpty()){
+		if(owner == null || owner.isEmpty()){
 			Printer.printError(this, "addConversations","No owner found !");
 			return;
 		}
@@ -84,7 +84,7 @@ public class MessageManager {
 			Printer.printError(this, "addConversations","Owner unknown "+owner);
 			return;
 		}
-		if(!c.checkSignature(manager.getUserManager().getUser(owner).getKeys())){
+		if(!c.checkSignature(c.getKeys())){
 			Printer.printError(this, "addConversations","Bad Signature for Conversation");
 			return;
 		}

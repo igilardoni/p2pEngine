@@ -283,25 +283,10 @@ public class ManagerBridge{
 		else return itemSearcher.search(itemKey);
 	}
 	////////////////////////////////////////////////// MESSAGES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public static ArrayList<UserMessage> getMessages(){
-		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
-		messages = Application.getInstance().getManager().getMessageManager().getMessages();
-		for(UserMessage m : messages) {
-			if(m.getReceiver().equals(getCurrentUser().getKeys()))
-				if(m.isEncrypted())
-					m.decrypt(getCurrentUser().getKeys());
-				else;
-			else
-				messages.remove(m);
-		}
-		return messages; // TODO getMESSAGE ? Application.getInstance().getManager().getUserMessages(getCurrentUser().getKeys().getPublicKey().toString(16));
-		
+	public static Conversations getCurrentUserConversation() {
+		return Application.getInstance().getManager().getMessageManager().getCurrentUserConversations();
 	}
-	public static ArrayList<UserMessage> getConversation(){
+	public static ArrayList<UserMessage> getCurrentUserMessages(){
 		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
 		Conversations conversation = Application.getInstance().getManager().getMessageManager().getCurrentUserConversations();
 		conversation.unLock(getCurrentUser());
@@ -310,13 +295,11 @@ public class ManagerBridge{
 		}
 		return messages;
 	}
-	public static UserMessage getMessage(String id){
-		ArrayList<UserMessage> messages = new ArrayList<UserMessage>();
-		messages.addAll(getMessages());
-		messages.addAll(getConversation());
-		for (UserMessage message : messages) {
-			if(message.getID().equals(id))
-				return message;
+	public static UserMessage getMessage(String key) {
+		ArrayList<UserMessage> messages = getCurrentUserMessages();
+		for (UserMessage m : messages) {
+			if(m.getId().equals(key))
+				return m;
 		}
 		return null;
 	}

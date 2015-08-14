@@ -4,6 +4,7 @@
 var messagesList = "messagesList";
 var messageDisplay = "messageDisplay";
 var messagesAreLoaded = false;
+var conversationsAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -20,7 +21,12 @@ function loadMessages(){
 function loadConversation(){
 	sendQueryEmpty("loadConversation");
 }
-
+function loadConversations(){
+	if(conversationsAreLoaded)
+		return;
+	sendQueryEmpty("loadConversations");
+	conversationsAreLoaded = true;
+}
 function loadMessage(id){
 	var content = {"id":id};
 	sendQuery("loadMessage", content);
@@ -68,6 +74,19 @@ function messageLoaded(content) {
 	if($(".unreadButton").hasClass("selected"))
 		$("#"+removePunctuation(content.id)).addClass("hidden");
 }
+function conversationsLoaded(content) {
+	$("#conversationsList tbody").append(newRowConversation(content));
+}
+function conversationLoaded(content) {
+	var display = getClone(messageDisplay);
+	$(display).find("#senderMessage").text(content.sender);
+	$(display).find("#subjectMessage").text(content.subject);
+	$(display).find("#dateMessage").text(content.date);
+	$(display).find("#contentMessage").append(textWithSlashNToBr(content.message));
+	$("#messageDisplay").append(display);
+	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
+	$("#"+removePunctuation(content.id)).addClass("readedMessage");
+}
 function messageNotSent(content) {
 }
 function messageRemoved(content) {
@@ -80,11 +99,13 @@ function messageNotRemoved(content) {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function getWebmail(){
 	loadMessages();
+	loadConversations();
 	return getElement(webmailForm);
 }
 
 function cancelMessage() {
 	$("#messageDisplay").empty();
+	$(".writeButton").removeClass("selected");
 }
 
 function sendMessageTo(){
@@ -97,9 +118,13 @@ function sendMessageTo(){
 }
 
 function newMessage() {
-	$(".writeButton").addClass("selected");
-	$("#messageDisplay").empty();
-	$("#messageDisplay").append(getClone(writeMessage));
+	if($(".writeButton").hasClass("selected"))
+		cancelMessage();
+	else {
+		$(".writeButton").addClass("selected");
+		$("#messageDisplay").empty();
+		$("#messageDisplay").append(getClone(writeMessage));
+	}
 }
 
 function newRowMessage(content){
@@ -122,6 +147,17 @@ function newRowMessage(content){
 	return row;
 }
 
+function newRowConversation(content) {
+	var row = getClone(conversationRow);
+	$(row).attr("id", removePunctuation(content.id));
+	if(!content.isRead) {
+		$(row).addClass("unreadedConversation");
+	}
+	$(row).find(".rowDate").append(content.date);
+	$(row).find(".rowSender").append(content.sender);
+	return row;
+}
+
 function showSubMenu(menu) {
 	var siblings = $(menu).siblings();
 	for(var i = 0; i < siblings.length; i++ ) {
@@ -133,31 +169,51 @@ function showSubMenu(menu) {
 			$(menu).removeClass("selected");
 		}
 	}
+	if($(menu).hasClass("selected"))
+		showMessageReceived();
 }
 
 function showMessageReceived() {
 	$(".receivedButton").addClass("selected");
 	$(".unreadButton").removeClass("selected");
 	$(".sentButton").removeClass("selected");
+	$(".conversationsButton").removeClass("selected");
+	$("#messagesList").removeClass("hidden");
 	$(".unreadedMessage").removeClass("hidden");
 	$(".readedMessage").removeClass("hidden");
 	$(".sentMessage").addClass("hidden");
+	$("#conversationsList").addClass("hidden");
 }
 
 function showMessageUnread() {
 	$(".receivedButton").removeClass("selected");
 	$(".unreadButton").addClass("selected");
 	$(".sentButton").removeClass("selected");
+	$(".conversationsButton").removeClass("selected");
+	$("#messagesList").removeClass("hidden");
 	$(".unreadedMessage").removeClass("hidden");
 	$(".readedMessage").addClass("hidden");
 	$(".sentMessage").addClass("hidden");
+	$("#conversationsList").addClass("hidden");
 }
 
 function showMessageSent() {
 	$(".receivedButton").removeClass("selected");
 	$(".unreadButton").removeClass("selected");
 	$(".sentButton").addClass("selected");
+	$(".conversationsButton").removeClass("selected");
+	$("#messagesList").removeClass("hidden");
 	$(".unreadedMessage").addClass("hidden");
 	$(".readedMessage").addClass("hidden");
 	$(".sentMessage").removeClass("hidden");
+	$("#conversationsList").addClass("hidden");
+}
+
+function showConversations() {
+	$(".receivedButton").removeClass("selected");
+	$(".unreadButton").removeClass("selected");
+	$(".sentButton").removeClass("selected");
+	$(".conversationsButton").addClass("selected");
+	$("#messagesList").addClass("hidden");
+	$("#conversationsList").removeClass("hidden");
 }

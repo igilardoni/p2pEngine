@@ -12,7 +12,10 @@ import java.util.logging.Level;
 import model.advertisement.AdvertisementInstaciator;
 import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
+import model.data.item.Category;
 import model.data.item.Item;
+import model.data.item.Category.CATEGORY;
+import model.data.item.Item.TYPE;
 import model.data.manager.Manager;
 import model.data.manager.resiliance.ContratsResiliance;
 import model.data.manager.resiliance.FavoritesResiliance;
@@ -20,6 +23,7 @@ import model.data.manager.resiliance.ItemResiliance;
 import model.data.manager.resiliance.MessageResiliance;
 import model.data.manager.resiliance.SharingManager;
 import model.data.manager.resiliance.UserResiliance;
+import model.data.user.Conversations;
 import model.data.user.User;
 import model.data.user.UserMessage;
 import model.network.Network;
@@ -29,6 +33,7 @@ import model.network.communication.service.InstanceSender.ClassSenderService;
 import model.network.communication.service.update.UpdateService;
 import model.network.search.Search;
 import util.VARIABLES;
+import util.secure.AsymKeysImpl;
 
 /**
  * The main class of the software. This class can be instancied only once. (singleton)
@@ -206,6 +211,24 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
+		
+		User user = new User("test", " ", "name", "firstName", "email@email.email", "phone");
+		User sender = new User("test2", " ", "name", "firstName", "email@email.email", "phone"); 
+		
+		Application.getInstance().getManager().getUserManager().registration(user);
+		Application.getInstance().getManager().getUserManager().login("test", " ");
+		
+		UserMessage m1 = new UserMessage(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), sender.getKeys(), "subject", "message");
+		AsymKeysImpl key = sender.getKeys().copy();
+		key.decryptPrivateKey(" ");
+		m1.sign(key);
+		Conversations c = new Conversations(Application.getInstance().getManager().getUserManager().getCurrentUser());
+		c.addMessage(m1);
+		c.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		
+		Application.getInstance().getManager().getMessageManager().addConversations(c);
+		Application.getInstance().getManager().getUserManager().logout();
+		
 		if(Desktop.isDesktopSupported()) {
 		  try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8080/SXPManager/index.html"));

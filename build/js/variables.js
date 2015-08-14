@@ -89,6 +89,10 @@ var messageDisplay = null;
 $('<div>').load("/SXPManager/html/messageDisplay.html", function() {
 	messageDisplay = $(this).children();
 });
+var conversationRow = null;
+$('<div>').load("/SXPManager/html/conversationRow.html", function() {
+	conversationRow = $(this).children();
+});
 /* * * * * * * * * * * * * * * * * * * * * FAVORITES * * * * * * * * * * * * * * * * * * * * * * * * * */
 var itemFavoritesDisplayer = null;
 $('<div>').load("/SXPManager/html/itemFavoritesDisplayer.html", function(){

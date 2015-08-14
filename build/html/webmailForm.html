@@ -20,6 +20,9 @@
 					</li>
 				</ul>
 			</ul>
+			<li class="menu conversationsButton" onclick="showConversations();">
+				<a>Conversations</a>
+			</li>
 		</ul>
 	</div>
 	<div id="webmailDisplay">
@@ -31,6 +34,20 @@
 					<th class="rowSubject">Subject</th>
 					<th class="rowFrom">From</th>
 					<th class="rowActions"></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">Empty</td>
+				</tr>
+			</tfoot>
+		</table>
+		<table id="conversationsList" class="hidden">
+			<thead>
+				<tr>
+					<th class="rowDate">Date</th>
+					<th class="rowSender">Sender</th> 
 				</tr>
 			</thead>
 			<tbody></tbody>

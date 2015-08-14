@@ -246,7 +246,3 @@ function newRowItem(content){
 function cancelItem(){
 	$("#"+itemForm).detach();
 }
-
-function removePunctuation(string){
-	return string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
-}

@@ -1,6 +1,7 @@
 package view.interlocutors.message;
 
 import model.data.user.UserMessage;
+import util.DateConverter;
 import view.interlocutors.AbstractInterlocutor;
 
 import org.codehaus.jettison.json.JSONException;
@@ -21,6 +22,9 @@ public class LoadMessage extends AbstractInterlocutor {
 			JSONObject c = getJSON(content);
 			String id = c.getString("id");
 			UserMessage message = ManagerBridge.getMessage(id);
+			if(message == null) {
+				// TODO ERROR !!!
+			}
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
 			if(message == null){
@@ -30,8 +34,8 @@ public class LoadMessage extends AbstractInterlocutor {
 				data.put("query", "messageLoaded");
 				content.put("id", message.getID());
 				content.put("message", message.getContent());
-				content.put("date", message.getDate());
-				content.put("from", message.getSender().getPublicKey());
+				content.put("date", DateConverter.getString(message.getDate()));
+				content.put("sender", message.getSender().getPublicKey().toString(16));
 			}
 			data.put("content", content);
 			com.sendText(data.toString());

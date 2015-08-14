@@ -228,7 +228,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 			}
 			Element messagesElement = root.getChild("messages");
 			for (Element e : messagesElement.getChildren()) {
-			// TODO	addMessage(new Message(e));
+				messageManager.addMessage(new UserMessage(e));
 			}
 			Element conversationsElement = root.getChild("ReceivedMessages");
 			for (Element e : conversationsElement.getChildren()) {
@@ -240,8 +240,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 			}
 			Element dealsElement = root.getChild("deals");
 			for	(Element e : dealsElement.getChildren()){
-				String owner = e.getChild("owner").getText(); // TODO Change with AsymKeysImpl
-				//String owner = e.getChildText("owner");
+				String owner = e.getChild("owner").getText();
 				if(!contratManager.containsUser(owner) && userManager.userExists(owner))
 					contratManager.getDeals().put(owner, new ArrayList<Contrat>());
 				if(e.getChild(Contrat.class.getName())!=null)
@@ -368,11 +367,9 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		*/
 		// Element ReceivedMessages
 		Element conversationsElement = new Element("ReceivedMessages");
-		/* TODO FIX BUG
 		for (Conversations c : conversations) {
 			conversationsElement.addContent(c.getRootElement());
 		}
-		*/
 		// Element Favorites
 		Element favoritesElement = new Element("favorites");
 		for (Favorites f : favorites) {

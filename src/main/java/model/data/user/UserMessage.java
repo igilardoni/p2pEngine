@@ -85,7 +85,7 @@ public class UserMessage extends AbstractAdvertisement {
 	
 	@Override
 	protected void setKeys() {
-		setKeys(new AsymKeysImpl());
+		//setKeys(new AsymKeysImpl());
 		receiver = new AsymKeysImpl();
 		
 		addKey("content", false, false);
@@ -163,6 +163,4 @@ public class UserMessage extends AbstractAdvertisement {
 	public String getSimpleName() {
 		return getClass().getSimpleName();
 	}
-	
-
 }

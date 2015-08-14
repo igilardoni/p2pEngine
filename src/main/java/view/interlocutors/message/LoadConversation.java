@@ -2,7 +2,9 @@ package view.interlocutors.message;
 
 import java.util.ArrayList;
 
+import model.data.user.Conversations;
 import model.data.user.UserMessage;
+import util.DateConverter;
 import view.interlocutors.AbstractInterlocutor;
 
 import org.codehaus.jettison.json.JSONException;
@@ -20,17 +22,18 @@ public class LoadConversation extends AbstractInterlocutor {
 	public void run() {
 		if(!isInitialized()) return;
 			try {
-				ArrayList<UserMessage> messages = ManagerBridge.getConversation();
-				//AsymKeysImpl key = ManagerBridge.getCurrentUser().getKeys();
+				JSONObject c = getJSON(content);
+				String publicKey = c.getString("publicKey");
+				ArrayList<UserMessage> messages = ManagerBridge.getCurrentUserConversation().getConversation(publicKey);
 				for (UserMessage message : messages) {
-				JSONObject data = new JSONObject();
-					data.put("query", "conversationLoaded");
-					
+					// TODO Maybe try to sort by date ?
+					JSONObject data = new JSONObject();
 					JSONObject content = new JSONObject();
-					content.put("date", message.getDate());
+					data.put("query", "conversationMessageLoaded");
 					content.put("id", message.getID());
-					content.put("from", message.getSender().getPublicKey());
-					content.put("subject", message.getSubject());
+					content.put("message", message.getContent());
+					content.put("date", DateConverter.getString(message.getDate()));
+					content.put("sender", message.getSender().getPublicKey().toString(16));
 					data.put("content", content);
 					com.sendText(data.toString());
 				}
