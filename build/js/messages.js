@@ -18,8 +18,10 @@ function loadMessages(){
 /**
  * @deprecated
  */
-function loadConversation(){
-	sendQueryEmpty("loadConversation");
+function loadConversation(id){
+	$("#messageDisplay").empty();
+	var content = {"id":id};
+	sendQuery("loadConversation", content);
 }
 function loadConversations(){
 	if(conversationsAreLoaded)
@@ -154,7 +156,10 @@ function newRowConversation(content) {
 		$(row).addClass("unreadedConversation");
 	}
 	$(row).find(".rowDate").append(content.date);
+	$(row).find(".rowDate").attr("onclick", "loadConversation('"+content.id+"');");
 	$(row).find(".rowSender").append(content.sender);
+	$(row).find(".rowSender").attr("onclick", "loadConversation('"+content.id+"');");
+	$(row).find(".rowActions").find("buttonRemove").attr("onclick", "removeConversation('"+content.id+"');");
 	return row;
 }
 

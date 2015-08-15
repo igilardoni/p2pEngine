@@ -218,12 +218,17 @@ public class Application {
 		Application.getInstance().getManager().getUserManager().registration(user);
 		Application.getInstance().getManager().getUserManager().login("test", " ");
 		
-		UserMessage m1 = new UserMessage(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), sender.getKeys(), "subject", "message");
+		UserMessage m1 = new UserMessage(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), sender.getKeys(), "question", "Bonjour ? Je peux etre votre ami ?");
 		AsymKeysImpl key = sender.getKeys().copy();
 		key.decryptPrivateKey(" ");
 		m1.sign(key);
+		
+		UserMessage m2 = new UserMessage(sender.getKeys(), Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), "reponse", "non !!!");
+		m2.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+		
 		Conversations c = new Conversations(Application.getInstance().getManager().getUserManager().getCurrentUser());
 		c.addMessage(m1);
+		c.addMessage(m2);
 		c.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
 		
 		Application.getInstance().getManager().getMessageManager().addConversations(c);

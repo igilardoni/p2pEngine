@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import controller.ManagerBridge;
+import util.DateConverter;
 import view.interlocutors.AbstractInterlocutor;
 
 public class LoadConversations extends AbstractInterlocutor {
@@ -35,7 +36,7 @@ public class LoadConversations extends AbstractInterlocutor {
 				data.put("query", "conversationsLoaded");
 				content.put("id", s);
 				content.put("sender", s);
-				content.put("date", date);
+				content.put("date", DateConverter.getString(date));
 				content.put("isRead", isRead);
 				content.put("count", conversation.getConversation(s).size());
 				data.put("content", content);

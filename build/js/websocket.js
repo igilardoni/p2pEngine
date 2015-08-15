@@ -62,6 +62,7 @@ function serverReply(data){
 	case "messageNotSent":					messageNotSent(data.content); break;
 	case "messagesLoaded":					messagesLoaded(data.content); break;
 	case "conversationsLoaded":				conversationsLoaded(data.content); break;
+	case "conversationLoaded":				conversationLoaded(data.content); break;
 	case "messageLoaded":					messageLoaded(data.content); break;
 	
 	case "contratCreated":					contratCreated(data.content); break;

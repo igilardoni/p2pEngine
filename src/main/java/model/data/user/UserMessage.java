@@ -29,6 +29,7 @@ public class UserMessage extends AbstractAdvertisement {
 	 */
 	public UserMessage(AsymKeysImpl receiver, AsymKeysImpl sender, String subject, String message) {
 		super();
+		this.subject = subject;
 		this.message = message;
 		setKeys(sender);
 		this.receiver = receiver;

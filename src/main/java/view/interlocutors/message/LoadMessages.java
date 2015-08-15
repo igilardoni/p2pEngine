@@ -30,7 +30,7 @@ public class LoadMessages extends AbstractInterlocutor {
 				JSONObject content = new JSONObject();
 				content.put("date", DateConverter.getString(message.getDate()));
 				content.put("id", message.getId());
-				if(!message.getReceiver().getPublicKey().equals(ManagerBridge.getCurrentUser().getKeys().getPublicKey())) {
+				if(message.getReceiver().getPublicKey().equals(ManagerBridge.getCurrentUser().getKeys().getPublicKey())) {
 					content.put("isRead", message.isRead());
 				}
 				content.put("sender", message.getSender().getPublicKey().toString(16));

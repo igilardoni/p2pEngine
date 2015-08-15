@@ -157,7 +157,7 @@ $('<div>').load("/SXPManager/html/contratClauseForm.html", function() {
 var loginForm = null;
 $("<div>").load("/SXPManager/html/loginForm.html", function() {
 	loginForm = $(this).children();
-	$("#contentStart").append(getElement(loginForm));
+	$("#contentStart").append(loginForm);
 });
 
 

@@ -33,6 +33,7 @@ public class LoadMessage extends AbstractInterlocutor {
 			}else{
 				data.put("query", "messageLoaded");
 				content.put("id", message.getID());
+				content.put("subject", message.getSubject());
 				content.put("message", message.getContent());
 				content.put("date", DateConverter.getString(message.getDate()));
 				content.put("sender", message.getSender().getPublicKey().toString(16));

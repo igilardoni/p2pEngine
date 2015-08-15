@@ -66,7 +66,7 @@ function includeWebmail(){
 
 function includeMenu(){
 	$("nav").empty();
-	$("nav").replaceWith(getMenu());
+	$("nav").append(getMenu());
 }
 
 function removeMenu(){

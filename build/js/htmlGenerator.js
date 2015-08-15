@@ -40,11 +40,11 @@ function textAreaAdjust(o) {
 }
 
 function getHeader(){
-	return getElement(header);
+	return header;
 }
 
 function getMenu(){
-	return getElement(menu);
+	return menu;
 }
 
 function clearFeedback() {
