@@ -135,6 +135,12 @@ public class Conversations extends AbstractAdvertisement{
 		return messages.get(to);
 	}
 	
+	public boolean removeConversation(String to) {
+		if(password == null) return false; //content locked
+		if(!messages.containsKey(to)) return true;
+		return messages.remove(to) != null;
+	}
+	
 	public ArrayList<String> getSenders(){
 		if(password == null) return null; //content locked
 		ArrayList<String> senders = new ArrayList<String>();

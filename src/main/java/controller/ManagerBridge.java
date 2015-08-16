@@ -9,6 +9,7 @@ import model.data.contrat.Contrat;
 import model.data.item.Category;
 import model.data.item.Item;
 import model.data.item.Item.TYPE;
+import model.data.manager.UserManager;
 import model.data.user.Conversations;
 import model.data.user.UserMessage;
 import model.data.user.User;
@@ -302,6 +303,22 @@ public class ManagerBridge{
 				return m;
 		}
 		return null;
+	}
+	public static boolean removeMessage(String publicKey, String id) {
+		ArrayList<UserMessage> messages = getCurrentUserConversation().getConversation(publicKey);
+		for(UserMessage m : messages) {
+			if(m.getId().equals(id)) {
+				if(getCurrentUserConversation().getConversation(publicKey).remove(m)){
+					if(getCurrentUserConversation().getConversation(publicKey).size() <= 0)
+						removeConversation(publicKey);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static boolean removeConversation(String publicKey) {
+		return Application.getInstance().getManager().getMessageManager().removeCurrentUserConversation(publicKey);
 	}
 	/////////////////////////////////////////////////// CONTRAT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	public static Contrat createContrat(String title){

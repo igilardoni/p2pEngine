@@ -105,8 +105,26 @@ public class MessageManager {
 	public boolean removeMessage(UserMessage msg){
 		return messages.remove(msg);
 	}
-	
-	
+	/**
+	 * Remove a message from the Manager with this id
+	 * @param id
+	 * @return
+	 */
+	public boolean removeMessage(String id) {
+		for(UserMessage m : messages) {
+			if(m.getId().equals(id))
+				return removeMessage(m);
+		}
+		return false;
+	}
+	public boolean removeCurrentUserMessages(String id) {
+		//String sender = 
+		//conversations.get(manager.getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16));
+		return true;
+	}
+	public boolean removeCurrentUserConversation(String publicKey) {
+		return conversations.get(manager.getUserManager().getCurrentUser().getKeys().getPublicKey().toString(16)).removeConversation(publicKey);
+	}
 	///////////////////////////////////////////////// XML \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	/**
 	 * Load all the messages in this element

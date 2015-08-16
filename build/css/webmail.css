@@ -43,11 +43,13 @@
 #messageDisplay:empty {
 	display : none;
 }
-#messageDisplay .meta {
-	margin : -1%;-webkit-border-radius: 15;
-	-moz-border-radius: 15;
-	border-radius: 15px;
+#webmail .meta {
+	margin : -1%;
+	-webkit-border-radius : 15;
+	-moz-border-radius : 15;
+	border-radius : 15px;
 	background-color : #64a9b0;
+	min-height : 35px;
 }
 
 .messageContent label {
@@ -90,7 +92,7 @@ ul.newMessageHeader p {
 	margin-left : 2em;
 	color : #c20000;
 }
-tr.unreadedMessage {
+tr.unreadedMessage, tr.unreadedConversation {
 	font-weight: bold;
 }
 

@@ -34,6 +34,7 @@ public class LoadMessages extends AbstractInterlocutor {
 					content.put("isRead", message.isRead());
 				}
 				content.put("sender", message.getSender().getPublicKey().toString(16));
+				content.put("receiver", message.getReceiver().getPublicKey().toString(16));
 				content.put("subject", message.getSubject());
 				data.put("content", content);
 				com.sendText(data.toString());

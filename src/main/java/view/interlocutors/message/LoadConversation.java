@@ -29,11 +29,13 @@ public class LoadConversation extends AbstractInterlocutor {
 					JSONObject data = new JSONObject();
 					JSONObject content = new JSONObject();
 					data.put("query", "conversationLoaded");
-					content.put("id", message.getID());
+					content.put("conversation", publicKey);
+					content.put("id", message.getId());
 					content.put("message", message.getContent());
 					content.put("subject", message.getSubject());
 					content.put("date", DateConverter.getString(message.getDate()));
 					content.put("sender", message.getSender().getPublicKey().toString(16));
+					content.put("receiver", message.getReceiver().getPublicKey().toString(16));
 					content.put("isRead", message.isRead());
 					data.put("content", content);
 					com.sendText(data.toString());
