@@ -190,10 +190,12 @@ function showSubMenu(menu) {
 	for(var i = 0; i < siblings.length; i++ ) {
 		if($(siblings[i]).hasClass("hidden")){
 			$(siblings[i]).removeClass("hidden");
-			$(menu).addClass("selected");
+			//$(menu).addClass("selected");
+			$(menu).find("img").attr("src", "./img/triangleUp.png");
 		} else {
 			$(siblings[i]).addClass("hidden");
-			$(menu).removeClass("selected");
+			//$(menu).removeClass("selected");
+			$(menu).find("img").attr("src", "./img/triangleDown.png");
 		}
 	}
 	if($(menu).hasClass("selected"))
@@ -201,6 +203,7 @@ function showSubMenu(menu) {
 }
 
 function showMessageReceived() {
+	$("#mailbox").addClass("selected");
 	$(".receivedButton").addClass("selected");
 	$(".unreadButton").removeClass("selected");
 	$(".sentButton").removeClass("selected");
@@ -213,6 +216,7 @@ function showMessageReceived() {
 }
 
 function showMessageUnread() {
+	$("#mailbox").addClass("selected");
 	$(".receivedButton").removeClass("selected");
 	$(".unreadButton").addClass("selected");
 	$(".sentButton").removeClass("selected");
@@ -225,6 +229,7 @@ function showMessageUnread() {
 }
 
 function showMessageSent() {
+	$("#mailbox").addClass("selected");
 	$(".receivedButton").removeClass("selected");
 	$(".unreadButton").removeClass("selected");
 	$(".sentButton").addClass("selected");
@@ -237,6 +242,7 @@ function showMessageSent() {
 }
 
 function showConversations() {
+	$("#mailbox").removeClass("selected");
 	$(".receivedButton").removeClass("selected");
 	$(".unreadButton").removeClass("selected");
 	$(".sentButton").removeClass("selected");
