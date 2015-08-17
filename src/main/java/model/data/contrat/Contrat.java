@@ -42,6 +42,7 @@ public class Contrat extends AbstractAdvertisement {
 		super();
 		setState(0);
 		setTitle(title);
+		setKeys(user.getKeys()); //TODO verify !
 		addSignatory(user);
 	}
 	

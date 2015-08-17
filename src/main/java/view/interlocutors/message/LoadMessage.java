@@ -22,9 +22,6 @@ public class LoadMessage extends AbstractInterlocutor {
 			JSONObject c = getJSON(content);
 			String id = c.getString("id");
 			UserMessage message = ManagerBridge.getMessage(id);
-			if(message == null) {
-				// TODO ERROR !!!
-			}
 			JSONObject data = new JSONObject();
 			JSONObject content = new JSONObject();
 			if(message == null){
@@ -32,7 +29,7 @@ public class LoadMessage extends AbstractInterlocutor {
 				content.put("error", "unknow message");
 			}else{
 				data.put("query", "messageLoaded");
-				content.put("id", message.getID());
+				content.put("id", message.getId());
 				content.put("subject", message.getSubject());
 				content.put("message", message.getContent());
 				content.put("date", DateConverter.getString(message.getDate()));

@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
+import model.data.contrat.Clause;
 import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
 import model.data.item.Category;
@@ -199,9 +200,52 @@ public class Application {
 				}
 			}
 		}
-		
-		System.out.println("bye !");
-		
+		System.out.println("bye !");	
+	}
+	
+	private static void createAccountTest(boolean create) {
+		if(create) {
+			User user = new User("test", " ", "Doe", "John", "john.doe@sxp.com", "+33442044204");
+			User sender = new User("test2", " ", "name", "firstName", "email@email.email", "phone"); 
+			AsymKeysImpl keySender = sender.getKeys().copy();
+			keySender.decryptPrivateKey(" ");
+			
+			Application.getInstance().getManager().getUserManager().registration(user);
+			Application.getInstance().getManager().getUserManager().registration(sender);
+			Application.getInstance().getManager().getUserManager().login("test", " ");
+			
+			/** Messages **/
+			UserMessage m1 = new UserMessage(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), sender.getKeys(), "question", "Bonjour ? Je peux etre votre ami ?");
+			AsymKeysImpl key = sender.getKeys().copy();
+			key.decryptPrivateKey(" ");
+			m1.sign(key);
+			UserMessage m2 = new UserMessage(sender.getKeys(), Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), "reponse", "non !!!");
+			m2.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+			/** Conversation **/
+			Conversations c = new Conversations(Application.getInstance().getManager().getUserManager().getCurrentUser());
+			c.addMessage(m1);
+			c.addMessage(m2);
+			c.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+			Application.getInstance().getManager().getMessageManager().addConversations(c);
+			/** Items **/
+			Item item1 = new Item(user, "Potatoes", new Category(CATEGORY.FoodAndBeverages), "Great potatoes", "", "FRANCE", "Call me", 0L, 0L, TYPE.OFFER);
+			item1.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
+			Application.getInstance().getManager().getItemManager().addItem(item1);
+			Item item2 = new Item(sender, "Carott", new Category(CATEGORY.FoodAndBeverages), "Great food for rabbits", "", "FRANCE", "Call me", 0L, 0L, TYPE.OFFER);
+			item2.sign(keySender);
+			Application.getInstance().getManager().getItemManager().addItem(item2);
+			Application.getInstance().getManager().getFavoriteManager().addFavoritesItem(item2);
+			/** Contracts **/
+			Contrat contract = new Contrat("Food deal", Application.getInstance().getManager().getUserManager().getCurrentUser());
+			contract.addItem(item1);
+			contract.addItem(item2);
+			contract.addClaus(new Clause("Art. 1", "Can't abort !"));
+			Application.getInstance().getManager().getContratManager().addContrat(contract);
+			
+			Application.getInstance().getManager().getUserManager().logout();
+			Application.getInstance().getManager().getUserManager().login("test2", " ");
+			Application.getInstance().getManager().getUserManager().logout();
+		}
 	}
 	
 	/**
@@ -211,29 +255,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
-		
-		User user = new User("test", " ", "name", "firstName", "email@email.email", "phone");
-		User sender = new User("test2", " ", "name", "firstName", "email@email.email", "phone"); 
-		
-		Application.getInstance().getManager().getUserManager().registration(user);
-		Application.getInstance().getManager().getUserManager().login("test", " ");
-		
-		UserMessage m1 = new UserMessage(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), sender.getKeys(), "question", "Bonjour ? Je peux etre votre ami ?");
-		AsymKeysImpl key = sender.getKeys().copy();
-		key.decryptPrivateKey(" ");
-		m1.sign(key);
-		
-		UserMessage m2 = new UserMessage(sender.getKeys(), Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys(), "reponse", "non !!!");
-		m2.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
-		
-		Conversations c = new Conversations(Application.getInstance().getManager().getUserManager().getCurrentUser());
-		c.addMessage(m1);
-		c.addMessage(m2);
-		c.sign(Application.getInstance().getManager().getUserManager().getCurrentUser().getKeys());
-		
-		Application.getInstance().getManager().getMessageManager().addConversations(c);
-		Application.getInstance().getManager().getUserManager().logout();
-		
+		createAccountTest(true);
 		if(Desktop.isDesktopSupported()) {
 		  try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8080/SXPManager/index.html"));

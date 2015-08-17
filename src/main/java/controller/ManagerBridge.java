@@ -299,8 +299,10 @@ public class ManagerBridge{
 	public static UserMessage getMessage(String key) {
 		ArrayList<UserMessage> messages = getCurrentUserMessages();
 		for (UserMessage m : messages) {
-			if(m.getId().equals(key))
+			if(m.getId().equals(key)){
+				// TODO Make isRead = true and sign all conversations ?
 				return m;
+			}
 		}
 		return null;
 	}

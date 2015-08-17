@@ -1,35 +1,34 @@
 /**
  * 
  */
-var messagesList = "messagesList";
-var messageDisplay = "messageDisplay";
 var messagesAreLoaded = false;
 var conversationsAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function loadMessages(){
+	$("#messageList").empty();
 	if(messagesAreLoaded)
 		return;
 	sendQueryEmpty("loadMessages");
 	messagesAreLoaded = true;
 }
-
-function loadConversation(id){
-	$("#messageDisplay").empty();
+function loadMessage(id){
+	displayEmpty();
 	var content = {"id":id};
-	sendQuery("loadConversation", content);
+	sendQuery("loadMessage", content);
 }
 function loadConversations(){
+	$("#conversationList").empty();
 	if(conversationsAreLoaded)
 		return;
 	sendQueryEmpty("loadConversations");
 	conversationsAreLoaded = true;
 }
-function loadMessage(id){
-	displayEmpty();
+function loadConversation(id){
+	$("#messageDisplay").empty();
 	var content = {"id":id};
-	sendQuery("loadMessage", content);
+	sendQuery("loadConversation", content);
 }
 
 function sendMessage(){
@@ -53,6 +52,8 @@ function searchUsers() {
 }
 
 function removeMessage(publicKey, id) {
+	if(!confirm("Are you sure to remove this message ?"))
+		return;
 	var content = {
 			"publicKey":publicKey,
 			"id":id
@@ -61,6 +62,8 @@ function removeMessage(publicKey, id) {
 }
 
 function removeConversation(id) {
+	if(!confirm("Are you sure to remove this conversation ?"))
+		return;
 	var content = {"id":id};
 	sendQuery("removeConversation", content);
 }
@@ -68,7 +71,7 @@ function removeConversation(id) {
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function messagesLoaded(content) {
-	$("#"+messagesList).append(newRowMessage(content));
+	$("#messagesList").append(newRowMessage(content));
 }
 function messageLoaded(content) {
 	var display = getClone(messageDisplay);
@@ -81,6 +84,13 @@ function messageLoaded(content) {
 	$("#"+removePunctuation(content.id)).addClass("readedMessage");
 	if($(".unreadButton").hasClass("selected"))
 		$("#"+removePunctuation(content.id)).addClass("hidden");
+	if(content.isRead === undefined){
+		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.receiver+"','"+content.id+"');");
+		$(display).find(".buttonSend").attr("onclick", "replyMessage('"+content.receiver+"','"+removePunctuation(content.id)+"');");
+	} else {
+		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.sender+"','"+content.id+"');");
+		$(display).find(".buttonSend").attr("onclick", "replyMessage('"+content.sender+"','"+removePunctuation(content.id)+"');");
+	}
 }
 function conversationsLoaded(content) {
 	$("#conversationsList tbody").append(newRowConversation(content));
@@ -93,21 +103,30 @@ function conversationLoaded(content) {
 	$(display).find("#dateMessage").text(content.date);
 	$(display).find("#contentMessage").append(textWithSlashNToBr(content.message));
 	if(content.isRead === undefined){
-		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.receiver+"','"+content.id+"');");
+		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.receiver+"','"+removePunctuation(content.id)+"');");
+		$(display).find(".buttonSend").attr("onclick", "replyMessage('"+content.receiver+"','"+removePunctuation(content.id)+"');");
 	} else {
-		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.sender+"','"+content.id+"');");
+		$(display).find(".buttonRemove").attr("onclick", "removeMessage('"+content.sender+"','"+removePunctuation(content.id)+"');");
+		$(display).find(".buttonSend").attr("onclick", "replyMessage('"+content.sender+"','"+removePunctuation(content.id)+"');");
 	}
 	$("#conversationDisplay").append(display);
-	$("#"+removePunctuation(content.id)).removeClass("unreadedMessage");
-	$("#"+removePunctuation(content.id)).addClass("readedMessage");
+	$("#messagesList #"+removePunctuation(content.id)).removeClass("unreadedMessage");
+	$("#messagesList #"+removePunctuation(content.id)).addClass("readedMessage");
+	$("#conversationsList #"+removePunctuation(content.conversation)).removeClass("unreadedConversation");
+	$("#conversationsList #"+removePunctuation(content.conversation)).addClass("readedConversation");
 }
 function messageNotSent(content) {
 }
 function messageRemoved(content) {
-	$("#"+messagesList+" #"+removePunctuation(content.id)).detach();
-	$("#conversationDisplay #"+removePunctuation(content.id)).detach();
+	$("#messagesList #"+removePunctuation(content.id)).remove();
+	$("#conversationDisplay #"+removePunctuation(content.id)).remove();
 }
 function messageNotRemoved(content) {
+}
+function conversationRemoved(content) {
+	$("#conversationsList #"+removePunctuation(content.id)).remove();
+}
+function conversationNotRemoved(content) {
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
@@ -121,6 +140,14 @@ function getWebmail(){
 function cancelMessage() {
 	displayEmpty();
 	$(".writeButton").removeClass("selected");
+}
+
+function replyMessage(to, id) {
+	var subject = "Re:" + $("#"+id+" #subjectMessage").text();
+	includeWebmail();
+	newMessage();
+	$("#messageSender #receiver").val(to);
+	$("#messageSender #subject").val(subject);
 }
 
 function sendMessageTo(){

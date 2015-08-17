@@ -15,6 +15,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -54,6 +55,7 @@ import view.interlocutors.message.LoadConversation;
 import view.interlocutors.message.LoadConversations;
 import view.interlocutors.message.LoadMessage;
 import view.interlocutors.message.LoadMessages;
+import view.interlocutors.message.RemoveConversation;
 import view.interlocutors.message.RemoveMessage;
 import view.interlocutors.message.SendMessage;
 import view.interlocutors.search.SearchItem;
@@ -124,6 +126,7 @@ public class Server {
 		interlocutors.put("loadMessage", new LoadMessage());
 		interlocutors.put("sendMessage", new SendMessage());
 		interlocutors.put("removeMessage", new RemoveMessage());
+		interlocutors.put("removeConversation", new RemoveConversation());
 		/* Contrat */
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());

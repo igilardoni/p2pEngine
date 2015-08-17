@@ -36,6 +36,7 @@ public class RemoveMessage extends AbstractInterlocutor {
 					content.put("feedbackOk", true);
 					content.put("feedback", c.getString("feedback")+"<br />Conversation removed.");
 					data.put("content", content);
+					com.sendText(data.toString());
 				}
 			} else {
 				data = new JSONObject();
