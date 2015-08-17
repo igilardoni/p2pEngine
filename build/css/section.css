@@ -34,6 +34,14 @@ section:empty {
 		margin-top : 5em;
 	}
 }
+div > p.goodbye {
+	width : 100%;
+}
+p.goodbye {
+	font-size : xx-large;
+	color : #FFFFFF;
+	text-align : center;
+}
 /************************************************* ITEMFORM *************************************************/
 #itemForm {
 	padding-top : 0.5em;

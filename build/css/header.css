@@ -40,6 +40,7 @@ header img.setting {
 	.buttonBootstrap:after { content : "Bootstrap"; }
 	.buttonProfile:after { content : "Profile"; }
 	.buttonLogout:after { content : "Logout"; }
+	.buttonPower:after { content : "Turn Off"; }
 }
 /* LITTLE SCREEN */
 @media(min-height : 400px) {

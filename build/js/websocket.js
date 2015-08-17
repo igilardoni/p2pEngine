@@ -110,3 +110,9 @@ function sendQuery(query, content){
 	var data = {"query":query, "content":content};
 	webSocket.send(JSON.stringify(data));
 }
+
+function turnOff(){
+	sendQueryEmpty("turnOff");
+	$("body").empty();
+	$("body").append(closePage);
+}

@@ -163,5 +163,8 @@ $("<div>").load("/SXPManager/html/loginForm.html", function() {
 	loginForm = $(this).children();
 	$("#contentStart").append($(this).children());
 });
-
-
+/* * * * * * * * * * * * * * * * * * * * * * BYE PAGE * * * * * * * * * * * * * * * * * * * * * * * * * */
+var closePage = null;
+$('<div>').load("/SXPManager/html/closePage.html", function() {
+	closePage = $(this).children();
+});

@@ -16,8 +16,8 @@ public class UserMessage extends AbstractAdvertisement {
 	private String senderName;
 	private AsymKeysImpl receiver;
 	private long date;
-	private boolean read = false;
-	private boolean encrypted = false;
+	private boolean read;
+	private boolean encrypted;
 	
 	
 	
@@ -88,6 +88,8 @@ public class UserMessage extends AbstractAdvertisement {
 	protected void setKeys() {
 		//setKeys(new AsymKeysImpl());
 		receiver = new AsymKeysImpl();
+		read = false;
+		encrypted = false;
 		
 		addKey("content", false, false);
 		

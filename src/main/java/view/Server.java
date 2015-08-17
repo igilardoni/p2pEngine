@@ -16,6 +16,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -26,6 +27,7 @@ import view.interlocutors.LoadType;
 import view.interlocutors.RemoveItemFavorites;
 import view.interlocutors.SendBootstrap;
 import view.interlocutors.SponsorBootstrap;
+import view.interlocutors.TurnOff;
 import view.interlocutors.contrat.AddClause;
 import view.interlocutors.contrat.ChangeContratExchangeRule;
 import view.interlocutors.contrat.LoadContentContrat;
@@ -143,6 +145,7 @@ public class Server {
 		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());
+		interlocutors.put("turnOff", new TurnOff());
 		/* Bootstrap */
 		interlocutors.put("sendBoostrap", new SendBootstrap());
 		interlocutors.put("sponsorBootstrap", new SponsorBootstrap());

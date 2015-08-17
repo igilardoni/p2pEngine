@@ -300,7 +300,9 @@ public class ManagerBridge{
 		ArrayList<UserMessage> messages = getCurrentUserMessages();
 		for (UserMessage m : messages) {
 			if(m.getId().equals(key)){
-				// TODO Make isRead = true and sign all conversations ?
+				m.setRead(true);
+				m.sign(getCurrentUser().getKeys());
+				getCurrentUserConversation().sign(getCurrentUser().getKeys());
 				return m;
 			}
 		}
