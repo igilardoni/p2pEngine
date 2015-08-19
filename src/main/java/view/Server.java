@@ -63,6 +63,7 @@ import view.interlocutors.message.SendMessage;
 import view.interlocutors.search.SearchItem;
 import view.interlocutors.search.SearchUser;
 import view.interlocutors.user.LoadAccount;
+import view.interlocutors.user.LoadKnownUsers;
 import view.interlocutors.user.Register;
 import view.interlocutors.user.SignIn;
 import view.interlocutors.user.SignOut;
@@ -129,6 +130,7 @@ public class Server {
 		interlocutors.put("sendMessage", new SendMessage());
 		interlocutors.put("removeMessage", new RemoveMessage());
 		interlocutors.put("removeConversation", new RemoveConversation());
+		interlocutors.put("getKnownUsers", new LoadKnownUsers());
 		/* Contrat */
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());

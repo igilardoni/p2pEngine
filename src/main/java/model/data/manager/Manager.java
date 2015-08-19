@@ -50,6 +50,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	private MessageManager messageManager;
 	private FavoriteManager favoriteManager;
 	private ContratManager contratManager;
+	private KnownUsersManager knownUsersManager;
 	
 	private NetworkInterface network;
 
@@ -90,6 +91,10 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 	 */
 	public UserManager getUserManager() {
 		return userManager;
+	}
+	
+	public KnownUsersManager getKnownUsersManager() {
+		return knownUsersManager;
 	}
 	
 	/**
@@ -174,6 +179,7 @@ public class Manager extends AbstractAdvertisement implements RecoveryManager {
 		messageManager = new MessageManager(this);
 		favoriteManager = new FavoriteManager(this);
 		contratManager = new ContratManager(this);
+		knownUsersManager = new KnownUsersManager(this);
 		addKey("users", false, true);
 		addKey("items", false, true);
 		addKey("messages", false, true);

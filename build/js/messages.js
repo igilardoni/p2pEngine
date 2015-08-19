@@ -41,6 +41,8 @@ function sendMessage(){
 }
 
 function loadSearchUsers() {
+	$(".users_list").empty();
+	sendQueryEmpty("getKnownUsers");
 	$("#searchUsersDiv").fadeIn();
 }
 
@@ -70,6 +72,10 @@ function removeConversation(id) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function knownUserFind(content) {
+	$(".users_list").append("<li>" + content.name + "</li>");
+}
+
 function messagesLoaded(content) {
 	$("#messagesList").append(newRowMessage(content));
 }

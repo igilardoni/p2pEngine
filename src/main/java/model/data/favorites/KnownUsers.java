@@ -94,5 +94,13 @@ public class KnownUsers extends AbstractAdvertisement {
 	public boolean add(User u) {
 		return add(u.getNick(), u);
 	}
+	
+	public HashMap<String, AsymKeysImpl> getUsers() {
+		return users;
+	}
+	
+	public AsymKeysImpl get(String customName) {
+		return users.get(customName);
+	}
 
 }
