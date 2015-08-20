@@ -5,10 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 
-import org.bouncycastle.crypto.engines.ElGamalEngine;
-import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
-import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
-
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
 import util.secure.ElGamalEncrypt;

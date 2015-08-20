@@ -1,7 +1,6 @@
 package util.secure.sigmaProtocol;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * This class is for the composability. This is clause Or.

@@ -5,15 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.engines.ElGamalEngine;
-import org.bouncycastle.crypto.generators.ElGamalKeyPairGenerator;
-import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
-import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
-import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
-import org.bouncycastle.crypto.params.ElGamalParameters;
-import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
-import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 
 import util.secure.AsymKeysImpl;
 import util.secure.ElGamal;
@@ -31,7 +23,7 @@ public class Trent {
 	
 	AsymKeysImpl keys;
 	private HashMap<Masks,BigInteger> eph = new HashMap<Masks, BigInteger>();
-	private ElGamalEngine e = new ElGamalEngine();
+	private ElGamalEngine e = new ElGamalEngine(); // TODO never used ?
 	
 	/**
 	 * Constructor

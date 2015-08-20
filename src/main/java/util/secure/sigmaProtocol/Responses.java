@@ -1,8 +1,6 @@
 package util.secure.sigmaProtocol;
 
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import util.secure.AsymKeysImpl;
 
@@ -10,7 +8,7 @@ import util.secure.AsymKeysImpl;
  * It's response to need to send in the protocol
  * it's abstract, for the different response in the protocol
  * @author sarah
- *
+ * TODO extends AbstractAdvertisement ?
  */
 public abstract class Responses {
 	
