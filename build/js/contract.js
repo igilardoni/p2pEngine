@@ -110,6 +110,13 @@ function removeClause(id) {
 	};
 	sendQuery("removeClause", content);
 }
+
+function signContrat() {
+	var content = {
+			"contratID":$("#contratID").text()
+	};
+	sendQuery("signContrat", content);
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

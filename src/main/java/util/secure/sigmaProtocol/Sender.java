@@ -38,6 +38,7 @@ public class Sender extends Fabric{
 	 */
 	public Sender (AsymKeysImpl keys)
 	{
+		// TODO Keys verifications !
 		this.keys = keys; 
 	}
 	

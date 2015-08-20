@@ -77,6 +77,8 @@ function serverReply(data){
 	case "contratsLoaded":					contratsLoaded(data.content); break;
 	case "contratLoaded":					contratLoaded(data.content); break;
 	case "transfertRuleLoaded":				transfertRuleLoaded(data.content); break;
+	case "ruleContratChanged":				/*ruleContratChanged(data.content);*/ break;
+	case "ruleContratNotChanged":			/*ruleContratNotChanged(data.content);*/ break;
 	case "clauseLoaded":					clauseLoaded(data.content); break;
 	case "clauseAdded":						clauseAdded(data.content); break;
 	case "clauseSaved":						clauseSaved(data.content); break;

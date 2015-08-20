@@ -17,6 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 
 
 
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -40,6 +41,7 @@ import view.interlocutors.contrat.RemoveContrat;
 import view.interlocutors.contrat.RemoveItemContrat;
 import view.interlocutors.contrat.RenameContrat;
 import view.interlocutors.contrat.SaveClause;
+import view.interlocutors.contrat.SignContrat;
 import view.interlocutors.item.AddItem;
 import view.interlocutors.item.AddItemFavorites;
 import view.interlocutors.item.LoadCategories;
@@ -144,6 +146,7 @@ public class Server {
 		interlocutors.put("addClause", new AddClause());
 		interlocutors.put("saveClause", new SaveClause());
 		interlocutors.put("removeClause", new RemoveClause());
+		interlocutors.put("signContrat", new SignContrat());
 		/* Others */
 		interlocutors.put("loadBase64Image", new LoadBase64Image());
 		interlocutors.put("loadIP", new LoadIP());
