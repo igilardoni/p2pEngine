@@ -21,7 +21,7 @@ public class SearchUser extends AbstractInterlocutor implements SearchListener<U
 			SearchUserController is = new SearchUserController();
 			is.addListener(this);
 			is.startSearch(c.getString("search"));
-			System.out.println("recherche user en cours ...");
+			System.out.println("recherche user en cours ..."); // TODO delete
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {

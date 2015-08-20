@@ -130,7 +130,7 @@ public class Server {
 		interlocutors.put("sendMessage", new SendMessage());
 		interlocutors.put("removeMessage", new RemoveMessage());
 		interlocutors.put("removeConversation", new RemoveConversation());
-		interlocutors.put("getKnownUsers", new LoadKnownUsers());
+		interlocutors.put("loadKnownUsers", new LoadKnownUsers());
 		/* Contrat */
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
