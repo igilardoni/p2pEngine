@@ -38,6 +38,9 @@ public class SearchItem extends AbstractInterlocutor implements SearchListener<I
 			data.put("query", "itemSearchFound");
 			JSONObject content = new JSONObject();
 			content.put("itemKey", event.getItemKey());
+			content.put("owner", event.getOwner());
+			content.put("nick", event.getFriendNick());
+			System.out.println("nick = " + event.getFriendNick());
 			content.put("title", event.getTitle());
 			content.put("description", event.getDescription());
 			content.put("category", event.getCategory().getStringChoice());

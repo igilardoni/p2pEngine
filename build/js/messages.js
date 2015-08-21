@@ -169,6 +169,13 @@ function sendMessageTo(){
 	$("#subject").val("Item : "+subject);
 }
 
+function sendMessageTo2(publickey, subject) {
+	includeWebmail();
+	newMessage();
+	$("#receiver").val(publickey);
+	$("#subject").val("Item : " + subject);
+}
+
 function newMessage() {
 	if($(".writeButton").hasClass("selected"))
 		cancelMessage();

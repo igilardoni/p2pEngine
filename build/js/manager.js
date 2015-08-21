@@ -56,6 +56,12 @@ function includeContrat(){
 	scrollTop();
 }
 
+function includeItemViewer() {
+	$("#wrapperView").empty();
+	$("#wrapperView").append(viewAnnounce);
+	$("#wrapperView").fadeIn();
+}
+
 function includeWebmail(){
 	emptyContent();
 	$("#content").append(getWebmail());

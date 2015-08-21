@@ -43,13 +43,9 @@ function loadItemSearch(itemKey){
 			"itemKey":itemKey
 	};
 	sendQuery("loadItemSearch", content);*/
-	if($("#"+removePunctuation(itemKey)+" .searchDisplayer").hasClass("hidden")){
-		$("#"+removePunctuation(itemKey)+" .searchDisplayer").removeClass("hidden");
-		$("#"+removePunctuation(itemKey)+" .resume").addClass("hidden");
-	} else {
-		$("#"+removePunctuation(itemKey)+" .searchDisplayer").addClass("hidden");
-		$("#"+removePunctuation(itemKey)+" .resume").removeClass("hidden");
-	}
+	$("#"+removePunctuation(itemKey)+" .searchDisplayer").toggle(100);
+	
+
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
@@ -136,6 +132,8 @@ function newRowItemSearch(content){
 	var row = getClone(searchItemRow);
 	$(row).attr("id", removePunctuation(content.itemKey));
 	$(row).find(".rowTitle").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
+	$(row).find("#nick").text(content.nick);
+	$(row).find("#sendMessage").attr("onclick", "sendMessageTo2('" + content.owner + "', '" + content.title + "');");
 	$(row).find(".rowDescription").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
 	$(row).find(".rowTitle .resume").append(content.title);
 	$(row).find(".rowDescription .resume").text(description);

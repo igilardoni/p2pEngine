@@ -43,6 +43,21 @@
 	margin-left : 10px;
 	margin-right : 10px;
 }
+
+.searchDisplayer {
+	position:fixed;
+	top: 50%;
+	left: 50%;
+	width: 680px;
+	height: 300px;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 5px;
+	border: 1px black solid;
+	box-shadow: 0px 0px 20px #000;
+	overflow: auto;
+}
+
 .searchDisplayer label {
 	width : auto;
 	display : inline-block;
