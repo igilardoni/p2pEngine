@@ -94,6 +94,9 @@ function serverReply(data){
 	case "bootstrapSent":					bootstrapSent(data.content); break;
 	case "bootstrapNotSent":				bootstrapNotSent(data.content); break;
 	case "sponsorBootstrapSaved":			sponsorBootstrapSaved(data.content); break;
+	
+	case "userSearchFound":					userSearchFound(data.content); break;
+	case "knownUserFound":					knownUserFound(data.coutent); break;
 	default: alert(data.query+" unknow !"); // TODO For debugging delete when finished 
 	}
 	if(data.content.feedback !== undefined)

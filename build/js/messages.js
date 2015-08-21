@@ -72,8 +72,12 @@ function removeConversation(id) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function knownUserFind(content) {
-	$(".usersList").append("<li>" + content.name + "</li>");
+function knownUserFound(content) {
+	$("#usersList").append("<li>" + content.name + "</li>");
+}
+
+function searchUserFound(content) {
+	$("#userSearchResults").append("<li>" + content.nick + "</li>");
 }
 
 function messagesLoaded(content) {

@@ -13,11 +13,10 @@ public class LoadKnownUsers extends AbstractInterlocutor{
 	public void run() {
 		if(!isInitialized()) return;
 		try {
-			System.out.println("(getting known user...)"); // TODO delete
 			KnownUsers ku = Application.getInstance().getManager().getKnownUsersManager().getCurrentUserKnownUsers();
 			for(String name: ku.getUsers().keySet()) {
 				JSONObject data = new JSONObject();
-				data.put("query", "knownUserFind");
+				data.put("query", "knownUserFound");
 				JSONObject content = new JSONObject();
 				content.put("name", name);
 				content.put("publicKey", ku.get(name).getPublicKey().toString(16));

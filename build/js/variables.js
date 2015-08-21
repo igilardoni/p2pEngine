@@ -156,6 +156,14 @@ $('<div>').load("/SXPManager/html/contratClauseForm.html", function() {
 	contratClauseForm = $(this).children();
 });
 
+
+/* * * * * * * * * * * * * * * * * * * * * * VIEWERS * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+var viewAnnounce = null;
+$("<div>").load("/SXPManager/html/viewAnnounce.html", function() {
+	viewAnnounce = $(this).children();
+});
+
 /* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * *
  * Premiere page qu'on inclu on attends le chargement complet avant la suite  */
 var loginForm = null;

@@ -21,7 +21,6 @@ public class SearchUser extends AbstractInterlocutor implements SearchListener<U
 			SearchUserController is = new SearchUserController();
 			is.addListener(this);
 			is.startSearch(c.getString("search"));
-			System.out.println("recherche user en cours ..."); // TODO delete
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {
@@ -34,8 +33,9 @@ public class SearchUser extends AbstractInterlocutor implements SearchListener<U
 		try {
 			JSONObject data = new JSONObject();
 			data.put("query", "userSearchFound");
-			JSONObject content = AdvertisementToJson.AdvertisementToJSON(event.getKeys());
+			JSONObject content = new JSONObject();
 			content.put("nick", event.getNick());
+			content.put("publicKey", event.getKeys().getPublicKey().toString(16));
 			data.put("content", content);
 			com.sendText(data.toString());
 		} catch (JSONException e) {
