@@ -46,6 +46,14 @@ function loadSearchUsers() {
 	$("#searchUsersDiv").fadeIn();
 }
 
+function addToKnownUsers(nick, publickey) {
+	var content = {
+			nick: nick,
+			publickey: publickey
+	}
+	sendQuery("addToKownUsers", content);
+}
+
 function searchUsers() {
 	var content = {
 			search:$("#searchUserInput").val()

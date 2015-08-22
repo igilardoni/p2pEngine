@@ -133,6 +133,7 @@ function newRowItemSearch(content){
 	$(row).attr("id", removePunctuation(content.itemKey));
 	$(row).find(".rowTitle").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
 	$(row).find("#nick").text(content.nick);
+	$(row).find("#addToKnownUsers").attr("onclick", "addToKnownUsers('" + content.nick + "', '" + content.owner + "');");
 	$(row).find("#sendMessage").attr("onclick", "sendMessageTo2('" + content.owner + "', '" + content.title + "');");
 	$(row).find(".rowDescription").attr("onclick", "loadItemSearch('" + content.itemKey + "');");
 	$(row).find(".rowTitle .resume").append(content.title);

@@ -70,6 +70,7 @@ import view.interlocutors.user.Register;
 import view.interlocutors.user.SignIn;
 import view.interlocutors.user.SignOut;
 import view.interlocutors.user.UpdateAccount;
+import view.interlocutors.user.addToKnownUsers;
 
 
 /**
@@ -133,6 +134,7 @@ public class Server {
 		interlocutors.put("removeMessage", new RemoveMessage());
 		interlocutors.put("removeConversation", new RemoveConversation());
 		interlocutors.put("loadKnownUsers", new LoadKnownUsers());
+		interlocutors.put("addToKownUsers", new addToKnownUsers());
 		/* Contrat */
 		interlocutors.put("newContrat", new NewContrat());
 		interlocutors.put("loadItemForContrat", new LoadItemForContrat());
