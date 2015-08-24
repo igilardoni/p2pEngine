@@ -168,15 +168,6 @@ function typeLoaded(content){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getHome(){
-	return itemTable;
-}
-
-function viewItem(id) {
-	includeItemViewer();
-	//TODO
-}
-
 /**
  * Get a form for add item (with buttons "Add" and "Cancel")
  * @returns Element "div"

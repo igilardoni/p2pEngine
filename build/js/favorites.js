@@ -6,13 +6,17 @@ var itemsFavoritesAreLoaded = false;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// Ask to the model to add itemKey in Favorites
+/** 
+ * Ask to the model to add itemKey in Favorites
+ */
 function addItemFavorites(itemKey){
 	var content = {"itemKey":itemKey};
 	sendQuery("addItemFavorites", content);
 }
 
-// Ask to the model to remove itemKey in Favorites
+/**
+ * Ask to the model to remove itemKey in Favorites
+ */
 function removeItemFavorites(itemKey){
 	if(confirm("Are you sure to delete this item from Favorites ?")) {
 		var content = {"itemKey":itemKey};
@@ -20,13 +24,18 @@ function removeItemFavorites(itemKey){
 	}
 }
 
-// Ask to the model to send item's itemKey from Favorites 
+/**
+ * Ask to the model to send item's itemKey from Favorites
+ * @param itemKey
+ */ 
 function loadItemFavorites(itemKey){
 	var content = {"itemKey":itemKey};
 	sendQuery("loadItemFavorites", content);
 }
 
-//Ask to the model to send all data items from Favorites (for the current user)
+/**
+ * Ask to the model to send all data items from Favorites (for the current user)
+ */
 function loadItemsFavorites(){
 	if(itemsFavoritesAreLoaded)
 		return;
@@ -55,10 +64,6 @@ function itemFavoritesRemoved(content){
 }
 
 function favoritesItemsLoadingStart(content){
-	/*var div = document.createElement("div");
-	div.attr("id","loading");
-	div.append(document.createTextNode("Loading..."));
-	$("aside").append(div);*/
 }
 function favoritesItemsLoadingEnd(content){
 	$("aside #loading").remove();
@@ -66,22 +71,13 @@ function favoritesItemsLoadingEnd(content){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getFavoritesDisplay(){
-	var div = document.createElement("div");
-	$(div).append(itemFavoritesTable);
-	var loading = document.createElement("div");
-	$(loading).attr("id", "loading");
-	$(div).append(loading);
-	return div;
-}
-
-function getItemFavoritesDisplay(){
-	return itemFavoritesDisplayer;
-}
-
 function clearFavoritesTable(){
 	$("aside #favoritesList tbody").empty();
 }
+function removeDisplayItemFavorites(){
+	$("aside #itemFavoritesDisplayer").remove();
+}
+
 function newRowFavorites(content){
 	var row = document.createElement("tr");
 	$(row).attr("id", "favorites"+removePunctuation(content.itemKey));
@@ -103,13 +99,9 @@ function newRowFavorites(content){
 	return row;
 }
 
-function removeDisplayItemFavorites(){
-	$("aside #itemFavoritesDisplayer").remove();
-}
-
 function displayItemFavorites(content){
 	removeDisplayItemFavorites();
-	$("aside").append(getItemFavoritesDisplay());
+	$("aside").append(itemFavoritesDisplayer);
 	$.each(content, function(key, value){
 		if(key=="image")
 			$("#itemFavoritesDisplayer"+" #"+key).attr("src", value);

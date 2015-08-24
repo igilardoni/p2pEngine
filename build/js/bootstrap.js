@@ -22,20 +22,6 @@ function sendBootstrap(){
 }
 
 function sponsorBootstrap() {
-	/*var f = $("#bootstrapFile")[0].files[0]; 
-	var contents;
-	if (f) {
-		var r = new FileReader();
-		r.onload = function(e) { 
-			contents = e.target.result;
-			var content = {"fileContent":contents}
-			sendQuery("sponsorBootstrap", content);
-		}
-		r.readAsText(f);
-	} else { 
-		$("#bootstrapFile").addClass("inputWrong");
-		return;
-	}*/
 	if($("#bootstrapIP").val() == ""){
 		$("#bootstrapIP").addClass("inputWrong");
 		var feedback = "You must copy the IP address sent by your sponsor.";
@@ -62,19 +48,6 @@ function bootstrapSent(content){
 	window.open(link, "_blank");
 }
 
-function bootstrapNotSent(content){
-}
-
 function sponsorBootstrapSaved(content){
 	includeBoostrapSetting();
-}
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 											HTML GENERATOR											   *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getBootstrapSetting(){
-	return getElement(boostrapSetting);
-}
-
-function getBootstrapInvitation(){
-	return getElement(boostrapInvitation);
 }

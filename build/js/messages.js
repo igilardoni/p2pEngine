@@ -149,12 +149,6 @@ function conversationNotRemoved(content) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 											HTML GENERATOR											   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getWebmail(){
-	loadMessages();
-	loadConversations();
-	return getElement(webmailForm);
-}
-
 function cancelMessage() {
 	displayEmpty();
 	$(".writeButton").removeClass("selected");

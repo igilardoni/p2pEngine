@@ -2,16 +2,23 @@
  * JavaScript for managing contrats
  * @author Michael DUBUIS
  */
-contratsAreLoaded = false;
+contratsAreLoaded = false; // This variable is used to know if contracts are already loaded.
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/**
+ * Ask to the model to send all contracts
+ */
 function loadContrats(){
 	if(contratsAreLoaded)
 		return;
 	sendQueryEmpty("loadContrats");
 	contratsAreLoaded = true;
 }
+/**
+ * Ask to the model to send all information about Contract whose have id in parameter
+ * @param id
+ */
 function loadContrat(id){
 	var content = {"contratID":id};
 	sendQuery("loadContrat", content);
@@ -19,6 +26,9 @@ function loadContrat(id){
 	$("#content").append(contratForm);
 	$("#objects").append(itemContratTable);
 }
+/**
+ * Ask to the model to add an item in the current contract
+ */
 function loadItemForContrat(){
 	var itemKey = $("#itemFavoritesDisplayer #itemKey").text();
 	if($("#contratID").text() == ""){
@@ -32,6 +42,9 @@ function loadItemForContrat(){
 		sendQuery("loadItemForContrat", content);
 	}
 }
+/**
+ * Ask to the model to create a new Contract
+ */
 function newContrat(){
 	var titleNewContrat = $("#titleNewContrat").val();
 	if(titleNewContrat == undefined)
@@ -39,6 +52,11 @@ function newContrat(){
 	var content = {"title":titleNewContrat};
 	sendQuery("newContrat", content);
 }
+/**
+ * Ask to the model to remove the contract whose have id in parameter
+ * @param id
+ * @returns {Boolean} True if confirm remove, False else.
+ */
 function removeContrat(id) {
 	if(confirm("Are you sure to remove this contract ?")){
 		var content = {
@@ -49,10 +67,17 @@ function removeContrat(id) {
 	}
 	return false;
 }
+/**
+ * Ask to the model to delete the current Contract
+ */
 function deleteContrat() {
 	if(removeContrat($("#contratID").text()))
 		includeContrat();
 }
+/**
+ * Ask to the model to remove an item whose have itemkey (param)
+ * @param itemKey
+ */
 function removeItemContrat(itemKey) {
 	if(confirm("Are you sure to remove this item in contract ?")){
 		var contratID = $("#contratID").text();
@@ -63,6 +88,9 @@ function removeItemContrat(itemKey) {
 		sendQuery("removeItemContrat", content);
 	}
 }
+/**
+ * Ask to the model to rename the current contract
+ */
 function renameContrat() {
 	var contratID = $("#contratID").text();
 	var title = $("#contratForm"+" #title").val();
@@ -72,6 +100,14 @@ function renameContrat() {
 	};
 	sendQuery("renameContrat", content);
 }
+/**
+ * Ask to the model to change rule for item (whose have itemKey)
+ * @param itemKey
+ * @param itemTitle
+ * @param from
+ * @param fromNick
+ * @param select
+ */
 function changeContratExchangeRule(itemKey, itemTitle, from, fromNick, select) {
 	var to = $(select).val();
 	var toNick = $(select).find("option:selected").text();
@@ -88,12 +124,19 @@ function changeContratExchangeRule(itemKey, itemTitle, from, fromNick, select) {
 	};
 	sendQuery("changeContratExchangeRule", content);
 }
+/**
+ * Ask to the model to create new Clause for the current contract
+ */
 function addClause() {
 	var content = {
 			"contratID":$("#contratID").text()
 	}
 	sendQuery("addClause", content);
 }
+/**
+ * Ask to the model to save changes for a clause whose have id.
+ * @param id
+ */
 function saveClause(id) {
 	var content = {
 			"contratID":$("#contratID").text(),
@@ -103,6 +146,10 @@ function saveClause(id) {
 	};
 	sendQuery("saveClause", content);
 }
+/**
+ * Ask to remove a clause whose have id
+ * @param id
+ */
 function removeClause(id) {
 	var content = {
 			"contratID":$("#contratID").text(),
@@ -110,7 +157,9 @@ function removeClause(id) {
 	};
 	sendQuery("removeClause", content);
 }
-
+/**
+ * Ask to the model to launch the contract signature protocol
+ */
 function signContrat() {
 	var content = {
 			"contratID":$("#contratID").text()
@@ -242,10 +291,6 @@ function renameContractForm(){
 	$("#contratForm h1").empty();
 	$("#contratForm h1").append(input);
 	$("#contratForm h1").append(button);
-}
-
-function getContrat(){
-	return contratTable;
 }
 
 function newRowContrat(content) {

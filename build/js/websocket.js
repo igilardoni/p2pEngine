@@ -48,7 +48,7 @@ function serverReply(data){
 	case "itemSearchLoaded":				itemSearchLoaded(data.content); break;
 	case "itemSearchNotLoaded":				itemSearchNotLoaded(data.content); break;
 	
-	case "favoritesItemsLoadingStart":		favoritesItemsLoadingStart(data.content); break;
+	case "favoritesItemsLoadingStart":		/*favoritesItemsLoadingStart(data.content);*/ break;
 	case "favoritesItemsLoaded":			favoritesItemsLoaded(data.content); break;
 	case "favoritesItemsLoadingEnd":		favoritesItemsLoadingEnd(data.content); break;
 	case "itemFavoritesRemoved":			itemFavoritesRemoved(data.content); break;
@@ -92,7 +92,7 @@ function serverReply(data){
 	
 	case "ipLoaded":						ipLoaded(data.content); break;
 	case "bootstrapSent":					bootstrapSent(data.content); break;
-	case "bootstrapNotSent":				bootstrapNotSent(data.content); break;
+	case "bootstrapNotSent":				/*bootstrapNotSent(data.content);*/ break;
 	case "sponsorBootstrapSaved":			sponsorBootstrapSaved(data.content); break;
 	
 	case "userSearchFound":					userSearchFound(data.content); break;

@@ -161,18 +161,3 @@ function accountLoaded(content){
 	$("#email").val(content.email);
 	$("#phone").val(content.phone);
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 											HTML GENERATOR											   *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function getLoginForm(){
-	return getElement(loginForm);
-}
-
-function getRegistrationForm(){
-	return getElement(registrationForm);
-}
-
-function getUpdateAccountForm(){
-	return getElement(updateAccountForm);
-}
