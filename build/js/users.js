@@ -42,6 +42,11 @@ function register(){
 		$("#passwordConfirm").addClass("inputWrong");
 		error = true;
 	}
+	if(!isSecure(password)){
+		if(!confirm("This password isn't secure enough.\nAre you sure you want to use it anyway?")){
+			return;
+		}
+	}
 	if(username == "") {
 		$("#username").addClass("inputWrong");
 		error = true;
