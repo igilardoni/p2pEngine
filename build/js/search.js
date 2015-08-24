@@ -50,7 +50,6 @@ function loadItemSearch(itemKey){
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 function itemSearchFieldLoaded(content){
 	var option = document.createElement("option");
 	$(option).append(content.field);

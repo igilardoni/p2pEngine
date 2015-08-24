@@ -74,6 +74,10 @@ function deleteContrat() {
 	if(removeContrat($("#contratID").text()))
 		includeContrat();
 }
+/**
+ * Ask to the model to remove an item whose have itemkey (param)
+ * @param itemKey
+ */
 function removeItemContrat(itemKey) {
 	if(confirm("Are you sure to remove this item in contract ?")){
 		var contratID = $("#contratID").text();
@@ -84,6 +88,9 @@ function removeItemContrat(itemKey) {
 		sendQuery("removeItemContrat", content);
 	}
 }
+/**
+ * Ask to the model to rename the current contract
+ */
 function renameContrat() {
 	var contratID = $("#contratID").text();
 	var title = $("#contratForm"+" #title").val();
@@ -93,6 +100,14 @@ function renameContrat() {
 	};
 	sendQuery("renameContrat", content);
 }
+/**
+ * Ask to the model to change rule for item (whose have itemKey)
+ * @param itemKey
+ * @param itemTitle
+ * @param from
+ * @param fromNick
+ * @param select
+ */
 function changeContratExchangeRule(itemKey, itemTitle, from, fromNick, select) {
 	var to = $(select).val();
 	var toNick = $(select).find("option:selected").text();
@@ -109,12 +124,19 @@ function changeContratExchangeRule(itemKey, itemTitle, from, fromNick, select) {
 	};
 	sendQuery("changeContratExchangeRule", content);
 }
+/**
+ * Ask to the model to create new Clause for the current contract
+ */
 function addClause() {
 	var content = {
 			"contratID":$("#contratID").text()
 	}
 	sendQuery("addClause", content);
 }
+/**
+ * Ask to the model to save changes for a clause whose have id.
+ * @param id
+ */
 function saveClause(id) {
 	var content = {
 			"contratID":$("#contratID").text(),
@@ -124,6 +146,10 @@ function saveClause(id) {
 	};
 	sendQuery("saveClause", content);
 }
+/**
+ * Ask to remove a clause whose have id
+ * @param id
+ */
 function removeClause(id) {
 	var content = {
 			"contratID":$("#contratID").text(),
@@ -131,7 +157,9 @@ function removeClause(id) {
 	};
 	sendQuery("removeClause", content);
 }
-
+/**
+ * Ask to the model to launch the contract signature protocol
+ */
 function signContrat() {
 	var content = {
 			"contratID":$("#contratID").text()
@@ -263,10 +291,6 @@ function renameContractForm(){
 	$("#contratForm h1").empty();
 	$("#contratForm h1").append(input);
 	$("#contratForm h1").append(button);
-}
-
-function getContrat(){
-	return contratTable;
 }
 
 function newRowContrat(content) {

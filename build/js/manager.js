@@ -12,7 +12,7 @@ function includeLogin(){
 	removeFavorites();
 	removeFooter();
 	emptyContent();
-	$("#contentStart").append(getLoginForm());
+	$("#contentStart").append(loginForm);
 	if(username !== undefined && username.length > 0) $("#username").val(username);
 }
 
@@ -22,7 +22,7 @@ function includeRegistration(){
 	removeFavorites();
 	removeFooter();
 	emptyContent();
-	$("#contentStart").append(getRegistrationForm());
+	$("#contentStart").append(registrationForm);
 	if(username !== undefined && username.length > 0) $("#username").val(username);
 	if(pwd !== undefined && pwd.length > 0) $("#password").val(pwd);
 }
@@ -30,7 +30,7 @@ function includeRegistration(){
 function includeHome(){
 	emptyContent();
 	$("#content").append("<p class=\"feedbackBox\" onclick=\"clearFeedback();\"></p>");
-	$("#content").append(getHome());
+	$("#content").append(itemTable);
 	allMenuWhite();
 	$("nav .homeButton").addClass("selected");
 	scrollTop();
@@ -49,7 +49,7 @@ function includeSearch(){
 
 function includeContrat(){
 	emptyContent();
-	$("#content").append(getContrat());
+	$("#content").append(contratTable);
 	allMenuWhite();
 	$("nav .contratButton").addClass("selected");
 	loadContrats();
@@ -64,10 +64,12 @@ function includeItemViewer() {
 
 function includeWebmail(){
 	emptyContent();
-	$("#content").append(getWebmail());
+	$("#content").append(webmailForm);
 	allMenuWhite();
 	$("nav .messageButton").addClass("selected");
 	scrollTop();
+	loadMessages();
+	loadConversations();
 }
 
 function includeMenu(){
@@ -90,7 +92,7 @@ function removeHeader(){
 
 function includeAccount(){
 	emptyContent();
-	$("#content").append(getUpdateAccountForm());
+	$("#content").append(updateAccountForm);
 	allMenuWhite();
 }
 
@@ -104,7 +106,7 @@ function hideFavorites(){
 
 function includeFavorites(){
 	$("aside").empty();
-	$("aside").append(getFavoritesDisplay());
+	$("aside").append(itemFavoritesTable);
 	//loadItemsFavorites();
 	hideFavorites();
 }
