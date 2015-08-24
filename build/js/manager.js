@@ -127,14 +127,14 @@ function scrollTop(){
 
 function includeBoostrapInvitation(){
 	emptyContent();
-	$("#content").append(getBootstrapInvitation());
+	$("#content").append(bootstrapInvitation);
 	loadIP();
 	allMenuWhite();
 }
 
 function includeBoostrapSetting(){
 	emptyContent();
-	$("#contentStart").append(getBootstrapSetting());
+	$("#contentStart").append(bootstrapSetting);
 }
 
 function allMenuWhite(){

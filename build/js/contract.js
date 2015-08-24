@@ -2,16 +2,23 @@
  * JavaScript for managing contrats
  * @author Michael DUBUIS
  */
-contratsAreLoaded = false;
+contratsAreLoaded = false; // This variable is used to know if contracts are already loaded.
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/**
+ * Ask to the model to send all contracts
+ */
 function loadContrats(){
 	if(contratsAreLoaded)
 		return;
 	sendQueryEmpty("loadContrats");
 	contratsAreLoaded = true;
 }
+/**
+ * Ask to the model to send all information about Contract whose have id in parameter
+ * @param id
+ */
 function loadContrat(id){
 	var content = {"contratID":id};
 	sendQuery("loadContrat", content);
@@ -19,6 +26,9 @@ function loadContrat(id){
 	$("#content").append(contratForm);
 	$("#objects").append(itemContratTable);
 }
+/**
+ * Ask to the model to add an item in the current contract
+ */
 function loadItemForContrat(){
 	var itemKey = $("#itemFavoritesDisplayer #itemKey").text();
 	if($("#contratID").text() == ""){
@@ -32,6 +42,9 @@ function loadItemForContrat(){
 		sendQuery("loadItemForContrat", content);
 	}
 }
+/**
+ * Ask to the model to create a new Contract
+ */
 function newContrat(){
 	var titleNewContrat = $("#titleNewContrat").val();
 	if(titleNewContrat == undefined)
@@ -39,6 +52,11 @@ function newContrat(){
 	var content = {"title":titleNewContrat};
 	sendQuery("newContrat", content);
 }
+/**
+ * Ask to the model to remove the contract whose have id in parameter
+ * @param id
+ * @returns {Boolean} True if confirm remove, False else.
+ */
 function removeContrat(id) {
 	if(confirm("Are you sure to remove this contract ?")){
 		var content = {
@@ -49,6 +67,9 @@ function removeContrat(id) {
 	}
 	return false;
 }
+/**
+ * Ask to the model to delete the current Contract
+ */
 function deleteContrat() {
 	if(removeContrat($("#contratID").text()))
 		includeContrat();

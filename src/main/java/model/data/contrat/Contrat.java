@@ -270,7 +270,8 @@ public class Contrat extends AbstractAdvertisement {
 		if(item.getTitle() == null || item.getTitle().isEmpty())
 			return Printer.printError(this, "removeItem", "Item haven't title");
 		String itemKey = item.getItemKey();
-		return rules.remove(itemKey)!=null && items.remove(item);
+		rules.put(itemKey, "");
+		return items.remove(item) && rules.remove(itemKey)!=null;
 	}
 	public boolean removeItem(String itemKey){
 		if(itemKey==null || itemKey.isEmpty())
@@ -278,8 +279,10 @@ public class Contrat extends AbstractAdvertisement {
 		if(rules.containsKey(itemKey))
 			rules.remove(itemKey);
 		for (Item item : items) {
-			if(item.getItemKey().equals(itemKey))
-				return removeItem(item);
+			if(item.getItemKey().equals(itemKey)) {
+				rules.put(itemKey, "");
+				return items.remove(item) && rules.remove(itemKey)!=null;
+			}
 		}
 		return false;
 	}

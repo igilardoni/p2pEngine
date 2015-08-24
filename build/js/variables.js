@@ -26,13 +26,13 @@ $('<div>').load("/SXPManager/html/header.html", function() {
 	header = $(this).children();
 });
 /* * * * * * * * * * * * * * * * * * * * * * * BOOSTRAP* * * * * * * * * * * * * * * * * * * * * * * * */
-var boostrapInvitation = null;
+var bootstrapInvitation = null;
 $('<div>').load("/SXPManager/html/bootstrapInvitation.html", function() {
-	boostrapInvitation = $(this).children();
+	bootstrapInvitation = $(this).children();
 });
-var boostrapSetting = null;
+var bootstrapSetting = null;
 $('<div>').load("/SXPManager/html/bootstrapSetting.html", function() {
-	boostrapSetting = $(this).children();
+	bootstrapSetting = $(this).children();
 });
 
 /* * * * * * * * * * * * * * * * * * * * REGISTRATION FORM * * * * * * * * * * * * * * * * * * * * * * */
