@@ -4,7 +4,7 @@ function isEmail(email) {
 }
 
 function isPhone(phone) {
-	var regex = /^[0-9-+ ]+$/;
+	var regex = /^[+]{0,1}[\- 0-9]{7,20}$/;
 	return regex.test(phone);
 }
 
@@ -17,4 +17,9 @@ function textWithBrToSlashN(string) {
 
 function removePunctuation(string){
 	return string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+}
+
+function isSecure(password){
+	var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!?]).{8,100}$/;
+	return regex.test(password) && password.length >= 8;
 }
