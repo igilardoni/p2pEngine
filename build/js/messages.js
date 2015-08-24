@@ -41,7 +41,7 @@ function sendMessage(){
 }
 
 function loadSearchUsers() {
-	$(".usersList").empty();
+	$("#usersList").empty();
 	sendQueryEmpty("loadKnownUsers");
 	$("#searchUsersDiv").fadeIn();
 }
@@ -80,8 +80,14 @@ function removeConversation(id) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+function knownToSend(publickey) {
+	$("#searchUsersDiv").toggle();
+	$("#receiver").val(publickey);
+}
+
 function knownUserFound(content) {
-	$("#usersList").append("<li>" + content.name + "</li>");
+	$("#usersList").append("<li class=\"button\" onclick=\"knownToSend('" + content.publicKey +"');\">" + content.nickname + "</li>");
 }
 
 function searchUserFound(content) {

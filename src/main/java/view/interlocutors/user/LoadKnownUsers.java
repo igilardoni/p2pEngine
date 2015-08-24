@@ -18,9 +18,10 @@ public class LoadKnownUsers extends AbstractInterlocutor{
 				JSONObject data = new JSONObject();
 				data.put("query", "knownUserFound");
 				JSONObject content = new JSONObject();
-				content.put("name", name);
+				content.put("nickname", name);
 				content.put("publicKey", ku.get(name).getPublicKey().toString(16));
 				data.put("content", content);
+				System.out.println("sending " + name);
 				com.sendText(data.toString());
 			}
 			

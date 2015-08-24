@@ -28,6 +28,7 @@ public class addToKnownUsers extends AbstractInterlocutor {
 			}
 			else {
 				ku.add(nick, result);
+				System.out.println("User " + result.getNick() + "added to known user");
 			}
 			
 		} catch (JSONException e) {
