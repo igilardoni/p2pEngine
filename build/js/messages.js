@@ -58,6 +58,7 @@ function searchUsers() {
 	var content = {
 			search:$("#searchUserInput").val()
 	}
+	$("#userSearchResults").empty();
 	sendQuery("searchUsers", content);
 }
 
@@ -90,8 +91,15 @@ function knownUserFound(content) {
 	$("#usersList").append("<li class=\"button\" onclick=\"knownToSend('" + content.publicKey +"');\">" + content.nickname + "</li>");
 }
 
-function searchUserFound(content) {
-	$("#userSearchResults").append("<li>" + content.nick + "</li>");
+function userSearchFound(content) {
+	
+	if($("#" + content.publicKey).lenght) {
+		//nothing
+	} else {
+		$("#userSearchResults").append("<li class=\"button\" id='" + content.publicKey + "' onclick=\"knownToSend('" + content.publicKey +"');\">" + content.nick + "</li>");
+
+	}
+		
 }
 
 function messagesLoaded(content) {
