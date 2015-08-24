@@ -52,10 +52,10 @@ public class SearchUserController implements SearchListener<User>{
 				users.put(event.getKeys().getPublicKey().toString(16), event);
 				notifyListeners(event);
 			}
-			else {
-				users.put(event.getKeys().getPublicKey().toString(16), event);
-				notifyListeners(event);
-			}
+		}
+		else {
+			users.put(event.getKeys().getPublicKey().toString(16), event);
+			notifyListeners(event);
 		}
 	}
 
