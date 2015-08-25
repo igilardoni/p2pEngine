@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -232,6 +233,19 @@ public class Network implements NetworkInterface {
 			e.printStackTrace();
 		}
 		networkManager.setUseDefaultSeeds(false);
+	}
+	
+	public ArrayList<String> getSeeds() {
+		ArrayList<String> ips = new ArrayList<String>();
+		try {
+			for(URI ip : networkManager.getConfigurator().getRdvSeedingURIs()){
+				ips.add(ip.toString());
+			}
+			return ips;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override

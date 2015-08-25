@@ -73,6 +73,7 @@ public class SponsorBootstrap extends AbstractInterlocutor {
 			if(adress.split("\\.").length != 4)
 				return false;
 			for(String i : adress.split("\\.")) {
+				if(i.contains(":")) i = i.split(":")[0];
 				if(Integer.parseInt(i) >= 255)
 					return false;
 		}

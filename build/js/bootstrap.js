@@ -51,3 +51,4 @@ function bootstrapSent(content){
 function sponsorBootstrapSaved(content){
 	$("#bootstrapIP").val("");
 	includeLogin();
+}
