@@ -81,7 +81,6 @@ function removeConversation(id) {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 function knownToSend(publickey) {
 	$("#searchUsersDiv").toggle();
 	$("#receiver").val(publickey);

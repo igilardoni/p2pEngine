@@ -5,16 +5,9 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    QUERY FROM JAVASCRIPT TO MODEL									   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// Ask to the model to logout
-function signOut(){
-	var content = {
-			
-	};
-	var data = {"query":"signOut", "content":content};
-	webSocket.send(JSON.stringify(data));
-}
-
-// Ask to the model to login
+/**
+ * Login query
+ */
 function signIn(){
 	var username = $("#username").val();
 	var password = $("#password").val();
@@ -26,7 +19,20 @@ function signIn(){
 	webSocket.send(JSON.stringify(data));
 }
 
-// Ask to the model to register
+/**
+ * Logout query
+ */
+function signOut(){
+	var content = {
+			
+	};
+	var data = {"query":"signOut", "content":content};
+	webSocket.send(JSON.stringify(data));
+}
+
+/**
+ * Registration query
+ */
 function register(){
 	$("input").removeClass("inputWrong");
 	var error = false;
@@ -80,8 +86,11 @@ function register(){
 	webSocket.send(JSON.stringify(data));
 }
 
-// Ask to the model to update current account
+/**
+ * Updating account query
+ */
 function updateAccount(){
+	$(".inputWrong").removeClass("inputWrong");
 	var oldPassword = $("#oldpassword").val();
 	var password = $("#password").val();
 	var passwordConfirm = $("#passwordConfirm").val();
@@ -90,7 +99,41 @@ function updateAccount(){
 	var firstname = $("#firstname").val();
 	var email = $("#email").val();
 	var phone = $("#phone").val();
-	// TODO Fields verification
+	
+	var error = false;
+	if(name == "") {
+		$("#name").addClass("inputWrong");
+		error = true;
+	}
+	if(firstname == "") {
+		$("#firstname").addClass("inputWrong");
+		error = true;
+	}
+	if(password == "" || passwordConfirm == "" || password != passwordConfirm){
+		$("#password").addClass("inputWrong");
+		$("#passwordConfirm").addClass("inputWrong");
+		error = true;
+	}
+	if(oldPassword == "") {
+		$("#oldPassword").addClass("inputWrong");
+		error = true;
+	}
+	if(!isEmail(email)){
+		$("#email").addClass("inputWrong");
+		error = true;
+	}
+	if(!isPhone(phone)){
+		$("#phone").addClass("inputWrong");
+		error = true;
+	}
+	if(!isSecure(password)){
+		if(!confirm("This password isn't secure enough.\nAre you sure you want to use it anyway?")){
+			return;
+		}
+	}
+	if(error)
+		return;
+	
 	var content = {
 			"oldpassword":oldPassword,
 			"password":password,
@@ -104,7 +147,9 @@ function updateAccount(){
 	webSocket.send(JSON.stringify(data));
 }
 
-// Ask to the model data of current account
+/**
+ * Loading account query
+ */
 function loadAccount(){
 	var content = {};
 	var data = {"query":"loadAccount", "content":content};
@@ -148,13 +193,6 @@ function accountUpdated(content){
 		includeHeader();
 		includeMenu();
 		includeHome();
-	}else{
-		if(content.message == "wrong password")
-			$("#oldpassword").css("color", "#FF0000");
-		if(content.message == "not the same password"){
-			$("password").css("color", "#FF0000");
-			$("passwordConfirm").css("color", "#FF0000");
-		}
 	}
 }
 

@@ -37,15 +37,7 @@ function searchItem(){
 	}
 }
 function loadItemSearch(itemKey){
-	/*if($("aside").hasClass("hidden"))
-		switchFavorites();
-	content = {
-			"itemKey":itemKey
-	};
-	sendQuery("loadItemSearch", content);*/
 	$("#"+removePunctuation(itemKey)+" .searchDisplayer").toggle(100);
-	
-
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 								    ANSWER FROM MODEL TO JAVASCRIPT									   *
