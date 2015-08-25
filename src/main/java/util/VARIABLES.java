@@ -24,6 +24,8 @@ public class VARIABLES {
 	public final static String ConfigFilePathSolaris = "";
 	public static final String ManagerFileName = "SXPManager.xml";
 	public static final String ManagerFilePath = "./"+ManagerFileName;
+	public static final String BootstrapFileName = "bootstrap.xml";
+	public static final String BootstrapFilePath = "./"+BootstrapFileName;
 	
 	/* AVProtocol */
 	public static final int AVProtocolN = 10;

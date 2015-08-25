@@ -1,7 +1,9 @@
 package model;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +12,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import model.advertisement.AdvertisementInstaciator;
+import model.data.RendezVousIp;
 import model.data.contrat.Clause;
 import model.data.contrat.Contrat;
 import model.data.favorites.Favorites;
@@ -33,6 +36,7 @@ import model.network.communication.service.MessageService;
 import model.network.communication.service.InstanceSender.ClassSenderService;
 import model.network.communication.service.update.UpdateService;
 import model.network.search.Search;
+import util.Printer;
 import util.VARIABLES;
 import util.secure.AsymKeysImpl;
 
@@ -111,8 +115,31 @@ public class Application {
 	private void startNetwork() {
 		network = new Network(9800, VARIABLES.NetworkFolderName, VARIABLES.NetworkPeerName);
 		network.setLogger(Level.SEVERE);
-		network.boot("tcp://85.171.121.182:9800");
-		// TODO Check if file bootstrap.xml exist and use RendezVousIp to boot on ips
+		//network.boot("tcp://85.171.121.182:9800"); TODO Check !
+		try {
+			if(new File(VARIABLES.BootstrapFilePath).exists()){
+				FileReader xmlFile = new FileReader(VARIABLES.BootstrapFilePath);
+				BufferedReader br = new BufferedReader(xmlFile);
+			    StringBuilder sb = new StringBuilder();
+			    String line = br.readLine();
+	
+			    while (line != null) {
+			        sb.append(line);
+			        sb.append(System.lineSeparator());
+			        line = br.readLine();
+			    }
+			    String xml = sb.toString();
+			    br.close();
+				RendezVousIp rdv = new RendezVousIp(xml);
+				for(String ip : rdv.getIps()){
+					network.boot(ip);
+				}
+			} else {
+				Printer.printInfo(this, "startNetwork", VARIABLES.BootstrapFileName + " doesn't exist.");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		network.start();
 	}
 	

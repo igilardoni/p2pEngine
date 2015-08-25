@@ -22,6 +22,7 @@ function sendBootstrap(){
 }
 
 function sponsorBootstrap() {
+	$(".inputWrong").removeClass("inputWrong");
 	if($("#bootstrapIP").val() == ""){
 		$("#bootstrapIP").addClass("inputWrong");
 		var feedback = "You must copy the IP address sent by your sponsor.";
@@ -44,10 +45,9 @@ function bootstrapSent(content){
 	var link = "mailto:"+$("#emailReceiver").val()
         + "?subject=" + content.subject
         + "&body=" + content.text;
-	//window.location.href = link;
 	window.open(link, "_blank");
 }
 
 function sponsorBootstrapSaved(content){
-	includeBoostrapSetting();
-}
+	$("#bootstrapIP").val("");
+	includeLogin();
