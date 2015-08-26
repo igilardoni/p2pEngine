@@ -10,8 +10,8 @@ import util.secure.AsymKeysImpl;
 /**
  * It's response to need to send in the protocol
  * it's abstract, for the different response in the protocol
- * @author sarah
- * TODO extends AbstractAdvertisement ?
+ * @author Sarah Boukris
+ * @author Julien Prudhomme
  */
 public abstract class Responses extends AbstractAdvertisement {
 	
