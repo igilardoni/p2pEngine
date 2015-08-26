@@ -104,3 +104,39 @@ nav li.favoritesButton.selected a:before {
 		pointer-events: none;
 	}
 }
+
+.menu {
+	cursor : pointer;
+	text-align : center;
+	margin : 0;
+	width : 100%;
+	border-bottom : solid #d6d6d6;
+	border-top : none;
+	border-left : none;
+	border-right : none;
+	
+	font-family: Arial;
+	color: #fcfcfc;
+	padding: 1em 0 1em 0;
+	text-decoration: none;
+}
+.menu:hover {
+	background-color : #565656;
+}
+.menu.selected {
+	background-color : #707070;
+}
+.menu.favoritesButton {
+	margin-top : 5em;
+	border-top : solid #d6d6d6;
+	background-color : #45797f;
+}
+.menu.favoritesButton:hover {
+	background-color : #315a5f;
+}
+.menu.favoritesButton.selected {
+	background-color : #315a5f;
+}
+.menu.favoritesButton.selected:hover {
+	background-color : #45797f;
+}

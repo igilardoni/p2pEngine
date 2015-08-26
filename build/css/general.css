@@ -53,58 +53,6 @@ input[type="button"], input[type=submit], .button {
 	-moz-box-shadow: 0px 1px 3px #666666;
 	box-shadow: 0px 1px 3px #666666;
 }
-.button:before {
-	margin-left : 0.1em;
-	margin-right : 0.1em;
-	margin-bottom : 0.1em;
-	margin-top : 0.1em;
-	display : inline-block;
-	vertical-align : middle;
-	text-align : center;
-}
-
-
-.menu {
-	cursor : pointer;
-	text-align : center;
-	margin : 0;
-	width : 100%;
-	
-	/*border : 3px solid transparent;
-	-moz-border-image : -moz-linear-gradient(right, #FFFFFF 0%, #979797 100%);
-	-webkit-border-image : -webkit-linear-gradient(right, #FFFFFF 0%, #979797 100%);
-	border-image : linear-gradient(to right, #FFFFFF 0%, #979797 100%);
-	border-image-slice : 1;*/
-	border-bottom : solid #d6d6d6;
-	border-top : none;
-	border-left : none;
-	border-right : none;
-	
-	font-family: Arial;
-	color: #fcfcfc;
-	padding: 1em 0 1em 0;
-	text-decoration: none;
-}
-.menu:hover {
-	background-color : #565656;
-}
-.menu.selected {
-	background-color : #707070;
-}
-.menu.favoritesButton {
-	margin-top : 5em;
-	border-top : solid #d6d6d6;
-	background-color : #45797f;
-}
-.menu.favoritesButton:hover {
-	background-color : #315a5f;
-}
-.menu.favoritesButton.selected {
-	background-color : #315a5f;
-}
-.menu.favoritesButton.selected:hover {
-	background-color : #45797f;
-}
 
 div {
 	margin-bottom : 0.5em;

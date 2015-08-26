@@ -154,17 +154,13 @@ var contratClauseForm = null;
 $('<div>').load("/SXPManager/html/contract/contractClauseForm.html", function() {
 	contratClauseForm = $(this).children();
 });
-
-
 /* * * * * * * * * * * * * * * * * * * * * * VIEWERS * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-var viewAnnounce = null;
+var viewAnnounce = null; // What is that ?
 $("<div>").load("/SXPManager/html/viewAnnounce.html", function() {
 	viewAnnounce = $(this).children();
 });
 
-/* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * *
- * Premiere page qu'on inclu on attends le chargement complet avant la suite  */
+/* * * * * * * * * * * * * * * * * * * * * * LOGIN FORM* * * * * * * * * * * * * * * * * * * * * * * * */
 var loginForm = null;
 $("<div>").load("/SXPManager/html/loginForm.html", function() {
 	loginForm = $(this).children();
