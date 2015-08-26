@@ -282,7 +282,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application(true);
 		Network n = Application.getInstance().getNetwork();
-		createAccountTest(true);
+		createAccountTest(false);
 		if(Desktop.isDesktopSupported()) {
 		  try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8080/SXPManager/index.html"));
