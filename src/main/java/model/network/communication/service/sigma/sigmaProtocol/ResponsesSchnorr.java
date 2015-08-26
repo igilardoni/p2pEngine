@@ -1,4 +1,4 @@
-package util.secure.sigmaProtocol;
+package model.network.communication.service.sigma.sigmaProtocol;
 import java.math.BigInteger;
 
 import util.secure.AsymKeysImpl;
@@ -28,6 +28,16 @@ public class ResponsesSchnorr extends Responses{
 	 */
 	public Boolean Verifies(AsymKeysImpl tKeys, ResEncrypt res) {
 		return (tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())));
+	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
+
+	@Override
+	protected String getAdvertisementName() {
+		return getClass().getName();
 	}
 	
 

@@ -1,4 +1,4 @@
-package util.secure.sigmaProtocol;
+package model.network.communication.service.sigma.sigmaProtocol;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 

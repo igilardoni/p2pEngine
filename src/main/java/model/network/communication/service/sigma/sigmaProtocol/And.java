@@ -1,4 +1,4 @@
-package util.secure.sigmaProtocol;
+package model.network.communication.service.sigma.sigmaProtocol;
 import java.util.HashMap;
 
 import util.secure.AsymKeysImpl;

@@ -1,4 +1,4 @@
-package util.secure.sigmaProtocol;
+package model.network.communication.service.sigma.sigmaProtocol;
 import java.math.BigInteger;
 
 import util.secure.AsymKeysImpl;
@@ -37,6 +37,16 @@ public class ResponsesCCD extends Responses {
 		}
 		
 		return true;
+	}
+
+	@Override
+	public String getSimpleName() {
+		return getClass().getSimpleName();
+	}
+
+	@Override
+	protected String getAdvertisementName() {
+		return getClass().getName();
 	}
 
 }

@@ -1,7 +1,10 @@
-package util.secure.sigmaProtocol;
+package model.network.communication.service.sigma.sigmaProtocol;
 
 import java.math.BigInteger;
 
+import org.jdom2.Element;
+
+import model.advertisement.AbstractAdvertisement;
 import util.secure.AsymKeysImpl;
 
 /**
@@ -10,7 +13,7 @@ import util.secure.AsymKeysImpl;
  * @author sarah
  * TODO extends AbstractAdvertisement ?
  */
-public abstract class Responses {
+public abstract class Responses extends AbstractAdvertisement {
 	
 	private Masks masks;
 	private BigInteger challenge;
@@ -49,5 +52,24 @@ public abstract class Responses {
 	 * @return
 	 */
 	public abstract Boolean Verifies(AsymKeysImpl Keys, ResEncrypt res);
+
+
+	@Override
+	protected void setKeys() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void putValues() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected boolean handleElement(Element e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
