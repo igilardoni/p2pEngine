@@ -21,9 +21,23 @@ public abstract class Responses extends AbstractAdvertisement {
 	
 	public Responses(Masks mask, BigInteger challenge, BigInteger response)
 	{
+		super();
 		this.setMasks(mask);
 		this.setChallenge(challenge);
 		this.setResponse(response);
+	}
+	
+	public Responses(String xml) {
+		super(xml);
+	}
+	
+	public Responses(Element root) {
+		super(root);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Responses(net.jxta.document.Element root) {
+		super(root);
 	}
 	
 	public Masks getMasks() {
@@ -56,20 +70,26 @@ public abstract class Responses extends AbstractAdvertisement {
 
 	@Override
 	protected void setKeys() {
-		// TODO Auto-generated method stub
-		
+		addKey("masks", false, false);
+		addKey("challenge", false, false);
+		addKey("response", false, false);
 	}
 
 	@Override
 	protected void putValues() {
-		// TODO Auto-generated method stub
-		
+		addValue("masks", masks.toString());
+		addValue("challenge", challenge.toString(16));
+		addValue("response", response.toString(16));
 	}
 
 	@Override
 	protected boolean handleElement(Element e) {
-		// TODO Auto-generated method stub
-		return false;
+		switch(e.getName()) {
+		case "masks": masks = new Masks(e.getValue()); return true;
+		case "challenge": challenge = new BigInteger(e.getValue(), 16); return true;
+		case "response": response = new BigInteger(e.getValue(), 16); return true;
+		default: return false;
+		}
 	}
 	
 }

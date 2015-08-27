@@ -10,7 +10,7 @@ import net.jxta.peer.PeerID;
  * @author Prudhomme Julien
  *
  */
-public class Receiver extends Service<Responses>{
+public class Receiver extends ResponseSender{
 	
 	@Override
 	public String getServiceName() {
@@ -18,16 +18,11 @@ public class Receiver extends Service<Responses>{
 	}
 
 	@Override
-	public Responses handleMessage(Message m) {
+	public Responses readResponse(String xml) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void sendMessage(Responses data, PeerID... ids) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
