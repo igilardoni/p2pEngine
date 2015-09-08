@@ -19,6 +19,10 @@ public class ResponsesCCE extends Responses {
 	public ResponsesCCE(Masks mask, BigInteger challenge, BigInteger response) {
 		super(mask, challenge, response);
 	}
+	
+	public ResponsesCCE(String xml) {
+		super(xml);
+	}
 
 	@Override
 	/**

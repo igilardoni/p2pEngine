@@ -59,6 +59,21 @@ public class Contrat extends AbstractAdvertisement {
 		super(e);
 	}
 	//////////////////////////////////////////////////// GETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
+	/**
+	 * For 2 party protocol
+	 * @param curUserPublicKey
+	 * @return
+	 */
+	public String getOtherSignatorie(String curUserPublicKey) {
+		for(String s: signatories) {
+			if(!s.equals(curUserPublicKey)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public String getTitle(){
 		return title;
 	}

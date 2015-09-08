@@ -20,6 +20,10 @@ public class ResponsesSchnorr extends Responses{
 			BigInteger response) {
 		super(mask, challenge, response);
 	}
+	
+	public ResponsesSchnorr(String xml) {
+		super(xml);
+	}
 
 	@Override
 	/**

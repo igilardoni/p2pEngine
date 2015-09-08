@@ -52,7 +52,7 @@ public abstract class Responses extends AbstractAdvertisement {
 	public void setResponse(BigInteger response) {
 		this.response = response;
 	}
-	protected BigInteger getChallenge() {
+	public BigInteger getChallenge() {
 		return challenge;
 	}
 	public void setChallenge(BigInteger challenge) {
