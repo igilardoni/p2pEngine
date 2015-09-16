@@ -179,7 +179,7 @@ function getItemAddForm(){
 
 function itemFormComplet(){
 	cancelItem();
-	$("#content").append(itemAddForm);
+	$("#content").append(getClone(itemAddForm));
 	loadCategories();
 	loadType();
 }
