@@ -1,7 +1,9 @@
-SXP Project
-==
-Securely exchange anything, anywhere, with anyone.
+# Secure eXchange Protocol
 
-This is a Java implementation of SXP, a P2P trading application.
+## Securely exchange anything, anywhere, with anyone.
 
-http://secure-exchange-protocols.org/index.php?title=Main_Page
+A project to create an **open**, **ubiquitous**, **peer-to-peer**, **secure** protocol suite for **multi-party** exchanges of **contracts**.
+
+<http://secure-exchange-protocols.org/>
+
+This is a Java implementation of SXP client, to create and join peer-to-peer sharing economy networks.
