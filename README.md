@@ -1,6 +1,6 @@
 # Secure eXchange Protocol
 
-## Securely exchange anything, anywhere, with anyone.
+### "*Securely exchange anything, anywhere, with anyone.*"
 
 A project to create an **open**, **ubiquitous**, **peer-to-peer**, **secure** protocol suite for **multi-party** exchanges of **contracts**.
 
