@@ -95,4 +95,12 @@ public class JxtaNode implements Node{
         manager.setConfigPersistent(persistant);
 		return manager;
 	}
+
+	@Override
+	public void stop() {
+		if(networkManager == null) {
+			throw new RuntimeException("Serveur was not started !");
+		}
+		networkManager.stopNetwork();
+	}
 }

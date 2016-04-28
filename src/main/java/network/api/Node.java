@@ -3,7 +3,7 @@ package network.api;
 import java.io.IOException;
 
 /**
- * JXTA network Node interface. Handle JXTA server.
+ * Network Node interface. Handle P2P server.
  * @author Julien Prudhomme
  *
  */
@@ -24,7 +24,7 @@ public interface Node {
 	public boolean isInitialized();
 	
 	/**
-	 * Start the JXTA server.
+	 * Start the P2P server.
 	 * @param port the listening port.
 	 * @throws RuntimeException the init method was not called before starting server
 	 */
@@ -35,4 +35,9 @@ public interface Node {
 	 * @return true if server started
 	 */
 	public boolean isStarted();
+	
+	/**
+	 * Stop the P2P network
+	 */
+	public void stop();
 }
