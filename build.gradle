@@ -1,73 +1,49 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'application'
 
-sourceCompatibility = 1.7
-version = '1.0'
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'SXP implementation project',
-                   'Implementation-Version': version
-    }
-}
+mainClassName = "rest.impl.JettyRestServer"
 
 repositories {
     mavenCentral()
+    maven {
+    	url 'http://www.janus-project.org/maven'
+    }
 }
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'SXP network',
+				   'Implementation-Version': 1.0
+	}
+}
+
+sourceSets.main.resources.srcDirs += ["src/main/ressources"]
 
 dependencies {
-	compile fileTree(dir: './libs', include: '*.jar')
-	compile 'org.glassfish.main.extras:glassfish-embedded-all:4.1'
+	compile 'org.apache.commons:commons-collections4:4.0'
+	compile 'org.eclipse.jetty:jetty-server:9.2.3.v20140905'
+	compile 'org.eclipse.jetty:jetty-servlet:9.2.3.v20140905'
+	compile 'org.glassfish.jersey.core:jersey-server:2.7'
+	compile 'org.glassfish.jersey.containers:jersey-container-servlet-core:2.7'
+	compile 'org.glassfish.jersey.containers:jersey-container-jetty-http:2.7'
+	compile 'org.glassfish.jersey.media:jersey-media-moxy:2.7'
 	compile 'javax:javaee-api:7.0'
+	compile 'org.apache.derby:derby:10.12.1.1'
+	compile 'org.eclipse.persistence:eclipselink:2.6.3-M1'
+	compile 'org.eclipse.persistence:javax.persistence:2.1.1'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+	compile 'com.kenai.jxse:jxse:2.7'
+	compile fileTree(dir: './libs', include: '*.jar')
     testCompile group: 'junit', name: 'junit', version: '4.+'
-}
-
-test {
-    systemProperties 'property': 'value'
-}
-
-sourceSets {
-	main {
-	  output.resourcesDir = 'build/classes/main'
-	  output.classesDir = 'build/classes/main'
-    }
-	test {
-	  output.resourcesDir = 'build/classes/test'
-	  output.classesDir = 'build/classes/test'
-    }
-}
-
-uploadArchives {
-    repositories {
-       flatDir {
-           dirs 'repos'
-       }
-    }
 }
 
 [compileJava, compileTestJava]*.options.collect {options -> 
 options.encoding = 'UTF-8'} 
 
-task(run, dependsOn: 'classes', type: JavaExec) {
-	description = 'Launch the application.'
-	main = 'model.Application'
-	classpath = sourceSets.main.runtimeClasspath
-}
-
 eclipse {
   classpath {
-     file {
-            whenMerged { cp ->
-                // Add sources to a classpath entry
-                def fileReferenceFactory = new org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory()
-
-                def entry = cp.entries.find{ entry -> entry.path.endsWith('jxta.jar') }
-                // add javadoc jar
-                entry.javadocPath = fileReferenceFactory.fromPath(file('doc/jxta.jar').toString())
-            }
-        }
-        
     downloadSources = true
     downloadJavadoc = true
   }
