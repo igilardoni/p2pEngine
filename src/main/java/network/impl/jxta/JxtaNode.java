@@ -1,4 +1,4 @@
-package network.impl;
+package network.impl.jxta;
 
 import java.io.File;
 import java.io.IOException;
