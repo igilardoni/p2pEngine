@@ -1,5 +1,7 @@
 package network.api;
 
+import org.jdom2.Document;
+
 import crypt.api.signatures.Signable;
 
 /**
@@ -26,5 +28,23 @@ public interface Advertisement<Sign> extends Signable<Sign>{
 	 * @param peer
 	 */
 	public void publish(Peer peer);
+	
+	/**
+	 * Initialize this advertisement with an xml document
+	 * @param doc
+	 */
+	public void initialize(Document doc);
+	
+	/**
+	 * Generate an xml document describing this advertisement
+	 * @return
+	 */
+	public Document getDocument();
+	
+	/**
+	 * Get a string array of field that are used for indexing this advertisement
+	 * @return
+	 */
+	public String[] getIndexFields();
 	
 }
