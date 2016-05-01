@@ -1,11 +1,15 @@
 package network.impl.jxta;
 
+import net.jxta.peergroup.PeerGroup;
 import network.api.Advertisement;
+import network.api.Peer;
 import network.api.SearchListener;
 import network.api.Service;
 
 public class JxtaService implements Service{
 
+	
+	
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
@@ -23,5 +27,4 @@ public class JxtaService implements Service{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
