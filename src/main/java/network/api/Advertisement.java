@@ -1,5 +1,8 @@
 package network.api;
 
+
+import org.jdom2.Document;
+
 import crypt.api.signatures.Signable;
 
 /**
@@ -26,5 +29,17 @@ public interface Advertisement<Sign> extends Signable<Sign>{
 	 * @param peer
 	 */
 	public void publish(Peer peer);
+	
+	/**
+	 * Return the XML document representing this advertisement
+	 * @return a DOM document
+	 */
+	public Document getDocument();
+	
+	/**
+	 * Initialise this advertisement with the document
+	 * @param doc
+	 */
+	public void initialize(Document doc);
 	
 }

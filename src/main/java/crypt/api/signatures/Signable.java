@@ -8,8 +8,6 @@ import crypt.api.hashs.Hashable;
  * The signature can be obtained with a Signer that will use the {@link Hashable#getHashableData() getHashableData}
  * method to hash the object and produce a signature.
  * @author Prudhomme Julien
- *
- * @param <Key> Type of signer's key
  * @param <Sign> The type of the signature
  */
 public interface Signable<Sign> extends Hashable{
