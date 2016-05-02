@@ -16,16 +16,25 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 	@AdvertisementAttribute(signable = false)
 	protected Sign sign;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setSign(Sign s) {
 		this.sign = s;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Sign getSign() {
 		return sign;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public byte[] getHashableData() {
 		ArrayList<String> data = new ArrayList<>();
@@ -57,12 +66,21 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		return res;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public abstract String getName();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public abstract String getAdvertisementType();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void publish(Peer peer) {
 		ServiceName name = this.getClass().getAnnotation(ServiceName.class);
@@ -72,6 +90,9 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		peer.getService(name.name()).publishAdvertisement(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void initialize(Document doc) {
 		Element root = doc.getRootElement();
@@ -91,6 +112,9 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Document getDocument() {
 		Element root = new Element(this.getName());
@@ -109,6 +133,9 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		return new Document(root);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String[] getIndexFields() {
 		ArrayList<String> indexes = new ArrayList<>();

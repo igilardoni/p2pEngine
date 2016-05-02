@@ -5,6 +5,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import rest.api.RestServer;
+import rest.controller.Items;
 
 public class JettyRestServer implements RestServer{
 	
@@ -23,6 +24,7 @@ public class JettyRestServer implements RestServer{
     
         // Tells the Jersey Servlet which REST service/class to load.
         jerseyServlet.setInitParameter("jersey.config.server.provider.classnames", entryPoint.getCanonicalName());
+        
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class JettyRestServer implements RestServer{
 	
 	public static void main(String[] args) {
 		JettyRestServer server = new JettyRestServer();
-		server.initialize(RestApi.class);
+		server.initialize(Items.class);
 		try {
 			server.start(8080);
 		} catch (Exception e) {

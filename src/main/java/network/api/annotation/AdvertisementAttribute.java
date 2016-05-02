@@ -4,7 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 /**
- * Define an attribute to be key/value of the advertisement
+ * Define an attribute to be key/value of an {@link Advertisement}
  * @author Julien Prudhomme
  *
  */

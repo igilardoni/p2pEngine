@@ -6,8 +6,9 @@ import org.jdom2.Document;
 import crypt.api.signatures.Signable;
 
 /**
- * Advertise a feature on a service.
+ * Advertise a feature on a {@link Service}
  * @param <Sign> signature's type
+ * @see Signable
  * @author Julien Prudhomme
  *
  */
@@ -26,6 +27,7 @@ public interface Advertisement<Sign> extends Signable<Sign>{
 	
 	/**
 	 * Publish this advertisement on the network
+	 * @see Peer
 	 * @param peer
 	 */
 	public void publish(Peer peer);

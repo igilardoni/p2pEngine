@@ -1,4 +1,4 @@
-package rest.api;
+package rest.util;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

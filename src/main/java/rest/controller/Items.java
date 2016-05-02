@@ -1,4 +1,4 @@
-package rest.impl;
+package rest.controller;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,16 +13,16 @@ import javax.ws.rs.core.MediaType;
 import model.api.EntityManager;
 import model.entity.Item;
 import model.persistance.ItemManager;
-import rest.api.JsonUtils;
+import rest.util.JsonUtils;
 
 @Path("/api")
-public class RestApi {
+public class Items {
 	
 	@POST
 	@Path("items")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String addItem(Item item) {
+	public String add(Item item) {
 		EntityManager<Item> em = new ItemManager();
 		em.begin();
 		//TODO VALIDATION
@@ -35,7 +35,7 @@ public class RestApi {
 	@GET
 	@Path("items/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String itemGetOne(
+	public String get(
 			@PathParam("id")int id) {
 		EntityManager<Item> em = new ItemManager();
 		return JsonUtils.BeanStringify(em.findOneById(id));
@@ -44,7 +44,7 @@ public class RestApi {
 	@GET
 	@Path("items")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String itemGetAll() {
+	public String get() {
 		EntityManager<Item> em = new ItemManager();
 		return JsonUtils.collectionStringify(em.findAll());
 	}
@@ -53,7 +53,7 @@ public class RestApi {
 	@Path("items/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String editItem(Item item) {
+	public String edit(Item item) {
 		EntityManager<Item> em = new ItemManager();
 		em.begin();
 		Item item2 = em.findOneById(item.getId());
@@ -67,7 +67,7 @@ public class RestApi {
 	@DELETE
 	@Path("items/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteItem(
+	public String delete(
 			@PathParam("id")int id) {
 			
 		return null;
