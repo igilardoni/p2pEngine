@@ -31,15 +31,22 @@ public interface Advertisement<Sign> extends Signable<Sign>{
 	public void publish(Peer peer);
 	
 	/**
-	 * Return the XML document representing this advertisement
-	 * @return a DOM document
+
+	 * Initialize this advertisement with an xml document
+	 * @param doc
+	 */
+	public void initialize(Document doc);
+	
+	/**
+	 * Generate an xml document describing this advertisement
+	 * @return
 	 */
 	public Document getDocument();
 	
 	/**
-	 * Initialise this advertisement with the document
-	 * @param doc
+	 * Get a string array of field that are used for indexing this advertisement
+	 * @return
 	 */
-	public void initialize(Document doc);
+	public String[] getIndexFields();
 	
 }

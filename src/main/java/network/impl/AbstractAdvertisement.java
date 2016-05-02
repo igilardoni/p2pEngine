@@ -71,17 +71,36 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		}
 		peer.getService(name.name()).publishAdvertisement(this);
 	}
-	
+
+	@Override
+	public void initialize(Document doc) {
+		Element root = doc.getRootElement();
+		for(Element e: root.getChildren()) {
+			try {
+				Field field = this.getClass().getField(e.getName());
+				AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);
+				if(a != null && a.enabled()) {
+					field.set(this, e.getValue());
+				} else {
+					throw new NoSuchFieldException();
+				}
+			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
+				System.err.println("Field " + e.getName() + "not found. Is it annoted ?");
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public Document getDocument() {
-		Element root = new Element(getName());
+		Element root = new Element(this.getName());
 		for(Field field : this.getClass().getFields()) {
 			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);
 			if(a != null && a.enabled()) {
 				Element e = new Element(field.getName());
+				root.addContent(e);
 				try {
 					e.addContent((String) field.get(this));
-					root.addContent(e);
 				} catch (IllegalArgumentException | IllegalAccessException e1) {
 					e1.printStackTrace();
 				}
@@ -89,18 +108,17 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 		}
 		return new Document(root);
 	}
-	
+
 	@Override
-	public void initialize(Document doc) {
-		Element root = doc.getRootElement();
-		for(Element e : root.getChildren()) {
-			try {
-				Field f = this.getClass().getField(e.getName());
-				f.set(this, e.getValue());
-			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
-				e1.printStackTrace();
+	public String[] getIndexFields() {
+		ArrayList<String> indexes = new ArrayList<>();
+		for(Field field : this.getClass().getFields()) {
+			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);
+			if(a != null && a.enabled() && a.indexed()) {
+				indexes.add(field.getName());
 			}
 		}
+		return indexes.toArray(new String[1]);
 	}
 
 }
