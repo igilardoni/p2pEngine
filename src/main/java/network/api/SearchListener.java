@@ -1,6 +1,5 @@
 package network.api;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**

@@ -38,7 +38,7 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 	@Override
 	public byte[] getHashableData() {
 		ArrayList<String> data = new ArrayList<>();
-		for(Field field: this.getClass().getDeclaredFields()) {
+		for(Field field: this.getClass().getFields()) {
 			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);
 			if(a != null && a.enabled() && a.signable()) {
 				try {

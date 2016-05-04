@@ -60,6 +60,9 @@ public class JxtaService implements Service, DiscoveryListener{
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void search(String attribute, String value, SearchListener<?> sl) {
@@ -67,7 +70,9 @@ public class JxtaService implements Service, DiscoveryListener{
 		pg.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.ADV, attribute, value, 0, this);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {
 		Enumeration<net.jxta.document.Advertisement> advs = event.getResponse().getAdvertisements();
