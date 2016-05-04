@@ -13,13 +13,15 @@ import javax.ws.rs.core.MediaType;
 import model.api.EntityManager;
 import model.entity.Item;
 import model.persistance.ItemManager;
+import rest.api.ServletPath;
 import rest.util.JsonUtils;
 
-@Path("/api")
+@ServletPath("/api/items/*")
+@Path("/")
 public class Items {
 	
 	@POST
-	@Path("items")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(Item item) {
@@ -33,7 +35,7 @@ public class Items {
 	}
 	
 	@GET
-	@Path("items/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get(
 			@PathParam("id")int id) {
@@ -42,7 +44,7 @@ public class Items {
 	}
 	
 	@GET
-	@Path("items")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get() {
 		EntityManager<Item> em = new ItemManager();
@@ -50,7 +52,7 @@ public class Items {
 	}
 	
 	@PUT
-	@Path("items/{id}")
+	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String edit(Item item) {
@@ -65,7 +67,7 @@ public class Items {
 	}
 	
 	@DELETE
-	@Path("items/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String delete(
 			@PathParam("id")int id) {

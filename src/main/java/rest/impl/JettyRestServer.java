@@ -5,28 +5,36 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import rest.api.RestServer;
-import rest.controller.Items;
+import rest.api.ServletPath;
 
 public class JettyRestServer implements RestServer{
 	
 	private ServletContextHandler context;
 	private Server server;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void initialize(Class<?> entryPoint) {
-		//exec context
+	public void initialize(Class<?> ...entryPoints) {
 		context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         
-        //servlet container
-        ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-        jerseyServlet.setInitOrder(0);
-    
-        // Tells the Jersey Servlet which REST service/class to load.
-        jerseyServlet.setInitParameter("jersey.config.server.provider.classnames", entryPoint.getCanonicalName());
-        
+        for(Class<?> c : entryPoints) {
+        	
+        	ServletPath path = c.getAnnotation(ServletPath.class);
+        	if(path == null) {
+        		throw new RuntimeException("No servlet path annotation on class " + c.getCanonicalName());
+        	}
+        	ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, path.value());
+        	jerseyServlet.setInitOrder(0);
+        	jerseyServlet.setInitParameter("jersey.config.server.provider.classnames", c.getCanonicalName());
+        }
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void start(int port) throws Exception {
 		server = new Server(8080);
@@ -35,21 +43,12 @@ public class JettyRestServer implements RestServer{
         server.join();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void stop() {
 		server.destroy();
-	}
-	
-	public static void main(String[] args) {
-		JettyRestServer server = new JettyRestServer();
-		server.initialize(Items.class);
-		try {
-			server.start(8080);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			server.stop();
-		}
 	}
 
 }

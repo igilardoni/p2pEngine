@@ -11,12 +11,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import model.entity.User;
+import rest.api.ServletPath;
 
-@Path("/api")
+@ServletPath("/api/users/*")
+@Path("/")
 public class Users {
 
 	@POST
-	@Path("users")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(User user) {
@@ -25,7 +27,7 @@ public class Users {
 	}
 	
 	@GET
-	@Path("users/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get(
 			@PathParam("id") long id) {
@@ -34,14 +36,14 @@ public class Users {
 	}
 	
 	@GET
-	@Path("items")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get() {
-		return null;
+		return "{'message': 'hi'}";
 	}
 	
 	@PUT
-	@Path("users/{id}")
+	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String edit(User user) {
@@ -50,7 +52,7 @@ public class Users {
 	}
 	
 	@DELETE
-	@Path("items/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String delete(
 			@PathParam("id") long id) {

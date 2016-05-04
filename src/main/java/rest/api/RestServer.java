@@ -10,7 +10,7 @@ public interface RestServer {
 	 * Initialize the server with the class that handle the REST api
 	 * @param entryPoint
 	 */
-	public void initialize(Class<?> entryPoint);
+	public void initialize(Class<?> ...entryPoints);
 	
 	/**
 	 * Start the REST api on port {@code port}

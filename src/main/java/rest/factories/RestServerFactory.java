@@ -1,6 +1,8 @@
 package rest.factories;
 
 import rest.api.RestServer;
+import rest.controller.Items;
+import rest.controller.Users;
 import rest.impl.JettyRestServer;
 
 /**
@@ -29,7 +31,7 @@ public class RestServerFactory {
 		default: throw new RuntimeException(impl + "doesn't exist !");
 		}
 		
-		//serv.initialize(classes);
+		serv.initialize(classes);
 		
 		new Thread(new Runnable() {
 			
@@ -39,9 +41,17 @@ public class RestServerFactory {
 					serv.start(8080);
 				} catch (Exception e) {
 					e.printStackTrace();
+				} finally {
+					serv.stop();
 				}
 			}
 		}).start();
 		return serv;
+	}
+	
+	public static RestServer createAndStartDefaultRestServer() {
+		return createAndStartRestServer("jetty", //rest controllers classes
+				Items.class,
+				Users.class);
 	}
 }
