@@ -24,7 +24,7 @@ public class RestServerFactory {
 	 * @param classes Classes that handle rest request.
 	 * @return a started {@link RestServer}
 	 */
-	public static RestServer createAndStartRestServer(String impl, Class<?> ...classes) {
+	public static RestServer createAndStartRestServer(String impl, int port, Class<?> ...classes) {
 		RestServer serv;
 		switch(impl) {
 		case "jetty": serv = createJettyRestServer(); break;
@@ -38,7 +38,7 @@ public class RestServerFactory {
 			@Override
 			public void run() {
 				try {
-					serv.start(8080);
+					serv.start(port);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -49,8 +49,9 @@ public class RestServerFactory {
 		return serv;
 	}
 	
-	public static RestServer createAndStartDefaultRestServer() {
+	public static RestServer createAndStartDefaultRestServer(int port) {
 		return createAndStartRestServer("jetty", //rest controllers classes
+				port,
 				Items.class,
 				Users.class);
 	}

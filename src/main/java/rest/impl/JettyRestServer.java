@@ -37,7 +37,7 @@ public class JettyRestServer implements RestServer{
 	 */
 	@Override
 	public void start(int port) throws Exception {
-		server = new Server(8080);
+		server = new Server(port);
         server.setHandler(context);
 		server.start();
         server.join();

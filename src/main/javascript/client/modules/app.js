@@ -1,16 +1,19 @@
 RESTAPISERVER = 'http://localhost:8080';
 
 (function() {
-	var module = angular.module('app', ['ui.router', 'ngAnimate', 'ngResource', 'services.rest', 'app.myItems', 'search', 'messages', 'users']);
+	var module = angular.module('app', ['ui.router', 'ngAnimate', 'ngResource', 'services.rest', 'app.myItems', 'search', 'messages', 'app.users', 'app.settings']);
 	module.config(function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 		.state('home', {
 			url: '/',
 			templateUrl: 'home.html',
-			controller: function($scope) {
+			controller: function($scope, $state) {
 				$scope.app.setBackUrl(null);
 				$scope.app.setContextButton('search');
 				$scope.app.setTitle('SXP network');
+				if($scope.app.getCurrentUser() == null) {
+					$state.go("login");
+				}
 			}
 		});
 	});
@@ -22,6 +25,17 @@ RESTAPISERVER = 'http://localhost:8080';
 		this.contextButton = null;
 		this.title = "SXP network";
 		this.contextId = 0;
+
+		this.currentUser = null;
+
+		this.setCurrentUser = function(user) {
+			self.currentUser = user;
+		}
+
+		this.getCurrentUser = function() {
+			return self.currentUser;
+		}
+
 		this.setBackUrl = function(url) {
 			self.backUrl = url;
 		}

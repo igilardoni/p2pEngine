@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity
+@Table(name="\"User\"")
 public class User {
 	
 	@Id
@@ -29,16 +31,18 @@ public class User {
 	
 	@XmlElement(name="salt")
 	@NotNull
-	private String salt;
+	private byte[] salt;
 	
 	@XmlElement(name="passwordHash")
 	@NotNull
-	private String passwordHash;
+	private byte[] passwordHash;
 	
 	@Temporal(TemporalType.TIME)
 	@NotNull
 	@XmlElement(name="createdAt")
 	private Date createdAt;
+	
+	private Key keys;
 	
 	public void setId(long id) {
 		this.id = id;
@@ -64,19 +68,27 @@ public class User {
 		return createdAt;
 	}
 	
-	public void setSalt(String salt) {
+	public void setSalt(byte[] salt) {
 		this.salt = salt;
 	}
 	
-	public String getSalt() {
+	public byte[] getSalt() {
 		return salt;
 	}
 	
-	public void setPasswordHash(String passwordHash) {
+	public void setPasswordHash(byte[] passwordHash) {
 		this.passwordHash = passwordHash;
 	}
 	
-	public String getPasswordHash() {
+	public byte[] getPasswordHash() {
 		return passwordHash;
+	}
+
+	public Key getKeys() {
+		return keys;
+	}
+
+	public void setKeys(Key keys) {
+		this.keys = keys;
 	}
 }

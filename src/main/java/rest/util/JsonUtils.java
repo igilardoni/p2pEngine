@@ -41,7 +41,7 @@ public class JsonUtils {
 					buff.append("null");
 				}
 				else {
-					buff.append(value);
+					buff.append("\"" + value + "\"");
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();

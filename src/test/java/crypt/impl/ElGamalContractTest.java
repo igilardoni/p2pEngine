@@ -5,10 +5,10 @@ import org.junit.Test;
 
 import crypt.api.signatures.Signable;
 import crypt.factories.ElGamalAsymKeyFactory;
-import crypt.impl.contracts.ElGamalContract;
 import crypt.impl.key.ElGamalAsymKey;
 import crypt.impl.signatures.ElGamalSignature;
 import crypt.impl.signatures.ElGamalSigner;
+import protocol.impl.contract.ElGamalContract;
 
 public class ElGamalContractTest {
 	private static final int N = 5;
@@ -64,8 +64,8 @@ public class ElGamalContractTest {
 			signer.setKey(keys[i]);
 			c1.addParty(keys[i]);
 			c2.addParty(keys[i]);
-			c1.addSignature(keys[i]);
-			c2.addSignature(keys[i]);
+			c1.addSignature(keys[i], c1.sign(signer, keys[i]));
+			c2.addSignature(keys[i], c2.sign(signer, keys[i]));
 		}
 		
 		assertTrue(signable1.equals(signable2));
@@ -80,10 +80,10 @@ public class ElGamalContractTest {
 		assertFalse(c1.checkContrat(c2));
 		
 		c1.addParty(keys[N-1]);
-		assertFalse(c1.checkSignatures());
+		assertFalse(c1.isFinalized());
 		
 		signer.setKey(keys[N-1]);
-		c1.addSignature(keys[N-1]);
-		assertTrue(c1.checkSignatures());
+		c1.addSignature(keys[N-1], c1.sign(signer, keys[N-1]));
+		assertTrue(c1.isFinalized());
 	}
 }

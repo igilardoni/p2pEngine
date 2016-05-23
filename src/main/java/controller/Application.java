@@ -1,5 +1,11 @@
 package controller;
 
+import network.api.Peer;
+import network.factories.PeerFactory;
+import network.impl.advertisement.ItemAdvertisement;
+import protocol.impl.sigma.ElGamalSign;
+import rest.api.Authentifier;
+import rest.factories.AuthentifierFactory;
 import rest.factories.RestServerFactory;
 
 /**
@@ -10,24 +16,57 @@ import rest.factories.RestServerFactory;
  */
 public class Application {
 	private static Application instance = null;
+	private Peer peer;
+	private Authentifier auth;
 	
 	public Application() {
 		if(instance != null) {
 			throw new RuntimeException("Application can be instanciate only once !");
 		}
 		instance = this;
-		run();
 	}
 	
 	public static Application getInstance()	{
 		return instance;
 	}
 	
-	private void run() {
-		RestServerFactory.createAndStartDefaultRestServer();
+	public void run() {
+		setPeer(PeerFactory.createDefaultAndStartPeer());
+		setAuth(AuthentifierFactory.createDefaultAuthentifier());
+		RestServerFactory.createAndStartDefaultRestServer(8080); //start the rest api
+	}
+	
+	public void runForTests(int restPort) {
+		setPeer(PeerFactory.createDefaultAndStartPeerForTest());
+		setAuth(AuthentifierFactory.createDefaultAuthentifier());
+		RestServerFactory.createAndStartDefaultRestServer(restPort);
+		
+		ItemAdvertisement<ElGamalSign> iadv = new ItemAdvertisement<>();
+		iadv.setTitle("test");
+		
+		iadv.publish(Application.getInstance().getPeer());
+		
+		
 	}
 	
 	public static void main(String[] args) {
 		new Application();
+		Application.getInstance().runForTests(8080);
+	}
+
+	public Peer getPeer() {
+		return peer;
+	}
+
+	public void setPeer(Peer peer) {
+		this.peer = peer;
+	}
+
+	public Authentifier getAuth() {
+		return auth;
+	}
+
+	public void setAuth(Authentifier auth) {
+		this.auth = auth;
 	}
 }

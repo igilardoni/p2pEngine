@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -36,6 +37,13 @@ public class Item {
 	@Temporal(TemporalType.TIME)
 	private Date createdAt;
 
+	@XmlElement(name="pbkey")
+	@NotNull
+	private BigInteger pbkey;
+	
+	@XmlElement(name="sign")
+	@NotNull
+	private ElGamalSignEntity sign;
 	
 	public long getId() {
 		return id;
@@ -63,5 +71,21 @@ public class Item {
 	
 	public Date getCreatedAt() {
 		return createdAt;
+	}
+
+	public ElGamalSignEntity getSign() {
+		return sign;
+	}
+
+	public void setSign(ElGamalSignEntity sign) {
+		this.sign = sign;
+	}
+
+	public BigInteger getPbkey() {
+		return pbkey;
+	}
+
+	public void setPbkey(BigInteger pbkey) {
+		this.pbkey = pbkey;
 	}
 }

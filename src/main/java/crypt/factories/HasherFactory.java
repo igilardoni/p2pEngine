@@ -1,5 +1,8 @@
 package crypt.factories;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import crypt.api.hashs.Hasher;
 import crypt.impl.hashs.SHA256Hasher;
 
@@ -24,5 +27,10 @@ public class HasherFactory {
 	 */
 	public static SHA256Hasher createSHA256Hasher() {
 		return new SHA256Hasher();
+	}
+	
+	public static byte[] generateSalt() {
+		SecureRandom r = new SecureRandom();
+		return new BigInteger(130, r).toByteArray();
 	}
 }

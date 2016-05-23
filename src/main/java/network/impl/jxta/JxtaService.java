@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import crypt.impl.sigma.ElGamalSign;
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
@@ -13,6 +12,7 @@ import network.api.Advertisement;
 import network.api.Peer;
 import network.api.SearchListener;
 import network.api.Service;
+import protocol.impl.sigma.ElGamalSign;
 
 /**
  * This is the Jxta implementation of {@link Service}
@@ -22,15 +22,16 @@ import network.api.Service;
  */
 public class JxtaService implements Service, DiscoveryListener{
 
-	private PeerGroup pg;
+	private PeerGroup pg = null;
 	private SearchListener<Advertisement<ElGamalSign>> currentSl;
+	protected String name;
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String getName() {
-		return pg.getPeerGroupName();
+		return name;
 	}
 
 
@@ -56,9 +57,12 @@ public class JxtaService implements Service, DiscoveryListener{
 			throw new RuntimeException("Need a Jxta Peer to run a Jxta service");
 		}
 		JxtaPeer jxtaPeer = (JxtaPeer) peer;
-		//TODO
+		jxtaPeer.addService(this);
 	}
 
+	protected void setPeerGroup(PeerGroup pg) {
+		this.pg = pg;
+	}
 
 	/**
 	 * {@inheritDoc}

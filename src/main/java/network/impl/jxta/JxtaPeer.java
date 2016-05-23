@@ -11,7 +11,7 @@ import network.utils.IpChecker;
 
 public class JxtaPeer implements Peer{
 
-	private Node node;
+	private JxtaNode node;
 	private HashMap<String, Service> services;
 	
 	/**
@@ -55,7 +55,9 @@ public class JxtaPeer implements Peer{
 
 	@Override
 	public void addService(Service service) {
+		JxtaService s = (JxtaService) service;
 		services.put(service.getName(), service);
+		s.setPeerGroup(node.createGroup(service.getName()));
 	}
 
 }

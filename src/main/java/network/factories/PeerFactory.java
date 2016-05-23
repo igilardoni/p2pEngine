@@ -1,8 +1,11 @@
 package network.factories;
 
 import java.io.IOException;
+import java.util.Random;
 
 import network.api.Peer;
+import network.api.Service;
+import network.impl.jxta.JxtaItemService;
 import network.impl.jxta.JxtaPeer;
 
 /**
@@ -25,7 +28,22 @@ public class PeerFactory {
 	 * @return an initialized and started {@link Peer}
 	 */
 	public static Peer createDefaultAndStartPeer() {
-		return createAndStartPeer("jxta");
+		Peer p = createAndStartPeer("jxta", ".peercache", 9578);
+		Service itemService = new JxtaItemService();
+		itemService.initAndStart(p);
+		return p;
+	}
+	
+	public static Peer createDefaultAndStartPeerForTest() {
+		Random r = new Random();
+		String cache = ".peer" + r.nextInt(10000);
+		int port = 9800 + r.nextInt(100);
+		Peer p = createAndStartPeer("jxta", cache, port);
+		
+		Service itemService = new JxtaItemService();
+		System.out.println(itemService.getName());
+		itemService.initAndStart(p);
+		return p;
 	}
 	
 	/**
@@ -40,14 +58,14 @@ public class PeerFactory {
 	 * Create, initialize, and start a {@link JxtaPeer}
 	 * @return an initialized and started {@link Peer}
 	 */
-	public static Peer createAndStartPeer(String impl) {
+	public static Peer createAndStartPeer(String impl, String tmpFolder, int port) {
 		Peer peer;
 		switch(impl) {
 		case "jxta": peer = createJxtaPeer(); break;
 		default: throw new RuntimeException(impl + "doesn't exist");
 		}
 		try {
-			peer.start(".peercache", 9564);
+			peer.start("tmpFolder", port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

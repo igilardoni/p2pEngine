@@ -28,8 +28,19 @@ public class AbstractEntityManager<Entity> implements model.api.EntityManager<En
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Entity> findAll() {
-		Query q = em.createQuery("select t from Item t");
+		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t");
 		return q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Entity findOneByAttribute(String attribute, String value) {
+		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t where t."+ attribute + "=:value");
+		q.setParameter("value", value);
+		try {
+			return (Entity) q.getSingleResult();
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 	@Override

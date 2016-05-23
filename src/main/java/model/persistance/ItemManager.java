@@ -6,6 +6,6 @@ public class ItemManager extends AbstractEntityManager<Item> {
 	
 	public ItemManager() {
 		super();
-		this.initialisation("items", Item.class);
+		this.initialisation("persistence", Item.class);
 	}
 }

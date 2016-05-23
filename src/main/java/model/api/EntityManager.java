@@ -29,6 +29,14 @@ public interface EntityManager<Entity> {
 	public Collection<Entity> findAll();
 	
 	/**
+	 * Return an object corresponding to the attribute/value
+	 * @param attribute
+	 * @param value
+	 * @return
+	 */
+	public Entity findOneByAttribute(String attribute, String value);
+	
+	/**
 	 * Persist(insert) this instance to the database
 	 * @param entity
 	 */

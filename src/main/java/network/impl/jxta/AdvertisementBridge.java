@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 
 import org.jdom2.Element;
-import crypt.impl.sigma.ElGamalSign;
+
 import net.jxta.document.Advertisement;
 import net.jxta.document.Attributable;
 import net.jxta.document.Document;
@@ -14,6 +14,7 @@ import net.jxta.document.StructuredDocument;
 import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
+import protocol.impl.sigma.ElGamalSign;
 
 public class AdvertisementBridge extends Advertisement{
 

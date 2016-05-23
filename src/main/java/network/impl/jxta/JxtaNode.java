@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import net.jxta.exception.PeerGroupException;
+import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroup;
+import net.jxta.peergroup.PeerGroupID;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
+import net.jxta.protocol.ModuleImplAdvertisement;
 import network.api.Node;
 
 /**
@@ -56,6 +59,8 @@ public class JxtaNode implements Node{
 			//can't continue 
 		}
 		
+		createDefaultGroup();
+		
 	}
 	
 	@Override
@@ -102,5 +107,48 @@ public class JxtaNode implements Node{
 			throw new RuntimeException("Serveur was not started !");
 		}
 		networkManager.stopNetwork();
+	}
+	
+	protected PeerGroup getDefaultPeerGroup() {
+		return this.defaultPeerGroup;
+	}
+	
+	private PeerGroupID generatePeerGroupID(String peerGroupName) {
+		return IDFactory.newPeerGroupID(PeerGroupID.defaultNetPeerGroupID, peerGroupName.getBytes());
+	}
+	
+	private void createDefaultGroup() {
+		try {
+			PeerGroup netpeerGroup = networkManager.getNetPeerGroup();
+			ModuleImplAdvertisement madv = netpeerGroup.getAllPurposePeerGroupImplAdvertisement();
+			System.out.println(madv.toString());
+			defaultPeerGroup = netpeerGroup.newGroup(this.generatePeerGroupID("SXP group"),
+					madv, "SXP group", "SXP group");
+			System.out.println("default group generated");
+			defaultPeerGroup.startApp(new String[0]);
+			defaultPeerGroup.getRendezVousService().setAutoStart(true, 60*1000);
+		} catch (PeerGroupException e) {
+			System.err.println("impossible to create default group");
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected PeerGroup createGroup(final String name) {
+		ModuleImplAdvertisement mAdv = null;
+		PeerGroup temp = null;
+		System.out.println("creating new group ..");
+		try {
+			mAdv = defaultPeerGroup.getAllPurposePeerGroupImplAdvertisement();
+			temp = defaultPeerGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
+			getDefaultPeerGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
+			temp.startApp(new String[0]);
+			temp.getRendezVousService().setAutoStart(true, 60);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} /* Getting the advertisement of implemented modules */
+		return temp;
 	}
 }

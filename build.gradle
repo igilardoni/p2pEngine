@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-mainClassName = "rest.impl.JettyRestServer"
+mainClassName = "controller.Application"
 
 repositories {
     mavenCentral()

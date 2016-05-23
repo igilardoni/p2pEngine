@@ -36,7 +36,7 @@ module.controller('viewItems', function($scope, Item) {
 });
 
 // ---- Add item controller
-module.controller('addItem', function($scope, Item) {
+module.controller('addItem', function($scope, Item, $state) {
   $scope.app.configHeader({back:true, title: 'Add item'});
   $scope.action = 'add'; //specify to the template we are adding an item
   $scope.submit = function() {
@@ -44,13 +44,15 @@ module.controller('addItem', function($scope, Item) {
       title: $scope.form.title,
       description: $scope.form.description
     });
-    item.$save();
+    item.$save(function() {
+      $state.go('myItemsView');
+    });
   };
 });
 
 
 // ---- Edit item controller
-module.controller('editItem', function($scope, $stateParams, Item) {
+module.controller('editItem', function($scope, $stateParams, Item, $state) {
   $scope.app.configHeader({back: true, title: 'Edit item'});
   $scope.action = 'edit';
   $scope.form = {};
@@ -63,11 +65,15 @@ module.controller('editItem', function($scope, $stateParams, Item) {
   $scope.submit = function() {
     item.title = $scope.form.title;
     item.description = $scope.form.description;
-    item.$update();
+    item.$update(function() {
+      $state.go('myItemsView');
+    });
   };
 
   $scope.delete = function() {
-    item.$delete();
+    item.$delete(function() {
+      $state.go('myItemsView');
+    });
   };
 });
 
@@ -79,6 +85,7 @@ module.controller('viewItem', function($scope, $stateParams, Item) {
   var item = Item.get({id: $stateParams.id}, function() {
     $scope.title = item.title;
     $scope.description = item.description;
+    $scope.createdAt = item.createdAt;
   });
 });
 

@@ -2,9 +2,9 @@ package network.impl.jxta;
 
 import org.jdom2.Document;
 
-import crypt.impl.sigma.ElGamalSign;
 import network.api.Advertisement;
 import network.api.Peer;
+import protocol.impl.sigma.ElGamalSign;
 
 public class JxtaAdvertisement implements Advertisement<ElGamalSign>{
 

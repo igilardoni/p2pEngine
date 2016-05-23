@@ -5,14 +5,15 @@ import org.junit.Test;
 
 import crypt.factories.ElGamalAsymKeyFactory;
 import crypt.impl.key.ElGamalAsymKey;
-import crypt.impl.sigma.Masks;
-import crypt.impl.sigma.Receiver;
-import crypt.impl.sigma.ResEncrypt;
-import crypt.impl.sigma.ResponsesCCE;
-import crypt.impl.sigma.ResponsesSchnorr;
-import crypt.impl.sigma.Sender;
-import crypt.impl.sigma.Trent;
-import crypt.impl.sigma.Utils;
+import protocol.impl.sigma.Masks;
+import protocol.impl.sigma.Receiver;
+import protocol.impl.sigma.ResEncrypt;
+import protocol.impl.sigma.ResponsesCCE;
+import protocol.impl.sigma.ResponsesSchnorr;
+import protocol.impl.sigma.Sender;
+import protocol.impl.sigma.Trent;
+import protocol.impl.sigma.Utils;
+
 import static org.junit.Assert.*;
 
 import java.math.BigInteger;

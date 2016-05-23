@@ -7,4 +7,13 @@
       }
     });
   });
+
+  module.factory('User', function($resource) {
+    return $resource(RESTAPISERVER + '/api/users/:id', {id: '@id'}, {
+      update: {
+        method: 'PUT'
+      }
+    });
+  });
+
 })();

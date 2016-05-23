@@ -1,21 +1,20 @@
 package network.impl.advertisement;
 
 import network.api.annotation.AdvertisementAttribute;
+import network.api.annotation.ServiceName;
 import network.impl.AbstractAdvertisement;
 
 /**
- * Advertisement for an Item
+ * Advertisement for a peer that host an item
  * @author Julien Prudhomme
  *
  * @param <Sign>
  */
+@ServiceName(name = "items")
 public class ItemAdvertisement<Sign> extends AbstractAdvertisement<Sign> {
 
 	@AdvertisementAttribute(indexed = true)
 	private String title;
-	
-	@AdvertisementAttribute(indexed = true)
-	private String authorNickname;
 	
 	@Override
 	public String getName() {
@@ -26,5 +25,12 @@ public class ItemAdvertisement<Sign> extends AbstractAdvertisement<Sign> {
 	public String getAdvertisementType() {
 		return null;
 	}
-
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }
