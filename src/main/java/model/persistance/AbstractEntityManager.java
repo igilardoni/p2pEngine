@@ -42,6 +42,17 @@ public class AbstractEntityManager<Entity> implements model.api.EntityManager<En
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Collection<Entity> findManyByAttribute(String attribute, String value) {
+		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t where t."+ attribute + "=:value");
+		q.setParameter("value", value);
+		try {
+			return q.getResultList();
+		} catch(Exception e) {
+			return null;
+		}
+	}
 
 	@Override
 	public void begin() {

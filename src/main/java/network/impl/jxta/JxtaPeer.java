@@ -59,5 +59,20 @@ public class JxtaPeer implements Peer{
 		services.put(service.getName(), service);
 		s.setPeerGroup(node.createGroup(service.getName()));
 	}
+	
+	public static void main(String[] args) {
+		JxtaPeer peer = new JxtaPeer();
+		try {
+			peer.start(".test", 9800);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String getUri() {
+		return node.getPeerId();
+	}
 
 }

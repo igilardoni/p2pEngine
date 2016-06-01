@@ -22,9 +22,10 @@ import protocol.impl.sigma.ElGamalSign;
  */
 public class JxtaService implements Service, DiscoveryListener{
 
-	private PeerGroup pg = null;
+	protected PeerGroup pg = null;
 	private SearchListener<Advertisement<ElGamalSign>> currentSl;
 	protected String name;
+	protected String peerUri = null;
 	
 	/**
 	 * {@inheritDoc}
@@ -40,9 +41,11 @@ public class JxtaService implements Service, DiscoveryListener{
 	 */
 	@Override
 	public void publishAdvertisement(Advertisement<?> adv) {
-		JxtaAdvertisement jxtaAdv = (JxtaAdvertisement) adv;
+		@SuppressWarnings("unchecked")
+		JxtaAdvertisement jxtaAdv = new JxtaAdvertisement((Advertisement<ElGamalSign>) adv);
 		try {
 			pg.getDiscoveryService().publish(jxtaAdv.getJxtaAdvertisementBridge());
+			pg.getDiscoveryService().remotePublish(jxtaAdv.getJxtaAdvertisementBridge());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,6 +61,7 @@ public class JxtaService implements Service, DiscoveryListener{
 		}
 		JxtaPeer jxtaPeer = (JxtaPeer) peer;
 		jxtaPeer.addService(this);
+		peerUri = peer.getUri();
 	}
 
 	protected void setPeerGroup(PeerGroup pg) {
@@ -71,7 +75,7 @@ public class JxtaService implements Service, DiscoveryListener{
 	@Override
 	public void search(String attribute, String value, SearchListener<?> sl) {
 		this.currentSl = (SearchListener<Advertisement<ElGamalSign>>) sl;
-		pg.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.ADV, attribute, value, 0, this);
+		pg.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.ADV, attribute, value, 10, this);
 	}
 
 	/**
@@ -83,6 +87,9 @@ public class JxtaService implements Service, DiscoveryListener{
 		ArrayList<Advertisement<ElGamalSign>> advertisements = new ArrayList<>();
 		while(advs.hasMoreElements()) {
 			AdvertisementBridge adv = (AdvertisementBridge) advs.nextElement();
+			Advertisement<ElGamalSign> fadv = adv.getAdvertisement(); 
+			fadv.setSourceURI("urn:jxta:" + event.getSource().toString().substring(7));
+			
 			advertisements.add(adv.getAdvertisement());
 		}
 		currentSl.notify(advertisements);

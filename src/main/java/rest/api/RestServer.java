@@ -8,9 +8,9 @@ package rest.api;
 public interface RestServer {
 	/**
 	 * Initialize the server with the class that handle the REST api
-	 * @param entryPoint
+	 * @param packageName Controller package that contains classes with REST annotations
 	 */
-	public void initialize(Class<?> ...entryPoints);
+	public void initialize(String packageName);
 	
 	/**
 	 * Start the REST api on port {@code port}

@@ -46,12 +46,14 @@ public class JxtaNode implements Node{
 			NetworkConfigurator configurator = networkManager.getConfigurator();
 			configurator.setTcpPort(port);
 			configurator.setHttpPort(port + 1);
-			defaultPeerGroup = networkManager.startNetwork();
+			PeerGroup pg = networkManager.startNetwork();
+			pg.startApp(new String[0]);
 			//Switch to rendez vous mode if possible, check every 60 secs
-			defaultPeerGroup.getRendezVousService().setAutoStart(true,60*1000);
+			pg.getRendezVousService().setAutoStart(true,60*1000);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("Error on config file");
+			System.exit(-1);
 		} catch (PeerGroupException e) {
 			e.printStackTrace();
 			System.err.println("error while creating main peer group");
@@ -113,36 +115,42 @@ public class JxtaNode implements Node{
 		return this.defaultPeerGroup;
 	}
 	
-	private PeerGroupID generatePeerGroupID(String peerGroupName) {
+	private PeerGroupID generatePeerGroupID(PeerGroupID parent, String peerGroupName) {
 		return IDFactory.newPeerGroupID(PeerGroupID.defaultNetPeerGroupID, peerGroupName.getBytes());
 	}
 	
 	private void createDefaultGroup() {
 		try {
 			PeerGroup netpeerGroup = networkManager.getNetPeerGroup();
-			ModuleImplAdvertisement madv = netpeerGroup.getAllPurposePeerGroupImplAdvertisement();
-			System.out.println(madv.toString());
-			defaultPeerGroup = netpeerGroup.newGroup(this.generatePeerGroupID("SXP group"),
-					madv, "SXP group", "SXP group");
-			System.out.println("default group generated");
+			
+			ModuleImplAdvertisement madv = null;
+			try {
+				madv = netpeerGroup.getAllPurposePeerGroupImplAdvertisement();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			defaultPeerGroup = netpeerGroup.newGroup(this.generatePeerGroupID(netpeerGroup.getPeerGroupID(), "SXP group"),
+					madv, "SXP group", "SXP group", true);
 			defaultPeerGroup.startApp(new String[0]);
 			defaultPeerGroup.getRendezVousService().setAutoStart(true, 60*1000);
 		} catch (PeerGroupException e) {
 			System.err.println("impossible to create default group");
 			e.printStackTrace();
+			System.exit(-1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Group created !");
 	}
 	
-	@SuppressWarnings("deprecation")
 	protected PeerGroup createGroup(final String name) {
 		ModuleImplAdvertisement mAdv = null;
 		PeerGroup temp = null;
 		System.out.println("creating new group ..");
 		try {
 			mAdv = defaultPeerGroup.getAllPurposePeerGroupImplAdvertisement();
-			temp = defaultPeerGroup.newGroup(generatePeerGroupID(name), mAdv, name, name); /* creating & publishing the group */
+			temp = defaultPeerGroup.newGroup(generatePeerGroupID(defaultPeerGroup.getPeerGroupID(), name), mAdv, name, name, true); /* creating & publishing the group */
 			getDefaultPeerGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());
 			temp.startApp(new String[0]);
 			temp.getRendezVousService().setAutoStart(true, 60);
@@ -150,5 +158,9 @@ public class JxtaNode implements Node{
 			e.printStackTrace();
 		} /* Getting the advertisement of implemented modules */
 		return temp;
+	}
+	
+	public String getPeerId() {
+		return this.defaultPeerGroup.getPeerID().toURI().toString();
 	}
 }

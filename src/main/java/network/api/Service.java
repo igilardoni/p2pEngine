@@ -34,4 +34,17 @@ public interface Service {
 	 * @param peer the peer that serve that service
 	 */
 	public void initAndStart(Peer peer);
+	
+	/**
+	 * Get a message from the service
+	 * @return
+	 */
+	public String getResponse();
+	
+	/**
+	 * Send messages to several peer (uris)
+	 * @param messages
+	 * @param uris
+	 */
+	public void sendMessages(Messages messages, String ...uris);
 }

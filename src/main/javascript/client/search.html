@@ -2,13 +2,18 @@
 	<span class="input-group-btn">
         <button class="btn btn-default" type="button">Go!</button>
     </span>
-    <input type="text" class="form-control" ng-model="research" placeholder="Search for items, users ...">
+    <input type="text" class="form-control" ng-model="research" placeholder="Search for items, users ..." ng-keydown="search()">
 </div>
 <div ng-show="research.length > 2">
 	<h2>Results for "{{research}}"</h2>
 	<div class="row">
 		<div class="col-xs-12">
-			<p>No results yet ... try for bananas !</p>
+			<p ng-show="resutl.length < 1">No results yet ... try for bananas !</p>
+			<ul>
+				<li ng-repeat="item in results">
+					{{item.title}}
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>

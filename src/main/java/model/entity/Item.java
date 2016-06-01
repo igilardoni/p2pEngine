@@ -41,9 +41,7 @@ public class Item {
 	@NotNull
 	private BigInteger pbkey;
 	
-	@XmlElement(name="sign")
-	@NotNull
-	private ElGamalSignEntity sign;
+
 	
 	public long getId() {
 		return id;
@@ -71,14 +69,6 @@ public class Item {
 	
 	public Date getCreatedAt() {
 		return createdAt;
-	}
-
-	public ElGamalSignEntity getSign() {
-		return sign;
-	}
-
-	public void setSign(ElGamalSignEntity sign) {
-		this.sign = sign;
 	}
 
 	public BigInteger getPbkey() {

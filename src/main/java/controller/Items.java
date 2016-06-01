@@ -1,4 +1,4 @@
-package rest.controller;
+package controller;
 
 import java.util.Date;
 
@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.Application;
 import model.api.EntityManager;
 import model.entity.Item;
 import model.entity.User;
@@ -41,7 +40,7 @@ public class Items {
 		em.begin();
 		//TODO VALIDATION
 			item.setCreatedAt(new Date());
-			item.setPbkey(currentUser.getKeys().getPublicKey());
+			//item.setPbkey(currentUser.getKeys().getPublicKey());
 			em.persist(item);
 		em.end();
 		ItemAdvertisement<ElGamalSign> iadv = new ItemAdvertisement<>();

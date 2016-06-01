@@ -51,4 +51,12 @@ public interface Advertisement<Sign> extends Signable<Sign>{
 	 */
 	public String[] getIndexFields();
 	
+	/**
+	 * Get the peer id (URI) source of the advertisement
+	 * @return
+	 */
+	public String getSourceURI();
+	
+	public void setSourceURI(String uri);
+	
 }

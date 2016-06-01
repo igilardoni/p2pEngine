@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.persistence.Entity;
@@ -9,8 +10,13 @@ import javax.xml.bind.annotation.XmlElement;
 import crypt.api.key.AsymKey;
 
 @Entity
-public class Key implements AsymKey<BigInteger>{
+public class Key implements AsymKey<BigInteger>, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6531626985325397645L;
+
 	@NotNull
 	@XmlElement(name="privateKey")
 	private BigInteger privateKey;

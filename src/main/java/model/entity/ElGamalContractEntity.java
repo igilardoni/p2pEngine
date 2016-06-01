@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,12 @@ import model.api.ContractEntity;
 import protocol.api.Wish;
 
 @Entity
-public class ElGamalContractEntity implements ContractEntity<ElGamalSignature>{
+public class ElGamalContractEntity implements ContractEntity<ElGamalSignature>, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4330001587843806964L;
 	private List<ElGamalAsymKey> parties;
 	private Map<ElGamalAsymKey, ElGamalSignature> signatures;
 	private Wish wish;

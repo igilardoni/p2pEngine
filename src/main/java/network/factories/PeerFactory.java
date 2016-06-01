@@ -2,10 +2,16 @@ package network.factories;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import net.jxta.document.AdvertisementFactory;
 import network.api.Peer;
 import network.api.Service;
+import network.impl.jxta.AdvertisementBridge;
+import network.impl.jxta.AdvertisementInstaciator;
 import network.impl.jxta.JxtaItemService;
+import network.impl.jxta.JxtaItemsSenderService;
 import network.impl.jxta.JxtaPeer;
 
 /**
@@ -41,8 +47,10 @@ public class PeerFactory {
 		Peer p = createAndStartPeer("jxta", cache, port);
 		
 		Service itemService = new JxtaItemService();
-		System.out.println(itemService.getName());
 		itemService.initAndStart(p);
+		
+		Service itemsSender = new JxtaItemsSenderService();
+		itemsSender.initAndStart(p);
 		return p;
 	}
 	
@@ -51,6 +59,9 @@ public class PeerFactory {
 	 * @return a {@link JxtaPeer}
 	 */
 	public static JxtaPeer createJxtaPeer() {
+		Logger.getLogger("net.jxta").setLevel(Level.SEVERE);
+		AdvertisementBridge i = new AdvertisementBridge();
+		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(), new AdvertisementInstaciator(i));
 		return new JxtaPeer();
 	}
 	
@@ -65,7 +76,7 @@ public class PeerFactory {
 		default: throw new RuntimeException(impl + "doesn't exist");
 		}
 		try {
-			peer.start("tmpFolder", port);
+			peer.start(tmpFolder, port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

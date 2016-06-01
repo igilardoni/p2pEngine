@@ -13,7 +13,21 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 public @interface AdvertisementAttribute {
+	/**
+	 * The attribute is enabled and is part of the final advertisement
+	 * @return
+	 */
 	public boolean enabled() default true;
+	
+	/**
+	 * The attribute is indexed
+	 * @return
+	 */
 	public boolean indexed() default false;
+	
+	/**
+	 * The attribute participate for the signature
+	 * @return
+	 */
 	public boolean signable() default true;
 }

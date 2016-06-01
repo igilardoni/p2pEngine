@@ -20,7 +20,10 @@ public class AdvertisementBridge extends Advertisement{
 
 	private network.api.Advertisement<ElGamalSign> adv;
 	
+	public AdvertisementBridge() { }
+	
 	public AdvertisementBridge(network.api.Advertisement<ElGamalSign> adv) {
+		super();
 		this.adv = adv;
 	}
 	
@@ -30,6 +33,7 @@ public class AdvertisementBridge extends Advertisement{
 	 */
 	@SuppressWarnings("unchecked")
 	public AdvertisementBridge(@SuppressWarnings("rawtypes") net.jxta.document.Element root) {
+		super();
 		@SuppressWarnings("rawtypes")
 		TextElement doc = (TextElement) root;
 		@SuppressWarnings("rawtypes")
@@ -72,11 +76,7 @@ public class AdvertisementBridge extends Advertisement{
 		if (adv instanceof Attributable) {
             ((Attributable) adv).addAttribute("xmlns:jxta", "http://jxta.org");
         }
-		
-		@SuppressWarnings("rawtypes")
-		net.jxta.document.Element cn = adv.createElement("advertisementClass", this.adv.getClass().getCanonicalName());
-		adv.appendChild(cn);
-		
+	
 		for(Element e : this.adv.getDocument().getRootElement().getChildren()) {
 			@SuppressWarnings("rawtypes")
 			net.jxta.document.Element e1 = adv.createElement(e.getName(), e.getValue());
@@ -91,7 +91,7 @@ public class AdvertisementBridge extends Advertisement{
 	 */
 	@Override
 	public ID getID() {
-		// TODO voir si on génère un ID pour les adv
+		// TODO see if we generate id for advs
 		return null;
 	}
 

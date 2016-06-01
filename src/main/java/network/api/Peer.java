@@ -46,4 +46,10 @@ public interface Peer {
 	 * @param service
 	 */
 	public void addService(Service service);
+	
+	/**
+	 * Return a string representation of the peer id (uri)
+	 * @return
+	 */
+	public String getUri();
 }

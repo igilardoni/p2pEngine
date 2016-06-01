@@ -1,8 +1,9 @@
 package rest.factories;
 
+import controller.Items;
+import controller.Search;
+import controller.Users;
 import rest.api.RestServer;
-import rest.controller.Items;
-import rest.controller.Users;
 import rest.impl.JettyRestServer;
 
 /**
@@ -24,14 +25,14 @@ public class RestServerFactory {
 	 * @param classes Classes that handle rest request.
 	 * @return a started {@link RestServer}
 	 */
-	public static RestServer createAndStartRestServer(String impl, int port, Class<?> ...classes) {
+	public static RestServer createAndStartRestServer(String impl, int port, String packageName) {
 		RestServer serv;
 		switch(impl) {
 		case "jetty": serv = createJettyRestServer(); break;
 		default: throw new RuntimeException(impl + "doesn't exist !");
 		}
 		
-		serv.initialize(classes);
+		serv.initialize(packageName);
 		
 		new Thread(new Runnable() {
 			
@@ -50,9 +51,8 @@ public class RestServerFactory {
 	}
 	
 	public static RestServer createAndStartDefaultRestServer(int port) {
-		return createAndStartRestServer("jetty", //rest controllers classes
+		return createAndStartRestServer("jetty", 
 				port,
-				Items.class,
-				Users.class);
+				"controller" /*rest controllers classes*/);
 	}
 }

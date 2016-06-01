@@ -1,5 +1,6 @@
 package model.entity;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.persistence.Entity;
@@ -10,8 +11,13 @@ import crypt.api.signatures.ParamName;
 import crypt.base.BaseSignature;
 
 @Entity
-public class ElGamalSignEntity extends BaseSignature<BigInteger>{
+public class ElGamalSignEntity extends BaseSignature<BigInteger> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7049291865908224884L;
+
 	@ParamName("r")
 	@XmlElement(name="r")
 	@NotNull

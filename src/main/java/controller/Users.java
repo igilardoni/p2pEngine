@@ -1,4 +1,4 @@
-package rest.controller;
+package controller;
 
 import java.util.Date;
 
@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import controller.Application;
 import crypt.api.hashs.Hasher;
 import crypt.factories.HasherFactory;
 import model.api.EntityManager;
