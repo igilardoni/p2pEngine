@@ -32,7 +32,11 @@
 	            // handle errors
 	        }, function(node) {
 	            // node received
-							if(node.length != 0)
+							if(node.length != 0) {
+								for(var i = 0; i < node.length; i++) {
+									$scope.results.push(node[i]);
+								}
+							}
 	            $scope.results.push(node);
 	            if($scope.results.length === 1000 || node.length == 0) {
 	                $scope.stream.abort();

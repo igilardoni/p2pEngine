@@ -26,6 +26,7 @@ dependencies {
 	compile 'org.eclipse.jetty:jetty-server:9.2.3.v20140905'
 	compile 'org.eclipse.jetty:jetty-servlet:9.2.3.v20140905'
 	compile 'org.glassfish.jersey.core:jersey-server:2.7'
+	compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.7'
 	compile 'org.glassfish.jersey.containers:jersey-container-servlet-core:2.7'
 	compile 'org.glassfish.jersey.containers:jersey-container-jetty-http:2.7'
 	compile 'org.glassfish.jersey.media:jersey-media-moxy:2.7'
