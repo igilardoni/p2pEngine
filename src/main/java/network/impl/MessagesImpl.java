@@ -8,6 +8,8 @@ import network.api.annotation.MessageElement;
 
 public class MessagesImpl implements Messages{
 
+	private String who;
+	
 	@Override
 	public String getMessage(String name) {
 		for(Field f : this.getClass().getDeclaredFields()) {
@@ -29,6 +31,7 @@ public class MessagesImpl implements Messages{
 	@Override
 	public String[] getNames() {
 		ArrayList<String> names = new ArrayList<>();
+		
 		for(Field f : this.getClass().getDeclaredFields()) {
 			f.setAccessible(true);
 			MessageElement m = f.getAnnotation(MessageElement.class);
@@ -38,6 +41,15 @@ public class MessagesImpl implements Messages{
 			f.setAccessible(false);
 		}
 		return names.toArray(new String[1]);
+	}
+
+	@Override
+	public void setWho(String who) {
+		this.who = who;
+	}
+	
+	public String getWho() {
+		return who;
 	}
 
 }

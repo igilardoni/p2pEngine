@@ -19,7 +19,6 @@ import model.entity.User;
 import model.persistance.ItemManager;
 import model.persistance.UserManager;
 import network.impl.advertisement.ItemAdvertisement;
-import protocol.impl.sigma.ElGamalSign;
 import rest.api.Authentifier;
 import rest.api.ServletPath;
 import rest.util.JsonUtils;
@@ -43,7 +42,7 @@ public class Items {
 			//item.setPbkey(currentUser.getKeys().getPublicKey());
 			em.persist(item);
 		em.end();
-		ItemAdvertisement<ElGamalSign> iadv = new ItemAdvertisement<>();
+		ItemAdvertisement iadv = new ItemAdvertisement();
 		iadv.setTitle(item.getTitle());
 		
 		iadv.publish(Application.getInstance().getPeer());

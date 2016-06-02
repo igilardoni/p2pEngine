@@ -14,15 +14,14 @@ import net.jxta.document.StructuredDocument;
 import net.jxta.document.StructuredDocumentFactory;
 import net.jxta.document.TextElement;
 import net.jxta.id.ID;
-import protocol.impl.sigma.ElGamalSign;
 
 public class AdvertisementBridge extends Advertisement{
 
-	private network.api.Advertisement<ElGamalSign> adv;
+	private network.api.Advertisement adv;
 	
 	public AdvertisementBridge() { }
 	
-	public AdvertisementBridge(network.api.Advertisement<ElGamalSign> adv) {
+	public AdvertisementBridge(network.api.Advertisement adv) {
 		super();
 		this.adv = adv;
 	}
@@ -31,7 +30,6 @@ public class AdvertisementBridge extends Advertisement{
 	 * Create a new AdvertisementBridge instance initialized with a Jxta xml root element.
 	 * @param root
 	 */
-	@SuppressWarnings("unchecked")
 	public AdvertisementBridge(@SuppressWarnings("rawtypes") net.jxta.document.Element root) {
 		super();
 		@SuppressWarnings("rawtypes")
@@ -42,7 +40,7 @@ public class AdvertisementBridge extends Advertisement{
 			//try to find the class used for this advertisement
 			Class<?> adv = Class.forName(className.getValue());
 			Constructor<?> cons = adv.getConstructor();
-			this.adv = (network.api.Advertisement<ElGamalSign>) cons.newInstance();
+			this.adv = (network.api.Advertisement) cons.newInstance();
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | 
 				InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -111,7 +109,7 @@ public class AdvertisementBridge extends Advertisement{
 		return "jxta:" + this.getClass().getName();
 	}
 
-	public network.api.Advertisement<ElGamalSign> getAdvertisement() {
+	public network.api.Advertisement getAdvertisement() {
 		return adv;
 	}
 	

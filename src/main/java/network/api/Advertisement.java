@@ -12,7 +12,7 @@ import crypt.api.signatures.Signable;
  * @author Julien Prudhomme
  *
  */
-public interface Advertisement<Sign> extends Signable<Sign>{
+public interface Advertisement {
 	/**
 	 * Get the advertisement name
 	 * @return the advertisement's name

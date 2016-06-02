@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
-import network.api.Node;
 import network.api.Peer;
 import network.api.Service;
 import network.utils.IpChecker;

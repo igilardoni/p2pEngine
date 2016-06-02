@@ -11,33 +11,15 @@ import network.api.Peer;
 import network.api.annotation.AdvertisementAttribute;
 import network.api.annotation.ServiceName;
 
-public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>{
+public abstract class AbstractAdvertisement implements Advertisement{
 
 	protected String sourceURI = null;
 	
-	@AdvertisementAttribute(signable = false)
-	protected Sign sign;
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void setSign(Sign s) {
-		this.sign = s;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Sign getSign() {
-		return sign;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+	/*@Override
 	public byte[] getHashableData() {
 		ArrayList<String> data = new ArrayList<>();
 		for(Field field: this.getClass().getDeclaredFields()) {
@@ -68,7 +50,7 @@ public abstract class AbstractAdvertisement<Sign> implements Advertisement<Sign>
 			i += b.length;
 		}
 		return res;
-	}
+	}*/
 
 	/**
 	 * {@inheritDoc}

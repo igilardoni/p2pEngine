@@ -13,4 +13,12 @@ public interface Messages {
 	 * @return
 	 */
 	public String[] getNames();
+	
+	/**
+	 * Set the receiver of the messages
+	 * @param who
+	 */
+	public void setWho(String who);
+	
+	public String getWho();
 }

@@ -3,7 +3,7 @@ package network.impl.advertisement;
 import network.api.annotation.AdvertisementAttribute;
 import network.impl.AbstractAdvertisement;
 
-public class PeerAdvertisement<Sign> extends AbstractAdvertisement<Sign>{
+public class PeerAdvertisement extends AbstractAdvertisement{
 	
 	@AdvertisementAttribute
 	private String publicKey;

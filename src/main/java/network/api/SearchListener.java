@@ -8,7 +8,7 @@ import java.util.Collection;
  *
  * @param <T> Type of advertisement searched
  */
-public interface SearchListener <T extends Advertisement<?>>{
+public interface SearchListener <T extends Advertisement>{
 	/**
 	 * Call to notify one or more object are found
 	 * @param result the advertisement found.

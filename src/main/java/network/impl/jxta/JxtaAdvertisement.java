@@ -6,14 +6,13 @@ import org.jdom2.output.XMLOutputter;
 import net.jxta.document.MimeMediaType;
 import network.api.Advertisement;
 import network.api.Peer;
-import protocol.impl.sigma.ElGamalSign;
 
-public class JxtaAdvertisement implements Advertisement<ElGamalSign>{
+public class JxtaAdvertisement implements Advertisement{
 
-	private Advertisement<ElGamalSign> adv;
+	private Advertisement adv;
 	
 	
-	public JxtaAdvertisement(Advertisement<ElGamalSign> adv) {
+	public JxtaAdvertisement(Advertisement adv) {
 		System.out.println("Adv : \n" + new XMLOutputter().outputString(adv.getDocument()));
 		this.adv = adv;
 	}
@@ -33,20 +32,6 @@ public class JxtaAdvertisement implements Advertisement<ElGamalSign>{
 		return new AdvertisementBridge(this);
 	}
 
-	@Override
-	public void setSign(ElGamalSign s) {
-		adv.setSign(s);
-	}
-
-	@Override
-	public ElGamalSign getSign() {
-		return adv.getSign();
-	}
-
-	@Override
-	public byte[] getHashableData() {
-		return adv.getHashableData();
-	}
 
 	@Override
 	public void publish(Peer peer) {

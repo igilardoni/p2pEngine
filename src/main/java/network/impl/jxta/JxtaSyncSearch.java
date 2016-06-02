@@ -3,13 +3,12 @@ package network.impl.jxta;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import crypt.impl.signatures.ElGamalSignature;
 import network.api.Advertisement;
 import network.api.Search;
 import network.api.SearchListener;
 import network.api.Service;
 
-public class JxtaSyncSearch<T extends Advertisement<ElGamalSignature>> implements Search<ElGamalSignature, T>, SearchListener<T>{
+public class JxtaSyncSearch<T extends Advertisement> implements Search<T>, SearchListener<T>{
 
 	private Service s;
 	private ArrayList<T> results = new ArrayList<>();

@@ -11,7 +11,7 @@ import network.impl.AbstractAdvertisement;
  * @param <Sign>
  */
 @ServiceName(name = "items")
-public class ItemAdvertisement<Sign> extends AbstractAdvertisement<Sign> {
+public class ItemAdvertisement extends AbstractAdvertisement {
 
 	@AdvertisementAttribute(indexed = true)
 	private String title;

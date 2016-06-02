@@ -25,7 +25,7 @@ public interface Service {
 	 * Publish an {@link Advertisement} on this service
 	 * @param adv
 	 */
-	public void publishAdvertisement(Advertisement<?> adv);
+	public void publishAdvertisement(Advertisement adv);
 	
 	/**
 	 * Init and starts this service for this peer
@@ -36,11 +36,13 @@ public interface Service {
 	public void initAndStart(Peer peer);
 	
 	/**
-	 * Get a message from the service
-	 * @return
+	 * Add a listener to this service
+	 * @param l the listener
+	 * @param who can be null - only who match will be notified
 	 */
-	public String getResponse();
+	public void addListener(ServiceListener l, String who);
 	
+	public void removeListener(String who);
 	/**
 	 * Send messages to several peer (uris)
 	 * @param messages

@@ -1,7 +1,7 @@
 RESTAPISERVER = 'http://localhost:8080';
 
 (function() {
-	var module = angular.module('app', ['ui.router', 'ngAnimate', 'ngResource', 'services.rest', 'app.myItems', 'search', 'messages', 'app.users', 'app.settings']);
+	var module = angular.module('app', ['ui.router', 'ngAnimate', 'ngResource', 'services.rest', 'app.myItems', 'search', 'messages', 'app.users', 'app.settings', 'ngOboe']);
 	module.config(function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 		.state('home', {
