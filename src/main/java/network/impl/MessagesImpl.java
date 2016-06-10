@@ -12,6 +12,7 @@ public class MessagesImpl implements Messages{
 	
 	@Override
 	public String getMessage(String name) {
+		if(name.equals("WHO")) return who;
 		for(Field f : this.getClass().getDeclaredFields()) {
 			f.setAccessible(true);
 			MessageElement m = f.getAnnotation(MessageElement.class);
@@ -40,6 +41,7 @@ public class MessagesImpl implements Messages{
 			}
 			f.setAccessible(false);
 		}
+		names.add("WHO");
 		return names.toArray(new String[1]);
 	}
 

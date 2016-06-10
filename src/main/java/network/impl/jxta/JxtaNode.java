@@ -32,6 +32,10 @@ public class JxtaNode implements Node{
 		initialized = true;
 	}
 
+	public NetworkManager getNetworkManager() {
+		return networkManager;
+	}
+	
 	@Override
 	public boolean isInitialized() {
 		return initialized;

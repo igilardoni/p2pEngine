@@ -150,7 +150,7 @@ public class JxtaService implements Service, DiscoveryListener, PipeMsgListener{
 		for(String s: m.getNames()) {
 			msg.addMessageElement(new ByteArrayMessageElement(s, null, m.getMessage(s).getBytes(), null));
 		}
-		msg.addMessageElement(new ByteArrayMessageElement("WHO", null, m.getWho().getBytes(), null));
+		//msg.addMessageElement(new ByteArrayMessageElement("WHO", null, m.getWho().getBytes(), null));
 		return msg;
 	}
 	

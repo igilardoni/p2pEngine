@@ -6,7 +6,6 @@ import network.api.Messages;
 
 public class MessagesGeneric implements Messages{
 
-	private String who;
 	private HashMap<String, String> fields = new HashMap<>();
 	
 	
@@ -22,12 +21,12 @@ public class MessagesGeneric implements Messages{
 
 	@Override
 	public void setWho(String who) {
-		this.who = who;
+		addField("WHO", who);
 	}
 
 	@Override
 	public String getWho() {
-		return who;
+		return getMessage("WHO");
 	}
 	
 	public void addField(String name, String value) {

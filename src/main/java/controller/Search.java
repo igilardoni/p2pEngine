@@ -68,8 +68,9 @@ public class Search{
 				
 				ItemRequestService itemSender = (ItemRequestService) Application.getInstance().getPeer().getService(JxtaItemsSenderService.NAME);
 				Service items = Application.getInstance().getPeer().getService(JxtaItemService.NAME);
+				
 				itemSender.addListener(new ServiceListener() {
-
+					
 					@Override
 					public void notify(Messages messages) {
 						try {
@@ -80,7 +81,7 @@ public class Search{
 						}
 					}
 					
-				}, token);
+				}, token == null ? "test":token);
 				
 				items.search("title", title, new SearchListener<ItemAdvertisement>() {
 					@Override
@@ -89,13 +90,13 @@ public class Search{
 						for(ItemAdvertisement i: result) {
 							uids.add(i.getSourceURI());
 						}
-						itemSender.sendRequest(title, token, uids.toArray(new String[1]));
+						itemSender.sendRequest(title, token == null ? "test":token, uids.toArray(new String[1]));
 					}
 					
 				});
 				try {
 					Thread.sleep(3000);
-					itemSender.removeListener(token);
+					itemSender.removeListener(token == null ? "test":token);
 					try {
 						output.write("[]");
 						output.close();

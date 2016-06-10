@@ -17,12 +17,13 @@ public class JxtaItemsSenderService extends JxtaService implements ItemRequestSe
 		this.name = NAME;
 	}
 	
-	private Messages getResponseMessage(String title) {
+	private Messages getResponseMessage(Messages msg) {
 		MessagesGeneric m = new MessagesGeneric();
 		
 		m.addField("type", "response");
+		m.setWho(msg.getWho());
 		ItemManager im = new ItemManager();
-		Collection<Item> items = im.findManyByAttribute("title", title);
+		Collection<Item> items = im.findManyByAttribute("title", msg.getMessage("title"));
 		m.addField("items", JsonUtils.collectionStringify(items));
 		
 		return m;
@@ -44,7 +45,7 @@ public class JxtaItemsSenderService extends JxtaService implements ItemRequestSe
 			return;
 		}
 		
-		this.sendMessages(getResponseMessage(message.getMessage("title")), message.getMessage("source"));
+		this.sendMessages(getResponseMessage(message), message.getMessage("source"));
 		
 	}
 }

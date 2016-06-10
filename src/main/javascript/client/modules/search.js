@@ -12,12 +12,19 @@
 				$scope.app.setContextButton(null);
 				$scope.results = [];
 
+				$scope.pushResult = function($obj) {
+					if($obj == null) return;
+					for(var i = 0; i < $scope.results.length; i++) {
+						if($scope.results[i].id == $obj.id) return;
+					}
+					$scope.results.push($obj);
+				}
 
 				$scope.search = function() {
-
+					$scope.results = [];
 					Oboe({
 	            url: RESTAPISERVER + "/api/search/simple?title=" + $scope.research,
-	            pattern: '*',
+							pattern: '!',
 	            start: function(stream) {
 	                // handle to the stream
 	                $scope.stream = stream;
@@ -32,13 +39,15 @@
 	            // handle errors
 	        }, function(node) {
 	            // node received
-							if(node.length != 0) {
+							if(node != null && node.length != 0) {
+
 								for(var i = 0; i < node.length; i++) {
-									$scope.results.push(node[i]);
+									console.log(node[i]);
+									$scope.pushResult(node[i]);
 								}
+
 							}
-	            $scope.results.push(node);
-	            if($scope.results.length === 1000 || node.length == 0) {
+	            if($scope.results.length === 1000 || node == null || node.length == 0) {
 	                $scope.stream.abort();
 	            }
 	        });

@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Properties;
+
 import network.api.Peer;
 import network.factories.PeerFactory;
 import rest.api.Authentifier;
@@ -35,6 +37,8 @@ public class Application {
 	}
 	
 	public void runForTests(int restPort) {
+		Properties p = System.getProperties();
+		p.put("derby.system.home", "./db-" + restPort + "/");
 		setPeer(PeerFactory.createDefaultAndStartPeerForTest());
 		setAuth(AuthentifierFactory.createDefaultAuthentifier());
 		RestServerFactory.createAndStartDefaultRestServer(restPort);
@@ -43,6 +47,7 @@ public class Application {
 	public static void main(String[] args) {
 		new Application();
 		Application.getInstance().runForTests(8081);
+		
 	}
 
 	public Peer getPeer() {

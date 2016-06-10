@@ -1,9 +1,11 @@
 package network.impl.jxta;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 
+import net.jxta.platform.NetworkManager;
 import network.api.Peer;
 import network.api.Service;
 import network.utils.IpChecker;
@@ -72,6 +74,20 @@ public class JxtaPeer implements Peer{
 	@Override
 	public String getUri() {
 		return node.getPeerId();
+	}
+
+	@Override
+	public void bootstrap(String... ips) {
+		for(String ip : ips) {
+			URI theSeed = URI.create(ip);
+			NetworkManager networkManager = node.getNetworkManager();
+			try {
+				networkManager.getConfigurator().addSeedRendezvous(theSeed);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 }

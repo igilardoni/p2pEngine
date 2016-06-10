@@ -52,4 +52,6 @@ public interface Peer {
 	 * @return
 	 */
 	public String getUri();
+	
+	public void bootstrap(String ...ips);
 }
