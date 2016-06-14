@@ -75,9 +75,8 @@ public class PeerFactory {
 		case "jxta": peer = createJxtaPeer(); break;
 		default: throw new RuntimeException(impl + "doesn't exist");
 		}
-		//peer.bootstrap("tcp://123.123.123.123:8888");
 		try {
-			peer.start(tmpFolder, port);
+			peer.start(tmpFolder, port, "tcp://109.15.222.135:9800");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

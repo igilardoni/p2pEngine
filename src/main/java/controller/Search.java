@@ -57,8 +57,8 @@ public class Search{
 	@GET
 	@Path("/simple")
 	public ChunkedOutput<String> chunckedSearchByTitle(
-			@QueryParam("title") String title,
-			@HeaderParam(Authentifier.PARAM_NAME) String token) {
+			@QueryParam("title") final String title,
+			@HeaderParam(Authentifier.PARAM_NAME) final String token) {
 		final ChunkedOutput<String> output = new ChunkedOutput<String>(String.class);
 		
 		new Thread(new Runnable() {
@@ -66,7 +66,7 @@ public class Search{
 			@Override
 			public void run() {
 				
-				ItemRequestService itemSender = (ItemRequestService) Application.getInstance().getPeer().getService(JxtaItemsSenderService.NAME);
+				final ItemRequestService itemSender = (ItemRequestService) Application.getInstance().getPeer().getService(JxtaItemsSenderService.NAME);
 				Service items = Application.getInstance().getPeer().getService(JxtaItemService.NAME);
 				
 				itemSender.addListener(new ServiceListener() {

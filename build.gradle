@@ -3,8 +3,10 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-mainClassName = "controller.Application"
 
+mainClassName = "controller.Application"
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 repositories {
     mavenCentral()
     maven {

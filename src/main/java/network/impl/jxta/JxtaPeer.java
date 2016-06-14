@@ -24,8 +24,9 @@ public class JxtaPeer implements Peer{
 	}
 	
 	@Override
-	public void start(String cache, int port) throws IOException {
+	public void start(String cache, int port, String ...bootstrap) throws IOException {
 		node.initialize(cache, "sxp peer", true);
+		this.bootstrap(bootstrap);
 		node.start(port);
 	}
 
@@ -78,10 +79,12 @@ public class JxtaPeer implements Peer{
 
 	@Override
 	public void bootstrap(String... ips) {
+		NetworkManager networkManager = node.getNetworkManager();
 		for(String ip : ips) {
 			URI theSeed = URI.create(ip);
-			NetworkManager networkManager = node.getNetworkManager();
+			
 			try {
+				System.out.println("server added :" + theSeed);
 				networkManager.getConfigurator().addSeedRendezvous(theSeed);
 			} catch (IOException e) {
 				e.printStackTrace();

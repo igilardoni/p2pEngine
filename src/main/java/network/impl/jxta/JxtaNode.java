@@ -11,6 +11,7 @@ import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.ModuleImplAdvertisement;
 import network.api.Node;
+import network.utils.IpChecker;
 
 /**
  * Default JXTA Node implementation. Represent the server node.
@@ -95,9 +96,19 @@ public class JxtaNode implements Node{
         configurator.setTcpOutgoing(true);
         configurator.setUseMulticast(true);
 		configurator.setTcpInterfaceAddress("0.0.0.0");
-		// TODO configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+		try {
+			configurator.setTcpPublicAddress(IpChecker.getIp(), false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		configurator.setHttpInterfaceAddress("0.0.0.0");
-		// TODO configurator.setHttpPublicAddress(IpChecker.getIp(), false);
+		try {
+			configurator.setHttpPublicAddress(IpChecker.getIp(), false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         configurator.setTcpEndPort(-1);
         configurator.setTcpStartPort(-1);
         configurator.setName("SXPeerGroup");

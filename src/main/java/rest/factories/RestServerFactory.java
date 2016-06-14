@@ -25,8 +25,8 @@ public class RestServerFactory {
 	 * @param classes Classes that handle rest request.
 	 * @return a started {@link RestServer}
 	 */
-	public static RestServer createAndStartRestServer(String impl, int port, String packageName) {
-		RestServer serv;
+	public static RestServer createAndStartRestServer(String impl, final int port, String packageName) {
+		final RestServer serv;
 		switch(impl) {
 		case "jetty": serv = createJettyRestServer(); break;
 		default: throw new RuntimeException(impl + "doesn't exist !");

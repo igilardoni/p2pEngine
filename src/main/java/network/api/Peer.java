@@ -15,7 +15,7 @@ public interface Peer {
 	 * @param port listening port
 	 * @throws IOException
 	 */
-	public void start(String cache, int port) throws IOException;
+	public void start(String cache, int port, String ...ips) throws IOException;
 	
 	/**
 	 * Stop the server
