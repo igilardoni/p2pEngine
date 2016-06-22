@@ -31,8 +31,14 @@
 			var password = $scope.form.password;
 			$http.get(RESTAPISERVER + "/api/users/login?login=" + user + "&password=" + password).then(function(response) {
 					var obj = response.data;
-					$http.defaults.headers.common['Auth-Token'] = obj.token;
-					$state.go('myItemsView');
+					console.debug(obj);
+					if(obj.error) {
+						$scope.error = true;
+					} else {
+						$http.defaults.headers.common['Auth-Token'] = obj.token;
+						$state.go('myItemsView');
+					}
+
 			}, function(response) {
 
 			});
