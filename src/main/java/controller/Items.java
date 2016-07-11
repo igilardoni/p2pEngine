@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import controller.tools.JsonTools;
 import model.api.EntityManager;
 import model.entity.Item;
 import model.entity.User;
@@ -39,6 +41,7 @@ public class Items {
 		em.begin();
 		//TODO VALIDATION
 			item.setCreatedAt(new Date());
+			item.setUsername(currentUser.getNick());
 			//item.setPbkey(currentUser.getKeys().getPublicKey());
 			em.persist(item);
 		em.end();
@@ -47,7 +50,10 @@ public class Items {
 		
 		iadv.publish(Application.getInstance().getPeer());
 		
-		return JsonUtils.BeanStringify(item);
+		JsonTools<Item> json = new JsonTools<>();
+		json.initialize(Item.class);
+		return json.toJson(item);
+		//return JsonUtils.BeanStringify(item);
 	}
 	
 	@GET
@@ -56,15 +62,24 @@ public class Items {
 	public String get(
 			@PathParam("id")int id) {
 		EntityManager<Item> em = new ItemManager();
-		return JsonUtils.BeanStringify(em.findOneById(id));
+		JsonTools<Item> json = new JsonTools<>();
+		json.initialize(Item.class);
+		return json.toJson(em.findOneById(id));
+		//return JsonUtils.BeanStringify(em.findOneById(id));
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get() {
+	public String get(@HeaderParam(Authentifier.PARAM_NAME) String token) {
+		Authentifier auth = Application.getInstance().getAuth();
+		EntityManager<User> users = new UserManager();
+		User currentUser = users.findOneByAttribute("nick", auth.getLogin(token));
 		EntityManager<Item> em = new ItemManager();
-		return JsonUtils.collectionStringify(em.findAll());
+		JsonTools<Collection<Item>> json = new JsonTools<>();
+		json.initialize(Collection.class);
+		return json.toJson(em.findAllByAttribute("username", currentUser.getNick()));
+		//return JsonUtils.collectionStringify(em.findAll());
 	}
 	
 	@PUT
@@ -79,7 +94,11 @@ public class Items {
 		item2.setDescription(item.getDescription());
 		em.end();
 		
-		return JsonUtils.BeanStringify(item2);
+		JsonTools<Item> json = new JsonTools<>();
+		json.initialize(Item.class);
+		return json.toJson(item2);
+		
+		//return JsonUtils.BeanStringify(item2);
 	}
 	
 	@DELETE
@@ -87,7 +106,7 @@ public class Items {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String delete(
 			@PathParam("id")int id) {
-			
+			//TODO
 		return null;
 	}
 	

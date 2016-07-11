@@ -18,6 +18,7 @@ package protocol.impl.sigma;
 import java.math.BigInteger;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -34,7 +35,7 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return
 	 */
-	private BigInteger FabricChallenge(ElGamalAsymKey keys)
+	private BigInteger FabricChallenge(ElGamalKey keys)
 	{
 		BigInteger c = Utils.rand(160, keys.getP());
 		return c;
@@ -45,7 +46,7 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return
 	 */
-	private BigInteger FabricResponse(ElGamalAsymKey keys)
+	private BigInteger FabricResponse(ElGamalKey keys)
 	{
 		BigInteger r = Utils.rand(160, keys.getP());
 		return r;
@@ -58,7 +59,7 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return mask
 	 */
-	private Masks FabricMaskSchnorr(BigInteger c, BigInteger r,ElGamalAsymKey keys)
+	private Masks FabricMaskSchnorr(BigInteger c, BigInteger r,ElGamalKey keys)
 	{
 		BigInteger gPowr = keys.getG().modPow(r, keys.getP());
 		BigInteger modInv = keys.getPublicKey().modPow(c,  keys.getP()).modInverse(keys.getP());
@@ -72,7 +73,7 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return responseSchnorr
 	 */
-	public ResponsesSchnorr SendResponseSchnorrFabric(ElGamalAsymKey keys)
+	public ResponsesSchnorr SendResponseSchnorrFabric(ElGamalKey keys)
 	{
 		BigInteger challenge = this.FabricChallenge( keys);
 		BigInteger response = this.FabricResponse(keys);
@@ -88,7 +89,7 @@ public class Fabric {
 	 * @param keys
 	 * @return
 	 */
-	private Masks FabricMaskCCE(BigInteger c, BigInteger r, ResEncrypt res, ElGamalAsymKey keys)
+	private Masks FabricMaskCCE(BigInteger c, BigInteger r, ResEncrypt res, ElGamalKey keys)
 	{
 		BigInteger gPowr = keys.getG().modPow(r, keys.getP());
 		BigInteger modInv = res.getU().modPow(c,  keys.getP()).modInverse(keys.getP());
@@ -110,7 +111,7 @@ public class Fabric {
 	 * @param publicKeys
 	 * @return responseCCE
 	 */
-	public ResponsesCCE SendResponseCCEFabric(ResEncrypt res,ElGamalAsymKey keys)
+	public ResponsesCCE SendResponseCCEFabric(ResEncrypt res,ElGamalKey keys)
 	{
 		BigInteger challenge = this.FabricChallenge( keys);
 		BigInteger response = this.FabricResponse(keys);

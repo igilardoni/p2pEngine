@@ -44,7 +44,8 @@ public class AbstractEntityManager<Entity> implements model.api.EntityManager<En
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Collection<Entity> findManyByAttribute(String attribute, String value) {
+	@Override
+	public Collection<Entity> findAllByAttribute(String attribute, String value) {
 		Query q = em.createQuery("select t from " + theClass.getSimpleName() + " t where t."+ attribute + "=:value");
 		q.setParameter("value", value);
 		try {

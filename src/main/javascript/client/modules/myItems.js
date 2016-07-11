@@ -83,9 +83,8 @@ module.controller('editItem', function($scope, $stateParams, Item, $state) {
 module.controller('viewItem', function($scope, $stateParams, Item) {
   $scope.app.configHeader({back: true, title: 'View item', contextButton: 'editItem', contextId: $stateParams.id});
   var item = Item.get({id: $stateParams.id}, function() {
-    $scope.title = item.title;
-    $scope.description = item.description;
-    $scope.createdAt = item.createdAt;
+    
+    $scope.item = item;
   });
 });
 

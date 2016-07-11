@@ -3,6 +3,7 @@ package rest.util;
 import java.lang.reflect.Field;
 import java.util.Collection;
 
+@Deprecated
 public class JsonUtils {
 	/**
 	 * Static class

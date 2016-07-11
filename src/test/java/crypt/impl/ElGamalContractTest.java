@@ -8,6 +8,7 @@ import crypt.factories.ElGamalAsymKeyFactory;
 import crypt.impl.key.ElGamalAsymKey;
 import crypt.impl.signatures.ElGamalSignature;
 import crypt.impl.signatures.ElGamalSigner;
+import model.entity.ElGamalKey;
 import protocol.impl.contract.ElGamalContract;
 
 public class ElGamalContractTest {
@@ -49,7 +50,7 @@ public class ElGamalContractTest {
 	public void test() {
 		ExempleSignable signable1 = new ExempleSignable(sign1);
 		ExempleSignable signable2 = new ExempleSignable(sign1);
-		ElGamalAsymKey[] keys = new ElGamalAsymKey[N];
+		ElGamalKey[] keys = new ElGamalKey[N];
 		
 		for(int i = 0; i < N; i++) {
 			keys[i] = ElGamalAsymKeyFactory.create(false);

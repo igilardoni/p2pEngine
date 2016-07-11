@@ -29,6 +29,14 @@ public interface EntityManager<Entity> {
 	public Collection<Entity> findAll();
 	
 	/**
+	 * Find all entry with corresponding att/value
+	 * @param attribute
+	 * @param value
+	 * @return
+	 */
+	public Collection<Entity> findAllByAttribute(String attribute, String value);
+	
+	/**
 	 * Return an object corresponding to the attribute/value
 	 * @param attribute
 	 * @param value

@@ -7,13 +7,14 @@ import crypt.api.hashs.Hasher;
 import crypt.base.AbstractSigner;
 import crypt.impl.hashs.SHA256Hasher;
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 /**
  * Implementation of ElGamal signatures
  * @author Prudhomme Julien
  *
  */
-public class ElGamalSigner extends AbstractSigner<ElGamalSignature, ElGamalAsymKey> {
+public class ElGamalSigner extends AbstractSigner<ElGamalSignature, ElGamalKey> {
 
 	@Override
 	public ElGamalSignature sign(byte[] message) {
@@ -53,7 +54,7 @@ public class ElGamalSigner extends AbstractSigner<ElGamalSignature, ElGamalAsymK
 	}
 
 	@Override
-	public ElGamalAsymKey getKey() {
+	public ElGamalKey getKey() {
 		return this.key;
 	}
 

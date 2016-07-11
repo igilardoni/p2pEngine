@@ -4,6 +4,7 @@ import org.bouncycastle.crypto.params.ElGamalParameters;
 
 import crypt.api.key.AsymKey;
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 /**
  * {@link AsymKey} factory
@@ -25,7 +26,7 @@ public class AsymKeyFactory {
 	 * @param generateParams true if the implementation should generate new parameters or false for default parameters
 	 * @return an {@link ElGamalAsymKey}
 	 */
-	public static ElGamalAsymKey createElGamalAsymKey(boolean generateParams) {
+	public static ElGamalKey createElGamalAsymKey(boolean generateParams) {
 		return ElGamalAsymKeyFactory.create(generateParams);
 	}
 	
@@ -34,7 +35,7 @@ public class AsymKeyFactory {
 	 * @param params The parameters used for creating the keys
 	 * @return an {@link ElGamalAsymKey}
 	 */
-	public static ElGamalAsymKey createElGamalAsymKey(ElGamalParameters params) {
+	public static ElGamalKey createElGamalAsymKey(ElGamalParameters params) {
 		return ElGamalAsymKeyFactory.createFromParameters(params);
 	}
 }

@@ -17,6 +17,7 @@ package protocol.impl.sigma;
 import java.util.HashMap;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -29,7 +30,7 @@ public class And {
 	
 	public Receiver receiver;
 	public ResEncrypt resEncrypt;
-	public HashMap <Responses,ElGamalAsymKey> rK  = new HashMap <Responses,ElGamalAsymKey>();
+	public HashMap <Responses,ElGamalKey> rK  = new HashMap <>();
 	public Responses[] responses; 
 	
 	/**
@@ -40,7 +41,7 @@ public class And {
 	 * @param responses (all responses to need verify)
 	 */
 	
-	public And (Receiver receiver, HashMap <Responses,ElGamalAsymKey> rK,  ResEncrypt resEncrypt, Responses ... responses)
+	public And (Receiver receiver, HashMap <Responses,ElGamalKey> rK,  ResEncrypt resEncrypt, Responses ... responses)
 	{
 		this.receiver = receiver;
 		this.rK  = rK;

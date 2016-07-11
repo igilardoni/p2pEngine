@@ -23,7 +23,7 @@ public class JxtaItemsSenderService extends JxtaService implements ItemRequestSe
 		m.addField("type", "response");
 		m.setWho(msg.getWho());
 		ItemManager im = new ItemManager();
-		Collection<Item> items = im.findManyByAttribute("title", msg.getMessage("title"));
+		Collection<Item> items = im.findAllByAttribute("title", msg.getMessage("title"));
 		m.addField("items", JsonUtils.collectionStringify(items));
 		
 		return m;

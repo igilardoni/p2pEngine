@@ -17,6 +17,11 @@
 			url: '/logout',
 			templateUrl: 'partials/accounts/logout.html',
 			controller: 'logout'
+		})
+		.state('account', {
+			url: '/account',
+			templateUrl: 'partials/accounts/account.html',
+			controller: 'account'
 		});
 	});
 
@@ -36,6 +41,7 @@
 						$scope.error = true;
 					} else {
 						$http.defaults.headers.common['Auth-Token'] = obj.token;
+						$scope.app.userid = obj.userid;
 						$state.go('myItemsView');
 					}
 
@@ -43,6 +49,13 @@
 
 			});
 		};
+	});
+
+	module.controller('account', function($scope, $state, $http, User) {
+		$scope.app.configHeader({title: "Account"});
+		var user = User.get({id: $scope.app.userid}, function() {
+			$scope.user = user;
+		});
 	});
 
 	module.controller('logout', function($scope, $state, $http) {
@@ -64,6 +77,7 @@
 				var data = response.data;
 				$scope.app.setCurrentUser(data.token);
 				$http.defaults.headers.common['Auth-Token'] = data.token;
+				$scope.app.userid = obj.userid;
 				$state.go("myItemsView");
 			}, function(response) {
 

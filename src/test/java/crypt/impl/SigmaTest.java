@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import crypt.factories.ElGamalAsymKeyFactory;
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 import protocol.impl.sigma.Masks;
 import protocol.impl.sigma.Receiver;
 import protocol.impl.sigma.ResEncrypt;
@@ -23,7 +24,7 @@ public class SigmaTest {
 	@Test
 	public void test() {
 		
-		ElGamalAsymKey bobK, aliceK, trentK;
+		ElGamalKey bobK, aliceK, trentK;
 		bobK = ElGamalAsymKeyFactory.create(false);
 		aliceK = ElGamalAsymKeyFactory.create(false);
 		trentK = ElGamalAsymKeyFactory.create(false);

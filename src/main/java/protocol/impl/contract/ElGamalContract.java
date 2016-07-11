@@ -6,6 +6,7 @@ import crypt.api.signatures.Signable;
 import crypt.impl.key.ElGamalAsymKey;
 import crypt.impl.signatures.ElGamalSignature;
 import crypt.impl.signatures.ElGamalSigner;
+import model.entity.ElGamalKey;
 import protocol.base.BaseContract;
 
 /**
@@ -13,7 +14,7 @@ import protocol.base.BaseContract;
  * @author Prudhomme Julien
  *
  */
-public class ElGamalContract extends BaseContract<BigInteger, ElGamalAsymKey, ElGamalSignature, ElGamalSigner>{
+public class ElGamalContract extends BaseContract<BigInteger, ElGamalKey, ElGamalSignature, ElGamalSigner>{
 	
 	
 	/**

@@ -46,7 +46,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 		new Application();
-		Application.getInstance().runForTests(8083);
+		Application.getInstance().runForTests(8080);
 		
 	}
 

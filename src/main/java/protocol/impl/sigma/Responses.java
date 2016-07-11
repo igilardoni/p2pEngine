@@ -18,6 +18,7 @@ package protocol.impl.sigma;
 import java.math.BigInteger;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -67,7 +68,7 @@ public abstract class Responses{
 	 * @param res
 	 * @return
 	 */
-	public abstract Boolean Verifies(ElGamalAsymKey Keys, ResEncrypt res);
+	public abstract Boolean Verifies(ElGamalKey Keys, ResEncrypt res);
 
 
 

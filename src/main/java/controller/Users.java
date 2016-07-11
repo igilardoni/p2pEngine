@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.ws.rs.Consumes;
@@ -14,14 +15,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import controller.tools.JsonTools;
 import crypt.api.hashs.Hasher;
+import crypt.factories.ElGamalAsymKeyFactory;
 import crypt.factories.HasherFactory;
 import model.api.EntityManager;
+import model.entity.Item;
+import model.entity.LoginToken;
 import model.entity.User;
+import model.persistance.ItemManager;
 import model.persistance.UserManager;
 import rest.api.Authentifier;
 import rest.api.ServletPath;
-import rest.util.JsonUtils;
 
 @ServletPath("/api/users/*")
 @Path("/")
@@ -35,7 +40,27 @@ public class Users {
 			@QueryParam("password") String password) {
 		
 		Authentifier auth = Application.getInstance().getAuth();
-		return "{\"token\": \"" + auth.getToken(login, password) + "\"}";
+		
+		EntityManager<User> em = new UserManager();
+		User u = em.findOneByAttribute("nick", login);
+		if(u == null) return "{\"error\": \"true\"}";
+		System.out.println("user trouve !");
+		Hasher hasher = HasherFactory.createDefaultHasher();
+		hasher.setSalt(u.getSalt());
+		//check if passwords are the sames
+		String hash1 = new String(u.getPasswordHash());
+		String hash2 = new String(hasher.getHash(password.getBytes()));
+		
+		if(hash1.equals(hash2)) {
+			LoginToken token = new LoginToken();
+			token.setToken(auth.getToken(login, password));
+			token.setUserid(u.getId());
+			JsonTools<LoginToken> json = new JsonTools<>();
+			json.initialize(LoginToken.class);
+			return json.toJson(token);
+		}
+		
+		return "{\"error\": \"true\"}";
 	}
 	
 	@GET
@@ -60,6 +85,8 @@ public class Users {
 		hasher.setSalt(u.getSalt());
 		u.setPasswordHash(hasher.getHash(password.getBytes()));
 		u.setCreatedAt(new Date());
+		u.setKey(ElGamalAsymKeyFactory.create(false));
+		
 		EntityManager<User> em = new UserManager();
 		em.begin();
 		em.persist(u);
@@ -83,8 +110,10 @@ public class Users {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get(
 			@PathParam("id") long id) {
-		
-		return null;
+		EntityManager<User> em = new UserManager();
+		JsonTools<User> json = new JsonTools<>();
+		json.initialize(User.class);
+		return json.toJson(em.findOneById(id));
 	}
 	
 	@GET
@@ -92,7 +121,9 @@ public class Users {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get() {
 		EntityManager<User> em = new UserManager();
-		return JsonUtils.collectionStringify(em.findAll());
+		JsonTools<Collection<User>> json = new JsonTools<>();
+		return json.toJson(em.findAll());
+		//return JsonUtils.collectionStringify(em.findAll());
 	}
 	
 	@PUT

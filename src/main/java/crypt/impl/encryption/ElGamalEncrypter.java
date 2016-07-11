@@ -7,18 +7,19 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 
 import crypt.api.encryption.Encrypter;
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 /**
  * El Gamal implementation for encryption. Use {@link ElGamalAsymKey} as key
  * @author Prudhomme Julien
  *
  */
-public class ElGamalEncrypter implements Encrypter<ElGamalAsymKey>{
+public class ElGamalEncrypter implements Encrypter<ElGamalKey>{
 
-	private ElGamalAsymKey key;
+	private ElGamalKey key;
 	
 	@Override
-	public void setKey(ElGamalAsymKey key) {
+	public void setKey(ElGamalKey key) {
 		this.key = key;
 	}
 

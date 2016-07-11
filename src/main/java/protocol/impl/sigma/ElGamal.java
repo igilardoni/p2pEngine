@@ -24,6 +24,7 @@ import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 
 import crypt.ElGamalEngine;
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 /**
  * This class is used for encryption, decryption, signs and verify signature.
@@ -34,15 +35,15 @@ public class ElGamal  {
 	
 	public SecureRandom  random = new SecureRandom();
 	
-	private ElGamalAsymKey keys;
+	private ElGamalKey keys;
 	
 	
 	/**
 	 * Constructor
-	 * @param keys
+	 * @param keys2
 	 */
-	public ElGamal(ElGamalAsymKey keys){
-		this.keys = keys;
+	public ElGamal(ElGamalKey keys2){
+		this.keys = keys2;
 	}
 	
 	/**
@@ -50,7 +51,7 @@ public class ElGamal  {
 	 */
 	public ElGamal(){}
 	
-	public void setKeys(ElGamalAsymKey keys){
+	public void setKeys(ElGamalKey keys){
 		this.keys = keys;
 	}
 	
@@ -144,7 +145,7 @@ public class ElGamal  {
 	}
 
 	
-	public void setAsymsKeys(ElGamalAsymKey keys) {
-		this.keys = (ElGamalAsymKey) keys;
+	public void setAsymsKeys(ElGamalKey keys) {
+		this.keys = keys;
 	}
 }

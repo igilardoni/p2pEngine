@@ -17,6 +17,7 @@ package protocol.impl.sigma;
 import java.math.BigInteger;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -43,7 +44,7 @@ public class ResponsesCCE extends Responses {
 	 * Extends Responses
 	 * Verify if the CCE response is good or not 
 	 */
-	public Boolean Verifies(ElGamalAsymKey tKeys, ResEncrypt res) {
+	public Boolean Verifies(ElGamalKey tKeys, ResEncrypt res) {
 		
 		BigInteger gPowr = tKeys.getG().modPow(getResponse(),tKeys.getP());
 		BigInteger uPowc = res.getU().modPow(getChallenge(), tKeys.getP());

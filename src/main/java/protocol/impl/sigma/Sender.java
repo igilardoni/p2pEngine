@@ -21,6 +21,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -35,7 +36,7 @@ public class Sender extends Fabric{
 	SecureRandom  random = new SecureRandom();
 
 	
-	ElGamalAsymKey keys;
+	ElGamalKey keys;
 	private ElGamalEncrypt encrypt;
 	
 	private HashMap<Masks,BigInteger> eph = new HashMap<Masks, BigInteger>();
@@ -46,10 +47,10 @@ public class Sender extends Fabric{
 	 * @param publicKeys
 	 * @param privateKeyAs
 	 */
-	public Sender (ElGamalAsymKey keys)
+	public Sender (ElGamalKey bobK)
 	{
 		// TODO Keys verifications !
-		this.keys = keys; 
+		this.keys = bobK; 
 	}
 	
 	
@@ -108,7 +109,7 @@ public class Sender extends Fabric{
 	 * Create mask to need send for the CCE 
 	 * @return Masks
 	 */
-	private Masks SendMasksCCE(ElGamalAsymKey tKeys) {
+	private Masks SendMasksCCE(ElGamalKey tKeys) {
 		
 		BigInteger s, a, aBis;
 		s = Utils.rand(1024, tKeys.getP());
@@ -137,7 +138,7 @@ public class Sender extends Fabric{
 	 * Create responseCCE will send 
 	 * @return response in bigInteger
 	 */
-	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalAsymKey tKeys)
+	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalKey tKeys)
 	{
 		Masks mask = this.SendMasksCCE(tKeys);
 		BigInteger challenge = this.SendChallenge(mask, message);
@@ -150,7 +151,7 @@ public class Sender extends Fabric{
 	 * Create responseCCE will send, with challenge fixed
 	 * @return response in bigInteger
 	 */
-	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalAsymKey tKeys, BigInteger challenge)
+	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalKey tKeys, BigInteger challenge)
 	{
 		Masks mask = this.SendMasksCCE(tKeys);
 		BigInteger response = this.ResponseCCE(challenge, mask);
@@ -192,7 +193,7 @@ public class Sender extends Fabric{
 	 * @param tKeys
 	 * @return resEncrypt (result of encryption)
 	 */
-	public  ResEncrypt Encryption(byte[] input, ElGamalAsymKey tKeys)
+	public  ResEncrypt Encryption(byte[] input, ElGamalKey tKeys)
 	{
 		ElGamal elGamal = new ElGamal(tKeys);
 		encrypt  = elGamal.encryptForContract(input);
@@ -201,7 +202,7 @@ public class Sender extends Fabric{
         return res;
 	}
 	
-	public ElGamalAsymKey getKeys() {
+	public ElGamalKey getKeys() {
 		return keys;
 	}
 }

@@ -24,36 +24,7 @@ import rest.api.ServletPath;
 @ServletPath("/api/search/*")
 @Path("/")
 public class Search{
-	
-	/*@GET
-	@Path("/simple")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String searchByTitle(
-			@QueryParam("title") String title) {
-		JxtaItemsSenderService service = (JxtaItemsSenderService) Application.getInstance().getPeer().getService(JxtaItemsSenderService.NAME);
-		Service items = Application.getInstance().getPeer().getService(JxtaItemService.NAME);
-		network.api.Search<ItemAdvertisement> s = new JxtaSyncSearch<>();
-		s.initialize(items);
-		Collection<ItemAdvertisement> advs = s.search("title", title);
-		if(advs.isEmpty()) return "[]";
-		ArrayList<String> peerIds = new ArrayList<>();
-		for(ItemAdvertisement a: advs) {
-			peerIds.add(a.getSourceURI());
-		}
-		
-		service.sendRequest(title, peerIds.toArray(new String[1]));
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return service.getResponse();
-	}*/
-	
-	
+
 	@GET
 	@Path("/simple")
 	public ChunkedOutput<String> chunckedSearchByTitle(

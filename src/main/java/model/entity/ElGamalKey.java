@@ -7,10 +7,15 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.jvnet.hk2.annotations.Contract;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import crypt.api.key.AsymKey;
 
 @Entity
-public class Key implements AsymKey<BigInteger>, Serializable{
+public class ElGamalKey implements AsymKey<BigInteger>, Serializable{
 	
 	/**
 	 * 
@@ -19,13 +24,26 @@ public class Key implements AsymKey<BigInteger>, Serializable{
 
 	@NotNull
 	@XmlElement(name="privateKey")
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
 	private BigInteger privateKey;
 	
 	@NotNull
 	@XmlElement(name="publicKey")
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
 	private BigInteger publicKey;
 	
+	@NotNull
+	@XmlElement(name="p")
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
 	private BigInteger p;
+	
+	@NotNull
+	@XmlElement(name="g")
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
 	private BigInteger g;
 	
 	@Override
@@ -53,6 +71,20 @@ public class Key implements AsymKey<BigInteger>, Serializable{
 		privateKey = pk;
 	}
 	
+	public void setG(BigInteger g) {
+		this.g = g;
+	}
 	
+	public void setP(BigInteger p) {
+		this.p = p;
+	}
+	
+	public BigInteger getP() {
+		return p;
+	}
+	
+	public BigInteger getG() {
+		return g;
+	}
 	
 }

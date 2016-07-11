@@ -1,8 +1,5 @@
 package rest.factories;
 
-import controller.Items;
-import controller.Search;
-import controller.Users;
 import rest.api.RestServer;
 import rest.impl.JettyRestServer;
 

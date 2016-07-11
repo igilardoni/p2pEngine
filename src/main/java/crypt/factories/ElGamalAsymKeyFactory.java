@@ -11,6 +11,7 @@ import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
 import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 /**
  * Factory to create ElGamal keys with given or random parameters.
@@ -45,7 +46,7 @@ public class ElGamalAsymKeyFactory {
 	 * @param k the ElGamalAsymKey instance to set
 	 * @param params Params used for public and private key generation
 	 */
-	private static void generateElGamalKey(ElGamalAsymKey k, ElGamalParameters params) {
+	private static void generateElGamalKey(ElGamalKey k, ElGamalParameters params) {
 		ElGamalKeyGenerationParameters elGP = new ElGamalKeyGenerationParameters(R,params);
 		ElGamalKeyPairGenerator KeyPair = new ElGamalKeyPairGenerator();
 		KeyPair.init(elGP);
@@ -59,8 +60,8 @@ public class ElGamalAsymKeyFactory {
 	 * @param param ElGamal parameters containing p/g
 	 * @return a new ElGamalAsymKey instance
 	 */
-	public static ElGamalAsymKey createFromParameters(ElGamalParameters params) {
-		ElGamalAsymKey k = new ElGamalAsymKey();
+	public static ElGamalKey createFromParameters(ElGamalParameters params) {
+		ElGamalKey k = new ElGamalKey();
 		generateElGamalKey(k, params);
 		k.setG(params.getG());
 		k.setP(params.getP());
@@ -73,7 +74,7 @@ public class ElGamalAsymKeyFactory {
 	 *  False - Take default parameters {@link ElGamalAsymKeyFactory#P} and {@link ElGamalAsymKeyFactory#G}
 	 * @return
 	 */
-	public static ElGamalAsymKey create(boolean generateParams) {
+	public static ElGamalKey create(boolean generateParams) {
 		return createFromParameters(generateParams?(generatePG()):(new ElGamalParameters(P, G)));
 	}
 }

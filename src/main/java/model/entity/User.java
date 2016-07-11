@@ -42,6 +42,10 @@ public class User {
 	@XmlElement(name="createdAt")
 	private Date createdAt;
 	
+	@NotNull
+	@XmlElement(name="keys")
+	private ElGamalKey keys;
+	
 	
 	public void setId(long id) {
 		this.id = id;
@@ -81,5 +85,13 @@ public class User {
 	
 	public byte[] getPasswordHash() {
 		return passwordHash;
+	}
+
+	public ElGamalKey getKey() {
+		return keys;
+	}
+
+	public void setKey(ElGamalKey key) {
+		this.keys = key;
 	}
 }

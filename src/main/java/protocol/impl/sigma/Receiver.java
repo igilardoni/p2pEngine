@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -38,7 +39,7 @@ public class Receiver {
 	 * @param res
 	 * @return Boolean
 	 */
-	public Boolean Verifies (Responses response, ElGamalAsymKey tKeys, ResEncrypt res)
+	public Boolean Verifies (Responses response, ElGamalKey tKeys, ResEncrypt res)
 	{
 		return response.Verifies(tKeys, res);
 	}
@@ -51,7 +52,7 @@ public class Receiver {
 	 * @param responses
 	 * @return
 	 */
-	public Boolean Verifies(Boolean or, HashMap <Responses,ElGamalAsymKey> rK,ResEncrypt resEncrypt, Responses ... responses)
+	public Boolean Verifies(Boolean or, HashMap <Responses,ElGamalKey> rK,ResEncrypt resEncrypt, Responses ... responses)
 	{
 		And and = new And(this, rK, resEncrypt, responses);
 		return and.Verifies(or);

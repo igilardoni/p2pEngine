@@ -18,6 +18,13 @@ RESTAPISERVER = 'http://localhost:8080';
 		});
 	});
 
+	module.filter('hex', function () {
+
+	  return function(input) {
+	    return Number(input).toString(16);
+	  };
+	});
+
 	module.controller('appController', function($rootScope) {
 		var self = this;
 		this.backUrl = null;

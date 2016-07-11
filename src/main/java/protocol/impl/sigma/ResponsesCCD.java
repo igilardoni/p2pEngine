@@ -17,6 +17,7 @@ package protocol.impl.sigma;
 import java.math.BigInteger;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -41,7 +42,7 @@ public class ResponsesCCD extends Responses {
 	 * Extends Responses
 	 * Verify if the CCD response is good or not 
 	 */
-	public Boolean Verifies( ElGamalAsymKey tKeys, ResEncrypt res) {
+	public Boolean Verifies( ElGamalKey tKeys, ResEncrypt res) {
 		if (!tKeys.getG().modPow(getResponse(), tKeys.getP()).equals(((tKeys.getPublicKey().modPow(getChallenge(), tKeys.getP())).multiply(getMasks().getA())).mod(tKeys.getP())))
 		{
 			return false;

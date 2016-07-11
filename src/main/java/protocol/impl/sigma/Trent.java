@@ -21,6 +21,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 
 import crypt.impl.key.ElGamalAsymKey;
+import model.entity.ElGamalKey;
 
 
 /**
@@ -34,12 +35,12 @@ public class Trent {
 	SecureRandom  random = new SecureRandom();
 	int keyLength = 1024;
 	
-	ElGamalAsymKey keys;
+	ElGamalKey keys;
 	private HashMap<Masks,BigInteger> eph = new HashMap<Masks, BigInteger>();
 	/**
 	 * Constructor
 	 */
-	public  Trent(ElGamalAsymKey keys){
+	public  Trent(ElGamalKey keys){
 			
 		this.keys = keys;
 	
@@ -131,7 +132,7 @@ public class Trent {
 	}
 
 	
-	public ElGamalAsymKey getKey() {
+	public ElGamalKey getKey() {
 		return keys;
 	}
 

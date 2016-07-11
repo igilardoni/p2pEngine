@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @XmlRootElement
 @Entity
 public class Item {
@@ -34,12 +36,18 @@ public class Item {
 	
 	@XmlElement(name="createdAt")
 	@NotNull
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date createdAt;
 
 	@XmlElement(name="pbkey")
 	@NotNull
 	private BigInteger pbkey;
+	
+	@XmlElement(name="username")
+	@NotNull
+	@Size(min = 2, max = 255)
+	private String username;
 	
 
 	
@@ -77,5 +85,13 @@ public class Item {
 
 	public void setPbkey(BigInteger pbkey) {
 		this.pbkey = pbkey;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }
