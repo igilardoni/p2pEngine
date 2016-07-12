@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class LoginToken {
 	private String token;
-	private long userid;
+	private String userid;
 	
 	public String getToken() {
 		return token;
@@ -13,10 +13,10 @@ public class LoginToken {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public long getUserid() {
+	public String getUserid() {
 		return userid;
 	}
-	public void setUserid(long l) {
+	public void setUserid(String l) {
 		this.userid = l;
 	}
 }

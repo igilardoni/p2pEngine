@@ -20,6 +20,7 @@ import crypt.api.hashs.Hasher;
 import crypt.factories.ElGamalAsymKeyFactory;
 import crypt.factories.HasherFactory;
 import model.api.EntityManager;
+import model.api.UserManagerInterface;
 import model.entity.Item;
 import model.entity.LoginToken;
 import model.entity.User;
@@ -40,8 +41,18 @@ public class Users {
 			@QueryParam("password") String password) {
 		
 		Authentifier auth = Application.getInstance().getAuth();
-		
-		EntityManager<User> em = new UserManager();
+		UserManagerInterface em = new UserManager();
+		User u = em.getUser(login, password);
+		if(u != null) {
+			LoginToken token = new LoginToken();
+			token.setToken(auth.getToken(login, password));
+			token.setUserid(u.getId());
+			JsonTools<LoginToken> json = new JsonTools<>();
+			json.initialize(LoginToken.class);
+			return json.toJson(token);
+		}
+		return "{\"error\": \"true\"}";
+		/*EntityManager<User> em = new UserManager();
 		User u = em.findOneByAttribute("nick", login);
 		if(u == null) return "{\"error\": \"true\"}";
 		System.out.println("user trouve !");
@@ -60,7 +71,7 @@ public class Users {
 			return json.toJson(token);
 		}
 		
-		return "{\"error\": \"true\"}";
+		return "{\"error\": \"true\"}";*/
 	}
 	
 	@GET
@@ -93,7 +104,12 @@ public class Users {
 		em.end();
 		
 		Authentifier auth = Application.getInstance().getAuth();
-		return "{\"token\": \"" + auth.getToken(login, password) + "\"}";
+		LoginToken token = new LoginToken();
+		token.setToken(auth.getToken(login, password));
+		token.setUserid(u.getId());
+		JsonTools<LoginToken> json = new JsonTools<>();
+		json.initialize(LoginToken.class);
+		return json.toJson(token);
 	}
 	
 	@POST
@@ -109,7 +125,7 @@ public class Users {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get(
-			@PathParam("id") long id) {
+			@PathParam("id") String id) {
 		EntityManager<User> em = new UserManager();
 		JsonTools<User> json = new JsonTools<>();
 		json.initialize(User.class);

@@ -2,6 +2,9 @@ package controller;
 
 import java.util.Properties;
 
+import model.api.EntityManager;
+import model.entity.User;
+import model.persistance.UserManager;
 import network.api.Peer;
 import network.factories.PeerFactory;
 import rest.api.Authentifier;
@@ -39,6 +42,7 @@ public class Application {
 	public void runForTests(int restPort) {
 		Properties p = System.getProperties();
 		p.put("derby.system.home", "./db-" + restPort + "/");
+		new UserManager(); //just init the db
 		setPeer(PeerFactory.createDefaultAndStartPeerForTest());
 		setAuth(AuthentifierFactory.createDefaultAuthentifier());
 		RestServerFactory.createAndStartDefaultRestServer(restPort);
@@ -46,7 +50,7 @@ public class Application {
 	
 	public static void main(String[] args) {
 		new Application();
-		Application.getInstance().runForTests(8080);
+		Application.getInstance().runForTests(8081);
 		
 	}
 

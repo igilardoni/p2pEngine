@@ -77,7 +77,7 @@
 				var data = response.data;
 				$scope.app.setCurrentUser(data.token);
 				$http.defaults.headers.common['Auth-Token'] = data.token;
-				$scope.app.userid = obj.userid;
+				$scope.app.userid = data.userid;
 				$state.go("myItemsView");
 			}, function(response) {
 

@@ -5,8 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -14,15 +14,20 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.eclipse.persistence.annotations.SerializedObject;
+import org.eclipse.persistence.annotations.UuidGenerator;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @XmlRootElement
 @Entity
 public class Item {
 	@XmlElement(name="id")
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@UuidGenerator(name="uuid")
+    @Id
+    @GeneratedValue(generator="uuid")
+	private String id;
 	
 	@XmlElement(name="title")
 	@NotNull
@@ -42,6 +47,9 @@ public class Item {
 
 	@XmlElement(name="pbkey")
 	@NotNull
+	@Lob
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
 	private BigInteger pbkey;
 	
 	@XmlElement(name="username")
@@ -49,9 +57,12 @@ public class Item {
 	@Size(min = 2, max = 255)
 	private String username;
 	
+	@XmlElement(name="username")
+	@NotNull
+	private String userid;
 
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	
@@ -93,5 +104,13 @@ public class Item {
 	
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 }

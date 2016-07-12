@@ -14,15 +14,18 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.eclipse.persistence.annotations.UuidGenerator;
+
 @XmlRootElement
 @Entity
 @Table(name="\"User\"")
 public class User {
 	
-	@Id
 	@XmlElement(name="id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@UuidGenerator(name="uuid")
+    @Id
+    @GeneratedValue(generator="uuid")
+	private String id;
 	
 	@XmlElement(name="nick")
 	@NotNull
@@ -47,11 +50,11 @@ public class User {
 	private ElGamalKey keys;
 	
 	
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	

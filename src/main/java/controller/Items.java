@@ -15,9 +15,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import controller.tools.JsonTools;
+import model.api.AsyncManager;
 import model.api.EntityManager;
+import model.api.UserManagerInterface;
 import model.entity.Item;
 import model.entity.User;
+import model.factory.ManagerFactory;
 import model.persistance.ItemManager;
 import model.persistance.UserManager;
 import network.impl.advertisement.ItemAdvertisement;
@@ -35,37 +38,37 @@ public class Items {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(Item item, @HeaderParam(Authentifier.PARAM_NAME) String token) {
 		Authentifier auth = Application.getInstance().getAuth();
-		EntityManager<User> users = new UserManager();
-		User currentUser = users.findOneByAttribute("nick", auth.getLogin(token));
-		EntityManager<Item> em = new ItemManager();
+		UserManagerInterface users = new UserManager();
+		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));
+		AsyncManager<Item> em = ManagerFactory.createNetworkResilianceItemManager(Application.getInstance().getPeer(), token);
+		//EntityManager<Item> em = new ItemManager();
 		em.begin();
 		//TODO VALIDATION
 			item.setCreatedAt(new Date());
 			item.setUsername(currentUser.getNick());
-			//item.setPbkey(currentUser.getKeys().getPublicKey());
+			item.setPbkey(currentUser.getKey().getPublicKey());
+			item.setUserid(currentUser.getId());
 			em.persist(item);
 		em.end();
-		ItemAdvertisement iadv = new ItemAdvertisement();
-		iadv.setTitle(item.getTitle());
 		
-		iadv.publish(Application.getInstance().getPeer());
+		/*ItemAdvertisement iadv = new ItemAdvertisement();
+		iadv.setTitle(item.getTitle());
+		iadv.publish(Application.getInstance().getPeer()); */
 		
 		JsonTools<Item> json = new JsonTools<>();
 		json.initialize(Item.class);
 		return json.toJson(item);
-		//return JsonUtils.BeanStringify(item);
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get(
-			@PathParam("id")int id) {
+	public String getId(
+			@PathParam("id")String id) {
 		EntityManager<Item> em = new ItemManager();
 		JsonTools<Item> json = new JsonTools<>();
 		json.initialize(Item.class);
 		return json.toJson(em.findOneById(id));
-		//return JsonUtils.BeanStringify(em.findOneById(id));
 	}
 	
 	@GET
@@ -73,13 +76,12 @@ public class Items {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String get(@HeaderParam(Authentifier.PARAM_NAME) String token) {
 		Authentifier auth = Application.getInstance().getAuth();
-		EntityManager<User> users = new UserManager();
-		User currentUser = users.findOneByAttribute("nick", auth.getLogin(token));
+		UserManagerInterface users = new UserManager();
+		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));
 		EntityManager<Item> em = new ItemManager();
 		JsonTools<Collection<Item>> json = new JsonTools<>();
 		json.initialize(Collection.class);
-		return json.toJson(em.findAllByAttribute("username", currentUser.getNick()));
-		//return JsonUtils.collectionStringify(em.findAll());
+		return json.toJson(em.findAllByAttribute("userid", currentUser.getId()));
 	}
 	
 	@PUT

@@ -20,7 +20,7 @@ public interface EntityManager<Entity> {
 	 * @param id entity id
 	 * @return An instance of the entity or null.
 	 */
-	public Entity findOneById(long id);
+	public Entity findOneById(String id);
 	
 	/**
 	 * Return the whole collection of stored entities

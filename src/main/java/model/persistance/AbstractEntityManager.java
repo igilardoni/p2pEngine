@@ -21,7 +21,7 @@ public class AbstractEntityManager<Entity> implements model.api.EntityManager<En
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Entity findOneById(long id) {
+	public Entity findOneById(String id) {
 		return (Entity) em.find(theClass, id);
 	}
 
